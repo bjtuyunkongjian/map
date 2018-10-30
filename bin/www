@@ -1,0 +1,50 @@
+
+
+const fs = require('fs');
+require('shelljs/global');
+const Inquirer = require('inquirer');
+
+const data = fs.readFileSync('./package.json', 'utf-8');
+const { version } = JSON.parse(data.toString('utf-8'));
+
+Inquirer.prompt([
+    {
+        type: 'list',
+        name: 'env',
+        message: `version => ${version}，选择需要部署的环境：`,
+        choices: ['test', 'production']
+    },
+    {
+        type: 'confirm',
+        name: 'isDeployProd',
+        message: '确定要部署生产环境吗？',
+        default: true,
+        when: answers => {
+            // 只有production时出发
+            return answers.env = 'production';
+        }
+    }
+]).then(answers => {
+    if (answers.env == 'production' && !answers.isDeployProd) return;
+    console.log('env...', answers.env);
+    let env = answers.env;
+    switch (env) {
+        case 'test':
+            Inquirer.prompt({
+                type: 'list',
+                name: 'env_test',
+                choices: ['1', '2', '3', 'x', '0']
+            }).then(envAnswers => {
+                let env_test = 'test' + envAnswers['env_test'];
+                echo('开始部署第' + envAnswers['env_test'] + '套测试环境...');
+                // todo
+
+            })
+            break;
+
+        case 'production':
+            echo('开始部署生产环境...');
+            // tosdo 
+            break;
+    }
+});
