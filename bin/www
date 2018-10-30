@@ -1,7 +1,7 @@
 
 
 const fs = require('fs');
-require('shelljs/global');
+const shell = require('shelljs');
 const Inquirer = require('inquirer');
 
 const data = fs.readFileSync('./package.json', 'utf-8');
@@ -21,13 +21,14 @@ Inquirer.prompt([
         default: true,
         when: answers => {
             // 只有production时出发
-            return answers.env = 'production';
+            return answers.env == 'production';
         }
     }
 ]).then(answers => {
     if (answers.env == 'production' && !answers.isDeployProd) return;
     console.log('env...', answers.env);
     let env = answers.env;
+    shell.echo('env', env);
     switch (env) {
         case 'test':
             Inquirer.prompt({
@@ -35,16 +36,13 @@ Inquirer.prompt([
                 name: 'env_test',
                 choices: ['1', '2', '3', 'x', '0']
             }).then(envAnswers => {
-                let env_test = 'test' + envAnswers['env_test'];
-                echo('开始部署第' + envAnswers['env_test'] + '套测试环境...');
-                // todo
-
+                // shell.exec 没用
+                // shell.exec('scp -r dist  root@116.62.235.17:/home/nodeServer/public');
             })
             break;
-
         case 'production':
-            echo('开始部署生产环境...');
-            // tosdo 
+            shell.echo('开始部署生产环境...');
+            // todo 
             break;
     }
 });
