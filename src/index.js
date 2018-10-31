@@ -8,6 +8,10 @@ import { addLevel } from 'tuyun-utils';
 import baseStyle from './styles/light-sd';
 import addLevels from './addLevels';
 
+import groaln from './shengGDBt_cx';
+
+// import '../style/index.less';
+
 var map = new mapboxgl.Map({
   hash: true,
   container: 'map',
@@ -26,6 +30,47 @@ var map = new mapboxgl.Map({
 map.on('mouseup', function (e) {
   console.log(e.lngLat);
 });
+
+map.on('load', function () {
+  map.addLayer({
+    id: 'road',
+    type: 'line',
+    source: {
+      type: 'geojson',
+      data: groaln
+    },
+    layout: {
+      'line-join': 'round',
+      'line-cap': 'round'
+    },
+    paint: {
+      'line-width': {
+        base: 2,
+        stops: [
+          [7, 3],
+          [8, 2],
+          [9, 3],
+          [10, 4],
+          [11, 4],
+          [12, 7],
+          [13, 9],
+          [14, 9],
+          [15, 10],
+          [16, 10],
+          [17, 12],
+          [18, 14],
+          [19, 14],
+          [20, 22],
+          [21, 24],
+          [22, 26],
+
+        ]
+      },
+      'line-color': '#ffae00'
+    }
+  })
+})
+
 
 const _addSourceFunc = function (map) {
   for (let item of addLevels) {

@@ -9,6 +9,15 @@ module.exports = {
       use: {
         loader: "babel-loader"
       }
+    }, {
+      test: /\.(less|css)$/,
+      use: [{
+        loader: "style-loader" // create style nodes from JS strings
+      }, {
+        loader: "css-loader" // translates CSS into CommonJS
+      }, {
+        loader: "less-loader" // compiles Less to CSS
+      }]
     }]
   },
   resolve: {
