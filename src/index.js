@@ -6,6 +6,8 @@ import mapboxgl from 'mapbox-gl';
 import style from './styles/light-sd';
 import addSource from './addSource';
 
+import { addLevel } from 'tuyun-utils';
+
 var map = new mapboxgl.Map({
   hash: true,
   container: 'map',
@@ -40,13 +42,6 @@ const _addSourceFunc = function () {
   addSource.addFuncLv13(map);
   addSource.addFuncLv15(map);
 }
-
-fetch('116.62.186.152:12808/map/style.json').then(function (response) {
-  // handle HTTP response
-  console.log('response====>', response);
-}, function (error) {
-  // handle network error
-})
 
 map.on('load', function () {
   _addSourceFunc();

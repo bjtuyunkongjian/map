@@ -1,4 +1,5 @@
-const HtmlWebPackPlugin = require("html-webpack-plugin");
+import path from 'path';
+import HtmlWebPackPlugin from 'html-webpack-plugin';
 
 module.exports = {
   module: {
@@ -9,6 +10,9 @@ module.exports = {
         loader: "babel-loader"
       }
     }]
+  },
+  resolve: {
+    modules: ['node_modules', path.resolve(__dirname, 'web_modules')]
   },
   plugins: [
     new HtmlWebPackPlugin({

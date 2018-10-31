@@ -1,5 +1,5 @@
 import addLevel from './addLevel';
 
-export default {
+export {
   addLevel
 }
