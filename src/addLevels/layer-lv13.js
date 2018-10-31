@@ -1,14 +1,14 @@
 /**
  * @author sl 2019-01-02
  */
-import CONFIG from '../config';
+import { levelConfig } from 'tuyun-config';
 
 const _visibleLevel = 13;
 
 const style = {
   visibleLevel: 13,
   source: {
-    [CONFIG.addLv13]: {
+    [levelConfig.addLv13]: {
       type: 'vector',
       scheme: 'tms',
       tiles: [
@@ -20,7 +20,7 @@ const style = {
   layers: [{
     id: 'SD_POI_LEVEL13_1009_jiudian',
     type: 'symbol',
-    source: CONFIG.addLv13,
+    source: levelConfig.addLv13,
     'source-layer': 'SD_POI_LEVEL13_1009',
     filter: ['any', ['==', 'KIND', '120101']],
     'layout': {
@@ -46,7 +46,7 @@ const style = {
   }, {
     id: 'SD_POI_LEVEL13_1009_chaoshi',
     type: 'symbol',
-    source: CONFIG.addLv13,
+    source: levelConfig.addLv13,
     'source-layer': 'SD_POI_LEVEL13_1009',
     filter: ['any', ['==', 'KIND', '130106']],
     'layout': {
@@ -72,7 +72,7 @@ const style = {
   }, {
     id: 'SD_POI_LEVEL13_1009_xuexiao',
     type: 'symbol',
-    source: CONFIG.addLv13,
+    source: levelConfig.addLv13,
     'source-layer': 'SD_POI_LEVEL13_1009',
     filter: ['any', ['==', 'KIND', '160105']],
     'layout': {
@@ -98,7 +98,7 @@ const style = {
   }, {
     id: 'SD_POI_LEVEL13_1009_shangchang',
     type: 'symbol',
-    source: CONFIG.addLv13,
+    source: levelConfig.addLv13,
     'source-layer': 'SD_POI_LEVEL13_1009',
     filter: ['any', ['==', 'KIND', '130601']],
     'layout': {
@@ -124,7 +124,7 @@ const style = {
   }, {
     id: 'SD_POI_LEVEL13_1009_government_other',
     type: 'symbol',
-    source: CONFIG.addLv13,
+    source: levelConfig.addLv13,
     'source-layer': 'SD_POI_LEVEL13_1009',
     filter: ['any', ['==', 'KIND', '190100'],
       ['==', 'KIND', '190102'],

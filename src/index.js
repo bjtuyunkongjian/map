@@ -6,7 +6,7 @@ import mapboxgl from 'mapbox-gl';
 import { addLevel } from 'tuyun-utils';
 
 import baseStyle from './styles/light-sd';
-import addSource from './addSource';
+import addLevels from './addLevels';
 
 var map = new mapboxgl.Map({
   hash: true,
@@ -22,13 +22,13 @@ var map = new mapboxgl.Map({
   localIdeographFontFamily: "'黑体'"
 });
 
-
+// 点击地图在控制台打出经纬度
 map.on('mouseup', function (e) {
   console.log(e.lngLat);
 });
 
 const _addSourceFunc = function (map) {
-  for (let item of addSource) {
+  for (let item of addLevels) {
     addLevel(map, item);
   }
 }

@@ -5,14 +5,14 @@
  * todolist 
  * 1. 图标没换 icon-image
  */
-import CONFIG from '../config';
+import { levelConfig } from 'tuyun-config';
 
 const _visibleLevel = 8;
 
 const style = {
   visibleLevel: 8,
   source: {
-    [CONFIG.addLv8]: {
+    [levelConfig.addLv8]: {
       type: 'vector',
       scheme: 'tms',
       tiles: [
@@ -24,7 +24,7 @@ const style = {
   layers: [{
     id: 'SD_POI_LEVEL8_1009',
     type: 'symbol',
-    source: CONFIG.addLv8,
+    source: levelConfig.addLv8,
     'source-layer': 'SD_POI_LEVEL8_1009',
     minzoom: 10,
     filter: ['all',
@@ -57,7 +57,7 @@ const style = {
   }, {
     id: '8L_POI_QX',
     type: 'symbol',
-    source: CONFIG.addLv8,
+    source: levelConfig.addLv8,
     'source-layer': 'SD_POI_LEVEL8_1009', // py是面
     filter: ['any',
       ['==', 'KIND', '190104'],

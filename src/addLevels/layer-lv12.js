@@ -1,14 +1,14 @@
 /**
  * @author sl 2019-01-02
  */
-import CONFIG from '../config';
+import { levelConfig } from 'tuyun-config';
 
 const _visibleLevel = 12;
 
 const style = {
   visibleLevel: 12,
   source: {
-    [CONFIG.addLv12]: {
+    [levelConfig.addLv12]: {
       type: 'vector',
       scheme: 'tms',
       tiles: [
@@ -20,7 +20,7 @@ const style = {
   layers: [{
     id: 'SD_POI_LEVEL12_1009_chezhan',
     type: 'symbol',
-    source: CONFIG.addLv12,
+    source: levelConfig.addLv12,
     'source-layer': 'SD_POI_LEVEL12_1009', // 
     filter: ['any', ['==', 'KIND', '238108']],
     'layout': {
@@ -46,7 +46,7 @@ const style = {
   }, {
     id: 'SD_POI_LEVEL12_1009_dasha',
     type: 'symbol',
-    source: CONFIG.addLv12,
+    source: levelConfig.addLv12,
     'source-layer': 'SD_POI_LEVEL12_1009', //
     filter: ['any', ['==', 'KIND', '200103']],
     'layout': {
@@ -72,7 +72,7 @@ const style = {
   }, {
     id: 'SD_POI_LEVEL12_1009_building',
     type: 'symbol',
-    source: CONFIG.addLv12,
+    source: levelConfig.addLv12,
     'source-layer': 'SD_POI_LEVEL12_1009', // 
     filter: ['any', ['==', 'KIND', '190111'],
       ['==', 'KIND', '190202'],

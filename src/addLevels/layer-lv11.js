@@ -2,7 +2,7 @@
  * @author sl 2019-01-02
  * 11级，包括公园，医院
  */
-import CONFIG from '../config';
+import { levelConfig } from 'tuyun-config';
 
 const _visibleLevel = 11;
 const _roadVisibleLv = 11;
@@ -10,7 +10,7 @@ const _roadVisibleLv = 11;
 const style = {
   visibleLevel: 11,
   source: {
-    [CONFIG.addLv11]: {
+    [levelConfig.addLv11]: {
       type: 'vector',
       scheme: 'tms',
       tiles: [
@@ -22,7 +22,7 @@ const style = {
   layers: [{
     id: 'GROLAN_11_1009_bg', // 路网图层（name字段），次干道、县道
     type: 'line',
-    source: CONFIG.addLv11,
+    source: levelConfig.addLv11,
     'source-layer': 'GROLAN_11_1009',
     minzoom: _roadVisibleLv,
     layout: {
@@ -51,7 +51,7 @@ const style = {
   }, {
     id: 'GROLAN_11_1009', // 路网图层（name字段），次干道、县道
     type: 'line',
-    source: CONFIG.addLv11,
+    source: levelConfig.addLv11,
     'source-layer': 'GROLAN_11_1009',
     minzoom: _roadVisibleLv,
     layout: {
@@ -80,7 +80,7 @@ const style = {
   }, {
     id: 'GROLAN_11_1009_NAME', // 次干道、县道名称
     type: 'symbol',
-    source: CONFIG.addLv11,
+    source: levelConfig.addLv11,
     'source-layer': 'GROLAN_11_1009',
     minzoom: _roadVisibleLv,
     layout: {
@@ -104,7 +104,7 @@ const style = {
   {
     id: '11L_POI_YIYUAN', // 医院
     type: 'symbol',
-    source: CONFIG.addLv11,
+    source: levelConfig.addLv11,
     'source-layer': 'SD_POI_LEVEL9_1009',
     filter: ['all', ['>=', 'KIND', '170100'],
       ['<=', 'KIND', '170105']
@@ -133,7 +133,7 @@ const style = {
   {
     id: '11L_POI_PARK', // 公园
     type: 'symbol',
-    source: CONFIG.addLv11,
+    source: levelConfig.addLv11,
     'source-layer': 'SD_POI_LEVEL9_1009', // py是面
     filter: ['all', ['>=', 'KIND', '180301'],
       ['<=', 'KIND', '180400']

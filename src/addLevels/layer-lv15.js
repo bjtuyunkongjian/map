@@ -3,7 +3,7 @@
  * todolist 
  * 1. 路网图层CLASID不对，覆盖之前的国道，无法通过CLASID区分和过滤  ======> 高速覆盖国道
  */
-import CONFIG from '../config';
+import { levelConfig } from 'tuyun-config';
 
 const _visibleLevel = 15;
 const labelLayerId = 'GVEGPL';
@@ -11,7 +11,7 @@ const labelLayerId = 'GVEGPL';
 const style = {
   visibleLevel: _visibleLevel,
   source: {
-    [CONFIG.addLv15]: {
+    [levelConfig.addLv15]: {
       type: 'vector',
       scheme: 'tms',
       tiles: [
@@ -37,7 +37,7 @@ const style = {
   // {
   //   id: 'SD_GHFCLN', // 记录了河流，黄河，隧道等的边界   ====> 没有名称
   //   type: 'symbol',
-  //   source: CONFIG.addLv15,
+  //   source: levelConfig.addLv15,
   //   'source-layer': 'SD_GHFCLN', // LN，line的简写
   //   layout: {
   //     'text-field': '{NAME}',
@@ -63,7 +63,7 @@ const style = {
   {
     id: 'SD_GHYDLN', // 记录了一些线性的水渠、河沟 不显示  ======> 不显示是不是不妥 =======> 只显示名称
     type: 'symbol',
-    source: CONFIG.addLv15,
+    source: levelConfig.addLv15,
     'source-layer': 'SD_GHYDLN', // LN，line的简写
     layout: {
       'text-field': '{NAME}',
@@ -87,7 +87,7 @@ const style = {
   // {
   //   id: 'SD_GRFCLN', // 记录了长城岭，养殖场等 =====>  NAME 属性为空，暂时注释了
   //   type: 'symbol',
-  //   source: CONFIG.addLv15,
+  //   source: levelConfig.addLv15,
   //   'source-layer': 'SD_GRFCLN', // LN，line的简写
   //   layout: {
   //     'text-field': '{NAME}',
@@ -113,7 +113,7 @@ const style = {
   // {
   //   id: 'SD_GTFCLN', // 记录了XX桥，XX通道  ==========> 没有 NAME
   //   type: 'symbol',
-  //   source: CONFIG.addLv15,
+  //   source: levelConfig.addLv15,
   //   'source-layer': 'SD_GTFCLN', // LN，line的简写
   //   layout: {
   //     'text-field': '{NAME}',
@@ -139,7 +139,7 @@ const style = {
   {
     id: 'GROALN_other_1009_ZD_bg', // 路网图层（name字段），栈道、内部道路、机耕路、乡村路、小路 + 专用公路、其他公路、村道
     type: 'line',
-    source: CONFIG.addLv15,
+    source: levelConfig.addLv15,
     filter: ['any',
       ['==', 'CLASID', '420400'],
       ['==', 'CLASID', '420500'],
@@ -179,7 +179,7 @@ const style = {
   }, {
     id: 'GROALN_other_1009_ZD', // 路网图层（name字段），栈道、内部道路、机耕路、乡村路、小路 + 专用公路、其他公路、村道
     type: 'line',
-    source: CONFIG.addLv15,
+    source: levelConfig.addLv15,
     filter: ['any',
       ['==', 'CLASID', '420400'],
       ['==', 'CLASID', '420500'],
@@ -219,7 +219,7 @@ const style = {
   }, {
     id: 'GROALN_other_1009_CGD_bg', // 路网图层（name字段），次干道、县道
     type: 'line',
-    source: CONFIG.addLv15,
+    source: levelConfig.addLv15,
     filter: ['any',
       ['==', 'CLASID', '420301'],
       ['==', 'CLASID', '420302'],
@@ -248,7 +248,7 @@ const style = {
   }, {
     id: 'GROALN_other_1009_CGD', // 路网图层（name字段），次干道、县道
     type: 'line',
-    source: CONFIG.addLv15,
+    source: levelConfig.addLv15,
     filter: ['any',
       ['==', 'CLASID', '420301'],
       ['==', 'CLASID', '420302'],
@@ -277,7 +277,7 @@ const style = {
   }, {
     id: 'GROALN_other_1009_ZGD_bg', // 路网图层（name字段），主干道
     type: 'line',
-    source: CONFIG.addLv15,
+    source: levelConfig.addLv15,
     filter: ['==', 'CLASID', '430501'],
     'source-layer': 'GROALN_other_1009',
     layout: {
@@ -303,7 +303,7 @@ const style = {
   {
     id: 'GROALN_other_1009_ZGD', // 路网图层（name字段），主干道
     type: 'line',
-    source: CONFIG.addLv15,
+    source: levelConfig.addLv15,
     filter: ['==', 'CLASID', '430501'],
     'source-layer': 'GROALN_other_1009',
     layout: {
@@ -327,7 +327,7 @@ const style = {
   }, {
     id: 'GROALN_other_1009_GS_bg', // 路网图层（name字段），高速公路，背景充当描边
     type: 'line',
-    source: CONFIG.addLv15,
+    source: levelConfig.addLv15,
     filter: ['any',
       ['==', 'CLASID', '420704'],
       ['==', 'CLASID', '420705'],
@@ -357,7 +357,7 @@ const style = {
   }, {
     id: 'GROALN_other_1009_GS', // 路网图层（name字段），高速公路
     type: 'line',
-    source: CONFIG.addLv15,
+    source: levelConfig.addLv15,
     filter: ['any',
       ['==', 'CLASID', '420704'],
       ['==', 'CLASID', '420705'],
@@ -387,7 +387,7 @@ const style = {
   }, {
     id: 'GROALN_other_1009_KSL_bg', // 路网图层（name字段），背景充当描边 快速路，高架路
     type: 'line',
-    source: CONFIG.addLv15,
+    source: levelConfig.addLv15,
     filter: ['any',
       ['==', 'CLASID', '430200'],
       ['==', 'CLASID', '430300']
@@ -415,7 +415,7 @@ const style = {
   }, {
     id: 'GROALN_other_1009_KSL', // 路网图层（name字段） 快速路，高架路
     type: 'line',
-    source: CONFIG.addLv15,
+    source: levelConfig.addLv15,
     filter: ['any',
       ['==', 'CLASID', '430200'],
       ['==', 'CLASID', '430300']
@@ -443,7 +443,7 @@ const style = {
   }, {
     id: 'GROALN_other_1009_NAME',
     type: 'symbol',
-    source: CONFIG.addLv15,
+    source: levelConfig.addLv15,
     'source-layer': 'GROALN_other_1009', // LN，line的简写
     layout: {
       'text-field': '{NAME}',
@@ -469,7 +469,7 @@ const style = {
   // {
   //   id: 'SD_GHFCPT', // 此图层记录了一些水站和XX闸
   //   type: 'symbol',
-  //   source: CONFIG.addLv15,
+  //   source: levelConfig.addLv15,
   //   'source-layer': 'SD_GHFCPT',
   //   layout: {
   //     'text-field': '{NAME}',
@@ -495,7 +495,7 @@ const style = {
   // {
   //   id: 'GHYDPT', // 记录一些井和XX泉  =======> 貌似没有数据 不对，是 NAME 属性为空，但是数据还是有的
   //   type: 'symbol',
-  //   source: CONFIG.addLv15,
+  //   source: levelConfig.addLv15,
   //   'source-layer': 'SD_GHYDPT',
   //   layout: {
   //     'text-field': '{NAME}',
@@ -521,7 +521,7 @@ const style = {
   {
     id: 'GNPNPT', // 记录了XX山和水库
     type: 'symbol',
-    source: CONFIG.addLv15,
+    source: levelConfig.addLv15,
     'source-layer': 'SD_GNPNPT',
     layout: {
       'text-field': '{NAME}',
@@ -545,7 +545,7 @@ const style = {
   // {
   //   id: 'SD_GRFCPT', // 记录了一些学校，自来水厂，服务站，输油站，液化气站，遗址，陵墓，寺庙，游乐场等  ======> NAME属性为空
   //   type: 'symbol',
-  //   source: CONFIG.addLv15,
+  //   source: levelConfig.addLv15,
   //   'source-layer': 'SD_GRFCPT',
   //   layout: {
   //     'text-field': '{NAME}',
@@ -571,7 +571,7 @@ const style = {
   // {
   //   id: 'GTFCPT', // 记录了一些学校，自来水厂，服务站，输油站，液化气站，遗址，陵墓，寺庙，游乐场等   =======> 没有名称属性 NAME
   //   type: 'symbol',
-  //   source: CONFIG.addLv15,
+  //   source: levelConfig.addLv15,
   //   'source-layer': 'SD_GTFCPT',
   //   layout: {
   //     'text-field': '{NAME}',
@@ -597,7 +597,7 @@ const style = {
   {
     id: 'SD_GAGNPT', // 此图层记录了村庄POI
     type: 'symbol',
-    source: CONFIG.addLv15,
+    source: levelConfig.addLv15,
     'source-layer': 'SD_GAGNPT',
     layout: {
       'text-field': '{NAME}',
@@ -622,7 +622,7 @@ const style = {
   }, {
     id: 'OTH_POI_zhongcan',
     type: 'symbol',
-    source: CONFIG.addLv15,
+    source: levelConfig.addLv15,
     'source-layer': 'SD_POI_LEVEL15_1013',
     filter: ['any', ['==', 'KIND', '110101']],
     'layout': {
@@ -648,7 +648,7 @@ const style = {
   }, {
     id: 'OTH_POI_xican',
     type: 'symbol',
-    source: CONFIG.addLv15,
+    source: levelConfig.addLv15,
     'source-layer': 'SD_POI_LEVEL15_1013',
     filter: ['any', ['==', 'KIND', '110102']],
     'layout': {
@@ -674,7 +674,7 @@ const style = {
   }, {
     id: 'OTH_POI_dining',
     type: 'symbol',
-    source: CONFIG.addLv15,
+    source: levelConfig.addLv15,
     'source-layer': 'SD_POI_LEVEL15_1013',
     filter: ['any', ['==', 'KIND', '110103'],
       ['==', 'KIND', '230226']
@@ -702,7 +702,7 @@ const style = {
   }, {
     id: 'OTH_POI_lvdian',
     type: 'symbol',
-    source: CONFIG.addLv15,
+    source: levelConfig.addLv15,
     'source-layer': 'SD_POI_LEVEL15_1013',
     filter: ['any', ['==', 'KIND', '120102']],
     'layout': {
@@ -728,7 +728,7 @@ const style = {
   }, {
     id: 'OTH_POI_hotel',
     type: 'symbol',
-    source: CONFIG.addLv15,
+    source: levelConfig.addLv15,
     'source-layer': 'SD_POI_LEVEL15_1013',
     filter: ['any', ['==', 'KIND', '120103'],
       ['==', 'KIND', '120104']
@@ -756,7 +756,7 @@ const style = {
   }, {
     id: 'OTH_POI_zhuzhai',
     type: 'symbol',
-    source: CONFIG.addLv15,
+    source: levelConfig.addLv15,
     'source-layer': 'SD_POI_LEVEL15_1013',
     filter: ['any', ['==', 'KIND', '120201']],
     'layout': {
@@ -782,7 +782,7 @@ const style = {
   }, {
     id: 'OTH_POI_others_shopping',
     type: 'symbol',
-    source: CONFIG.addLv15,
+    source: levelConfig.addLv15,
     'source-layer': 'SD_POI_LEVEL15_1013',
     filter: ['any', ['==', 'KIND', '130101'],
       ['==', 'KIND', '130102']
@@ -810,7 +810,7 @@ const style = {
   }, {
     id: 'OTH_POI_others_fun',
     type: 'symbol',
-    source: CONFIG.addLv15,
+    source: levelConfig.addLv15,
     'source-layer': 'SD_POI_LEVEL15_1013',
     filter: ['any', ['==', 'KIND', '130201'],
       ['==', 'KIND', '130202'],
@@ -896,7 +896,7 @@ const style = {
   }, {
     id: 'OTH_POI_others_yaodian',
     type: 'symbol',
-    source: CONFIG.addLv15,
+    source: levelConfig.addLv15,
     'source-layer': 'SD_POI_LEVEL15_1013',
     filter: ['any', ['==', 'KIND', '130501'],
       ['==', 'KIND', '130502']
@@ -924,7 +924,7 @@ const style = {
   }, {
     id: 'OTH_POI_qicheweixiu',
     type: 'symbol',
-    source: CONFIG.addLv15,
+    source: levelConfig.addLv15,
     'source-layer': 'SD_POI_LEVEL15_1013',
     filter: ['any', ['==', 'KIND', '140101'],
       ['==', 'KIND', '140104'],
@@ -957,7 +957,7 @@ const style = {
   }, {
     id: 'OTH_POI_bank',
     type: 'symbol',
-    source: CONFIG.addLv15,
+    source: levelConfig.addLv15,
     'source-layer': 'SD_POI_LEVEL15_1013',
     filter: ['any', ['==', 'KIND', '150101'],
       ['==', 'KIND', '150103'],
@@ -987,7 +987,7 @@ const style = {
   }, {
     id: 'OTH_POI_school',
     type: 'symbol',
-    source: CONFIG.addLv15,
+    source: levelConfig.addLv15,
     'source-layer': 'SD_POI_LEVEL15_1013',
     filter: ['any', ['==', 'KIND', '160100'],
       ['==', 'KIND', '160101'],
@@ -1022,7 +1022,7 @@ const style = {
   }, {
     id: 'OTH_POI_library',
     type: 'symbol',
-    source: CONFIG.addLv15,
+    source: levelConfig.addLv15,
     'source-layer': 'SD_POI_LEVEL15_1013',
     filter: ['any',
       ['==', 'KIND', '160201'],
@@ -1058,7 +1058,7 @@ const style = {
   }, {
     id: 'OTH_POI_building',
     type: 'symbol',
-    source: CONFIG.addLv15,
+    source: levelConfig.addLv15,
     'source-layer': 'SD_POI_LEVEL15_1013',
     filter: ['any', ['==', 'KIND', '170201'],
       ['==', 'KIND', '190110'],
@@ -1102,7 +1102,7 @@ const style = {
   }, {
     id: 'OTH_POI_yundongchangguan',
     type: 'symbol',
-    source: CONFIG.addLv15,
+    source: levelConfig.addLv15,
     'source-layer': 'SD_POI_LEVEL15_1013',
     filter: ['any',
       ['==', 'KIND', '180100'],
@@ -1137,7 +1137,7 @@ const style = {
   }, {
     id: 'OTH_POI_dianyingyuan',
     type: 'symbol',
-    source: CONFIG.addLv15,
+    source: levelConfig.addLv15,
     'source-layer': 'SD_POI_LEVEL15_1013',
     filter: ['any', ['==', 'KIND', '180209'],
       ['==', 'KIND', '210213']
@@ -1165,7 +1165,7 @@ const style = {
   }, {
     id: 'OTH_POI_theater',
     type: 'symbol',
-    source: CONFIG.addLv15,
+    source: levelConfig.addLv15,
     'source-layer': 'SD_POI_LEVEL15_1013',
     filter: ['any', ['==', 'KIND', '180210']],
     'layout': {
@@ -1191,7 +1191,7 @@ const style = {
   }, {
     id: 'OTH_POI_gongan',
     type: 'symbol',
-    source: CONFIG.addLv15,
+    source: levelConfig.addLv15,
     'source-layer': 'SD_POI_LEVEL15_1013',
     filter: ['any', ['==', 'KIND', '190200'],
       ['==', 'KIND', '190201']
@@ -1219,7 +1219,7 @@ const style = {
   }, {
     id: 'OTH_POI_gongmu',
     type: 'symbol',
-    source: CONFIG.addLv15,
+    source: levelConfig.addLv15,
     'source-layer': 'SD_POI_LEVEL15_1013',
     filter: ['any', ['==', 'KIND', '210211']],
     'layout': {
@@ -1245,7 +1245,7 @@ const style = {
   }, {
     id: 'OTH_POI_youju',
     type: 'symbol',
-    source: CONFIG.addLv15,
+    source: levelConfig.addLv15,
     'source-layer': 'SD_POI_LEVEL15_1013',
     filter: ['any', ['==', 'KIND', '210213']],
     'layout': {
@@ -1271,7 +1271,7 @@ const style = {
   }, {
     id: 'OTH_POI_chezhan',
     type: 'symbol',
-    source: CONFIG.addLv15,
+    source: levelConfig.addLv15,
     'source-layer': 'SD_POI_LEVEL15_1013',
     filter: ['any', ['==', 'KIND', '230100']],
     'layout': {
@@ -1297,7 +1297,7 @@ const style = {
   }, {
     id: 'OTH_POI_train_station',
     type: 'symbol',
-    source: CONFIG.addLv15,
+    source: levelConfig.addLv15,
     'source-layer': 'SD_POI_LEVEL15_1013',
     filter: ['any',
       ['==', 'KIND', '230103'],
@@ -1326,7 +1326,7 @@ const style = {
   }, {
     id: 'OTH_POI_highway_exit',
     type: 'symbol',
-    source: CONFIG.addLv15,
+    source: levelConfig.addLv15,
     'source-layer': 'SD_POI_LEVEL15_1013',
     filter: ['any',
       ['==', 'KIND', '230203']
@@ -1354,7 +1354,7 @@ const style = {
   }, {
     id: 'OTH_POI_highway_entry',
     type: 'symbol',
-    source: CONFIG.addLv15,
+    source: levelConfig.addLv15,
     'source-layer': 'SD_POI_LEVEL15_1013',
     filter: ['any',
       ['==', 'KIND', '230204']
@@ -1382,7 +1382,7 @@ const style = {
   }, {
     id: 'OTH_POI_toll',
     type: 'symbol',
-    source: CONFIG.addLv15,
+    source: levelConfig.addLv15,
     'source-layer': 'SD_POI_LEVEL15_1013',
     filter: ['any',
       ['==', 'KIND', '230209']
@@ -1410,7 +1410,7 @@ const style = {
   }, {
     id: 'OTH_POI_parking',
     type: 'symbol',
-    source: CONFIG.addLv15,
+    source: levelConfig.addLv15,
     'source-layer': 'SD_POI_LEVEL15_1013',
     filter: ['any',
       ['==', 'KIND', '230207'],
@@ -1443,7 +1443,7 @@ const style = {
   }, {
     id: 'OTH_POI_bus_station2',
     type: 'symbol',
-    source: CONFIG.addLv15,
+    source: levelConfig.addLv15,
     'source-layer': 'SD_POI_LEVEL15_1013',
     filter: ['any',
       ['==', 'KIND', '230213']
@@ -1471,7 +1471,7 @@ const style = {
   }, {
     id: 'OTH_POI_jiayouzhan',
     type: 'symbol',
-    source: CONFIG.addLv15,
+    source: levelConfig.addLv15,
     'source-layer': 'SD_POI_LEVEL15_1013',
     filter: ['any',
       ['==', 'KIND', '230215'],
@@ -1505,7 +1505,7 @@ const style = {
    * */
   {
     'id': 'GRESPL_1_3D',
-    source: CONFIG.addLv15,
+    source: levelConfig.addLv15,
     'source-layer': 'SD_GRESPL_1_1009',
     'type': 'fill-extrusion',
     'minzoom': 15,
@@ -1526,7 +1526,7 @@ const style = {
   },
   {
     'id': 'GRESPL_2_3D',
-    source: CONFIG.addLv15,
+    source: levelConfig.addLv15,
     'source-layer': 'SD_GRESPL_2_1009',
     'type': 'fill-extrusion',
     'minzoom': 15,
@@ -1544,7 +1544,7 @@ const style = {
     labelLayerId
   }, {
     'id': 'GRESPL_3_3D',
-    source: CONFIG.addLv15,
+    source: levelConfig.addLv15,
     'source-layer': 'SD_GRESPL_3_1009',
     'type': 'fill-extrusion',
     'minzoom': 15,

@@ -1,14 +1,14 @@
 /**
  * @author sl 2019-01-02
  */
-import CONFIG from '../config';
+import { levelConfig } from 'tuyun-config';
 
 const _visibleLevel = 9;
 
 const style = {
   visibleLevel: 9,
   source: {
-    [CONFIG.addLv9]: {
+    [levelConfig.addLv9]: {
       type: 'vector',
       scheme: 'tms',
       tiles: [
@@ -20,7 +20,7 @@ const style = {
   layers: [{
     id: 'SD_POI_LEVEL9_1009',
     type: 'symbol',
-    source: CONFIG.addLv9,
+    source: levelConfig.addLv9,
     'source-layer': 'SD_POI_LEVEL9_1009', // py是面
     'layout': {
       'text-field': '{NAME}',
