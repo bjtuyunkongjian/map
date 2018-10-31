@@ -1,18 +1,13 @@
 /**
  * @author sl 2019-01-02
  */
-import addFuncLv8 from './addLv8';
-import addFuncLv9 from './addLv9';
-import addFuncLv11 from './addLv11';
-import addFuncLv12 from './addLv12';
-import addFuncLv13 from './addLv13';
-import addFuncLv15 from './addLv15';
+import layerLv8 from './layer-lv8';
+import layerLv9 from './layer-lv9';
+import layerLv11 from './layer-lv11';
+import layerLv12 from './layer-lv12';
+import layerLv13 from './layer-lv13';
+import layerLv15 from './layer-lv15';
 
-export default {
-  addFuncLv8,
-  addFuncLv9,
-  addFuncLv11,
-  addFuncLv12,
-  addFuncLv13,
-  addFuncLv15
-}
+const addLvs = [layerLv8, layerLv9, layerLv11, layerLv12, layerLv13, layerLv15];
+
+export default addLvs;

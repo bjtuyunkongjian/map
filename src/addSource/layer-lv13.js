@@ -150,26 +150,7 @@ const style = {
       'text-halo-width': 2,
       'text-halo-color': 'rgba(255, 255, 255, 1)'
     }
-  }, ]
+  },]
 };
 
-function _checkSource(map, source) {
-  for (let key in source) {
-    if (map.getSource(key))
-      return false;
-  }
-  return true;
-}
-
-export default function (map) {
-  const source = style.source;
-  const layers = style.layers;
-  if (map.getZoom() >= style.visibleLevel && _checkSource(map, source)) {
-    for (let key in source) {
-      map.addSource(key, source[key]);
-    }
-    for (let item of layers) {
-      map.addLayer(item, item.labelLayerId);
-    }
-  }
-}
+export default style;
