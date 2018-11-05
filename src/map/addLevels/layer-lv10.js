@@ -5,7 +5,7 @@ import {
   levelConfig
 } from 'tuyun-config';
 
-const _visibleLevel = 7;
+const _visibleLevel = 10;
 
 const style = {
   visibleLevel: _visibleLevel,
