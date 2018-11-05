@@ -11,16 +11,13 @@
  *
  * 显示规则：
  * 面在最底层，其次是线，其次是点；居民区在绿地上面，绿地在水系面上面
- *
- * todolist
- * 1. 国道、省道路牌问题
- * 2. 路网图层锯齿 -------> 分级别显示，看上去没这么密，就算解决了
- * 3. 政府两字没去掉
  */
+import {
+  levelConfig
+} from 'tuyun-config';
 
 const _visibleLevel = 7;
-const _sdVisibleLevel = 9; // 省道
-const _maxVisibleLvel = 24; // 
+const _greenVisibleLevel = 11; // 绿地显示等级
 const _ditchVisibleLevel = 14; // 沟和渠道
 
 const layers = [{
@@ -35,7 +32,7 @@ const layers = [{
   {
     id: 'GHYDPL_7L', // 记录了一些水渠、河沟，水库的面状要素
     type: 'fill',
-    source: 'composite',
+    source: levelConfig.addLv7,
     'source-layer': 'SD_GHYDPL', // py是面
     filter: [
       'any',
@@ -43,7 +40,6 @@ const layers = [{
       ['==', 'CLASID', '230101'],
       ['==', 'CLASID', '240101']
     ],
-    layout: {},
     paint: {
       'fill-color': '#c4daf6',
       'fill-opacity': 1,
@@ -53,7 +49,7 @@ const layers = [{
   {
     id: 'GHYDPL_OTH', // 记录了一些水渠、河沟，水库的面状要素
     type: 'fill',
-    source: 'composite',
+    source: levelConfig.addLv7,
     'source-layer': 'SD_GHYDPL', // py是面
     filter: [
       'all',
@@ -72,10 +68,9 @@ const layers = [{
   {
     id: 'GVEGPL', // 记录了绿地
     type: 'fill',
-    source: 'composite',
+    source: levelConfig.addLv7,
     'source-layer': 'SD_GVEGPL', // py是面
-    layout: {},
-    minzoom: 11,
+    minzoom: _greenVisibleLevel,
     paint: {
       'fill-color': '#d6eccf',
       'fill-opacity': 0.5,
@@ -86,7 +81,7 @@ const layers = [{
   {
     id: 'GBOULN', // 记录了各个镇的边界，有名字的记录的是省界和岛屿（name不为空）
     type: 'line',
-    source: 'composite',
+    source: levelConfig.addLv7,
     'source-layer': 'GBOULN', // LN，line的简写
     filter: [
       'any',
@@ -109,9 +104,8 @@ const layers = [{
   {
     id: 'GRAILN_bg', // 记录了铁路，底层颜色灰色
     type: 'line',
-    source: 'composite',
+    source: levelConfig.addLv7,
     'source-layer': 'SD_GRAILN', // LN，line的简写
-    minzoom: 7,
     layout: {
       'line-cap': 'round',
       'line-join': 'round'
@@ -124,9 +118,8 @@ const layers = [{
   {
     id: 'GRAILN', // 记录了铁路，间隔白色
     type: 'line',
-    source: 'composite',
+    source: levelConfig.addLv7,
     'source-layer': 'SD_GRAILN', // LN，line的简写
-    minzoom: _visibleLevel,
     layout: {
       'line-cap': 'round',
       'line-join': 'round'
@@ -138,361 +131,13 @@ const layers = [{
     }
   },
 
-  // 新加的平滑图层
-  {
-    id: 'GROALN_GAOGUO_MERGE_SD_bg', // 路网图层（name字段），底部图层，充当描边作用，省道
-    type: 'line',
-    source: 'composite',
-    'source-layer': 'GROALN_GAOGUO_MERGE', // LN，line的简写
-    filter: [
-      'all',
-      ['!=', 'CLASID', '420101'],
-      ['!=', 'CLASID', '420102'],
-      ['!=', 'CLASID', '420704'],
-      ['!=', 'CLASID', '420705'],
-    ],
-    minzoom: _visibleLevel,
-    maxzoom: _maxVisibleLvel,
-    layout: {
-      'line-cap': 'round',
-      'line-join': 'round'
-    },
-    paint: {
-      'line-width': {
-        base: 2,
-        stops: [
-          [7, 3],
-          [8, 2],
-          [9, 3],
-          [10, 4],
-          [11, 4],
-          [12, 7],
-          [13, 9],
-          [14, 9],
-          [15, 10],
-          [16, 10],
-          [17, 12],
-          [18, 14],
-          [19, 14],
-          [20, 22],
-          [21, 24],
-          [22, 26],
-
-        ]
-      },
-      'line-color': '#ffae00'
-    }
-  },
-  {
-    id: 'GROALN_GAOGUO_MERGE_SD', // 路网图层（name字段），省道
-    type: 'line',
-    source: 'composite',
-    'source-layer': 'GROALN_GAOGUO_MERGE', // 路网图层，国道和省道
-    filter: [
-      'all',
-      ['!=', 'CLASID', '420101'],
-      ['!=', 'CLASID', '420102'],
-      ['!=', 'CLASID', '420704'],
-      ['!=', 'CLASID', '420705'],
-      // ['!=', 'CLASID', '420706'],
-      // ['!=', 'CLASID', '430300'],
-      // ['!=', 'CLASID', '430501'],
-      // ['!=', 'CLASID', '430502'],
-      // ['!=', 'CLASID', '430503']
-    ],
-    minzoom: _visibleLevel,
-    maxzoom: _maxVisibleLvel,
-    layout: {
-      'line-cap': 'round',
-      'line-join': 'round'
-    },
-    paint: {
-      'line-width': {
-        base: 2,
-        stops: [
-          [7, 2],
-          [8, 1],
-          [9, 2],
-          [10, 3],
-          [11, 3],
-          [12, 5],
-          [13, 6],
-          [14, 6],
-          [15, 7],
-          [16, 7],
-          [17, 9],
-          [18, 11],
-          [19, 11],
-          [20, 19],
-          [21, 22],
-          [22, 24],
-        ]
-      },
-      'line-color': '#ffeebb'
-    }
-  },
-  {
-    id: 'GROALN_GAOGUO_MERGE_SD_NAME', // 省道名称
-    type: 'symbol',
-    source: 'composite',
-    'source-layer': 'GROALN_GAOGUO_MERGE',
-    filter: [
-      'all',
-      ['!=', 'CLASID', '420101'],
-      ['!=', 'CLASID', '420102'],
-      ['!=', 'CLASID', '420704'],
-      ['!=', 'CLASID', '420705'],
-      // ['!=', 'CLASID', '420706'],
-      // ['!=', 'CLASID', '430300'],
-      // ['!=', 'CLASID', '430501'],
-      // ['!=', 'CLASID', '430502'],
-      // ['!=', 'CLASID', '430503']
-    ],
-    minzoom: _visibleLevel,
-    maxzoom: _maxVisibleLvel,
-    layout: {
-      'text-field': '{NAME}',
-      visibility: 'visible',
-      'symbol-placement': 'line',
-      'text-font': ['Arial Unicode MS Bold'],
-      'text-pitch-alignment': 'viewport',
-      'symbol-spacing': 500,
-      'text-rotation-alignment': 'map',
-      'text-size': 12,
-      'icon-rotation-alignment': 'viewport'
-    },
-    paint: {
-      'text-color': 'rgba(65, 65, 65, 1)',
-      'text-halo-width': 2,
-      'text-halo-color': 'rgba(255, 255, 255, 1)'
-    }
-  },
-
-  {
-    id: 'GROALN_GAOGUO_MERGE_GD_bg', // 路网图层（name字段），底部图层，充当描边作用，国道
-    type: 'line',
-    source: 'composite',
-    'source-layer': 'GROALN_GAOGUO_MERGE', // LN，line的简写
-    filter: [
-      'any',
-      ['==', 'CLASID', '420101'],
-      ['==', 'CLASID', '420102'],
-      ['==', 'CLASID', '420704'],
-      ['==', 'CLASID', '420705'],
-      // ['==', 'CLASID', '420706'],
-      // ['==', 'CLASID', '430300'],
-      // ['==', 'CLASID', '430501'],
-      // ['==', 'CLASID', '430502'],
-      // ['==', 'CLASID', '430503']
-    ],
-    minzoom: _visibleLevel,
-    maxzoom: _maxVisibleLvel,
-    layout: {
-      'line-cap': 'round',
-      'line-join': 'round'
-    },
-    paint: {
-      'line-width': {
-        base: 2,
-        stops: [
-          [7, 3],
-          [8, 2],
-          [9, 3],
-          [10, 4],
-          [11, 4],
-          [12, 7],
-          [13, 9],
-          [14, 9],
-          [15, 10],
-          [16, 10],
-          [17, 12],
-          [18, 14],
-          [19, 14],
-          [20, 22],
-          [21, 24],
-          [22, 26],
-        ]
-      },
-      'line-color': '#f9bd09'
-    }
-  },
-  {
-    id: 'GROALN_GAOGUO_MERGE_GD', // 路网图层（name字段），国道
-    type: 'line',
-    source: 'composite',
-    'source-layer': 'GROALN_GAOGUO_MERGE', // 路网图层，国道和省道
-    filter: [
-      'any',
-      ['==', 'CLASID', '420101'],
-      ['==', 'CLASID', '420102'],
-      ['==', 'CLASID', '420704'],
-      ['==', 'CLASID', '420705'],
-      // ['==', 'CLASID', '420706'],
-      // ['==', 'CLASID', '430300'],
-      // ['==', 'CLASID', '430501'],
-      // ['==', 'CLASID', '430502'],
-      // ['==', 'CLASID', '430503']
-    ],
-    minzoom: _visibleLevel,
-    maxzoom: _maxVisibleLvel,
-    layout: {
-      'line-cap': 'round',
-      'line-join': 'round'
-    },
-    paint: {
-      'line-width': {
-        base: 2,
-        stops: [
-          [7, 2],
-          [8, 1],
-          [9, 2],
-          [10, 3],
-          [11, 3],
-          [12, 5],
-          [13, 6],
-          [14, 6],
-          [15, 7],
-          [16, 7],
-          [17, 9],
-          [18, 11],
-          [19, 11],
-          [20, 19],
-          [21, 22],
-          [22, 24],
-        ]
-      },
-      'line-color': '#fed669'
-    }
-  },
-  {
-    id: 'GROALN_GAOGUO_MERGE_GD_NAME', // 国道名称
-    type: 'symbol',
-    source: 'composite',
-    'source-layer': 'GROALN_GAOGUO_MERGE',
-    filter: [
-      'any',
-      ['==', 'CLASID', '420101'],
-      ['==', 'CLASID', '420102'],
-      ['==', 'CLASID', '420704'],
-      ['==', 'CLASID', '420705'],
-      // ['==', 'CLASID', '420706'],
-      // ['==', 'CLASID', '430300'],
-      // ['==', 'CLASID', '430501'],
-      // ['==', 'CLASID', '430502'],
-      // ['==', 'CLASID', '430503']
-    ],
-    minzoom: _visibleLevel,
-    maxzoom: _maxVisibleLvel,
-    layout: {
-      'text-field': '{NAME}',
-      visibility: 'visible',
-      'symbol-placement': 'line',
-      'text-font': ['Arial Unicode MS Bold'],
-      'text-pitch-alignment': 'viewport',
-      'symbol-spacing': 500,
-      'text-rotation-alignment': 'map',
-      'text-size': 12,
-      'icon-rotation-alignment': 'viewport'
-    },
-    paint: {
-      'text-color': 'rgba(65, 65, 65, 1)',
-      'text-halo-width': 2,
-      'text-halo-color': 'rgba(255, 255, 255, 1)'
-    }
-  },
-
-  {
-    id: 'GROALN_GAOGUO_MERGE_ICON_GD',
-    type: 'symbol',
-    source: 'composite',
-    'source-layer': 'GROALN_GAOGUO_MERGE',
-    minzoom: _visibleLevel,
-    maxzoom: _maxVisibleLvel,
-    filter: [
-      'all',
-      ['!=', 'ENTIID', ''],
-      [
-        'any',
-        ['==', 'CLASID', '420101'],
-        ['==', 'CLASID', '420102'],
-        ['==', 'CLASID', '420704'],
-        ['==', 'CLASID', '420705'],
-        // ['==', 'CLASID', '420706'],
-        // ['==', 'CLASID', '430300'],
-        // ['==', 'CLASID', '430501'],
-        // ['==', 'CLASID', '430502'],
-        // ['==', 'CLASID', '430503']
-      ]
-    ],
-    layout: {
-      'text-field': '{ENTIID}',
-      visibility: 'visible',
-      'symbol-placement': 'line',
-      'text-size': 12,
-      'icon-image': 'ic_map_gh.9',
-      'icon-text-fit': 'both',
-      'icon-text-fit-padding': [2, 6, 2, 6],
-      'text-justify': 'center',
-      'text-font': ['黑体'],
-      'text-pitch-alignment': 'viewport',
-      'text-rotation-alignment': 'viewport',
-      'icon-rotation-alignment': 'viewport',
-      'text-anchor': 'center',
-      'text-keep-upright': false
-    },
-    paint: {
-      'text-color': '#FFFFFF'
-    }
-  },
-  {
-    id: 'GROALN_GAOGUO_MERGE_ICON_SD',
-    type: 'symbol',
-    source: 'composite',
-    'source-layer': 'GROALN_GAOGUO_MERGE',
-    minzoom: _sdVisibleLevel,
-    maxzoom: _maxVisibleLvel,
-    filter: [
-      'all',
-      ['!=', 'ENTIID', ''],
-      ['!=', 'CLASID', '420101'],
-      ['!=', 'CLASID', '420102'],
-      ['!=', 'CLASID', '420704'],
-      ['!=', 'CLASID', '420705'],
-      // ['!=', 'CLASID', '420706'],
-      // ['!=', 'CLASID', '430300'],
-      // ['!=', 'CLASID', '430501'],
-      // ['!=', 'CLASID', '430502'],
-      // ['!=', 'CLASID', '430503']
-    ],
-    layout: {
-      'text-field': '{ENTIID}',
-      visibility: 'visible',
-      'symbol-placement': 'line',
-      'text-size': 12,
-      'icon-image': 'ic_map_sh.9',
-      'icon-text-fit': 'both',
-      'icon-text-fit-padding': [2, 6, 2, 6],
-      'text-justify': 'center',
-      'text-font': ['黑体'],
-      'text-pitch-alignment': 'viewport',
-      'text-rotation-alignment': 'viewport',
-      'icon-rotation-alignment': 'viewport',
-      'text-anchor': 'center',
-      'text-keep-upright': false
-    },
-    paint: {
-      'text-color': '#FFFFFF'
-    }
-  },
-
   ///////////////////////////////
   // 点
   {
-    id: 'SD_POI_LEVEL7_1009', // POI图层
+    id: 'POI_LEVEL7', // POI图层
     type: 'symbol',
-    source: 'composite',
-    'source-layer': 'SD_POI_LEVEL7_1009',
-    minzoom: _visibleLevel,
+    source: levelConfig.addLv7,
+    'source-layer': 'POI_LEVEL7',
     layout: {
       'text-field': '{NAME}',
       visibility: 'visible',
@@ -521,7 +166,7 @@ export default {
   name: 'Mapbox',
   metadata: {},
   sources: {
-    composite: {
+    [levelConfig.addLv7]: {
       type: 'vector',
       scheme: 'tms',
       tiles: [
