@@ -3,14 +3,20 @@
  */
 
 import mapboxgl from 'mapbox-gl';
-import { addLevel } from 'tuyun-utils';
-import React, { Component } from 'react';
+import {
+  addLevel
+} from 'tuyun-utils';
+import React, {
+  Component
+} from 'react';
 
 import baseStyle from './styles/light-sd';
 import addLevels from './addLevels';
 
 import groaln from './geojson/shengGDBt_cx';
-import { div } from 'gl-matrix/src/gl-matrix/vec4';
+import {
+  div
+} from 'gl-matrix/src/gl-matrix/vec4';
 
 export default class Map extends Component {
   componentDidMount() {
@@ -22,7 +28,16 @@ export default class Map extends Component {
   }
 
   render() {
-    return <div style={{ width: '100%', height: '100%' }} ref={el => this.mapContainer = el} />
+    return <div style = {
+      {
+        width: '100%',
+        height: '100%'
+      }
+    }
+    ref = {
+      el => this.mapContainer = el
+    }
+    />
   }
 
   _init() {
@@ -44,44 +59,44 @@ export default class Map extends Component {
       console.log(e.lngLat);
     });
 
-    this.map.on('load', () => {
-      this.map.addLayer({
-        id: 'road',
-        type: 'line',
-        source: {
-          type: 'geojson',
-          data: groaln
-        },
-        layout: {
-          'line-join': 'round',
-          'line-cap': 'round'
-        },
-        paint: {
-          'line-width': {
-            base: 2,
-            stops: [
-              [7, 3],
-              [8, 2],
-              [9, 3],
-              [10, 4],
-              [11, 4],
-              [12, 7],
-              [13, 9],
-              [14, 9],
-              [15, 10],
-              [16, 10],
-              [17, 12],
-              [18, 14],
-              [19, 14],
-              [20, 22],
-              [21, 24],
-              [22, 26]
-            ]
-          },
-          'line-color': '#ffae00'
-        }
-      })
-    });
+    // this.map.on('load', () => {
+    //   this.map.addLayer({
+    //     id: 'road',
+    //     type: 'line',
+    //     source: {
+    //       type: 'geojson',
+    //       data: groaln
+    //     },
+    //     layout: {
+    //       'line-join': 'round',
+    //       'line-cap': 'round'
+    //     },
+    //     paint: {
+    //       'line-width': {
+    //         base: 2,
+    //         stops: [
+    //           [7, 3],
+    //           [8, 2],
+    //           [9, 3],
+    //           [10, 4],
+    //           [11, 4],
+    //           [12, 7],
+    //           [13, 9],
+    //           [14, 9],
+    //           [15, 10],
+    //           [16, 10],
+    //           [17, 12],
+    //           [18, 14],
+    //           [19, 14],
+    //           [20, 22],
+    //           [21, 24],
+    //           [22, 26]
+    //         ]
+    //       },
+    //       'line-color': '#ffae00'
+    //     }
+    //   })
+    // });
     this.map.on('load', () => {
       this._addSourceFunc();
     }).on('zoom', () => { /* 为zoom事件添加监听器 */
