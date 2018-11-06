@@ -44,44 +44,44 @@ export default class Map extends Component {
       console.log(e.lngLat);
     });
 
-    this.map.on('load', () => {
-      this.map.addLayer({
-        id: 'road',
-        type: 'line',
-        source: {
-          type: 'geojson',
-          data: groaln
-        },
-        layout: {
-          'line-join': 'round',
-          'line-cap': 'round'
-        },
-        paint: {
-          'line-width': {
-            base: 2,
-            stops: [
-              [7, 3],
-              [8, 2],
-              [9, 3],
-              [10, 4],
-              [11, 4],
-              [12, 7],
-              [13, 9],
-              [14, 9],
-              [15, 10],
-              [16, 10],
-              [17, 12],
-              [18, 14],
-              [19, 14],
-              [20, 22],
-              [21, 24],
-              [22, 26]
-            ]
-          },
-          'line-color': '#ffae00'
-        }
-      })
-    });
+    // this.map.on('load', () => {
+    //   this.map.addLayer({
+    //     id: 'road',
+    //     type: 'line',
+    //     source: {
+    //       type: 'geojson',
+    //       data: groaln
+    //     },
+    //     layout: {
+    //       'line-join': 'round',
+    //       'line-cap': 'round'
+    //     },
+    //     paint: {
+    //       'line-width': {
+    //         base: 2,
+    //         stops: [
+    //           [7, 3],
+    //           [8, 2],
+    //           [9, 3],
+    //           [10, 4],
+    //           [11, 4],
+    //           [12, 7],
+    //           [13, 9],
+    //           [14, 9],
+    //           [15, 10],
+    //           [16, 10],
+    //           [17, 12],
+    //           [18, 14],
+    //           [19, 14],
+    //           [20, 22],
+    //           [21, 24],
+    //           [22, 26]
+    //         ]
+    //       },
+    //       'line-color': '#ffae00'
+    //     }
+    //   })
+    // });
     this.map.on('load', () => {
       this._addSourceFunc();
     }).on('zoom', () => { /* 为zoom事件添加监听器 */
