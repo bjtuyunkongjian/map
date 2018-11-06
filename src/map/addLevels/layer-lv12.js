@@ -1,12 +1,14 @@
 /**
  * @author sl 2019-01-02
  */
-import { levelConfig } from 'tuyun-config';
+import {
+  levelConfig
+} from 'tuyun-config';
 
 const _visibleLevel = 12;
 
 const style = {
-  visibleLevel: 12,
+  visibleLevel: _visibleLevel,
   source: {
     [levelConfig.addLv12]: {
       type: 'vector',
@@ -18,66 +20,14 @@ const style = {
     }
   },
   layers: [{
-    id: 'SD_POI_LEVEL12_1009_chezhan',
+    id: 'POI_LEVEL_12_chaoshi', // 小商品城、百货商店、超市
     type: 'symbol',
     source: levelConfig.addLv12,
-    'source-layer': 'SD_POI_LEVEL12_1009', // 
-    filter: ['any', ['==', 'KIND', '238108']],
-    'layout': {
-      'text-field': '{NAME}',
-      'visibility': 'visible',
-      'symbol-placement': 'point',
-      'text-size': 11,
-      'text-padding': 4,
-      'icon-image': 'ic_map_chezhan',
-      'text-justify': 'left',
-      'text-anchor': 'left',
-      'text-offset': [0.8, 0],
-      'text-font': ['Arial Unicode MS Blod', 'Open Sans Regular'],
-      'text-pitch-alignment': 'viewport',
-      'text-rotation-alignment': 'viewport',
-      'icon-rotation-alignment': 'viewport'
-    },
-    'paint': {
-      'text-color': 'rgba(65, 65, 65, 1)',
-      'text-halo-width': 2,
-      'text-halo-color': 'rgba(255, 255, 255, 1)'
-    }
-  }, {
-    id: 'SD_POI_LEVEL12_1009_dasha',
-    type: 'symbol',
-    source: levelConfig.addLv12,
-    'source-layer': 'SD_POI_LEVEL12_1009', //
-    filter: ['any', ['==', 'KIND', '200103']],
-    'layout': {
-      'text-field': '{NAME}',
-      'visibility': 'visible',
-      'symbol-placement': 'point',
-      'text-size': 11,
-      'text-padding': 4,
-      'icon-image': 'ic_map_dasha',
-      'text-justify': 'left',
-      'text-anchor': 'left',
-      'text-offset': [0.8, 0],
-      'text-font': ['Arial Unicode MS Blod', 'Open Sans Regular'],
-      'text-pitch-alignment': 'viewport',
-      'text-rotation-alignment': 'viewport',
-      'icon-rotation-alignment': 'viewport'
-    },
-    'paint': {
-      'text-color': 'rgba(65, 65, 65, 1)',
-      'text-halo-width': 2,
-      'text-halo-color': 'rgba(255, 255, 255, 1)'
-    }
-  }, {
-    id: 'SD_POI_LEVEL12_1009_building',
-    type: 'symbol',
-    source: levelConfig.addLv12,
-    'source-layer': 'SD_POI_LEVEL12_1009', // 
-    filter: ['any', ['==', 'KIND', '190111'],
-      ['==', 'KIND', '190202'],
-      ['==', 'KIND', '190203'],
-      ['==', 'KIND', '190205']
+    'source-layer': 'POI_LEVEL_12',
+    filter: ['any',
+      ['==', 'KIND', '130101'],
+      ['==', 'KIND', '130102'],
+      ['==', 'KIND', '130106']
     ],
     'layout': {
       'text-field': '{NAME}',
@@ -85,7 +35,7 @@ const style = {
       'symbol-placement': 'point',
       'text-size': 11,
       'text-padding': 4,
-      'icon-image': 'ic_map_building',
+      'icon-image': 'ic_map_chaoshi',
       'text-justify': 'left',
       'text-anchor': 'left',
       'text-offset': [0.8, 0],
@@ -99,7 +49,85 @@ const style = {
       'text-halo-width': 2,
       'text-halo-color': 'rgba(255, 255, 255, 1)'
     }
-  }]
+  }, {
+    id: 'POI_LEVEL_12_yaodian', // 药店
+    type: 'symbol',
+    source: levelConfig.addLv12,
+    'source-layer': 'POI_LEVEL_12',
+    filter: ['==', 'KIND', '130501'],
+    'layout': {
+      'text-field': '{NAME}',
+      'visibility': 'visible',
+      'symbol-placement': 'point',
+      'text-size': 11,
+      'text-padding': 4,
+      'icon-image': 'ic_map_yaodian',
+      'text-justify': 'left',
+      'text-anchor': 'left',
+      'text-offset': [0.8, 0],
+      'text-font': ['Arial Unicode MS Blod', 'Open Sans Regular'],
+      'text-pitch-alignment': 'viewport',
+      'text-rotation-alignment': 'viewport',
+      'icon-rotation-alignment': 'viewport'
+    },
+    'paint': {
+      'text-color': 'rgba(65, 65, 65, 1)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    }
+  }, {
+    id: 'POI_LEVEL_12_bank', // 银行
+    type: 'symbol',
+    source: levelConfig.addLv12,
+    'source-layer': 'POI_LEVEL_12',
+    filter: ['==', 'KIND', '130501'],
+    'layout': {
+      'text-field': '{NAME}',
+      'visibility': 'visible',
+      'symbol-placement': 'point',
+      'text-size': 11,
+      'text-padding': 4,
+      'icon-image': 'ic_map_bank',
+      'text-justify': 'left',
+      'text-anchor': 'left',
+      'text-offset': [0.8, 0],
+      'text-font': ['Arial Unicode MS Blod', 'Open Sans Regular'],
+      'text-pitch-alignment': 'viewport',
+      'text-rotation-alignment': 'viewport',
+      'icon-rotation-alignment': 'viewport'
+    },
+    'paint': {
+      'text-color': 'rgba(65, 65, 65, 1)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    }
+  }, {
+    id: 'POI_LEVEL_12_university', // 大学
+    type: 'symbol',
+    source: levelConfig.addLv12,
+    'source-layer': 'POI_LEVEL_12',
+    filter: ['==', 'KIND', '160105'],
+    'layout': {
+      'text-field': '{NAME}',
+      'visibility': 'visible',
+      'symbol-placement': 'point',
+      'text-size': 11,
+      'text-padding': 4,
+      'icon-image': 'ic_map_university',
+      'text-justify': 'left',
+      'text-anchor': 'left',
+      'text-offset': [0.8, 0],
+      'text-font': ['Arial Unicode MS Blod', 'Open Sans Regular'],
+      'text-pitch-alignment': 'viewport',
+      'text-rotation-alignment': 'viewport',
+      'icon-rotation-alignment': 'viewport'
+    },
+    'paint': {
+      'text-color': 'rgba(65, 65, 65, 1)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    }
+  }, ]
 };
 
 export default style;
