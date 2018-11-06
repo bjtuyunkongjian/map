@@ -47,7 +47,7 @@ const style = {
       'text-halo-color': 'rgba(255, 255, 255, 1)'
     }
   }, {
-    id: 'POI_LEVEL_11_university', // 大学
+    id: 'POI_LEVEL_11_library', // 大学
     type: 'symbol',
     source: levelConfig.addLv11,
     'source-layer': 'POI_LEVEL_11',
@@ -77,7 +77,7 @@ const style = {
       'symbol-placement': 'point',
       'text-size': 11,
       'text-padding': 4,
-      'icon-image': 'ic_map_university',
+      'icon-image': 'ic_map_library',
       'text-justify': 'left',
       'text-anchor': 'left',
       'text-offset': [0.8, 0],
