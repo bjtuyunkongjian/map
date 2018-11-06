@@ -1,7 +1,9 @@
 /**
  * @author sl 2019-01-02
  */
-import { levelConfig } from 'tuyun-config';
+import {
+  levelConfig
+} from 'tuyun-config';
 
 const _visibleLevel = 13;
 
@@ -150,7 +152,7 @@ const style = {
       'text-halo-width': 2,
       'text-halo-color': 'rgba(255, 255, 255, 1)'
     }
-  },]
+  }, ]
 };
 
 export default style;
