@@ -11,8 +11,8 @@ import layerLv15 from './layer-lv15';
 
 const addLvs = [
   layerLv8, layerLv9,
-  layerLv10,
-  // layerLv11, layerLv12, layerLv13, layerLv15
+  layerLv10, layerLv11,
+  layerLv12, layerLv13, layerLv15
 ];
 
 export default addLvs;

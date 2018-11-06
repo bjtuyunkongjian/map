@@ -2,13 +2,14 @@
  * @author sl 2019-01-02
  * 11级，包括公园，医院
  */
-import { levelConfig } from 'tuyun-config';
+import {
+  levelConfig
+} from 'tuyun-config';
 
 const _visibleLevel = 11;
-const _roadVisibleLv = 11;
 
 const style = {
-  visibleLevel: 11,
+  visibleLevel: _visibleLevel,
   source: {
     [levelConfig.addLv11]: {
       type: 'vector',
@@ -20,102 +21,18 @@ const style = {
     },
   },
   layers: [{
-    id: 'GROLAN_11_1009_bg', // 路网图层（name字段），次干道、县道
-    type: 'line',
-    source: levelConfig.addLv11,
-    'source-layer': 'GROLAN_11_1009',
-    minzoom: _roadVisibleLv,
-    layout: {
-      'line-cap': 'round',
-      'line-join': 'round',
-    },
-    paint: {
-      'line-width': {
-        'base': 2,
-        'stops': [
-          [11, 3],
-          [12, 6],
-          [13, 8],
-          [14, 8],
-          [15, 9],
-          [16, 9],
-          [17, 11],
-          [18, 13],
-          [19, 13],
-          [20, 21]
-        ]
-      },
-      'line-color': '#d8d8d8'
-    },
-    labelLayerId: 'GRAILN_bg'
-  }, {
-    id: 'GROLAN_11_1009', // 路网图层（name字段），次干道、县道
-    type: 'line',
-    source: levelConfig.addLv11,
-    'source-layer': 'GROLAN_11_1009',
-    minzoom: _roadVisibleLv,
-    layout: {
-      'line-cap': 'round',
-      'line-join': 'round',
-    },
-    paint: {
-      'line-width': {
-        'base': 2,
-        'stops': [
-          [11, 2],
-          [12, 4],
-          [13, 5],
-          [14, 5],
-          [15, 6],
-          [16, 6],
-          [17, 8],
-          [18, 10],
-          [19, 10],
-          [20, 18]
-        ]
-      },
-      'line-color': '#FFFFFF'
-    },
-    labelLayerId: 'GRAILN_bg'
-  }, {
-    id: 'GROLAN_11_1009_NAME', // 次干道、县道名称
+    id: 'POI_LEVEL_11_university', // 大学
     type: 'symbol',
     source: levelConfig.addLv11,
-    'source-layer': 'GROLAN_11_1009',
-    minzoom: _roadVisibleLv,
-    layout: {
-      'text-field': '{NAME}',
-      'visibility': 'visible',
-      'symbol-placement': 'line',
-      'text-font': ['Arial Unicode MS Bold'],
-      'text-pitch-alignment': 'viewport',
-      'symbol-spacing': 500,
-      'text-rotation-alignment': 'map',
-      'text-size': 12,
-      'icon-rotation-alignment': 'viewport'
-    },
-    'paint': {
-      'text-color': 'rgba(65, 65, 65, 1)',
-      'text-halo-width': 2,
-      'text-halo-color': 'rgba(255, 255, 255, 1)'
-    }
-  },
-  // POI 点
-  {
-    id: '11L_POI_YIYUAN', // 医院
-    type: 'symbol',
-    source: levelConfig.addLv11,
-    'source-layer': 'SD_POI_LEVEL9_1009',
-    filter: ['all', ['>=', 'KIND', '170100'],
-      ['<=', 'KIND', '170105']
-    ],
+    'source-layer': 'POI_LEVEL_11',
+    filter: ['==', 'KIND', '160105'],
     'layout': {
       'text-field': '{NAME}',
       'visibility': 'visible',
       'symbol-placement': 'point',
       'text-size': 11,
       'text-padding': 4,
-      'icon-image': 'ic_map_yiyuan',
+      'icon-image': 'ic_map_university',
       'text-justify': 'left',
       'text-anchor': 'left',
       'text-offset': [0.8, 0],
@@ -129,14 +46,30 @@ const style = {
       'text-halo-width': 2,
       'text-halo-color': 'rgba(255, 255, 255, 1)'
     }
-  },
-  {
-    id: '11L_POI_PARK', // 公园
+  }, {
+    id: 'POI_LEVEL_11_university', // 大学
     type: 'symbol',
     source: levelConfig.addLv11,
-    'source-layer': 'SD_POI_LEVEL9_1009', // py是面
-    filter: ['all', ['>=', 'KIND', '180301'],
-      ['<=', 'KIND', '180400']
+    'source-layer': 'POI_LEVEL_11',
+    filter: ['any',
+      ['==', 'KIND', '160203'],
+      ['==', 'KIND', '160204'],
+      ['==', 'KIND', '160205'],
+      ['==', 'KIND', '160206'],
+      ['==', 'KIND', '160207'],
+      ['==', 'KIND', '160208'],
+      ['==', 'KIND', '180100'],
+      ['==', 'KIND', '180101'],
+      ['==', 'KIND', '180102'],
+      ['==', 'KIND', '180103'],
+      ['==', 'KIND', '180104'],
+      ['==', 'KIND', '180105'],
+      ['==', 'KIND', '180106'],
+      ['==', 'KIND', '180107'],
+      ['==', 'KIND', '180209'],
+      ['==', 'KIND', '180210'],
+      ['==', 'KIND', '180301'],
+      ['==', 'KIND', '180302']
     ],
     'layout': {
       'text-field': '{NAME}',
@@ -144,7 +77,7 @@ const style = {
       'symbol-placement': 'point',
       'text-size': 11,
       'text-padding': 4,
-      'icon-image': 'ic_map_park',
+      'icon-image': 'ic_map_university',
       'text-justify': 'left',
       'text-anchor': 'left',
       'text-offset': [0.8, 0],
@@ -158,8 +91,7 @@ const style = {
       'text-halo-width': 2,
       'text-halo-color': 'rgba(255, 255, 255, 1)'
     }
-  }
-  ]
+  }]
 };
 
 

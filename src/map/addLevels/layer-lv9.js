@@ -20,7 +20,7 @@ const style = {
     }
   },
   layers: [{
-    id: 'POI_LEVEL_9_shan', // 风景名胜
+    id: 'POI_LEVEL_9_scenics', // 风景名胜
     type: 'symbol',
     source: levelConfig.addLv9,
     'source-layer': 'POI_LEVEL_9',
@@ -31,7 +31,7 @@ const style = {
       'symbol-placement': 'point',
       'text-size': 11,
       'text-padding': 4,
-      'icon-image': 'ic_map_shan',
+      'icon-image': 'ic_map_scenics',
       'text-justify': 'left',
       'text-anchor': 'left',
       'text-offset': [0.8, 0],
