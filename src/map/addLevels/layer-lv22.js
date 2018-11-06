@@ -1,28 +1,23 @@
-/* 
-  18级图层 
-  18-22图层每个图层显示的内容都是一样的，每个图层按20%逐级推近显示
-*/
-
 import { levelConfig } from 'tuyun-config';
 
-const _visibleLevel = 18;
+const _visibleLevel = 22;
 
 const style = {
   visibleLevel: _visibleLevel,
   source: {
-    [levelConfig.addLv18]: {
+    [levelConfig.addLv22]: {
       type: 'vector',
       scheme: 'tms',
-      tiles: ['http://116.62.186.152:8080/geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_18L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf'],
+      tiles: ['http://116.62.186.152:8080/geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_22L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf'],
       minzoom: _visibleLevel,
     }
   },
   layers: [
     {
-      id: '18L_JX',   //驾校
+      id: '22L_JX',   //驾校
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       minzoom: _visibleLevel,
       filter: ['==', 'KIND', '160109'],
       'layout': {
@@ -47,10 +42,10 @@ const style = {
       }
     },
     {
-      id: '18L_TESTCENTER', //考试中心
+      id: '22L_TESTCENTER', //考试中心
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       minzoom: _visibleLevel,
       filter: ['==', 'KIND', '160110'],
       'layout': {
@@ -75,10 +70,10 @@ const style = {
       }
     },
     {
-      id: '18L_NEWS', //报社出版社杂志社
+      id: '22L_NEWS', //报社出版社杂志社
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       minzoom: _visibleLevel,
       filter: ['==', 'KIND', '160201'],
       'layout': {
@@ -103,10 +98,10 @@ const style = {
       }
     },
     {
-      id: '18L_TV', //电台，电视台，电影出版社
+      id: '22L_TV', //电台，电视台，电影出版社
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       minzoom: _visibleLevel,
       filter: ['==', 'KIND', '160202'],
       'layout': {
@@ -131,10 +126,10 @@ const style = {
       }
     },
     {
-      id: '18L_TV', //文工团艺术团
+      id: '22L_TV', //文工团艺术团
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       minzoom: _visibleLevel,
       filter: ['==', 'KIND', '160209'],
       'layout': {
@@ -159,10 +154,10 @@ const style = {
       }
     },
     {
-      id: '18L_HOSEQP', //医院内部医疗设施
+      id: '22L_HOSEQP', //医院内部医疗设施
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       minzoom: _visibleLevel,
       filter: ['==', 'KIND', '170104'],
       'layout': {
@@ -187,10 +182,10 @@ const style = {
       }
     },
     {
-      id: '18L_ED', //急诊
+      id: '22L_ED', //急诊
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       minzoom: _visibleLevel,
       filter: ['==', 'KIND', '170105'],
       'layout': {
@@ -215,10 +210,10 @@ const style = {
       }
     },
     {
-      id: '18L_PRCARE', //社区医疗
+      id: '22L_PRCARE', //社区医疗
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       minzoom: _visibleLevel,
       filter: ['==', 'KIND', '170106'],
       'layout': {
@@ -243,10 +238,10 @@ const style = {
       }
     },
     {
-      id: '18L_DTHos', //牙科诊所
+      id: '22L_DTHos', //牙科诊所
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       minzoom: _visibleLevel,
       filter: ['==', 'KIND', '170107'],
       'layout': {
@@ -271,11 +266,10 @@ const style = {
       }
     },
     {
-      id: '18L_EPStation', //防疫站
+      id: '22L_EPStation', //防疫站
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
-      minzoom: _visibleLevel,
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       filter: ['==', 'KIND', '170108'],
       'layout': {
         'text-field': '{NAME}',
@@ -299,10 +293,10 @@ const style = {
       }
     },
     {
-      id: '18L_Health', //体检机构
+      id: '22L_Health', //体检机构
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       minzoom: _visibleLevel,
       filter: ['==', 'KIND', '170109'],
       'layout': {
@@ -327,10 +321,10 @@ const style = {
       }
     },
     {
-      id: '18L_BLOOD', //献血屋
+      id: '22L_BLOOD', //献血屋
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       minzoom: _visibleLevel,
       filter: ['==', 'KIND', '170110'],
       'layout': {
@@ -355,10 +349,10 @@ const style = {
       }
     },
     {
-      id: '18L_Welfare', //福利院
+      id: '22L_Welfare', //福利院
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       minzoom: _visibleLevel,
       filter: ['==', 'KIND', '170201'],
       'layout': {
@@ -383,10 +377,10 @@ const style = {
       }
     },
     {
-      id: '18L_OUTDOOR', //天然浴场
+      id: '22L_OUTDOOR', //天然浴场
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       minzoom: _visibleLevel,
       filter: ['==', 'KIND', '180303'],
       'layout': {
@@ -411,10 +405,10 @@ const style = {
       }
     },
     {
-      id: '18L_GEN_GOVER', //普通政府机关
+      id: '22L_GEN_GOVER', //普通政府机关
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       minzoom: _visibleLevel,
       filter: ['==', 'KIND', '190110'],
       'layout': {
@@ -439,10 +433,10 @@ const style = {
       }
     },
     {
-      id: '18L_administration', //行政办公大厅
+      id: '22L_administration', //行政办公大厅
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       minzoom: _visibleLevel,
       filter: ['==', 'KIND', '190111'],
       'layout': {
@@ -467,10 +461,10 @@ const style = {
       }
     },
     {
-      id: '18L_LocalOffice', //驻京，驻地方办事处
+      id: '22L_LocalOffice', //驻京，驻地方办事处
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       minzoom: _visibleLevel,
       filter: ['==', 'KIND', '190112'],
       'layout': {
@@ -495,10 +489,10 @@ const style = {
       }
     },
     {
-      id: '18L_TrafficPolice', //交警队
+      id: '22L_TrafficPolice', //交警队
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       minzoom: _visibleLevel,
       filter: ['==', 'KIND', '190203'],
       'layout': {
@@ -523,10 +517,10 @@ const style = {
       }
     },
     {
-      id: '18L_XIEHUI', //协会
+      id: '22L_XIEHUI', //协会
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       minzoom: _visibleLevel,
       filter: ['==', 'KIND', '190301'],
       'layout': {
@@ -551,10 +545,10 @@ const style = {
       }
     },
     {
-      id: '18L_CHURCH', //教堂
+      id: '22L_CHURCH', //教堂
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       minzoom: _visibleLevel,
       filter: ['==', 'KIND', '190400'],
       'layout': {
@@ -579,11 +573,10 @@ const style = {
       }
     },
     {
-      id: '18L_TEMPLE', //寺庙道观
+      id: '22L_TEMPLE', //寺庙道观
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
-      minzoom: _visibleLevel,
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       filter: ['==', 'KIND', '190401'],
       'layout': {
         'text-field': '{NAME}',
@@ -607,10 +600,10 @@ const style = {
       }
     },
     {
-      id: '18L_Catholicism', //天主教
+      id: '22L_Catholicism', //天主教
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       minzoom: _visibleLevel,
       filter: ['==', 'KIND', '190402'],
       'layout': {
@@ -635,11 +628,10 @@ const style = {
       }
     },
     {
-      id: '18L_Christian', //基督教
+      id: '22L_Christian', //基督教
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
-      minzoom: _visibleLevel,
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       filter: ['==', 'KIND', '190403'],
       'layout': {
         'text-field': '{NAME}',
@@ -663,11 +655,10 @@ const style = {
       }
     },
     {
-      id: '18L_Islam', //伊斯兰教
+      id: '22L_Islam', //伊斯兰教
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
-      minzoom: _visibleLevel,
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       filter: ['==', 'KIND', '190404'],
       'layout': {
         'text-field': '{NAME}',
@@ -691,11 +682,10 @@ const style = {
       }
     },
     {
-      id: '18L_VISA', //签证处
+      id: '22L_VISA', //签证处
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
-      minzoom: _visibleLevel,
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       filter: ['==', 'KIND', '190502'],
       'layout': {
         'text-field': '{NAME}',
@@ -719,11 +709,10 @@ const style = {
       }
     },
     {
-      id: '18L_TRAIN', //培训中心
+      id: '22L_TRAIN', //培训中心
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
-      minzoom: _visibleLevel,
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       filter: ['==', 'KIND', '200102'],
       'layout': {
         'text-field': '{NAME}',
@@ -747,11 +736,10 @@ const style = {
       }
     },
     {
-      id: '18L_BUSINESS', //商业综合体
+      id: '22L_BUSINESS', //商业综合体
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
-      minzoom: _visibleLevel,
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       filter: ['==', 'KIND', '200200'],
       'layout': {
         'text-field': '{NAME}',
@@ -775,10 +763,10 @@ const style = {
       }
     },
     {
-      id: '18L_car', //汽车租赁
+      id: '22L_car', //汽车租赁
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       minzoom: _visibleLevel,
       filter: ['==', 'KIND', '200201'],
       'layout': {
@@ -803,10 +791,10 @@ const style = {
       }
     },
     {
-      id: '18L_OFFICE', //事务所
+      id: '22L_OFFICE', //事务所
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       minzoom: _visibleLevel,
       filter: ['any',
         ['==', 'KIND', '200300'],
@@ -834,10 +822,10 @@ const style = {
       }
     },
     {
-      id: '18L_TALENT_MARKET', //人才市场
+      id: '22L_TALENT_MARKET', //人才市场
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       minzoom: _visibleLevel,
       filter: ['==', 'KIND', '200404'],
       'layout': {
@@ -862,10 +850,10 @@ const style = {
       }
     },
     {
-      id: '18L_TOUR', //旅行社
+      id: '22L_TOUR', //旅行社
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       minzoom: _visibleLevel,
       filter: ['==', 'KIND', '200405'],
       'layout': {
@@ -890,10 +878,10 @@ const style = {
       }
     },
     {
-      id: '18L_HOUSEKEEP', //家政服务代表
+      id: '22L_HOUSEKEEP', //家政服务代表
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       minzoom: _visibleLevel,
       filter: ['==', 'KIND', '210101'],
       'layout': {
@@ -918,11 +906,10 @@ const style = {
       }
     },
     {
-      id: '18L_MOTO', //摩托车自行车维修
+      id: '22L_MOTO', //摩托车自行车维修
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
-      minzoom: _visibleLevel,
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       filter: ['==', 'KIND', '210102'],
       'layout': {
         'text-field': '{NAME}',
@@ -946,11 +933,10 @@ const style = {
       }
     },
     {
-      id: '18L_HOMESERVICE', //家电维修
+      id: '22L_HOMESERVICE', //家电维修
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
-      minzoom: _visibleLevel,
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       filter: ['==', 'KIND', '210103'],
       'layout': {
         'text-field': '{NAME}',
@@ -974,11 +960,10 @@ const style = {
       }
     },
     {
-      id: '18L_WATER', //送水站
+      id: '22L_WATER', //送水站
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
-      minzoom: _visibleLevel,
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       filter: ['==', 'KIND', '210104'],
       'layout': {
         'text-field': '{NAME}',
@@ -1002,11 +987,10 @@ const style = {
       }
     },
     {
-      id: '18L_PET', //宠物医院
+      id: '22L_PET', //宠物医院
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
-      minzoom: _visibleLevel,
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       filter: ['==', 'KIND', '210105'],
       'layout': {
         'text-field': '{NAME}',
@@ -1030,10 +1014,10 @@ const style = {
       }
     },
     {
-      id: '18L_LAUNDRY', //洗衣店
+      id: '22L_LAUNDRY', //洗衣店
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       minzoom: _visibleLevel,
       filter: ['==', 'KIND', '210201'],
       'layout': {
@@ -1058,11 +1042,10 @@ const style = {
       }
     },
     {
-      id: '18L_ORDERCL', //服装定制
+      id: '22L_ORDERCL', //服装定制
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
-      minzoom: _visibleLevel,
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       filter: ['==', 'KIND', '210202'],
       'layout': {
         'text-field': '{NAME}',
@@ -1086,11 +1069,10 @@ const style = {
       }
     },
     {
-      id: '18L_AFTER_SALE', //皮具、鞋包，衣服保养
+      id: '22L_AFTER_SALE', //皮具、鞋包，衣服保养
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
-      minzoom: _visibleLevel,
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       filter: ['==', 'KIND', '210203'],
       'layout': {
         'text-field': '{NAME}',
@@ -1114,10 +1096,10 @@ const style = {
       }
     },
     {
-      id: '18L_MARRY', //婚庆代表
+      id: '22L_MARRY', //婚庆代表
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       minzoom: _visibleLevel,
       filter: ['==', 'KIND', '210209'],
       'layout': {
@@ -1142,10 +1124,10 @@ const style = {
       }
     },
     {
-      id: '18L_DIE', //火葬场殡仪馆
+      id: '22L_DIE', //火葬场殡仪馆
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       minzoom: _visibleLevel,
       filter: ['==', 'KIND', '210210'],
       'layout': {
@@ -1170,10 +1152,10 @@ const style = {
       }
     },
     {
-      id: '18L_POST', //邮局
+      id: '22L_POST', //邮局
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       minzoom: _visibleLevel,
       filter: ['==', 'KIND', '210213'],
       'layout': {
@@ -1198,10 +1180,10 @@ const style = {
       }
     },
     {
-      id: '18L_CAMERA', //照相
+      id: '22L_CAMERA', //照相
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       minzoom: _visibleLevel,
       filter: ['==', 'KIND', '210214'],
       'layout': {
@@ -1226,10 +1208,10 @@ const style = {
       }
     },
     {
-      id: '18L_REAL', //房产中介
+      id: '22L_REAL', //房产中介
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       minzoom: _visibleLevel,
       filter: ['==', 'KIND', '210216'],
       'layout': {
@@ -1254,11 +1236,10 @@ const style = {
       }
     },
     {
-      id: '18L_OFFICE_SERVICE', //办公服务
+      id: '22L_OFFICE_SERVICE', //办公服务
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
-      minzoom: _visibleLevel,
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       filter: ['==', 'KIND', '210217'],
       'layout': {
         'text-field': '{NAME}',
@@ -1282,11 +1263,10 @@ const style = {
       }
     },
     {
-      id: '18L_GOODS', //货物自提
+      id: '22L_GOODS', //货物自提
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
-      minzoom: _visibleLevel,
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       filter: ['==', 'KIND', '210218'],
       'layout': {
         'text-field': '{NAME}',
@@ -1310,10 +1290,10 @@ const style = {
       }
     },
     {
-      id: '18L_MARRY_SERVICE', //婚姻介绍所
+      id: '22L_MARRY_SERVICE', //婚姻介绍所
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       minzoom: _visibleLevel,
       filter: ['==', 'KIND', '210219'],
       'layout': {
@@ -1338,11 +1318,10 @@ const style = {
       }
     },
     {
-      id: '18L_COMMUNICATION', //通信
+      id: '22L_COMMUNICATION', //通信
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
-      minzoom: _visibleLevel,
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       filter: ['==', 'KIND', '210301'],
       'layout': {
         'text-field': '{NAME}',
@@ -1366,11 +1345,10 @@ const style = {
       }
     },
     {
-      id: '18L_TICKET', //票务中心，售票点
+      id: '22L_TICKET', //票务中心，售票点
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
-      minzoom: _visibleLevel,
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       filter: ['any',
         ['==', 'KIND', '210302'],
         ['==', 'KIND', '210304'],
@@ -1398,10 +1376,10 @@ const style = {
       }
     },
     {
-      id: '18L_POWERSHOP', //电力营业厅
+      id: '22L_POWERSHOP', //电力营业厅
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       minzoom: _visibleLevel,
       filter: ['==', 'KIND', '210303'],
       'layout': {
@@ -1426,10 +1404,10 @@ const style = {
       }
     },
     {
-      id: '18L_PEOPLE_SERVICE', //居民服务
+      id: '22L_PEOPLE_SERVICE', //居民服务
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       minzoom: _visibleLevel,
       filter: ['==', 'KIND', '210400'],
       'layout': {
@@ -1454,10 +1432,10 @@ const style = {
       }
     },
     {
-      id: '18L_COMPANY', //公司,其他单位
+      id: '22L_COMPANY', //公司,其他单位
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       minzoom: _visibleLevel,
       filter: ['any',
         ['==', 'KIND', '220100'],
@@ -1485,10 +1463,10 @@ const style = {
       }
     },
     {
-      id: '18L_FACTOR', //厂矿企业
+      id: '22L_FACTOR', //厂矿企业
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       minzoom: _visibleLevel,
       filter: ['==', 'KIND', '220200'],
       'layout': {
@@ -1513,10 +1491,10 @@ const style = {
       }
     },
     {
-      id: '18L_LOGSITIC', //物流，快运
+      id: '22L_LOGSITIC', //物流，快运
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       minzoom: _visibleLevel,
       filter: ['==', 'KIND', '230130'],
       'layout': {
@@ -1541,10 +1519,10 @@ const style = {
       }
     },
     {
-      id: '18L_BRIDGE', //桥
+      id: '22L_BRIDGE', //桥
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       minzoom: _visibleLevel,
       filter: ['==', 'KIND', '230201'],
       'layout': {
@@ -1569,10 +1547,10 @@ const style = {
       }
     },
     {
-      id: '18L_OVERPASS', //桥
+      id: '22L_OVERPASS', //桥
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       minzoom: _visibleLevel,
       filter: ['==', 'KIND', '230202'],
       'layout': {
@@ -1597,10 +1575,10 @@ const style = {
       }
     },
     {
-      id: '18L_TOLL', //收费站
+      id: '22L_TOLL', //收费站
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       minzoom: _visibleLevel,
       filter: ['==', 'KIND', '230209'],
       'layout': {
@@ -1625,11 +1603,10 @@ const style = {
       }
     },
     {
-      id: '18L_INPARKING', //室内停车场
+      id: '22L_INPARKING', //室内停车场
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
-      minzoom: _visibleLevel,
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       filter: ['==', 'KIND', '230211'],
       'layout': {
         'text-field': '{NAME}',
@@ -1653,10 +1630,10 @@ const style = {
       }
     },
     {
-      id: '18L_BUS_PARKING', //公交换乘停车场
+      id: '22L_BUS_PARKING', //公交换乘停车场
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       minzoom: _visibleLevel,
       filter: ['==', 'KIND', '230213'],
       'layout': {
@@ -1681,11 +1658,10 @@ const style = {
       }
     },
     {
-      id: '18L_FLOOR_OPEN_PARK', //地上露天停车场
+      id: '22L_FLOOR_OPEN_PARK', //地上露天停车场
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
-      minzoom: _visibleLevel,
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       filter: ['any',
         ['==', 'KIND', '230212'],
         ['==', 'KIND', '230223'],
@@ -1712,10 +1688,10 @@ const style = {
       }
     },
     {
-      id: '18L_FLOOR_PARK', //地上非露天停车场
+      id: '22L_FLOOR_PARK', //地上非露天停车场
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       minzoom: _visibleLevel,
       filter: ['==', 'KIND', '230224'],
       'layout': {
@@ -1740,10 +1716,10 @@ const style = {
       }
     },
     {
-      id: '18L_UNDER_PARK', //地下停车场
+      id: '22L_UNDER_PARK', //地下停车场
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       minzoom: _visibleLevel,
       filter: ['==', 'KIND', '230225'],
       'layout': {
@@ -1768,11 +1744,10 @@ const style = {
       }
     },
     {
-      id: '18L_ELEBUS_STATION', //电动汽车充电站
+      id: '22L_ELEBUS_STATION', //电动汽车充电站
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
-      minzoom: _visibleLevel,
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       filter: ['==', 'KIND', '230218'],
       'layout': {
         'text-field': '{NAME}',
@@ -1796,11 +1771,10 @@ const style = {
       }
     },
     {
-      id: '18L_CAMPING', //露营地
+      id: '22L_CAMPING', //露营地
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
-      minzoom: _visibleLevel,
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       filter: ['==', 'KIND', '230226'],
       'layout': {
         'text-field': '{NAME}',
@@ -1824,11 +1798,10 @@ const style = {
       }
     },
     {
-      id: '18L_AFH_SERVICE', //农林牧渔服务
+      id: '22L_AFH_SERVICE', //农林牧渔服务
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
-      minzoom: _visibleLevel,
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       filter: ['==', 'KIND', '250100'],
       'layout': {
         'text-field': '{NAME}',
@@ -1852,10 +1825,10 @@ const style = {
       }
     },
     {
-      id: '18L_AFH_SERVICE_PARTY', //农林牧渔服务代表
+      id: '22L_AFH_SERVICE_PARTY', //农林牧渔服务代表
       type: 'symbol',
-      source: levelConfig.addLv18,
-      'source-layer': 'POI_LEVEL_18',
+      source: levelConfig.addLv22,
+      'source-layer': 'POI_LEVEL_22',
       minzoom: _visibleLevel,
       filter: ['==', 'KIND', '250100'],
       'layout': {
@@ -1883,3 +1856,4 @@ const style = {
 };
 
 export default style;
+
