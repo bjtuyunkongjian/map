@@ -11,11 +11,7 @@ import layerLv15 from './layer-lv15';
 import layerLv16 from './layer-lv16';
 import layerLv17 from './layer-lv17';
 import layerLv18 from './layer-lv18';
-import layerLv19 from './layer-lv19';
-import layerLv20 from './layer-lv20';
-import layerLv21 from './layer-lv21';
-import layerLv22 from './layer-lv22';
 
-const addLvs = [layerLv8, layerLv9, layerLv10, layerLv11, layerLv12, layerLv13, layerLv15, layerLv16, layerLv17, layerLv18, layerLv19, layerLv20, layerLv21, layerLv22];
+const addLvs = [layerLv8, layerLv9, layerLv10, layerLv11, layerLv12, layerLv13, layerLv15, layerLv16, layerLv17, layerLv18];
 
 export default addLvs;
