@@ -9,8 +9,7 @@ import React, { Component } from 'react';
 import baseStyle from './styles/light-sd';
 import addLevels from './addLevels';
 
-import groaln from './geojson/shengGDBt_cx';
-import { div } from 'gl-matrix/src/gl-matrix/vec4';
+// import groaln from './geojson/shengGDBt_cx';
 
 export default class Map extends Component {
   componentDidMount() {
