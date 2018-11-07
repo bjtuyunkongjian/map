@@ -20,10 +20,10 @@ const style = {
     }
   },
   layers: [{
-    id: 'POI_LEVEL_12_chaoshi', // 小商品城、百货商店、超市
+    id: 'POI_LEVEL_12_1107',
     type: 'symbol',
     source: levelConfig.addLv12,
-    'source-layer': 'POI_LEVEL_12',
+    'source-layer': 'POI_LEVEL_12_1107',
     'layout': {
       'text-field': '{NAME}',
       'visibility': 'visible',

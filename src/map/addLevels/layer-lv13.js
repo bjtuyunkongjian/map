@@ -20,10 +20,10 @@ const style = {
     }
   },
   layers: [{
-    id: 'POI_LEVEL_13',
+    id: 'POI_LEVEL_13_1107',
     type: 'symbol',
     source: levelConfig.addLv13,
-    'source-layer': 'POI_LEVEL_13',
+    'source-layer': 'POI_LEVEL_13_1107',
     'layout': {
       'text-field': '{NAME}',
       'visibility': 'visible',

@@ -20,32 +20,47 @@ const style = {
       minzoom: _visibleLevel
     },
   },
-  layers: [{
-    id: 'POI_LEVEL_11',
-    type: 'symbol',
-    source: levelConfig.addLv11,
-    'source-layer': 'POI_LEVEL_11',
-    'layout': {
-      'text-field': '{NAME}',
-      'visibility': 'visible',
-      'symbol-placement': 'point',
-      'text-size': 11,
-      'text-padding': 4,
-      'icon-image': 'ic_map_{KIND}',
-      'text-justify': 'left',
-      'text-anchor': 'left',
-      'text-offset': [0.8, 0],
-      'text-font': ['Arial Unicode MS Blod', 'Open Sans Regular'],
-      'text-pitch-alignment': 'viewport',
-      'text-rotation-alignment': 'viewport',
-      'icon-rotation-alignment': 'viewport'
-    },
-    'paint': {
-      'text-color': 'rgba(65, 65, 65, 1)',
-      'text-halo-width': 2,
-      'text-halo-color': 'rgba(255, 255, 255, 1)'
-    }
-  }]
+  layers: [
+    {
+      id: 'xdzgdGDB',
+      type: 'line',
+      source: levelConfig.addLv15,
+      'source-layer': 'xdzgdGDB',
+      layout: {
+        'line-cap': 'round',
+        'line-join': 'round'
+      },
+      paint: {
+        'line-width': 1,
+        'line-color': '#B0C4DE',
+        'line-offset': 0
+      }
+    }, {
+      id: 'POI_LEVEL_11_1107',
+      type: 'symbol',
+      source: levelConfig.addLv11,
+      'source-layer': 'POI_LEVEL_11_1107',
+      'layout': {
+        'text-field': '{NAME}',
+        'visibility': 'visible',
+        'symbol-placement': 'point',
+        'text-size': 11,
+        'text-padding': 4,
+        'icon-image': 'ic_map_{KIND}',
+        'text-justify': 'left',
+        'text-anchor': 'left',
+        'text-offset': [0.8, 0],
+        'text-font': ['Arial Unicode MS Blod', 'Open Sans Regular'],
+        'text-pitch-alignment': 'viewport',
+        'text-rotation-alignment': 'viewport',
+        'icon-rotation-alignment': 'viewport'
+      },
+      'paint': {
+        'text-color': 'rgba(65, 65, 65, 1)',
+        'text-halo-width': 2,
+        'text-halo-color': 'rgba(255, 255, 255, 1)'
+      }
+    }]
 };
 
 

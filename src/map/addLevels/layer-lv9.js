@@ -19,32 +19,43 @@ const style = {
       minzoom: _visibleLevel
     }
   },
-  layers: [{
-    id: 'POI_LEVEL_9',
-    type: 'symbol',
-    source: levelConfig.addLv9,
-    'source-layer': 'POI_LEVEL_9',
-    'layout': {
-      'text-field': '{NAME}',
-      'visibility': 'visible',
-      'symbol-placement': 'point',
-      'text-size': 11,
-      'text-padding': 4,
-      'icon-image': 'ic_map_{KIND}',
-      'text-justify': 'left',
-      'text-anchor': 'left',
-      'text-offset': [0.8, 0],
-      'text-font': ['Arial Unicode MS Blod', 'Open Sans Regular'],
-      'text-pitch-alignment': 'viewport',
-      'text-rotation-alignment': 'viewport',
-      'icon-rotation-alignment': 'viewport'
-    },
-    'paint': {
-      'text-color': 'rgba(65, 65, 65, 1)',
-      'text-halo-width': 2,
-      'text-halo-color': 'rgba(255, 255, 255, 1)'
-    }
-  }]
+  layers: [
+    {
+      id: '9L_GVEGPL',
+      type: 'fill',
+      source: levelConfig.addLv15,
+      'source-layer': 'GVEGPL_Merge',
+      layout: {},
+      paint: {
+        'fill-color': '#CACFD2',
+        'fill-antialias': false
+      }
+    }, {
+      id: 'POI_LEVEL_9_1107',
+      type: 'symbol',
+      source: levelConfig.addLv9,
+      'source-layer': 'POI_LEVEL_9_1107',
+      'layout': {
+        'text-field': '{NAME}',
+        'visibility': 'visible',
+        'symbol-placement': 'point',
+        'text-size': 11,
+        'text-padding': 4,
+        'icon-image': 'ic_map_{KIND}',
+        'text-justify': 'left',
+        'text-anchor': 'left',
+        'text-offset': [0.8, 0],
+        'text-font': ['Arial Unicode MS Blod', 'Open Sans Regular'],
+        'text-pitch-alignment': 'viewport',
+        'text-rotation-alignment': 'viewport',
+        'icon-rotation-alignment': 'viewport'
+      },
+      'paint': {
+        'text-color': 'rgba(65, 65, 65, 1)',
+        'text-halo-width': 2,
+        'text-halo-color': 'rgba(255, 255, 255, 1)'
+      }
+    }]
 };
 
 export default style;
