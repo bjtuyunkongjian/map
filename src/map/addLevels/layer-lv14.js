@@ -5,25 +5,25 @@ import {
   levelConfig
 } from 'tuyun-config';
 
-const _visibleLevel = 9;
+const _visibleLevel = 14;
 
 const style = {
   visibleLevel: _visibleLevel,
   source: {
-    [levelConfig.addLv9]: {
+    [levelConfig.addLv14]: {
       type: 'vector',
       scheme: 'tms',
       tiles: [
-        'http://116.62.186.152:8080/geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_9L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf'
+        'http://116.62.186.152:8080/geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_14L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf'
       ],
       minzoom: _visibleLevel
     }
   },
   layers: [{
-    id: 'POI_LEVEL_9',
+    id: 'POI_LEVEL_14',
     type: 'symbol',
-    source: levelConfig.addLv9,
-    'source-layer': 'POI_LEVEL_9',
+    source: levelConfig.addLv14,
+    'source-layer': 'POI_LEVEL_14',
     'layout': {
       'text-field': '{NAME}',
       'visibility': 'visible',

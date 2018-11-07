@@ -12,11 +12,11 @@
  * 显示规则：
  * 面在最底层，其次是线，其次是点；居民区在绿地上面，绿地在水系面上面
  */
+
 import {
   levelConfig
 } from 'tuyun-config';
 
-const _visibleLevel = 7;
 const _greenVisibleLevel = 11; // 绿地显示等级
 const _ditchVisibleLevel = 14; // 沟和渠道
 
@@ -144,7 +144,7 @@ const layers = [{
       'symbol-placement': 'point',
       'text-size': 16,
       'text-padding': 4,
-      'icon-image': 'ic_map_zhengfu',
+      'icon-image': 'ic_map_{KIND}',
       'text-justify': 'left',
       'text-anchor': 'left',
       'text-offset': [0.8, 0],
