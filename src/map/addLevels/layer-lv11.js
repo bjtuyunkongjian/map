@@ -20,11 +20,10 @@ const style = {
       minzoom: _visibleLevel
     },
   },
-  layers: [
-    {
+  layers: [{
       id: 'xdzgdGDB',
       type: 'line',
-      source: levelConfig.addLv15,
+      source: levelConfig.addLv11,
       'source-layer': 'xdzgdGDB',
       layout: {
         'line-cap': 'round',
@@ -32,10 +31,11 @@ const style = {
       },
       paint: {
         'line-width': 1,
-        'line-color': '#B0C4DE',
+        'line-color': '#d6eccf',
         'line-offset': 0
       }
-    }, {
+    },
+    {
       id: 'POI_LEVEL_11_1107',
       type: 'symbol',
       source: levelConfig.addLv11,
@@ -60,7 +60,8 @@ const style = {
         'text-halo-width': 2,
         'text-halo-color': 'rgba(255, 255, 255, 1)'
       }
-    }]
+    }
+  ]
 };
 
 
