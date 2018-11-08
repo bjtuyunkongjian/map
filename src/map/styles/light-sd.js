@@ -17,148 +17,135 @@ import {
   levelConfig
 } from 'tuyun-config';
 
-const _greenVisibleLevel = 11; // 绿地显示等级
 const _ditchVisibleLevel = 14; // 沟和渠道显示等级
 
 const layers = [{
-  id: 'background', // 背景
-  type: 'background',
-  layout: {},
-  paint: {
-    'background-color': '#f5f5f5'
-  }
-},
-// 面
-{
-  id: 'GHYDPL_7L', // 记录了一些水渠、河沟，水库的面状要素
-  type: 'fill',
-  source: levelConfig.addLv7,
-  'source-layer': 'GHYDPL_Merge', // py是面
-  filter: [
-    'any',
-    ['==', 'CLASID', '210200'],
-    ['==', 'CLASID', '230101'],
-    ['==', 'CLASID', '240101']
-  ],
-  paint: {
-    'fill-color': '#c4daf6',
-    'fill-opacity': 1,
-    'fill-antialias': false
-  }
-},
-{
-  id: 'GHYDPL_OTH', // 记录了一些水渠、河沟，水库的面状要素
-  type: 'fill',
-  source: levelConfig.addLv7,
-  'source-layer': 'GHYDPL_Merge', // py是面
-  filter: [
-    'all',
-    ['!=', 'CLASID', '210200'],
-    ['!=', 'CLASID', '230101'],
-    ['!=', 'CLASID', '240101']
-  ],
-  minzoom: _ditchVisibleLevel,
-  layout: {},
-  paint: {
-    'fill-color': '#c4daf6',
-    'fill-opacity': 1,
-    'fill-antialias': false
-  }
-},
-{
-  id: 'GVEGPL', // 记录了绿地
-  type: 'fill',
-  source: levelConfig.addLv7,
-  'source-layer': 'GVEGPL_Merge', // py是面
-  minzoom: _greenVisibleLevel,
-  paint: {
-    'fill-color': '#d6eccf',
-    'fill-opacity': 0.5,
-    'fill-antialias': false
-  }
-},
-// 线
-{
-  id: 'GBOULN', // 记录了各个镇的边界，有名字的记录的是省界和岛屿（name不为空）
-  type: 'line',
-  source: levelConfig.addLv7,
-  'source-layer': 'GBOULN', // LN，line的简写
-  filter: [
-    'any',
-    ['==', 'CLASID', '630201'],
-    ['==', 'CLASID', '630202'],
-    ['==', 'CLASID', '640201'],
-    ['==', 'CLASID', '250100']
-  ],
-  layout: {
-    'line-cap': 'round',
-    'line-join': 'round'
+    id: 'background', // 背景
+    type: 'background',
+    layout: {},
+    paint: {
+      'background-color': '#f5f5f5'
+    }
   },
-  paint: {
-    'line-width': 1,
-    'line-color': '#BBBBBB',
-    'line-offset': 0
-  }
-},
+  // 面
+  {
+    id: 'GHYDPL_7L', // 记录了一些水渠、河沟，水库的面状要素
+    type: 'fill',
+    source: levelConfig.addLv7,
+    'source-layer': 'GHYDPL_Merge', // py是面
+    filter: [
+      'any',
+      ['==', 'CLASID', '210200'],
+      ['==', 'CLASID', '230101'],
+      ['==', 'CLASID', '240101']
+    ],
+    paint: {
+      'fill-color': '#c4daf6',
+      'fill-opacity': 1,
+      'fill-antialias': false
+    }
+  },
+  {
+    id: 'GHYDPL_OTH', // 记录了一些水渠、河沟，水库的面状要素
+    type: 'fill',
+    source: levelConfig.addLv7,
+    'source-layer': 'GHYDPL_Merge', // py是面
+    filter: [
+      'all',
+      ['!=', 'CLASID', '210200'],
+      ['!=', 'CLASID', '230101'],
+      ['!=', 'CLASID', '240101']
+    ],
+    minzoom: _ditchVisibleLevel,
+    layout: {},
+    paint: {
+      'fill-color': '#c4daf6',
+      'fill-opacity': 1,
+      'fill-antialias': false
+    }
+  },
+  // 线
+  {
+    id: 'GBOULN', // 记录了各个镇的边界，有名字的记录的是省界和岛屿（name不为空）
+    type: 'line',
+    source: levelConfig.addLv7,
+    'source-layer': 'GBOULN', // LN，line的简写
+    filter: [
+      'any',
+      ['==', 'CLASID', '630201'],
+      ['==', 'CLASID', '630202'],
+      ['==', 'CLASID', '640201'],
+      ['==', 'CLASID', '250100']
+    ],
+    layout: {
+      'line-cap': 'round',
+      'line-join': 'round'
+    },
+    paint: {
+      'line-width': 1,
+      'line-color': '#BBBBBB',
+      'line-offset': 0
+    }
+  },
 
-{
-  id: 'GRAILN_bg', // 记录了铁路，底层颜色灰色
-  type: 'line',
-  source: levelConfig.addLv7,
-  'source-layer': 'SD_GRAILN_1107', // LN，line的简写
-  layout: {
-    'line-cap': 'round',
-    'line-join': 'round'
+  {
+    id: 'GRAILN_bg', // 记录了铁路，底层颜色灰色
+    type: 'line',
+    source: levelConfig.addLv7,
+    'source-layer': 'SD_GRAILN_1107', // LN，line的简写
+    layout: {
+      'line-cap': 'round',
+      'line-join': 'round'
+    },
+    paint: {
+      'line-color': '#B6B3B7',
+      'line-width': 2.4
+    }
   },
-  paint: {
-    'line-color': '#B6B3B7',
-    'line-width': 2.4
-  }
-},
-{
-  id: 'GRAILN', // 记录了铁路，间隔白色
-  type: 'line',
-  source: levelConfig.addLv7,
-  'source-layer': 'SD_GRAILN_1107', // LN，line的简写
-  layout: {
-    'line-cap': 'round',
-    'line-join': 'round'
+  {
+    id: 'GRAILN', // 记录了铁路，间隔白色
+    type: 'line',
+    source: levelConfig.addLv7,
+    'source-layer': 'SD_GRAILN_1107', // LN，line的简写
+    layout: {
+      'line-cap': 'round',
+      'line-join': 'round'
+    },
+    paint: {
+      'line-color': '#FFFFFF',
+      'line-dasharray': [5, 5],
+      'line-width': 1.6
+    }
   },
-  paint: {
-    'line-color': '#FFFFFF',
-    'line-dasharray': [5, 5],
-    'line-width': 1.6
-  }
-},
 
-///////////////////////////////
-// 点
-{
-  id: 'POI_LEVEL7', // POI图层
-  type: 'symbol',
-  source: levelConfig.addLv7,
-  'source-layer': 'POI_LEVEL7',
-  layout: {
-    'text-field': '{NAME}',
-    visibility: 'visible',
-    'symbol-placement': 'point',
-    'text-size': 16,
-    'text-padding': 4,
-    'icon-image': 'ic_map_{KIND}',
-    'text-justify': 'left',
-    'text-anchor': 'left',
-    'text-offset': [0.8, 0],
-    'text-font': ['Arial Unicode MS Blod', 'Open Sans Regular'],
-    'text-pitch-alignment': 'viewport',
-    'text-rotation-alignment': 'viewport',
-    'icon-rotation-alignment': 'viewport'
-  },
-  paint: {
-    'text-color': 'rgba(65, 65, 65, 1)',
-    'text-halo-width': 2,
-    'text-halo-color': 'rgba(255, 255, 255, 1)'
+  ///////////////////////////////
+  // 点
+  {
+    id: 'POI_LEVEL7', // POI图层
+    type: 'symbol',
+    source: levelConfig.addLv7,
+    'source-layer': 'POI_LEVEL7',
+    layout: {
+      'text-field': '{NAME}',
+      visibility: 'visible',
+      'symbol-placement': 'point',
+      'text-size': 16,
+      'text-padding': 4,
+      'icon-image': 'ic_map_{KIND}',
+      'text-justify': 'left',
+      'text-anchor': 'left',
+      'text-offset': [0.8, 0],
+      'text-font': ['Arial Unicode MS Blod', 'Open Sans Regular'],
+      'text-pitch-alignment': 'viewport',
+      'text-rotation-alignment': 'viewport',
+      'icon-rotation-alignment': 'viewport'
+    },
+    paint: {
+      'text-color': 'rgba(65, 65, 65, 1)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    }
   }
-}
 ];
 
 export default {
