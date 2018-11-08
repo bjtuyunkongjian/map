@@ -17,7 +17,6 @@ import {
   levelConfig
 } from 'tuyun-config';
 
-const _greenVisibleLevel = 11; // 绿地显示等级
 const _ditchVisibleLevel = 14; // 沟和渠道显示等级
 
 const layers = [{
