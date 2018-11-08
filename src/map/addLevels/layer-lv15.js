@@ -646,7 +646,7 @@ const style = {
       id: 'POI_LEVEL_15_1108',
       type: 'symbol',
       source: levelConfig.addLv15,
-      'source-layer': 'POI_LEVEL_15_1108',
+      'source-layer': 'POI_LEVEL_15_1108_7',
       'layout': {
         'text-field': '{NAME}',
         'visibility': 'visible',

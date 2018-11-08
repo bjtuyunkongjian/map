@@ -22,7 +22,7 @@ const style = {
   },
   layers: [
     {
-      id: 'POI_LEVEL_11_1108',
+      id: 'POI_LEVEL_11_1108_1',
       // layers: [{
       //     id: 'xdzgdGDB',
       //     type: 'line',
@@ -42,7 +42,7 @@ const style = {
       // id: 'POI_LEVEL_11_1107',
       type: 'symbol',
       source: levelConfig.addLv11,
-      'source-layer': 'POI_LEVEL_11_1108',
+      'source-layer': 'POI_LEVEL_11_1108_7',
       'layout': {
         'text-field': '{NAME}',
         'visibility': 'visible',
