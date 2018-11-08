@@ -29,6 +29,7 @@ const style = {
       'visibility': 'visible',
       'symbol-placement': 'point',
       'text-size': 12,
+      'icon-image': 'ic_map_{KIND}',
       'icon-text-fit': 'both',
       'icon-text-fit-padding': [2, 4, 2, 4],
       'text-justify': 'center',

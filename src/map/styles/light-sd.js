@@ -119,7 +119,7 @@ const layers = [{
   id: 'GRAILN', // 记录了铁路，间隔白色
   type: 'line',
   source: levelConfig.addLv7,
-  'source-layer': 'SD_GRAILN', // LN，line的简写
+  'source-layer': 'SD_GRAILN_1107', // LN，line的简写
   layout: {
     'line-cap': 'round',
     'line-join': 'round'

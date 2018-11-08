@@ -643,10 +643,10 @@ const style = {
     //////////////////////////////////
     // poi
     {
-      id: 'POI_LEVEL_15_1107',
+      id: 'POI_LEVEL_15_1108',
       type: 'symbol',
       source: levelConfig.addLv15,
-      'source-layer': 'POI_LEVEL_15_1107',
+      'source-layer': 'POI_LEVEL_15_1108',
       'layout': {
         'text-field': '{NAME}',
         'visibility': 'visible',

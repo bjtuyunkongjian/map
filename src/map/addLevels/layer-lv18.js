@@ -1,34 +1,29 @@
-/**
- * @author sl 2019-01-02
- */
 import {
   levelConfig
 } from 'tuyun-config';
 
-const _visibleLevel = 14;
+const _visibleLevel = 18;
 
 const style = {
   visibleLevel: _visibleLevel,
   source: {
-    [levelConfig.addLv14]: {
+    [levelConfig.addLv18]: {
       type: 'vector',
       scheme: 'tms',
-      tiles: [
-        'http://116.62.186.152:8080/geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_14L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf'
-      ],
+      tiles: ['http://116.62.186.152:8080/geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_18L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf'],
       minzoom: _visibleLevel
     }
   },
   layers: [{
-    id: 'POI_LEVEL_14_1108',
+    id: 'POI_LEVEL_18_1108',
     type: 'symbol',
-    source: levelConfig.addLv14,
-    'source-layer': 'POI_LEVEL_14_1108',
+    source: levelConfig.addLv18,
+    'source-layer': 'POI_LEVEL_18_1108',
     'layout': {
       'text-field': '{NAME}',
       'visibility': 'visible',
       'symbol-placement': 'point',
-      'text-size': 11,
+      'text-size': 10,
       'text-padding': 4,
       'icon-image': 'ic_map_{KIND}',
       'text-justify': 'left',
@@ -45,6 +40,6 @@ const style = {
       'text-halo-color': 'rgba(255, 255, 255, 1)'
     }
   }]
-};
+}
 
 export default style;

@@ -11,6 +11,7 @@ import layerLv14 from './layer-lv14';
 import layerLv15 from './layer-lv15';
 import layerLv16 from './layer-lv16';
 import layerLv17 from './layer-lv17';
+import layerLv18 from './layer-lv18';
 
 const addLvs = [
   layerLv8,
@@ -23,6 +24,7 @@ const addLvs = [
   layerLv15,
   layerLv16,
   layerLv17,
+  layerLv18,
 ];
 
 export default addLvs;

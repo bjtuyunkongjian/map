@@ -21,25 +21,11 @@ const style = {
     },
   },
   layers: [
-    {
-      id: 'xdzgdGDB',
-      type: 'line',
-      source: levelConfig.addLv15,
-      'source-layer': 'xdzgdGDB',
-      layout: {
-        'line-cap': 'round',
-        'line-join': 'round'
-      },
-      paint: {
-        'line-width': 1,
-        'line-color': '#B0C4DE',
-        'line-offset': 0
-      }
-    }, {
-      id: 'POI_LEVEL_11_1107',
+     {
+      id: 'POI_LEVEL_11_1108',
       type: 'symbol',
       source: levelConfig.addLv11,
-      'source-layer': 'POI_LEVEL_11_1107',
+      'source-layer': 'POI_LEVEL_11_1108',
       'layout': {
         'text-field': '{NAME}',
         'visibility': 'visible',
