@@ -21,8 +21,25 @@ const style = {
     },
   },
   layers: [
-     {
+    {
       id: 'POI_LEVEL_11_1108',
+      // layers: [{
+      //     id: 'xdzgdGDB',
+      //     type: 'line',
+      //     source: levelConfig.addLv11,
+      //     'source-layer': 'xdzgdGDB',
+      //     layout: {
+      //       'line-cap': 'round',
+      //       'line-join': 'round'
+      //     },
+      //     paint: {
+      //       'line-width': 1,
+      //       'line-color': '#d6eccf',
+      //       'line-offset': 0
+      //     }
+      //   },
+      // {
+      // id: 'POI_LEVEL_11_1107',
       type: 'symbol',
       source: levelConfig.addLv11,
       'source-layer': 'POI_LEVEL_11_1108',
@@ -46,7 +63,8 @@ const style = {
         'text-halo-width': 2,
         'text-halo-color': 'rgba(255, 255, 255, 1)'
       }
-    }]
+    }
+  ]
 };
 
 

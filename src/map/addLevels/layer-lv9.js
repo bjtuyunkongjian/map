@@ -19,18 +19,19 @@ const style = {
       minzoom: _visibleLevel
     }
   },
-  layers: [
-    {
+  layers: [{
       id: '9L_GVEGPL',
       type: 'fill',
-      source: levelConfig.addLv15,
+      source: levelConfig.addLv9,
       'source-layer': 'GVEGPL_Merge',
       layout: {},
       paint: {
-        'fill-color': '#CACFD2',
+        'fill-color': '#d6eccf',
+        'fill-opacity': 0.5,
         'fill-antialias': false
       }
-    }, {
+    },
+    {
       id: 'POI_LEVEL_9_1107',
       type: 'symbol',
       source: levelConfig.addLv9,
@@ -55,7 +56,8 @@ const style = {
         'text-halo-width': 2,
         'text-halo-color': 'rgba(255, 255, 255, 1)'
       }
-    }]
+    }
+  ]
 };
 
 export default style;

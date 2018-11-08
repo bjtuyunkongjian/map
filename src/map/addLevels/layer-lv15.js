@@ -24,37 +24,37 @@ const style = {
   },
   layers: [
     // 区域面的配置
-    {
-      id: 'GHYDPL',
-      type: 'fill',
-      source: levelConfig.addLv15,
-      'source-layer': 'SD_GHYDPL', // py是面
-      layout: {},
-      paint: {
-        'fill-color': '	#DC143C',
-        'fill-antialias': false
-      }
-    }, {
-      id: 'GRFCPL', // 记录了一些公司，养殖场，墓地等区域
-      type: 'fill',
-      source: levelConfig.addLv15,
-      'source-layer': 'SD_GRFCPL', // py是面
-      layout: {},
-      paint: {
-        'fill-color': '#CACFD2',
-        'fill-antialias': false
-      }
-    }, {
-      id: 'GTFCPL',
-      type: 'fill',
-      source: levelConfig.addLv15,
-      'source-layer': 'SD_GTFCPL', // py是面
-      layout: {},
-      paint: {
-        'fill-color': '	#FF69B4',
-        'fill-antialias': false
-      }
-    },
+    // {
+    //   id: 'GHYDPL',
+    //   type: 'fill',
+    //   source: levelConfig.addLv15,
+    //   'source-layer': 'SD_GHYDPL', // py是面
+    //   layout: {},
+    //   paint: {
+    //     'fill-color': '	#CACFD2',
+    //     'fill-antialias': false
+    //   }
+    // }, {
+    //   id: 'GRFCPL', // 记录了一些公司，养殖场，墓地等区域
+    //   type: 'fill',
+    //   source: levelConfig.addLv15,
+    //   'source-layer': 'SD_GRFCPL', // py是面
+    //   layout: {},
+    //   paint: {
+    //     'fill-color': '#CACFD2',
+    //     'fill-antialias': false
+    //   }
+    // }, {
+    //   id: 'GTFCPL',
+    //   type: 'fill',
+    //   source: levelConfig.addLv15,
+    //   'source-layer': 'SD_GTFCPL', // py是面
+    //   layout: {},
+    //   paint: {
+    //     'fill-color': '	#FF69B4',
+    //     'fill-antialias': false
+    //   }
+    // },
     /**
      * 线
      */
