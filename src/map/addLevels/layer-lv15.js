@@ -60,10 +60,6 @@ const style = {
     //     'line-join': 'round',
     //   },
     //   paint: {
-<<<<<<< HEAD
-    //     'fill-color': '#CACFD2',
-    //     'fill-antialias': false
-=======
     //     'line-width': {
     //       'base': 2,
     //       'stops': [
@@ -76,7 +72,6 @@ const style = {
     //       ]
     //     },
     //     'line-color': '#d8d8d8',
->>>>>>> 26e808a993d44cab5cc83a833fe135e3d3071423
     //   }
     // },
     // {
@@ -113,10 +108,6 @@ const style = {
     //     'line-join': 'round',
     //   },
     //   paint: {
-<<<<<<< HEAD
-    //     'fill-color': '#FF69B4',
-    //     'fill-antialias': false
-=======
     //     'line-width': {
     //       'base': 2,
     //       'stops': [
@@ -129,7 +120,6 @@ const style = {
     //       ]
     //     },
     //     'line-color': '#d8d8d8',
->>>>>>> 26e808a993d44cab5cc83a833fe135e3d3071423
     //   }
     // },
     // {
