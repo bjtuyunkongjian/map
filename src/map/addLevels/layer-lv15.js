@@ -1,14 +1,16 @@
 /**
  * @author sl 2019-01-02
+ * 部分线的type为symbol是只显示名称
  * todolist 
  * 1. 路网图层CLASID不对，覆盖之前的国道，无法通过CLASID区分和过滤  ======> 高速覆盖国道
+ * 
  */
 import {
   levelConfig
 } from 'tuyun-config';
 
 const _visibleLevel = 15;
-const labelLayerId = 'GVEGPL';
+const labelLayerId = 'background';
 
 const style = {
   visibleLevel: _visibleLevel,
@@ -25,16 +27,6 @@ const style = {
   layers: [
     // 区域面的配置
     {
-      id: 'GHYDPL',
-      type: 'fill',
-      source: levelConfig.addLv15,
-      'source-layer': 'SD_GHYDPL', // py是面
-      layout: {},
-      paint: {
-        'fill-color': '#c4daf6',
-        'fill-antialias': false
-      }
-    }, {
       id: 'GRFCPL', // 记录了一些公司，养殖场，墓地等区域
       type: 'fill',
       source: levelConfig.addLv15,
@@ -58,102 +50,103 @@ const style = {
     /**
      * 线
      */
-    {
-      id: 'SD_GHFCLN', // 记录了河流，黄河，隧道等的边界   ====> 没有名称
-      type: 'line',
-      source: levelConfig.addLv15,
-      'source-layer': 'SD_GHFCLN', // LN，line的简写
-      layout: {
-        'line-cap': 'round',
-        'line-join': 'round',
-      },
-      paint: {
-        'line-width': {
-          'base': 2,
-          'stops': [
-            [15, 5.2],
-            [16, 5.2],
-            [17, 6.1],
-            [18, 7],
-            [19, 8],
-            [20, 17.5]
-          ]
-        },
-        'line-color': '#d8d8d8',
-      }
-    },
-    {
-      id: 'SD_GHYDLN', // 记录了一些线性的水渠、河沟 不显示  ======> 不显示是不是不妥 =======> 只显示名称
-      type: 'line',
-      source: levelConfig.addLv15,
-      'source-layer': 'SD_GHYDLN', // LN，line的简写
-      layout: {
-        'line-cap': 'round',
-        'line-join': 'round',
-      },
-      paint: {
-        'line-width': {
-          'base': 2,
-          'stops': [
-            [15, 5.2],
-            [16, 5.2],
-            [17, 6.1],
-            [18, 7],
-            [19, 8],
-            [20, 17.5]
-          ]
-        },
-        'line-color': '#d8d8d8',
-      }
-    },
-    {
-      id: 'SD_GRFCLN', // 记录了长城岭，养殖场等 =====>  NAME 属性为空，暂时注释了
-      type: 'line',
-      source: levelConfig.addLv15,
-      'source-layer': 'SD_GRFCLN', // LN，line的简写
-      layout: {
-        'line-cap': 'round',
-        'line-join': 'round',
-      },
-      paint: {
-        'line-width': {
-          'base': 2,
-          'stops': [
-            [15, 5.2],
-            [16, 5.2],
-            [17, 6.1],
-            [18, 7],
-            [19, 8],
-            [20, 17.5]
-          ]
-        },
-        'line-color': '#d8d8d8',
-      }
-    },
-    {
-      id: 'SD_GTFCLN', // 记录了XX桥，XX通道  ==========> 没有 NAME
-      type: 'line',
-      source: levelConfig.addLv15,
-      'source-layer': 'SD_GTFCLN', // LN，line的简写
-      layout: {
-        'line-cap': 'round',
-        'line-join': 'round',
-      },
-      paint: {
-        'line-width': {
-          'base': 2,
-          'stops': [
-            [15, 5.2],
-            [16, 5.2],
-            [17, 6.1],
-            [18, 7],
-            [19, 8],
-            [20, 17.5]
-          ]
-        },
-        'line-color': '#d8d8d8',
-      }
-    },
+    // {
+    //   id: 'SD_GHFCLN', // 记录了河流，黄河，隧道等的边界   ====> 没有名称 
+    //   type: 'symbol',
+    //   source: levelConfig.addLv15,
+    //   'source-layer': 'SD_GHFCLN', // LN，line的简写
+    //   layout: {
+    //     'line-cap': 'round',
+    //     'line-join': 'round',
+    //   },
+    //   paint: {
+    //     'line-width': {
+    //       'base': 2,
+    //       'stops': [
+    //         [15, 5.2],
+    //         [16, 5.2],
+    //         [17, 6.1],
+    //         [18, 7],
+    //         [19, 8],
+    //         [20, 17.5]
+    //       ]
+    //     },
+    //     'line-color': '#d8d8d8',
+    //   }
+    // },
+    // {
+    //   id: 'SD_GHYDLN', // 记录了一些线性的水渠、河沟 不显示  ======> 不显示是不是不妥 =======> 只显示名称
+    //   type: 'symbol',
+    //   source: levelConfig.addLv15,
+    //   'source-layer': 'SD_GHYDLN', // LN，line的简写
+    //   layout: {
+    //     'line-cap': 'round',
+    //     'line-join': 'round',
+    //   },
+    //   paint: {
+    //     'line-width': {
+    //       'base': 2,
+    //       'stops': [
+    //         [15, 5.2],
+    //         [16, 5.2],
+    //         [17, 6.1],
+    //         [18, 7],
+    //         [19, 8],
+    //         [20, 17.5]
+    //       ]
+    //     },
+    //     'line-color': '#d8d8d8',
+    //   }
+    // },
+    // {
+    //   id: 'SD_GRFCLN', // 记录了长城岭，养殖场等 =====>  NAME 属性为空，暂时注释了
+    //   type: 'symbol',
+    //   source: levelConfig.addLv15,
+    //   'source-layer': 'SD_GRFCLN', // LN，line的简写
+    //   layout: {
+    //     'line-cap': 'round',
+    //     'line-join': 'round',
+    //   },
+    //   paint: {
+    //     'line-width': {
+    //       'base': 2,
+    //       'stops': [
+    //         [15, 5.2],
+    //         [16, 5.2],
+    //         [17, 6.1],
+    //         [18, 7],
+    //         [19, 8],
+    //         [20, 17.5]
+    //       ]
+    //     },
+    //     'line-color': '#d8d8d8',
+    //   }
+    // },
+    // {
+    //   id: 'SD_GTFCLN', // 记录了XX桥，XX通道  ==========> 没有 NAME
+    //   type: 'symbol',
+    //   source: levelConfig.addLv15,
+    //   'source-layer': 'SD_GTFCLN', // LN，line的简写
+    //   layout: {
+    //     'line-cap': 'round',
+    //     'line-join': 'round',
+    //   },
+    //   paint: {
+    //     'line-width': {
+    //       'base': 2,
+    //       'stops': [
+    //         [15, 5.2],
+    //         [16, 5.2],
+    //         [17, 6.1],
+    //         [18, 7],
+    //         [19, 8],
+    //         [20, 17.5]
+    //       ]
+    //     },
+    //     'line-color': '#d8d8d8',
+    //   }
+    // },
+    
     {
       id: 'GROALN_other_1009_ZD_bg', // 路网图层（name字段），栈道、内部道路、机耕路、乡村路、小路 + 专用公路、其他公路、村道
       type: 'line',
@@ -193,7 +186,7 @@ const style = {
         },
         'line-color': '#d8d8d8'
       },
-      labelLayerId: 'GVEGPL'
+      labelLayerId: 'background'
     }, {
       id: 'GROALN_other_1009_ZD', // 路网图层（name字段），栈道、内部道路、机耕路、乡村路、小路 + 专用公路、其他公路、村道
       type: 'line',
@@ -233,7 +226,7 @@ const style = {
         },
         'line-color': '#FFFFFF'
       },
-      labelLayerId: 'GVEGPL'
+      labelLayerId: 'background'
     }, {
       id: 'GROALN_other_1009_CGD_bg', // 路网图层（name字段），次干道、县道
       type: 'line',
@@ -262,7 +255,7 @@ const style = {
         },
         'line-color': '#d8d8d8'
       },
-      labelLayerId: 'GVEGPL'
+      labelLayerId: 'background'
     }, {
       id: 'GROALN_other_1009_CGD', // 路网图层（name字段），次干道、县道
       type: 'line',
@@ -291,7 +284,7 @@ const style = {
         },
         'line-color': '#FFFFFF'
       },
-      labelLayerId: 'GVEGPL'
+      labelLayerId: 'background'
     }, {
       id: 'GROALN_other_1009_ZGD_bg', // 路网图层（name字段），主干道
       type: 'line',
@@ -316,7 +309,7 @@ const style = {
         },
         'line-color': '#ffae00'
       },
-      labelLayerId: 'GVEGPL'
+      labelLayerId: 'background'
     },
     {
       id: 'GROALN_other_1009_ZGD', // 路网图层（name字段），主干道
@@ -371,7 +364,7 @@ const style = {
         },
         'line-color': '#ffae00'
       },
-      labelLayerId: 'GVEGPL'
+      labelLayerId: 'background'
     }, {
       id: 'GROALN_other_1009_GS', // 路网图层（name字段），高速公路
       type: 'line',
@@ -401,7 +394,7 @@ const style = {
         },
         'line-color': '#ffeebb'
       },
-      labelLayerId: 'GVEGPL'
+      labelLayerId: 'background'
     }, {
       id: 'GROALN_other_1009_KSL_bg', // 路网图层（name字段），背景充当描边 快速路，高架路
       type: 'line',
@@ -429,7 +422,7 @@ const style = {
         },
         'line-color': '#ffae00'
       },
-      labelLayerId: 'GVEGPL'
+      labelLayerId: 'background'
     }, {
       id: 'GROALN_other_1009_KSL', // 路网图层（name字段） 快速路，高架路
       type: 'line',
@@ -457,7 +450,7 @@ const style = {
         },
         'line-color': '#ffeebb'
       },
-      labelLayerId: 'GVEGPL'
+      labelLayerId: 'background'
     }, {
       id: 'GROALN_other_1009_NAME',
       type: 'symbol',
