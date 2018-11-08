@@ -31,7 +31,7 @@ const style = {
     //   'source-layer': 'SD_GHYDPL', // py是面
     //   layout: {},
     //   paint: {
-    //     'fill-color': '	#CACFD2',
+    //     'fill-color': '#CACFD2',
     //     'fill-antialias': false
     //   }
     // }, {
@@ -51,7 +51,7 @@ const style = {
     //   'source-layer': 'SD_GTFCPL', // py是面
     //   layout: {},
     //   paint: {
-    //     'fill-color': '	#FF69B4',
+    //     'fill-color': '#FF69B4',
     //     'fill-antialias': false
     //   }
     // },
