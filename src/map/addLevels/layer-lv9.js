@@ -29,7 +29,8 @@ const style = {
         'fill-color': '#d6eccf',
         'fill-opacity': 0.5,
         'fill-antialias': false
-      }
+      },
+      labelLayerId: 'GHYDPL_7L'
     },
     {
       id: 'POI_LEVEL_9_1107',
