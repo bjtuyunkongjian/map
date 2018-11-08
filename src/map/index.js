@@ -9,7 +9,8 @@ import React, { Component } from 'react';
 import baseStyle from './styles/light-sd';
 import addLevels from './addLevels';
 
-// import groaln from './geojson/shengGDBt_cx';
+// import shengGDBt_cx from './geojson/shengGDBt_cx';
+// import gaoguoGDB_cx from './geojson/gaoguoGDB_cx';
 
 export default class Map extends Component {
   componentDidMount() {
@@ -45,11 +46,11 @@ export default class Map extends Component {
 
     // this.map.on('load', () => {
     //   this.map.addLayer({
-    //     id: 'road',
+    //     id: 'shengGDBt_cx',
     //     type: 'line',
     //     source: {
     //       type: 'geojson',
-    //       data: groaln
+    //       data: shengGDBt_cx
     //     },
     //     layout: {
     //       'line-join': 'round',
@@ -79,7 +80,44 @@ export default class Map extends Component {
     //       },
     //       'line-color': '#ffae00'
     //     }
-    //   })
+    //   });
+
+    //   this.map.addLayer({
+    //     id: 'gaoguoGDB_cx',
+    //     type: 'line',
+    //     source: {
+    //       type: 'geojson',
+    //       data: gaoguoGDB_cx
+    //     },
+    //     layout: {
+    //       'line-join': 'round',
+    //       'line-cap': 'round'
+    //     },
+    //     paint: {
+    //       'line-width': {
+    //         base: 2,
+    //         stops: [
+    //           [7, 3],
+    //           [8, 2],
+    //           [9, 3],
+    //           [10, 4],
+    //           [11, 4],
+    //           [12, 7],
+    //           [13, 9],
+    //           [14, 9],
+    //           [15, 10],
+    //           [16, 10],
+    //           [17, 12],
+    //           [18, 14],
+    //           [19, 14],
+    //           [20, 22],
+    //           [21, 24],
+    //           [22, 26]
+    //         ]
+    //       },
+    //       'line-color': '#009797'
+    //     }
+    //   });
     // });
     this.map.on('load', () => {
       this._addSourceFunc();

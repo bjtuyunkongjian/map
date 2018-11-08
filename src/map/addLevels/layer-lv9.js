@@ -20,7 +20,7 @@ const style = {
     }
   },
   layers: [{
-      id: '9L_GVEGPL',
+      id: '9L_GVEGPL', // 记录了绿地
       type: 'fill',
       source: levelConfig.addLv9,
       'source-layer': 'GVEGPL_Merge',
