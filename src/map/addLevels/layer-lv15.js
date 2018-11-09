@@ -26,27 +26,19 @@ const style = {
   },
   layers: [
     // 区域面的配置
-    {
-      id: 'GRFCPL', // 记录了一些公司，养殖场，墓地等区域
-      type: 'fill',
-      source: levelConfig.addLv15,
-      'source-layer': 'SD_GRFCPL', // py是面
-      layout: {},
-      paint: {
-        'fill-color': '#CACFD2',
-        'fill-antialias': false
-      }
-    }, {
-      id: 'GTFCPL',
-      type: 'fill',
-      source: levelConfig.addLv15,
-      'source-layer': 'SD_GTFCPL', // py是面
-      layout: {},
-      paint: {
-        'fill-color': '#FF69B4',
-        'fill-antialias': false
-      }
-    },
+    // todo 只显示名称 SD_GRFCPL
+    // {
+    //   id: 'GRFCPL', // 记录了一些公司，养殖场，墓地等区域 
+    //   type: 'fill',
+    //   source: levelConfig.addLv15,
+    //   'source-layer': 'SD_GRFCPL', // py是面
+    //   layout: {},
+    //   paint: {
+    //     'fill-color': '#ff0000',
+    //     'fill-antialias': false
+    //   }
+    // },
+
     /**
      * 线
      */
@@ -503,108 +495,108 @@ const style = {
         'text-halo-color': 'rgba(255, 255, 255, 1)'
       }
     },
-    {
-      id: 'GHYDPT', // 记录一些井和XX泉  =======> 貌似没有数据 不对，是 NAME 属性为空，但是数据还是有的
-      type: 'symbol',
-      source: levelConfig.addLv15,
-      'source-layer': 'SD_GHYDPT',
-      layout: {
-        'text-field': '{NAME}',
-        'visibility': 'visible',
-        'symbol-placement': 'point',
-        'text-size': 11,
-        'text-padding': 4,
-        'icon-image': 'btn_bubble_a_normal',
-        'text-justify': 'left',
-        'text-anchor': 'left',
-        'text-offset': [0.8, 0],
-        'text-font': ['Arial Unicode MS Blod', 'Open Sans Regular'],
-        'text-pitch-alignment': 'viewport',
-        'text-rotation-alignment': 'viewport',
-        'icon-rotation-alignment': 'viewport'
-      },
-      paint: {
-        'text-color': '#737517',
-        'text-halo-width': 2,
-        'text-halo-color': 'rgba(255, 255, 255, 1)'
-      }
-    },
-    {
-      id: 'GNPNPT', // 记录了XX山和水库
-      type: 'symbol',
-      source: levelConfig.addLv15,
-      'source-layer': 'SD_GNPNPT',
-      layout: {
-        'text-field': '{NAME}',
-        'visibility': 'visible',
-        'symbol-placement': 'point',
-        'text-size': 11,
-        'text-padding': 4,
-        'text-justify': 'left',
-        'text-anchor': 'left',
-        'text-offset': [0.8, 0],
-        'text-font': ['Arial Unicode MS Blod', 'Open Sans Regular'],
-        'text-pitch-alignment': 'viewport',
-        'text-rotation-alignment': 'viewport'
-      },
-      paint: {
-        'text-color': '#409FD8',
-        'text-halo-width': 2,
-        'text-halo-color': 'rgba(255, 255, 255, 1)'
-      }
-    },
-    {
-      id: 'SD_GRFCPT', // 记录了一些学校，自来水厂，服务站，输油站，液化气站，遗址，陵墓，寺庙，游乐场等  ======> NAME属性为空
-      type: 'symbol',
-      source: levelConfig.addLv15,
-      'source-layer': 'SD_GRFCPT',
-      layout: {
-        'text-field': '{NAME}',
-        'visibility': 'visible',
-        'symbol-placement': 'point',
-        'text-size': 11,
-        'text-padding': 4,
-        'icon-image': 'ic_map_{KIND}',
-        'text-justify': 'left',
-        'text-anchor': 'left',
-        'text-offset': [0.8, 0],
-        'text-font': ['Arial Unicode MS Blod', 'Open Sans Regular'],
-        'text-pitch-alignment': 'viewport',
-        'text-rotation-alignment': 'viewport',
-        'icon-rotation-alignment': 'viewport'
-      },
-      paint: {
-        'text-color': '#737517',
-        'text-halo-width': 2,
-        'text-halo-color': 'rgba(255, 255, 255, 1)'
-      }
-    },
-    {
-      id: 'GTFCPT', // 记录了一些学校，自来水厂，服务站，输油站，液化气站，遗址，陵墓，寺庙，游乐场等   =======> 没有名称属性 NAME
-      type: 'symbol',
-      source: levelConfig.addLv15,
-      'source-layer': 'SD_GTFCPT',
-      layout: {
-        'text-field': '{NAME}',
-        'visibility': 'visible',
-        'symbol-placement': 'point',
-        'text-size': 11,
-        'text-padding': 4,
-        'icon-image': 'ic_map_{KIND}',
-        'text-justify': 'left',
-        'text-anchor': 'left',
-        'text-offset': [0.8, 0],
-        'text-font': ['Arial Unicode MS Blod', 'Open Sans Regular'],
-        'text-pitch-alignment': 'viewport',
-        'text-rotation-alignment': 'viewport',
-        'icon-rotation-alignment': 'viewport'
-      },
-      paint: {
-        'text-color': '#737517',
-        'text-halo-width': 2,
-        'text-halo-color': 'rgba(255, 255, 255, 1)'
-      }
-    },
+    // {
+    //   id: 'GHYDPT', // 记录一些井和XX泉  =======> 貌似没有数据 不对，是 NAME 属性为空，但是数据还是有的
+    //   type: 'symbol',
+    //   source: levelConfig.addLv15,
+    //   'source-layer': 'SD_GHYDPT',
+    //   layout: {
+    //     'text-field': '{NAME}',
+    //     'visibility': 'visible',
+    //     'symbol-placement': 'point',
+    //     'text-size': 11,
+    //     'text-padding': 4,
+    //     'icon-image': 'btn_bubble_a_normal',
+    //     'text-justify': 'left',
+    //     'text-anchor': 'left',
+    //     'text-offset': [0.8, 0],
+    //     'text-font': ['Arial Unicode MS Blod', 'Open Sans Regular'],
+    //     'text-pitch-alignment': 'viewport',
+    //     'text-rotation-alignment': 'viewport',
+    //     'icon-rotation-alignment': 'viewport'
+    //   },
+    //   paint: {
+    //     'text-color': '#737517',
+    //     'text-halo-width': 2,
+    //     'text-halo-color': 'rgba(255, 255, 255, 1)'
+    //   }
+    // },
+    // {
+    //   id: 'GNPNPT', // 记录了XX山和水库
+    //   type: 'symbol',
+    //   source: levelConfig.addLv15,
+    //   'source-layer': 'SD_GNPNPT',
+    //   layout: {
+    //     'text-field': '{NAME}',
+    //     'visibility': 'visible',
+    //     'symbol-placement': 'point',
+    //     'text-size': 11,
+    //     'text-padding': 4,
+    //     'text-justify': 'left',
+    //     'text-anchor': 'left',
+    //     'text-offset': [0.8, 0],
+    //     'text-font': ['Arial Unicode MS Blod', 'Open Sans Regular'],
+    //     'text-pitch-alignment': 'viewport',
+    //     'text-rotation-alignment': 'viewport'
+    //   },
+    //   paint: {
+    //     'text-color': '#409FD8',
+    //     'text-halo-width': 2,
+    //     'text-halo-color': 'rgba(255, 255, 255, 1)'
+    //   }
+    // },
+    // {
+    //   id: 'SD_GRFCPT', // 记录了一些学校，自来水厂，服务站，输油站，液化气站，遗址，陵墓，寺庙，游乐场等  ======> NAME属性为空
+    //   type: 'symbol',
+    //   source: levelConfig.addLv15,
+    //   'source-layer': 'SD_GRFCPT',
+    //   layout: {
+    //     'text-field': '{NAME}',
+    //     'visibility': 'visible',
+    //     'symbol-placement': 'point',
+    //     'text-size': 11,
+    //     'text-padding': 4,
+    //     'icon-image': 'ic_map_{KIND}',
+    //     'text-justify': 'left',
+    //     'text-anchor': 'left',
+    //     'text-offset': [0.8, 0],
+    //     'text-font': ['Arial Unicode MS Blod', 'Open Sans Regular'],
+    //     'text-pitch-alignment': 'viewport',
+    //     'text-rotation-alignment': 'viewport',
+    //     'icon-rotation-alignment': 'viewport'
+    //   },
+    //   paint: {
+    //     'text-color': '#737517',
+    //     'text-halo-width': 2,
+    //     'text-halo-color': 'rgba(255, 255, 255, 1)'
+    //   }
+    // },
+    // {
+    //   id: 'GTFCPT', // 记录了一些学校，自来水厂，服务站，输油站，液化气站，遗址，陵墓，寺庙，游乐场等   =======> 没有名称属性 NAME
+    //   type: 'symbol',
+    //   source: levelConfig.addLv15,
+    //   'source-layer': 'SD_GTFCPT',
+    //   layout: {
+    //     'text-field': '{NAME}',
+    //     'visibility': 'visible',
+    //     'symbol-placement': 'point',
+    //     'text-size': 11,
+    //     'text-padding': 4,
+    //     'icon-image': 'ic_map_{KIND}',
+    //     'text-justify': 'left',
+    //     'text-anchor': 'left',
+    //     'text-offset': [0.8, 0],
+    //     'text-font': ['Arial Unicode MS Blod', 'Open Sans Regular'],
+    //     'text-pitch-alignment': 'viewport',
+    //     'text-rotation-alignment': 'viewport',
+    //     'icon-rotation-alignment': 'viewport'
+    //   },
+    //   paint: {
+    //     'text-color': '#737517',
+    //     'text-halo-width': 2,
+    //     'text-halo-color': 'rgba(255, 255, 255, 1)'
+    //   }
+    // },
 
 
     {
@@ -618,7 +610,7 @@ const style = {
         'symbol-placement': 'point',
         'text-size': 11,
         'text-padding': 4,
-        'icon-image': 'ic_map_other_cities',
+        'icon-image': 'ic_map_{KIND}',
         'text-justify': 'left',
         'text-anchor': 'left',
         'text-offset': [0.8, 0],
@@ -661,6 +653,7 @@ const style = {
         'text-halo-color': 'rgba(255, 255, 255, 1)'
       }
     },
+
     /**
      * 3d建筑
      * */
