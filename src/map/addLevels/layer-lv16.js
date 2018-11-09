@@ -7,6 +7,7 @@ import {
 
 const _visibleLevel = 16;
 
+
 const style = {
   visibleLevel: _visibleLevel,
   source: {
@@ -23,7 +24,7 @@ const style = {
     id: 'POI_LEVEL_16_1108',
     type: 'symbol',
     source: levelConfig.addLv16,
-    'source-layer': 'POI_LEVEL_16_1108',
+    'source-layer': 'POI_LEVEL_16_1109_2',
     'layout': {
       'text-field': '{NAME}',
       'visibility': 'visible',
@@ -44,7 +45,8 @@ const style = {
       'text-halo-width': 2,
       'text-halo-color': 'rgba(255, 255, 255, 1)'
     }
-  }]
+  },
+]
 }
 
 export default style;

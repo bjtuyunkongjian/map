@@ -1,24 +1,24 @@
-import {
-  levelConfig
-} from 'tuyun-config';
+//19级图层
 
-const _visibleLevel = 18;
+import { levelConfig } from 'tuyun-config';
+
+const _visibleLevel = 19;
 
 const style = {
   visibleLevel: _visibleLevel,
   source: {
-    [levelConfig.addLv18]: {
+    [levelConfig.addLv19]: {
       type: 'vector',
       scheme: 'tms',
-      tiles: ['http://116.62.186.152:8080/geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_18L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf'],
+      tiles: ['http://116.62.186.152:8080/geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_19L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf'],
       minzoom: _visibleLevel
     }
   },
   layers: [{
-    id: 'POI_LEVEL_18_1108',
+    id: 'POI_LEVEL_19',
     type: 'symbol',
-    source: levelConfig.addLv18,
-    'source-layer': 'POI_LEVEL_18_1109_3',
+    source: levelConfig.addLv19,
+    'source-layer': 'POI_LEVEL_19_1109_3',
     'layout': {
       'text-field': '{NAME}',
       'visibility': 'visible',

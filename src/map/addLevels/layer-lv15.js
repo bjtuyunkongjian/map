@@ -3,7 +3,7 @@
  * 部分线的type为symbol是只显示名称
  * todolist 
  * 1. 路网图层CLASID不对，覆盖之前的国道，无法通过CLASID区分和过滤  ======> 高速覆盖国道
- * 
+ * 2.三维建筑移到17层开始显示
  */
 import {
   levelConfig
@@ -655,68 +655,6 @@ const style = {
         'text-halo-color': 'rgba(255, 255, 255, 1)'
       }
     },
-
-    /**
-     * 3d建筑
-     * */
-    // {
-    //   'id': 'GRESPL_1_3D',
-    //   source: levelConfig.addLv15,
-    //   'source-layer': 'GRESPL_Merge_1',
-    //   'type': 'fill-extrusion',
-    //   'minzoom': 15,
-    //   'paint': {
-    //     'fill-extrusion-color': '#aaa',
-    //     // use an 'interpolate' expression to add a smooth transition effect to the
-    //     // buildings as the user zooms in
-    //     'fill-extrusion-height': [
-    //       "interpolate", ["linear"],
-    //       ["zoom"],
-    //       15, 0,
-    //       15.05, ['*', ['+', ["get", "H"], 1], 3]
-    //     ],
-    //     'fill-extrusion-base': 0,
-    //     'fill-extrusion-opacity': .4
-    //   },
-    //   labelLayerId
-    // },
-    // {
-    //   'id': 'GRESPL_2_3D',
-    //   source: levelConfig.addLv15,
-    //   'source-layer': 'GRESPL_Merge_2',
-    //   'type': 'fill-extrusion',
-    //   'minzoom': 15,
-    //   'paint': {
-    //     'fill-extrusion-color': '#aaa',
-    //     'fill-extrusion-height': [
-    //       "interpolate", ["linear"],
-    //       ["zoom"],
-    //       15, 0,
-    //       15.05, ['*', ['+', ["get", "H"], 1], 3]
-    //     ],
-    //     'fill-extrusion-base': 0,
-    //     'fill-extrusion-opacity': .4
-    //   },
-    //   labelLayerId
-    // }, {
-    //   'id': 'GRESPL_3_3D',
-    //   source: levelConfig.addLv15,
-    //   'source-layer': 'GRESPL_Merge_3',
-    //   'type': 'fill-extrusion',
-    //   'minzoom': 15,
-    //   'paint': {
-    //     'fill-extrusion-color': '#aaa',
-    //     'fill-extrusion-height': [
-    //       "interpolate", ["linear"],
-    //       ["zoom"],
-    //       15, 0,
-    //       15.05, ['*', ['+', ["get", "H"], 1], 3]
-    //     ],
-    //     'fill-extrusion-base': 0,
-    //     'fill-extrusion-opacity': .4
-    //   },
-    //   labelLayerId
-    // }
   ]
 }
 

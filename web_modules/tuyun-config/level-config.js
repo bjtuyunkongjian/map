@@ -17,4 +17,5 @@ export default {
   addLv16: 'addLv16',
   addLv17: 'addLv17',
   addLv18: 'addLv18',
+  addLv19: 'addLv19',
 }
