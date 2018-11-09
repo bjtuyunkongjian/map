@@ -631,7 +631,7 @@ const style = {
       id: 'POI_LEVEL_15_1108',
       type: 'symbol',
       source: levelConfig.addLv15,
-      'source-layer': 'POI_LEVEL_15_1108',
+      'source-layer': 'POI_LEVEL_15_1109_1',
       'layout': {
         'text-field': '{NAME}',
         'visibility': 'visible',
@@ -657,64 +657,64 @@ const style = {
     /**
      * 3d建筑
      * */
-    {
-      'id': 'GRESPL_1_3D',
-      source: levelConfig.addLv15,
-      'source-layer': 'GRESPL_Merge_1',
-      'type': 'fill-extrusion',
-      'minzoom': 15,
-      'paint': {
-        'fill-extrusion-color': '#aaa',
-        // use an 'interpolate' expression to add a smooth transition effect to the
-        // buildings as the user zooms in
-        'fill-extrusion-height': [
-          "interpolate", ["linear"],
-          ["zoom"],
-          15, 0,
-          15.05, ['*', ['+', ["get", "H"], 1], 3]
-        ],
-        'fill-extrusion-base': 0,
-        'fill-extrusion-opacity': .6
-      },
-      labelLayerId
-    },
-    {
-      'id': 'GRESPL_2_3D',
-      source: levelConfig.addLv15,
-      'source-layer': 'GRESPL_Merge_2',
-      'type': 'fill-extrusion',
-      'minzoom': 15,
-      'paint': {
-        'fill-extrusion-color': '#aaa',
-        'fill-extrusion-height': [
-          "interpolate", ["linear"],
-          ["zoom"],
-          15, 0,
-          15.05, ['*', ['+', ["get", "H"], 1], 3]
-        ],
-        'fill-extrusion-base': 0,
-        'fill-extrusion-opacity': .6
-      },
-      labelLayerId
-    }, {
-      'id': 'GRESPL_3_3D',
-      source: levelConfig.addLv15,
-      'source-layer': 'GRESPL_Merge_3',
-      'type': 'fill-extrusion',
-      'minzoom': 15,
-      'paint': {
-        'fill-extrusion-color': '#aaa',
-        'fill-extrusion-height': [
-          "interpolate", ["linear"],
-          ["zoom"],
-          15, 0,
-          15.05, ['*', ['+', ["get", "H"], 1], 3]
-        ],
-        'fill-extrusion-base': 0,
-        'fill-extrusion-opacity': .6
-      },
-      labelLayerId
-    }
+    // {
+    //   'id': 'GRESPL_1_3D',
+    //   source: levelConfig.addLv15,
+    //   'source-layer': 'GRESPL_Merge_1',
+    //   'type': 'fill-extrusion',
+    //   'minzoom': 15,
+    //   'paint': {
+    //     'fill-extrusion-color': '#aaa',
+    //     // use an 'interpolate' expression to add a smooth transition effect to the
+    //     // buildings as the user zooms in
+    //     'fill-extrusion-height': [
+    //       "interpolate", ["linear"],
+    //       ["zoom"],
+    //       15, 0,
+    //       15.05, ['*', ['+', ["get", "H"], 1], 3]
+    //     ],
+    //     'fill-extrusion-base': 0,
+    //     'fill-extrusion-opacity': .4
+    //   },
+    //   labelLayerId
+    // },
+    // {
+    //   'id': 'GRESPL_2_3D',
+    //   source: levelConfig.addLv15,
+    //   'source-layer': 'GRESPL_Merge_2',
+    //   'type': 'fill-extrusion',
+    //   'minzoom': 15,
+    //   'paint': {
+    //     'fill-extrusion-color': '#aaa',
+    //     'fill-extrusion-height': [
+    //       "interpolate", ["linear"],
+    //       ["zoom"],
+    //       15, 0,
+    //       15.05, ['*', ['+', ["get", "H"], 1], 3]
+    //     ],
+    //     'fill-extrusion-base': 0,
+    //     'fill-extrusion-opacity': .4
+    //   },
+    //   labelLayerId
+    // }, {
+    //   'id': 'GRESPL_3_3D',
+    //   source: levelConfig.addLv15,
+    //   'source-layer': 'GRESPL_Merge_3',
+    //   'type': 'fill-extrusion',
+    //   'minzoom': 15,
+    //   'paint': {
+    //     'fill-extrusion-color': '#aaa',
+    //     'fill-extrusion-height': [
+    //       "interpolate", ["linear"],
+    //       ["zoom"],
+    //       15, 0,
+    //       15.05, ['*', ['+', ["get", "H"], 1], 3]
+    //     ],
+    //     'fill-extrusion-base': 0,
+    //     'fill-extrusion-opacity': .4
+    //   },
+    //   labelLayerId
+    // }
   ]
 }
 

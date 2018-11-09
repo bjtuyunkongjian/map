@@ -23,7 +23,7 @@ const style = {
     id: 'POI_LEVEL_14_1108',
     type: 'symbol',
     source: levelConfig.addLv14,
-    'source-layer': 'POI_LEVEL_14_1108',
+    'source-layer': 'POI_LEVEL_14_1108_7',
     'layout': {
       'text-field': '{NAME}',
       'visibility': 'visible',
