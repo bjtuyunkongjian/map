@@ -124,15 +124,19 @@ export default class Map extends Component {
       this._addSourceFunc();
     }).on('zoom', () => { /* 为zoom事件添加监听器 */
       this._addSourceFunc();
-      const bounds = this.map.getBounds();
-      console.log(bounds, bounds._ne, bounds._sw);
-      fetch('http://localhost:3000/shengdao', {
-        method:'POST',
-        
-      }).then(res => {
-        console.log(res);
-
-      })
+      // const bounds = this.map.getBounds();
+      // console.log(bounds, bounds._ne, bounds._sw);
+      // fetch('http://localhost:3000/shengdao', {
+      //   method:'POST',
+      //   headers: {
+      //     "Content-Type": "application/json;charset=UTF-8"
+      //   },
+      //   body: JSON.stringify({})
+      // }).then(response => {
+      //   return response.json();
+      // }).then(function(myJson) {
+      //   console.log(myJson);
+      // });
     });
 
     this.map.addControl(new mapboxgl.NavigationControl());
