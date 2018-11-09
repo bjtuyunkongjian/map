@@ -1,12 +1,4 @@
-/* 
-17级图层，显示的内容主要分：
-1.16级图层中剩余的区县政府机关
-2.16级图层中加油加气
-3.POI详情
-4.小区
-5.小学
-6.电器商场
-*/
+
 
 import {
   levelConfig
@@ -34,7 +26,7 @@ const style = {
       'text-field': '{NAME}',
       'visibility': 'visible',
       'symbol-placement': 'point',
-      'text-size': 10,
+      'text-size': 14,
       'text-padding': 4,
       'icon-image': 'ic_map_{KIND}',
       'text-justify': 'left',
@@ -58,9 +50,9 @@ const style = {
    source: levelConfig.addLv17,
    'source-layer': 'GRESPL_Merge_1',
    'type': 'fill-extrusion',
-   'minzoom': 15,
+   'minzoom': _visibleLevel,
    'paint': {
-     'fill-extrusion-color': '#aaa',
+     'fill-extrusion-color': '#ededed',
      // use an 'interpolate' expression to add a smooth transition effect to the
      // buildings as the user zooms in
      'fill-extrusion-height': [
@@ -70,18 +62,18 @@ const style = {
        15.05, ['*', ['+', ["get", "H"], 1], 3]
      ],
      'fill-extrusion-base': 0,
-     'fill-extrusion-opacity': .4
+     'fill-extrusion-opacity': .7
    },
-   labelLayerId
+  //  labelLayerId
  },
  {
    'id': 'GRESPL_2_3D',
    source: levelConfig.addLv17,
    'source-layer': 'GRESPL_Merge_2',
    'type': 'fill-extrusion',
-   'minzoom': 15,
+   'minzoom': _visibleLevel,
    'paint': {
-     'fill-extrusion-color': '#aaa',
+     'fill-extrusion-color': '#ededed',
      'fill-extrusion-height': [
        "interpolate", ["linear"],
        ["zoom"],
@@ -89,17 +81,17 @@ const style = {
        15.05, ['*', ['+', ["get", "H"], 1], 3]
      ],
      'fill-extrusion-base': 0,
-     'fill-extrusion-opacity': .4
+     'fill-extrusion-opacity': .7
    },
-   labelLayerId
+  //  labelLayerId
  }, {
    'id': 'GRESPL_3_3D',
    source: levelConfig.addLv17,
    'source-layer': 'GRESPL_Merge_3',
    'type': 'fill-extrusion',
-   'minzoom': 15,
+   'minzoom': _visibleLevel,
    'paint': {
-     'fill-extrusion-color': '#aaa',
+     'fill-extrusion-color': '#ededed',
      'fill-extrusion-height': [
        "interpolate", ["linear"],
        ["zoom"],
@@ -107,9 +99,9 @@ const style = {
        15.05, ['*', ['+', ["get", "H"], 1], 3]
      ],
      'fill-extrusion-base': 0,
-     'fill-extrusion-opacity': .4
+     'fill-extrusion-opacity': .7
    },
-   labelLayerId
+  //  labelLayerId
  }
 ]
 }

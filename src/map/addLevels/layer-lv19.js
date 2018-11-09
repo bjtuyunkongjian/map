@@ -23,7 +23,7 @@ const style = {
       'text-field': '{NAME}',
       'visibility': 'visible',
       'symbol-placement': 'point',
-      'text-size': 10,
+      'text-size': 14,
       'text-padding': 4,
       'icon-image': 'ic_map_{KIND}',
       'text-justify': 'left',

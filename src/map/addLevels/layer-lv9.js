@@ -36,12 +36,12 @@ const style = {
       id: 'POI_LEVEL_9_1107',
       type: 'symbol',
       source: levelConfig.addLv9,
-      'source-layer': 'POI_LEVEL_9_1107',
+      'source-layer': 'LEVEL9',
       'layout': {
         'text-field': '{NAME}',
         'visibility': 'visible',
         'symbol-placement': 'point',
-        'text-size': 11,
+        'text-size': 12,
         'text-padding': 4,
         'icon-image': 'ic_map_{KIND}',
         'text-justify': 'left',
@@ -53,7 +53,7 @@ const style = {
         'icon-rotation-alignment': 'viewport'
       },
       'paint': {
-        'text-color': 'rgba(65, 65, 65, 1)',
+        'text-color': 'rgba(41, 36, 33, 0.6)',
         'text-halo-width': 2,
         'text-halo-color': 'rgba(255, 255, 255, 1)'
       }

@@ -23,12 +23,12 @@ const style = {
     id: 'POI_LEVEL_10_1108_50_11',
     type: 'symbol',
     source: levelConfig.addLv10,
-    'source-layer': 'POI_LEVEL_10_1108_7',
+    'source-layer': 'LEVEL10',
     'layout': {
       'text-field': '{NAME}',
       'visibility': 'visible',
       'symbol-placement': 'point',
-      'text-size': 11,
+      'text-size': 12,
       'text-padding': 4,
       'icon-image': 'ic_map_{KIND}',
       'text-justify': 'left',
@@ -40,7 +40,7 @@ const style = {
       'icon-rotation-alignment': 'viewport'
     },
     'paint': {
-      'text-color': 'rgba(65, 65, 65, 1)',
+      'text-color': 'rgba(65, 65, 65, 0.9)',
       'text-halo-width': 2,
       'text-halo-color': 'rgba(255, 255, 255, 1)'
     }

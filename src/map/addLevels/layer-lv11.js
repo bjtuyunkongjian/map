@@ -23,31 +23,14 @@ const style = {
   layers: [
     {
       id: 'POI_LEVEL_11_1108_1',
-      // layers: [{
-      //     id: 'xdzgdGDB',
-      //     type: 'line',
-      //     source: levelConfig.addLv11,
-      //     'source-layer': 'xdzgdGDB',
-      //     layout: {
-      //       'line-cap': 'round',
-      //       'line-join': 'round'
-      //     },
-      //     paint: {
-      //       'line-width': 1,
-      //       'line-color': '#d6eccf',
-      //       'line-offset': 0
-      //     }
-      //   },
-      // {
-      // id: 'POI_LEVEL_11_1107',
       type: 'symbol',
       source: levelConfig.addLv11,
-      'source-layer': 'POI_LEVEL_11_1108_7',
+      'source-layer': 'LEVEL11',
       'layout': {
         'text-field': '{NAME}',
         'visibility': 'visible',
         'symbol-placement': 'point',
-        'text-size': 11,
+        'text-size': 12,
         'text-padding': 4,
         'icon-image': 'ic_map_{KIND}',
         'text-justify': 'left',
@@ -59,7 +42,7 @@ const style = {
         'icon-rotation-alignment': 'viewport'
       },
       'paint': {
-        'text-color': 'rgba(65, 65, 65, 1)',
+        'text-color': 'rgba(65, 65, 65, 0.8)',
         'text-halo-width': 2,
         'text-halo-color': 'rgba(255, 255, 255, 1)'
       }
