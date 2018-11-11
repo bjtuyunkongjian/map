@@ -1,6 +1,9 @@
 import addLevel from './addLevel';
-// import { FetchRequest } from './fetch';
+import {
+  FetchRequest
+} from './fetch';
+
 export {
   addLevel,
-  // FetchRequest
+  FetchRequest
 }

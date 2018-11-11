@@ -3,8 +3,12 @@
  */
 
 import mapboxgl from 'mapbox-gl';
-import { addLevel } from 'tuyun-utils';
-import React, { Component } from 'react';
+import {
+  addLevel
+} from 'tuyun-utils';
+import React, {
+  Component
+} from 'react';
 // import { FetchRequest } from 'tuyun-config';
 
 import baseStyle from './styles/light-sd';
@@ -13,7 +17,8 @@ import addLevels from './addLevels';
 // import shengGDBt_cx from './geojson/shengGDBt_cx';
 // import gaoguoGDB_cx from './geojson/gaoguoGDB_cx';
 
-export default class Map extends Component {
+export default class MapBoxDemo extends Component {
+
   componentDidMount() {
     this._init();
   }
@@ -23,7 +28,16 @@ export default class Map extends Component {
   }
 
   render() {
-    return <div style={{ width: '100%', height: '100%' }} ref={el => this.mapContainer = el} />
+    return <div style = {
+      {
+        width: '100%',
+        height: '100%'
+      }
+    }
+    ref = {
+      el => this.mapContainer = el
+    }
+    />
   }
 
   _init() {
@@ -45,98 +59,28 @@ export default class Map extends Component {
       console.log(e.lngLat);
     });
 
-    // this.map.on('load', () => {
-    //   this.map.addLayer({
-    //     id: 'shengGDBt_cx',
-    //     type: 'line',
-    //     source: {
-    //       type: 'geojson',
-    //       data: shengGDBt_cx
-    //     },
-    //     layout: {
-    //       'line-join': 'round',
-    //       'line-cap': 'round'
-    //     },
-    //     paint: {
-    //       'line-width': {
-    //         base: 2,
-    //         stops: [
-    //           [7, 3],
-    //           [8, 2],
-    //           [9, 3],
-    //           [10, 4],
-    //           [11, 4],
-    //           [12, 7],
-    //           [13, 9],
-    //           [14, 9],
-    //           [15, 10],
-    //           [16, 10],
-    //           [17, 12],
-    //           [18, 14],
-    //           [19, 14],
-    //           [20, 22],
-    //           [21, 24],
-    //           [22, 26]
-    //         ]
-    //       },
-    //       'line-color': '#ffae00'
-    //     }
-    //   });
-
-    //   this.map.addLayer({
-    //     id: 'gaoguoGDB_cx',
-    //     type: 'line',
-    //     source: {
-    //       type: 'geojson',
-    //       data: gaoguoGDB_cx
-    //     },
-    //     layout: {
-    //       'line-join': 'round',
-    //       'line-cap': 'round'
-    //     },
-    //     paint: {
-    //       'line-width': {
-    //         base: 2,
-    //         stops: [
-    //           [7, 3],
-    //           [8, 2],
-    //           [9, 3],
-    //           [10, 4],
-    //           [11, 4],
-    //           [12, 7],
-    //           [13, 9],
-    //           [14, 9],
-    //           [15, 10],
-    //           [16, 10],
-    //           [17, 12],
-    //           [18, 14],
-    //           [19, 14],
-    //           [20, 22],
-    //           [21, 24],
-    //           [22, 26]
-    //         ]
-    //       },
-    //       'line-color': '#009797'
-    //     }
-    //   });
-    // });
     this.map.on('load', () => {
+      this.center = this.map.getCenter(); // 设置起初中心点位置
+      this.zoom = this.map.getZoom(); // 设置起初缩放等级
+      this._addSourceFunc(); // 增加图层组
+      this._loadRoadSource(); // 添加道路图层
+    }).on('zoom', () => {
       this._addSourceFunc();
-    }).on('zoom', () => { /* 为zoom事件添加监听器 */
-      this._addSourceFunc();
-      // const bounds = this.map.getBounds();
-      // console.log(bounds, bounds._ne, bounds._sw);
-      // fetch('http://localhost:3000/shengdao', {
-      //   method:'POST',
-      //   headers: {
-      //     "Content-Type": "application/json;charset=UTF-8"
-      //   },
-      //   body: JSON.stringify({})
-      // }).then(response => {
-      //   return response.json();
-      // }).then(function(myJson) {
-      //   console.log(myJson);
-      // });
+      const _zoom = this.map.getZoom(); // 当前缩放等级
+      if (Math.abs(_zoom - this.zoom) > 1) {
+        this.zoom = _zoom;
+        this._loadRoadSource();
+      }
+    }).on('mouseup', () => {
+      const _center = this.map.getCenter(); // 当前中心点位置
+      const {
+        lat = 0, lng = 0
+      } = this.center || {};
+      if (Math.abs(_center.lat - lat) > this.haloLatDiff ||
+        Math.abs(_center.lng - lng) > this.halfLngDiff) {
+        this.center = _center;
+        this._loadRoadSource();
+      }
     });
 
     this.map.addControl(new mapboxgl.NavigationControl());
@@ -145,6 +89,74 @@ export default class Map extends Component {
   _addSourceFunc() {
     for (let item of addLevels) {
       addLevel(this.map, item);
+    }
+  }
+
+  // 将国道、省道单独开来，临时处理
+  _loadRoadSource() {
+    const bounds = this.map.getBounds();
+    this.halfLngDiff = (bounds._ne.lng - bounds._sw.lng) / 2;
+    this.haloLatDiff = (bounds._ne.lat - bounds._sw.lat) / 2;
+    fetch('http://localhost:3000/shengdao', {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8"
+      },
+      body: JSON.stringify({
+        arr: [
+          [bounds._sw.lng - this.halfLngDiff, bounds._ne.lat + this.haloLatDiff], // 左上角
+          [bounds._ne.lng + this.halfLngDiff, bounds._sw.lat - this.haloLatDiff] // 右下角
+        ]
+      })
+    }).then(response => {
+      return response.json();
+    }).then((res) => {
+      this._addRoadFunc(res);
+    });
+  }
+
+  _addRoadFunc(res) {
+    if (!this.map.getSource('shengdao-source')) {
+      this.map
+        .addSource("shengdao-source", {
+          "type": "geojson",
+          "data": res.data
+        })
+        .addLayer({
+          "id": "shengdao",
+          type: 'line',
+          source: 'shengdao-source',
+          layout: {
+            'line-join': 'round',
+            'line-cap': 'round'
+          },
+          paint: {
+            'line-width': {
+              base: 2,
+              stops: [
+                [7, 3],
+                [8, 2],
+                [9, 3],
+                [10, 4],
+                [11, 4],
+                [12, 7],
+                [13, 9],
+                [14, 9],
+                [15, 10],
+                [16, 10],
+                [17, 12],
+                [18, 14],
+                [19, 14],
+                [20, 22],
+                [21, 24],
+                [22, 26]
+              ]
+            },
+            'line-color': '#ffae00'
+          }
+        });
+    } else {
+      this.map.getSource('shengdao-source').setData(res.data);
     }
   }
 }

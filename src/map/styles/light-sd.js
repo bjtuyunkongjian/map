@@ -37,7 +37,8 @@ const layers = [{
       'any',
       ['==', 'CLASID', '210200'],
       ['==', 'CLASID', '230101'],
-      ['==', 'CLASID', '240101']
+      ['==', 'CLASID', '240101'],
+      ['==', 'CLASID', '250100']
     ],
     paint: {
       'fill-color': '#c4daf6',
@@ -54,7 +55,8 @@ const layers = [{
       'all',
       ['!=', 'CLASID', '210200'],
       ['!=', 'CLASID', '230101'],
-      ['!=', 'CLASID', '240101']
+      ['!=', 'CLASID', '240101'],
+      ['!=', 'CLASID', '250100']
     ],
     minzoom: _ditchVisibleLevel,
     layout: {},
