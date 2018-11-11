@@ -9,13 +9,12 @@ import {
 import React, {
   Component
 } from 'react';
-// import { FetchRequest } from 'tuyun-config';
+import {
+  FetchRequest
+} from 'tuyun-utils';
 
 import baseStyle from './styles/light-sd';
 import addLevels from './addLevels';
-
-// import shengGDBt_cx from './geojson/shengGDBt_cx';
-// import gaoguoGDB_cx from './geojson/gaoguoGDB_cx';
 
 export default class MapBoxDemo extends Component {
 
@@ -93,39 +92,38 @@ export default class MapBoxDemo extends Component {
   }
 
   // 将国道、省道单独开来，临时处理
-  _loadRoadSource() {
+  async _loadRoadSource() {
     const bounds = this.map.getBounds();
     this.halfLngDiff = (bounds._ne.lng - bounds._sw.lng) / 2;
     this.haloLatDiff = (bounds._ne.lat - bounds._sw.lat) / 2;
-    fetch('http://localhost:3000/shengdao', {
+
+    const arr = [
+      [bounds._sw.lng - this.halfLngDiff, bounds._ne.lat + this.haloLatDiff], // 左上角
+      [bounds._ne.lng + this.halfLngDiff, bounds._sw.lat - this.haloLatDiff] // 右下角
+    ];
+    const {
+      res
+    } = await FetchRequest({
+      url: 'shengdao',
       method: 'POST',
-      headers: {
-        "Content-Type": "application/json;charset=UTF-8"
-      },
-      body: JSON.stringify({
-        arr: [
-          [bounds._sw.lng - this.halfLngDiff, bounds._ne.lat + this.haloLatDiff], // 左上角
-          [bounds._ne.lng + this.halfLngDiff, bounds._sw.lat - this.haloLatDiff] // 右下角
-        ]
-      })
-    }).then(response => {
-      return response.json();
-    }).then((res) => {
-      this._addRoadFunc(res);
+      body: {
+        arr
+      }
     });
+    this._addRoadFunc(res);
   }
 
-  _addRoadFunc(res) {
-    if (!this.map.getSource('shengdao-source')) {
+  _addRoadFunc(data) {
+    if (!this.map.getSource('road-source')) {
       this.map
-        .addSource("shengdao-source", {
+        .addSource("road-source", {
           "type": "geojson",
-          "data": res.data
+          "data": data
         })
         .addLayer({
           "id": "shengdao",
           type: 'line',
-          source: 'shengdao-source',
+          source: 'road-source',
           layout: {
             'line-join': 'round',
             'line-cap': 'round'
@@ -156,7 +154,7 @@ export default class MapBoxDemo extends Component {
           }
         });
     } else {
-      this.map.getSource('shengdao-source').setData(res.data);
+      this.map.getSource('road-source').setData(data);
     }
   }
 }
