@@ -1,5 +1,5 @@
 {
-  "editor.formatOnSave": false,
+  "editor.formatOnSave": true,
   "javascript.validate.enable": true,
   "editor.tabSize": 2
 }
