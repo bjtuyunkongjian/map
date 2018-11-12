@@ -41,7 +41,7 @@ const style = {
       'text-keep-upright': false
     },
     'paint': {
-      'text-color': '#8c9c99',
+      'text-color': '#D2691E',
       'text-halo-width': 2,
       'text-halo-color': 'rgba(255, 255, 255, 1)'
     }
