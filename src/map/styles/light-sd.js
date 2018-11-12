@@ -24,7 +24,7 @@ const layers = [{
   type: 'background',
   layout: {},
   paint: {
-    'background-color': 'black'
+    'background-color': '#104E8B'
   }
 },
 // 面
