@@ -8,7 +8,7 @@ import {
  * @param {JSON} [body=''] body的请求参数，默认为空
  * @return {res: xxx, err: xxx}
  */
-export const FetchRequest = async function({
+export const FetchRequest = async function ({
   url,
   method,
   body = {}
@@ -20,13 +20,12 @@ export const FetchRequest = async function({
     }
   };
 
-  if(method !== 'GET') {
+  if (method !== 'GET') {
     request.body = JSON.stringify(body);
   }
 
   // 添加网络超时机制
   const timeoutId = setTimeout(() => {
-    // Alert({ text: '您的网络不给力' });
     return new Promise((resolve) => {
       resolve({
         res: null,
@@ -36,7 +35,7 @@ export const FetchRequest = async function({
   }, CONFIG.HTTP_TIME_OUT * 1000);
 
   try {
-    const response = await fetch(CONFIG.HOST + url, request);
+    const response = await fetch(CONFIG.geojsonHost + url, request);
 
     clearTimeout(timeoutId);
     const responseData = await response.json();
@@ -44,22 +43,19 @@ export const FetchRequest = async function({
     const {
       statusInfo,
       data,
-      ok,
-      status
+      ok
     } = responseData;
 
-    if(__DEV__) {
-      console.log('responseData', responseData);
-    }
-    
-    const _ok = status === 0 && ok;
-    
+    // if (__DEV__) {
+    //   console.log('responseData', responseData);
+    // }
+
     return new Promise(resolve => {
       resolve({
         // 有时会返回0的结果
-        res: _ok ? data : null,
-        err: _ok ? null : statusInfo,
-        ok: _ok
+        res: ok ? data : null,
+        err: ok ? null : statusInfo,
+        ok: ok
       })
     });
   } catch (err) {
