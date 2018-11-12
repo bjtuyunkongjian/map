@@ -4,17 +4,16 @@
 
 import mapboxgl from 'mapbox-gl';
 import {
-  addLevel
+  addLevel,
+  FetchRequest
 } from 'tuyun-utils';
 import React, {
   Component
 } from 'react';
-import {
-  FetchRequest
-} from 'tuyun-utils';
 
 import baseStyle from './styles/light-sd';
 import addLevels from './addLevels';
+
 
 export default class MapBoxDemo extends Component {
 
@@ -27,16 +26,7 @@ export default class MapBoxDemo extends Component {
   }
 
   render() {
-    return <div style = {
-      {
-        width: '100%',
-        height: '100%'
-      }
-    }
-    ref = {
-      el => this.mapContainer = el
-    }
-    />
+    return <div style={{width: '100%', height: '100%'}} ref={el => this.mapContainer = el}/>
   }
 
   _init() {
@@ -62,13 +52,13 @@ export default class MapBoxDemo extends Component {
       this.center = this.map.getCenter(); // 设置起初中心点位置
       this.zoom = this.map.getZoom(); // 设置起初缩放等级
       this._addSourceFunc(); // 增加图层组
-      this._loadRoadSource(); // 添加道路图层
+      // this._loadRoadSource(); // 添加道路图层
     }).on('zoom', () => {
       this._addSourceFunc();
       const _zoom = this.map.getZoom(); // 当前缩放等级
       if (Math.abs(_zoom - this.zoom) > 1) {
         this.zoom = _zoom;
-        this._loadRoadSource();
+        // this._loadRoadSource();
       }
     }).on('mouseup', () => {
       const _center = this.map.getCenter(); // 当前中心点位置
@@ -78,7 +68,7 @@ export default class MapBoxDemo extends Component {
       if (Math.abs(_center.lat - lat) > this.haloLatDiff ||
         Math.abs(_center.lng - lng) > this.halfLngDiff) {
         this.center = _center;
-        this._loadRoadSource();
+        // this._loadRoadSource();
       }
     });
 
@@ -94,36 +84,38 @@ export default class MapBoxDemo extends Component {
   // 将国道、省道单独开来，临时处理
   async _loadRoadSource() {
     const bounds = this.map.getBounds();
+    const zoom = this.map.getZoom();
     this.halfLngDiff = (bounds._ne.lng - bounds._sw.lng) / 2;
     this.haloLatDiff = (bounds._ne.lat - bounds._sw.lat) / 2;
 
-    const arr = [
+    const boundsArr = [
       [bounds._sw.lng - this.halfLngDiff, bounds._ne.lat + this.haloLatDiff], // 左上角
       [bounds._ne.lng + this.halfLngDiff, bounds._sw.lat - this.haloLatDiff] // 右下角
     ];
     const {
       res
     } = await FetchRequest({
-      url: 'shengdao',
+      url: 'road',
       method: 'POST',
       body: {
-        arr
+        bounds: boundsArr,
+        zoom
       }
     });
     this._addRoadFunc(res);
   }
 
   _addRoadFunc(data) {
-    if (!this.map.getSource('road-source')) {
+    if (!this.map.getSource('guodao-source')) {
       this.map
-        .addSource("road-source", {
+        .addSource("guodao-source", {
           "type": "geojson",
-          "data": data
+          "data": data.guodao
         })
         .addLayer({
           "id": "shengdao",
           type: 'line',
-          source: 'road-source',
+          source: 'guodao-source',
           layout: {
             'line-join': 'round',
             'line-cap': 'round'
@@ -152,9 +144,30 @@ export default class MapBoxDemo extends Component {
             },
             'line-color': '#ffae00'
           }
+        })
+        .addLayer({
+          id: 'GROALN_GAOGUO_MERGE_GD_NAME', // 国道名称
+          type: 'symbol',
+          source: 'guodao-source',
+          layout: {
+            'text-field': '{NAME}',
+            visibility: 'visible',
+            'symbol-placement': 'line',
+            'text-font': ['Arial Unicode MS Bold'],
+            'text-pitch-alignment': 'viewport',
+            'symbol-spacing': 500,
+            'text-rotation-alignment': 'map',
+            'text-size': 12,
+            'icon-rotation-alignment': 'viewport'
+          },
+          paint: {
+            'text-color': 'rgba(65, 65, 65, 1)',
+            'text-halo-width': 2,
+            'text-halo-color': 'rgba(255, 255, 255, 1)'
+          }
         });
     } else {
-      this.map.getSource('road-source').setData(data);
+      this.map.getSource('guodao-source').setData(data.guodao);
     }
   }
 }
