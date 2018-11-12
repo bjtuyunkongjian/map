@@ -97,6 +97,7 @@ const style = {
       id: 'guodao_icon', // 国道图标
       type: 'symbol',
       source: sourceName,
+      filter: ['!=', 'ENTIID', ''],
       layout: {
         'text-field': '{ENTIID}',
         visibility: 'visible',

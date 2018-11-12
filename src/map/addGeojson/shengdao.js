@@ -97,6 +97,7 @@ const style = {
       id: 'shengdao_icon', // 省道图标
       type: 'symbol',
       source: sourceName,
+      filter: ['!=', 'ENTIID', ''],
       layout: {
         'text-field': '{ENTIID}',
         visibility: 'visible',
