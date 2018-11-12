@@ -124,7 +124,7 @@ const layers = [{
     id: 'POI_LEVEL7', // POI图层
     type: 'symbol',
     source: levelConfig.addLv7,
-    'source-layer': 'POI_LEVEL7',
+    'source-layer': 'POI_LEVEL_7',
     layout: {
       'text-field': '{NAME}',
       visibility: 'visible',

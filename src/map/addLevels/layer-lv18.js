@@ -18,7 +18,7 @@ const style = {
     id: 'POI_LEVEL_18_1108',
     type: 'symbol',
     source: levelConfig.addLv18,
-    'source-layer': 'POI_LEVEL_18_1109_3',
+    'source-layer': 'POI_LEVEL_18',
     'layout': {
       'text-field': '{NAME}',
       'visibility': 'visible',
@@ -35,7 +35,7 @@ const style = {
       'icon-rotation-alignment': 'viewport'
     },
     'paint': {
-      'text-color': 'rgba(65, 65, 65, 1)',
+      'text-color': 'rgba(65, 65, 65, 0.8)',
       'text-halo-width': 2,
       'text-halo-color': 'rgba(255, 255, 255, 1)'
     }

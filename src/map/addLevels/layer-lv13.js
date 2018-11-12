@@ -20,10 +20,10 @@ const style = {
     }
   },
   layers: [{
-    id: 'POI_LEVEL_13_1108',
+    id: 'POI_LEVEL_13',
     type: 'symbol',
     source: levelConfig.addLv13,
-    'source-layer': 'LEVEL13_3',
+    'source-layer': 'POI_LEVEL_13',
     'layout': {
       'text-field': '{NAME}',
       'visibility': 'visible',
@@ -40,7 +40,7 @@ const style = {
       'icon-rotation-alignment': 'viewport'
     },
     'paint': {
-      'text-color': 'rgba(65, 65, 65, 0.9)',
+      'text-color': 'rgba(65, 65, 65, 0.8)',
       'text-halo-width': 2,
       'text-halo-color': 'rgba(255, 255, 255, 1)'
     }

@@ -242,7 +242,7 @@ const style = {
             [17, 11.5],
             [18, 13.5],
             [19, 15.5],
-            [20, 15]
+            [20, 16]
           ]
         },
         'line-color': '#d8d8d8'
@@ -293,7 +293,7 @@ const style = {
           'stops': [
             [15, 6],
             [16, 9.5],
-            [17, 11.5],
+            [17, 12.5],
             [18, 15.5],
             [19, 17.5],
             [20, 16]
@@ -633,7 +633,7 @@ const style = {
       id: 'POI_LEVEL_15_1108',
       type: 'symbol',
       source: levelConfig.addLv15,
-      'source-layer': 'POI_LEVEL_15_1109_1',
+      'source-layer': 'POI_LEVEL_15',
       'layout': {
         'text-field': '{NAME}',
         'visibility': 'visible',
@@ -650,7 +650,7 @@ const style = {
         'icon-rotation-alignment': 'viewport'
       },
       'paint': {
-        'text-color': 'rgba(65, 65, 65, 1)',
+        'text-color': 'rgba(65, 65, 65, 0.8)',
         'text-halo-width': 2,
         'text-halo-color': 'rgba(255, 255, 255, 1)'
       }
