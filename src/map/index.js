@@ -4,18 +4,18 @@
 
 import mapboxgl from 'mapbox-gl';
 import {
-  addLevel
+  addLevel,
+  FetchRequest
 } from 'tuyun-utils';
 import React, {
   Component
 } from 'react';
-import {
-  FetchRequest
-} from 'tuyun-utils';
 
 import baseStyle from './styles/light-sd';
 import addLevels from './addLevels';
+import addGeojson from './addGeojson';
 
+console.log(addGeojson);
 export default class MapBoxDemo extends Component {
 
   componentDidMount() {
@@ -94,67 +94,40 @@ export default class MapBoxDemo extends Component {
   // 将国道、省道单独开来，临时处理
   async _loadRoadSource() {
     const bounds = this.map.getBounds();
+    const zoom = this.map.getZoom();
     this.halfLngDiff = (bounds._ne.lng - bounds._sw.lng) / 2;
     this.haloLatDiff = (bounds._ne.lat - bounds._sw.lat) / 2;
 
-    const arr = [
+    const boundsArr = [
       [bounds._sw.lng - this.halfLngDiff, bounds._ne.lat + this.haloLatDiff], // 左上角
       [bounds._ne.lng + this.halfLngDiff, bounds._sw.lat - this.haloLatDiff] // 右下角
     ];
     const {
       res
     } = await FetchRequest({
-      url: 'shengdao',
+      url: 'road',
       method: 'POST',
       body: {
-        arr
+        bounds: boundsArr,
+        zoom
       }
     });
-    this._addRoadFunc(res);
+    this._addRoad(res);
   }
 
-  _addRoadFunc(data) {
-    if (!this.map.getSource('road-source')) {
-      this.map
-        .addSource("road-source", {
-          "type": "geojson",
-          "data": data
-        })
-        .addLayer({
-          "id": "shengdao",
-          type: 'line',
-          source: 'road-source',
-          layout: {
-            'line-join': 'round',
-            'line-cap': 'round'
-          },
-          paint: {
-            'line-width': {
-              base: 2,
-              stops: [
-                [7, 3],
-                [8, 2],
-                [9, 3],
-                [10, 4],
-                [11, 4],
-                [12, 7],
-                [13, 9],
-                [14, 9],
-                [15, 10],
-                [16, 10],
-                [17, 12],
-                [18, 14],
-                [19, 14],
-                [20, 22],
-                [21, 24],
-                [22, 26]
-              ]
-            },
-            'line-color': '#ffae00'
-          }
+  _addRoad(data) {
+    for(let item of addGeojson) {
+      if(!this.map.getSource(item.sourceName)) {
+        this.map.addSource(item.sourceName, {
+          type: "geojson", 
+          data: data[item.dataName]
         });
-    } else {
-      this.map.getSource('road-source').setData(data);
+        for(let layer of item.layers) {
+          this.map.addLayer(layer);
+        }
+      } else {
+        this.map.getSource(item.sourceName).setData(data[item.dataName]);
+      }
     }
   }
 }
