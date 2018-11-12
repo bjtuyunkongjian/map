@@ -3,12 +3,14 @@
  */
 
 const sourceName = "xdzgd-source";
+const lineLabelLayerId = 'line-ref';
+const symbolLabelLayerId = 'symbol-ref';
 
 const style = {
   sourceName: sourceName,
   "dataName": "xdzgd",
   layers: [{
-      "id": "xdzgd_bg",
+      "id": "xdzgd_bg", // 县道、主干道背景
       type: 'line',
       source: sourceName,
       layout: {
@@ -38,7 +40,8 @@ const style = {
           ]
         },
         'line-color': '#ffae00'
-      }
+      },
+      labelLayerId: lineLabelLayerId
     }, {
       id: 'xdzgd', // 路网图层（name字段），县道主干道
       type: 'line',
@@ -70,7 +73,8 @@ const style = {
           ]
         },
         'line-color': '#ffeebb'
-      }
+      },
+      labelLayerId: lineLabelLayerId
     },
     {
       id: 'xdzgd_name', // 县道主干道名称
@@ -91,7 +95,8 @@ const style = {
         'text-color': 'rgba(65, 65, 65, 1)',
         'text-halo-width': 2,
         'text-halo-color': 'rgba(255, 255, 255, 1)'
-      }
+      },
+      labelLayerId: symbolLabelLayerId
     }
   ]
 };

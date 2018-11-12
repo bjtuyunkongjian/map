@@ -24,7 +24,7 @@ const layers = [{
   type: 'background',
   layout: {},
   paint: {
-    'background-color': '#f5f5f5'
+    'background-color': '#104E8B'
   }
 },
 // 面
@@ -120,8 +120,27 @@ const layers = [{
   }
 },
 
+{
+  id: 'line-ref', // 做线的基层使用
+  type: 'fill',
+  source: levelConfig.addLv7,
+  'source-layer': 'SD_GRAILN_1107',
+  layout: {},
+  paint: {}
+},
+
 ///////////////////////////////
 // 点
+
+{
+  id: 'symbol-ref', // 做文字的基层使用
+  type: 'fill',
+  source: levelConfig.addLv7,
+  'source-layer': 'POI_LEVEL_7',
+  layout: {},
+  paint: {}
+},
+
 {
   id: 'POI_LEVEL7', // POI图层
   type: 'symbol',
