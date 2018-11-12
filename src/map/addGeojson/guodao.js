@@ -3,12 +3,14 @@
  */
 
 const sourceName = "guodao-source";
+const lineLabelLayerId = 'line-ref';
+const symbolLabelLayerId = 'symbol-ref';
 
 const style = {
   sourceName: sourceName,
   "dataName": "guodao",
   layers: [{
-      "id": "guodao_bg",
+      "id": "guodao_bg", // 国道背景
       type: 'line',
       source: sourceName,
       layout: {
@@ -38,7 +40,8 @@ const style = {
           ]
         },
         'line-color': '#f9bd09'
-      }
+      },
+      labelLayerId: lineLabelLayerId
     }, {
       id: 'guodao', // 路网图层（name字段），国道
       type: 'line',
@@ -70,7 +73,8 @@ const style = {
           ]
         },
         'line-color': '#fed669'
-      }
+      },
+      labelLayerId: lineLabelLayerId
     },
     {
       id: 'guodao_name', // 国道名称
@@ -91,7 +95,8 @@ const style = {
         'text-color': 'rgba(65, 65, 65, 1)',
         'text-halo-width': 2,
         'text-halo-color': 'rgba(255, 255, 255, 1)'
-      }
+      },
+      labelLayerId: symbolLabelLayerId
     },
     {
       id: 'guodao_icon', // 国道图标
@@ -116,7 +121,8 @@ const style = {
       },
       paint: {
         'text-color': '#FFFFFF'
-      }
+      },
+      labelLayerId: symbolLabelLayerId
     }
   ]
 };

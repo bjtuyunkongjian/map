@@ -15,7 +15,6 @@ import baseStyle from './styles/light-sd';
 import addLevels from './addLevels';
 import addGeojson from './addGeojson';
 
-console.log(addGeojson);
 export default class MapBoxDemo extends Component {
 
   componentDidMount() {
@@ -123,7 +122,7 @@ export default class MapBoxDemo extends Component {
           data: data[item.dataName]
         });
         for(let layer of item.layers) {
-          this.map.addLayer(layer);
+          this.map.addLayer(layer, layer.labelLayerId);
         }
       } else {
         this.map.getSource(item.sourceName).setData(data[item.dataName]);

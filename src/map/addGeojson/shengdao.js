@@ -3,12 +3,14 @@
  */
 
 const sourceName = "shengdao-source";
+const lineLabelLayerId = 'line-ref';
+const symbolLabelLayerId = 'symbol-ref';
 
 const style = {
   sourceName: sourceName,
   "dataName": "shengdao",
   layers: [{
-      "id": "shengdao_bg",
+      "id": "shengdao_bg", // 省道背景 
       type: 'line',
       source: sourceName,
       layout: {
@@ -38,7 +40,8 @@ const style = {
           ]
         },
         'line-color': '#ffae00'
-      }
+      },
+      labelLayerId: lineLabelLayerId
     }, {
       id: 'shengdao', // 路网图层（name字段），省道
       type: 'line',
@@ -70,7 +73,8 @@ const style = {
           ]
         },
         'line-color': '#ffeebb'
-      }
+      },
+      labelLayerId: lineLabelLayerId
     },
     {
       id: 'shengdao_name', // 国道名称
@@ -91,7 +95,8 @@ const style = {
         'text-color': 'rgba(65, 65, 65, 1)',
         'text-halo-width': 2,
         'text-halo-color': 'rgba(255, 255, 255, 1)'
-      }
+      },
+      labelLayerId: symbolLabelLayerId
     },
     {
       id: 'shengdao_icon', // 省道图标
@@ -116,7 +121,8 @@ const style = {
       },
       paint: {
         'text-color': '#FFFFFF'
-      }
+      },
+      labelLayerId: symbolLabelLayerId
     }
   ]
 };
