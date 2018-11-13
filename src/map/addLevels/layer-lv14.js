@@ -21,7 +21,7 @@ const style = {
     }
   },
   layers: [{
-    id: 'POI_LEVEL_14_1108',
+    id: 'POI_LEVEL_14',
     type: 'symbol',
     source: levelConfig.addLv14,
     'source-layer': 'POI_LEVEL_14',
