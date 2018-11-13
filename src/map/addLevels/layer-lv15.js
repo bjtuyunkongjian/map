@@ -11,7 +11,7 @@ import {
 
 const _visibleLevel = 15;
 const symbolLabelLayerId = 'symbol-ref';
-const lineLabelLayerId = 'line-ref';
+const lineLabelLayerId = 'GRAILN';
 
 const style = {
   visibleLevel: _visibleLevel,
@@ -468,7 +468,7 @@ const style = {
         'text-halo-width': 2,
         'text-halo-color': 'rgba(255, 255, 255, 1)'
       },
-      labelLayerId: lineLabelLayerId
+      labelLayerId: symbolLabelLayerId
     },
 
     /**
@@ -498,7 +498,8 @@ const style = {
         'text-color': '#737517',
         'text-halo-width': 2,
         'text-halo-color': 'rgba(255, 255, 255, 1)'
-      }
+      },
+      labelLayerId: symbolLabelLayerId
     },
     // {
     //   id: 'GHYDPT', // 记录一些井和XX泉  =======> 貌似没有数据 不对，是 NAME 属性为空，但是数据还是有的
@@ -628,7 +629,8 @@ const style = {
         'text-color': '#737517',
         'text-halo-width': 2,
         'text-halo-color': 'rgba(255, 255, 255, 1)'
-      }
+      },
+      labelLayerId: symbolLabelLayerId
     },
     //////////////////////////////////
     // poi
@@ -656,7 +658,8 @@ const style = {
         'text-color': 'rgba(65, 65, 65, 0.8)',
         'text-halo-width': 2,
         'text-halo-color': 'rgba(255, 255, 255, 1)'
-      }
+      },
+      labelLayerId: symbolLabelLayerId
     },
   ]
 }

@@ -121,7 +121,18 @@ const layers = [{
   },
 
   {
-    id: 'line-ref', // 做线的基层使用
+    id: 'line-ref', // 做线的基层使用，国道、省道
+    type: 'fill',
+    source: levelConfig.addLv7,
+    'source-layer': 'SD_GRAILN_1107',
+    layout: {},
+    paint: {}
+  },
+
+  /////////////////////////////
+  // 三维建筑
+  {
+    id: '3d-ref', // 做线的基层使用，国道、省道
     type: 'fill',
     source: levelConfig.addLv7,
     'source-layer': 'SD_GRAILN_1107',

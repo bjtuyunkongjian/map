@@ -26,15 +26,15 @@ export default class MapBoxDemo extends Component {
   }
 
   render() {
-    return <div style={
+    return <div style = {
       {
         width: '100%',
         height: '100%'
       }
     }
-      ref={
-        el => this.mapContainer = el
-      }
+    ref = {
+      el => this.mapContainer = el
+    }
     />
   }
 
@@ -59,13 +59,18 @@ export default class MapBoxDemo extends Component {
 
     this.map.on('load', () => {
       this.center = this.map.getCenter(); // 设置起初中心点位置
-      this.zoom = this.map.getZoom(); // 设置起初缩放等级
+      this.zoom = Math.ceil(this.map.getZoom()); // 设置起初缩放等级
       this._addSourceFunc(); // 增加图层组
       this._loadRoadSource(); // 添加道路图层
-    }).on('zoom', () => {
+    }).on('zoomend', () => {
       this._addSourceFunc();
-      const _zoom = this.map.getZoom(); // 当前缩放等级
-      if (Math.abs(_zoom - this.zoom) > 1) {
+      const _zoom = Math.ceil(this.map.getZoom()); // 当前缩放等级
+      const _bounds = this.map.getBounds();
+      if (Math.abs(_zoom - this.zoom) >= 1 ||
+        this.boundsArr[0][0] > _bounds._sw.lng ||
+        this.boundsArr[0][1] < _bounds._ne.lat ||
+        this.boundsArr[1][0] < _bounds._ne.lng ||
+        this.boundsArr[1][1] > _bounds._sw.lat) {
         this.zoom = _zoom;
         this._loadRoadSource();
       }
@@ -74,6 +79,7 @@ export default class MapBoxDemo extends Component {
       const {
         lat = 0, lng = 0
       } = this.center || {};
+
       if (Math.abs(_center.lat - lat) > this.haloLatDiff ||
         Math.abs(_center.lng - lng) > this.halfLngDiff) {
         this.center = _center;
@@ -97,7 +103,7 @@ export default class MapBoxDemo extends Component {
     this.halfLngDiff = (bounds._ne.lng - bounds._sw.lng) / 2;
     this.haloLatDiff = (bounds._ne.lat - bounds._sw.lat) / 2;
 
-    const boundsArr = [
+    this.boundsArr = [
       [bounds._sw.lng - this.halfLngDiff, bounds._ne.lat + this.haloLatDiff], // 左上角
       [bounds._ne.lng + this.halfLngDiff, bounds._sw.lat - this.haloLatDiff] // 右下角
     ];
@@ -107,7 +113,7 @@ export default class MapBoxDemo extends Component {
       url: 'road',
       method: 'POST',
       body: {
-        bounds: boundsArr,
+        bounds: this.boundsArr,
         zoom
       }
     });
@@ -115,13 +121,13 @@ export default class MapBoxDemo extends Component {
   }
 
   _addRoad(data) {
-    for(let item of addGeojson) {
-      if(!this.map.getSource(item.sourceName)) {
+    for (let item of addGeojson) {
+      if (!this.map.getSource(item.sourceName)) {
         this.map.addSource(item.sourceName, {
-          type: "geojson", 
+          type: "geojson",
           data: data[item.dataName]
         });
-        for(let layer of item.layers) {
+        for (let layer of item.layers) {
           this.map.addLayer(layer, layer.labelLayerId);
         }
       } else {
