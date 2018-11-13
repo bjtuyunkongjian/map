@@ -126,7 +126,9 @@ const layers = [{
   source: levelConfig.addLv7,
   'source-layer': 'SD_GRAILN_1107',
   layout: {},
-  paint: {}
+  paint: {
+    'fill-opacity': 0
+  }
 },
 
 /////////////////////////////
@@ -137,12 +139,24 @@ const layers = [{
   source: levelConfig.addLv7,
   'source-layer': 'SD_GRAILN_1107',
   layout: {},
-  paint: {}
+  paint: {
+    'fill-opacity': 0
+  }
 },
 
 ///////////////////////////////
 // 点
 
+{
+  id: 'symbol-ref', // 做文字的基层使用
+  type: 'fill',
+  source: levelConfig.addLv7,
+  'source-layer': 'POI_LEVEL_7',
+  layout: {},
+  paint: {
+    'fill-opacity': 0
+  }
+},
 
 
 {
