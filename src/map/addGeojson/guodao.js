@@ -21,7 +21,7 @@ const style = {
         'line-width': {
           base: 2,
           stops: [
-            [7, 3],
+            [7, 1],
             [8, 2],
             [9, 3],
             [10, 4],
@@ -54,7 +54,7 @@ const style = {
         'line-width': {
           base: 2,
           stops: [
-            [7, 2],
+            [7, 1],
             [8, 1],
             [9, 2],
             [10, 3],

@@ -1,8 +1,11 @@
 //19级图层
 
-import { levelConfig } from 'tuyun-config';
+import {
+  levelConfig
+} from 'tuyun-config';
 
 const _visibleLevel = 19;
+const symbolLabelLayerId = 'symbol-ref';
 
 const style = {
   visibleLevel: _visibleLevel,
@@ -38,7 +41,8 @@ const style = {
       'text-color': 'rgba(65, 65, 65, 0.8)',
       'text-halo-width': 2,
       'text-halo-color': 'rgba(255, 255, 255, 1)'
-    }
+    },
+    labelLayerId: symbolLabelLayerId
   }]
 }
 
