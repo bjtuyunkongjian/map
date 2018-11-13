@@ -6,6 +6,7 @@ import {
 } from 'tuyun-config';
 
 const _visibleLevel = 8;
+const symbolLabelLayerId = 'symbol-ref';
 
 const style = {
   visibleLevel: _visibleLevel,
@@ -29,7 +30,6 @@ const style = {
       'visibility': 'visible',
       'symbol-placement': 'point',
       'text-size': 12,
-      'icon-image': 'ic_map_{KIND}',
       'icon-text-fit': 'both',
       'icon-text-fit-padding': [2, 4, 2, 4],
       'text-justify': 'center',
@@ -44,7 +44,8 @@ const style = {
       'text-color': 'rgba(65, 65, 65, 0.8)',
       'text-halo-width': 2,
       'text-halo-color': 'rgba(255, 255, 255, 1)'
-    }
+    },
+    labelLayerId: symbolLabelLayerId
   }]
 };
 

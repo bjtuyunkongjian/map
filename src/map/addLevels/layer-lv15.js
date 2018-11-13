@@ -10,7 +10,8 @@ import {
 } from 'tuyun-config';
 
 const _visibleLevel = 15;
-const labelLayerId = 'background';
+const symbolLabelLayerId = 'symbol-ref';
+const lineLabelLayerId = 'line-ref';
 
 const style = {
   visibleLevel: _visibleLevel,
@@ -138,7 +139,7 @@ const style = {
     //     'line-color': '#d8d8d8',
     //   }
     // },
-    
+
     {
       id: 'GROALN_other_1009_ZD_bg', // 路网图层（name字段），栈道、内部道路、机耕路、乡村路、小路 + 专用公路、其他公路、村道
       type: 'line',
@@ -178,7 +179,7 @@ const style = {
         },
         'line-color': '#d8d8d8'
       },
-      // labelLayerId: 'background'
+      labelLayerId: lineLabelLayerId
     }, {
       id: 'GROALN_other_1009_ZD', // 路网图层（name字段），栈道、内部道路、机耕路、乡村路、小路 + 专用公路、其他公路、村道
       type: 'line',
@@ -218,7 +219,7 @@ const style = {
         },
         'line-color': '#FFFFFF'
       },
-      // labelLayerId: 'background'
+      labelLayerId: lineLabelLayerId
     }, {
       id: 'GROALN_other_1009_CGD_bg', // 路网图层（name字段），次干道、县道
       type: 'line',
@@ -247,7 +248,7 @@ const style = {
         },
         'line-color': '#d8d8d8'
       },
-      labelLayerId: 'background'
+      labelLayerId: lineLabelLayerId
     }, {
       id: 'GROALN_other_1009_CGD', // 路网图层（name字段），次干道、县道
       type: 'line',
@@ -276,7 +277,7 @@ const style = {
         },
         'line-color': '#FFFFFF'
       },
-      // labelLayerId: 'background'
+      labelLayerId: lineLabelLayerId
     }, {
       id: 'GROALN_other_1009_ZGD_bg', // 路网图层（name字段），主干道
       type: 'line',
@@ -301,7 +302,7 @@ const style = {
         },
         'line-color': '#ffae00'
       },
-      // labelLayerId: 'background'
+      labelLayerId: lineLabelLayerId
     },
     {
       id: 'GROALN_other_1009_ZGD', // 路网图层（name字段），主干道
@@ -326,8 +327,9 @@ const style = {
           ]
         },
         'line-color': '#ffeebb'
-      }
-    }, 
+      },
+      labelLayerId: lineLabelLayerId
+    },
     {
       id: 'GROALN_other_1009_GS_bg', // 路网图层（name字段），高速公路，背景充当描边
       type: 'line',
@@ -357,7 +359,7 @@ const style = {
         },
         'line-color': '#ffae00'
       },
-      // labelLayerId: 'background'
+      labelLayerId: lineLabelLayerId
     }, {
       id: 'GROALN_other_1009_GS', // 路网图层（name字段），高速公路
       type: 'line',
@@ -387,7 +389,7 @@ const style = {
         },
         'line-color': '#ffeebb'
       },
-      // labelLayerId: 'background'
+      labelLayerId: lineLabelLayerId
     }, {
       id: 'GROALN_other_1009_KSL_bg', // 路网图层（name字段），背景充当描边 快速路，高架路
       type: 'line',
@@ -415,7 +417,7 @@ const style = {
         },
         'line-color': '#ffae00'
       },
-      // labelLayerId: 'background'
+      labelLayerId: lineLabelLayerId
     }, {
       id: 'GROALN_other_1009_KSL', // 路网图层（name字段） 快速路，高架路
       type: 'line',
@@ -443,8 +445,8 @@ const style = {
         },
         'line-color': '#ffeebb'
       },
-      // labelLayerId: 'background'
-    }, 
+      labelLayerId: lineLabelLayerId
+    },
     {
       id: 'GROALN_other_1009_NAME',
       type: 'symbol',
@@ -465,7 +467,8 @@ const style = {
         'text-color': '#2E7EAF',
         'text-halo-width': 2,
         'text-halo-color': 'rgba(255, 255, 255, 1)'
-      }
+      },
+      labelLayerId: lineLabelLayerId
     },
 
     /**

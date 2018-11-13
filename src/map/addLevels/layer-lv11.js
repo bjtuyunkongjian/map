@@ -7,6 +7,7 @@ import {
 } from 'tuyun-config';
 
 const _visibleLevel = 11;
+const symbolLabelLayerId = 'symbol-ref';
 
 const style = {
   visibleLevel: _visibleLevel,
@@ -20,34 +21,33 @@ const style = {
       minzoom: _visibleLevel
     },
   },
-  layers: [
-    {
-      id: 'POI_LEVEL_11_1108_1',
-      type: 'symbol',
-      source: levelConfig.addLv11,
-      'source-layer': 'POI_LEVEL_11',
-      'layout': {
-        'text-field': '{NAME}',
-        'visibility': 'visible',
-        'symbol-placement': 'point',
-        'text-size': 12,
-        'text-padding': 4,
-        'icon-image': 'ic_map_{KIND}',
-        'text-justify': 'left',
-        'text-anchor': 'left',
-        'text-offset': [0.8, 0],
-        'text-font': ['Arial Unicode MS Blod', 'Open Sans Regular'],
-        'text-pitch-alignment': 'viewport',
-        'text-rotation-alignment': 'viewport',
-        'icon-rotation-alignment': 'viewport'
-      },
-      'paint': {
-        'text-color': 'rgba(65, 65, 65, 0.8)',
-        'text-halo-width': 2,
-        'text-halo-color': 'rgba(255, 255, 255, 1)'
-      }
-    }
-  ]
+  layers: [{
+    id: 'POI_LEVEL_11_1108_1',
+    type: 'symbol',
+    source: levelConfig.addLv11,
+    'source-layer': 'POI_LEVEL_11',
+    'layout': {
+      'text-field': '{NAME}',
+      'visibility': 'visible',
+      'symbol-placement': 'point',
+      'text-size': 12,
+      'text-padding': 4,
+      'icon-image': 'ic_map_{KIND}',
+      'text-justify': 'left',
+      'text-anchor': 'left',
+      'text-offset': [0.8, 0],
+      'text-font': ['Arial Unicode MS Blod', 'Open Sans Regular'],
+      'text-pitch-alignment': 'viewport',
+      'text-rotation-alignment': 'viewport',
+      'icon-rotation-alignment': 'viewport'
+    },
+    'paint': {
+      'text-color': 'rgba(65, 65, 65, 0.8)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    },
+    labelLayerId: symbolLabelLayerId
+  }]
 };
 
 
