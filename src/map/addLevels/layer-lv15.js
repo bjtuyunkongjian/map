@@ -12,6 +12,7 @@ import {
 const _visibleLevel = 15;
 const symbolLabelLayerId = 'symbol-ref';
 const lineLabelLayerId = 'GRAILN';
+const threeLabelLayerId = '3d-ref';
 
 const style = {
   visibleLevel: _visibleLevel,
