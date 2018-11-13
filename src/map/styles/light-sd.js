@@ -85,8 +85,8 @@ const layers = [{
     },
     paint: {
       'line-width': 1,
-      'line-color': '#BBBBBB',
-      'line-offset': 0
+      'line-color': '#cdcdcd',
+      'line-dasharray': [5, 4]
     }
   },
 
