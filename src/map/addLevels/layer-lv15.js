@@ -221,7 +221,9 @@ const style = {
         'line-color': '#FFFFFF'
       },
       labelLayerId: lineLabelLayerId
-    }, {
+    },
+    ///////////////////
+    {
       id: 'GROALN_other_1009_CGD_bg', // 路网图层（name字段），次干道、县道
       type: 'line',
       source: levelConfig.addLv15,
@@ -279,7 +281,9 @@ const style = {
         'line-color': '#FFFFFF'
       },
       labelLayerId: lineLabelLayerId
-    }, {
+    },
+    /////////////////////
+    {
       id: 'GROALN_other_1009_ZGD_bg', // 路网图层（name字段），主干道
       type: 'line',
       source: levelConfig.addLv15,
@@ -331,67 +335,71 @@ const style = {
       },
       labelLayerId: lineLabelLayerId
     },
+    ///////////////
+    // {
+    //   id: 'GROALN_other_1009_GS_bg', // 路网图层（name字段），高速公路，背景充当描边
+    //   type: 'line',
+    //   source: levelConfig.addLv15,
+    //   filter: ['any',
+    //     ['==', 'CLASID', '420704'],
+    //     ['==', 'CLASID', '420705'],
+    //     ['==', 'CLASID', '420706'],
+    //     ['==', 'CLASID', '420600']
+    //   ],
+    //   'source-layer': 'GROALN_other_1009',
+    //   layout: {
+    //     'line-cap': 'round',
+    //     'line-join': 'round',
+    //   },
+    //   paint: {
+    //     'line-width': {
+    //       'base': 2,
+    //       'stops': [
+    //         [15, 8.5],
+    //         [16, 10.5],
+    //         [17, 12.5],
+    //         [18, 14.5],
+    //         [19, 19.5],
+    //         [20, 20]
+    //       ]
+    //     },
+    //     'line-color': '#ffae00'
+    //   },
+    //   labelLayerId: lineLabelLayerId
+    // },
+    // {
+    //   id: 'GROALN_other_1009_GS', // 路网图层（name字段），高速公路
+    //   type: 'line',
+    //   source: levelConfig.addLv15,
+    //   filter: ['any',
+    //     ['==', 'CLASID', '420704'],
+    //     ['==', 'CLASID', '420705'],
+    //     ['==', 'CLASID', '420706'],
+    //     ['==', 'CLASID', '420600']
+    //   ],
+    //   'source-layer': 'GROALN_other_1009',
+    //   layout: {
+    //     'line-cap': 'round',
+    //     'line-join': 'round',
+    //   },
+    //   paint: {
+    //     'line-width': {
+    //       'base': 2,
+    //       'stops': [
+    //         [15, 7],
+    //         [16, 9],
+    //         [17, 11],
+    //         [18, 14],
+    //         [19, 19],
+    //         [20, 19]
+    //       ]
+    //     },
+    //     'line-color': '#ffeebb'
+    //   },
+    //   labelLayerId: lineLabelLayerId
+    // },
+    ////////////////////////
     {
-      id: 'GROALN_other_1009_GS_bg', // 路网图层（name字段），高速公路，背景充当描边
-      type: 'line',
-      source: levelConfig.addLv15,
-      filter: ['any',
-        ['==', 'CLASID', '420704'],
-        ['==', 'CLASID', '420705'],
-        ['==', 'CLASID', '420706'],
-        ['==', 'CLASID', '420600']
-      ],
-      'source-layer': 'GROALN_other_1009',
-      layout: {
-        'line-cap': 'round',
-        'line-join': 'round',
-      },
-      paint: {
-        'line-width': {
-          'base': 2,
-          'stops': [
-            [15, 8.5],
-            [16, 10.5],
-            [17, 12.5],
-            [18, 14.5],
-            [19, 19.5],
-            [20, 20]
-          ]
-        },
-        'line-color': '#ffae00'
-      },
-      labelLayerId: lineLabelLayerId
-    }, {
-      id: 'GROALN_other_1009_GS', // 路网图层（name字段），高速公路
-      type: 'line',
-      source: levelConfig.addLv15,
-      filter: ['any',
-        ['==', 'CLASID', '420704'],
-        ['==', 'CLASID', '420705'],
-        ['==', 'CLASID', '420706'],
-        ['==', 'CLASID', '420600']
-      ],
-      'source-layer': 'GROALN_other_1009',
-      layout: {
-        'line-cap': 'round',
-        'line-join': 'round',
-      },
-      paint: {
-        'line-width': {
-          'base': 2,
-          'stops': [
-            [15, 7],
-            [16, 9],
-            [17, 11],
-            [18, 14],
-            [19, 19],
-            [20, 19]
-          ]
-        },
-        'line-color': '#ffeebb'
-      },
-      labelLayerId: lineLabelLayerId
-    }, {
       id: 'GROALN_other_1009_KSL_bg', // 路网图层（name字段），背景充当描边 快速路，高架路
       type: 'line',
       source: levelConfig.addLv15,

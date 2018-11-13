@@ -126,7 +126,9 @@ const layers = [{
     source: levelConfig.addLv7,
     'source-layer': 'SD_GRAILN_1107',
     layout: {},
-    paint: {}
+    paint: {
+      'fill-opacity': 0
+    }
   },
 
   /////////////////////////////
@@ -137,7 +139,9 @@ const layers = [{
     source: levelConfig.addLv7,
     'source-layer': 'SD_GRAILN_1107',
     layout: {},
-    paint: {}
+    paint: {
+      'fill-opacity': 0
+    }
   },
 
   ///////////////////////////////
@@ -149,7 +153,9 @@ const layers = [{
     source: levelConfig.addLv7,
     'source-layer': 'POI_LEVEL_7',
     layout: {},
-    paint: {}
+    paint: {
+      'fill-opacity': 0
+    }
   },
 
   {
