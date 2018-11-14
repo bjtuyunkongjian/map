@@ -83,7 +83,12 @@ const style = {
       source: sourceName,
       minzoom: _visibleLevel,
       layout: {
-        'text-field': '{NAME}',
+        'text-field': {
+          stops: [
+            [7, ''],
+            [13, '{NAME}']
+          ]
+        },
         visibility: 'visible',
         'symbol-placement': 'line',
         'text-font': ['Arial Unicode MS Bold'],
