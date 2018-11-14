@@ -82,7 +82,12 @@ const style = {
       type: 'symbol',
       source: sourceName,
       layout: {
-        'text-field': '{NAME}',
+        'text-field': {
+          stops: [
+            [7, ''],
+            [12, '{NAME}']
+          ]
+        },
         visibility: 'visible',
         'symbol-placement': 'line',
         'text-font': ['Arial Unicode MS Bold'],
