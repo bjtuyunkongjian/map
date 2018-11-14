@@ -5,7 +5,6 @@
 const sourceName = "guodao-source";
 const lineLabelLayerId = 'line-ref';
 const symbolLabelLayerId = 'symbol-ref';
-const _visibleLevel = 9;
 
 const style = {
   sourceName: sourceName,

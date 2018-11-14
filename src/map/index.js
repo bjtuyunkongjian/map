@@ -14,6 +14,7 @@ import React, {
 import baseStyle from './styles/light-sd';
 import addLevels from './addLevels';
 import addGeojson from './addGeojson';
+import gaoguoGDB from './geojson/gaoguoGDB_cx';
 
 export default class MapBoxDemo extends Component {
 
@@ -26,15 +27,15 @@ export default class MapBoxDemo extends Component {
   }
 
   render() {
-    return <div style={
+    return <div style = {
       {
         width: '100%',
         height: '100%'
       }
     }
-      ref={
-        el => this.mapContainer = el
-      }
+    ref = {
+      el => this.mapContainer = el
+    }
     />
   }
 
@@ -61,7 +62,7 @@ export default class MapBoxDemo extends Component {
       this.center = this.map.getCenter(); // 设置起初中心点位置
       this.zoom = Math.ceil(this.map.getZoom()); // 设置起初缩放等级
       this._addSourceFunc(); // 增加图层组
-      // this._loadRoadSource(); // 添加道路图层
+      this._loadRoadSource(); // 添加道路图层
     }).on('zoomend', () => {
       const _zoom = Math.ceil(this.map.getZoom()); // 当前缩放等级
       const _bounds = this.map.getBounds();
@@ -72,7 +73,7 @@ export default class MapBoxDemo extends Component {
         this.boundsArr[1][1] > _bounds._sw.lat) {
         this.zoom = _zoom;
         this.center = this.map.getCenter(); // 当前中心点位置
-        // this._loadRoadSource();
+        this._loadRoadSource();
       }
       this._addSourceFunc();
     }).on('mouseup', () => {
@@ -84,7 +85,7 @@ export default class MapBoxDemo extends Component {
       if (Math.abs(_center.lat - lat) > this.haloLatDiff ||
         Math.abs(_center.lng - lng) > this.halfLngDiff) {
         this.center = _center;
-        // this._loadRoadSource();
+        this._loadRoadSource();
       }
     });
     // 拖出浏览器事件
@@ -115,8 +116,8 @@ export default class MapBoxDemo extends Component {
 
   // 将国道、省道单独开来，临时处理
   async _loadRoadSource() {
-    const bounds = this.map.getBounds();
     const zoom = this.map.getZoom();
+    const bounds = this.map.getBounds();
     this.halfLngDiff = (bounds._ne.lng - bounds._sw.lng) / 2;
     this.haloLatDiff = (bounds._ne.lat - bounds._sw.lat) / 2;
 
@@ -124,6 +125,9 @@ export default class MapBoxDemo extends Component {
       [bounds._sw.lng - this.halfLngDiff, bounds._ne.lat + this.haloLatDiff], // 左上角
       [bounds._ne.lng + this.halfLngDiff, bounds._sw.lat - this.haloLatDiff] // 右下角
     ];
+
+    // if (zoom < 13) return;
+
     const {
       res
     } = await FetchRequest({
@@ -134,6 +138,9 @@ export default class MapBoxDemo extends Component {
         zoom
       }
     });
+    if (zoom < 12) {
+      res.guodao = gaoguoGDB;
+    }
     this._addRoad(res);
   }
 
