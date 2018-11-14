@@ -5,6 +5,7 @@
 const sourceName = "shengdao-source";
 const lineLabelLayerId = 'line-ref';
 const symbolLabelLayerId = 'symbol-ref';
+const _visibleLevel = 9;
 
 const style = {
   sourceName: sourceName,
@@ -13,6 +14,7 @@ const style = {
       "id": "shengdao_bg", // 省道背景 
       type: 'line',
       source: sourceName,
+      minzoom: _visibleLevel,
       layout: {
         'line-join': 'round',
         'line-cap': 'round'
@@ -45,6 +47,7 @@ const style = {
       id: 'shengdao', // 路网图层（name字段），省道
       type: 'line',
       source: sourceName,
+      minzoom: _visibleLevel,
       layout: {
         'line-cap': 'round',
         'line-join': 'round'
@@ -78,6 +81,7 @@ const style = {
       id: 'shengdao_name', // 国道名称
       type: 'symbol',
       source: sourceName,
+      minzoom: _visibleLevel,
       layout: {
         'text-field': '{NAME}',
         visibility: 'visible',
@@ -101,6 +105,7 @@ const style = {
       type: 'symbol',
       source: sourceName,
       filter: ['!=', 'ENTIID', ''],
+      minzoom: _visibleLevel,
       layout: {
         'text-field': '{ENTIID}',
         visibility: 'visible',

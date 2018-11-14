@@ -5,6 +5,7 @@
 const sourceName = "xdzgd-source";
 const lineLabelLayerId = 'line-ref';
 const symbolLabelLayerId = 'symbol-ref';
+const _visibleLevel = 9;
 
 const style = {
   sourceName: sourceName,
@@ -13,6 +14,7 @@ const style = {
       "id": "xdzgd_bg", // 县道、主干道背景
       type: 'line',
       source: sourceName,
+      minzoom: _visibleLevel,
       layout: {
         'line-join': 'round',
         'line-cap': 'round'
@@ -46,6 +48,7 @@ const style = {
       id: 'xdzgd', // 路网图层（name字段），县道主干道
       type: 'line',
       source: sourceName,
+      minzoom: _visibleLevel,
       layout: {
         'line-cap': 'round',
         'line-join': 'round'
@@ -80,6 +83,7 @@ const style = {
       id: 'xdzgd_name', // 县道主干道名称
       type: 'symbol',
       source: sourceName,
+      minzoom: _visibleLevel,
       layout: {
         'text-field': '{NAME}',
         visibility: 'visible',

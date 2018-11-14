@@ -63,7 +63,6 @@ export default class MapBoxDemo extends Component {
       this._addSourceFunc(); // 增加图层组
       this._loadRoadSource(); // 添加道路图层
     }).on('zoomend', () => {
-      this._addSourceFunc();
       const _zoom = Math.ceil(this.map.getZoom()); // 当前缩放等级
       const _bounds = this.map.getBounds();
       if (Math.abs(_zoom - this.zoom) >= 1 ||
@@ -72,8 +71,10 @@ export default class MapBoxDemo extends Component {
         this.boundsArr[1][0] < _bounds._ne.lng ||
         this.boundsArr[1][1] > _bounds._sw.lat) {
         this.zoom = _zoom;
+        this.center = this.map.getCenter(); // 当前中心点位置
         this._loadRoadSource();
       }
+      this._addSourceFunc();
     }).on('mouseup', () => {
       const _center = this.map.getCenter(); // 当前中心点位置
       const {
@@ -84,6 +85,22 @@ export default class MapBoxDemo extends Component {
         Math.abs(_center.lng - lng) > this.halfLngDiff) {
         this.center = _center;
         this._loadRoadSource();
+      }
+    });
+    // 拖出浏览器事件
+    document.addEventListener('mouseup', (e) => {
+      if (e.clientY > window.innerWidth || e.clientY < 0 || e.clientX < 0 || e.clientX > window.innerHeight) {
+        //在这加入你想执行的代码，此条件下鼠标已经在浏览器外
+        const _center = this.map.getCenter(); // 当前中心点位置
+        const {
+          lat = 0, lng = 0
+        } = this.center || {};
+
+        if (Math.abs(_center.lat - lat) > this.haloLatDiff ||
+          Math.abs(_center.lng - lng) > this.halfLngDiff) {
+          this.center = _center;
+          this._loadRoadSource();
+        }
       }
     });
 
