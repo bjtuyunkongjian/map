@@ -18,6 +18,7 @@ import {
 } from 'tuyun-config';
 
 const _ditchVisibleLevel = 14; // 沟和渠道显示等级
+const _maxzoom = 13;
 
 const layers = [{
   id: 'background', // 背景
@@ -130,7 +131,134 @@ const layers = [{
     'fill-opacity': 0
   }
 },
-
+{
+  "id": "7L_guodao_bg", // 国道背景
+  type: 'line',
+  source: levelConfig.addLv7,
+  'source-layer': 'gaoguoGDB',
+  maxzoom: _maxzoom,
+  layout: {
+    'line-join': 'round',
+    'line-cap': 'round'
+  },
+  paint: {
+    'line-width': {
+      base: 2,
+      stops: [
+        [7, 1],
+        [8, 2],
+        [9, 3],
+        [10, 4],
+        [11, 4],
+        [12, 7],
+        [13, 9],
+        [14, 9],
+        [15, 10],
+        [16, 10],
+        [17, 12],
+        [18, 14],
+        [19, 14],
+        [20, 22],
+        [21, 24],
+        [22, 26]
+      ]
+    },
+    'line-color': '#f9bd09'
+  },
+  // labelLayerId: lineLabelLayerId
+}, {
+  id: '7L_guodao', // 路网图层（name字段），国道
+  type: 'line',
+  source: levelConfig.addLv7,
+  'source-layer': 'gaoguoGDB',
+  maxzoom: _maxzoom,
+  layout: {
+    'line-cap': 'round',
+    'line-join': 'round'
+  },
+  paint: {
+    'line-width': {
+      base: 2,
+      stops: [
+        [7, 1],
+        [8, 1],
+        [9, 2],
+        [10, 3],
+        [11, 3],
+        [12, 5],
+        [13, 6],
+        [14, 6],
+        [15, 7],
+        [16, 7],
+        [17, 9],
+        [18, 11],
+        [19, 11],
+        [20, 19],
+        [21, 22],
+        [22, 24],
+      ]
+    },
+    'line-color': '#fed669'
+  },
+  // labelLayerId: lineLabelLayerId
+},
+{
+  id: '7L_guodao_name', // 国道名称
+  type: 'symbol',
+  source: levelConfig.addLv7,
+  'source-layer': 'gaoguoGDB',
+  maxzoom: _maxzoom,
+  layout: {
+    'text-field': {
+      stops: [
+        [7, ''],
+        [12, '{NAME}']
+      ]
+    },
+    visibility: 'visible',
+    'symbol-placement': 'line',
+    'text-font': ['Arial Unicode MS Bold'],
+    'text-pitch-alignment': 'viewport',
+    'symbol-spacing': 500,
+    'text-rotation-alignment': 'map',
+    'text-size': 12,
+    'icon-rotation-alignment': 'viewport'
+  },
+  paint: {
+    'text-color': 'rgba(65, 65, 65, 1)',
+    'text-halo-width': 2,
+    'text-halo-color': 'rgba(255, 255, 255, 1)'
+  },
+  // labelLayerId: symbolLabelLayerId
+},
+{
+  id: '7L_guodao_icon', // 国道图标
+  type: 'symbol',
+  source: levelConfig.addLv7,
+  'source-layer': 'gaoguoGDB',
+  maxzoom: _maxzoom,
+  filter: ['!=', 'ENTIID', ''],
+  layout: {
+    'text-field': '{ENTIID}',
+    visibility: 'visible',
+    'symbol-placement': 'line',
+    'text-size': 12,
+    'icon-image': 'ic_map_gh.9',
+    'icon-text-fit': 'both',
+    'icon-text-fit-padding': [2, 6, 2, 6],
+    'text-justify': 'center',
+    'text-font': ['黑体'],
+    'text-pitch-alignment': 'viewport',
+    'text-rotation-alignment': 'viewport',
+    'icon-rotation-alignment': 'viewport',
+    'text-anchor': 'center',
+    'text-keep-upright': false
+  },
+  paint: {
+    'text-color': '#FFFFFF'
+  },
+  // labelLayerId: symbolLabelLayerId
+},
 /////////////////////////////
 // 三维建筑
 {
