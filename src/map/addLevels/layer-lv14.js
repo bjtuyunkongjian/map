@@ -108,14 +108,14 @@ const style = {
         visibility: 'visible',
         'symbol-placement': 'line',
         'text-font': ['Arial Unicode MS Bold'],
-        'text-pitch-alignment': 'viewport',
+        'text-pitch-alignment': 'map',
         'symbol-spacing': 500,
         'text-rotation-alignment': 'map',
-        'text-size': 12,
+        'text-size': 8,
         'icon-rotation-alignment': 'viewport'
       },
       paint: {
-        'text-color': 'rgba(65, 65, 65, 1)',
+        'text-color': 'rgba(65, 65, 65, 0.8)',
         'text-halo-width': 2,
         'text-halo-color': 'rgba(255, 255, 255, 1)'
       },

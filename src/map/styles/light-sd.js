@@ -18,7 +18,7 @@ import {
 } from 'tuyun-config';
 
 const _ditchVisibleLevel = 14; // 沟和渠道显示等级
-const _maxzoom = 13;
+const _maxzoom = 12;
 
 const layers = [{
   id: 'background', // 背景
@@ -87,7 +87,7 @@ const layers = [{
   paint: {
     'line-width': 1,
     'line-color': '#cdcdcd',
-    'line-dasharray': [5, 4]
+    // 'line-dasharray': [5, 4]
   }
 },
 
@@ -183,6 +183,7 @@ const layers = [{
   type: 'symbol',
   source: levelConfig.addLv7,
   'source-layer': 'POI_LEVEL_7',
+  maxzoom: _maxzoom,
   layout: {
     'text-field': '{NAME}',
     visibility: 'visible',

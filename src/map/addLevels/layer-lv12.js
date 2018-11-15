@@ -116,7 +116,7 @@ const style = {
         'icon-rotation-alignment': 'viewport'
       },
       paint: {
-        'text-color': 'rgba(65, 65, 65, 1)',
+        'text-color': 'rgba(65, 65, 65, 0.9)',
         'text-halo-width': 2,
         'text-halo-color': 'rgba(255, 255, 255, 1)'
       },
@@ -143,9 +143,9 @@ const style = {
             [12, 5],
             [13, 7],
             [14, 9],
-            [15, 10],
-            [16, 10],
-            [17, 12],
+            [15, 8],
+            [16, 8],
+            [17, 10],
             [18, 14],
             [19, 14],
             [20, 22],
@@ -188,7 +188,7 @@ const style = {
             [22, 24],
           ]
         },
-        'line-color': '#fff'
+        'line-color': '#fed669'
       },
       labelLayerId: lineLabelLayerId
     },
@@ -215,7 +215,7 @@ const style = {
         'icon-rotation-alignment': 'viewport'
       },
       paint: {
-        'text-color': 'rgba(65, 65, 65, 1)',
+        'text-color': 'rgba(65, 65, 65, 0.9)',
         'text-halo-width': 2,
         'text-halo-color': 'rgba(255, 255, 255, 1)'
       },
@@ -315,7 +315,7 @@ const style = {
         'icon-rotation-alignment': 'viewport'
       },
       paint: {
-        'text-color': 'rgba(65, 65, 65, 1)',
+        'text-color': 'rgba(65, 65, 65, 0.9)',
         'text-halo-width': 2,
         'text-halo-color': 'rgba(255, 255, 255, 1)'
       },
