@@ -1,4 +1,4 @@
-import xdzgdStyle from './xdzgd';
+import xiandao from './xiandao';
 import shengdaoStyle from './shengdao';
 import guodaoStyle from './guodao';
 
