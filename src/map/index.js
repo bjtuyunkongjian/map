@@ -97,8 +97,8 @@ export default class MapBoxDemo extends Component {
           lat = 0, lng = 0
         } = this.center || {};
 
-        if (Math.abs(_center.lat - lat) > this.haloLatDiff ||
-          Math.abs(_center.lng - lng) > this.halfLngDiff) {
+        if (Math.abs(_center.lat - lat) >= this.haloLatDiff ||
+          Math.abs(_center.lng - lng) >= this.halfLngDiff) {
           this.center = _center;
           this._loadRoadSource();
         }
@@ -125,9 +125,7 @@ export default class MapBoxDemo extends Component {
       [bounds._sw.lng - this.halfLngDiff, bounds._ne.lat + this.haloLatDiff], // 左上角
       [bounds._ne.lng + this.halfLngDiff, bounds._sw.lat - this.haloLatDiff] // 右下角
     ];
-
-    // if (zoom < 13) return;
-
+    // console.log('开始请求 ===> ', (new Date()).getTime());
     const {
       res
     } = await FetchRequest({
@@ -138,6 +136,8 @@ export default class MapBoxDemo extends Component {
         zoom
       }
     });
+    // console.log('结束请求 ===> ', (new Date()).getTime());
+
     if (zoom < 12) {
       res.guodao = gaoguoGDB;
     }
