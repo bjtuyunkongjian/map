@@ -108,14 +108,14 @@ const style = {
         visibility: 'visible',
         'symbol-placement': 'line',
         'text-font': ['Arial Unicode MS Bold'],
-        'text-pitch-alignment': 'viewport',
+        'text-pitch-alignment': 'map',
         'symbol-spacing': 500,
         'text-rotation-alignment': 'map',
-        'text-size': 12,
+        'text-size': 10,
         'icon-rotation-alignment': 'viewport'
       },
       paint: {
-        'text-color': 'rgba(65, 65, 65, 1)',
+        'text-color': 'rgba(65, 65, 65, 0.9)',
         'text-halo-width': 2,
         'text-halo-color': 'rgba(255, 255, 255, 1)'
       },
@@ -208,14 +208,14 @@ const style = {
         visibility: 'visible',
         'symbol-placement': 'line',
         'text-font': ['Arial Unicode MS Bold'],
-        'text-pitch-alignment': 'viewport',
+        'text-pitch-alignment': 'map',
         'symbol-spacing': 500,
         'text-rotation-alignment': 'map',
-        'text-size': 12,
+        'text-size': 10,
         'icon-rotation-alignment': 'viewport'
       },
       paint: {
-        'text-color': 'rgba(65, 65, 65, 1)',
+        'text-color': 'rgba(65, 65, 65, 0.9)',
         'text-halo-width': 2,
         'text-halo-color': 'rgba(255, 255, 255, 1)'
       },
@@ -225,7 +225,7 @@ const style = {
       "id": "zd_bg", //匝道背景
       type: 'line',
       source: levelConfig.addLv13,
-      'source-layer': 'zadaoGDBt',
+      'source-layer': 'zadaoGDB',
       minzoom: _visibleLevel,
       layout: {
         'line-join': 'round',
@@ -243,24 +243,24 @@ const style = {
             [12, 7],
             [13, 4],
             [14, 6],
-            [15, 10],
-            [16, 10],
-            [17, 12],
-            [18, 14],
+            [15, 8],
+            [16, 8],
+            [17, 8],
+            [18, 10],
             [19, 14],
             [20, 22],
             [21, 24],
             [22, 26]
           ]
         },
-        'line-color': '#ffeebb'
+        'line-color': '#fed669'
       },
       labelLayerId: lineLabelLayerId
     }, {
-      id: 'zd', // 路网图层（name字段），匝道
+      id: 'zd', // 路网图层（name字段），匝道/立交
       type: 'line',
       source: levelConfig.addLv13,
-      'source-layer': 'zadaoGDBt',
+      'source-layer': 'zadaoGDB',
       minzoom: _visibleLevel,
       layout: {
         'line-cap': 'round',
@@ -281,14 +281,14 @@ const style = {
             [15, 7],
             [16, 7],
             [17, 9],
-            [18, 11],
+            [18, 9],
             [19, 11],
             [20, 19],
             [21, 22],
             [22, 24],
           ]
         },
-        'line-color': '#fed669'
+        'line-color': '#ffeebb'
       },
       labelLayerId: lineLabelLayerId
     },
@@ -296,7 +296,7 @@ const style = {
       id: 'zd_name',
       type: 'symbol',
       source: levelConfig.addLv13,
-      'source-layer': 'zadaoGDBt',
+      'source-layer': 'zadaoGDB',
       minzoom: _visibleLevel,
       layout: {
         'text-field': {
@@ -308,14 +308,14 @@ const style = {
         visibility: 'visible',
         'symbol-placement': 'line',
         'text-font': ['Arial Unicode MS Bold'],
-        'text-pitch-alignment': 'viewport',
+        'text-pitch-alignment': 'map',
         'symbol-spacing': 500,
         'text-rotation-alignment': 'map',
-        'text-size': 12,
+        'text-size': 10,
         'icon-rotation-alignment': 'viewport'
       },
       paint: {
-        'text-color': 'rgba(65, 65, 65, 1)',
+        'text-color': 'rgba(65, 65, 65, 0.9)',
         'text-halo-width': 2,
         'text-halo-color': 'rgba(255, 255, 255, 1)'
       },
@@ -408,14 +408,14 @@ const style = {
         visibility: 'visible',
         'symbol-placement': 'line',
         'text-font': ['Arial Unicode MS Bold'],
-        'text-pitch-alignment': 'viewport',
+        'text-pitch-alignment': 'map',
         'symbol-spacing': 500,
         'text-rotation-alignment': 'map',
-        'text-size': 12,
+        'text-size': 10,
         'icon-rotation-alignment': 'viewport'
       },
       paint: {
-        'text-color': 'rgba(65, 65, 65, 1)',
+        'text-color': 'rgba(65, 65, 65, 0.9)',
         'text-halo-width': 2,
         'text-halo-color': 'rgba(255, 255, 255, 1)'
       },
