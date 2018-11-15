@@ -7,6 +7,7 @@ import {
 
 const _visibleLevel = 8;
 const symbolLabelLayerId = 'symbol-ref';
+const _maxzoom = 10;
 
 const style = {
   visibleLevel: _visibleLevel,
@@ -25,11 +26,12 @@ const style = {
     type: 'symbol',
     source: levelConfig.addLv8,
     'source-layer': 'POI_LEVEL_8',
+    maxzoom: _maxzoom,
     'layout': {
       'text-field': '{NAME}',
       'visibility': 'visible',
       'symbol-placement': 'point',
-      'text-size': 12,
+      'text-size': 14,
       'icon-text-fit': 'both',
       'icon-text-fit-padding': [2, 4, 2, 4],
       'text-justify': 'center',
@@ -41,7 +43,7 @@ const style = {
       'text-keep-upright': false
     },
     'paint': {
-      'text-color': 'rgba(65, 65, 65, 0.8)',
+      'text-color': 'rgba(65, 65, 65, 0.9)',
       'text-halo-width': 2,
       'text-halo-color': 'rgba(255, 255, 255, 1)'
     },

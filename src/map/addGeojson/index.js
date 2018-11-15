@@ -3,7 +3,7 @@ import shengdaoStyle from './shengdao';
 import guodaoStyle from './guodao';
 
 export default [
-  xdzgdStyle,
+  // xdzgdStyle,
   shengdaoStyle,
   guodaoStyle
 ]

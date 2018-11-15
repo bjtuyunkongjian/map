@@ -473,7 +473,7 @@ const style = {
         'icon-rotation-alignment': 'viewport'
       },
       'paint': {
-        'text-color': '#2E7EAF',
+        'text-color': '#747474',
         'text-halo-width': 2,
         'text-halo-color': 'rgba(255, 255, 255, 1)'
       },
