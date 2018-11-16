@@ -2,16 +2,16 @@
  * @author sl 2019-01-02
  */
 
-const sourceName = "xdzgd-source";
+const sourceName = "ksl-source";
 const lineLabelLayerId = 'line-ref';
 const symbolLabelLayerId = 'symbol-ref';
-const _visibleLevel = 9;
+const _visibleLevel = 13;
 
 const style = {
   sourceName: sourceName,
-  "dataName": "xdzgd",
+  "dataName": "ksl",
   layers: [{
-      "id": "xdzgd_bg", // 县道、主干道背景
+      "id": "ksl_bg", //快速路的背景
       type: 'line',
       source: sourceName,
       minzoom: _visibleLevel,
@@ -29,8 +29,8 @@ const style = {
             [10, 4],
             [11, 4],
             [12, 7],
-            [13, 9],
-            [14, 9],
+            [13, 4],
+            [14, 6],
             [15, 10],
             [16, 10],
             [17, 12],
@@ -41,11 +41,11 @@ const style = {
             [22, 26]
           ]
         },
-        'line-color': '#ffae00'
+        'line-color': '#d8d8d8'
       },
       labelLayerId: lineLabelLayerId
     }, {
-      id: 'xdzgd', // 路网图层（name字段），县道主干道
+      id: 'ksl',
       type: 'line',
       source: sourceName,
       minzoom: _visibleLevel,
@@ -63,8 +63,8 @@ const style = {
             [10, 3],
             [11, 3],
             [12, 5],
-            [13, 6],
-            [14, 6],
+            [13, 3],
+            [14, 5],
             [15, 7],
             [16, 7],
             [17, 9],
@@ -75,12 +75,12 @@ const style = {
             [22, 24],
           ]
         },
-        'line-color': '#ffeebb'
+        'line-color': '#ff0'
       },
       labelLayerId: lineLabelLayerId
     },
     {
-      id: 'xdzgd_name', // 县道主干道名称
+      id: 'ksl_name', // 快速路
       type: 'symbol',
       source: sourceName,
       minzoom: _visibleLevel,
@@ -94,14 +94,14 @@ const style = {
         visibility: 'visible',
         'symbol-placement': 'line',
         'text-font': ['Arial Unicode MS Bold'],
-        'text-pitch-alignment': 'viewport',
+        'text-pitch-alignment': 'map',
         'symbol-spacing': 500,
         'text-rotation-alignment': 'map',
-        'text-size': 12,
+        'text-size': 10,
         'icon-rotation-alignment': 'viewport'
       },
       paint: {
-        'text-color': 'rgba(65, 65, 65, 1)',
+        'text-color': 'rgba(65, 65, 65, 0.9)',
         'text-halo-width': 2,
         'text-halo-color': 'rgba(255, 255, 255, 1)'
       },

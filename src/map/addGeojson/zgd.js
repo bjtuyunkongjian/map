@@ -2,16 +2,16 @@
  * @author sl 2019-01-02
  */
 
-const sourceName = "xdzgd-source";
+const sourceName = "zgd-source";
 const lineLabelLayerId = 'line-ref';
 const symbolLabelLayerId = 'symbol-ref';
-const _visibleLevel = 9;
+const _visibleLevel = 12;
 
 const style = {
   sourceName: sourceName,
-  "dataName": "xdzgd",
+  "dataName": "zgd",
   layers: [{
-      "id": "xdzgd_bg", // 县道、主干道背景
+      "id": "9L_zgd_bg", // 主干道背景
       type: 'line',
       source: sourceName,
       minzoom: _visibleLevel,
@@ -28,8 +28,8 @@ const style = {
             [9, 3],
             [10, 4],
             [11, 4],
-            [12, 7],
-            [13, 9],
+            [12, 5],
+            [13, 7],
             [14, 9],
             [15, 10],
             [16, 10],
@@ -45,7 +45,7 @@ const style = {
       },
       labelLayerId: lineLabelLayerId
     }, {
-      id: 'xdzgd', // 路网图层（name字段），县道主干道
+      id: '9L_zgd', // 路网图层（name字段），主干道
       type: 'line',
       source: sourceName,
       minzoom: _visibleLevel,
@@ -62,9 +62,9 @@ const style = {
             [9, 2],
             [10, 3],
             [11, 3],
-            [12, 5],
+            [12, 4],
             [13, 6],
-            [14, 6],
+            [14, 8],
             [15, 7],
             [16, 7],
             [17, 9],
@@ -80,7 +80,7 @@ const style = {
       labelLayerId: lineLabelLayerId
     },
     {
-      id: 'xdzgd_name', // 县道主干道名称
+      id: '9L_zgd_name', // 主干道名称
       type: 'symbol',
       source: sourceName,
       minzoom: _visibleLevel,
@@ -101,12 +101,12 @@ const style = {
         'icon-rotation-alignment': 'viewport'
       },
       paint: {
-        'text-color': 'rgba(65, 65, 65, 1)',
+        'text-color': 'rgba(65, 65, 65, 0.9)',
         'text-halo-width': 2,
         'text-halo-color': 'rgba(255, 255, 255, 1)'
       },
       labelLayerId: symbolLabelLayerId
-    }
+    },
   ]
 };
 

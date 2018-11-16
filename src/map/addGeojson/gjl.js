@@ -2,16 +2,16 @@
  * @author sl 2019-01-02
  */
 
-const sourceName = "xdzgd-source";
+const sourceName = "gjl-source";
 const lineLabelLayerId = 'line-ref';
 const symbolLabelLayerId = 'symbol-ref';
-const _visibleLevel = 9;
+const _visibleLevel = 12;
 
 const style = {
   sourceName: sourceName,
-  "dataName": "xdzgd",
+  "dataName": "gjl",
   layers: [{
-      "id": "xdzgd_bg", // 县道、主干道背景
+      "id": "gjl_bg", //高架路背景
       type: 'line',
       source: sourceName,
       minzoom: _visibleLevel,
@@ -28,8 +28,8 @@ const style = {
             [9, 3],
             [10, 4],
             [11, 4],
-            [12, 7],
-            [13, 9],
+            [12, 5],
+            [13, 7],
             [14, 9],
             [15, 10],
             [16, 10],
@@ -41,11 +41,11 @@ const style = {
             [22, 26]
           ]
         },
-        'line-color': '#ffae00'
+        'line-color': '#d8d8d8'
       },
       labelLayerId: lineLabelLayerId
     }, {
-      id: 'xdzgd', // 路网图层（name字段），县道主干道
+      id: 'gjl', //高架路
       type: 'line',
       source: sourceName,
       minzoom: _visibleLevel,
@@ -62,9 +62,9 @@ const style = {
             [9, 2],
             [10, 3],
             [11, 3],
-            [12, 5],
+            [12, 4],
             [13, 6],
-            [14, 6],
+            [14, 8],
             [15, 7],
             [16, 7],
             [17, 9],
@@ -75,12 +75,12 @@ const style = {
             [22, 24],
           ]
         },
-        'line-color': '#ffeebb'
+        'line-color': '#fed669'
       },
       labelLayerId: lineLabelLayerId
     },
     {
-      id: 'xdzgd_name', // 县道主干道名称
+      id: 'gjl_name',
       type: 'symbol',
       source: sourceName,
       minzoom: _visibleLevel,
@@ -101,7 +101,7 @@ const style = {
         'icon-rotation-alignment': 'viewport'
       },
       paint: {
-        'text-color': 'rgba(65, 65, 65, 1)',
+        'text-color': 'rgba(65, 65, 65, 0.9)',
         'text-halo-width': 2,
         'text-halo-color': 'rgba(255, 255, 255, 1)'
       },
