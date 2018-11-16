@@ -7,7 +7,7 @@ import {
 
 const _visibleLevel = 12;
 const symbolLabelLayerId = 'symbol-ref';
-
+const lineLabelLayerId = 'line-grailn-ref';
 const style = {
   visibleLevel: _visibleLevel,
   source: {
@@ -32,7 +32,8 @@ const style = {
       paint: {
         'line-color': '#B6B3B7',
         'line-width': 2.4
-      }
+      },
+      labelLayerId: lineLabelLayerId
     },
     {
       id: 'GRAILN_LV12', // 记录了铁路，间隔白色
@@ -47,7 +48,35 @@ const style = {
         'line-color': '#FFFFFF',
         'line-dasharray': [5, 5],
         'line-width': 1.6
-      }
+      },
+      labelLayerId: lineLabelLayerId
+    },
+    {
+      id: 'GRAILN_LV12_NAME', // 记录了铁路，间隔白色
+      type: 'symbol',
+      source: levelConfig.addLv12,
+      'source-layer': 'SD_GRAILN', // LN，line的简写
+      layout: {
+        'text-field': '{NAME}',
+        'visibility': 'visible',
+        'symbol-placement': 'point',
+        'text-size': 12,
+        'text-padding': 4,
+        'icon-image': 'ic_map_{KIND}',
+        'text-justify': 'left',
+        'text-anchor': 'left',
+        'text-offset': [0.8, 0],
+        'text-font': ['Arial Unicode MS Blod', 'Open Sans Regular'],
+        'text-pitch-alignment': 'viewport',
+        'text-rotation-alignment': 'viewport',
+        'icon-rotation-alignment': 'viewport'
+      },
+      paint: {
+        'text-color': 'rgba(65, 65, 65, 0.8)',
+        'text-halo-width': 2,
+        'text-halo-color': 'rgba(255, 255, 255, 1)'
+      },
+      labelLayerId: symbolLabelLayerId
     },
     {
       id: 'POI_LEVEL_12',

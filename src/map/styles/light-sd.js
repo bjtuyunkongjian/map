@@ -124,6 +124,16 @@ const layers = [{
   },
 
   {
+    id: 'line-grailn-ref', // 做线的基层使用，铁路
+    type: 'fill',
+    source: levelConfig.addLv7,
+    'source-layer': 'empty',
+    layout: {},
+    paint: {
+      'fill-opacity': 0
+    }
+  },
+  {
     id: 'line-zd-ref', // 做线的基层使用，zadao
     type: 'fill',
     source: levelConfig.addLv7,
@@ -167,6 +177,34 @@ const layers = [{
 
   ///////////////////////////////
   // 点
+
+  {
+    id: 'GHYDPL_7L_NAME',
+    type: 'symbol',
+    source: levelConfig.addLv7,
+    'source-layer': 'GHYDPL_Merge',
+    filter: ['==', 'CLASID', '250100'],
+    'layout': {
+      'text-field': '{NAME}',
+      'visibility': 'visible',
+      'symbol-placement': 'point',
+      'text-size': 14,
+      'icon-text-fit': 'both',
+      'icon-text-fit-padding': [2, 4, 2, 4],
+      'text-justify': 'center',
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'text-rotation-alignment': 'viewport',
+      'icon-rotation-alignment': 'viewport',
+      'text-anchor': 'center',
+      'text-keep-upright': false
+    },
+    'paint': {
+      'text-color': 'rgba(65, 65, 65, 0.9)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    },
+  },
 
   {
     id: 'symbol-ref', // 做文字的基层使用
