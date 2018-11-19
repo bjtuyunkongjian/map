@@ -83,7 +83,7 @@ const style = {
         'text-pitch-alignment': 'map',
         'symbol-spacing': 500,
         'text-rotation-alignment': 'map',
-        'text-size': 8,
+        'text-size': 10,
         'icon-rotation-alignment': 'viewport'
       },
       paint: {

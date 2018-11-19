@@ -461,6 +461,7 @@ const style = {
       type: 'symbol',
       source: levelConfig.addLv15,
       'source-layer': 'GROALN_other_1009', // LN，line的简写
+      filter: ['!=', 'CLASID', '430503'],
       layout: {
         'text-field': '{NAME}',
         'visibility': 'visible',
