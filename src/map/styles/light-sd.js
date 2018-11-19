@@ -134,7 +134,7 @@ const layers = [{
     }
   },
   {
-    id: 'line-zd-ref', // 做线的基层使用，zadao
+    id: 'line-bg-ref', // 做线的背景基层使用
     type: 'fill',
     source: levelConfig.addLv7,
     'source-layer': 'empty',
@@ -144,7 +144,7 @@ const layers = [{
     }
   },
   {
-    id: 'line-xdzgd-ref', // 做线的基层使用，县道主干道
+    id: 'line-lv15-ref', // 做线的基层使用
     type: 'fill',
     source: levelConfig.addLv7,
     'source-layer': 'empty',
@@ -154,7 +154,7 @@ const layers = [{
     }
   },
   {
-    id: 'line-ref', // 做线的基层使用，国道、省道
+    id: 'line-ref', // 做线的基层使用
     type: 'fill',
     source: levelConfig.addLv7,
     'source-layer': 'empty',

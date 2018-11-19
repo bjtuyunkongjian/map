@@ -5,6 +5,7 @@
 const sourceName = "gjl-source";
 const lineLabelLayerId = 'line-ref';
 const symbolLabelLayerId = 'symbol-ref';
+const lineBgLabelLayerId = 'line-bg-ref';
 const _visibleLevel = 12;
 
 const style = {
