@@ -163,6 +163,36 @@ const layers = [{
       'fill-opacity': 0
     }
   },
+  {
+    id: 'line-sd-bg-ref', // 做线的背景基层使用
+    type: 'fill',
+    source: levelConfig.addLv7,
+    'source-layer': 'empty',
+    layout: {},
+    paint: {
+      'fill-opacity': 0
+    }
+  },
+  {
+    id: 'line-sd-ref', // 做线的基层使用
+    type: 'fill',
+    source: levelConfig.addLv7,
+    'source-layer': 'empty',
+    layout: {},
+    paint: {
+      'fill-opacity': 0
+    }
+  },
+  {
+    id: 'line-gd-ref', // 做线的基层使用，国道
+    type: 'fill',
+    source: levelConfig.addLv7,
+    'source-layer': 'empty',
+    layout: {},
+    paint: {
+      'fill-opacity': 0
+    }
+  },
   /////////////////////////////
   {
     id: '3d-ref', // 做线的基层使用，国道、省道

@@ -13,6 +13,8 @@ const _visibleLevel = 15;
 const symbolLabelLayerId = 'symbol-ref';
 const lineLabelLayerId = 'line-lv15-ref';
 const lineBgLabelLayerId = 'line-bg-ref';
+const lineLabelLayerId_sd = 'line-sd-ref';
+const lineBgLabelLayerId_sd = 'line-sd-bg-ref';
 
 const threeLabelLayerId = '3d-ref';
 
@@ -313,7 +315,7 @@ const style = {
         },
         'line-color': '#ffae00'
       },
-      labelLayerId: lineBgLabelLayerId
+      labelLayerId: lineBgLabelLayerId_sd
     },
     {
       id: 'GROALN_other_1009_ZGD', // 路网图层（name字段），主干道
@@ -339,7 +341,7 @@ const style = {
         },
         'line-color': '#ffeebb'
       },
-      labelLayerId: lineLabelLayerId
+      labelLayerId: lineLabelLayerId_sd
     },
     ///////////////
     // {
@@ -371,7 +373,7 @@ const style = {
     //     },
     //     'line-color': '#ffae00'
     //   },
-    //   labelLayerId: lineBgLabelLayerId
+    //   labelLayerId: lineBgLabelLayerId_sd
     // },
     // {
     //   id: 'GROALN_other_1009_GS', // 路网图层（name字段），高速公路
@@ -402,7 +404,7 @@ const style = {
     //     },
     //     'line-color': '#ffeebb'
     //   },
-    //   labelLayerId: lineLabelLayerId
+    //   labelLayerId: lineLabelLayerId_sd
     // },
     ////////////////////////
     {
@@ -432,7 +434,7 @@ const style = {
         },
         'line-color': '#ffae00'
       },
-      labelLayerId: lineBgLabelLayerId
+      labelLayerId: lineBgLabelLayerId_sd
     }, {
       id: 'GROALN_other_1009_KSL', // 路网图层（name字段） 快速路，高架路
       type: 'line',
@@ -460,7 +462,7 @@ const style = {
         },
         'line-color': '#ffeebb'
       },
-      labelLayerId: lineLabelLayerId
+      labelLayerId: lineLabelLayerId_sd
     },
     {
       id: 'GROALN_other_1009_NAME',

@@ -3,8 +3,8 @@
  */
 
 const sourceName = "zgd-source";
-const lineLabelLayerId = 'line-ref';
-const lineBgLabelLayerId = 'line-bg-ref';
+const lineLabelLayerId = 'line-sd-ref';
+const lineBgLabelLayerId = 'line-sd-bg-ref';
 const symbolLabelLayerId = 'symbol-ref';
 const _visibleLevel = 12;
 
@@ -44,7 +44,7 @@ const style = {
         },
         'line-color': '#ffae00'
       },
-      labelLayerId: lineLabelLayerId
+      labelLayerId: lineBgLabelLayerId
     }, {
       id: '9L_zgd', // 路网图层（name字段），主干道
       type: 'line',
