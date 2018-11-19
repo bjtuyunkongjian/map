@@ -42,7 +42,7 @@ const style = {
         },
         'line-color': '#f9bd09'
       },
-      labelLayerId: lineLabelLayerId
+      labelLayerId: lineBgLabelLayerId
     }, {
       id: 'guodao', // 路网图层（name字段），国道
       type: 'line',

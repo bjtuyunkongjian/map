@@ -41,7 +41,7 @@ export default class MapBoxDemo extends Component {
       pitch: 60,
       bearing: -13.6,
       minZoom: 7,
-      maxZoom: 22,
+      maxZoom: 20,
       localIdeographFontFamily: "'黑体'"
     });
     // 点击地图在控制台打出经纬度
@@ -81,7 +81,7 @@ export default class MapBoxDemo extends Component {
     });
     // 拖出浏览器事件
     document.addEventListener('mouseup', (e) => {
-      if (e.clientY > window.innerWidth || e.clientY < 0 || e.clientX < 0 || e.clientX > window.innerHeight) {
+      if (e.clientY > window.innerHeight || e.clientY < 0 || e.clientX < 0 || e.clientX > window.innerWidth) {
         //在这加入你想执行的代码，此条件下鼠标已经在浏览器外
         const _center = this.map.getCenter(); // 当前中心点位置
         const {
@@ -107,7 +107,7 @@ export default class MapBoxDemo extends Component {
 
   // 将国道、省道单独开来，临时处理
   async _loadRoadSource() {
-    const zoom = this.map.getZoom();
+    const _zoom = this.map.getZoom();
     const bounds = this.map.getBounds();
     this.halfLngDiff = (bounds._ne.lng - bounds._sw.lng) / 2;
     this.haloLatDiff = (bounds._ne.lat - bounds._sw.lat) / 2;
@@ -124,12 +124,12 @@ export default class MapBoxDemo extends Component {
       method: 'POST',
       body: {
         bounds: this.boundsArr,
-        zoom
+        zoom: _zoom
       }
     });
     // console.log('结束请求 ===> ', (new Date()).getTime());
 
-    if (zoom < 12) {
+    if (_zoom < 12) {
       res.guodao = gaoguoGDB;
     }
     this._addRoad(res);

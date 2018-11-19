@@ -44,7 +44,7 @@ const style = {
         },
         'line-color': '#fed669'
       },
-      labelLayerId: lineLabelLayerId
+      labelLayerId: lineBgLabelLayerId
     }, {
       id: 'zd', // 路网图层（name字段），匝道/立交
       type: 'line',
