@@ -11,7 +11,9 @@ import {
 
 const _visibleLevel = 15;
 const symbolLabelLayerId = 'symbol-ref';
-const lineLabelLayerId = 'GRAILN';
+const lineLabelLayerId = 'line-lv15-ref';
+const lineBgLabelLayerId = 'line-bg-ref';
+
 const threeLabelLayerId = '3d-ref';
 
 const style = {
@@ -170,17 +172,19 @@ const style = {
         'line-width': {
           'base': 2,
           'stops': [
-            [15, 6],
+            [15, 5],
             [16, 10],
-            [17, 14],
-            [18, 18],
-            [19, 18],
-            [20, 18]
+            [17, 12],
+            [18, 14],
+            [19, 14],
+            [20, 22],
+            [21, 24],
+            [22, 26]
           ]
         },
         'line-color': '#d8d8d8'
       },
-      labelLayerId: lineLabelLayerId
+      labelLayerId: lineBgLabelLayerId
     }, {
       id: 'GROALN_other_1009_ZD', // 路网图层（name字段），栈道、内部道路、机耕路、乡村路、小路 + 专用公路、其他公路、村道
       type: 'line',
@@ -211,11 +215,13 @@ const style = {
           'base': 2,
           'stops': [
             [15, 4],
-            [16, 8],
-            [17, 12],
-            [18, 16],
-            [19, 16],
-            [20, 16]
+            [16, 7],
+            [17, 9],
+            [18, 11],
+            [19, 11],
+            [20, 19],
+            [21, 22],
+            [22, 24]
           ]
         },
         'line-color': '#FFFFFF'
@@ -251,7 +257,7 @@ const style = {
         },
         'line-color': '#d8d8d8'
       },
-      labelLayerId: lineLabelLayerId
+      labelLayerId: lineBgLabelLayerId
     }, {
       id: 'GROALN_other_1009_CGD', // 路网图层（name字段），次干道、县道
       type: 'line',
@@ -307,7 +313,7 @@ const style = {
         },
         'line-color': '#ffae00'
       },
-      labelLayerId: lineLabelLayerId
+      labelLayerId: lineBgLabelLayerId
     },
     {
       id: 'GROALN_other_1009_ZGD', // 路网图层（name字段），主干道
@@ -365,7 +371,7 @@ const style = {
     //     },
     //     'line-color': '#ffae00'
     //   },
-    //   labelLayerId: lineLabelLayerId
+    //   labelLayerId: lineBgLabelLayerId
     // },
     // {
     //   id: 'GROALN_other_1009_GS', // 路网图层（name字段），高速公路
@@ -426,7 +432,7 @@ const style = {
         },
         'line-color': '#ffae00'
       },
-      labelLayerId: lineLabelLayerId
+      labelLayerId: lineBgLabelLayerId
     }, {
       id: 'GROALN_other_1009_KSL', // 路网图层（name字段） 快速路，高架路
       type: 'line',

@@ -4,6 +4,7 @@
 
 const sourceName = "ksl-source";
 const lineLabelLayerId = 'line-ref';
+const lineBgLabelLayerId = 'line-bg-ref';
 const symbolLabelLayerId = 'symbol-ref';
 const _visibleLevel = 13;
 
@@ -43,7 +44,7 @@ const style = {
         },
         'line-color': '#d8d8d8'
       },
-      labelLayerId: lineLabelLayerId
+      labelLayerId: lineBgLabelLayerId
     }, {
       id: 'ksl',
       type: 'line',
@@ -75,7 +76,7 @@ const style = {
             [22, 24],
           ]
         },
-        'line-color': '#ff0'
+        'line-color': '#fff'
       },
       labelLayerId: lineLabelLayerId
     },

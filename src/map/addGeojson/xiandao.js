@@ -4,6 +4,7 @@
 
 const sourceName = "xiandao-source";
 const lineLabelLayerId = 'line-ref';
+const lineBgLabelLayerId = 'line-bg-ref';
 const symbolLabelLayerId = 'symbol-ref';
 const _visibleLevel = 12;
 

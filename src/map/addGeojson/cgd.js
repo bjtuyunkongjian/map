@@ -4,6 +4,7 @@
 
 const sourceName = "cgd-source";
 const lineLabelLayerId = 'line-ref';
+const lineBgLabelLayerId = 'line-bg-ref';
 const symbolLabelLayerId = 'symbol-ref';
 const _visibleLevel = 13;
 
@@ -43,7 +44,7 @@ const style = {
         },
         'line-color': '#d8d8d8'
       },
-      labelLayerId: lineLabelLayerId
+      labelLayerId: lineBgLabelLayerId
     }, {
       id: 'cgd',
       type: 'line',

@@ -4,6 +4,7 @@
 
 const sourceName = "zx-source";
 const lineLabelLayerId = 'line-ref';
+const lineBgLabelLayerId = 'line-bg-ref';
 const symbolLabelLayerId = 'symbol-ref';
 const _visibleLevel = 14;
 
@@ -36,7 +37,7 @@ const style = {
         },
         'line-color': '#d8d8d8'
       },
-      labelLayerId: lineLabelLayerId
+      labelLayerId: lineBgLabelLayerId
     }, {
       id: 'zx', // 路网图层（name字段），县道
       type: 'line',
@@ -83,7 +84,7 @@ const style = {
         'text-pitch-alignment': 'map',
         'symbol-spacing': 500,
         'text-rotation-alignment': 'map',
-        'text-size': 10,
+        'text-size': 11,
         'icon-rotation-alignment': 'viewport'
       },
       paint: {
