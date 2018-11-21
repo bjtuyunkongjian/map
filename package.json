@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "babel-runtime": "^6.26.0",
+    "jquery": "^3.3.1",
     "mapbox-gl": "^0.48.0",
     "react": "^16.6.0",
     "react-dom": "^16.6.0"
