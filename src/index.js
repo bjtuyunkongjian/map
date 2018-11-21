@@ -4,7 +4,6 @@
 
 import React, { Component } from 'react';
 import ReactDom from 'react-dom';
-// import $ from 'jquery';
 
 import '../style/index.less';
 import Map from './map';
