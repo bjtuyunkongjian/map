@@ -1,5 +1,8 @@
 {
   "editor.formatOnSave": true,
   "javascript.validate.enable": true,
-  "editor.tabSize": 2
+  "editor.tabSize": 2,
+  "emmet.includeLanguages": { "javascript": "javascriptreact" },
+  // 启用后，按下 TAB 键，将展开 Emmet 缩写。
+  "emmet.triggerExpansionOnTab": true
 }
