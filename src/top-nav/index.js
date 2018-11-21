@@ -1,9 +1,8 @@
-import React, { Component } from "react";
-import ViewOption from "./view-option";
-import ColorOption from "./color-option";
-import MeasureOption from "./measure-option";
-import FilterOption from "./filter-option";
-import TopicOption from "./topic-option";
+import React, { Component } from 'react';
+import ViewOption from './view-option';
+import ColorOption from './color-option';
+import MeasureOption from './measure-option';
+import FilterOption from './filter-option';
 
 export default class TopNav extends Component {
   constructor(props) {
@@ -52,16 +51,13 @@ export default class TopNav extends Component {
         _optList = <ColorOption />;
         break;
       case 2:
-        _optList = null;
-        break;
-      case 3:
         _optList = <MeasureOption />;
         break;
-      case 4:
+      case 3:
         _optList = <FilterOption />;
         break;
-      case 5:
-        _optList = <TopicOption />;
+      default:
+        _optList = null;
         break;
     }
     return _optList;
@@ -69,10 +65,8 @@ export default class TopNav extends Component {
 }
 
 const navList = [
-  { type: 1, name: "视图" },
-  { type: 1, name: "配色" },
-  { type: 0, name: "路况" },
-  { type: 1, name: "测量" },
-  { type: 1, name: "筛选" },
-  { type: 1, name: "专题" }
+  { type: 1, name: '视图' },
+  { type: 1, name: '配色' },
+  { type: 1, name: '测量' },
+  { type: 1, name: '筛选' }
 ];
