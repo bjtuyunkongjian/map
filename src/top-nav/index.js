@@ -20,7 +20,7 @@ export default class TopNav extends Component {
             onClick={e => this._selectIndex(e, index)}
           >
             {item.name}
-            <span className="arrow-down" />
+            {item.type === 1 && <span className="arrow-down" />}
             {index === selectIndex && optList}
           </div>
         ))}
