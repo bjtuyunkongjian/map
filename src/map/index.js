@@ -6,9 +6,9 @@ import mapboxgl from 'mapbox-gl';
 import { addLevel, FetchRequest } from 'tuyun-utils';
 import React, { Component } from 'react';
 
-import baseStyle from './styles/light-sd';
-import addLevels from './addLevels';
-import addGeojson from './addGeojson';
+import baseStyle from './map-styles/light-sd';
+import addLevels from './add-levels';
+import addGeojson from './add-geojson';
 import gaoguoGDB from './geojson/gaoguoGDB_cx';
 
 export default class MapBoxDemo extends Component {
