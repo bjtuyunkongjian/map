@@ -1,0 +1,46 @@
+.top-nav {
+  @height: 45px;
+  position: absolute;
+  width: 420px;
+  height: @height;
+  background-color: #ffffff;
+  right: 50px;
+  z-index: 999;
+  top: 10px;
+  box-shadow: @box-shadow;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .nav-item {
+    color: #0061b0;
+    position: relative;
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    height: @height;
+    .arrow-down {
+      border-top: 6px solid #0061b0;
+      border-right: 6px solid transparent;
+      border-left: 6px solid transparent;
+      content: '';
+      margin-left: 2px;
+    }
+    .nav-option {
+      position: absolute;
+      top: @height + 5;
+      right: 0;
+      background: white;
+      box-shadow: @box-shadow;
+      border-radius: @radius-m;
+      .option-item {
+        height: 40px;
+        width: 150px;
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        color: black;
+      }
+    }
+  }
+}

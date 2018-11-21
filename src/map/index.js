@@ -3,13 +3,8 @@
  */
 
 import mapboxgl from 'mapbox-gl';
-import {
-  addLevel,
-  FetchRequest
-} from 'tuyun-utils';
-import React, {
-  Component
-} from 'react';
+import { addLevel, FetchRequest } from 'tuyun-utils';
+import React, { Component } from 'react';
 
 import baseStyle from './styles/light-sd';
 import addLevels from './addLevels';
@@ -17,6 +12,10 @@ import addGeojson from './addGeojson';
 import gaoguoGDB from './geojson/gaoguoGDB_cx';
 
 export default class MapBoxDemo extends Component {
+  constructor(props) {
+    super(props);
+    this.boundsArr = [[], []];
+  }
 
   componentDidMount() {
     this._init();
@@ -27,7 +26,12 @@ export default class MapBoxDemo extends Component {
   }
 
   render() {
-    return <div style={{ width: '100%', height: '100%' }} ref={ el => this.mapContainer = el } />
+    return (
+      <div
+        style={{ width: '100%', height: '100%' }}
+        ref={el => (this.mapContainer = el)}
+      />
+    );
   }
 
   _init() {
@@ -45,35 +49,41 @@ export default class MapBoxDemo extends Component {
       localIdeographFontFamily: "'黑体'"
     });
     // 点击地图在控制台打出经纬度
-    this.map.on('mouseup', function (e) {
+    this.map.on('mouseup', function(e) {
       console.log(e.lngLat);
     });
 
-    this.map.on('load', () => {
-      this.zoom = Math.ceil(this.map.getZoom()); // 设置起初缩放等级
-      this._addSourceFunc(); // 增加图层组
-      this._loadRoadSource(); // 添加道路图层
-    }).on('zoomend', () => {
-      const _zoom = Math.ceil(this.map.getZoom()); // 当前缩放等级
-      const _bounds = this.map.getBounds();
-      if (Math.abs(_zoom - this.zoom) >= 1 ||
-        this.boundsArr[0][0] > _bounds._sw.lng ||
-        this.boundsArr[0][1] < _bounds._ne.lat ||
-        this.boundsArr[1][0] < _bounds._ne.lng ||
-        this.boundsArr[1][1] > _bounds._sw.lat) {
-        this.zoom = _zoom;
-        this._loadRoadSource(); // 添加道路图层
-      }
-      this._addSourceFunc();
-    });
+    this.map
+      .on('load', () => {
+        this.zoom = Math.ceil(this.map.getZoom()); // 设置起初缩放等级
+        this._addSourceFunc(); // 增加图层组
+        // this._loadRoadSource(); // 添加道路图层
+      })
+      .on('zoomend', () => {
+        const _zoom = Math.ceil(this.map.getZoom()); // 当前缩放等级
+        const _bounds = this.map.getBounds();
+        if (
+          Math.abs(_zoom - this.zoom) >= 1 ||
+          this.boundsArr[0][0] > _bounds._sw.lng ||
+          this.boundsArr[0][1] < _bounds._ne.lat ||
+          this.boundsArr[1][0] < _bounds._ne.lng ||
+          this.boundsArr[1][1] > _bounds._sw.lat
+        ) {
+          this.zoom = _zoom;
+          // this._loadRoadSource(); // 添加道路图层
+        }
+        this._addSourceFunc();
+      });
     // 拖出浏览器事件
     document.addEventListener('mouseup', () => {
       const _bounds = this.map.getBounds();
-      if (this.boundsArr[0][0] > _bounds._sw.lng ||
+      if (
+        this.boundsArr[0][0] > _bounds._sw.lng ||
         this.boundsArr[0][1] < _bounds._ne.lat ||
         this.boundsArr[1][0] < _bounds._ne.lng ||
-        this.boundsArr[1][1] > _bounds._sw.lat) {
-        this._loadRoadSource(); // 添加道路图层
+        this.boundsArr[1][1] > _bounds._sw.lat
+      ) {
+        // this._loadRoadSource(); // 添加道路图层
       }
     });
 
@@ -98,9 +108,7 @@ export default class MapBoxDemo extends Component {
       [bounds._ne.lng + _halfLngDiff, bounds._sw.lat - _haloLatDiff] // 右下角
     ];
     // console.log('开始请求 ===> ', (new Date()).getTime());
-    const {
-      res
-    } = await FetchRequest({
+    const { res } = await FetchRequest({
       url: 'road',
       method: 'POST',
       body: {
@@ -120,7 +128,7 @@ export default class MapBoxDemo extends Component {
     for (let item of addGeojson) {
       if (!this.map.getSource(item.sourceName)) {
         this.map.addSource(item.sourceName, {
-          type: "geojson",
+          type: 'geojson',
           data: data[item.dataName]
         });
         for (let layer of item.layers) {
