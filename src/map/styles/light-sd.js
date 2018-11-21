@@ -95,8 +95,7 @@ const layers = [{
     id: 'GRAILN_bg', // 记录了铁路，底层颜色灰色
     type: 'line',
     source: levelConfig.addLv7,
-    'source-layer': 'SD_GRAILN_1107', // LN，line的简写
-    maxzoom: 12,
+    'source-layer': 'SD_GRAILN', // LN，line的简写
     layout: {
       'line-cap': 'round',
       'line-join': 'round'
@@ -110,8 +109,7 @@ const layers = [{
     id: 'GRAILN', // 记录了铁路，间隔白色
     type: 'line',
     source: levelConfig.addLv7,
-    'source-layer': 'SD_GRAILN_1107', // LN，line的简写
-    maxzoom: 12,
+    'source-layer': 'SD_GRAILN', // LN，line的简写
     layout: {
       'line-cap': 'round',
       'line-join': 'round'
@@ -155,6 +153,36 @@ const layers = [{
   },
   {
     id: 'line-ref', // 做线的基层使用
+    type: 'fill',
+    source: levelConfig.addLv7,
+    'source-layer': 'empty',
+    layout: {},
+    paint: {
+      'fill-opacity': 0
+    }
+  },
+  {
+    id: 'line-sd-bg-ref', // 做线的背景基层使用
+    type: 'fill',
+    source: levelConfig.addLv7,
+    'source-layer': 'empty',
+    layout: {},
+    paint: {
+      'fill-opacity': 0
+    }
+  },
+  {
+    id: 'line-sd-ref', // 做线的基层使用
+    type: 'fill',
+    source: levelConfig.addLv7,
+    'source-layer': 'empty',
+    layout: {},
+    paint: {
+      'fill-opacity': 0
+    }
+  },
+  {
+    id: 'line-gd-ref', // 做线的基层使用，国道
     type: 'fill',
     source: levelConfig.addLv7,
     'source-layer': 'empty',

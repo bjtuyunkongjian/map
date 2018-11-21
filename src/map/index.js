@@ -36,12 +36,12 @@ export default class MapBoxDemo extends Component {
       container: this.mapContainer,
       style: baseStyle,
       showTileBoundaries: true,
-      center: [118.034803, 36.80564],
-      zoom: 18,
-      pitch: 60,
-      bearing: -13.6,
+      center: [117.0856, 36.6754],
+      zoom: 11,
+      // pitch: 60,
+      // bearing: -13.6,
       minZoom: 7,
-      maxZoom: 22,
+      maxZoom: 20,
       localIdeographFontFamily: "'黑体'"
     });
     // 点击地图在控制台打出经纬度
@@ -50,7 +50,6 @@ export default class MapBoxDemo extends Component {
     });
 
     this.map.on('load', () => {
-      this.center = this.map.getCenter(); // 设置起初中心点位置
       this.zoom = Math.ceil(this.map.getZoom()); // 设置起初缩放等级
       this._addSourceFunc(); // 增加图层组
       this._loadRoadSource(); // 添加道路图层
@@ -63,36 +62,18 @@ export default class MapBoxDemo extends Component {
         this.boundsArr[1][0] < _bounds._ne.lng ||
         this.boundsArr[1][1] > _bounds._sw.lat) {
         this.zoom = _zoom;
-        this.center = this.map.getCenter(); // 当前中心点位置
         this._loadRoadSource(); // 添加道路图层
       }
       this._addSourceFunc();
-    }).on('mouseup', () => {
-      const _center = this.map.getCenter(); // 当前中心点位置
-      const {
-        lat = 0, lng = 0
-      } = this.center || {};
-
-      if (Math.abs(_center.lat - lat) > this.haloLatDiff ||
-        Math.abs(_center.lng - lng) > this.halfLngDiff) {
-        this.center = _center;
-        this._loadRoadSource(); // 添加道路图层
-      }
     });
     // 拖出浏览器事件
-    document.addEventListener('mouseup', (e) => {
-      if (e.clientY > window.innerWidth || e.clientY < 0 || e.clientX < 0 || e.clientX > window.innerHeight) {
-        //在这加入你想执行的代码，此条件下鼠标已经在浏览器外
-        const _center = this.map.getCenter(); // 当前中心点位置
-        const {
-          lat = 0, lng = 0
-        } = this.center || {};
-
-        if (Math.abs(_center.lat - lat) >= this.haloLatDiff ||
-          Math.abs(_center.lng - lng) >= this.halfLngDiff) {
-          this.center = _center;
-          this._loadRoadSource(); // 添加道路图层
-        }
+    document.addEventListener('mouseup', () => {
+      const _bounds = this.map.getBounds();
+      if (this.boundsArr[0][0] > _bounds._sw.lng ||
+        this.boundsArr[0][1] < _bounds._ne.lat ||
+        this.boundsArr[1][0] < _bounds._ne.lng ||
+        this.boundsArr[1][1] > _bounds._sw.lat) {
+        this._loadRoadSource(); // 添加道路图层
       }
     });
 
@@ -107,14 +88,14 @@ export default class MapBoxDemo extends Component {
 
   // 将国道、省道单独开来，临时处理
   async _loadRoadSource() {
-    const zoom = this.map.getZoom();
+    const _zoom = this.map.getZoom();
     const bounds = this.map.getBounds();
-    this.halfLngDiff = (bounds._ne.lng - bounds._sw.lng) / 2;
-    this.haloLatDiff = (bounds._ne.lat - bounds._sw.lat) / 2;
+    const _halfLngDiff = (bounds._ne.lng - bounds._sw.lng) / 2;
+    const _haloLatDiff = (bounds._ne.lat - bounds._sw.lat) / 2;
 
     this.boundsArr = [
-      [bounds._sw.lng - this.halfLngDiff, bounds._ne.lat + this.haloLatDiff], // 左上角
-      [bounds._ne.lng + this.halfLngDiff, bounds._sw.lat - this.haloLatDiff] // 右下角
+      [bounds._sw.lng - _halfLngDiff, bounds._ne.lat + _haloLatDiff], // 左上角
+      [bounds._ne.lng + _halfLngDiff, bounds._sw.lat - _haloLatDiff] // 右下角
     ];
     // console.log('开始请求 ===> ', (new Date()).getTime());
     const {
@@ -124,12 +105,12 @@ export default class MapBoxDemo extends Component {
       method: 'POST',
       body: {
         bounds: this.boundsArr,
-        zoom
+        zoom: _zoom
       }
     });
     // console.log('结束请求 ===> ', (new Date()).getTime());
 
-    if (zoom < 12) {
+    if (_zoom < 12) {
       res.guodao = gaoguoGDB;
     }
     this._addRoad(res);

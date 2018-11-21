@@ -3,8 +3,8 @@
  */
 
 const sourceName = "shengdao-source";
-const lineLabelLayerId = 'line-ref';
-const lineBgLabelLayerId = 'line-bg-ref';
+const lineLabelLayerId = 'line-sd-ref';
+const lineBgLabelLayerId = 'line-sd-bg-ref';
 const symbolLabelLayerId = 'symbol-ref';
 const _visibleLevel = 9;
 
@@ -43,7 +43,7 @@ const style = {
         },
         'line-color': '#ffae00'
       },
-      labelLayerId: lineLabelLayerId
+      labelLayerId: lineBgLabelLayerId
     }, {
       id: 'shengdao', // 路网图层（name字段），省道
       type: 'line',

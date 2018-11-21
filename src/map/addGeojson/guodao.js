@@ -3,8 +3,8 @@
  */
 
 const sourceName = "guodao-source";
-const lineLabelLayerId = 'line-ref';
-const lineBgLabelLayerId = 'line-bg-ref';
+const lineLabelLayerId = 'line-gd-ref';
+const lineBgLabelLayerId = 'line-gd-ref';
 const symbolLabelLayerId = 'symbol-ref';
 
 const style = {
@@ -42,7 +42,7 @@ const style = {
         },
         'line-color': '#f9bd09'
       },
-      labelLayerId: lineLabelLayerId
+      labelLayerId: lineBgLabelLayerId
     }, {
       id: 'guodao', // 路网图层（name字段），国道
       type: 'line',

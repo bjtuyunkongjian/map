@@ -30,7 +30,7 @@ const style = {
             [10, 4],
             [11, 4],
             [12, 7],
-            [13, 4],
+            [13, 5],
             [14, 6],
             [15, 8],
             [16, 8],
@@ -44,7 +44,7 @@ const style = {
         },
         'line-color': '#fed669'
       },
-      labelLayerId: lineLabelLayerId
+      labelLayerId: lineBgLabelLayerId
     }, {
       id: 'zd', // 路网图层（name字段），匝道/立交
       type: 'line',
@@ -64,7 +64,7 @@ const style = {
             [10, 3],
             [11, 3],
             [12, 5],
-            [13, 3],
+            [13, 4],
             [14, 5],
             [15, 7],
             [16, 7],
