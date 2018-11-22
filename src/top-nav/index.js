@@ -4,7 +4,7 @@ import ColorOptions from './color-options';
 import MeasureOptions from './measure-options';
 import FilterOptions from './filter-options';
 import { MeasureDistance } from './measure-distance';
-
+import { MeasureArea } from './measure-area';
 export default class TopNav extends Component {
   state = {
     selectedNav: -1,
@@ -15,13 +15,14 @@ export default class TopNav extends Component {
   };
 
   _measureDistance = MeasureDistance;
+  _measureArea = MeasureArea;
 
   componentDidMount() {
-    _MAP_ &&
-      _MAP_.on('mouseup', () => {
-        this.setState({ selectedNav: -1 });
-      });
+    _MAP_.on('mouseup', () => {
+      this.setState({ selectedNav: -1 });
+    });
     this._measureDistance();
+    this._measureArea();
   }
 
   render() {
@@ -48,8 +49,12 @@ export default class TopNav extends Component {
     e.stopPropagation();
     const { selectedNav } = this.state;
     selectedNav === index
-      ? this.setState({ selectedNav: -1 })
-      : this.setState({ selectedNav: index });
+      ? this.setState({
+          selectedNav: -1
+        })
+      : this.setState({
+          selectedNav: index
+        });
   };
 
   _renderOptList = () => {

@@ -97,5 +97,4 @@ const _linestring = {
     coordinates: []
   }
 };
-
 const distanceContainer = document.getElementById('distance');

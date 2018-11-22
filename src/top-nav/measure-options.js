@@ -1,11 +1,20 @@
 import React, { Component } from 'react';
 import { MdCheck } from 'react-icons/md';
 import { ClearDistanceLine } from './measure-distance';
+import { ClearAreaPolygon } from './measure-area';
 
 export default class MeasureOptions extends Component {
   static defaultProps = {
     selectedOpt: -1,
     onSelect: () => {}
+  };
+
+  componentWillReceiveProps = nextProps => {
+    const { selectedOpt } = this.props;
+    if (nextProps.selectedOpt !== selectedOpt) {
+      ClearDistanceLine();
+      ClearAreaPolygon();
+    }
   };
 
   render() {
@@ -26,10 +35,7 @@ export default class MeasureOptions extends Component {
   }
 
   _checkStyle = index => {
-    const { onSelect, selectedOpt } = this.props;
-    if (index !== selectedOpt) {
-      ClearDistanceLine();
-    }
+    const { onSelect } = this.props;
     onSelect(index);
   };
 }
