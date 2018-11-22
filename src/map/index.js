@@ -36,7 +36,7 @@ export default class MapBoxDemo extends Component {
 
   _init() {
     window._MAP_ = this.map = new mapboxgl.Map({
-      // hash: true,
+      hash: true,
       container: this.mapContainer,
       style: baseStyle,
       showTileBoundaries: true,
