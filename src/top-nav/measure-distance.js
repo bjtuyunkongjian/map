@@ -73,6 +73,8 @@ export function MeasureDistance() {
       }
       _MAP_.getSource('measure-distance').setData(_distanceGeojson);
     });
+
+    _MAP_.on('contextmenu', ClearDistanceLine);
   });
 }
 
