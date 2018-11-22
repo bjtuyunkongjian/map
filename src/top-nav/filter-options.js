@@ -36,10 +36,9 @@ export default class FilterOptions extends Component {
 
 const filterOptions = [
   { value: 0, name: 'POI' },
-  { value: 1, name: '地名' },
-  { value: 2, name: '交通' },
-  { value: 3, name: '绿地' },
-  { value: 4, name: '水系' },
-  { value: 5, name: '居民地' },
-  { value: 6, name: '境界线' }
+  { value: 1, name: '交通' },
+  { value: 2, name: '绿地' },
+  { value: 3, name: '水系' },
+  { value: 4, name: '居民地' },
+  { value: 5, name: '边界线' }
 ];
