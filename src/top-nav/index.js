@@ -3,6 +3,7 @@ import ViewOptions from './view-options';
 import ColorOptions from './color-options';
 import MeasureOptions from './measure-options';
 import FilterOptions from './filter-options';
+import { MeasureDistance } from './measure-distance';
 
 export default class TopNav extends Component {
   state = {
@@ -13,11 +14,14 @@ export default class TopNav extends Component {
     selectedFilter: -1
   };
 
+  _measureDistance = MeasureDistance;
+
   componentDidMount() {
     _MAP_ &&
       _MAP_.on('mouseup', () => {
         this.setState({ selectedNav: -1 });
-      }); // 保护
+      });
+    this._measureDistance();
   }
 
   render() {
