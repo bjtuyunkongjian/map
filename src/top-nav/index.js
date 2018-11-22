@@ -1,19 +1,27 @@
 import React, { Component } from 'react';
-import ViewOption from './view-option';
-import ColorOption from './color-option';
-import MeasureOption from './measure-option';
-import FilterOption from './filter-option';
+import ViewOptions from './view-options';
+import ColorOptions from './color-options';
+import MeasureOptions from './measure-options';
+import FilterOptions from './filter-options';
 
 export default class TopNav extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectIndex: -1
-    };
+  state = {
+    selectedNav: -1,
+    selectedView: -1,
+    selectedColor: -1,
+    selectedMeasure: -1,
+    selectedFilter: -1
+  };
+
+  componentDidMount() {
+    _MAP_ &&
+      _MAP_.on('mouseup', () => {
+        this.setState({ selectedNav: -1 });
+      }); // 保护
   }
 
   render() {
-    const { selectIndex } = this.state;
+    const { selectedNav } = this.state;
     const optList = this._renderOptList();
     return (
       <div className="top-nav">
@@ -24,44 +32,80 @@ export default class TopNav extends Component {
             onClick={e => this._selectIndex(e, index)}
           >
             {item.name}
-            {item.type === 1 && <span className="arrow-down" />}
-            {index === selectIndex && optList}
+            {item.type === 1 ? <span className="arrow-down" /> : null}
+            {index === selectedNav ? optList : null}
           </div>
         ))}
       </div>
     );
   }
 
-  _selectIndex(e, index) {
+  _selectIndex = (e, index) => {
     e.stopPropagation();
-    const { selectIndex } = this.state;
-    selectIndex === index
-      ? this.setState({ selectIndex: -1 })
-      : this.setState({ selectIndex: index });
-  }
+    const { selectedNav } = this.state;
+    selectedNav === index
+      ? this.setState({ selectedNav: -1 })
+      : this.setState({ selectedNav: index });
+  };
 
-  _renderOptList() {
-    let _optList = null;
-    const { selectIndex } = this.state;
-    switch (selectIndex) {
+  _renderOptList = () => {
+    let _optItems = null,
+      _selectedOpt;
+    const {
+      selectedNav,
+      selectedView,
+      selectedColor,
+      selectedMeasure,
+      selectedFilter
+    } = this.state;
+    switch (selectedNav) {
       case 0:
-        _optList = <ViewOption />;
+        _optItems = ViewOptions;
+        _selectedOpt = selectedView;
         break;
       case 1:
-        _optList = <ColorOption />;
+        _optItems = ColorOptions;
+        _selectedOpt = selectedColor;
         break;
       case 2:
-        _optList = <MeasureOption />;
+        _optItems = MeasureOptions;
+        _selectedOpt = selectedMeasure;
         break;
       case 3:
-        _optList = <FilterOption />;
+        _optItems = FilterOptions;
+        _selectedOpt = selectedFilter;
         break;
       default:
-        _optList = null;
+        _optItems = null;
+        _selectedOpt = -1;
         break;
     }
-    return _optList;
-  }
+    return _optItems ? (
+      <ul className="nav-option" onClick={e => e.stopPropagation()}>
+        <_optItems selectedOpt={_selectedOpt} onSelect={this._setSelectedOpt} />
+      </ul>
+    ) : null;
+  };
+
+  _setSelectedOpt = val => {
+    const { selectedNav } = this.state;
+
+    switch (selectedNav) {
+      case 0:
+        this.setState({ selectedView: val });
+        break;
+      case 1:
+        this.setState({ selectedColor: val });
+        break;
+      case 2:
+        this.setState({ selectedMeasure: val });
+        break;
+      case 3:
+        this.setState({ selectedFilter: val });
+        break;
+      default:
+    }
+  };
 }
 
 const navList = [

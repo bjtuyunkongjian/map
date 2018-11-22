@@ -36,6 +36,8 @@
     "babel-runtime": "^6.26.0",
     "mapbox-gl": "^0.48.0",
     "react": "^16.6.0",
-    "react-dom": "^16.6.0"
+    "react-dom": "^16.6.0",
+    "react-icons": "^3.2.2",
+    "turf": "^3.0.14"
   }
 }
