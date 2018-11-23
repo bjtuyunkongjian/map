@@ -1,5 +1,13 @@
 import React, { Component } from 'react';
 import { IoMdEyeOff, IoMdEye } from 'react-icons/io';
+import {
+  PoiLabelIds,
+  RoadLabelIds,
+  GrassLabelIds,
+  WaterLabelIds,
+  ResidentLabelIds,
+  BoundaryLabelIds
+} from './layer-ids';
 
 export default class FilterOptions extends Component {
   constructor(props) {
@@ -31,15 +39,30 @@ export default class FilterOptions extends Component {
   _checkStyle = index => {
     const { onSelect, hiddenOpt } = this.props;
     hiddenOpt[index] = !hiddenOpt[index];
+
+    this._toggleVisible(hiddenOpt[index], index);
     onSelect(hiddenOpt);
+  };
+
+  _toggleVisible = (hidden, index) => {
+    const _labelLayerIds = filterOptions[index].labelLayerIds;
+    if (!_labelLayerIds) return;
+    for (let item of _labelLayerIds) {
+      if (!item.id || !_MAP_.getLayer(item.id)) continue;
+      if (hidden) {
+        _MAP_.setLayoutProperty(item.id, 'visibility', 'none');
+      } else {
+        _MAP_.setLayoutProperty(item.id, 'visibility', 'visible');
+      }
+    }
   };
 }
 
 const filterOptions = [
-  { value: 0, name: 'POI', labelLayerIds: ['POI_LEVEL8', ''] },
-  { value: 1, name: '交通' },
-  { value: 2, name: '绿地' },
-  { value: 3, name: '水系' },
-  { value: 4, name: '居民地' },
-  { value: 5, name: '边界线' }
+  { value: 0, name: 'POI', labelLayerIds: PoiLabelIds },
+  { value: 1, name: '交通', labelLayerIds: RoadLabelIds },
+  { value: 2, name: '绿地', labelLayerIds: GrassLabelIds },
+  { value: 3, name: '水系', labelLayerIds: WaterLabelIds },
+  { value: 4, name: '居民地', labelLayerIds: ResidentLabelIds },
+  { value: 5, name: '边界线', labelLayerIds: BoundaryLabelIds }
 ];
