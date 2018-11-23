@@ -1,10 +1,24 @@
+/**
+ * @author sl204984
+ */
+
 import React, { Component } from 'react';
 import ViewOptions from './view-options';
 import ColorOptions from './color-options';
 import MeasureOptions from './measure-options';
 import FilterOptions from './filter-options';
+import ColorModal from './color-modal';
 import { MeasureDistance } from './measure-distance';
 import { MeasureArea } from './measure-area';
+import {
+  PoiLabelIds,
+  RoadLabelIds,
+  GrassLabelIds,
+  WaterLabelIds,
+  ResidentLabelIds,
+  BoundaryLabelIds
+} from './layer-ids';
+
 export default class TopNav extends Component {
   state = {
     selectedNav: -1,
@@ -26,8 +40,9 @@ export default class TopNav extends Component {
   }
 
   render() {
-    const { selectedNav } = this.state;
+    const { selectedNav, selectedColor } = this.state;
     const optList = this._renderOptList();
+    const showModal = selectedNav === 1 && selectedColor > -1;
     return (
       <div className="top-nav">
         {navList.map((item, index) => (
@@ -41,6 +56,10 @@ export default class TopNav extends Component {
             {index === selectedNav ? optList : null}
           </div>
         ))}
+        <ColorModal
+          visible={showModal}
+          onSelect={rgb => this._changeColor(rgb)}
+        />
       </div>
     );
   }
@@ -115,6 +134,20 @@ export default class TopNav extends Component {
       default:
     }
   };
+
+  _changeColor = rgb => {
+    const { selectedColor } = this.state;
+    for (let item of colorLabelIdArr[selectedColor]) {
+      if (!item.id || !_MAP_.getLayer(item.id)) continue;
+      if (item.type && item.type.startsWith('road')) {
+        item.type === 'road' &&
+          _MAP_.setPaintProperty(item.id, 'line-color', rgb);
+      } else {
+        _MAP_.setPaintProperty(item.id, 'fill-color', rgb);
+      }
+    }
+    this.setState({ selectedNav: -1, selectedColor: -1 });
+  };
 }
 
 const navList = [
@@ -122,4 +155,11 @@ const navList = [
   { type: 1, name: '配色' },
   { type: 1, name: '测量' },
   { type: 1, name: '筛选' }
+];
+
+const colorLabelIdArr = [
+  RoadLabelIds,
+  GrassLabelIds,
+  WaterLabelIds,
+  ResidentLabelIds
 ];
