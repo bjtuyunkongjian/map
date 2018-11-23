@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { MdCheck } from 'react-icons/md';
+import { MdCheck, MdDeleteForever } from 'react-icons/md';
 import { ClearDistanceLine } from './measure-distance';
 import { ClearAreaPolygon } from './measure-area';
 
@@ -30,6 +30,17 @@ export default class MeasureOptions extends Component {
         {selectedOpt === index ? <MdCheck /> : null}
       </li>
     ));
+
+    _optItems.push(
+      <li
+        className="option-cancel"
+        key={`nav_option_cancel`}
+        onClick={() => this._checkStyle(index)}
+      >
+        取消
+        <MdDeleteForever />
+      </li>
+    );
 
     return _optItems;
   }
