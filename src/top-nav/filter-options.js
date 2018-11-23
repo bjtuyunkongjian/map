@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { MdCheck } from 'react-icons/md';
+import { IoMdEyeOff, IoMdEye } from 'react-icons/io';
 
 export default class FilterOptions extends Component {
   constructor(props) {
@@ -7,12 +7,12 @@ export default class FilterOptions extends Component {
   }
 
   static defaultProps = {
-    selectedOpt: -1,
+    hiddenOpt: [],
     onSelect: () => {}
   };
 
   render() {
-    const { selectedOpt } = this.props;
+    const { hiddenOpt } = this.props;
 
     const _optItems = filterOptions.map((item, index) => (
       <li
@@ -21,7 +21,7 @@ export default class FilterOptions extends Component {
         onClick={() => this._checkStyle(index)}
       >
         {item.name}
-        {selectedOpt === index ? <MdCheck /> : null}
+        {!hiddenOpt[index] ? <IoMdEye /> : <IoMdEyeOff />}
       </li>
     ));
 
@@ -29,13 +29,14 @@ export default class FilterOptions extends Component {
   }
 
   _checkStyle = index => {
-    const { onSelect } = this.props;
-    onSelect(index);
+    const { onSelect, hiddenOpt } = this.props;
+    hiddenOpt[index] = !hiddenOpt[index];
+    onSelect(hiddenOpt);
   };
 }
 
 const filterOptions = [
-  { value: 0, name: 'POI' },
+  { value: 0, name: 'POI', labelLayerIds: ['POI_LEVEL8', ''] },
   { value: 1, name: '交通' },
   { value: 2, name: '绿地' },
   { value: 3, name: '水系' },

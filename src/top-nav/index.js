@@ -11,7 +11,7 @@ export default class TopNav extends Component {
     selectedView: -1,
     selectedColor: -1,
     selectedMeasure: -1,
-    selectedFilter: -1
+    hiddenFilter: []
   };
 
   _measureDistance = MeasureDistance;
@@ -65,7 +65,7 @@ export default class TopNav extends Component {
       selectedView,
       selectedColor,
       selectedMeasure,
-      selectedFilter
+      hiddenFilter
     } = this.state;
     switch (selectedNav) {
       case 0:
@@ -82,7 +82,7 @@ export default class TopNav extends Component {
         break;
       case 3:
         _optItems = FilterOptions;
-        _selectedOpt = selectedFilter;
+        _selectedOpt = hiddenFilter;
         break;
       default:
         _optItems = null;
@@ -110,7 +110,7 @@ export default class TopNav extends Component {
         this.setState({ selectedMeasure: val });
         break;
       case 3:
-        this.setState({ selectedFilter: val });
+        this.setState({ hiddenFilter: val });
         break;
       default:
     }
