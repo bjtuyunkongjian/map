@@ -3,19 +3,19 @@
  */
 
 import mapboxgl from 'mapbox-gl';
-import { addLevel, FetchRequest } from 'tuyun-utils';
+import {
+  addLevel
+  // FetchRequest
+} from 'tuyun-utils';
 import React, { Component } from 'react';
 
 import baseStyle from './map-styles/light-sd';
 import addLevels from './add-levels';
-import addGeojson from './add-geojson';
+// import addGeojson from './add-geojson';
 // import gaoguoGDB from './geojson/gaoguoGDB_cx';
 
 export default class MapBoxDemo extends Component {
-  constructor(props) {
-    super(props);
-    this.boundsArr = [[], []];
-  }
+  boundsArr = [[], []];
 
   componentDidMount() {
     this._init();
@@ -75,17 +75,17 @@ export default class MapBoxDemo extends Component {
         this._addSourceFunc();
       });
     // 拖出浏览器事件
-    document.addEventListener('mouseup', () => {
-      const _bounds = this.map.getBounds();
-      if (
-        this.boundsArr[0][0] > _bounds._sw.lng ||
-        this.boundsArr[0][1] < _bounds._ne.lat ||
-        this.boundsArr[1][0] < _bounds._ne.lng ||
-        this.boundsArr[1][1] > _bounds._sw.lat
-      ) {
-        // this._loadRoadSource(); // 添加道路图层
-      }
-    });
+    // document.addEventListener('mouseup', () => {
+    //   const _bounds = this.map.getBounds();
+    //   if (
+    //     this.boundsArr[0][0] > _bounds._sw.lng ||
+    //     this.boundsArr[0][1] < _bounds._ne.lat ||
+    //     this.boundsArr[1][0] < _bounds._ne.lng ||
+    //     this.boundsArr[1][1] > _bounds._sw.lat
+    //   ) {
+    //     this._loadRoadSource(); // 添加道路图层
+    //   }
+    // });
 
     this.map.addControl(new mapboxgl.NavigationControl());
   }
@@ -97,46 +97,46 @@ export default class MapBoxDemo extends Component {
   }
 
   // 将国道、省道单独开来，临时处理
-  async _loadRoadSource() {
-    const _zoom = this.map.getZoom();
-    const bounds = this.map.getBounds();
-    const _halfLngDiff = (bounds._ne.lng - bounds._sw.lng) / 2;
-    const _haloLatDiff = (bounds._ne.lat - bounds._sw.lat) / 2;
+  // async _loadRoadSource() {
+  //   const _zoom = this.map.getZoom();
+  //   const bounds = this.map.getBounds();
+  //   const _halfLngDiff = (bounds._ne.lng - bounds._sw.lng) / 2;
+  //   const _haloLatDiff = (bounds._ne.lat - bounds._sw.lat) / 2;
 
-    this.boundsArr = [
-      [bounds._sw.lng - _halfLngDiff, bounds._ne.lat + _haloLatDiff], // 左上角
-      [bounds._ne.lng + _halfLngDiff, bounds._sw.lat - _haloLatDiff] // 右下角
-    ];
-    // console.log('开始请求 ===> ', (new Date()).getTime());
-    const { res } = await FetchRequest({
-      url: 'road',
-      method: 'POST',
-      body: {
-        bounds: this.boundsArr,
-        zoom: _zoom
-      }
-    });
-    // console.log('结束请求 ===> ', (new Date()).getTime());
+  //   this.boundsArr = [
+  //     [bounds._sw.lng - _halfLngDiff, bounds._ne.lat + _haloLatDiff], // 左上角
+  //     [bounds._ne.lng + _halfLngDiff, bounds._sw.lat - _haloLatDiff] // 右下角
+  //   ];
+  //   // console.log('开始请求 ===> ', (new Date()).getTime());
+  //   const { res } = await FetchRequest({
+  //     url: 'road',
+  //     method: 'POST',
+  //     body: {
+  //       bounds: this.boundsArr,
+  //       zoom: _zoom
+  //     }
+  //   });
+  //   // console.log('结束请求 ===> ', (new Date()).getTime());
 
-    // if (_zoom < 12) {
-    //   res.guodao = gaoguoGDB;
-    // }
-    this._addRoad(res);
-  }
+  //   // if (_zoom < 12) {
+  //   //   res.guodao = gaoguoGDB;
+  //   // }
+  //   this._addRoad(res);
+  // }
 
-  _addRoad(data) {
-    for (let item of addGeojson) {
-      if (!this.map.getSource(item.sourceName)) {
-        this.map.addSource(item.sourceName, {
-          type: 'geojson',
-          data: data[item.dataName]
-        });
-        for (let layer of item.layers) {
-          this.map.addLayer(layer, layer.labelLayerId);
-        }
-      } else {
-        this.map.getSource(item.sourceName).setData(data[item.dataName]);
-      }
-    }
-  }
+  // _addRoad(data) {
+  //   for (let item of addGeojson) {
+  //     if (!this.map.getSource(item.sourceName)) {
+  //       this.map.addSource(item.sourceName, {
+  //         type: 'geojson',
+  //         data: data[item.dataName]
+  //       });
+  //       for (let layer of item.layers) {
+  //         this.map.addLayer(layer, layer.labelLayerId);
+  //       }
+  //     } else {
+  //       this.map.getSource(item.sourceName).setData(data[item.dataName]);
+  //     }
+  //   }
+  // }
 }
