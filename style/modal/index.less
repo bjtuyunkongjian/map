@@ -1,10 +1,75 @@
 .ReactModal__Overlay,
 .ReactModal__Overlay--after-open {
   z-index: 999;
-  background-color: rgba(0, 0, 0, 0.5) !important;
+  background-color: rgba(0, 0, 0, 0.65) !important;
   .ReactModal__Content,
   .ReactModal__Content--after-open {
     border: 0 !important;
-    border-radius: 0 !important;
+    border-radius: @radius-m !important;
+    .ReactModal__Content--header {
+      padding: 16px 24px;
+      border-bottom: 1px solid #e8e8e8;
+      color: rgba(0, 0, 0, 0.65);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .header-text {
+        font-size: 16px;
+        font-weight: 500;
+        color: rgba(0, 0, 0, 0.85);
+      }
+      .close-modal {
+        cursor: pointer;
+        font-size: 20px;
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+    }
+    .ReactModal__Content--body {
+      padding: 24px;
+    }
+    .ReactModal__Content--footer {
+      padding: 10px 16px;
+      border-top: 1px solid #e8e8e8;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      .btn-cancel {
+        font-weight: 400;
+        height: 32px;
+        border-radius: @radius-m;
+        transition: @transition;
+        border: 1px solid #d9d9d9;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        &:hover {
+          color: #40a9ff;
+          background-color: #fff;
+          border-color: #40a9ff;
+        }
+      }
+      .btn-submit {
+        margin-left: 8px;
+        color: #fff;
+        background-color: #1890ff;
+        border-color: #1890ff;
+        font-weight: 400;
+        height: 32px;
+        border-radius: @radius-m;
+        transition: @transition;
+        border: 1px solid #d9d9d9;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        &:hover {
+          background-color: #40a9ff;
+          border-color: #40a9ff;
+        }
+      }
+    }
   }
 }
