@@ -8,7 +8,7 @@ export default [
     id: "zd_bg", //匝道背景
     type: "line",
     source: "road-source",
-    "source-layer": "LEVEL_9",
+    "source-layer": "zadaoGDBt",
     // minzoom: _visibleLevel,
     layout: {
       "line-join": "round",
@@ -45,7 +45,7 @@ export default [
     type: "line",
     source: "road-source",
     // minzoom: _visibleLevel,
-    "source-layer": "LEVEL_9",
+    "source-layer": "zadaoGDBt",
     layout: {
       "line-cap": "round",
       "line-join": "round"
@@ -81,7 +81,7 @@ export default [
     type: "symbol",
     source: "road-source",
     // minzoom: _visibleLevel,
-    "source-layer": "LEVEL_9",
+    "source-layer": "zadaoGDBt",
     layout: {
       "text-field": {
         stops: [[7, ""], [13, "{NAME}"]]

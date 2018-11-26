@@ -8,7 +8,7 @@ export default [
     id: "xiangdao_bg", //乡道
     type: "line",
     source: "road-source",
-    "source-layer": "LEVEL_14",
+    "source-layer": "xiangdaoGDB",
     // minzoom: _visibleLevel,
     layout: {
       "line-join": "round",
@@ -44,7 +44,7 @@ export default [
     id: "xiangdao",
     type: "line",
     source: "road-source",
-    "source-layer": "LEVEL_14",
+    "source-layer": "xiangdaoGDB",
     // minzoom: _visibleLevel,
     layout: {
       "line-cap": "round",
@@ -80,7 +80,7 @@ export default [
     id: "xiangdao_name",
     type: "symbol",
     source: "road-source",
-    "source-layer": "LEVEL_14",
+    "source-layer": "xiangdaoGDB",
     // minzoom: _visibleLevel,
     layout: {
       "text-field": {
