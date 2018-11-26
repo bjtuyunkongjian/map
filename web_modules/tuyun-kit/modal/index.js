@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import Modal from 'react-modal';
+import { MdClear } from 'react-icons/md';
 
 export default class TuyunModal extends Component {
   static defaultProps = {
+    title: '标题',
     visible: false,
     onSelect: () => {},
     onOpen: () => {},
@@ -10,7 +12,7 @@ export default class TuyunModal extends Component {
   };
 
   render() {
-    const { visible, onOpen, onClose, children } = this.props;
+    const { visible, onOpen, onClose, children, title } = this.props;
     return (
       <Modal
         isOpen={visible}
@@ -18,7 +20,15 @@ export default class TuyunModal extends Component {
         onRequestClose={() => onClose()}
         style={customStyles}
       >
-        {children}
+        <div className="ReactModal__Content--header">
+          <div className="header-text">{title}</div>
+          <MdClear className="close-modal" />
+        </div>
+        <div className="ReactModal__Content--body">{children}</div>
+        <div className="ReactModal__Content--footer">
+          <div className="btn-cancel">取消</div>
+          <div className="btn-submit">确定</div>
+        </div>
       </Modal>
     );
   }
@@ -26,13 +36,15 @@ export default class TuyunModal extends Component {
 
 const customStyles = {
   content: {
+    width: '520px',
     top: '100px',
     left: '50%',
     right: 'auto',
     bottom: 'auto',
     marginRight: '-50%',
     transform: 'translate(-50%, 0)',
-    paddingBottom: 24
+    padding: '0',
+    boxSizing: 'border-box'
   }
 };
 
