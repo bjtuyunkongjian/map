@@ -35,7 +35,7 @@ export default class MeasureOptions extends Component {
       <li
         className="option-cancel"
         key={`nav_option_cancel`}
-        onClick={() => this._checkStyle(index)}
+        onClick={() => this._checkStyle(-1)}
       >
         取消
         <MdClear />
@@ -51,8 +51,4 @@ export default class MeasureOptions extends Component {
   };
 }
 
-const measureOptions = [
-  { value: 0, name: '测距' },
-  { value: 1, name: '测面' },
-  { value: 2, name: '标点' }
-];
+const measureOptions = [{ value: 0, name: '测距' }, { value: 1, name: '测面' }];
