@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { MdCheck } from 'react-icons/md';
+import ThematicStyles from './thematic-styles';
 
 export default class ViewOption extends Component {
   constructor(props) {
@@ -18,7 +19,7 @@ export default class ViewOption extends Component {
       <li
         className="option-item"
         key={`nav_option_${index}`}
-        onClick={() => this._checkStyle(index)}
+        onClick={() => this._checkStyle(index, item.theme)}
       >
         {item.name}
         {selectedOpt === index ? <MdCheck /> : null}
@@ -28,15 +29,32 @@ export default class ViewOption extends Component {
     return _optItems;
   }
 
-  _checkStyle = index => {
+  _checkStyle = (index, theme) => {
     const { onSelect } = this.props;
+    this._setStyle(theme);
     onSelect(index);
+  };
+
+  _setStyle = theme => {
+    for (let item of ThematicStyles) {
+      if (!item.id || !item[theme] || !_MAP_.getLayer(item.id)) continue;
+      if (item.type === 'background') {
+        // background-color
+        _MAP_.setPaintProperty(item.id, 'background-color', item[theme]);
+      } else if (item.type && item.type.startsWith('road')) {
+        _MAP_.setPaintProperty(item.id, 'line-color', item[theme]);
+      } else if (item.type && item.type.startsWith('3d')) {
+        _MAP_.setPaintProperty(item.id, 'fill-extrusion-color', item[theme]);
+      } else {
+        _MAP_.setPaintProperty(item.id, 'fill-color', item[theme]);
+      }
+    }
   };
 }
 
 const viewOptions = [
-  { value: 0, name: '标准视图' },
-  { value: 1, name: '天地图标准' },
-  { value: 2, name: '欧标视图' },
-  { value: 3, name: '夜间视图' }
+  { value: 0, name: '标准视图', theme: 'standard' },
+  { value: 1, name: '天地图标准', theme: 'tiandi' },
+  { value: 2, name: '欧标视图', theme: 'european' },
+  { value: 3, name: '夜间视图', theme: 'night' }
 ];

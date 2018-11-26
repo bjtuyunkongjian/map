@@ -67,6 +67,10 @@ export function MeasureDistance() {
         );
         _distanceGeojson.features.push(_linestring);
         var value = document.createElement('pre');
+        const _totalDistance =
+          turf.lineDistance(_linestring) > 1
+            ? `${turf.lineDistance(_linestring).toLocaleString()} 千米`
+            : `${(turf.lineDistance(_linestring) * 1000).toLocaleString()} 米`;
         value.textContent =
           '总距离：' + turf.lineDistance(_linestring).toLocaleString() + 'km';
         distanceContainer.appendChild(value);

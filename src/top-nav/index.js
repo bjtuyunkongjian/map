@@ -11,12 +11,10 @@ import ColorModal from './color-modal';
 import { MeasureDistance } from './measure-distance';
 import { MeasureArea } from './measure-area';
 import {
-  PoiLabelIds,
   RoadLabelIds,
   GrassLabelIds,
   WaterLabelIds,
-  ResidentLabelIds,
-  BoundaryLabelIds
+  ResidentLabelIds
 } from './layer-ids';
 
 export default class TopNav extends Component {
@@ -138,7 +136,7 @@ export default class TopNav extends Component {
   _changeColor = rgb => {
     const { selectedColor } = this.state;
     for (let item of colorLabelIdArr[selectedColor]) {
-      if (!item.id || !_MAP_.getLayer(item.id)) continue;
+      if (!item.id || item.type === 'POI' || !_MAP_.getLayer(item.id)) continue;
       if (item.type && item.type.startsWith('road')) {
         item.type === 'road' &&
           _MAP_.setPaintProperty(item.id, 'line-color', rgb);

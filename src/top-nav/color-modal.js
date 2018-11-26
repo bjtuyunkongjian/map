@@ -13,7 +13,9 @@ export default class ColorModal extends Component {
       <Modal
         isOpen={visible}
         // onAfterOpen={this.afterOpenModal}
-        // onRequestClose={this.closeModal}
+        onRequestClose={() => {
+          console.log('aaaaa');
+        }}
         style={customStyles}
       >
         <canvas
