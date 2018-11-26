@@ -1,2 +1,2 @@
-import Dialog from './dialog';
-export { Dialog };
+import TuyunModal from './modal';
+export { TuyunModal };
