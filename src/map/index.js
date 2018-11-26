@@ -75,17 +75,17 @@ export default class MapBoxDemo extends Component {
         this._addSourceFunc();
       });
     // 拖出浏览器事件
-    document.addEventListener('mouseup', () => {
-      const _bounds = this.map.getBounds();
-      if (
-        this.boundsArr[0][0] > _bounds._sw.lng ||
-        this.boundsArr[0][1] < _bounds._ne.lat ||
-        this.boundsArr[1][0] < _bounds._ne.lng ||
-        this.boundsArr[1][1] > _bounds._sw.lat
-      ) {
-        // this._loadRoadSource(); // 添加道路图层
-      }
-    });
+    // document.addEventListener('mouseup', () => {
+    //   const _bounds = this.map.getBounds();
+    //   if (
+    //     this.boundsArr[0][0] > _bounds._sw.lng ||
+    //     this.boundsArr[0][1] < _bounds._ne.lat ||
+    //     this.boundsArr[1][0] < _bounds._ne.lng ||
+    //     this.boundsArr[1][1] > _bounds._sw.lat
+    //   ) {
+    //     this._loadRoadSource(); // 添加道路图层
+    //   }
+    // });
 
     this.map.addControl(new mapboxgl.NavigationControl());
   }
