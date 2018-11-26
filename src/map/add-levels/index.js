@@ -14,17 +14,9 @@ import layerLv17 from "./layer-lv17";
 import layerLv18 from "./layer-lv18";
 import layerLv19 from "./layer-lv19";
 import road from "./road";
-// import shengdao from "./road-shengdao";
-// import xiandao from "./road-xiandao";
-// import ksl from "./road-ksl";
-// import zgd from "./road-zgd";
-// import zadao from "./road-zadao";
-// import gjl from "./road-gjl";
-// import xiangdao from "./road-xiangdao";
-// import cgd from "./road-cgd";
-// import zx from "./road-zx";
 
 const addLvs = [
+  road,
   layerLv8,
   layerLv9,
   layerLv10,
@@ -36,17 +28,7 @@ const addLvs = [
   layerLv16,
   layerLv17,
   layerLv18,
-  layerLv19,
-  road
-  // shengdao,
-  // xiandao,
-  // ksl,
-  // zgd,
-  // zadao,
-  // gjl,
-  // xiangdao,
-  // cgd,
-  // zx
+  layerLv19
 ];
 
 export default addLvs;

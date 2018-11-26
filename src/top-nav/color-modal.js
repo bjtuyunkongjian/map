@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import Modal from 'react-modal';
+import React, { Component } from "react";
+import Modal from "react-modal";
 
 export default class ColorModal extends Component {
   static defaultProps = {
@@ -14,7 +14,7 @@ export default class ColorModal extends Component {
         isOpen={visible}
         // onAfterOpen={this.afterOpenModal}
         onRequestClose={() => {
-          console.log('aaaaa');
+          console.log("aaaaa");
         }}
         style={customStyles}
       >
@@ -31,7 +31,7 @@ export default class ColorModal extends Component {
   _renderImageCanvas = _canvas => {
     if (!_canvas) return;
     this._canvas = _canvas;
-    this._ctx = _canvas.getContext('2d');
+    this._ctx = _canvas.getContext("2d");
     for (var i = 0; i < denominator; i++) {
       for (var j = 0; j < denominator; j++) {
         this._ctx.fillStyle = this._createColor(i, j);
@@ -65,14 +65,14 @@ const cellW = canvasW / denominator; // 每个颜色的值
 
 const customStyles = {
   content: {
-    top: '50%',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    marginRight: '-50%',
-    transform: 'translate(-50%, -50%)',
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
     padding: 20
   }
 };
 
-Modal.setAppElement('#root');
+Modal.setAppElement("#root");
