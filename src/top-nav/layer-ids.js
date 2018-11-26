@@ -59,7 +59,11 @@ const RoadLabelIds = [
 ];
 
 const GrassLabelIds = [{ id: '9L_GVEGPL' }];
-const WaterLabelIds = [{ id: 'GHYDPL_7L' }, { id: 'GHYDPL_OTH' }];
+const WaterLabelIds = [
+  { id: 'GHYDPL_7L' },
+  { id: 'GHYDPL_OTH' },
+  { id: 'GHYDPL_7L_NAME' }
+];
 const ResidentLabelIds = [
   { id: 'GRESPL_1_3D' },
   { id: 'GRESPL_2_3D' },
