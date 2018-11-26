@@ -9,7 +9,7 @@ import React, { Component } from 'react';
 import baseStyle from './map-styles/light-sd';
 import addLevels from './add-levels';
 import addGeojson from './add-geojson';
-import gaoguoGDB from './geojson/gaoguoGDB_cx';
+// import gaoguoGDB from './geojson/gaoguoGDB_cx';
 
 export default class MapBoxDemo extends Component {
   constructor(props) {
@@ -118,9 +118,9 @@ export default class MapBoxDemo extends Component {
     });
     // console.log('结束请求 ===> ', (new Date()).getTime());
 
-    if (_zoom < 12) {
-      res.guodao = gaoguoGDB;
-    }
+    // if (_zoom < 12) {
+    //   res.guodao = gaoguoGDB;
+    // }
     this._addRoad(res);
   }
 
