@@ -11,12 +11,10 @@ import ColorModal from './color-modal';
 import { MeasureDistance } from './measure-distance';
 import { MeasureArea } from './measure-area';
 import {
-  PoiLabelIds,
   RoadLabelIds,
   GrassLabelIds,
   WaterLabelIds,
-  ResidentLabelIds,
-  BoundaryLabelIds
+  ResidentLabelIds
 } from './layer-ids';
 
 export default class TopNav extends Component {

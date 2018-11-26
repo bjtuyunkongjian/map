@@ -61,12 +61,12 @@ export function MeasureArea() {
         ];
         _areaGeojson.features.push(_areaString);
         var value = document.createElement('pre');
-        const totalArea =
+        const _totalArea =
           turf.area(_areaString) > 10 ** 6
             ? `${(turf.area(_areaString) / 10 ** 6).toLocaleString()} 平方千米`
             : `${turf.area(_areaString).toLocaleString()} 平方米`;
 
-        value.textContent = `总面积：${totalArea}`;
+        value.textContent = `总面积：${_totalArea}`;
 
         distanceContainer.appendChild(value);
       }
