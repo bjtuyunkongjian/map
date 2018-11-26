@@ -4,19 +4,45 @@ import { TuyunModal } from 'tuyun-kit';
 export default class ColorModal extends Component {
   static defaultProps = {
     visible: false,
-    onSelect: () => {}
+    onSelect: () => {},
+    onCancel: () => {}
+  };
+
+  state = {
+    rgb: ''
   };
 
   render() {
-    const { visible } = this.props;
+    const { rgb } = this.state;
+    const { visible, onSelect, onCancel } = this.props;
     return (
-      <TuyunModal visible={visible}>
-        <canvas
-          ref={_el => this._renderImageCanvas(_el)}
-          width={canvasW}
-          height={canvasW}
-          onClick={e => this._selectColor(e)}
-        />
+      <TuyunModal
+        visible={visible}
+        onOk={() => (rgb ? onSelect(rgb) : onCancel())}
+        onCancel={() => onCancel()}
+      >
+        <div className="color-picker">
+          <canvas
+            className="palette"
+            ref={_el => this._renderImageCanvas(_el)}
+            width={canvasW}
+            height={canvasW}
+            onClick={e => this._selectColor(e)}
+          />
+          <div className="right-options">
+            <div className="selected-color-box">
+              <span>所选颜色：</span>
+              {rgb ? (
+                <div
+                  className="selected-color"
+                  style={{ backgroundColor: rgb }}
+                />
+              ) : (
+                '无'
+              )}
+            </div>
+          </div>
+        </div>
       </TuyunModal>
     );
   }
@@ -41,14 +67,13 @@ export default class ColorModal extends Component {
   };
 
   _selectColor = event => {
-    const { onSelect } = this.props;
     const _rect = this._canvas.getBoundingClientRect();
     const _x = event.clientX - _rect.left * (canvasW / _rect.width);
     const _y = event.clientY - _rect.top * (canvasW / _rect.height);
     const _i = Math.floor(_x / cellW);
     const _j = Math.floor(_y / cellW);
     const rgb = this._createColor(_i, _j);
-    onSelect(rgb);
+    this.setState({ rgb });
   };
 }
 

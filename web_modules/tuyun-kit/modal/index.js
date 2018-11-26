@@ -6,28 +6,30 @@ export default class TuyunModal extends Component {
   static defaultProps = {
     title: '标题',
     visible: false,
-    onSelect: () => {},
-    onOpen: () => {},
-    onClose: () => {}
+    onOk: () => {},
+    onCancel: () => {}
   };
 
   render() {
-    const { visible, onOpen, onClose, children, title } = this.props;
+    const { onOk, onCancel, visible, title, children } = this.props;
     return (
       <Modal
         isOpen={visible}
-        onAfterOpen={() => onOpen()}
-        onRequestClose={() => onClose()}
+        onRequestClose={() => onCancel()}
         style={customStyles}
       >
         <div className="ReactModal__Content--header">
           <div className="header-text">{title}</div>
-          <MdClear className="close-modal" />
+          <MdClear className="close-modal" onClick={() => onCancel()} />
         </div>
         <div className="ReactModal__Content--body">{children}</div>
         <div className="ReactModal__Content--footer">
-          <div className="btn-cancel">取消</div>
-          <div className="btn-submit">确定</div>
+          <div className="btn-cancel" onClick={() => onCancel()}>
+            取消
+          </div>
+          <div className="btn-submit" onClick={() => onOk()}>
+            确定
+          </div>
         </div>
       </Modal>
     );

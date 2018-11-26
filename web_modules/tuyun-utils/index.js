@@ -1,9 +1,6 @@
 import addLevel from './addLevel';
-import {
-  FetchRequest
-} from './fetch';
+import RegRgb from './reg-rgb';
 
-export {
-  addLevel,
-  FetchRequest
-}
+import { FetchRequest } from './fetch';
+
+export { addLevel, RegRgb, FetchRequest };

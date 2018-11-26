@@ -28,6 +28,8 @@
     }
     .ReactModal__Content--body {
       padding: 24px;
+      // 此处导入要配置的样式
+      @import './color-picker.less';
     }
     .ReactModal__Content--footer {
       padding: 10px 16px;
@@ -66,8 +68,7 @@
         justify-content: center;
         width: 50px;
         &:hover {
-          background-color: #40a9ff;
-          border-color: #40a9ff;
+          opacity: 0.8;
         }
       }
     }

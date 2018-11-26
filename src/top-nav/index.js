@@ -16,6 +16,7 @@ import {
   WaterLabelIds,
   ResidentLabelIds
 } from './layer-ids';
+import { RegRgb } from 'tuyun-utils';
 
 export default class TopNav extends Component {
   state = {
@@ -57,6 +58,7 @@ export default class TopNav extends Component {
         <ColorModal
           visible={showModal}
           onSelect={rgb => this._changeColor(rgb)}
+          onCancel={() => this.setState({ selectedNav: -1, selectedColor: -1 })}
         />
       </div>
     );
@@ -134,6 +136,10 @@ export default class TopNav extends Component {
   };
 
   _changeColor = rgb => {
+    if (!RegRgb.test(rgb)) {
+      this.setState({ selectedNav: -1, selectedColor: -1 });
+      return;
+    }
     const { selectedColor } = this.state;
     for (let item of colorLabelIdArr[selectedColor]) {
       if (!item.id || item.type === 'POI' || !_MAP_.getLayer(item.id)) continue;
