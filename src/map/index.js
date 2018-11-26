@@ -3,7 +3,10 @@
  */
 
 import mapboxgl from 'mapbox-gl';
-import { addLevel, FetchRequest } from 'tuyun-utils';
+import {
+  addLevel
+  // FetchRequest
+} from 'tuyun-utils';
 import React, { Component } from 'react';
 
 import baseStyle from './map-styles/light-sd';
@@ -12,10 +15,7 @@ import addLevels from './add-levels';
 // import gaoguoGDB from './geojson/gaoguoGDB_cx';
 
 export default class MapBoxDemo extends Component {
-  constructor(props) {
-    super(props);
-    this.boundsArr = [[], []];
-  }
+  boundsArr = [[], []];
 
   componentDidMount() {
     this._init();
