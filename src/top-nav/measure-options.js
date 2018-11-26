@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { MdCheck, MdDeleteForever } from 'react-icons/md';
+import { MdCheck, MdClear } from 'react-icons/md';
 import { ClearDistanceLine } from './measure-distance';
 import { ClearAreaPolygon } from './measure-area';
 
@@ -38,7 +38,7 @@ export default class MeasureOptions extends Component {
         onClick={() => this._checkStyle(index)}
       >
         取消
-        <MdDeleteForever />
+        <MdClear />
       </li>
     );
 

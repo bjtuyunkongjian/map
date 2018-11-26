@@ -62,7 +62,7 @@ const GrassLabelIds = [{ id: '9L_GVEGPL' }];
 const WaterLabelIds = [
   { id: 'GHYDPL_7L' },
   { id: 'GHYDPL_OTH' },
-  { id: 'GHYDPL_7L_NAME' }
+  { id: 'GHYDPL_7L_NAME', type: 'POI' }
 ];
 const ResidentLabelIds = [
   { id: 'GRESPL_1_3D' },
