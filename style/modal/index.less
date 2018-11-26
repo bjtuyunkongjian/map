@@ -1,7 +1,7 @@
 .ReactModal__Overlay,
 .ReactModal__Overlay--after-open {
   z-index: 999;
-  background-color: rgba(0, 0, 0, 0.65) !important;
+  background-color: @bg-mask !important;
   .ReactModal__Content,
   .ReactModal__Content--after-open {
     border: 0 !important;
@@ -42,27 +42,27 @@
         height: 32px;
         border-radius: @radius-m;
         transition: @transition;
-        border: 1px solid #d9d9d9;
+        border: 1px solid @border-color-darker;
         display: flex;
         align-items: center;
         justify-content: center;
         width: 50px;
         &:hover {
-          color: #40a9ff;
+          color: @color-blue;
           background-color: #fff;
-          border-color: #40a9ff;
+          border-color: @color-blue;
         }
       }
       .btn-submit {
         margin-left: 8px;
         color: #fff;
-        background-color: #1890ff;
-        border-color: #1890ff;
+        background-color: @color-blue;
+        border-color: @color-blue;
         font-weight: 400;
         height: 32px;
         border-radius: @radius-m;
         transition: @transition;
-        border: 1px solid #d9d9d9;
+        border: 1px solid @border-color-darker;
         display: flex;
         align-items: center;
         justify-content: center;

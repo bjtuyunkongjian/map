@@ -17,6 +17,7 @@ export default class ColorModal extends Component {
     const { visible, onSelect, onCancel } = this.props;
     return (
       <TuyunModal
+        title="配色板"
         visible={visible}
         onOk={() => (rgb ? onSelect(rgb) : onCancel())}
         onCancel={() => onCancel()}
