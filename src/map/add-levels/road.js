@@ -1,14 +1,24 @@
-const symbolLabelLayerId = "symbol-ref";
+import RoadShengdao from "./road-shengdao";
+import XianDao from "./road-xiandao";
+import Gjl from "./road-gjl";
+import Ksl from "./road-ksl";
+import Zgd from "./road-zgd";
+import ZaDao from "./road-zadao";
+import Cgd from "./road-cgd";
+import XiangDao from "./road-xiangdao";
+import Zx from "./road-zx";
 
+const _visibleLevel = 7;
+const symbolLabelLayerId = "symbol-ref";
 const lineLabelLayerId = "line-gd-ref";
 const lineBgLabelLayerId = "line-gd-ref";
 
-export default [
+const layers = [
   {
-    id: "shengdao_bg", // 省道背景
+    id: "guodao_bg", // 国道背景
     type: "line",
     source: "road-source",
-    "source-layer": "shengGDBt_50",
+    "source-layer": "gaoguoGDB_50",
     layout: {
       "line-join": "round",
       "line-cap": "round"
@@ -17,6 +27,7 @@ export default [
       "line-width": {
         base: 2,
         stops: [
+          [7, 1],
           [8, 2],
           [9, 3],
           [10, 4],
@@ -25,8 +36,8 @@ export default [
           [13, 7],
           [14, 9],
           [15, 10],
-          [16, 14],
-          [17, 14],
+          [16, 10],
+          [17, 12],
           [18, 14],
           [19, 14],
           [20, 22],
@@ -34,15 +45,15 @@ export default [
           [22, 26]
         ]
       },
-      "line-color": "#ffae00"
+      "line-color": "#f9bd09"
     },
     labelLayerId: lineBgLabelLayerId
   },
   {
-    id: "shengdao", // 路网图层（name字段），省道
+    id: "guodao", // 路网图层（name字段），国道
     type: "line",
     source: "road-source",
-    "source-layer": "shengGDBt_50",
+    "source-layer": "gaoguoGDB_50",
     layout: {
       "line-cap": "round",
       "line-join": "round"
@@ -51,6 +62,7 @@ export default [
       "line-width": {
         base: 2,
         stops: [
+          [7, 1],
           [8, 1],
           [9, 2],
           [10, 3],
@@ -59,8 +71,8 @@ export default [
           [13, 6],
           [14, 8],
           [15, 7],
-          [16, 11],
-          [17, 11],
+          [16, 7],
+          [17, 9],
           [18, 11],
           [19, 11],
           [20, 19],
@@ -68,18 +80,18 @@ export default [
           [22, 24]
         ]
       },
-      "line-color": "#ffeebb"
+      "line-color": "#fed669"
     },
     labelLayerId: lineLabelLayerId
   },
   {
-    id: "shengdao_name", // 省道名称
+    id: "guodao_name", // 国道名称
     type: "symbol",
     source: "road-source",
-    "source-layer": "shengGDBt_50",
+    "source-layer": "gaoguoGDB_50",
     layout: {
       "text-field": {
-        stops: [[7, ""], [13, "{NAME}"]]
+        stops: [[7, ""], [12, "{NAME}"]]
       },
       visibility: "visible",
       "symbol-placement": "line",
@@ -98,17 +110,17 @@ export default [
     labelLayerId: symbolLabelLayerId
   },
   {
-    id: "shengdao_icon", // 省道图标
+    id: "guodao_icon", // 国道图标
     type: "symbol",
     source: "road-source",
-    "source-layer": "shengGDBt_50",
+    "source-layer": "gaoguoGDB_50",
     filter: ["!=", "ENTIID", ""],
     layout: {
       "text-field": "{ENTIID}",
       visibility: "visible",
       "symbol-placement": "line",
       "text-size": 10,
-      "icon-image": "ic_map_sh.9",
+      "icon-image": "ic_map_gh.9",
       "icon-text-fit": "both",
       "icon-text-fit-padding": [1, 2, 1, 2],
       "text-justify": "center",
@@ -125,3 +137,30 @@ export default [
     labelLayerId: symbolLabelLayerId
   }
 ];
+
+const style = {
+  visibleLevel: _visibleLevel,
+  source: {
+    "road-source": {
+      type: "vector",
+      scheme: "tms",
+      tiles: [
+        "http://192.168.8.109:8080/originMapServer/string?test=200&zoom={z}&row={x}&column={y}"
+      ]
+    }
+  },
+  layers: [
+    ...Zx,
+    ...XiangDao,
+    ...Ksl,
+    ...Cgd,
+    ...ZaDao,
+    ...Gjl,
+    ...Zgd,
+    ...XianDao,
+    ...RoadShengdao,
+    ...layers
+  ]
+};
+
+export default style;
