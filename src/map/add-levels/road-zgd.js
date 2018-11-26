@@ -9,7 +9,7 @@ export default [
     id: "9L_zgd_bg", // 主干道背景
     type: "line",
     source: "road-source",
-    "source-layer": "LEVEL_12",
+    "source-layer": "zgdGDB",
     // minzoom: _visibleLevel,
     layout: {
       "line-join": "round",
@@ -45,7 +45,7 @@ export default [
     id: "9L_zgd", // 路网图层（name字段），主干道
     type: "line",
     source: "road-source",
-    "source-layer": "LEVEL_12",
+    "source-layer": "zgdGDB",
     // minzoom: _visibleLevel,
     layout: {
       "line-cap": "round",
@@ -73,7 +73,7 @@ export default [
           [22, 24]
         ]
       },
-      "line-color": "#ffeebb"
+      "line-color": "#D1EEEE"
     },
     labelLayerId: lineLabelLayerId
   },
@@ -81,7 +81,7 @@ export default [
     id: "9L_zgd_name", // 主干道名称
     type: "symbol",
     source: "road-source",
-    "source-layer": "LEVEL_12",
+    "source-layer": "zgdGDB",
     // minzoom: _visibleLevel,
     layout: {
       "text-field": {

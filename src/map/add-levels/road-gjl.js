@@ -8,7 +8,7 @@ export default [
     id: "gjl_bg", //高架路背景
     type: "line",
     source: "road-source",
-    "source-layer": "LEVEL_9",
+    "source-layer": "gjlGDB",
     // minzoom: _visibleLevel,
     layout: {
       "line-join": "round",
@@ -44,7 +44,7 @@ export default [
     id: "gjl", //高架路
     type: "line",
     source: "road-source",
-    "source-layer": "LEVEL_9",
+    "source-layer": "gjlGDB",
     // minzoom: _visibleLevel,
     layout: {
       "line-cap": "round",
@@ -80,7 +80,7 @@ export default [
     id: "gjl_name",
     type: "symbol",
     source: "road-source",
-    "source-layer": "LEVEL_9",
+    "source-layer": "gjlGDB",
     // minzoom: _visibleLevel,
     layout: {
       "text-field": {

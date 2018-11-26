@@ -7,7 +7,7 @@ export default [
     id: "xd_bg", // 县道背景
     type: "line",
     source: "road-source",
-    "source-layer": "LEVEL_9",
+    "source-layer": "xiandaoGDB",
     layout: {
       "line-join": "round",
       "line-cap": "round"
@@ -42,7 +42,7 @@ export default [
     id: "xd", // 路网图层（name字段），县道
     type: "line",
     source: "road-source",
-    "source-layer": "LEVEL_9",
+    "source-layer": "xiandaoGDB",
     layout: {
       "line-cap": "round",
       "line-join": "round"
@@ -69,7 +69,7 @@ export default [
           [22, 24]
         ]
       },
-      "line-color": "#fed669"
+      "line-color": "#FF0000"
     },
     labelLayerId: lineLabelLayerId
   },
@@ -77,7 +77,7 @@ export default [
     id: "xd_name", // xiandao
     type: "symbol",
     source: "road-source",
-    "source-layer": "LEVEL_9",
+    "source-layer": "xiandaoGDB",
     layout: {
       "text-field": {
         stops: [[7, ""], [13, "{NAME}"]]

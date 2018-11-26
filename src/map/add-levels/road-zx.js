@@ -8,7 +8,7 @@ export default [
     id: "zx_bg",
     type: "line",
     source: "road-source",
-    "source-layer": "LEVEL_15",
+    "source-layer": "zxGDB",
     layout: {
       "line-join": "round",
       "line-cap": "round"
@@ -36,7 +36,7 @@ export default [
     id: "zx", // 路网图层（name字段），县道
     type: "line",
     source: "road-source",
-    "source-layer": "LEVEL_15",
+    "source-layer": "zxGDB",
 
     layout: {
       "line-cap": "round",
@@ -65,7 +65,7 @@ export default [
     id: "zx_name",
     type: "symbol",
     source: "road-source",
-    "source-layer": "LEVEL_15",
+    "source-layer": "zxGDB",
 
     layout: {
       "text-field": {
