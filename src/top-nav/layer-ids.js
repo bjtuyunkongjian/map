@@ -58,18 +58,18 @@ const RoadLabelIds = [
   { id: 'zx_name', type: 'road-name' }
 ];
 
-const GrassLabelIds = [{ id: '9L_GVEGPL' }];
+const GrassLabelIds = [{ id: '9L_GVEGPL', type: 'fill' }];
 const WaterLabelIds = [
-  { id: 'GHYDPL_7L' },
-  { id: 'GHYDPL_OTH' },
-  { id: 'GHYDPL_7L_NAME', type: 'POI' }
+  { id: 'GHYDPL_7L', type: 'fill' },
+  { id: 'GHYDPL_OTH', type: 'fill' },
+  { id: 'GHYDPL_7L_NAME', type: 'POI', type: 'fill' }
 ];
 const ResidentLabelIds = [
-  { id: 'GRESPL_1_3D' },
-  { id: 'GRESPL_2_3D' },
-  { id: 'GRESPL_3_3D' }
+  { id: 'GRESPL_1_3D', type: '3d' },
+  { id: 'GRESPL_2_3D', type: '3d' },
+  { id: 'GRESPL_3_3D', type: '3d' }
 ];
-const BoundaryLabelIds = [{ id: 'GBOULN' }];
+const BoundaryLabelIds = [{ id: 'GBOULN', type: 'boundary' }];
 
 export {
   PoiLabelIds,

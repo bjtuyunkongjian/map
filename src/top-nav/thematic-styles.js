@@ -253,6 +253,7 @@ export default [
   },
   {
     id: '9L_GVEGPL',
+    type: 'fill',
     standard: '#d6eccf',
     tiandi: 'rgb(187, 217, 141)',
     european: 'rgb(210, 232, 191)',
@@ -260,6 +261,7 @@ export default [
   },
   {
     id: 'GHYDPL_7L',
+    type: 'fill',
     standard: '#c4daf6',
     tiandi: 'rgb(171, 197, 239)',
     european: 'rgb(117, 207, 240)',
@@ -267,6 +269,7 @@ export default [
   },
   {
     id: 'GHYDPL_OTH',
+    type: 'fill',
     standard: '#c4daf6',
     tiandi: 'rgb(171, 197, 239)',
     european: 'rgb(117, 207, 240)',

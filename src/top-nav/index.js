@@ -17,6 +17,7 @@ import {
   ResidentLabelIds
 } from './layer-ids';
 import { RegRgb } from 'tuyun-utils';
+import { ChangeLvStyle } from './change-lv-style';
 
 export default class TopNav extends Component {
   state = {
@@ -77,9 +78,10 @@ export default class TopNav extends Component {
     if (selectedNav === 2 && index !== 2) {
       ClearDistanceLine();
       ClearAreaPolygon();
-    } else if (selectedNav === 2) {
       this.setState({
-        selectedNav: -1
+        selectedNav: index,
+        selectedColor: -1,
+        selectedMeasure: -1
       });
     } else {
       selectedNav === index
@@ -161,12 +163,24 @@ export default class TopNav extends Component {
     }
     const { selectedColor } = this.state;
     for (let item of colorLabelIdArr[selectedColor]) {
-      if (!item.id || item.type === 'POI' || !_MAP_.getLayer(item.id)) continue;
-      if (item.type && item.type.startsWith('road')) {
-        item.type === 'road' &&
+      if (!item.id || item.type === 'POI') continue;
+
+      if (_MAP_.getLayer(item.id)) {
+        if (item.type === 'road') {
           _MAP_.setPaintProperty(item.id, 'line-color', rgb);
+        } else if (item.type === 'fill') {
+          _MAP_.setPaintProperty(item.id, 'fill-color', rgb);
+        } else if (item.type === '3d') {
+          _MAP_.setPaintProperty(item.id, 'fill-extrusion-color', rgb);
+        }
       } else {
-        _MAP_.setPaintProperty(item.id, 'fill-color', rgb);
+        if (item.type === 'road') {
+          ChangeLvStyle({ id: item.id, typeName: 'line-color', rgb });
+        } else if (item.type === 'fill') {
+          ChangeLvStyle({ id: item.id, typeName: 'fill-color', rgb });
+        } else if (item.type === '3d') {
+          ChangeLvStyle({ id: item.id, typeName: 'fill-extrusion-color', rgb });
+        }
       }
     }
     this.setState({ selectedNav: -1, selectedColor: -1 });

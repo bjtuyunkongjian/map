@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { MdCheck } from 'react-icons/md';
 import ThematicStyles from './thematic-styles';
+import { ChangeLvStyle } from './change-lv-style';
 
 export default class ViewOption extends Component {
   constructor(props) {
@@ -37,16 +38,38 @@ export default class ViewOption extends Component {
 
   _setStyle = theme => {
     for (let item of ThematicStyles) {
-      if (!item.id || !item[theme] || !_MAP_.getLayer(item.id)) continue;
-      if (item.type === 'background') {
-        // background-color
-        _MAP_.setPaintProperty(item.id, 'background-color', item[theme]);
-      } else if (item.type && item.type.startsWith('road')) {
-        _MAP_.setPaintProperty(item.id, 'line-color', item[theme]);
-      } else if (item.type && item.type.startsWith('3d')) {
-        _MAP_.setPaintProperty(item.id, 'fill-extrusion-color', item[theme]);
+      if (!item.id || !item[theme]) continue;
+      if (_MAP_.getLayer(item.id)) {
+        if (item.type === 'background') {
+          // background-color
+          _MAP_.setPaintProperty(item.id, 'background-color', item[theme]);
+        } else if (item.type === 'road ' || item.type === 'road-bg') {
+          _MAP_.setPaintProperty(item.id, 'line-color', item[theme]);
+        } else if (item.type && item.type === '3d') {
+          _MAP_.setPaintProperty(item.id, 'fill-extrusion-color', item[theme]);
+        } else if (item.type === 'fill') {
+          _MAP_.setPaintProperty(item.id, 'fill-color', item[theme]);
+        }
       } else {
-        _MAP_.setPaintProperty(item.id, 'fill-color', item[theme]);
+        if (item.type === 'road ' || item.type === 'road-bg') {
+          ChangeLvStyle({
+            id: item.id,
+            typeName: 'line-color',
+            rgb: item[theme]
+          });
+        } else if (item.type && item.type === '3d') {
+          ChangeLvStyle({
+            id: item.id,
+            typeName: 'fill-extrusion-color',
+            rgb: item[theme]
+          });
+        } else if (item.type === 'fill') {
+          ChangeLvStyle({
+            id: item.id,
+            typeName: 'fill-color',
+            rgb: item[theme]
+          });
+        }
       }
     }
   };

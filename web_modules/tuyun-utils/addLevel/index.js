@@ -1,7 +1,6 @@
 function _checkSource(map, source) {
   for (let key in source) {
-    if (map.getSource(key))
-      return false;
+    if (map.getSource(key)) return false;
   }
   return true;
 }
