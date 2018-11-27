@@ -1,13 +1,13 @@
 /**
  * @author sl 2019-01-02
  * 部分线的type为symbol是只显示名称
- * todolist 
+ * todolist
  * 1. 路网图层CLASID不对，覆盖之前的国道，无法通过CLASID区分和过滤  ======> 高速覆盖国道
  * 2.三维建筑移到17层开始显示
+ *
+ * 妈耶 800+行，不忍直视 =_= !
  */
-import {
-  levelConfig
-} from 'tuyun-config';
+import { levelConfig } from 'tuyun-config';
 
 const _visibleLevel = 15;
 const symbolLabelLayerId = 'symbol-ref';
@@ -16,6 +16,7 @@ const lineBgLabelLayerId = 'line-bg-ref';
 const lineLabelLayerId_sd = 'line-sd-ref';
 const lineBgLabelLayerId_sd = 'line-sd-bg-ref';
 
+const jqLabelLayerId = 'jq-ref';
 const threeLabelLayerId = '3d-ref';
 
 const style = {
@@ -34,7 +35,7 @@ const style = {
     // 区域面的配置
     // todo 只显示名称 SD_GRFCPL
     // {
-    //   id: 'GRFCPL', // 记录了一些公司，养殖场，墓地等区域 
+    //   id: 'GRFCPL', // 记录了一些公司，养殖场，墓地等区域
     //   type: 'fill',
     //   source: levelConfig.addLv15,
     //   'source-layer': 'SD_GRFCPL', // py是面
@@ -49,7 +50,7 @@ const style = {
      * 线
      */
     // {
-    //   id: 'SD_GHFCLN', // 记录了河流，黄河，隧道等的边界   ====> 没有名称 
+    //   id: 'SD_GHFCLN', // 记录了河流，黄河，隧道等的边界   ====> 没有名称
     //   type: 'symbol',
     //   source: levelConfig.addLv15,
     //   'source-layer': 'SD_GHFCLN', // LN，line的简写
@@ -149,7 +150,8 @@ const style = {
       id: 'GROALN_other_ZD_bg', // 路网图层（name字段），栈道、内部道路、机耕路、乡村路、小路 + 专用公路、其他公路、村道
       type: 'line',
       source: levelConfig.addLv15,
-      filter: ['any',
+      filter: [
+        'any',
         ['==', 'CLASID', '420400'],
         ['==', 'CLASID', '420500'],
         ['==', 'CLASID', '420700'],
@@ -163,17 +165,17 @@ const style = {
         ['==', 'CLASID', '440100'],
         ['==', 'CLASID', '440200'],
         ['==', 'CLASID', '440300'],
-        ['==', 'CLASID', '440600'],
+        ['==', 'CLASID', '440600']
       ],
       'source-layer': 'GROALN_other',
       layout: {
         'line-cap': 'round',
-        'line-join': 'round',
+        'line-join': 'round'
       },
       paint: {
         'line-width': {
-          'base': 2,
-          'stops': [
+          base: 2,
+          stops: [
             [15, 5],
             [16, 10],
             [17, 12],
@@ -187,11 +189,13 @@ const style = {
         'line-color': '#d8d8d8'
       },
       labelLayerId: lineBgLabelLayerId
-    }, {
+    },
+    {
       id: 'GROALN_other_ZD', // 路网图层（name字段），栈道、内部道路、机耕路、乡村路、小路 + 专用公路、其他公路、村道
       type: 'line',
       source: levelConfig.addLv15,
-      filter: ['any',
+      filter: [
+        'any',
         ['==', 'CLASID', '420400'],
         ['==', 'CLASID', '420500'],
         ['==', 'CLASID', '420700'],
@@ -205,17 +209,17 @@ const style = {
         ['==', 'CLASID', '440100'],
         ['==', 'CLASID', '440200'],
         ['==', 'CLASID', '440300'],
-        ['==', 'CLASID', '440600'],
+        ['==', 'CLASID', '440600']
       ],
       'source-layer': 'GROALN_other',
       layout: {
         'line-cap': 'round',
-        'line-join': 'round',
+        'line-join': 'round'
       },
       paint: {
         'line-width': {
-          'base': 2,
-          'stops': [
+          base: 2,
+          stops: [
             [15, 4],
             [16, 7],
             [17, 9],
@@ -235,20 +239,21 @@ const style = {
       id: 'GROALN_other_CGD_bg', // 路网图层（name字段），次干道、县道
       type: 'line',
       source: levelConfig.addLv15,
-      filter: ['any',
+      filter: [
+        'any',
         ['==', 'CLASID', '420301'],
         ['==', 'CLASID', '420302'],
-        ['==', 'CLASID', '430502'],
+        ['==', 'CLASID', '430502']
       ],
       'source-layer': 'GROALN_other',
       layout: {
         'line-cap': 'round',
-        'line-join': 'round',
+        'line-join': 'round'
       },
       paint: {
         'line-width': {
-          'base': 2,
-          'stops': [
+          base: 2,
+          stops: [
             [15, 7],
             [16, 9.5],
             [17, 11.5],
@@ -260,31 +265,26 @@ const style = {
         'line-color': '#d8d8d8'
       },
       labelLayerId: lineBgLabelLayerId
-    }, {
+    },
+    {
       id: 'GROALN_other_CGD', // 路网图层（name字段），次干道、县道
       type: 'line',
       source: levelConfig.addLv15,
-      filter: ['any',
+      filter: [
+        'any',
         ['==', 'CLASID', '420301'],
         ['==', 'CLASID', '420302'],
-        ['==', 'CLASID', '430502'],
+        ['==', 'CLASID', '430502']
       ],
       'source-layer': 'GROALN_other',
       layout: {
         'line-cap': 'round',
-        'line-join': 'round',
+        'line-join': 'round'
       },
       paint: {
         'line-width': {
-          'base': 2,
-          'stops': [
-            [15, 5],
-            [16, 7],
-            [17, 11],
-            [18, 15],
-            [19, 16],
-            [20, 14]
-          ]
+          base: 2,
+          stops: [[15, 5], [16, 7], [17, 11], [18, 15], [19, 16], [20, 14]]
         },
         'line-color': '#FFFFFF'
       },
@@ -299,12 +299,12 @@ const style = {
       'source-layer': 'GROALN_other',
       layout: {
         'line-cap': 'round',
-        'line-join': 'round',
+        'line-join': 'round'
       },
       paint: {
         'line-width': {
-          'base': 2,
-          'stops': [
+          base: 2,
+          stops: [
             [15, 6],
             [16, 9.5],
             [17, 12.5],
@@ -325,19 +325,12 @@ const style = {
       'source-layer': 'GROALN_other',
       layout: {
         'line-cap': 'round',
-        'line-join': 'round',
+        'line-join': 'round'
       },
       paint: {
         'line-width': {
-          'base': 2,
-          'stops': [
-            [15, 5],
-            [16, 8],
-            [17, 11],
-            [18, 14],
-            [19, 14],
-            [20, 14]
-          ]
+          base: 2,
+          stops: [[15, 5], [16, 8], [17, 11], [18, 14], [19, 14], [20, 14]]
         },
         'line-color': '#ffeebb'
       },
@@ -411,19 +404,16 @@ const style = {
       id: 'GROALN_other_KSL_bg', // 路网图层（name字段），背景充当描边 快速路，高架路
       type: 'line',
       source: levelConfig.addLv15,
-      filter: ['any',
-        ['==', 'CLASID', '430200'],
-        ['==', 'CLASID', '430300']
-      ],
+      filter: ['any', ['==', 'CLASID', '430200'], ['==', 'CLASID', '430300']],
       'source-layer': 'GROALN_other',
       layout: {
         'line-cap': 'round',
-        'line-join': 'round',
+        'line-join': 'round'
       },
       paint: {
         'line-width': {
-          'base': 2,
-          'stops': [
+          base: 2,
+          stops: [
             [15, 8.5],
             [16, 8.5],
             [17, 10],
@@ -435,30 +425,21 @@ const style = {
         'line-color': '#ffae00'
       },
       labelLayerId: lineBgLabelLayerId_sd
-    }, {
+    },
+    {
       id: 'GROALN_other_KSL', // 路网图层（name字段） 快速路，高架路
       type: 'line',
       source: levelConfig.addLv15,
-      filter: ['any',
-        ['==', 'CLASID', '430200'],
-        ['==', 'CLASID', '430300']
-      ],
+      filter: ['any', ['==', 'CLASID', '430200'], ['==', 'CLASID', '430300']],
       'source-layer': 'GROALN_other',
       layout: {
         'line-cap': 'round',
-        'line-join': 'round',
+        'line-join': 'round'
       },
       paint: {
         'line-width': {
-          'base': 2,
-          'stops': [
-            [15, 7],
-            [16, 7],
-            [17, 9],
-            [18, 11],
-            [19, 11],
-            [20, 19]
-          ]
+          base: 2,
+          stops: [[15, 7], [16, 7], [17, 9], [18, 11], [19, 11], [20, 19]]
         },
         'line-color': '#ffeebb'
       },
@@ -472,7 +453,7 @@ const style = {
       filter: ['!=', 'CLASID', '430503'],
       layout: {
         'text-field': '{NAME}',
-        'visibility': 'visible',
+        visibility: 'visible',
         'symbol-placement': 'line',
         'text-font': ['Arial Unicode MS Bold'],
         'text-pitch-alignment': 'viewport',
@@ -481,7 +462,7 @@ const style = {
         'text-size': 12,
         'icon-rotation-alignment': 'viewport'
       },
-      'paint': {
+      paint: {
         'text-color': '#747474',
         'text-halo-width': 2,
         'text-halo-color': 'rgba(255, 255, 255, 1)'
@@ -499,7 +480,7 @@ const style = {
       'source-layer': 'SD_GHFCPT',
       layout: {
         'text-field': '{NAME}',
-        'visibility': 'visible',
+        visibility: 'visible',
         'symbol-placement': 'point',
         'text-size': 11,
         'text-padding': 4,
@@ -622,7 +603,6 @@ const style = {
     //   }
     // },
 
-
     {
       id: 'SD_GAGNPT', // 此图层记录了村庄POI
       type: 'symbol',
@@ -630,7 +610,7 @@ const style = {
       'source-layer': 'SD_GAGNPT',
       layout: {
         'text-field': '{NAME}',
-        'visibility': 'visible',
+        visibility: 'visible',
         'symbol-placement': 'point',
         'text-size': 12,
         'text-padding': 4,
@@ -657,9 +637,9 @@ const style = {
       type: 'symbol',
       source: levelConfig.addLv15,
       'source-layer': 'POI_LEVEL_15',
-      'layout': {
+      layout: {
         'text-field': '{NAME}',
-        'visibility': 'visible',
+        visibility: 'visible',
         'symbol-placement': 'point',
         'text-size': 13,
         'text-padding': 4,
@@ -672,75 +652,130 @@ const style = {
         'text-rotation-alignment': 'viewport',
         'icon-rotation-alignment': 'viewport'
       },
-      'paint': {
+      paint: {
         'text-color': 'rgba(65, 65, 65, 0.8)',
         'text-halo-width': 2,
         'text-halo-color': 'rgba(255, 255, 255, 1)'
       },
       labelLayerId: symbolLabelLayerId
     },
+
+    // 街区
+    {
+      id: 'GRESPL_1_jq',
+      source: levelConfig.addLv15,
+      'source-layer': 'GRESPL_Merge_1',
+      type: 'fill',
+      minzoom: _visibleLevel,
+      filter: ['!=', 'CLASID', '310200'],
+      paint: {
+        'fill-color': '#ccc',
+        'fill-opacity': 0.4,
+        'fill-antialias': false
+      },
+      labelLayerId: jqLabelLayerId
+    },
+    {
+      id: 'GRESPL_2_jq',
+      source: levelConfig.addLv15,
+      'source-layer': 'GRESPL_Merge_2',
+      type: 'fill',
+      minzoom: _visibleLevel,
+      filter: ['==', 'CLASID', '310200'],
+      paint: {
+        'fill-color': '#ccc',
+        'fill-opacity': 0.4,
+        'fill-antialias': false
+      },
+      labelLayerId: jqLabelLayerId
+    },
+    {
+      id: 'GRESPL_3_jq',
+      source: levelConfig.addLv15,
+      'source-layer': 'GRESPL_Merge_3',
+      type: 'fill',
+      minzoom: _visibleLevel,
+      filter: ['==', 'CLASID', '310200'],
+      paint: {
+        'fill-color': '#ccc',
+        'fill-opacity': 0.4,
+        'fill-antialias': false
+      },
+      labelLayerId: jqLabelLayerId
+    },
     /**
      * 3d建筑
      * */
     {
-      'id': 'GRESPL_1_3D',
+      id: 'GRESPL_1_3D',
       source: levelConfig.addLv15,
       'source-layer': 'GRESPL_Merge_1',
-      'type': 'fill-extrusion',
-      'minzoom': _visibleLevel,
-      'paint': {
+      type: 'fill-extrusion',
+      minzoom: _visibleLevel,
+      filter: ['!=', 'CLASID', '310200'],
+      paint: {
         'fill-extrusion-color': '#aaa',
-        // use an 'interpolate' expression to add a smooth transition effect to the
-        // buildings as the user zooms in
         'fill-extrusion-height': [
-          "interpolate", ["linear"],
-          ["zoom"],
-          15, 0,
-          15.05, ['*', ['+', ["get", "H"], 1], 3]
+          'interpolate',
+          ['linear'],
+          ['zoom'],
+          15,
+          0,
+          15.05,
+          ['*', ['+', ['get', 'H'], 1], 3]
         ],
         'fill-extrusion-base': 0,
-        'fill-extrusion-opacity': .4
+        'fill-extrusion-opacity': 0.4
       },
       labelLayerId: threeLabelLayerId
     },
     {
-      'id': 'GRESPL_2_3D',
+      id: 'GRESPL_2_3D',
       source: levelConfig.addLv15,
       'source-layer': 'GRESPL_Merge_2',
-      'type': 'fill-extrusion',
-      'minzoom': 15,
-      'paint': {
+      type: 'fill-extrusion',
+      minzoom: _visibleLevel,
+      filter: ['!=', 'CLASID', '310200'],
+      paint: {
         'fill-extrusion-color': '#aaa',
         'fill-extrusion-height': [
-          "interpolate", ["linear"],
-          ["zoom"],
-          15, 0,
-          15.05, ['*', ['+', ["get", "H"], 1], 3]
+          'interpolate',
+          ['linear'],
+          ['zoom'],
+          15,
+          0,
+          15.05,
+          ['*', ['+', ['get', 'H'], 1], 3]
         ],
         'fill-extrusion-base': 0,
-        'fill-extrusion-opacity': .4
+        'fill-extrusion-opacity': 0.4
       },
       labelLayerId: threeLabelLayerId
-    }, {
-      'id': 'GRESPL_3_3D',
+    },
+    {
+      id: 'GRESPL_3_3D',
       source: levelConfig.addLv15,
       'source-layer': 'GRESPL_Merge_3',
-      'type': 'fill-extrusion',
-      'minzoom': 15,
-      'paint': {
+      type: 'fill-extrusion',
+      minzoom: _visibleLevel,
+      filter: ['!=', 'CLASID', '310200'],
+      paint: {
         'fill-extrusion-color': '#aaa',
         'fill-extrusion-height': [
-          "interpolate", ["linear"],
-          ["zoom"],
-          15, 0,
-          15.05, ['*', ['+', ["get", "H"], 1], 3]
+          'interpolate',
+          ['linear'],
+          ['zoom'],
+          15,
+          0,
+          15.05,
+          ['*', ['+', ['get', 'H'], 1], 3]
         ],
         'fill-extrusion-base': 0,
-        'fill-extrusion-opacity': .4
+        'fill-extrusion-opacity': 0.4
       },
       labelLayerId: threeLabelLayerId
     }
   ]
-}
+};
 
 export default style;

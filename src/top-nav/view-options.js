@@ -55,19 +55,19 @@ export default class ViewOption extends Component {
           ChangeLvStyle({
             id: item.id,
             typeName: 'line-color',
-            rgb: item[theme]
+            typeVal: item[theme]
           });
         } else if (item.type && item.type === '3d') {
           ChangeLvStyle({
             id: item.id,
             typeName: 'fill-extrusion-color',
-            rgb: item[theme]
+            typeVal: item[theme]
           });
         } else if (item.type === 'fill') {
           ChangeLvStyle({
             id: item.id,
             typeName: 'fill-color',
-            rgb: item[theme]
+            typeVal: item[theme]
           });
         }
       }

@@ -13,14 +13,13 @@
  * 面在最底层，其次是线，其次是点；居民区在绿地上面，绿地在水系面上面
  */
 
-import {
-  levelConfig
-} from 'tuyun-config';
+import { levelConfig } from 'tuyun-config';
 
 const _ditchVisibleLevel = 14; // 沟和渠道显示等级
 const _maxzoom = 12;
 
-const layers = [{
+const layers = [
+  {
     id: 'background', // 背景
     type: 'background',
     layout: {},
@@ -86,7 +85,7 @@ const layers = [{
     },
     paint: {
       'line-width': 1,
-      'line-color': '#cdcdcd',
+      'line-color': '#cdcdcd'
       // 'line-dasharray': [5, 4]
     }
   },
@@ -193,7 +192,17 @@ const layers = [{
   },
   /////////////////////////////
   {
-    id: '3d-ref', // 做线的基层使用，国道、省道
+    id: 'jq-ref', // 做街区的基层使用
+    type: 'fill',
+    source: levelConfig.addLv7,
+    'source-layer': 'empty',
+    layout: {},
+    paint: {
+      'fill-opacity': 0
+    }
+  },
+  {
+    id: '3d-ref', // 做三维建筑的基层使用
     type: 'fill',
     source: levelConfig.addLv7,
     'source-layer': 'empty',
@@ -212,9 +221,9 @@ const layers = [{
     source: levelConfig.addLv7,
     'source-layer': 'GHYDPL_Merge',
     filter: ['==', 'CLASID', '250100'],
-    'layout': {
+    layout: {
       'text-field': '{NAME}',
-      'visibility': 'visible',
+      visibility: 'visible',
       'symbol-placement': 'point',
       'text-size': 14,
       'icon-text-fit': 'both',
@@ -227,11 +236,11 @@ const layers = [{
       'text-anchor': 'center',
       'text-keep-upright': false
     },
-    'paint': {
+    paint: {
       'text-color': 'rgba(65, 65, 65, 0.9)',
       'text-halo-width': 2,
       'text-halo-color': 'rgba(255, 255, 255, 1)'
-    },
+    }
   },
 
   {
@@ -244,7 +253,6 @@ const layers = [{
       'fill-opacity': 0
     }
   },
-
 
   {
     id: 'POI_LEVEL7', // POI图层

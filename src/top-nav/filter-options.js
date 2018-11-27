@@ -8,6 +8,7 @@ import {
   ResidentLabelIds,
   BoundaryLabelIds
 } from './layer-ids';
+import { ChangeLvStyle } from './change-lv-style';
 
 export default class FilterOptions extends Component {
   constructor(props) {
@@ -48,11 +49,20 @@ export default class FilterOptions extends Component {
     const _labelLayerIds = filterOptions[index].labelLayerIds;
     if (!_labelLayerIds) return;
     for (let item of _labelLayerIds) {
-      if (!item.id || !_MAP_.getLayer(item.id)) continue;
-      if (hidden) {
-        _MAP_.setLayoutProperty(item.id, 'visibility', 'none');
+      if (!item.id) continue;
+      if (_MAP_.getLayer(item.id)) {
+        _MAP_.setLayoutProperty(
+          item.id,
+          'visibility',
+          hidden ? 'none' : 'visible'
+        );
       } else {
-        _MAP_.setLayoutProperty(item.id, 'visibility', 'visible');
+        ChangeLvStyle({
+          id: item.id,
+          typeName: 'visibility',
+          typeVal: hidden ? 'none' : 'visible',
+          prop: 'layout'
+        });
       }
     }
   };

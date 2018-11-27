@@ -175,11 +175,15 @@ export default class TopNav extends Component {
         }
       } else {
         if (item.type === 'road') {
-          ChangeLvStyle({ id: item.id, typeName: 'line-color', rgb });
+          ChangeLvStyle({ id: item.id, typeName: 'line-color', typeVal: rgb });
         } else if (item.type === 'fill') {
-          ChangeLvStyle({ id: item.id, typeName: 'fill-color', rgb });
+          ChangeLvStyle({ id: item.id, typeName: 'fill-color', typeVal: rgb });
         } else if (item.type === '3d') {
-          ChangeLvStyle({ id: item.id, typeName: 'fill-extrusion-color', rgb });
+          ChangeLvStyle({
+            id: item.id,
+            typeName: 'fill-extrusion-color',
+            typeVal: rgb
+          });
         }
       }
     }
