@@ -4,7 +4,7 @@ import { TuyunModal } from 'tuyun-kit';
 export default class ColorModal extends Component {
   static defaultProps = {
     visible: false,
-    onSelect: () => {},
+    onOk: () => {},
     onCancel: () => {}
   };
 
@@ -14,12 +14,12 @@ export default class ColorModal extends Component {
 
   render() {
     const { rgb } = this.state;
-    const { visible, onSelect, onCancel } = this.props;
+    const { visible, onOk, onCancel } = this.props;
     return (
       <TuyunModal
         title="配色板"
         visible={visible}
-        onOk={() => (rgb ? onSelect(rgb) : onCancel())}
+        onOk={() => (rgb ? onOk(rgb) : onCancel())}
         onCancel={() => onCancel()}
       >
         <div className="color-picker">

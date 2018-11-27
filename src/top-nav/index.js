@@ -64,7 +64,7 @@ export default class TopNav extends Component {
         ))}
         <ColorModal
           visible={showModal}
-          onSelect={rgb => this._changeColor(rgb)}
+          onOk={rgb => this._changeColor(rgb)}
           onCancel={() => this.setState({ selectedNav: -1, selectedColor: -1 })}
         />
       </div>
