@@ -8,8 +8,8 @@ import ColorOptions from './color-options';
 import MeasureOptions from './measure-options';
 import FilterOptions from './filter-options';
 import ColorModal from './color-modal';
-import { MeasureDistance } from './measure-distance';
-import { MeasureArea } from './measure-area';
+import { MeasureDistance, ClearDistanceLine } from './measure-distance';
+import { MeasureArea, ClearAreaPolygon } from './measure-area';
 import {
   RoadLabelIds,
   GrassLabelIds,
@@ -31,9 +31,14 @@ export default class TopNav extends Component {
   _measureArea = MeasureArea;
 
   componentDidMount() {
-    _MAP_.on('mouseup', () => {
-      this.setState({ selectedNav: -1 });
-    });
+    _MAP_
+      .on('mouseup', () => {
+        this.setState({ selectedNav: -1 });
+      })
+      .on('contextmenu', () => {
+        this.state.selectedMeasure > -1 &&
+          this.setState({ selectedMeasure: -1 });
+      });
     this._measureDistance();
     this._measureArea();
   }
@@ -46,7 +51,9 @@ export default class TopNav extends Component {
       <div className="top-nav">
         {navList.map((item, index) => (
           <div
-            className="nav-item"
+            className={`nav-item${
+              index === selectedNav ? ' selected-nav' : ''
+            }`}
             key={`top_nav_${index}`}
             onClick={e => this._selectIndex(e, index)}
           >
@@ -67,13 +74,24 @@ export default class TopNav extends Component {
   _selectIndex = (e, index) => {
     e.stopPropagation();
     const { selectedNav } = this.state;
-    selectedNav === index
-      ? this.setState({
-          selectedNav: -1
-        })
-      : this.setState({
-          selectedNav: index
-        });
+    if (selectedNav === 2 && index !== 2) {
+      ClearDistanceLine();
+      ClearAreaPolygon();
+    } else if (selectedNav === 2) {
+      this.setState({
+        selectedNav: -1
+      });
+    } else {
+      selectedNav === index
+        ? this.setState({
+            selectedNav: -1
+          })
+        : this.setState({
+            selectedNav: index,
+            selectedColor: -1,
+            selectedMeasure: -1
+          });
+    }
   };
 
   _renderOptList = () => {
@@ -86,6 +104,7 @@ export default class TopNav extends Component {
       selectedMeasure,
       hiddenFilter
     } = this.state;
+
     switch (selectedNav) {
       case 0:
         _optItems = ViewOptions;

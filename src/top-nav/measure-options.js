@@ -11,7 +11,7 @@ export default class MeasureOptions extends Component {
 
   componentWillReceiveProps = nextProps => {
     const { selectedOpt } = this.props;
-    if (nextProps.selectedOpt !== selectedOpt) {
+    if (nextProps.selectedOpt !== selectedOpt || selectedOpt === -1) {
       ClearDistanceLine();
       ClearAreaPolygon();
     }

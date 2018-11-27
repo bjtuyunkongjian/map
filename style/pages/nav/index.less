@@ -13,17 +13,24 @@
   align-items: center;
   justify-content: space-between;
   .nav-item {
-    color: #0061b0;
+    color: @t-base;
     position: relative;
     display: flex;
     flex: 1;
     align-items: center;
     justify-content: center;
     height: @height;
+    cursor: pointer;
+    &:hover {
+      color: @color-blue;
+      .arrow-down {
+        border-top-color: @color-blue;
+      }
+    }
     .arrow-down {
-      border-top: 6px solid #0061b0;
-      border-right: 6px solid transparent;
-      border-left: 6px solid transparent;
+      border-top: 4px solid @t-base;
+      border-right: 4px solid transparent;
+      border-left: 4px solid transparent;
       content: '';
       margin-left: 2px;
     }
@@ -43,6 +50,7 @@
         padding: 10px;
         color: black;
         &:hover {
+          color: @color-blue;
           background: @bg-hover;
         }
       }
@@ -56,9 +64,16 @@
         color: black;
         border-top: 1px solid @border-color-darker;
         &:hover {
+          color: @color-blue;
           background: @bg-hover;
         }
       }
+    }
+  }
+  .selected-nav {
+    color: @color-blue;
+    .arrow-down {
+      border-top-color: @color-blue;
     }
   }
 }

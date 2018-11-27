@@ -36,7 +36,7 @@ export function MeasureArea() {
         layers: ['measure-vertex']
       });
       if (_areaGeojson.features.length > 2) _areaGeojson.features.pop();
-      distanceContainer.innerHTML = '';
+      areaContainer.innerHTML = '';
       if (features.length) {
         var id = features[0].properties.id;
         _areaGeojson.features = _areaGeojson.features.filter(function(point) {
@@ -68,7 +68,7 @@ export function MeasureArea() {
 
         value.textContent = `总面积：${_totalArea}`;
 
-        distanceContainer.appendChild(value);
+        areaContainer.appendChild(value);
       }
       _MAP_.getSource('measure-area').setData(_areaGeojson);
     });
@@ -81,7 +81,7 @@ export function ClearAreaPolygon() {
   _areaGeojson.features = [];
   _MAP_.getSource('measure-area') &&
     _MAP_.getSource('measure-area').setData(_areaGeojson); // 保护
-  distanceContainer.innerHTML = '';
+  areaContainer.innerHTML = '';
 }
 
 const _areaGeojson = {
@@ -97,4 +97,4 @@ const _areaString = {
   }
 };
 
-const distanceContainer = document.getElementById('distance');
+const areaContainer = document.getElementById('measure_container');

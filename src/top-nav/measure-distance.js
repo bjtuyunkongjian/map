@@ -71,8 +71,7 @@ export function MeasureDistance() {
           turf.lineDistance(_linestring) > 1
             ? `${turf.lineDistance(_linestring).toLocaleString()} 千米`
             : `${(turf.lineDistance(_linestring) * 1000).toLocaleString()} 米`;
-        value.textContent =
-          '总距离：' + turf.lineDistance(_linestring).toLocaleString() + 'km';
+        value.textContent = '总距离：' + _totalDistance;
         distanceContainer.appendChild(value);
       }
       _MAP_.getSource('measure-distance').setData(_distanceGeojson);
@@ -101,4 +100,5 @@ const _linestring = {
     coordinates: []
   }
 };
-const distanceContainer = document.getElementById('distance');
+
+const distanceContainer = document.getElementById('measure_container');
