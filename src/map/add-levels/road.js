@@ -9,9 +9,9 @@ import XiangDao from './road-xiangdao';
 import Zx from './road-zx';
 
 const _visibleLevel = 7;
-const symbolLabelLayerId = 'symbol-ref';
 const lineLabelLayerId = 'line-gd-ref';
 const lineBgLabelLayerId = 'line-gd-ref';
+const symbolLabelLayerId = 'symbol-ref';
 
 const layers = [
   {

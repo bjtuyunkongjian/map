@@ -1,8 +1,6 @@
+const lineLabelLayerId = 'line-sd-ref';
+const lineBgLabelLayerId = 'line-sd-bg-ref';
 const symbolLabelLayerId = 'symbol-ref';
-
-const sourceName = 'guodao-source';
-const lineLabelLayerId = 'line-gd-ref';
-const lineBgLabelLayerId = 'line-gd-ref';
 
 export default [
   {
