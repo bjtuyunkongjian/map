@@ -58,7 +58,7 @@ const RoadLabelIds = [
   { id: 'zx_name', type: 'road-name' }
 ];
 
-const GrassLabelIds = [{ id: '9L_GVEGPL', type: 'fill' }];
+const GrassLabelIds = [{ id: 'GVEGPL', type: 'fill' }];
 const WaterLabelIds = [
   { id: 'GHYDPL_7L', type: 'fill' },
   { id: 'GHYDPL_OTH', type: 'fill' },

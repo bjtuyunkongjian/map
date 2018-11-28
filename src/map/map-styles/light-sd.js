@@ -29,6 +29,19 @@ const layers = [
   },
   // 面
   {
+    id: 'GVEGPL', // 记录了绿地
+    type: 'fill',
+    source: levelConfig.addLv7,
+    'source-layer': 'GVEGPL_Merge',
+    layout: {},
+    paint: {
+      'fill-color': '#ccebc8',
+      'fill-opacity': 1,
+      'fill-antialias': false
+    },
+    labelLayerId: 'GHYDPL_7L'
+  },
+  {
     id: 'GHYDPL_7L', // 记录了一些水渠、河沟，水库的面状要素
     type: 'fill',
     source: levelConfig.addLv7,
@@ -41,7 +54,7 @@ const layers = [
       ['==', 'CLASID', '250100']
     ],
     paint: {
-      'fill-color': '#c4daf6',
+      'fill-color': '#b3d7ff',
       'fill-opacity': 1,
       'fill-antialias': false
     }
@@ -61,7 +74,7 @@ const layers = [
     minzoom: _ditchVisibleLevel,
     layout: {},
     paint: {
-      'fill-color': '#c4daf6',
+      'fill-color': '#b3d7ff',
       'fill-opacity': 1,
       'fill-antialias': false
     }

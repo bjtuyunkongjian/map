@@ -20,19 +20,6 @@ const style = {
   },
   layers: [
     {
-      id: "9L_GVEGPL", // 记录了绿地
-      type: "fill",
-      source: levelConfig.addLv9,
-      "source-layer": "GVEGPL_Merge",
-      layout: {},
-      paint: {
-        "fill-color": "#CCEAC8",
-        "fill-opacity": 1,
-        "fill-antialias": false
-      },
-      labelLayerId: "GHYDPL_7L"
-    },
-    {
       id: "POI_LEVEL_9_1107",
       type: "symbol",
       source: levelConfig.addLv9,

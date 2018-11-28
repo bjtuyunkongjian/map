@@ -252,7 +252,7 @@ export default [
     night: 'rgb(69, 69, 69)'
   },
   {
-    id: '9L_GVEGPL',
+    id: 'GVEGPL',
     type: 'fill',
     standard: '#d6eccf',
     tiandi: 'rgb(187, 217, 141)',
