@@ -55,7 +55,7 @@ export default [
           [22, 24]
         ]
       },
-      "line-color": "#AB82FF"
+      "line-color": "#fff"
     },
     labelLayerId: lineLabelLayerId
   },
