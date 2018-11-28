@@ -1,2 +1,4 @@
 import TuyunModal from './modal';
-export { TuyunModal };
+import TuyunMessage from './message';
+
+export { TuyunModal, TuyunMessage };

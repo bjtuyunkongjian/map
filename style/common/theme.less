@@ -27,6 +27,7 @@
 @border-color-darker: #ddd;
 @border-color-disabled: #ddd;
 // 阴影
+@box-shadow-sm: 3px 3px 3px #aaa;
 @box-shadow: 5px 5px 5px #aaa;
 
 // 圆角
@@ -59,5 +60,17 @@
   }
   100% {
     top: @modal-top;
+  }
+}
+
+@fade-in: fade-in 0.5s ease-out;
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translate(0, -25%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, 0);
   }
 }

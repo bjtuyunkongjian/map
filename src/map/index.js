@@ -14,11 +14,17 @@ import addLevels from './add-levels';
 // import addGeojson from './add-geojson';
 // import gaoguoGDB from './geojson/gaoguoGDB_cx';
 
+import { TuyunMessage } from 'tuyun-kit';
 export default class MapBoxDemo extends Component {
   boundsArr = [[], []];
 
   componentDidMount() {
     this._init();
+    TuyunMessage.show('This is an info message.');
+    TuyunMessage.success('This is an info message.');
+    TuyunMessage.warning('This is an info message.');
+    TuyunMessage.info('This is an info message.');
+    TuyunMessage.error('This is an error message.');
   }
 
   componentWillUnmount() {
