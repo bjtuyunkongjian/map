@@ -191,16 +191,16 @@ export default [
     id: 'xiangdao_bg',
     type: 'road-bg',
     standard: '#d8d8d8',
-    tiandi: 'rgb(124, 80, 203)',
-    european: '#FFF',
+    tiandi: '#d8d8d8',
+    european: '#d8d8d8',
     night: 'rgb(43, 43, 43)'
   },
   {
     id: 'xiangdao',
     type: 'road',
     standard: '#fff',
-    tiandi: 'rgb(190, 148, 242)',
-    european: 'rgb(155, 162, 93)',
+    tiandi: '#fff',
+    european: '#fff',
     night: 'rgb(69, 69, 69)'
   },
   {
@@ -299,7 +299,6 @@ export default [
     european: 'rgb(220, 217, 214)',
     night: 'rgb(50, 49, 48)'
   },
-  ,
   {
     id: 'GRESPL_1_jq',
     type: 'fill',
