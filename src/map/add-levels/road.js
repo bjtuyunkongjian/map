@@ -18,7 +18,7 @@ const style = {
       type: 'vector',
       scheme: 'tms',
       tiles: [
-        'http://192.168.8.107:12808/originMapServer/string?test=200&type=tms&zoom={z}&row={x}&column={y}'
+        'http://116.62.186.152:12808/originMapServer/string?test=200&type=tms&zoom={z}&row={x}&column={y}'
       ]
     }
   },
