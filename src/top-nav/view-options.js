@@ -37,13 +37,16 @@ export default class ViewOption extends Component {
   };
 
   _setStyle = theme => {
+    console.log('ThematicStyles', ThematicStyles, theme);
     for (let item of ThematicStyles) {
       if (!item.id || !item[theme]) continue;
       if (_MAP_.getLayer(item.id)) {
+        console.log(item.id, item[theme]);
+
         if (item.type === 'background') {
           // background-color
           _MAP_.setPaintProperty(item.id, 'background-color', item[theme]);
-        } else if (item.type === 'road ' || item.type === 'road-bg') {
+        } else if (item.type === 'road' || item.type === 'road-bg') {
           _MAP_.setPaintProperty(item.id, 'line-color', item[theme]);
         } else if (item.type && item.type === '3d') {
           _MAP_.setPaintProperty(item.id, 'fill-extrusion-color', item[theme]);
@@ -51,7 +54,7 @@ export default class ViewOption extends Component {
           _MAP_.setPaintProperty(item.id, 'fill-color', item[theme]);
         }
       } else {
-        if (item.type === 'road ' || item.type === 'road-bg') {
+        if (item.type === 'road' || item.type === 'road-bg') {
           ChangeLvStyle({
             id: item.id,
             typeName: 'line-color',
