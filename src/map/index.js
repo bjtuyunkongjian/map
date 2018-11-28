@@ -107,7 +107,6 @@ export default class MapBoxDemo extends Component {
   //     [bounds._sw.lng - _halfLngDiff, bounds._ne.lat + _haloLatDiff], // 左上角
   //     [bounds._ne.lng + _halfLngDiff, bounds._sw.lat - _haloLatDiff] // 右下角
   //   ];
-  //   // console.log('开始请求 ===> ', (new Date()).getTime());
   //   const { res } = await FetchRequest({
   //     url: 'road',
   //     method: 'POST',
@@ -116,7 +115,6 @@ export default class MapBoxDemo extends Component {
   //       zoom: _zoom
   //     }
   //   });
-  //   // console.log('结束请求 ===> ', (new Date()).getTime());
 
   //   // if (_zoom < 12) {
   //   //   res.guodao = gaoguoGDB;

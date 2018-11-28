@@ -37,12 +37,9 @@ export default class ViewOption extends Component {
   };
 
   _setStyle = theme => {
-    console.log('ThematicStyles', ThematicStyles, theme);
     for (let item of ThematicStyles) {
       if (!item.id || !item[theme]) continue;
       if (_MAP_.getLayer(item.id)) {
-        console.log(item.id, item[theme]);
-
         if (item.type === 'background') {
           // background-color
           _MAP_.setPaintProperty(item.id, 'background-color', item[theme]);
