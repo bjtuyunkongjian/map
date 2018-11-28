@@ -1,0 +1,33 @@
+@width: 35px;
+@height: 35px;
+.restoreFast {
+  width: @width;
+  height: @height;
+  background-color: #ffffff;
+  border-radius: 50%;
+  position: fixed;
+  bottom: 60px;
+  right: 10px;
+  z-index: 999;
+  .icon {
+    width: @width;
+    height: @height;
+    color: #a2b5cd;
+    font-weight: 500;
+  }
+  .tip {
+    position: absolute;
+    left: -(@width + 45);
+    top: -(@height - 45);
+    width: @width + 45;
+    height: 20px;
+    text-align: center;
+    color: #6b6b6b;
+    border: 1px solid #9c9c9c;
+    background-color: #fbfbfb;
+    display: none;
+  }
+  .icon:hover+.tip {
+    display: block;
+  }
+}
