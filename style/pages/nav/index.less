@@ -36,11 +36,14 @@
     }
     .nav-option {
       position: absolute;
-      top: @height + 5;
       right: 0;
       background: white;
       box-shadow: @box-shadow;
       border-radius: @radius-m;
+      animation: @fade;
+      top: @height + 5;
+      overflow: hidden;
+
       .option-item {
         height: 40px;
         width: 150px;

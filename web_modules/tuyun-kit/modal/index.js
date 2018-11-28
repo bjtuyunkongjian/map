@@ -39,7 +39,6 @@ export default class TuyunModal extends Component {
 const customStyles = {
   content: {
     width: '520px',
-    top: '100px',
     left: '50%',
     right: 'auto',
     bottom: 'auto',
