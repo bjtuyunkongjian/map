@@ -698,7 +698,7 @@ const style = {
       filter: ['==', 'CLASID', '310200'],
       paint: {
         'fill-color': '#ccc',
-        'fill-opacity': 0.4,
+        'fill-opacity': 0.6,
         'fill-antialias': false
       },
       labelLayerId: jqLabelLayerId
@@ -725,7 +725,7 @@ const style = {
           ['*', ['+', ['get', 'H'], 1], 3]
         ],
         'fill-extrusion-base': 0,
-        'fill-extrusion-opacity': 0.4
+        'fill-extrusion-opacity': 0.6
       },
       labelLayerId: threeLabelLayerId
     },
@@ -748,7 +748,7 @@ const style = {
           ['*', ['+', ['get', 'H'], 1], 3]
         ],
         'fill-extrusion-base': 0,
-        'fill-extrusion-opacity': 0.4
+        'fill-extrusion-opacity': 0.6
       },
       labelLayerId: threeLabelLayerId
     },
@@ -771,7 +771,7 @@ const style = {
           ['*', ['+', ['get', 'H'], 1], 3]
         ],
         'fill-extrusion-base': 0,
-        'fill-extrusion-opacity': 0.4
+        'fill-extrusion-opacity': 0.6
       },
       labelLayerId: threeLabelLayerId
     }

@@ -299,7 +299,6 @@ export default [
     european: 'rgb(220, 217, 214)',
     night: 'rgb(50, 49, 48)'
   },
-  ,
   {
     id: 'GRESPL_1_jq',
     type: 'fill',
