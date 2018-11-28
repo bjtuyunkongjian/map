@@ -298,5 +298,30 @@ export default [
     tiandi: 'rgb(231, 222, 208)',
     european: 'rgb(220, 217, 214)',
     night: 'rgb(50, 49, 48)'
+  },
+  ,
+  {
+    id: 'GRESPL_1_jq',
+    type: 'fill',
+    standard: '#ccc',
+    tiandi: '#ccc',
+    european: '#ccc',
+    night: '#ccc'
+  },
+  {
+    id: 'GRESPL_2_jq',
+    type: 'fill',
+    standard: '#ccc',
+    tiandi: '#ccc',
+    european: '#ccc',
+    night: '#ccc'
+  },
+  {
+    id: 'GRESPL_3_jq',
+    type: 'fill',
+    standard: '#ccc',
+    tiandi: '#ccc',
+    european: '#ccc',
+    night: '#ccc'
   }
 ];
