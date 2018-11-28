@@ -28,6 +28,7 @@ const style = {
       "source-layer": "POI_LEVEL_8",
       maxzoom: _maxzoom,
       layout: {
+<<<<<<< HEAD
         "text-field": "{NAME}",
         visibility: "visible",
         "symbol-placement": "point",
@@ -41,6 +42,21 @@ const style = {
         "icon-rotation-alignment": "viewport",
         "text-anchor": "center",
         "text-keep-upright": false
+=======
+        'text-field': '{NAME}',
+        visibility: 'visible',
+        'symbol-placement': 'point',
+        'text-size': 13,
+        'icon-text-fit': 'both',
+        'icon-text-fit-padding': [2, 4, 2, 4],
+        'text-justify': 'center',
+        'text-font': ['黑体'],
+        'text-pitch-alignment': 'viewport',
+        'text-rotation-alignment': 'viewport',
+        'icon-rotation-alignment': 'viewport',
+        'text-anchor': 'center',
+        'text-keep-upright': false
+>>>>>>> bc60101493d81caf00f506341c12fd56b2a06874
       },
       paint: {
         "text-color": "rgba(65, 65, 65, 0.9)",

@@ -35,5 +35,29 @@
 @radius-m: 4px;
 @radius-circle: 50%;
 
+// modal 模态框
+@modal-top: 100px;
+
 //
-@transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+@transition: all 0.5s cubic-bezier(0.645, 0.045, 0.355, 1);
+
+// 动画
+@fade: 0.5s fade; // 淡入
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@modal-slide: 0.5s modal-slide; // 对话框
+@keyframes modal-slide {
+  0% {
+    top: 0;
+  }
+  100% {
+    top: @modal-top;
+  }
+}
