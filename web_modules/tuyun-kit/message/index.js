@@ -24,8 +24,4 @@ export default {
   info: create('info'),
   warning: create('warning'),
   error: create('error')
-  /*
-  保留接口弹出信息的不同类型
-  
-  */
 };
