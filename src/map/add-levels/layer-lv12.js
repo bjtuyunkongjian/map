@@ -1,9 +1,8 @@
 /**
  * @author sl 2019-01-02
  */
-import {
-  levelConfig
-} from 'tuyun-config';
+import { levelConfig } from 'tuyun-config';
+import { FontColor } from 'tuyun-utils';
 
 const _visibleLevel = 12;
 const symbolLabelLayerId = 'symbol-ref';
@@ -84,9 +83,9 @@ const style = {
       type: 'symbol',
       source: levelConfig.addLv12,
       'source-layer': 'POI_LEVEL_12',
-      'layout': {
+      layout: {
         'text-field': '{NAME}',
-        'visibility': 'visible',
+        visibility: 'visible',
         'symbol-placement': 'point',
         'text-size': 12,
         'text-padding': 4,
@@ -99,8 +98,8 @@ const style = {
         'text-rotation-alignment': 'viewport',
         'icon-rotation-alignment': 'viewport'
       },
-      'paint': {
-        'text-color': 'rgba(65, 65, 65, 0.8)',
+      paint: {
+        'text-color': ['get', ['get', 'KIND'], ['literal', FontColor]],
         'text-halo-width': 2,
         'text-halo-color': 'rgba(255, 255, 255, 1)'
       },
