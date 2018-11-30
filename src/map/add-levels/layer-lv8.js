@@ -31,7 +31,7 @@ const style = {
         'text-field': '{NAME}',
         visibility: 'visible',
         'symbol-placement': 'point',
-        'text-size': 15,
+        'text-size': 14,
         'icon-text-fit': 'both',
         'icon-text-fit-padding': [2, 4, 2, 4],
         'text-justify': 'center',
