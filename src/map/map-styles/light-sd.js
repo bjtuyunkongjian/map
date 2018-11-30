@@ -36,7 +36,7 @@ const layers = [
     'source-layer': 'GVEGPL_Merge',
     layout: {},
     paint: {
-      'fill-color': '#ccebc8',
+      'fill-color': '#b5e9b6',
       'fill-opacity': 1,
       'fill-antialias': false
     },
@@ -55,7 +55,7 @@ const layers = [
       ['==', 'CLASID', '250100']
     ],
     paint: {
-      'fill-color': '#b3d7ff',
+      'fill-color': '#b3d8ff',
       'fill-opacity': 1,
       'fill-antialias': false
     }
@@ -75,7 +75,7 @@ const layers = [
     minzoom: _ditchVisibleLevel,
     layout: {},
     paint: {
-      'fill-color': '#b3d7ff',
+      'fill-color': '#b3d8ff',
       'fill-opacity': 1,
       'fill-antialias': false
     }
