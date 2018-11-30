@@ -31,7 +31,11 @@ const style = {
         'text-field': '{NAME}',
         visibility: 'visible',
         'symbol-placement': 'point',
+<<<<<<< HEAD
         'text-size': 14,
+=======
+        'text-size': 15,
+>>>>>>> be4a5c40266e80de96fe54c7183e7ecc655c89b7
         'icon-text-fit': 'both',
         'icon-text-fit-padding': [2, 4, 2, 4],
         'text-justify': 'center',

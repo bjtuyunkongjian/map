@@ -2,19 +2,19 @@
  * @author sl 2019-01-02
  */
 
-import mapboxgl from "mapbox-gl";
+import mapboxgl from 'mapbox-gl';
 import {
   addLevel
   // FetchRequest
-} from "tuyun-utils";
-import React, { Component } from "react";
+} from 'tuyun-utils';
+import React, { Component } from 'react';
 
-import baseStyle from "./map-styles/light-sd";
-import addLevels from "./add-levels";
+import baseStyle from './map-styles/light-sd';
+import addLevels from './add-levels';
 // import addGeojson from './add-geojson';
 // import gaoguoGDB from './geojson/gaoguoGDB_cx';
 
-import { TuyunMessage } from "tuyun-kit";
+// import { TuyunMessage } from "tuyun-kit";
 export default class MapBoxDemo extends Component {
   boundsArr = [[], []];
 
@@ -34,7 +34,7 @@ export default class MapBoxDemo extends Component {
   render() {
     return (
       <div
-        style={{ width: "100%", height: "100%" }}
+        style={{ width: '100%', height: '100%' }}
         ref={el => (this.mapContainer = el)}
       />
     );
@@ -60,12 +60,12 @@ export default class MapBoxDemo extends Component {
     // });
 
     this.map
-      .on("load", () => {
+      .on('load', () => {
         this.zoom = Math.ceil(this.map.getZoom()); // 设置起初缩放等级
         this._addSourceFunc(); // 增加图层组
         // this._loadRoadSource(); // 添加道路图层
       })
-      .on("zoomend", () => {
+      .on('zoomend', () => {
         const _zoom = Math.ceil(this.map.getZoom()); // 当前缩放等级
         const _bounds = this.map.getBounds();
         if (
