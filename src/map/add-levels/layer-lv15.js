@@ -662,48 +662,48 @@ const style = {
     },
 
     // 街区
-    {
-      id: 'GRESPL_1_jq',
-      source: levelConfig.addLv15,
-      'source-layer': 'GRESPL_Merge_1',
-      type: 'fill',
-      minzoom: _visibleLevel,
-      filter: ['!=', 'CLASID', '310200'],
-      paint: {
-        'fill-color': '#ccc',
-        'fill-opacity': 0.4,
-        'fill-antialias': false
-      },
-      labelLayerId: jqLabelLayerId
-    },
-    {
-      id: 'GRESPL_2_jq',
-      source: levelConfig.addLv15,
-      'source-layer': 'GRESPL_Merge_2',
-      type: 'fill',
-      minzoom: _visibleLevel,
-      filter: ['==', 'CLASID', '310200'],
-      paint: {
-        'fill-color': '#ccc',
-        'fill-opacity': 0.4,
-        'fill-antialias': false
-      },
-      labelLayerId: jqLabelLayerId
-    },
-    {
-      id: 'GRESPL_3_jq',
-      source: levelConfig.addLv15,
-      'source-layer': 'GRESPL_Merge_3',
-      type: 'fill',
-      minzoom: _visibleLevel,
-      filter: ['==', 'CLASID', '310200'],
-      paint: {
-        'fill-color': '#ccc',
-        'fill-opacity': 0.6,
-        'fill-antialias': false
-      },
-      labelLayerId: jqLabelLayerId
-    },
+    // {
+    //   id: 'GRESPL_1_jq',
+    //   source: levelConfig.addLv15,
+    //   'source-layer': 'GRESPL_Merge_1',
+    //   type: 'fill',
+    //   minzoom: _visibleLevel,
+    //   filter: ['!=', 'CLASID', '310200'],
+    //   paint: {
+    //     'fill-color': '#ccc',
+    //     'fill-opacity': 0.4,
+    //     'fill-antialias': false
+    //   },
+    //   labelLayerId: jqLabelLayerId
+    // },
+    // {
+    //   id: 'GRESPL_2_jq',
+    //   source: levelConfig.addLv15,
+    //   'source-layer': 'GRESPL_Merge_2',
+    //   type: 'fill',
+    //   minzoom: _visibleLevel,
+    //   filter: ['==', 'CLASID', '310200'],
+    //   paint: {
+    //     'fill-color': '#ccc',
+    //     'fill-opacity': 0.4,
+    //     'fill-antialias': false
+    //   },
+    //   labelLayerId: jqLabelLayerId
+    // },
+    // {
+    //   id: 'GRESPL_3_jq',
+    //   source: levelConfig.addLv15,
+    //   'source-layer': 'GRESPL_Merge_3',
+    //   type: 'fill',
+    //   minzoom: _visibleLevel,
+    //   filter: ['==', 'CLASID', '310200'],
+    //   paint: {
+    //     'fill-color': '#ccc',
+    //     'fill-opacity': 0.6,
+    //     'fill-antialias': false
+    //   },
+    //   labelLayerId: jqLabelLayerId
+    // },
     /**
      * 3d建筑
      * */

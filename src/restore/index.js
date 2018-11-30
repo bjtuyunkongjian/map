@@ -6,12 +6,20 @@ import React, { Component } from 'react';
 import { FaBullseye } from 'react-icons/fa';
 export default class Restore extends Component {
   _curPitch = 0;
+  state = {
+    view: '2D' // 视角 [2D, 3D]
+  };
+
+  componentDidMount() {
+    // _MAP_.on('');
+  }
 
   render() {
     const tips = '点击还原倾斜度';
+    const { view } = this.state;
     return (
       <div className="restoreFast" onClick={() => this._changeMap()}>
-        <FaBullseye className="icon" />
+        <div className="icon-box">{view}</div>
         <span className="tip">{tips}</span>
       </div>
     );
