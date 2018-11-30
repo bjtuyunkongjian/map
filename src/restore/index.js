@@ -3,16 +3,16 @@
  */
 
 import React, { Component } from "react";
-import { IoIosSync } from "react-icons/io";
+import { FaBullseye } from "react-icons/fa";
 export default class Restore extends Component {
   constructor(props) {
     super(props);
   }
   render() {
-    const tips = "恢复原始角度";
+    const tips = "点击还原倾斜度";
     return (
       <div className="restoreFast" onClick={() => this._changeMap()}>
-        <IoIosSync className="icon" />
+        <FaBullseye className="icon" />
         <span className="tip">{tips}</span>
       </div>
     );

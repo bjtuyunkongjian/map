@@ -257,7 +257,7 @@ export default [
     standard: "#d6eccf",
     tiandi: "rgb(187, 217, 141)",
     european: "rgb(210, 232, 191)",
-    night: "rgba(0, 0, 0, 0)"
+    night: "#669999"
   },
   {
     id: "GHYDPL_7L",
@@ -265,7 +265,7 @@ export default [
     standard: "#c4daf6",
     tiandi: "rgb(171, 197, 239)",
     european: "rgb(117, 207, 240)",
-    night: "rgb(25, 26, 26)"
+    night: "#CCFFFF"
   },
   {
     id: "GHYDPL_OTH",
@@ -273,37 +273,37 @@ export default [
     standard: "#c4daf6",
     tiandi: "rgb(171, 197, 239)",
     european: "rgb(117, 207, 240)",
-    night: "rgb(25, 26, 26)"
+    night: "#CCFFFF"
   },
   {
     id: "GRESPL_1_3D",
     type: "3d",
     standard: "#aaa",
-    tiandi: "#e4b59f",
-    european: "rgb(220, 217, 214)",
+    tiandi: "#d6be99",
+    european: "#CCCC99",
     night: "#CBE9F3"
   },
   {
     id: "GRESPL_2_3D",
     type: "3d",
     standard: "#aaa",
-    tiandi: "#e4b59f",
-    european: "rgb(220, 217, 214)",
+    tiandi: "#d6be99",
+    european: "#CCCC99",
     night: "#CBE9F3"
   },
   {
     id: "GRESPL_3_3D",
     type: "3d",
     standard: "#aaa",
-    tiandi: "#e4b59f",
-    european: "rgb(220, 217, 214)",
+    tiandi: "#d6be99",
+    european: "#CCCC99",
     night: "#CBE9F3"
   },
   {
     id: "GRESPL_1_jq",
     type: "fill",
     standard: "#ccc",
-    tiandi: "#ccc",
+    tiandi: "#d7d6cd",
     european: "#ccc",
     night: "#ccc"
   },
@@ -311,14 +311,14 @@ export default [
     id: "GRESPL_2_jq",
     type: "fill",
     standard: "#ccc",
-    tiandi: "#ccc",
+    tiandi: "#d7d6cd",
     european: "#ccc",
     night: "#ccc"
   },
   {
     id: "GRESPL_3_jq",
     type: "fill",
-    standard: "#ccc",
+    standard: "#d7d6cd",
     tiandi: "#ccc",
     european: "#ccc",
     night: "#ccc"

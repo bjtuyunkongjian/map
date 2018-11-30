@@ -3,23 +3,26 @@
 .restoreFast {
   width: @width;
   height: @height;
-  background-color: #ffffff;
-  border-radius: 50%;
+  background-color: #fbfbfb;
+  box-shadow: 2px 2px 2px #ccc;
+  border-radius: 5px;
   position: fixed;
-  bottom: 60px;
+  top: 102px;
   right: 10px;
   z-index: 999;
   .icon {
-    width: @width;
-    height: @height;
-    color: #a2b5cd;
-    font-weight: 500;
+    margin-left: 5px;
+    margin-top: 5px;
+    width: 20px;
+    height: 20px;
+    color: #cd2626;
+    font-weight: bolder;
   }
   .tip {
     position: absolute;
-    left: -(@width + 45);
+    left: -(@width + 75);
     top: -(@height - 36);
-    width: @width + 45;
+    width: @width + 70;
     height: 20px;
     text-align: center;
     color: #6b6b6b;
@@ -27,7 +30,7 @@
     background-color: #fbfbfb;
     display: none;
   }
-  .icon:hover+.tip {
+  .icon:hover + .tip {
     display: block;
   }
 }

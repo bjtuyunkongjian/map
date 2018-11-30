@@ -66,7 +66,7 @@ export default [
     "source-layer": "other",
     layout: {
       "text-field": {
-        stops: [[7, ""], [13, "{NAME}"]]
+        stops: [[7, ""], [16, "{NAME}"]]
       },
       visibility: "visible",
       "symbol-placement": "line",
@@ -74,7 +74,10 @@ export default [
       "text-pitch-alignment": "viewport",
       "symbol-spacing": 500,
       "text-rotation-alignment": "map",
-      "text-size": 12,
+      "text-size": {
+        base: 0,
+        stops: [[15, 0], [16, 11], [17, 11], [18, 12], [19, 12], [20, 12]]
+      },
       "icon-rotation-alignment": "viewport"
     },
     paint: {

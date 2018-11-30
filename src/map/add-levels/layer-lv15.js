@@ -7,26 +7,26 @@
  *
  * 妈耶 800+行，不忍直视 =_= !
  */
-import { levelConfig } from 'tuyun-config';
+import { levelConfig } from "tuyun-config";
 
 const _visibleLevel = 15;
-const symbolLabelLayerId = 'symbol-ref';
-const lineLabelLayerId = 'line-lv15-ref';
-const lineBgLabelLayerId = 'line-bg-ref';
-const lineLabelLayerId_sd = 'line-sd-ref';
-const lineBgLabelLayerId_sd = 'line-sd-bg-ref';
+const symbolLabelLayerId = "symbol-ref";
+const lineLabelLayerId = "line-lv15-ref";
+const lineBgLabelLayerId = "line-bg-ref";
+const lineLabelLayerId_sd = "line-sd-ref";
+const lineBgLabelLayerId_sd = "line-sd-bg-ref";
 
-const jqLabelLayerId = 'jq-ref';
-const threeLabelLayerId = '3d-ref';
+const jqLabelLayerId = "jq-ref";
+const threeLabelLayerId = "3d-ref";
 
 const style = {
   visibleLevel: _visibleLevel,
   source: {
     [levelConfig.addLv15]: {
-      type: 'vector',
-      scheme: 'tms',
+      type: "vector",
+      scheme: "tms",
       tiles: [
-        'http://116.62.186.152:8080/geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_15L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf'
+        "http://116.62.186.152:8080/geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_15L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf"
       ],
       minzoom: _visibleLevel
     }
@@ -147,33 +147,33 @@ const style = {
     // },
 
     {
-      id: 'GROALN_other_ZD_bg', // 路网图层（name字段），栈道、内部道路、机耕路、乡村路、小路 + 专用公路、其他公路、村道
-      type: 'line',
+      id: "GROALN_other_ZD_bg", // 路网图层（name字段），栈道、内部道路、机耕路、乡村路、小路 + 专用公路、其他公路、村道
+      type: "line",
       source: levelConfig.addLv15,
       filter: [
-        'any',
-        ['==', 'CLASID', '420400'],
-        ['==', 'CLASID', '420500'],
-        ['==', 'CLASID', '420700'],
-        ['==', 'CLASID', '430400'],
+        "any",
+        ["==", "CLASID", "420400"],
+        ["==", "CLASID", "420500"],
+        ["==", "CLASID", "420700"],
+        ["==", "CLASID", "430400"],
         // ['==', 'CLASID', '430503'],
-        ['==', 'CLASID', '430531'],
-        ['==', 'CLASID', '430532'],
-        ['==', 'CLASID', '430533'],
-        ['==', 'CLASID', '430600'],
-        ['==', 'CLASID', '430700'],
-        ['==', 'CLASID', '440100'],
-        ['==', 'CLASID', '440200'],
-        ['==', 'CLASID', '440300'],
-        ['==', 'CLASID', '440600']
+        ["==", "CLASID", "430531"],
+        ["==", "CLASID", "430532"],
+        ["==", "CLASID", "430533"],
+        ["==", "CLASID", "430600"],
+        ["==", "CLASID", "430700"],
+        ["==", "CLASID", "440100"],
+        ["==", "CLASID", "440200"],
+        ["==", "CLASID", "440300"],
+        ["==", "CLASID", "440600"]
       ],
-      'source-layer': 'GROALN_other',
+      "source-layer": "GROALN_other",
       layout: {
-        'line-cap': 'round',
-        'line-join': 'round'
+        "line-cap": "round",
+        "line-join": "round"
       },
       paint: {
-        'line-width': {
+        "line-width": {
           base: 2,
           stops: [
             [15, 5],
@@ -186,38 +186,38 @@ const style = {
             [22, 26]
           ]
         },
-        'line-color': '#d8d8d8'
+        "line-color": "#d8d8d8"
       },
       labelLayerId: lineBgLabelLayerId
     },
     {
-      id: 'GROALN_other_ZD', // 路网图层（name字段），栈道、内部道路、机耕路、乡村路、小路 + 专用公路、其他公路、村道
-      type: 'line',
+      id: "GROALN_other_ZD", // 路网图层（name字段），栈道、内部道路、机耕路、乡村路、小路 + 专用公路、其他公路、村道
+      type: "line",
       source: levelConfig.addLv15,
       filter: [
-        'any',
-        ['==', 'CLASID', '420400'],
-        ['==', 'CLASID', '420500'],
-        ['==', 'CLASID', '420700'],
-        ['==', 'CLASID', '430400'],
+        "any",
+        ["==", "CLASID", "420400"],
+        ["==", "CLASID", "420500"],
+        ["==", "CLASID", "420700"],
+        ["==", "CLASID", "430400"],
         // ['==', 'CLASID', '430503'],
-        ['==', 'CLASID', '430531'],
-        ['==', 'CLASID', '430532'],
-        ['==', 'CLASID', '430533'],
-        ['==', 'CLASID', '430600'],
-        ['==', 'CLASID', '430700'],
-        ['==', 'CLASID', '440100'],
-        ['==', 'CLASID', '440200'],
-        ['==', 'CLASID', '440300'],
-        ['==', 'CLASID', '440600']
+        ["==", "CLASID", "430531"],
+        ["==", "CLASID", "430532"],
+        ["==", "CLASID", "430533"],
+        ["==", "CLASID", "430600"],
+        ["==", "CLASID", "430700"],
+        ["==", "CLASID", "440100"],
+        ["==", "CLASID", "440200"],
+        ["==", "CLASID", "440300"],
+        ["==", "CLASID", "440600"]
       ],
-      'source-layer': 'GROALN_other',
+      "source-layer": "GROALN_other",
       layout: {
-        'line-cap': 'round',
-        'line-join': 'round'
+        "line-cap": "round",
+        "line-join": "round"
       },
       paint: {
-        'line-width': {
+        "line-width": {
           base: 2,
           stops: [
             [15, 4],
@@ -230,28 +230,28 @@ const style = {
             [22, 24]
           ]
         },
-        'line-color': '#FFFFFF'
+        "line-color": "#FFFFFF"
       },
       labelLayerId: lineLabelLayerId
     },
     ///////////////////
     {
-      id: 'GROALN_other_CGD_bg', // 路网图层（name字段），次干道、县道
-      type: 'line',
+      id: "GROALN_other_CGD_bg", // 路网图层（name字段），次干道、县道
+      type: "line",
       source: levelConfig.addLv15,
       filter: [
-        'any',
-        ['==', 'CLASID', '420301'],
-        ['==', 'CLASID', '420302'],
-        ['==', 'CLASID', '430502']
+        "any",
+        ["==", "CLASID", "420301"],
+        ["==", "CLASID", "420302"],
+        ["==", "CLASID", "430502"]
       ],
-      'source-layer': 'GROALN_other',
+      "source-layer": "GROALN_other",
       layout: {
-        'line-cap': 'round',
-        'line-join': 'round'
+        "line-cap": "round",
+        "line-join": "round"
       },
       paint: {
-        'line-width': {
+        "line-width": {
           base: 2,
           stops: [
             [15, 7],
@@ -262,47 +262,47 @@ const style = {
             [20, 16]
           ]
         },
-        'line-color': '#d8d8d8'
+        "line-color": "#d8d8d8"
       },
       labelLayerId: lineBgLabelLayerId
     },
     {
-      id: 'GROALN_other_CGD', // 路网图层（name字段），次干道、县道
-      type: 'line',
+      id: "GROALN_other_CGD", // 路网图层（name字段），次干道、县道
+      type: "line",
       source: levelConfig.addLv15,
       filter: [
-        'any',
-        ['==', 'CLASID', '420301'],
-        ['==', 'CLASID', '420302'],
-        ['==', 'CLASID', '430502']
+        "any",
+        ["==", "CLASID", "420301"],
+        ["==", "CLASID", "420302"],
+        ["==", "CLASID", "430502"]
       ],
-      'source-layer': 'GROALN_other',
+      "source-layer": "GROALN_other",
       layout: {
-        'line-cap': 'round',
-        'line-join': 'round'
+        "line-cap": "round",
+        "line-join": "round"
       },
       paint: {
-        'line-width': {
+        "line-width": {
           base: 2,
           stops: [[15, 5], [16, 7], [17, 11], [18, 15], [19, 16], [20, 14]]
         },
-        'line-color': '#FFFFFF'
+        "line-color": "#FFFFFF"
       },
       labelLayerId: lineLabelLayerId
     },
     /////////////////////
     {
-      id: 'GROALN_other_ZGD_bg', // 路网图层（name字段），主干道
-      type: 'line',
+      id: "GROALN_other_ZGD_bg", // 路网图层（name字段），主干道
+      type: "line",
       source: levelConfig.addLv15,
-      filter: ['==', 'CLASID', '430501'],
-      'source-layer': 'GROALN_other',
+      filter: ["==", "CLASID", "430501"],
+      "source-layer": "GROALN_other",
       layout: {
-        'line-cap': 'round',
-        'line-join': 'round'
+        "line-cap": "round",
+        "line-join": "round"
       },
       paint: {
-        'line-width': {
+        "line-width": {
           base: 2,
           stops: [
             [15, 6],
@@ -313,26 +313,26 @@ const style = {
             [20, 16]
           ]
         },
-        'line-color': '#ffae00'
+        "line-color": "#ffae00"
       },
       labelLayerId: lineBgLabelLayerId_sd
     },
     {
-      id: 'GROALN_other_ZGD', // 路网图层（name字段），主干道
-      type: 'line',
+      id: "GROALN_other_ZGD", // 路网图层（name字段），主干道
+      type: "line",
       source: levelConfig.addLv15,
-      filter: ['==', 'CLASID', '430501'],
-      'source-layer': 'GROALN_other',
+      filter: ["==", "CLASID", "430501"],
+      "source-layer": "GROALN_other",
       layout: {
-        'line-cap': 'round',
-        'line-join': 'round'
+        "line-cap": "round",
+        "line-join": "round"
       },
       paint: {
-        'line-width': {
+        "line-width": {
           base: 2,
           stops: [[15, 5], [16, 8], [17, 11], [18, 14], [19, 14], [20, 14]]
         },
-        'line-color': '#ffeebb'
+        "line-color": "#ffeebb"
       },
       labelLayerId: lineLabelLayerId_sd
     },
@@ -401,17 +401,17 @@ const style = {
     // },
     ////////////////////////
     {
-      id: 'GROALN_other_KSL_bg', // 路网图层（name字段），背景充当描边 快速路，高架路
-      type: 'line',
+      id: "GROALN_other_KSL_bg", // 路网图层（name字段），背景充当描边 快速路，高架路
+      type: "line",
       source: levelConfig.addLv15,
-      filter: ['any', ['==', 'CLASID', '430200'], ['==', 'CLASID', '430300']],
-      'source-layer': 'GROALN_other',
+      filter: ["any", ["==", "CLASID", "430200"], ["==", "CLASID", "430300"]],
+      "source-layer": "GROALN_other",
       layout: {
-        'line-cap': 'round',
-        'line-join': 'round'
+        "line-cap": "round",
+        "line-join": "round"
       },
       paint: {
-        'line-width': {
+        "line-width": {
           base: 2,
           stops: [
             [15, 8.5],
@@ -422,50 +422,50 @@ const style = {
             [20, 20]
           ]
         },
-        'line-color': '#ffae00'
+        "line-color": "#ffae00"
       },
       labelLayerId: lineBgLabelLayerId_sd
     },
     {
-      id: 'GROALN_other_KSL', // 路网图层（name字段） 快速路，高架路
-      type: 'line',
+      id: "GROALN_other_KSL", // 路网图层（name字段） 快速路，高架路
+      type: "line",
       source: levelConfig.addLv15,
-      filter: ['any', ['==', 'CLASID', '430200'], ['==', 'CLASID', '430300']],
-      'source-layer': 'GROALN_other',
+      filter: ["any", ["==", "CLASID", "430200"], ["==", "CLASID", "430300"]],
+      "source-layer": "GROALN_other",
       layout: {
-        'line-cap': 'round',
-        'line-join': 'round'
+        "line-cap": "round",
+        "line-join": "round"
       },
       paint: {
-        'line-width': {
+        "line-width": {
           base: 2,
           stops: [[15, 7], [16, 7], [17, 9], [18, 11], [19, 11], [20, 19]]
         },
-        'line-color': '#ffeebb'
+        "line-color": "#ffeebb"
       },
       labelLayerId: lineLabelLayerId_sd
     },
     {
-      id: 'GROALN_other_NAME',
-      type: 'symbol',
+      id: "GROALN_other_NAME",
+      type: "symbol",
       source: levelConfig.addLv15,
-      'source-layer': 'GROALN_other', // LN，line的简写
-      filter: ['!=', 'CLASID', '430503'],
+      "source-layer": "GROALN_other", // LN，line的简写
+      filter: ["!=", "CLASID", "430503"],
       layout: {
-        'text-field': '{NAME}',
-        visibility: 'visible',
-        'symbol-placement': 'line',
-        'text-font': ['Arial Unicode MS Bold'],
-        'text-pitch-alignment': 'viewport',
-        'symbol-spacing': 500,
-        'text-rotation-alignment': 'map',
-        'text-size': 12,
-        'icon-rotation-alignment': 'viewport'
+        "text-field": "{NAME}",
+        visibility: "visible",
+        "symbol-placement": "line",
+        "text-font": ["Arial Unicode MS Bold"],
+        "text-pitch-alignment": "viewport",
+        "symbol-spacing": 500,
+        "text-rotation-alignment": "map",
+        "text-size": 12,
+        "icon-rotation-alignment": "viewport"
       },
       paint: {
-        'text-color': '#747474',
-        'text-halo-width': 2,
-        'text-halo-color': 'rgba(255, 255, 255, 1)'
+        "text-color": "#747474",
+        "text-halo-width": 2,
+        "text-halo-color": "rgba(255, 255, 255, 1)"
       },
       labelLayerId: symbolLabelLayerId
     },
@@ -474,29 +474,29 @@ const style = {
      * 点
      */
     {
-      id: 'SD_GHFCPT', // 此图层记录了一些水站和XX闸
-      type: 'symbol',
+      id: "SD_GHFCPT", // 此图层记录了一些水站和XX闸
+      type: "symbol",
       source: levelConfig.addLv15,
-      'source-layer': 'SD_GHFCPT',
+      "source-layer": "SD_GHFCPT",
       layout: {
-        'text-field': '{NAME}',
-        visibility: 'visible',
-        'symbol-placement': 'point',
-        'text-size': 11,
-        'text-padding': 4,
-        'icon-image': 'btn_bubble_a_normal',
-        'text-justify': 'left',
-        'text-anchor': 'left',
-        'text-offset': [0.8, 0],
-        'text-font': ['Arial Unicode MS Blod', 'Open Sans Regular'],
-        'text-pitch-alignment': 'viewport',
-        'text-rotation-alignment': 'viewport',
-        'icon-rotation-alignment': 'viewport'
+        "text-field": "{NAME}",
+        visibility: "visible",
+        "symbol-placement": "point",
+        "text-size": 11,
+        "text-padding": 4,
+        "icon-image": "btn_bubble_a_normal",
+        "text-justify": "left",
+        "text-anchor": "left",
+        "text-offset": [0.8, 0],
+        "text-font": ["Arial Unicode MS Blod", "Open Sans Regular"],
+        "text-pitch-alignment": "viewport",
+        "text-rotation-alignment": "viewport",
+        "icon-rotation-alignment": "viewport"
       },
       paint: {
-        'text-color': '#737517',
-        'text-halo-width': 2,
-        'text-halo-color': 'rgba(255, 255, 255, 1)'
+        "text-color": "#737517",
+        "text-halo-width": 2,
+        "text-halo-color": "rgba(255, 255, 255, 1)"
       },
       labelLayerId: symbolLabelLayerId
     },
@@ -604,102 +604,102 @@ const style = {
     // },
 
     {
-      id: 'SD_GAGNPT', // 此图层记录了村庄POI
-      type: 'symbol',
+      id: "SD_GAGNPT", // 此图层记录了村庄POI
+      type: "symbol",
       source: levelConfig.addLv15,
-      'source-layer': 'SD_GAGNPT',
+      "source-layer": "SD_GAGNPT",
       layout: {
-        'text-field': '{NAME}',
-        visibility: 'visible',
-        'symbol-placement': 'point',
-        'text-size': 12,
-        'text-padding': 4,
-        'icon-image': 'ic_map_{KIND}',
-        'text-justify': 'left',
-        'text-anchor': 'left',
-        'text-offset': [0.8, 0],
-        'text-font': ['Arial Unicode MS Blod', 'Open Sans Regular'],
-        'text-pitch-alignment': 'viewport',
-        'text-rotation-alignment': 'viewport',
-        'icon-rotation-alignment': 'viewport'
+        "text-field": "{NAME}",
+        visibility: "visible",
+        "symbol-placement": "point",
+        "text-size": 12,
+        "text-padding": 4,
+        "icon-image": "ic_map_{KIND}",
+        "text-justify": "left",
+        "text-anchor": "left",
+        "text-offset": [0.8, 0],
+        "text-font": ["Arial Unicode MS Blod", "Open Sans Regular"],
+        "text-pitch-alignment": "viewport",
+        "text-rotation-alignment": "viewport",
+        "icon-rotation-alignment": "viewport"
       },
       paint: {
-        'text-color': '#737517',
-        'text-halo-width': 2,
-        'text-halo-color': 'rgba(255, 255, 255, 1)'
+        "text-color": "#737517",
+        "text-halo-width": 2,
+        "text-halo-color": "rgba(255, 255, 255, 1)"
       },
       labelLayerId: symbolLabelLayerId
     },
     //////////////////////////////////
     // poi
     {
-      id: 'POI_LEVEL_15_1108',
-      type: 'symbol',
+      id: "POI_LEVEL_15_1108",
+      type: "symbol",
       source: levelConfig.addLv15,
-      'source-layer': 'POI_LEVEL_15',
+      "source-layer": "POI_LEVEL_15",
       layout: {
-        'text-field': '{NAME}',
-        visibility: 'visible',
-        'symbol-placement': 'point',
-        'text-size': 13,
-        'text-padding': 4,
-        'icon-image': 'ic_map_{KIND}',
-        'text-justify': 'left',
-        'text-anchor': 'left',
-        'text-offset': [0.8, 0],
-        'text-font': ['Arial Unicode MS Blod', 'Open Sans Regular'],
-        'text-pitch-alignment': 'viewport',
-        'text-rotation-alignment': 'viewport',
-        'icon-rotation-alignment': 'viewport'
+        "text-field": "{NAME}",
+        visibility: "visible",
+        "symbol-placement": "point",
+        "text-size": 13,
+        "text-padding": 4,
+        "icon-image": "ic_map_{KIND}",
+        "text-justify": "left",
+        "text-anchor": "left",
+        "text-offset": [0.8, 0],
+        "text-font": ["Arial Unicode MS Blod", "Open Sans Regular"],
+        "text-pitch-alignment": "viewport",
+        "text-rotation-alignment": "viewport",
+        "icon-rotation-alignment": "viewport"
       },
       paint: {
-        'text-color': 'rgba(65, 65, 65, 0.8)',
-        'text-halo-width': 2,
-        'text-halo-color': 'rgba(255, 255, 255, 1)'
+        "text-color": "rgba(65, 65, 65, 0.8)",
+        "text-halo-width": 2,
+        "text-halo-color": "rgba(255, 255, 255, 1)"
       },
       labelLayerId: symbolLabelLayerId
     },
 
     // 街区
     {
-      id: 'GRESPL_1_jq',
+      id: "GRESPL_1_jq",
       source: levelConfig.addLv15,
-      'source-layer': 'GRESPL_Merge_1',
-      type: 'fill',
+      "source-layer": "GRESPL_Merge_1",
+      type: "fill",
       minzoom: _visibleLevel,
-      filter: ['!=', 'CLASID', '310200'],
+      filter: ["!=", "CLASID", "310200"],
       paint: {
-        'fill-color': '#ccc',
-        'fill-opacity': 0.4,
-        'fill-antialias': false
+        "fill-color": "#ccc",
+        "fill-opacity": 0.4,
+        "fill-antialias": false
       },
       labelLayerId: jqLabelLayerId
     },
     {
-      id: 'GRESPL_2_jq',
+      id: "GRESPL_2_jq",
       source: levelConfig.addLv15,
-      'source-layer': 'GRESPL_Merge_2',
-      type: 'fill',
+      "source-layer": "GRESPL_Merge_2",
+      type: "fill",
       minzoom: _visibleLevel,
-      filter: ['==', 'CLASID', '310200'],
+      filter: ["==", "CLASID", "310200"],
       paint: {
-        'fill-color': '#ccc',
-        'fill-opacity': 0.4,
-        'fill-antialias': false
+        "fill-color": "#ccc",
+        "fill-opacity": 0.4,
+        "fill-antialias": false
       },
       labelLayerId: jqLabelLayerId
     },
     {
-      id: 'GRESPL_3_jq',
+      id: "GRESPL_3_jq",
       source: levelConfig.addLv15,
-      'source-layer': 'GRESPL_Merge_3',
-      type: 'fill',
+      "source-layer": "GRESPL_Merge_3",
+      type: "fill",
       minzoom: _visibleLevel,
-      filter: ['==', 'CLASID', '310200'],
+      filter: ["==", "CLASID", "310200"],
       paint: {
-        'fill-color': '#ccc',
-        'fill-opacity': 0.6,
-        'fill-antialias': false
+        "fill-color": "#ccc",
+        "fill-opacity": 0.6,
+        "fill-antialias": false
       },
       labelLayerId: jqLabelLayerId
     },
@@ -707,71 +707,71 @@ const style = {
      * 3d建筑
      * */
     {
-      id: 'GRESPL_1_3D',
+      id: "GRESPL_1_3D",
       source: levelConfig.addLv15,
-      'source-layer': 'GRESPL_Merge_1',
-      type: 'fill-extrusion',
+      "source-layer": "GRESPL_Merge_1",
+      type: "fill-extrusion",
       minzoom: _visibleLevel,
-      filter: ['!=', 'CLASID', '310200'],
+      filter: ["!=", "CLASID", "310200"],
       paint: {
-        'fill-extrusion-color': '#aaa',
-        'fill-extrusion-height': [
-          'interpolate',
-          ['linear'],
-          ['zoom'],
+        "fill-extrusion-color": "#aaa",
+        "fill-extrusion-height": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
           15,
           0,
           15.05,
-          ['*', ['+', ['get', 'H'], 1], 3]
+          ["*", ["+", ["get", "H"], 1], 3]
         ],
-        'fill-extrusion-base': 0,
-        'fill-extrusion-opacity': 0.6
+        "fill-extrusion-base": 0,
+        "fill-extrusion-opacity": 0.6
       },
       labelLayerId: threeLabelLayerId
     },
     {
-      id: 'GRESPL_2_3D',
+      id: "GRESPL_2_3D",
       source: levelConfig.addLv15,
-      'source-layer': 'GRESPL_Merge_2',
-      type: 'fill-extrusion',
+      "source-layer": "GRESPL_Merge_2",
+      type: "fill-extrusion",
       minzoom: _visibleLevel,
-      filter: ['!=', 'CLASID', '310200'],
+      filter: ["!=", "CLASID", "310200"],
       paint: {
-        'fill-extrusion-color': '#aaa',
-        'fill-extrusion-height': [
-          'interpolate',
-          ['linear'],
-          ['zoom'],
+        "fill-extrusion-color": "#aaa",
+        "fill-extrusion-height": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
           15,
           0,
           15.05,
-          ['*', ['+', ['get', 'H'], 1], 3]
+          ["*", ["+", ["get", "H"], 1], 3]
         ],
-        'fill-extrusion-base': 0,
-        'fill-extrusion-opacity': 0.6
+        "fill-extrusion-base": 0,
+        "fill-extrusion-opacity": 0.6
       },
       labelLayerId: threeLabelLayerId
     },
     {
-      id: 'GRESPL_3_3D',
+      id: "GRESPL_3_3D",
       source: levelConfig.addLv15,
-      'source-layer': 'GRESPL_Merge_3',
-      type: 'fill-extrusion',
+      "source-layer": "GRESPL_Merge_3",
+      type: "fill-extrusion",
       minzoom: _visibleLevel,
-      filter: ['!=', 'CLASID', '310200'],
+      filter: ["!=", "CLASID", "310200"],
       paint: {
-        'fill-extrusion-color': '#aaa',
-        'fill-extrusion-height': [
-          'interpolate',
-          ['linear'],
-          ['zoom'],
+        "fill-extrusion-color": "#aaa",
+        "fill-extrusion-height": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
           15,
           0,
           15.05,
-          ['*', ['+', ['get', 'H'], 1], 3]
+          ["*", ["+", ["get", "H"], 1], 3]
         ],
-        'fill-extrusion-base': 0,
-        'fill-extrusion-opacity': 0.6
+        "fill-extrusion-base": 0,
+        "fill-extrusion-opacity": 0.6
       },
       labelLayerId: threeLabelLayerId
     }
