@@ -15,6 +15,12 @@ export default class LeftMenu extends Component {
   };
 
   render() {
-    return <div className="left-menu">{}</div>;
+    return (
+      <div className="left-menu">
+        {menu.map((item, index) => (
+          <div className={`menu-item${index == selected}`} />
+        ))}
+      </div>
+    );
   }
 }
