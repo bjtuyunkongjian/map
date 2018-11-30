@@ -3,23 +3,17 @@
  */
 
 import React, { Component } from 'react';
-import { FaBullseye } from 'react-icons/fa';
+import { FaArrowRight } from 'react-icons/fa';
 export default class Restore extends Component {
   _curPitch = 0;
-  state = {
-    view: '2D' // 视角 [2D, 3D]
-  };
-
-  componentDidMount() {
-    // _MAP_.on('');
-  }
 
   render() {
-    const tips = '点击还原倾斜度';
-    const { view } = this.state;
+    const tips = '点击还原倾斜度（按住鼠标右键并拖动可倾斜视角）';
     return (
       <div className="restoreFast" onClick={() => this._changeMap()}>
-        <div className="icon-box">{view}</div>
+        <div className="icon-box">
+          <FaArrowRight size={15} className="icon" />
+        </div>
         <span className="tip">{tips}</span>
       </div>
     );
