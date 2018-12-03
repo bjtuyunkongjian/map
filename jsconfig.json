@@ -15,9 +15,9 @@
     "baseUrl": ".",
     "removeComments": false,
     "paths": {
-      "tuyun-kit/*": ["web_modules/tuyun-kit/*"],
-      "tuyun-utils/*": ["web_modules/tuyun-utils/*"],
-      "tuyun-config/*": ["web_modules/tuyun-config/*"]
+      "tuyun-config": ["web_modules/tuyun-config"],
+      "tuyun-kit": ["web_modules/tuyun-kit"],
+      "tuyun-utils": ["web_modules/tuyun-utils"]
     }
   }
 }

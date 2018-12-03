@@ -1,5 +1,6 @@
 /**
  * @author sl 2019-01-02
+ * 底图
  */
 
 import mapboxgl from 'mapbox-gl';
@@ -14,7 +15,7 @@ import addLevels from './add-levels';
 // import addGeojson from './add-geojson';
 // import gaoguoGDB from './geojson/gaoguoGDB_cx';
 
-// import { TuyunMessage } from "tuyun-kit";
+import { TuyunMessage } from 'tuyun-kit';
 export default class MapBoxDemo extends Component {
   boundsArr = [[], []];
 
