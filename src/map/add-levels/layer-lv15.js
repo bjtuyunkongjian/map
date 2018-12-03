@@ -715,7 +715,7 @@ const style = {
       minzoom: _visibleLevel,
       filter: ['!=', 'CLASID', '310200'],
       paint: {
-        'fill-extrusion-color': '#aaa',
+        'fill-extrusion-color': '#c1c3bf',
         'fill-extrusion-height': [
           'interpolate',
           ['linear'],
@@ -738,7 +738,7 @@ const style = {
       minzoom: _visibleLevel,
       filter: ['!=', 'CLASID', '310200'],
       paint: {
-        'fill-extrusion-color': '#aaa',
+        'fill-extrusion-color': '#c1c3bf',
         'fill-extrusion-height': [
           'interpolate',
           ['linear'],
@@ -761,7 +761,7 @@ const style = {
       minzoom: _visibleLevel,
       filter: ['!=', 'CLASID', '310200'],
       paint: {
-        'fill-extrusion-color': '#aaa',
+        'fill-extrusion-color': '#c1c3bf',
         'fill-extrusion-height': [
           'interpolate',
           ['linear'],

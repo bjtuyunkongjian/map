@@ -278,7 +278,7 @@ export default [
   {
     id: 'GRESPL_1_3D',
     type: '3d',
-    standard: '#aaa',
+    standard: '#c1c3bf',
     tiandi: '#d6be99',
     european: '#CCCC99',
     night: '#CBE9F3'
@@ -286,7 +286,7 @@ export default [
   {
     id: 'GRESPL_2_3D',
     type: '3d',
-    standard: '#aaa',
+    standard: '#c1c3bf',
     tiandi: '#d6be99',
     european: '#CCCC99',
     night: '#CBE9F3'
@@ -294,7 +294,7 @@ export default [
   {
     id: 'GRESPL_3_3D',
     type: '3d',
-    standard: '#aaa',
+    standard: '#c1c3bf',
     tiandi: '#d6be99',
     european: '#CCCC99',
     night: '#CBE9F3'
