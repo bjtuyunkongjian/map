@@ -1,0 +1,23 @@
+// 配置后代码跳转没用
+// ？？？
+{
+  "exclude": ["node_modules", "dist"],
+  "compilerOptions": {
+    // "module": "esnext",
+    "sourceMap": false,
+    "noImplicitAny": false,
+    "jsx": "react",
+    // "noUnusedLocals": true,
+    // "noUnusedParameters": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "removeComments": false,
+    "paths": {
+      "tuyun-kit/*": ["web_modules/tuyun-kit/*"],
+      "tuyun-utils/*": ["web_modules/tuyun-utils/*"],
+      "tuyun-config/*": ["web_modules/tuyun-config/*"]
+    }
+  }
+}
