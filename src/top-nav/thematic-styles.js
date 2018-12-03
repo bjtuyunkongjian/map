@@ -278,11 +278,7 @@ export default [
   {
     id: 'GRESPL_1_3D',
     type: '3d',
-<<<<<<< HEAD
-    standard: '#c1c3bf',
-=======
     standard: '#cfcfcf',
->>>>>>> 4f455aef38b4a5f51cd9519de67da4331fc390a7
     tiandi: '#d6be99',
     european: '#CCCC99',
     night: '#CBE9F3'
@@ -290,11 +286,7 @@ export default [
   {
     id: 'GRESPL_2_3D',
     type: '3d',
-<<<<<<< HEAD
-    standard: '#c1c3bf',
-=======
     standard: '#cfcfcf',
->>>>>>> 4f455aef38b4a5f51cd9519de67da4331fc390a7
     tiandi: '#d6be99',
     european: '#CCCC99',
     night: '#CBE9F3'
@@ -302,11 +294,7 @@ export default [
   {
     id: 'GRESPL_3_3D',
     type: '3d',
-<<<<<<< HEAD
-    standard: '#c1c3bf',
-=======
     standard: '#cfcfcf',
->>>>>>> 4f455aef38b4a5f51cd9519de67da4331fc390a7
     tiandi: '#d6be99',
     european: '#CCCC99',
     night: '#CBE9F3'

@@ -715,11 +715,7 @@ const style = {
       minzoom: _visibleLevel,
       filter: ['!=', 'CLASID', '310200'],
       paint: {
-<<<<<<< HEAD
-        'fill-extrusion-color': '#c1c3bf',
-=======
         'fill-extrusion-color': '#cfcfcf',
->>>>>>> 4f455aef38b4a5f51cd9519de67da4331fc390a7
         'fill-extrusion-height': [
           'interpolate',
           ['linear'],
@@ -742,11 +738,7 @@ const style = {
       minzoom: _visibleLevel,
       filter: ['!=', 'CLASID', '310200'],
       paint: {
-<<<<<<< HEAD
-        'fill-extrusion-color': '#c1c3bf',
-=======
         'fill-extrusion-color': '#cfcfcf',
->>>>>>> 4f455aef38b4a5f51cd9519de67da4331fc390a7
         'fill-extrusion-height': [
           'interpolate',
           ['linear'],
@@ -769,11 +761,7 @@ const style = {
       minzoom: _visibleLevel,
       filter: ['!=', 'CLASID', '310200'],
       paint: {
-<<<<<<< HEAD
-        'fill-extrusion-color': '#c1c3bf',
-=======
         'fill-extrusion-color': '#cfcfcf',
->>>>>>> 4f455aef38b4a5f51cd9519de67da4331fc390a7
         'fill-extrusion-height': [
           'interpolate',
           ['linear'],
