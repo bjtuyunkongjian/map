@@ -15,6 +15,6 @@ export default class LeftMenu extends Component {
   };
 
   render() {
-    return <div className="left-menu" />;
+    return <div className="left-menu">这里是左侧菜单页面</div>;
   }
 }
