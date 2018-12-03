@@ -1,5 +1,6 @@
 /**
  * @author sl204984
+ * 右上角功能集
  */
 
 import React, { Component } from 'react';
@@ -16,7 +17,6 @@ import {
   WaterLabelIds,
   ResidentLabelIds
 } from './layer-ids';
-import { RegRgb } from 'tuyun-utils';
 import { ChangeLvStyle } from './change-lv-style';
 
 export default class TopNav extends Component {
