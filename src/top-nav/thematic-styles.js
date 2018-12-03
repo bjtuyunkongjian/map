@@ -254,7 +254,7 @@ export default [
   {
     id: 'GVEGPL',
     type: 'fill',
-    standard: '#d6eccf',
+    standard: '#b5e9b6',
     tiandi: 'rgb(187, 217, 141)',
     european: 'rgb(210, 232, 191)',
     night: '#669999'
@@ -262,7 +262,7 @@ export default [
   {
     id: 'GHYDPL_7L',
     type: 'fill',
-    standard: '#c4daf6',
+    standard: '#b3d8ff',
     tiandi: 'rgb(171, 197, 239)',
     european: 'rgb(117, 207, 240)',
     night: '#CCFFFF'
@@ -270,7 +270,7 @@ export default [
   {
     id: 'GHYDPL_OTH',
     type: 'fill',
-    standard: '#c4daf6',
+    standard: '#b3d8ff',
     tiandi: 'rgb(171, 197, 239)',
     european: 'rgb(117, 207, 240)',
     night: '#CCFFFF'
@@ -278,7 +278,11 @@ export default [
   {
     id: 'GRESPL_1_3D',
     type: '3d',
+<<<<<<< HEAD
     standard: '#c1c3bf',
+=======
+    standard: '#cfcfcf',
+>>>>>>> 4f455aef38b4a5f51cd9519de67da4331fc390a7
     tiandi: '#d6be99',
     european: '#CCCC99',
     night: '#CBE9F3'
@@ -286,7 +290,11 @@ export default [
   {
     id: 'GRESPL_2_3D',
     type: '3d',
+<<<<<<< HEAD
     standard: '#c1c3bf',
+=======
+    standard: '#cfcfcf',
+>>>>>>> 4f455aef38b4a5f51cd9519de67da4331fc390a7
     tiandi: '#d6be99',
     european: '#CCCC99',
     night: '#CBE9F3'
@@ -294,7 +302,11 @@ export default [
   {
     id: 'GRESPL_3_3D',
     type: '3d',
+<<<<<<< HEAD
     standard: '#c1c3bf',
+=======
+    standard: '#cfcfcf',
+>>>>>>> 4f455aef38b4a5f51cd9519de67da4331fc390a7
     tiandi: '#d6be99',
     european: '#CCCC99',
     night: '#CBE9F3'

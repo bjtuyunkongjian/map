@@ -615,7 +615,7 @@ const style = {
         'symbol-placement': 'point',
         'text-size': 12,
         'text-padding': 4,
-        'icon-image': 'ic_map_{KIND}',
+        'icon-image': 'ic_map_shequ',
         'text-justify': 'left',
         'text-anchor': 'left',
         'text-offset': [0.8, 0],
@@ -625,7 +625,7 @@ const style = {
         'icon-rotation-alignment': 'viewport'
       },
       paint: {
-        'text-color': '#737517',
+        'text-color': 'rgb(89, 125, 155)',
         'text-halo-width': 2,
         'text-halo-color': 'rgba(255, 255, 255, 1)'
       },
@@ -715,7 +715,11 @@ const style = {
       minzoom: _visibleLevel,
       filter: ['!=', 'CLASID', '310200'],
       paint: {
+<<<<<<< HEAD
         'fill-extrusion-color': '#c1c3bf',
+=======
+        'fill-extrusion-color': '#cfcfcf',
+>>>>>>> 4f455aef38b4a5f51cd9519de67da4331fc390a7
         'fill-extrusion-height': [
           'interpolate',
           ['linear'],
@@ -726,7 +730,7 @@ const style = {
           ['*', ['+', ['get', 'H'], 1], 3]
         ],
         'fill-extrusion-base': 0,
-        'fill-extrusion-opacity': 0.6
+        'fill-extrusion-opacity': 0.7
       },
       labelLayerId: threeLabelLayerId
     },
@@ -738,7 +742,11 @@ const style = {
       minzoom: _visibleLevel,
       filter: ['!=', 'CLASID', '310200'],
       paint: {
+<<<<<<< HEAD
         'fill-extrusion-color': '#c1c3bf',
+=======
+        'fill-extrusion-color': '#cfcfcf',
+>>>>>>> 4f455aef38b4a5f51cd9519de67da4331fc390a7
         'fill-extrusion-height': [
           'interpolate',
           ['linear'],
@@ -749,7 +757,7 @@ const style = {
           ['*', ['+', ['get', 'H'], 1], 3]
         ],
         'fill-extrusion-base': 0,
-        'fill-extrusion-opacity': 0.6
+        'fill-extrusion-opacity': 0.7
       },
       labelLayerId: threeLabelLayerId
     },
@@ -761,7 +769,11 @@ const style = {
       minzoom: _visibleLevel,
       filter: ['!=', 'CLASID', '310200'],
       paint: {
+<<<<<<< HEAD
         'fill-extrusion-color': '#c1c3bf',
+=======
+        'fill-extrusion-color': '#cfcfcf',
+>>>>>>> 4f455aef38b4a5f51cd9519de67da4331fc390a7
         'fill-extrusion-height': [
           'interpolate',
           ['linear'],
@@ -772,7 +784,7 @@ const style = {
           ['*', ['+', ['get', 'H'], 1], 3]
         ],
         'fill-extrusion-base': 0,
-        'fill-extrusion-opacity': 0.6
+        'fill-extrusion-opacity': 0.7
       },
       labelLayerId: threeLabelLayerId
     }
