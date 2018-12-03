@@ -9,14 +9,13 @@
 ## 文件注释
 
 - 本工程采用最新的 webpack4.x 配置，基本实现 0 配置
-- css 样式文件在./static/css/mapbox-gl.css 中
 - ./static/sprite 文件夹中有雪碧图和雪碧图对应的 json，需要把这四个文件放到服务器上
 - 所有 js 文件在 src 中
 
 ## 配置
 
-- 1. mapbox 相应配置：https://www.mapbox.com/mapbox-gl-js/style-spec#layers-background
-- 2. 在线生成雪碧图：https://www.toptal.com/developers/css/sprite-generator
+- 1. mapbox 相应配置：https://www.mapbox.com/mapbox-gl-js/
+- 2. 使用 gulp 打包生成雪碧图
 
 ## 版本号说明
 
