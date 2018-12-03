@@ -13,6 +13,15 @@ import Restore from './restore';
 
 class MapApp extends Component {
   render() {
+    const _userAgent = navigator.userAgent;
+    !-[1];
+    const _browserSupport =
+      _userAgent.indexOf('Firefox') > -1 || _userAgent.indexOf('Chrome') > -1;
+
+    if (!_browserSupport) {
+      return <div className="map-app">浏览器不支持</div>;
+    }
+
     return (
       <div className="map-app">
         <Map />

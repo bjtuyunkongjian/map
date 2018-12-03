@@ -615,7 +615,7 @@ const style = {
         'symbol-placement': 'point',
         'text-size': 12,
         'text-padding': 4,
-        'icon-image': 'ic_map_{KIND}',
+        'icon-image': 'ic_map_shequ',
         'text-justify': 'left',
         'text-anchor': 'left',
         'text-offset': [0.8, 0],
@@ -625,7 +625,7 @@ const style = {
         'icon-rotation-alignment': 'viewport'
       },
       paint: {
-        'text-color': '#737517',
+        'text-color': 'rgb(89, 125, 155)',
         'text-halo-width': 2,
         'text-halo-color': 'rgba(255, 255, 255, 1)'
       },
@@ -662,48 +662,48 @@ const style = {
     },
 
     // 街区
-    {
-      id: 'GRESPL_1_jq',
-      source: levelConfig.addLv15,
-      'source-layer': 'GRESPL_Merge_1',
-      type: 'fill',
-      minzoom: _visibleLevel,
-      filter: ['!=', 'CLASID', '310200'],
-      paint: {
-        'fill-color': '#ccc',
-        'fill-opacity': 0.4,
-        'fill-antialias': false
-      },
-      labelLayerId: jqLabelLayerId
-    },
-    {
-      id: 'GRESPL_2_jq',
-      source: levelConfig.addLv15,
-      'source-layer': 'GRESPL_Merge_2',
-      type: 'fill',
-      minzoom: _visibleLevel,
-      filter: ['==', 'CLASID', '310200'],
-      paint: {
-        'fill-color': '#ccc',
-        'fill-opacity': 0.4,
-        'fill-antialias': false
-      },
-      labelLayerId: jqLabelLayerId
-    },
-    {
-      id: 'GRESPL_3_jq',
-      source: levelConfig.addLv15,
-      'source-layer': 'GRESPL_Merge_3',
-      type: 'fill',
-      minzoom: _visibleLevel,
-      filter: ['==', 'CLASID', '310200'],
-      paint: {
-        'fill-color': '#ccc',
-        'fill-opacity': 0.6,
-        'fill-antialias': false
-      },
-      labelLayerId: jqLabelLayerId
-    },
+    // {
+    //   id: 'GRESPL_1_jq',
+    //   source: levelConfig.addLv15,
+    //   'source-layer': 'GRESPL_Merge_1',
+    //   type: 'fill',
+    //   minzoom: _visibleLevel,
+    //   filter: ['!=', 'CLASID', '310200'],
+    //   paint: {
+    //     'fill-color': '#ccc',
+    //     'fill-opacity': 0.4,
+    //     'fill-antialias': false
+    //   },
+    //   labelLayerId: jqLabelLayerId
+    // },
+    // {
+    //   id: 'GRESPL_2_jq',
+    //   source: levelConfig.addLv15,
+    //   'source-layer': 'GRESPL_Merge_2',
+    //   type: 'fill',
+    //   minzoom: _visibleLevel,
+    //   filter: ['==', 'CLASID', '310200'],
+    //   paint: {
+    //     'fill-color': '#ccc',
+    //     'fill-opacity': 0.4,
+    //     'fill-antialias': false
+    //   },
+    //   labelLayerId: jqLabelLayerId
+    // },
+    // {
+    //   id: 'GRESPL_3_jq',
+    //   source: levelConfig.addLv15,
+    //   'source-layer': 'GRESPL_Merge_3',
+    //   type: 'fill',
+    //   minzoom: _visibleLevel,
+    //   filter: ['==', 'CLASID', '310200'],
+    //   paint: {
+    //     'fill-color': '#ccc',
+    //     'fill-opacity': 0.6,
+    //     'fill-antialias': false
+    //   },
+    //   labelLayerId: jqLabelLayerId
+    // },
     /**
      * 3d建筑
      * */
@@ -715,7 +715,7 @@ const style = {
       minzoom: _visibleLevel,
       filter: ['!=', 'CLASID', '310200'],
       paint: {
-        'fill-extrusion-color': '#aaa',
+        'fill-extrusion-color': '#cfcfcf',
         'fill-extrusion-height': [
           'interpolate',
           ['linear'],
@@ -726,7 +726,7 @@ const style = {
           ['*', ['+', ['get', 'H'], 1], 3]
         ],
         'fill-extrusion-base': 0,
-        'fill-extrusion-opacity': 0.6
+        'fill-extrusion-opacity': 0.7
       },
       labelLayerId: threeLabelLayerId
     },
@@ -738,7 +738,7 @@ const style = {
       minzoom: _visibleLevel,
       filter: ['!=', 'CLASID', '310200'],
       paint: {
-        'fill-extrusion-color': '#aaa',
+        'fill-extrusion-color': '#cfcfcf',
         'fill-extrusion-height': [
           'interpolate',
           ['linear'],
@@ -749,7 +749,7 @@ const style = {
           ['*', ['+', ['get', 'H'], 1], 3]
         ],
         'fill-extrusion-base': 0,
-        'fill-extrusion-opacity': 0.6
+        'fill-extrusion-opacity': 0.7
       },
       labelLayerId: threeLabelLayerId
     },
@@ -761,7 +761,7 @@ const style = {
       minzoom: _visibleLevel,
       filter: ['!=', 'CLASID', '310200'],
       paint: {
-        'fill-extrusion-color': '#aaa',
+        'fill-extrusion-color': '#cfcfcf',
         'fill-extrusion-height': [
           'interpolate',
           ['linear'],
@@ -772,7 +772,7 @@ const style = {
           ['*', ['+', ['get', 'H'], 1], 3]
         ],
         'fill-extrusion-base': 0,
-        'fill-extrusion-opacity': 0.6
+        'fill-extrusion-opacity': 0.7
       },
       labelLayerId: threeLabelLayerId
     }
