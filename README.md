@@ -45,3 +45,20 @@
 1.0.0 2018-11-30 17:30
 - 山东省地图底图配置完成
 ```
+
+##编码规范
+
+# HTML 部分
+
+-对所有的引用使用 const -变量用 let 定义，(将 const 和 let 分类) -字面量创建对象 const item = {} const items=[] -不使用保留字作为键值，使用同义词替换需要使用的保留字 -对象方法简写 addValue(){} -使用函数声明代替函数表达式，在对象属性声明前把简写的属性分组 #数组部分 -向数组添加元素时，使用 Array.push 替代直接赋值
+eg:const a=[]; a,push(''asdfghj) -使用拓展运算符...复制数组
+eg:const items=[...items]; -使用 Array.from 把一个类数组对象转换成数组
+eg:const b = Array.from(a); -使用解构存取和使用多属性对象
+eg: -不在非函数代码块(if,while 等)声明函数并赋值给一个变量 -使用函数表达式(传递一个匿名函数)，使用箭头函数符号
+-import 不适用通配符\*，不直接从 import 中直接 export
+#JSX 部分
+-JSX 中，每个文件只写一个模块，多个无状态模块可以放在单个文件中 -创建模块：1.1 如果模块有内部状态或是 refs,使用 class extends React.Component
+1.2 如果模块没有状态或者没有引用 refs，使用普通函数
+-props 属性：使用唯一 ID，避免使用数组的 index 作为属性 key 的值
+
+#css 部分 -尽量不要使用 id 选择器

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import style from '../../style/pages/leftmenu/index.less';
+
 export default class LeftMenu extends Component {
   state = {
     selectedMenu: -1,
@@ -15,12 +15,6 @@ export default class LeftMenu extends Component {
   };
 
   render() {
-    return (
-      <div className="left-menu">
-        {menu.map((item, index) => (
-          <div className={`menu-item${index == selected}`} />
-        ))}
-      </div>
-    );
+    return <div className="left-menu" />;
   }
 }
