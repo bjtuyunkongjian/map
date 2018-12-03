@@ -1,0 +1,46 @@
+.ReactTips__Container {
+  position: fixed;
+  bottom: 100px;
+  z-index: 1000;
+  height: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
+  .msg-item-container {
+    margin: 5px;
+    animation: @fade-in;
+    max-width: 400px;
+    padding: 3px 8px;
+    border-radius: @radius-m;
+    display: flex;
+    height: 40px;
+    align-items: center;
+    // box-shadow: @box-shadow-sm;
+    background-color: rgba(0, 0, 0, 0.65);
+    color: white;
+  }
+  .msg-item-icon {
+    display: flex;
+    justify-content: center;
+    margin-right: 3px;
+    border-radius: 50%;
+    color: white;
+    width: 16px;
+    height: 16px;
+    font-weight: 800;
+  }
+  .show {
+    .msg-item-container;
+  }
+  .success {
+    .msg-item-container;
+  }
+  .info {
+    .show;
+  }
+  .warning {
+    .msg-item-container;
+  }
+  .error {
+    .msg-item-container;
+  }
+}

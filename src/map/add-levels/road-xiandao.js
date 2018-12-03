@@ -1,19 +1,19 @@
-const lineLabelLayerId = "line-ref";
-const lineBgLabelLayerId = "line-bg-ref";
-const symbolLabelLayerId = "symbol-ref";
+const lineLabelLayerId = 'line-ref';
+const lineBgLabelLayerId = 'line-bg-ref';
+const symbolLabelLayerId = 'symbol-ref';
 
 export default [
   {
-    id: "xd_bg", // 县道背景
-    type: "line",
-    source: "road-source",
-    "source-layer": "xiandaoGDB",
+    id: 'xd_bg', // 县道背景
+    type: 'line',
+    source: 'road-source',
+    'source-layer': 'xiandaoGDB',
     layout: {
-      "line-join": "round",
-      "line-cap": "round"
+      'line-join': 'round',
+      'line-cap': 'round'
     },
     paint: {
-      "line-width": {
+      'line-width': {
         base: 2,
         stops: [
           [7, 3],
@@ -34,21 +34,21 @@ export default [
           [22, 26]
         ]
       },
-      "line-color": "#d8d8d8"
+      'line-color': '#d8d8d8'
     },
     labelLayerId: lineLabelLayerId
   },
   {
-    id: "xd", // 路网图层（name字段），县道
-    type: "line",
-    source: "road-source",
-    "source-layer": "xiandaoGDB",
+    id: 'xd', // 路网图层（name字段），县道
+    type: 'line',
+    source: 'road-source',
+    'source-layer': 'xiandaoGDB',
     layout: {
-      "line-cap": "round",
-      "line-join": "round"
+      'line-cap': 'round',
+      'line-join': 'round'
     },
     paint: {
-      "line-width": {
+      'line-width': {
         base: 2,
         stops: [
           [7, 2],
@@ -69,32 +69,28 @@ export default [
           [22, 24]
         ]
       },
-      "line-color": "#fed669"
+      'line-color': '#fed669'
     },
     labelLayerId: lineLabelLayerId
   },
   {
-    id: "xd_name", // xiandao
-    type: "symbol",
-    source: "road-source",
-    "source-layer": "xiandaoGDB",
+    id: 'xd_name', // xiandao
+    type: 'symbol',
+    source: 'road-source',
+    'source-layer': 'xiandaoGDB',
     layout: {
-      "text-field": {
-        stops: [[7, ""], [13, "{NAME}"]]
+      'text-field': {
+        stops: [[7, ''], [13, '{NAME}']]
       },
-      visibility: "visible",
-      "symbol-placement": "line",
-      "text-font": ["Arial Unicode MS Bold"],
-      "text-pitch-alignment": "viewport",
-      "symbol-spacing": 500,
-      "text-rotation-alignment": "map",
-      "text-size": {
-        base: 0,
+      visibility: 'visible',
+      'symbol-placement': 'line',
+      'text-font': ['Arial Unicode MS Bold'],
+      'text-pitch-alignment': 'viewport',
+      'symbol-spacing': 500,
+      'text-rotation-alignment': 'map',
+      'text-size': {
+        base: 10,
         stops: [
-          [9, 0],
-          [10, 0],
-          [11, 0],
-          [12, 0],
           [13, 10],
           [14, 10],
           [15, 11],
@@ -105,12 +101,12 @@ export default [
           [20, 12]
         ]
       },
-      "icon-rotation-alignment": "viewport"
+      'icon-rotation-alignment': 'viewport'
     },
     paint: {
-      "text-color": "rgba(65, 65, 65, 0.9)",
-      "text-halo-width": 2,
-      "text-halo-color": "rgba(255, 255, 255, 1)"
+      'text-color': 'rgba(65, 65, 65, 0.9)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
     },
     labelLayerId: symbolLabelLayerId
   }
