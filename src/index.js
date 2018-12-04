@@ -9,7 +9,7 @@ import '../style/index.less';
 import Map from './map';
 import TopNav from './top-nav';
 import Restore from './restore';
-// import LeftMenu from './left-menu';
+import LeftMenu from './left-menu';
 
 class MapApp extends Component {
   render() {
@@ -27,6 +27,7 @@ class MapApp extends Component {
         <Map />
         <TopNav />
         <Restore />
+        <LeftMenu />
       </div>
     );
   }
