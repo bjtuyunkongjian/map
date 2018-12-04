@@ -50,6 +50,7 @@
 }
 
 @modal-slide: 0.5s modal-slide; // 对话框
+
 @keyframes modal-slide {
   0% {
     top: 0;
@@ -68,5 +69,13 @@
   to {
     opacity: 1;
     transform: translate(0, 0);
+  }
+}
+// 一些通用的类
+.hover-dark {
+  cursor: pointer;
+  &:hover {
+    background-color: #333;
+    opacity: 0.2;
   }
 }
