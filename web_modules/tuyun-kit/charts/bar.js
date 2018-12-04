@@ -228,7 +228,6 @@ export default class Bar extends Component {
         (_xEnd - _xStart) * this._ratio,
         (_yStart - _yEnd) * this._ratio
       ];
-      console.log('_drawRact', _drawRact);
       // 填充位置
       const _fillRect = [
         _drawRact[0],
