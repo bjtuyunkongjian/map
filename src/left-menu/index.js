@@ -49,6 +49,9 @@ export default class LeftMenu extends Component {
             {item.name}
             <span className="arrow arrow-right" />
             {index === selectedMenu ? optList : null}
+            <button className="control">
+              <span className="aspect-left" />
+            </button>
           </div>
         ))}
       </div>
