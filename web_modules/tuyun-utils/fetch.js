@@ -2,11 +2,11 @@ import { BaseConfig as CONFIG } from 'tuyun-config';
 
 /**
  * @param {string} url 接口地址
- * @param {string} method 请求方法：GET、POST、PUT、DELETE，只能大写
+ * @param {string} method 请求方法：GET、POST、PUT、DELETE，只能大写，method 默认为 GET方法
  * @param {JSON} [body=''] body的请求参数，默认为空
  * @return {res: xxx, err: xxx}
  */
-export const FetchRequest = async function({ url, method, body = {} }) {
+export const FetchRequest = async function({ url, method = 'GET', body = {} }) {
   const request = {
     method: method || 'GET',
     headers: {
@@ -29,7 +29,7 @@ export const FetchRequest = async function({ url, method, body = {} }) {
   }, CONFIG.httpTimeOut * 1000);
 
   try {
-    const response = await fetch(CONFIG.geojsonHost + url, request);
+    const response = await fetch(CONFIG.bffHost + url, request);
 
     clearTimeout(timeoutId);
     const responseData = await response.json();
@@ -44,8 +44,7 @@ export const FetchRequest = async function({ url, method, body = {} }) {
       resolve({
         // 有时会返回0的结果
         res: ok ? data : null,
-        err: ok ? null : statusInfo,
-        ok: ok
+        err: ok ? null : statusInfo
       });
     });
   } catch (err) {
