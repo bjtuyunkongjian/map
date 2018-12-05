@@ -1,6 +1,4 @@
-import {
-  baseConfig as CONFIG
-} from 'tuyun-config';
+import { BaseConfig as CONFIG } from 'tuyun-config';
 
 /**
  * @param {string} url 接口地址
@@ -8,15 +6,11 @@ import {
  * @param {JSON} [body=''] body的请求参数，默认为空
  * @return {res: xxx, err: xxx}
  */
-export const FetchRequest = async function ({
-  url,
-  method,
-  body = {}
-}) {
+export const FetchRequest = async function({ url, method, body = {} }) {
   const request = {
     method: method || 'GET',
     headers: {
-      "Content-Type": "application/json;charset=UTF-8"
+      'Content-Type': 'application/json;charset=UTF-8'
     }
   };
 
@@ -26,7 +20,7 @@ export const FetchRequest = async function ({
 
   // 添加网络超时机制
   const timeoutId = setTimeout(() => {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       resolve({
         res: null,
         err: 'timeout'
@@ -40,11 +34,7 @@ export const FetchRequest = async function ({
     clearTimeout(timeoutId);
     const responseData = await response.json();
 
-    const {
-      statusInfo,
-      data,
-      ok
-    } = responseData;
+    const { statusInfo, data, ok } = responseData;
 
     // if (__DEV__) {
     //   console.log('responseData', responseData);
@@ -56,15 +46,15 @@ export const FetchRequest = async function ({
         res: ok ? data : null,
         err: ok ? null : statusInfo,
         ok: ok
-      })
+      });
     });
   } catch (err) {
     clearTimeout(timeoutId);
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       resolve({
         res: null,
         err: err
       });
     });
   }
-}
+};

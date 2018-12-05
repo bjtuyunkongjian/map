@@ -1,4 +1,4 @@
 import LevelConfig from './level-config';
-import baseConfig from './base-config';
+import BaseConfig from './base-config';
 
-export { LevelConfig, baseConfig };
+export { LevelConfig, BaseConfig };
