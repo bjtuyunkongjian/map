@@ -14,7 +14,6 @@
   "gitlens.advanced.messages": {
     "suppressShowKeyBindingsNotice": true
   },
-  "gitlens.historyExplorer.enabled": true,
   "files.autoSave": "off",
   "javascript.updateImportsOnFileMove.enabled": "always",
   "typescript.updateImportsOnFileMove.enabled": "always",
