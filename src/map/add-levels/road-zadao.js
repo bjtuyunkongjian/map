@@ -1,3 +1,5 @@
+import { levelConfig } from 'tuyun-config';
+
 const lineLabelLayerId = 'line-ref';
 const lineBgLabelLayerId = 'line-bg-ref';
 const symbolLabelLayerId = 'symbol-ref';
@@ -6,7 +8,7 @@ export default [
   {
     id: 'zd_bg', //匝道背景
     type: 'line',
-    source: 'road-source',
+    source: levelConfig.addLv13,
     'source-layer': 'zadaoGDBt',
     layout: {
       'line-join': 'round',
@@ -41,7 +43,7 @@ export default [
   {
     id: 'zd', // 路网图层（name字段），匝道/立交
     type: 'line',
-    source: 'road-source',
+    source: levelConfig.addLv13,
     'source-layer': 'zadaoGDBt',
     layout: {
       'line-cap': 'round',
@@ -76,7 +78,7 @@ export default [
   {
     id: 'zd_name',
     type: 'symbol',
-    source: 'road-source',
+    source: levelConfig.addLv13,
     'source-layer': 'zadaoGDBt',
     layout: {
       'text-field': {
