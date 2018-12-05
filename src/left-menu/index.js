@@ -1,20 +1,18 @@
 import React, { Component } from 'react';
-import Content from './Content';
-import Policedata from './podata';
-import Camera from './camera';
-import Case from './case';
-import Call from './call';
-import Police from './police';
-import Car from './car';
-import Facility from './facility';
-import Palce from './palce';
-import { FiEdit } from 'react-icons/fi';
-import { FiUsers } from 'react-icons/fi';
-import { FiCamera } from 'react-icons/fi';
-import { FiFileText } from 'react-icons/fi';
+// import Content from './Content';
+// import Policedata from './podata';
+// import Camera from './camera';
+// import Case from './case';
+// import Call from './call';
+// import Police from './police';
+// import Car from './car';
+// import Facility from './facility';
+// import Palce from './palce';
+import { FiEdit, FiUsers, FiCamera, FiFileText } from 'react-icons/fi';
 import { MdDriveEta } from 'react-icons/md';
 export default class LeftMenu extends Component {
   state = {
+    // btnState: false,s
     selectedMenu: -1,
     selectContent: -1,
     selectPoData: -1,
@@ -26,11 +24,12 @@ export default class LeftMenu extends Component {
     selectFacility: -1,
     selectPalce: -1
   };
-  componentDidMount() {
-    _MAP_.on('mouseup', () => {
-      this.setState({ selectedMenu: -1 });
-    });
-  }
+
+  // componentDidMount() {
+  //   _MAP_.on('mouseup', () => {
+  //     this.setState({ selectedMenu: -1 });
+  //   });
+  // }
   render() {
     const { selectedMenu } = this.state;
     const optList = this._renderMenulist();
@@ -49,14 +48,12 @@ export default class LeftMenu extends Component {
             {item.name}
             <span className="arrow arrow-right" />
             {index === selectedMenu ? optList : null}
-            <button className="control" onClick={e => this._cutMenu(e)}>
-              <span className="aspect-left" />
-            </button>
           </div>
         ))}
       </div>
     );
   }
+  // -->待完成 点击切换菜单出现消失
   _cutMenu = e => {};
 
   _selectIndex = (e, index) => {
