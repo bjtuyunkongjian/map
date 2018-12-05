@@ -5,7 +5,7 @@ function _checkSource(map, source) {
   return true;
 }
 
-export default function addLevel(map, style) {
+export default function AddLevel(map, style) {
   const source = style.source;
   const layers = style.layers;
   if (map.getZoom() >= style.visibleLevel && _checkSource(map, source)) {

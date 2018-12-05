@@ -5,7 +5,7 @@
 
 import mapboxgl from 'mapbox-gl';
 import {
-  addLevel
+  AddLevel
   // FetchRequest
 } from 'tuyun-utils';
 import React, { Component } from 'react';
@@ -99,7 +99,7 @@ export default class MapBoxDemo extends Component {
 
   _addSourceFunc() {
     for (let item of addLevels) {
-      addLevel(this.map, item);
+      AddLevel(this.map, item);
     }
   }
 
