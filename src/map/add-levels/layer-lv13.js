@@ -1,7 +1,7 @@
 /**
  * @author sl 2019-01-02
  */
-import { levelConfig } from 'tuyun-config';
+import { LevelConfig } from 'tuyun-config';
 import { FontColor } from 'tuyun-utils';
 import ZaDao from './road-zadao';
 
@@ -11,7 +11,7 @@ const symbolLabelLayerId = 'symbol-ref';
 const style = {
   visibleLevel: _visibleLevel,
   source: {
-    [levelConfig.addLv13]: {
+    [LevelConfig.addLv13]: {
       type: 'vector',
       scheme: 'tms',
       tiles: [
@@ -25,7 +25,7 @@ const style = {
     {
       id: 'POI_LEVEL_13',
       type: 'symbol',
-      source: levelConfig.addLv13,
+      source: LevelConfig.addLv13,
       'source-layer': 'POI_LEVEL_13',
       layout: {
         'text-field': '{NAME}',

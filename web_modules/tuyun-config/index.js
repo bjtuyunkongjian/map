@@ -1,7 +1,4 @@
-import levelConfig from './level-config';
+import LevelConfig from './level-config';
 import baseConfig from './base-config';
 
-export {
-  levelConfig,
-  baseConfig
-}
+export { LevelConfig, baseConfig };

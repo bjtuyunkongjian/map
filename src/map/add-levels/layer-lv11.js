@@ -2,7 +2,7 @@
  * @author sl 2019-01-02
  * 11级，包括公园，医院
  */
-import { levelConfig } from 'tuyun-config';
+import { LevelConfig } from 'tuyun-config';
 import { FontColor } from 'tuyun-utils';
 
 const _visibleLevel = 11;
@@ -11,7 +11,7 @@ const symbolLabelLayerId = 'symbol-ref';
 const style = {
   visibleLevel: _visibleLevel,
   source: {
-    [levelConfig.addLv11]: {
+    [LevelConfig.addLv11]: {
       type: 'vector',
       scheme: 'tms',
       tiles: [
@@ -24,7 +24,7 @@ const style = {
     {
       id: 'POI_LEVEL_11_1108_1',
       type: 'symbol',
-      source: levelConfig.addLv11,
+      source: LevelConfig.addLv11,
       'source-layer': 'POI_LEVEL_11',
       layout: {
         'text-field': '{NAME}',

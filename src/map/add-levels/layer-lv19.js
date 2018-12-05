@@ -1,6 +1,6 @@
 //19级图层
 
-import { levelConfig } from 'tuyun-config';
+import { LevelConfig } from 'tuyun-config';
 import { FontColor } from 'tuyun-utils';
 
 const _visibleLevel = 19;
@@ -9,7 +9,7 @@ const symbolLabelLayerId = 'symbol-ref';
 const style = {
   visibleLevel: _visibleLevel,
   source: {
-    [levelConfig.addLv19]: {
+    [LevelConfig.addLv19]: {
       type: 'vector',
       scheme: 'tms',
       tiles: [
@@ -22,7 +22,7 @@ const style = {
     {
       id: 'POI_LEVEL_19',
       type: 'symbol',
-      source: levelConfig.addLv19,
+      source: LevelConfig.addLv19,
       'source-layer': 'POI_LEVEL_19',
       layout: {
         'text-field': '{NAME}',

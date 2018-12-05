@@ -2,7 +2,7 @@
  * @author sl 2019-01-02
  * 八级是没有图标的
  */
-import { levelConfig } from 'tuyun-config';
+import { LevelConfig } from 'tuyun-config';
 
 const _visibleLevel = 8;
 const symbolLabelLayerId = 'symbol-ref';
@@ -11,7 +11,7 @@ const _maxzoom = 10;
 const style = {
   visibleLevel: _visibleLevel,
   source: {
-    [levelConfig.addLv8]: {
+    [LevelConfig.addLv8]: {
       type: 'vector',
       scheme: 'tms',
       tiles: [
@@ -24,7 +24,7 @@ const style = {
     {
       id: 'POI_LEVEL8',
       type: 'symbol',
-      source: levelConfig.addLv8,
+      source: LevelConfig.addLv8,
       'source-layer': 'POI_LEVEL_8',
       maxzoom: _maxzoom,
       layout: {

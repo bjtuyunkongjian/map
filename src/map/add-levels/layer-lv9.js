@@ -1,7 +1,7 @@
 /**
  * @author sl 2019-01-02
  */
-import { levelConfig } from 'tuyun-config';
+import { LevelConfig } from 'tuyun-config';
 import { FontColor } from 'tuyun-utils';
 
 const _visibleLevel = 9;
@@ -10,7 +10,7 @@ const symbolLabelLayerId = 'symbol-ref';
 const style = {
   visibleLevel: _visibleLevel,
   source: {
-    [levelConfig.addLv9]: {
+    [LevelConfig.addLv9]: {
       type: 'vector',
       scheme: 'tms',
       tiles: [
@@ -23,7 +23,7 @@ const style = {
     {
       id: 'POI_LEVEL_9_1107',
       type: 'symbol',
-      source: levelConfig.addLv9,
+      source: LevelConfig.addLv9,
       'source-layer': 'POI_LEVEL_9',
       layout: {
         'text-field': '{NAME}',

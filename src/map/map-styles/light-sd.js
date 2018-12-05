@@ -13,7 +13,7 @@
  * 面在最底层，其次是线，其次是点；居民区在绿地上面，绿地在水系面上面
  */
 
-import { levelConfig } from 'tuyun-config';
+import { LevelConfig } from 'tuyun-config';
 // import { FontColor } from 'tuyun-utils';
 
 const _ditchVisibleLevel = 14; // 沟和渠道显示等级
@@ -32,7 +32,7 @@ const layers = [
   {
     id: 'GVEGPL', // 记录了绿地
     type: 'fill',
-    source: levelConfig.addLv7,
+    source: LevelConfig.addLv7,
     'source-layer': 'GVEGPL_Merge',
     layout: {},
     paint: {
@@ -45,7 +45,7 @@ const layers = [
   {
     id: 'GHYDPL_7L', // 记录了一些水渠、河沟，水库的面状要素
     type: 'fill',
-    source: levelConfig.addLv7,
+    source: LevelConfig.addLv7,
     'source-layer': 'GHYDPL_Merge', // py是面
     filter: [
       'any',
@@ -63,7 +63,7 @@ const layers = [
   {
     id: 'GHYDPL_OTH', // 记录了一些水渠、河沟，水库的面状要素
     type: 'fill',
-    source: levelConfig.addLv7,
+    source: LevelConfig.addLv7,
     'source-layer': 'GHYDPL_Merge', // py是面
     filter: [
       'all',
@@ -84,7 +84,7 @@ const layers = [
   {
     id: 'GBOULN', // 记录了各个镇的边界，有名字的记录的是省界和岛屿（name不为空）
     type: 'line',
-    source: levelConfig.addLv7,
+    source: LevelConfig.addLv7,
     'source-layer': 'GBOULN', // LN，line的简写
     filter: [
       'any',
@@ -107,7 +107,7 @@ const layers = [
   {
     id: 'GRAILN_bg', // 记录了铁路，底层颜色灰色
     type: 'line',
-    source: levelConfig.addLv7,
+    source: LevelConfig.addLv7,
     'source-layer': 'SD_GRAILN', // LN，line的简写
     layout: {
       'line-cap': 'round',
@@ -121,7 +121,7 @@ const layers = [
   {
     id: 'GRAILN', // 记录了铁路，间隔白色
     type: 'line',
-    source: levelConfig.addLv7,
+    source: LevelConfig.addLv7,
     'source-layer': 'SD_GRAILN', // LN，line的简写
     layout: {
       'line-cap': 'round',
@@ -137,7 +137,7 @@ const layers = [
   {
     id: 'line-grailn-ref', // 做线的基层使用，铁路
     type: 'fill',
-    source: levelConfig.addLv7,
+    source: LevelConfig.addLv7,
     'source-layer': 'empty',
     layout: {},
     paint: {
@@ -147,7 +147,7 @@ const layers = [
   {
     id: 'line-bg-ref', // 做线的背景基层使用
     type: 'fill',
-    source: levelConfig.addLv7,
+    source: LevelConfig.addLv7,
     'source-layer': 'empty',
     layout: {},
     paint: {
@@ -157,7 +157,7 @@ const layers = [
   {
     id: 'line-lv15-ref', // 做线的基层使用
     type: 'fill',
-    source: levelConfig.addLv7,
+    source: LevelConfig.addLv7,
     'source-layer': 'empty',
     layout: {},
     paint: {
@@ -167,7 +167,7 @@ const layers = [
   {
     id: 'line-ref', // 做线的基层使用
     type: 'fill',
-    source: levelConfig.addLv7,
+    source: LevelConfig.addLv7,
     'source-layer': 'empty',
     layout: {},
     paint: {
@@ -177,7 +177,7 @@ const layers = [
   {
     id: 'line-sd-bg-ref', // 做线的背景基层使用
     type: 'fill',
-    source: levelConfig.addLv7,
+    source: LevelConfig.addLv7,
     'source-layer': 'empty',
     layout: {},
     paint: {
@@ -187,7 +187,7 @@ const layers = [
   {
     id: 'line-sd-ref', // 做线的基层使用
     type: 'fill',
-    source: levelConfig.addLv7,
+    source: LevelConfig.addLv7,
     'source-layer': 'empty',
     layout: {},
     paint: {
@@ -197,7 +197,7 @@ const layers = [
   {
     id: 'line-gd-ref', // 做线的基层使用，国道
     type: 'fill',
-    source: levelConfig.addLv7,
+    source: LevelConfig.addLv7,
     'source-layer': 'empty',
     layout: {},
     paint: {
@@ -208,7 +208,7 @@ const layers = [
   {
     id: 'jq-ref', // 做街区的基层使用
     type: 'fill',
-    source: levelConfig.addLv7,
+    source: LevelConfig.addLv7,
     'source-layer': 'empty',
     layout: {},
     paint: {
@@ -218,7 +218,7 @@ const layers = [
   {
     id: '3d-ref', // 做三维建筑的基层使用
     type: 'fill',
-    source: levelConfig.addLv7,
+    source: LevelConfig.addLv7,
     'source-layer': 'empty',
     layout: {},
     paint: {
@@ -232,7 +232,7 @@ const layers = [
   {
     id: 'GHYDPL_7L_NAME',
     type: 'symbol',
-    source: levelConfig.addLv7,
+    source: LevelConfig.addLv7,
     'source-layer': 'GHYDPL_Merge',
     filter: ['==', 'CLASID', '250100'],
     layout: {
@@ -260,7 +260,7 @@ const layers = [
   {
     id: 'symbol-ref', // 做文字的基层使用
     type: 'fill',
-    source: levelConfig.addLv7,
+    source: LevelConfig.addLv7,
     'source-layer': 'POI_LEVEL_7',
     layout: {},
     paint: {
@@ -271,7 +271,7 @@ const layers = [
   {
     id: 'POI_LEVEL7', // POI图层
     type: 'symbol',
-    source: levelConfig.addLv7,
+    source: LevelConfig.addLv7,
     'source-layer': 'POI_LEVEL_7',
     maxzoom: _maxzoom,
     layout: {
@@ -302,7 +302,7 @@ export default {
   name: 'Mapbox',
   metadata: {},
   sources: {
-    [levelConfig.addLv7]: {
+    [LevelConfig.addLv7]: {
       type: 'vector',
       scheme: 'tms',
       tiles: [

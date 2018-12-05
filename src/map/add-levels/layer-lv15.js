@@ -7,7 +7,7 @@
  *
  * 妈耶 800+行，不忍直视 =_= !
  */
-import { levelConfig } from 'tuyun-config';
+import { LevelConfig } from 'tuyun-config';
 import { FontColor } from 'tuyun-utils';
 
 const _visibleLevel = 15;
@@ -23,7 +23,7 @@ const threeLabelLayerId = '3d-ref';
 const style = {
   visibleLevel: _visibleLevel,
   source: {
-    [levelConfig.addLv15]: {
+    [LevelConfig.addLv15]: {
       type: 'vector',
       scheme: 'tms',
       tiles: [
@@ -38,7 +38,7 @@ const style = {
     // {
     //   id: 'GRFCPL', // 记录了一些公司，养殖场，墓地等区域
     //   type: 'fill',
-    //   source: levelConfig.addLv15,
+    //   source: LevelConfig.addLv15,
     //   'source-layer': 'SD_GRFCPL', // py是面
     //   layout: {},
     //   paint: {
@@ -53,7 +53,7 @@ const style = {
     // {
     //   id: 'SD_GHFCLN', // 记录了河流，黄河，隧道等的边界   ====> 没有名称
     //   type: 'symbol',
-    //   source: levelConfig.addLv15,
+    //   source: LevelConfig.addLv15,
     //   'source-layer': 'SD_GHFCLN', // LN，line的简写
     //   layout: {
     //     'line-cap': 'round',
@@ -77,7 +77,7 @@ const style = {
     // {
     //   id: 'SD_GHYDLN', // 记录了一些线性的水渠、河沟 不显示  ======> 不显示是不是不妥 =======> 只显示名称
     //   type: 'symbol',
-    //   source: levelConfig.addLv15,
+    //   source: LevelConfig.addLv15,
     //   'source-layer': 'SD_GHYDLN', // LN，line的简写
     //   layout: {
     //     'line-cap': 'round',
@@ -101,7 +101,7 @@ const style = {
     // {
     //   id: 'SD_GRFCLN', // 记录了长城岭，养殖场等 =====>  NAME 属性为空，暂时注释了
     //   type: 'symbol',
-    //   source: levelConfig.addLv15,
+    //   source: LevelConfig.addLv15,
     //   'source-layer': 'SD_GRFCLN', // LN，line的简写
     //   layout: {
     //     'line-cap': 'round',
@@ -125,7 +125,7 @@ const style = {
     // {
     //   id: 'SD_GTFCLN', // 记录了XX桥，XX通道  ==========> 没有 NAME
     //   type: 'symbol',
-    //   source: levelConfig.addLv15,
+    //   source: LevelConfig.addLv15,
     //   'source-layer': 'SD_GTFCLN', // LN，line的简写
     //   layout: {
     //     'line-cap': 'round',
@@ -150,7 +150,7 @@ const style = {
     {
       id: 'GROALN_other_ZD_bg', // 路网图层（name字段），栈道、内部道路、机耕路、乡村路、小路 + 专用公路、其他公路、村道
       type: 'line',
-      source: levelConfig.addLv15,
+      source: LevelConfig.addLv15,
       filter: [
         'any',
         ['==', 'CLASID', '420400'],
@@ -194,7 +194,7 @@ const style = {
     {
       id: 'GROALN_other_ZD', // 路网图层（name字段），栈道、内部道路、机耕路、乡村路、小路 + 专用公路、其他公路、村道
       type: 'line',
-      source: levelConfig.addLv15,
+      source: LevelConfig.addLv15,
       filter: [
         'any',
         ['==', 'CLASID', '420400'],
@@ -239,7 +239,7 @@ const style = {
     {
       id: 'GROALN_other_CGD_bg', // 路网图层（name字段），次干道、县道
       type: 'line',
-      source: levelConfig.addLv15,
+      source: LevelConfig.addLv15,
       filter: [
         'any',
         ['==', 'CLASID', '420301'],
@@ -270,7 +270,7 @@ const style = {
     {
       id: 'GROALN_other_CGD', // 路网图层（name字段），次干道、县道
       type: 'line',
-      source: levelConfig.addLv15,
+      source: LevelConfig.addLv15,
       filter: [
         'any',
         ['==', 'CLASID', '420301'],
@@ -295,7 +295,7 @@ const style = {
     {
       id: 'GROALN_other_ZGD_bg', // 路网图层（name字段），主干道
       type: 'line',
-      source: levelConfig.addLv15,
+      source: LevelConfig.addLv15,
       filter: ['==', 'CLASID', '430501'],
       'source-layer': 'GROALN_other',
       layout: {
@@ -321,7 +321,7 @@ const style = {
     {
       id: 'GROALN_other_ZGD', // 路网图层（name字段），主干道
       type: 'line',
-      source: levelConfig.addLv15,
+      source: LevelConfig.addLv15,
       filter: ['==', 'CLASID', '430501'],
       'source-layer': 'GROALN_other',
       layout: {
@@ -341,7 +341,7 @@ const style = {
     // {
     //   id: 'GROALN_other_GS_bg', // 路网图层（name字段），高速公路，背景充当描边
     //   type: 'line',
-    //   source: levelConfig.addLv15,
+    //   source: LevelConfig.addLv15,
     //   filter: ['any',
     //     ['==', 'CLASID', '420704'],
     //     ['==', 'CLASID', '420705'],
@@ -372,7 +372,7 @@ const style = {
     // {
     //   id: 'GROALN_other_GS', // 路网图层（name字段），高速公路
     //   type: 'line',
-    //   source: levelConfig.addLv15,
+    //   source: LevelConfig.addLv15,
     //   filter: ['any',
     //     ['==', 'CLASID', '420704'],
     //     ['==', 'CLASID', '420705'],
@@ -404,7 +404,7 @@ const style = {
     {
       id: 'GROALN_other_KSL_bg', // 路网图层（name字段），背景充当描边 快速路，高架路
       type: 'line',
-      source: levelConfig.addLv15,
+      source: LevelConfig.addLv15,
       filter: ['any', ['==', 'CLASID', '430200'], ['==', 'CLASID', '430300']],
       'source-layer': 'GROALN_other',
       layout: {
@@ -430,7 +430,7 @@ const style = {
     {
       id: 'GROALN_other_KSL', // 路网图层（name字段） 快速路，高架路
       type: 'line',
-      source: levelConfig.addLv15,
+      source: LevelConfig.addLv15,
       filter: ['any', ['==', 'CLASID', '430200'], ['==', 'CLASID', '430300']],
       'source-layer': 'GROALN_other',
       layout: {
@@ -449,7 +449,7 @@ const style = {
     {
       id: 'GROALN_other_NAME',
       type: 'symbol',
-      source: levelConfig.addLv15,
+      source: LevelConfig.addLv15,
       'source-layer': 'GROALN_other', // LN，line的简写
       filter: ['!=', 'CLASID', '430503'],
       layout: {
@@ -477,7 +477,7 @@ const style = {
     {
       id: 'SD_GHFCPT', // 此图层记录了一些水站和XX闸
       type: 'symbol',
-      source: levelConfig.addLv15,
+      source: LevelConfig.addLv15,
       'source-layer': 'SD_GHFCPT',
       layout: {
         'text-field': '{NAME}',
@@ -504,7 +504,7 @@ const style = {
     // {
     //   id: 'GHYDPT', // 记录一些井和XX泉  =======> 貌似没有数据 不对，是 NAME 属性为空，但是数据还是有的
     //   type: 'symbol',
-    //   source: levelConfig.addLv15,
+    //   source: LevelConfig.addLv15,
     //   'source-layer': 'SD_GHYDPT',
     //   layout: {
     //     'text-field': '{NAME}',
@@ -530,7 +530,7 @@ const style = {
     // {
     //   id: 'GNPNPT', // 记录了XX山和水库
     //   type: 'symbol',
-    //   source: levelConfig.addLv15,
+    //   source: LevelConfig.addLv15,
     //   'source-layer': 'SD_GNPNPT',
     //   layout: {
     //     'text-field': '{NAME}',
@@ -554,7 +554,7 @@ const style = {
     // {
     //   id: 'SD_GRFCPT', // 记录了一些学校，自来水厂，服务站，输油站，液化气站，遗址，陵墓，寺庙，游乐场等  ======> NAME属性为空
     //   type: 'symbol',
-    //   source: levelConfig.addLv15,
+    //   source: LevelConfig.addLv15,
     //   'source-layer': 'SD_GRFCPT',
     //   layout: {
     //     'text-field': '{NAME}',
@@ -580,7 +580,7 @@ const style = {
     // {
     //   id: 'GTFCPT', // 记录了一些学校，自来水厂，服务站，输油站，液化气站，遗址，陵墓，寺庙，游乐场等   =======> 没有名称属性 NAME
     //   type: 'symbol',
-    //   source: levelConfig.addLv15,
+    //   source: LevelConfig.addLv15,
     //   'source-layer': 'SD_GTFCPT',
     //   layout: {
     //     'text-field': '{NAME}',
@@ -607,7 +607,7 @@ const style = {
     {
       id: 'SD_GAGNPT', // 此图层记录了村庄POI
       type: 'symbol',
-      source: levelConfig.addLv15,
+      source: LevelConfig.addLv15,
       'source-layer': 'SD_GAGNPT',
       layout: {
         'text-field': '{NAME}',
@@ -636,7 +636,7 @@ const style = {
     {
       id: 'POI_LEVEL_15_1108',
       type: 'symbol',
-      source: levelConfig.addLv15,
+      source: LevelConfig.addLv15,
       'source-layer': 'POI_LEVEL_15',
       layout: {
         'text-field': '{NAME}',
@@ -664,7 +664,7 @@ const style = {
     // 街区
     // {
     //   id: 'GRESPL_1_jq',
-    //   source: levelConfig.addLv15,
+    //   source: LevelConfig.addLv15,
     //   'source-layer': 'GRESPL_Merge_1',
     //   type: 'fill',
     //   minzoom: _visibleLevel,
@@ -678,7 +678,7 @@ const style = {
     // },
     // {
     //   id: 'GRESPL_2_jq',
-    //   source: levelConfig.addLv15,
+    //   source: LevelConfig.addLv15,
     //   'source-layer': 'GRESPL_Merge_2',
     //   type: 'fill',
     //   minzoom: _visibleLevel,
@@ -692,7 +692,7 @@ const style = {
     // },
     // {
     //   id: 'GRESPL_3_jq',
-    //   source: levelConfig.addLv15,
+    //   source: LevelConfig.addLv15,
     //   'source-layer': 'GRESPL_Merge_3',
     //   type: 'fill',
     //   minzoom: _visibleLevel,
@@ -709,7 +709,7 @@ const style = {
      * */
     {
       id: 'GRESPL_1_3D',
-      source: levelConfig.addLv15,
+      source: LevelConfig.addLv15,
       'source-layer': 'GRESPL_Merge_1',
       type: 'fill-extrusion',
       minzoom: _visibleLevel,
@@ -732,7 +732,7 @@ const style = {
     },
     {
       id: 'GRESPL_2_3D',
-      source: levelConfig.addLv15,
+      source: LevelConfig.addLv15,
       'source-layer': 'GRESPL_Merge_2',
       type: 'fill-extrusion',
       minzoom: _visibleLevel,
@@ -755,7 +755,7 @@ const style = {
     },
     {
       id: 'GRESPL_3_3D',
-      source: levelConfig.addLv15,
+      source: LevelConfig.addLv15,
       'source-layer': 'GRESPL_Merge_3',
       type: 'fill-extrusion',
       minzoom: _visibleLevel,

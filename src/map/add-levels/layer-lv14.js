@@ -1,7 +1,7 @@
 /**
  * @author sl 2019-01-02
  */
-import { levelConfig } from 'tuyun-config';
+import { LevelConfig } from 'tuyun-config';
 import { FontColor } from 'tuyun-utils';
 
 const _visibleLevel = 14;
@@ -10,7 +10,7 @@ const lineLabelLayerId = 'GRAILN';
 const style = {
   visibleLevel: _visibleLevel,
   source: {
-    [levelConfig.addLv14]: {
+    [LevelConfig.addLv14]: {
       type: 'vector',
       scheme: 'tms',
       tiles: [
@@ -23,7 +23,7 @@ const style = {
     // {
     //   "id": "zx_bg",
     //   type: 'line',
-    //   source: levelConfig.addLv14,
+    //   source: LevelConfig.addLv14,
     //   'source-layer': 'zxGDB',
     //   minzoom: _visibleLevel,
     //   layout: {
@@ -58,7 +58,7 @@ const style = {
     // }, {
     //   id: 'zx', // 路网图层（name字段），县道
     //   type: 'line',
-    //   source: levelConfig.addLv14,
+    //   source: LevelConfig.addLv14,
     //   'source-layer': 'zxGDB',
     //   minzoom: _visibleLevel,
     //   layout: {
@@ -94,7 +94,7 @@ const style = {
     // {
     //   id: 'zx_name',
     //   type: 'symbol',
-    //   source: levelConfig.addLv12,
+    //   source: LevelConfig.addLv12,
     //   'source-layer': 'zxGDB',
     //   minzoom: _visibleLevel,
     //   layout: {
@@ -123,7 +123,7 @@ const style = {
     {
       id: 'POI_LEVEL_14',
       type: 'symbol',
-      source: levelConfig.addLv14,
+      source: LevelConfig.addLv14,
       'source-layer': 'POI_LEVEL_14',
       layout: {
         'text-field': '{NAME}',

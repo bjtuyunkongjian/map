@@ -1,7 +1,7 @@
 /**
  * @author sl 2019-01-02
  */
-import { levelConfig } from 'tuyun-config';
+import { LevelConfig } from 'tuyun-config';
 import { FontColor } from 'tuyun-utils';
 
 const _visibleLevel = 12;
@@ -10,7 +10,7 @@ const lineLabelLayerId = 'line-grailn-ref';
 const style = {
   visibleLevel: _visibleLevel,
   source: {
-    [levelConfig.addLv12]: {
+    [LevelConfig.addLv12]: {
       type: 'vector',
       scheme: 'tms',
       tiles: [
@@ -23,7 +23,7 @@ const style = {
     // {
     //   id: 'GRAILN_bg_LV12', // 记录了铁路，底层颜色灰色
     //   type: 'line',
-    //   source: levelConfig.addLv12,
+    //   source: LevelConfig.addLv12,
     //   'source-layer': 'SD_GRAILN', // LN，line的简写
     //   layout: {
     //     'line-cap': 'round',
@@ -38,7 +38,7 @@ const style = {
     // {
     //   id: 'GRAILN_LV12', // 记录了铁路，间隔白色
     //   type: 'line',
-    //   source: levelConfig.addLv12,
+    //   source: LevelConfig.addLv12,
     //   'source-layer': 'SD_GRAILN', // LN，line的简写
     //   layout: {
     //     'line-cap': 'round',
@@ -54,7 +54,7 @@ const style = {
     // {
     //   id: 'GRAILN_LV12_NAME', // 记录了铁路，间隔白色
     //   type: 'symbol',
-    //   source: levelConfig.addLv12,
+    //   source: LevelConfig.addLv12,
     //   'source-layer': 'SD_GRAILN', // LN，line的简写
     //   layout: {
     //     'text-field': '{NAME}',
@@ -81,7 +81,7 @@ const style = {
     {
       id: 'POI_LEVEL_12',
       type: 'symbol',
-      source: levelConfig.addLv12,
+      source: LevelConfig.addLv12,
       'source-layer': 'POI_LEVEL_12',
       layout: {
         'text-field': '{NAME}',
