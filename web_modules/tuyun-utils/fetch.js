@@ -44,7 +44,7 @@ export const FetchRequest = async function({ url, method = 'GET', body = {} }) {
     } catch (err) {
       // 永远不会到达这~
       clearTimeout(_timeoutId); // 报错了，清除定时器
-      TuyunMessage.error(`前端请求错误，url：${url}`);
+      __DEV__ && TuyunMessage.error(`前端请求错误，url：${url}`);
       resolve({
         res: null,
         err: err
