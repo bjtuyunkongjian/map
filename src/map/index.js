@@ -10,8 +10,8 @@ import {
 } from 'tuyun-utils';
 import React, { Component } from 'react';
 
-import baseStyle from './map-styles/light-sd';
-import addLevels from './add-levels';
+import BaseStyle from './map-styles/light-sd';
+import AddLevels from './add-levels';
 // import addGeojson from './add-geojson';
 // import gaoguoGDB from './geojson/gaoguoGDB_cx';
 
@@ -45,7 +45,7 @@ export default class MapBoxDemo extends Component {
     window._MAP_ = this.map = new mapboxgl.Map({
       hash: true,
       container: this.mapContainer,
-      style: baseStyle,
+      style: BaseStyle,
       showTileBoundaries: true,
       center: [117.0856, 36.6754],
       zoom: 11,
@@ -98,7 +98,7 @@ export default class MapBoxDemo extends Component {
   }
 
   _addSourceFunc() {
-    for (let item of addLevels) {
+    for (let item of AddLevels) {
       AddLevel(this.map, item);
     }
   }
