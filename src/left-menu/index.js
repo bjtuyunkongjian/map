@@ -49,7 +49,7 @@ export default class LeftMenu extends Component {
             {item.name}
             <span className="arrow arrow-right" />
             {index === selectedMenu ? optList : null}
-            <button className="control">
+            <button className="control" onClick={e => this._cutMenu(e)}>
               <span className="aspect-left" />
             </button>
           </div>
@@ -57,6 +57,8 @@ export default class LeftMenu extends Component {
       </div>
     );
   }
+  _cutMenu = e => {};
+
   _selectIndex = (e, index) => {
     e.stopPropagation();
     const { selectedMenu } = this.state;
