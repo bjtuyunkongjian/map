@@ -14,10 +14,9 @@
  */
 
 import { LevelConfig } from 'tuyun-config';
-// import { FontColor } from 'tuyun-utils';
 
-const _ditchVisibleLevel = 14; // 沟和渠道显示等级
-const _maxzoom = 12;
+const ditchVisibleLevel = 14; // 沟和渠道显示等级
+const maxzoom = 12;
 
 const layers = [
   {
@@ -72,7 +71,7 @@ const layers = [
       ['!=', 'CLASID', '240101'],
       ['!=', 'CLASID', '250100']
     ],
-    minzoom: _ditchVisibleLevel,
+    minzoom: ditchVisibleLevel,
     layout: {},
     paint: {
       'fill-color': '#b3d8ff',
@@ -273,7 +272,7 @@ const layers = [
     type: 'symbol',
     source: LevelConfig.addLv7,
     'source-layer': 'POI_LEVEL_7',
-    maxzoom: _maxzoom,
+    maxzoom: maxzoom,
     layout: {
       'text-field': '{NAME}',
       visibility: 'visible',

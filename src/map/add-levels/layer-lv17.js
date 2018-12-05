@@ -1,11 +1,11 @@
 import { LevelConfig } from 'tuyun-config';
 import { FontColor } from 'tuyun-utils';
 
-const _visibleLevel = 17;
+const visibleLevel = 17;
 const symbolLabelLayerId = 'symbol-ref';
 
 const style = {
-  visibleLevel: _visibleLevel,
+  visibleLevel: visibleLevel,
   source: {
     [LevelConfig.addLv17]: {
       type: 'vector',
@@ -13,7 +13,7 @@ const style = {
       tiles: [
         'http://116.62.186.152:8080/geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_17L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf'
       ],
-      minzoom: _visibleLevel
+      minzoom: visibleLevel
     }
   },
   layers: [

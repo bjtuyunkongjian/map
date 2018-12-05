@@ -4,12 +4,12 @@
  */
 import { LevelConfig } from 'tuyun-config';
 
-const _visibleLevel = 8;
+const visibleLevel = 8;
 const symbolLabelLayerId = 'symbol-ref';
-const _maxzoom = 10;
+const maxzoom = 10;
 
 const style = {
-  visibleLevel: _visibleLevel,
+  visibleLevel: visibleLevel,
   source: {
     [LevelConfig.addLv8]: {
       type: 'vector',
@@ -17,7 +17,7 @@ const style = {
       tiles: [
         'http://116.62.186.152:8080/geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_8L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf'
       ],
-      minzoom: _visibleLevel
+      minzoom: visibleLevel
     }
   },
   layers: [
@@ -26,7 +26,7 @@ const style = {
       type: 'symbol',
       source: LevelConfig.addLv8,
       'source-layer': 'POI_LEVEL_8',
-      maxzoom: _maxzoom,
+      maxzoom: maxzoom,
       layout: {
         'text-field': '{NAME}',
         visibility: 'visible',

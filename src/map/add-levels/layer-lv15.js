@@ -10,18 +10,18 @@
 import { LevelConfig } from 'tuyun-config';
 import { FontColor } from 'tuyun-utils';
 
-const _visibleLevel = 15;
+const visibleLevel = 15;
 const symbolLabelLayerId = 'symbol-ref';
 const lineLabelLayerId = 'line-lv15-ref';
 const lineBgLabelLayerId = 'line-bg-ref';
 const lineLabelLayerId_sd = 'line-sd-ref';
 const lineBgLabelLayerId_sd = 'line-sd-bg-ref';
 
-const jqLabelLayerId = 'jq-ref';
+// const jqLabelLayerId = 'jq-ref';
 const threeLabelLayerId = '3d-ref';
 
 const style = {
-  visibleLevel: _visibleLevel,
+  visibleLevel: visibleLevel,
   source: {
     [LevelConfig.addLv15]: {
       type: 'vector',
@@ -29,7 +29,7 @@ const style = {
       tiles: [
         'http://116.62.186.152:8080/geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_15L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf'
       ],
-      minzoom: _visibleLevel
+      minzoom: visibleLevel
     }
   },
   layers: [
@@ -667,7 +667,6 @@ const style = {
     //   source: LevelConfig.addLv15,
     //   'source-layer': 'GRESPL_Merge_1',
     //   type: 'fill',
-    //   minzoom: _visibleLevel,
     //   filter: ['!=', 'CLASID', '310200'],
     //   paint: {
     //     'fill-color': '#ccc',
@@ -681,7 +680,6 @@ const style = {
     //   source: LevelConfig.addLv15,
     //   'source-layer': 'GRESPL_Merge_2',
     //   type: 'fill',
-    //   minzoom: _visibleLevel,
     //   filter: ['==', 'CLASID', '310200'],
     //   paint: {
     //     'fill-color': '#ccc',
@@ -695,7 +693,6 @@ const style = {
     //   source: LevelConfig.addLv15,
     //   'source-layer': 'GRESPL_Merge_3',
     //   type: 'fill',
-    //   minzoom: _visibleLevel,
     //   filter: ['==', 'CLASID', '310200'],
     //   paint: {
     //     'fill-color': '#ccc',
@@ -712,7 +709,6 @@ const style = {
       source: LevelConfig.addLv15,
       'source-layer': 'GRESPL_Merge_1',
       type: 'fill-extrusion',
-      minzoom: _visibleLevel,
       filter: ['!=', 'CLASID', '310200'],
       paint: {
         'fill-extrusion-color': '#dadada',
@@ -735,7 +731,6 @@ const style = {
       source: LevelConfig.addLv15,
       'source-layer': 'GRESPL_Merge_2',
       type: 'fill-extrusion',
-      minzoom: _visibleLevel,
       filter: ['!=', 'CLASID', '310200'],
       paint: {
         'fill-extrusion-color': '#dadada',
@@ -758,7 +753,6 @@ const style = {
       source: LevelConfig.addLv15,
       'source-layer': 'GRESPL_Merge_3',
       type: 'fill-extrusion',
-      minzoom: _visibleLevel,
       filter: ['!=', 'CLASID', '310200'],
       paint: {
         'fill-extrusion-color': '#dadada',

@@ -13,10 +13,10 @@ import LayerLv16 from './layer-lv16';
 import LayerLv17 from './layer-lv17';
 import LayerLv18 from './layer-lv18';
 import LayerLv19 from './layer-lv19';
-import road from './road';
+import Road from './road';
 
 const addLvs = [
-  road,
+  Road,
   LayerLv8,
   LayerLv9,
   LayerLv10,
