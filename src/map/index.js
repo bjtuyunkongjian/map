@@ -17,7 +17,7 @@ import AddLevels from './add-levels';
 
 // import { TuyunMessage, TuyunTips } from 'tuyun-kit';
 export default class MapBoxDemo extends Component {
-  _boundsArr = [[], []];
+  // _boundsArr = [[], []];
 
   componentDidMount() {
     this._init();
@@ -105,19 +105,19 @@ export default class MapBoxDemo extends Component {
   // 将国道、省道单独开来，临时处理
   // async _loadRoadSource() {
   //   const _zoom = this.map.getZoom();
-  //   const bounds = this.map.getBounds();
-  //   const _halfLngDiff = (bounds._ne.lng - bounds._sw.lng) / 2;
-  //   const _haloLatDiff = (bounds._ne.lat - bounds._sw.lat) / 2;
+  //   const _bounds = this.map.getBounds();
+  //   const _halfLngDiff = (_bounds._ne.lng - _bounds._sw.lng) / 2;
+  //   const _haloLatDiff = (_bounds._ne.lat - _bounds._sw.lat) / 2;
 
   //   this._boundsArr = [
-  //     [bounds._sw.lng - _halfLngDiff, bounds._ne.lat + _haloLatDiff], // 左上角
-  //     [bounds._ne.lng + _halfLngDiff, bounds._sw.lat - _haloLatDiff] // 右下角
+  //     [_bounds._sw.lng - _halfLngDiff, _bounds._ne.lat + _haloLatDiff], // 左上角
+  //     [_bounds._ne.lng + _halfLngDiff, _bounds._sw.lat - _haloLatDiff] // 右下角
   //   ];
   //   const { res } = await FetchRequest({
   //     url: 'road',
   //     method: 'POST',
   //     body: {
-  //       bounds: this._boundsArr,
+  //       _bounds: this._boundsArr,
   //       zoom: _zoom
   //     }
   //   });
