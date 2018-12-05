@@ -47,6 +47,34 @@
 
 # 编码规范
 
+## 命名规范
+
+### 文件/文件夹
+
+1. 文件和文件夹以中划线的形式命名，如：file-folder，file-folder.js
+
+### JS
+
+1. 私有变量或者局部变量前面加 \_ ，后面以小驼峰格式命名，如：\_privateVariable
+2. 对象属性用小驼峰格式命名，如：
+
+```
+  const a = {
+    attrName1: 'attrValue1', // 属性名用 小驼峰格式命名
+    attrName2: 'attrValue2',
+    ...
+  }
+```
+
+3. 在一个 js 文件中的全局变量用小驼峰格式命名
+4. 导出的变量用大驼峰格式命名
+5. 挂载到 window 对象上的属性名大写，两侧加上 \_，如 window.\_GLOBAL\_ = xxx
+6. 环境变量大写，两侧加上\_\_，如：\_\_DEV\_\_
+
+### css/less
+
+1. css/less 用中划线形式命名，如：\.css-less
+
 ## JSX/JS 部分
 
 - 对所有的引用使用 const -变量用 let 定义，(将 const 和 let 分类)
@@ -86,12 +114,10 @@
 - eg:
 
 ```
-  .a{
+  .a {
     width: 10px;
     border: 2px solid #fff;
   }
 ```
 
 - 使用行注释代替块注释，注释独占一行
-
-## 命名规范
