@@ -1,29 +1,29 @@
 /**
  * @author sl 2019-01-02
  */
-import { levelConfig } from 'tuyun-config';
+import { LevelConfig } from 'tuyun-config';
 import { FontColor } from 'tuyun-utils';
 
-const _visibleLevel = 10;
+const visibleLevel = 10;
 const symbolLabelLayerId = 'symbol-ref';
 
 const style = {
-  visibleLevel: _visibleLevel,
+  visibleLevel: visibleLevel,
   source: {
-    [levelConfig.addLv10]: {
+    [LevelConfig.addLv10]: {
       type: 'vector',
       scheme: 'tms',
       tiles: [
         'http://116.62.186.152:8080/geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_10L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf'
       ],
-      minzoom: _visibleLevel
+      minzoom: visibleLevel
     }
   },
   layers: [
     {
       id: 'POI_LEVEL_10',
       type: 'symbol',
-      source: levelConfig.addLv10,
+      source: LevelConfig.addLv10,
       'source-layer': 'POI_LEVEL_10',
       layout: {
         'text-field': '{NAME}',

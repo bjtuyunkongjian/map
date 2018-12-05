@@ -1,4 +1,4 @@
 let uid = Date.now();
-export default function createUid() {
+export default function CreateUid() {
   return (uid++).toString(36);
 }

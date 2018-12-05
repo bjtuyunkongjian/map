@@ -1,4 +1,4 @@
-export default function(data) {
+export default function Max(data) {
   const _dataType = Object.prototype.toString.call(data);
   if (_dataType === '[object Array]') {
     return Math.max(...data);

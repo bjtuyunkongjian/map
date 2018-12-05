@@ -1,10 +1,10 @@
 {
   "name": "mapbox-demo",
-  "version": "2.0.0",
+  "version": "1.1.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --mode development --open",
+    "start": "webpack-dev-server --mode development --host 0.0.0.0",
     "build": "webpack --mode production",
     "clean": "rm -rf ./dist/*",
     "deploy": "node ./bin/www"
@@ -21,6 +21,7 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
+    "babel-runtime": "^6.26.0",
     "css-loader": "^1.0.1",
     "html-webpack-plugin": "^3.2.0",
     "inquirer": "^6.2.0",
@@ -33,7 +34,6 @@
     "webpack-dev-server": "^3.1.6"
   },
   "dependencies": {
-    "babel-runtime": "^6.26.0",
     "mapbox-gl": "^0.48.0",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",

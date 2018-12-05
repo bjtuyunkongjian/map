@@ -1,29 +1,29 @@
 /*
  16级 内容有：区级政府，POI详情,小区，小学，加油加气站，电器超市，百货商场，农贸市场等共11部分
 */
-import { levelConfig } from 'tuyun-config';
+import { LevelConfig } from 'tuyun-config';
 import { FontColor } from 'tuyun-utils';
 
-const _visibleLevel = 16;
+const visibleLevel = 16;
 const symbolLabelLayerId = 'symbol-ref';
 
 const style = {
-  visibleLevel: _visibleLevel,
+  visibleLevel: visibleLevel,
   source: {
-    [levelConfig.addLv16]: {
+    [LevelConfig.addLv16]: {
       type: 'vector',
       scheme: 'tms',
       tiles: [
         'http://116.62.186.152:8080/geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_16L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf'
       ],
-      minzoom: _visibleLevel
+      minzoom: visibleLevel
     }
   },
   layers: [
     {
       id: 'POI_LEVEL_16_1108',
       type: 'symbol',
-      source: levelConfig.addLv16,
+      source: LevelConfig.addLv16,
       'source-layer': 'POI_LEVEL_16',
       layout: {
         'text-field': '{NAME}',
