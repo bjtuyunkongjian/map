@@ -11,7 +11,3 @@ export const FetchXXX = async () => {
   });
   return { res, err };
 };
-
-export const fetchGiftCardSetting = () => {
-  return Api.get('/giftCard/isOpen');
-};
