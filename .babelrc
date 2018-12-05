@@ -1,6 +1,7 @@
 {
   "presets": ["env", "react", "es2015"],
   "plugins": [
+    "minify-dead-code-elimination",
     "transform-async-to-generator",
     "transform-runtime",
     "transform-class-properties"
