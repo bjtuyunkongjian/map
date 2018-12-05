@@ -5,7 +5,7 @@ import { FetchRequest } from 'tuyun-utils';
 
 export const FetchXXX = async () => {
   const { res, err } = await FetchRequest({
-    url: 'data',
+    url: 'test',
     method: 'POST',
     body: {}
   });
