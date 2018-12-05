@@ -56,9 +56,9 @@ export default class MapBoxDemo extends Component {
       localIdeographFontFamily: "'黑体'"
     });
     // 点击地图在控制台打出经纬度
-    // this.map.on("mouseup", function(e) {
-    //   console.log(e.lngLat);
-    // });
+    this.map.on('mouseup', function(e) {
+      console.log(e.lngLat);
+    });
 
     this.map.on('load', () => {
       this.zoom = Math.ceil(this.map.getZoom()); // 设置起初缩放等级

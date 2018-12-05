@@ -12,7 +12,10 @@ import { FiEdit } from 'react-icons/fi';
 import { FiUsers } from 'react-icons/fi';
 import { FiCamera } from 'react-icons/fi';
 import { FiFileText } from 'react-icons/fi';
+
 import { MdDriveEta } from 'react-icons/md';
+import { FetchString } from './webapi';
+
 export default class LeftMenu extends Component {
   state = {
     selectedMenu: -1,
@@ -30,6 +33,7 @@ export default class LeftMenu extends Component {
     _MAP_.on('mouseup', () => {
       this.setState({ selectedMenu: -1 });
     });
+    this._init();
   }
   render() {
     const { selectedMenu } = this.state;
@@ -57,6 +61,29 @@ export default class LeftMenu extends Component {
       </div>
     );
   }
+
+  _init = async () => {
+    const _bounds = _MAP_.getBounds();
+    const _param = {
+      test: 400,
+      points: [
+        _bounds._sw.lng,
+        _bounds._ne.lat,
+
+        // _bounds._sw.lng,
+        // _bounds._sw.lat,
+
+        _bounds._ne.lng,
+        _bounds._sw.lat
+
+        // _bounds._ne.lng,
+        // _bounds._ne.lat
+      ]
+    };
+    console.log(JSON.stringify(_param));
+    const { res, err } = await FetchString(_param);
+    console.log(res, err);
+  };
   _cutMenu = e => {};
 
   _selectIndex = (e, index) => {

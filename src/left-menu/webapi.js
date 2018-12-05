@@ -3,11 +3,11 @@
  */
 import { FetchRequest } from 'tuyun-utils';
 
-export const FetchXXX = async () => {
+export const FetchString = async body => {
   const { res, err } = await FetchRequest({
-    url: 'test',
+    url: 'string',
     method: 'POST',
-    body: {}
+    body
   });
   return { res, err };
 };
