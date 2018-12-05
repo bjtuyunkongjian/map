@@ -3,5 +3,7 @@ export default {
   port: '8080',
   geojsonHost: `http://${window.location.hostname}:3000/`,
   geojsonPort: '3000',
-  HTTP_TIME_OUT: 5
-}
+  bffHost: `http://${window.location.hostname}`,
+  bffPort: '3000',
+  httpTimeOut: 5
+};

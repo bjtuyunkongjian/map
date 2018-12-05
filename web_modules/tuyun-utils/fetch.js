@@ -26,7 +26,7 @@ export const FetchRequest = async function({ url, method, body = {} }) {
         err: 'timeout'
       });
     });
-  }, CONFIG.HTTP_TIME_OUT * 1000);
+  }, CONFIG.httpTimeOut * 1000);
 
   try {
     const response = await fetch(CONFIG.geojsonHost + url, request);
