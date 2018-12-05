@@ -3,6 +3,7 @@
  */
 import { levelConfig } from 'tuyun-config';
 import { FontColor } from 'tuyun-utils';
+import ZaDao from './road-zadao';
 
 const _visibleLevel = 13;
 const symbolLabelLayerId = 'symbol-ref';
@@ -20,6 +21,7 @@ const style = {
     }
   },
   layers: [
+    ...ZaDao,
     {
       id: 'POI_LEVEL_13',
       type: 'symbol',

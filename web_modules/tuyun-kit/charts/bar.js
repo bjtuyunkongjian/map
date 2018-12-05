@@ -36,7 +36,9 @@ export default class Bar extends Component {
       { label: '擎天柱', value: 'qingtianzhu' },
       { label: '大黄蜂', value: 'dahuangfeng' },
       { label: '可达鸭', value: 'kedaya' },
-      { label: '小智', value: 'xiaozhi' }
+      { label: '小智', value: 'xiaozhi' },
+      { label: '小智障', value: 'xiaozhizhang' },
+      { label: '绿巨人', value: 'lvjuren' }
     ],
     xLabel: {
       fontSize: 12,
@@ -46,7 +48,8 @@ export default class Bar extends Component {
     // 对应的渐变色
     xAxisGradient: {
       dijia: ['#ff0', '#0ff'], // 0 表示 topColor， 1 表示 bottomColor
-      qingtianzhu: []
+      qingtianzhu: [],
+      xiaozhizhang: ['lightgreen', 'lightblue']
     },
     // y 坐标轴
     yAxis: {},
@@ -56,7 +59,8 @@ export default class Bar extends Component {
       qingtianzhu: 20,
       dahuangfeng: 15,
       kedaya: 1,
-      xiaozhi: 1.8
+      xiaozhi: 1.8,
+      xiaozhizhang: 1.6
     }
   };
 
@@ -90,13 +94,13 @@ export default class Bar extends Component {
       return { label: item.label, value: item.value, count: data[item.value] };
     });
     return (
-      <div style={{ position: 'relative', width, height, overflow: 'hidden' }}>
+      <div style={{ position: 'relative', width, height }}>
         <canvas ref={_el => this._renderCanvas(_el)} />
         <BarPrompt
           padding={padding}
           width={width}
-          top={_titleH}
-          height={height - _titleH}
+          height={height}
+          chartTop={_titleH}
           data={_data}
         />
       </div>
@@ -217,7 +221,8 @@ export default class Bar extends Component {
       // 绘制属性
       const _xStart =
         index * _xAxisCellW + (_xAxisCellW - _barCellW) / 2 + padding.left;
-      const _xEnd = index * _xAxisCellW + (_xAxisCellW + _barCellW) / 2;
+      const _xEnd =
+        index * _xAxisCellW + (_xAxisCellW + _barCellW) / 2 + padding.left;
       const _yStart = (_y / _max) * this._chartH;
       const _yEnd = 0;
       const _topColor = _gradient[0] || '#f00';

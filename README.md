@@ -47,25 +47,41 @@
 
 # 编码规范
 
-#### HTML 部分
+## 命名规范
+
+### 文件/文件夹
+
+1. 文件和文件夹以中划线的形式命名，如：file-folder，file-folder.js
+
+### JS
+
+1. 私有变量或者局部变量前面加 \_ ，后面以小驼峰格式命名，如：\_privateVariable
+2. 对象属性用小驼峰格式命名，如：
+
+```
+  const a = {
+    attrName1: 'attrValue1', // 属性名用 小驼峰格式命名
+    attrName2: 'attrValue2',
+    ...
+  }
+```
+
+3. 在一个 js 文件中的全局变量用小驼峰格式命名
+4. 导出的变量用大驼峰格式命名
+5. 挂载到 window 对象上的属性名大写，两侧加上 \_（单下划线），如 window\.\_GLOBAL\_ = xxx
+6. 环境变量大写，两侧加上\_\_（双下划线），如：\_\_DEV\_\_
+
+### css/less
+
+1. css/less 用中划线形式命名，如：\.css-less
+
+## JSX/JS 部分
 
 - 对所有的引用使用 const -变量用 let 定义，(将 const 和 let 分类)
-- 字面量创建对象 const item = {} const items=[]
+- 字面量创建对象 const item = {} const items = []
 - 不使用保留字作为键值，使用同义词替换需要使用的保留字
-- 对象方法简写 addValue(){}
+- 对象方法简写 addValue() {}
 - 使用函数声明代替函数表达式，在对象属性声明前把简写的属性分组
-
-#### 数组部分
-
-- 向数组添加元素时，使用 Array.push 替代直接赋值
-  eg:const a=[]; a,push(''asdfghj)
-- 使用拓展运算符...复制数组
-  eg:const items=[...items];
-- 使用 Array.from 把一个类数组对象转换成数组
-  eg:const b = Array.from(a);
-- 使用解构存取和使用多属性对象
-
-#### JSX 部分
 
 - 不在非函数代码块(if,while 等)声明函数并赋值给一个变量
 - 使用函数表达式(传递一个匿名函数)，使用箭头函数符号
@@ -77,7 +93,17 @@
 - Tags 标签: 对于没有子元素的标签来说总是自己关闭标签, 如果模块有多行的属性， 关闭标签时新建一行.
 - 函数：当在 render() 里使用事件处理方法时，提前在构造函数里把 this 绑定上去.
 
-#### css 部分
+## 数组部分
+
+- 向数组添加元素时，使用 Array.push 替代直接赋值
+  eg:const a=[]; a,push(''asdfghj)
+- 使用拓展运算符...复制数组
+  eg:const items=[...items];
+- 使用 Array.from 把一个类数组对象转换成数组
+  eg:const b = Array.from(a);
+- 使用解构存取和使用多属性对象
+
+## css 部分
 
 - 尽量不要使用 id 选择器
 - 在一个规则声明中应用了多个选择器时，每个选择器独占一行。
@@ -85,8 +111,13 @@
 - 在属性的冒号 : 后面加上一个空格，前面不加空格。
 - 规则声明的右大括号 } 独占一行。
 - 规则声明之间用空行分隔开。
-- eg: .a{
-  width: 10px;
-  border: 2px solid #fff;
+- eg:
+
+```
+  .a {
+    width: 10px;
+    border: 2px solid #fff;
   }
+```
+
 - 使用行注释代替块注释，注释独占一行

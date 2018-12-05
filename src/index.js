@@ -6,7 +6,7 @@ import React, { Component } from 'react';
 import ReactDom from 'react-dom';
 
 import '../style/index.less';
-import Map from './map';
+import MapDemo from './map';
 import TopNav from './top-nav';
 import Restore from './restore';
 import LeftMenu from './left-menu';
@@ -24,7 +24,7 @@ class MapApp extends Component {
 
     return (
       <div className="map-app">
-        <Map />
+        <MapDemo />
         <TopNav />
         <Restore />
         <LeftMenu />
