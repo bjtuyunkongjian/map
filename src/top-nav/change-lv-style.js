@@ -14,6 +14,9 @@ export const ChangeLvStyle = newStyle => {
   for (let item of LevelStyles) {
     for (let layer of item.layers) {
       if (layer.id === id) {
+        if (!layer[prop]) {
+          layer[prop] = {};
+        }
         layer[prop][typeName] = typeVal;
       }
     }
