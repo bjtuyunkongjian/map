@@ -13,7 +13,7 @@
  * 面在最底层，其次是线，其次是点；居民区在绿地上面，绿地在水系面上面
  */
 
-import { LevelConfig } from 'tuyun-config';
+import { LevelConfig, BaseConfig } from 'tuyun-config';
 
 const ditchVisibleLevel = 14; // 沟和渠道显示等级
 const maxzoom = 12;
@@ -305,7 +305,9 @@ export default {
       type: 'vector',
       scheme: 'tms',
       tiles: [
-        'http://116.62.186.152:8080/geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_7L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf'
+        `${
+          BaseConfig.geoserverHost
+        }geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_7L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`
       ]
     }
   },
