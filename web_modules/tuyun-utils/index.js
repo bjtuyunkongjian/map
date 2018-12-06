@@ -1,4 +1,4 @@
-import AddLevel from './AddLevel';
+import AddLevel from './add-level';
 import RegRgb from './reg-rgb';
 import CreateUid from './create-uid';
 import IsEmpty from './is-empty';
