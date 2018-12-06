@@ -9,6 +9,7 @@ import Cgd from './road-cgd';
 import XiangDao from './road-xiangdao';
 import Zx from './road-zx';
 import Other from './road-other';
+import { LevelConfig, BaseConfig } from 'tuyun-config';
 
 const visibleLevel = 7;
 
@@ -19,7 +20,9 @@ const style = {
       type: 'vector',
       scheme: 'tms',
       tiles: [
-        `http://116.62.186.152:12808/originMapServer/string?test=200&type=tms&zoom={z}&row={x}&column={y}`
+        `${
+          BaseConfig.tileHost
+        }originMapServer/string?test=200&type=tms&zoom={z}&row={x}&column={y}`
       ]
     }
   },

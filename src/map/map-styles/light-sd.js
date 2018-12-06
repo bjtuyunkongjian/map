@@ -311,7 +311,7 @@ export default {
       ]
     }
   },
-  sprite: 'http://116.62.186.152:12808/sprite/sprite',
+  sprite: `${BaseConfig.tileHost}sprite/sprite`,
   glyphs: 'http://47.97.24.100:8899/fonts/{fontstack}/{range}.pbf',
   visibility: 'public',
   layers
