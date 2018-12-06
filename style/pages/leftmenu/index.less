@@ -4,8 +4,8 @@
   width: 18%;
   height: 100%;
   z-index: 99;
-  left: 2px;
-  top: 2px;
+  left: 0;
+  top: 0;
   position: fixed;
   transform: all 0.5s;
   .icon {
@@ -45,6 +45,36 @@
   .menu-option {
     position: relative;
     font-size: 15px;
+  }
+}
+
+.menu-fade-in {
+  left: 0;
+  animation: @menu-fade-in;
+}
+
+@menu-fade-in: 0.5s menu-fade-in_; // 对话框
+@keyframes menu-fade-in_ {
+  0% {
+    left: -18%;
+  }
+  100% {
+    left: 0;
+  }
+}
+
+.menu-fade-out {
+  left: -18%;
+  animation: @menu-fade-out;
+}
+
+@menu-fade-out: 0.5s menu-fade-out_; // 对话框
+@keyframes menu-fade-out_ {
+  0% {
+    left: 0;
+  }
+  100% {
+    left: -18%;
   }
 }
 

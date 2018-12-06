@@ -14,7 +14,7 @@ import { FetchString } from './webapi';
 
 export default class LeftMenu extends Component {
   state = {
-    controlLeft: '0%',
+    // controlLeft: '0%',
     display_name: 'none',
     selectedMenu: -1,
     selectContent: -1,
@@ -25,22 +25,23 @@ export default class LeftMenu extends Component {
     selectPolice: -1,
     selectCar: -1,
     selectFacility: -1,
-    selectPalce: -1
+    selectPalce: -1,
+    animate: ''
   };
-  display_name() {
-    // 控制按钮的单击事件
-    if (this.state.display_name == 'none') {
-      this.setState({
-        display_name: 'block',
-        controlLeft: '18%'
-      });
-    } else if (this.state.display_name == 'block') {
-      this.setState({
-        display_name: 'none',
-        controlLeft: '0%'
-      });
-    }
-  }
+  // display_name() {
+  // 控制按钮的单击事件
+  //   if (this.state.display_name == 'none') {
+  //     this.setState({
+  //       display_name: 'block',
+  //       controlLeft: '18%'
+  //     });
+  //   } else if (this.state.display_name == 'block') {
+  //     this.setState({
+  //       display_name: 'none',
+  //       controlLeft: '0%'
+  //     });
+  //   }
+  // }
 
   componentDidMount() {
     _MAP_.on('mouseup', () => {
@@ -49,12 +50,12 @@ export default class LeftMenu extends Component {
     this._init();
   }
   render() {
-    const { selectedMenu } = this.state;
+    const { selectedMenu, animate } = this.state;
     const optList = this._renderMenulist();
-
+    console.log('animate', animate);
     return (
       <div>
-        <div className="left-menu" style={{ display: this.state.display_name }}>
+        <div className={'left-menu' + animate}>
           {menuList.map((item, index) => (
             <div
               className={`menu-item${
@@ -72,8 +73,13 @@ export default class LeftMenu extends Component {
         </div>
         <button
           className="control"
-          style={{ left: this.state.controlLeft }}
-          onClick={this.display_name.bind(this)}
+          // style={{ left: this.state.controlLeft }}
+          onClick={() =>
+            this.setState({
+              animate:
+                animate === ' menu-fade-in' ? ' menu-fade-out' : ' menu-fade-in'
+            })
+          }
         >
           <span className="aspect-left" />
         </button>
