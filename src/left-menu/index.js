@@ -14,10 +14,6 @@ import { FetchString } from './webapi';
 
 export default class LeftMenu extends Component {
   state = {
-<<<<<<< HEAD
-=======
-    display_name: 'none',
->>>>>>> 3304e7284a89773a42b5f234951447c5442f3835
     selectedMenu: -1,
     selectContent: -1,
     selectPoData: -1,
