@@ -14,7 +14,8 @@ import { FetchString } from './webapi';
 
 export default class LeftMenu extends Component {
   state = {
-    // btnState: false,s
+    controlLeft: '0%',
+    display_name: 'none',
     selectedMenu: -1,
     selectContent: -1,
     selectPoData: -1,
@@ -26,32 +27,56 @@ export default class LeftMenu extends Component {
     selectFacility: -1,
     selectPalce: -1
   };
+  display_name() {
+    // 控制按钮的单击事件
+    if (this.state.display_name == 'none') {
+      this.setState({
+        display_name: 'block',
+        controlLeft: '18%'
+      });
+    } else if (this.state.display_name == 'block') {
+      this.setState({
+        display_name: 'none',
+        controlLeft: '0%'
+      });
+    }
+  }
+
   componentDidMount() {
     _MAP_.on('mouseup', () => {
       this.setState({ selectedMenu: -1 });
     });
-    // this._init();
+    this._init();
   }
   render() {
     const { selectedMenu } = this.state;
     const optList = this._renderMenulist();
 
     return (
-      <div className="left-menu">
-        {menuList.map((item, index) => (
-          <div
-            className={`menu-item${
-              index === selectedMenu ? 'selected-menu' : ''
-            }`}
-            key={`left_menu_${index}`}
-            onClick={e => this._selectIndex(e, index)}
-          >
-            <span className="icon">{item.icon}</span>
-            {item.name}
-            <span className="arrow arrow-right" />
-            {index === selectedMenu ? optList : null}
-          </div>
-        ))}
+      <div>
+        <div className="left-menu" style={{ display: this.state.display_name }}>
+          {menuList.map((item, index) => (
+            <div
+              className={`menu-item${
+                index === selectedMenu ? 'selected-menu' : ''
+              }`}
+              key={`left_menu_${index}`}
+              onClick={e => this._selectIndex(e, index)}
+            >
+              <span className="icon">{item.icon}</span>
+              {item.name}
+              <span className="arrow arrow-right" />
+              {index === selectedMenu ? optList : null}
+            </div>
+          ))}
+        </div>
+        <button
+          className="control"
+          style={{ left: this.state.controlLeft }}
+          onClick={this.display_name.bind(this)}
+        >
+          <span className="aspect-left" />
+        </button>
       </div>
     );
   }
@@ -77,12 +102,6 @@ export default class LeftMenu extends Component {
     console.log(JSON.stringify(_param));
     const { res, err } = await FetchString(_param);
     console.log(res, err);
-  };
-  _cutMenu = e => {};
-
-  _selectIndex = (e, index) => {
-    e.stopPropagation();
-    const { selectedMenu } = this.state;
   };
 
   _renderMenulist = () => {

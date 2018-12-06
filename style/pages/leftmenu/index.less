@@ -7,22 +7,28 @@
   left: 2px;
   top: 2px;
   position: fixed;
+  transform: all 0.5s;
   .icon {
     width: 20px;
     height: 20px;
     margin-top: 6px;
-    margin-right: 25px; // display: inline-block;
+    margin-right: 25px;
   }
   .menu-item {
     color: @t-white;
     position: relative;
     display: flex;
     align-items: center;
-    justify-content: center;
+    padding: 0 40px;
+    justify-content: space-between;
     height: 10%;
     cursor: pointer;
     &:hover {
       color: @color-blue;
+      .arrow {
+        border-top: 1px solid @color-blue;
+        border-right: 1px solid @color-blue;
+      }
     }
     .arrow {
       display: inline-block;
@@ -31,7 +37,7 @@
       margin-left: 20px;
       border-top: 1px solid @t-white;
       border-right: 1px solid @t-white;
-    } // ----->  有个问题，如何做到悬浮文字的时候箭头颜色也随之变化，以及箭头如何实现对齐
+    }
     .arrow-right {
       transform: rotate(45deg);
     }
@@ -59,5 +65,9 @@
     border-top: 1px solid @t-white;
     border-left: 1px solid @t-white;
     transform: rotate(-45deg);
+    &:hover {
+      border-top: 1px solid @color-blue;
+      border-left: 1px solid @color-blue;
+    }
   }
 }
