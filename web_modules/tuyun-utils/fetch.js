@@ -8,7 +8,7 @@ import { TuyunMessage } from 'tuyun-kit';
  * @return {res: xxx, err: xxx}
  */
 export const FetchRequest = async function({ url, method = 'GET', body = {} }) {
-  const request = {
+  const _request = {
     method: method || 'GET',
     headers: {
       'Content-Type': 'application/json;charset=UTF-8'
@@ -16,7 +16,7 @@ export const FetchRequest = async function({ url, method = 'GET', body = {} }) {
   };
 
   if (method !== 'GET') {
-    request.body = JSON.stringify(body);
+    _request.body = JSON.stringify(body);
   }
 
   return new Promise(async resolve => {
@@ -29,22 +29,32 @@ export const FetchRequest = async function({ url, method = 'GET', body = {} }) {
       });
     }, CONFIG.httpTimeOut * 1000);
     try {
-      const _response = await fetch(CONFIG.bffHost + url, request);
+      const _response = await fetch(CONFIG.bffHost + url, _request);
 
       clearTimeout(_timeoutId); // 获取到了数据，清除定时器
-      const { statusInfo, data, ok } = await _response.json();
-
-      const _err = ok ? null : statusInfo;
-      TuyunMessage.error(_err);
+      // 判断状态码
+      if (_response.status !== 200) {
+        // 状态码不等于200
+        TuyunMessage.error(`url：${url}，${_response.status}`);
+        resolve({
+          res: null,
+          err: _response.statusText
+        });
+        return;
+      }
+      // 状态码没问题
+      const { message, data, status } = await _response.json();
+      const _err = status === 'success' && message;
+      _err && TuyunMessage.error(_err);
       resolve({
         // 有时会返回0的结果
-        res: ok ? data : null,
-        err: ok ? null : statusInfo
+        res: _err ? null : data,
+        err: _err ? message : null
       });
     } catch (err) {
-      // 永远不会到达这~
+      // 404 错误也会到这
       clearTimeout(_timeoutId); // 报错了，清除定时器
-      __DEV__ && TuyunMessage.error(`前端请求错误，url：${url}`);
+      __DEV__ && TuyunMessage.error(`请求错误（可能是404），url：${url}`);
       resolve({
         res: null,
         err: err
