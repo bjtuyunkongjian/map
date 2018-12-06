@@ -2,7 +2,7 @@
  * @author sl 2019-01-02
  * 八级是没有图标的
  */
-import { LevelConfig } from 'tuyun-config';
+import { LevelConfig, BaseConfig } from 'tuyun-config';
 
 const visibleLevel = 8;
 const symbolLabelLayerId = 'symbol-ref';
@@ -15,7 +15,9 @@ const style = {
       type: 'vector',
       scheme: 'tms',
       tiles: [
-        'http://116.62.186.152:8080/geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_8L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf'
+        `${
+          BaseConfig.geoserverHost
+        }geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_8L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`
       ],
       minzoom: visibleLevel
     }

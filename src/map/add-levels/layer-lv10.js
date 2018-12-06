@@ -1,7 +1,7 @@
 /**
  * @author sl 2019-01-02
  */
-import { LevelConfig } from 'tuyun-config';
+import { LevelConfig, BaseConfig } from 'tuyun-config';
 import { FontColor } from 'tuyun-utils';
 
 const visibleLevel = 10;
@@ -14,7 +14,9 @@ const style = {
       type: 'vector',
       scheme: 'tms',
       tiles: [
-        'http://116.62.186.152:8080/geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_10L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf'
+        `${
+          BaseConfig.geoserverHost
+        }geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_10L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`
       ],
       minzoom: visibleLevel
     }
