@@ -10,16 +10,16 @@ import XiangDao from './road-xiangdao';
 import Zx from './road-zx';
 import Other from './road-other';
 
-const _visibleLevel = 7;
+const visibleLevel = 7;
 
 const style = {
-  visibleLevel: _visibleLevel,
+  visibleLevel: visibleLevel,
   source: {
     'road-source': {
       type: 'vector',
       scheme: 'tms',
       tiles: [
-        'http://116.62.186.152:12808/originMapServer/string?test=200&type=tms&zoom={z}&row={x}&column={y}'
+        `http://116.62.186.152:12808/originMapServer/string?test=200&type=tms&zoom={z}&row={x}&column={y}`
       ]
     }
   },
