@@ -46,7 +46,7 @@ export default class LeftMenu extends Component {
     _MAP_.on('mouseup', () => {
       this.setState({ selectedMenu: -1 });
     });
-    this._init();
+    // this._init();
   }
   render() {
     const { selectedMenu, animate } = this.state;

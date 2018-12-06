@@ -8,6 +8,7 @@ function create(type) {
     const _msgItemDom = document.createElement('div');
     _msgItemDom.className = type ? type : 'show';
     const _msgInfo = document.createElement('span');
+    _msgInfo.className = 'msg-item-text';
     _msgInfo.innerText = msg;
     _msgItemDom.appendChild(_msgInfo);
 

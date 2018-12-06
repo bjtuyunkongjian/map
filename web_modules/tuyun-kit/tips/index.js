@@ -11,9 +11,13 @@ function create(type) {
     _msgInfo.innerText = msg;
     _msgItemDom.appendChild(_msgInfo);
 
-    msgContainer.appendChild(_msgItemDom);
+    if (msgContainer.children[0]) {
+      msgContainer.insertBefore(_msgItemDom, msgContainer.children[0]);
+    } else {
+      msgContainer.appendChild(_msgItemDom);
+    }
     setTimeout(() => {
-      // msgContainer.removeChild(_msgItemDom);
+      msgContainer.removeChild(_msgItemDom);
     }, duration);
   };
 }
