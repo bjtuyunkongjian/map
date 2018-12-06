@@ -1,60 +1,88 @@
 .left-menu {
-  background: linear-gradient(#536677, #67cca3);
-  opacity: 0.9;
   width: 18%;
   height: 100%;
   z-index: 99;
   left: 0;
   top: 0;
   position: fixed;
-  transform: all 0.5s;
-  .icon {
-    width: 20px;
-    height: 20px;
-    margin-top: 6px;
-    margin-right: 25px;
-  }
-  .menu-item {
-    color: @t-white;
-    position: relative;
-    display: flex;
-    align-items: center;
-    padding: 0 40px;
-    justify-content: space-between;
-    height: 10%;
-    cursor: pointer;
-    &:hover {
-      color: @color-blue;
+  opacity: 0.9;
+
+  .menu-box {
+    background: linear-gradient(#536677, #67cca3);
+    width: 100%;
+    height: 100%;
+    transform: all 0.5s;
+    .icon {
+      width: 20px;
+      height: 20px;
+      margin-top: 6px;
+      margin-right: 25px;
+    }
+    .menu-item {
+      color: @t-white;
+      position: relative;
+      display: flex;
+      align-items: center;
+      padding: 0 40px;
+      justify-content: space-between;
+      height: 10%;
+      cursor: pointer;
+      &:hover {
+        color: @color-blue;
+        .arrow {
+          border-top: 1px solid @color-blue;
+          border-right: 1px solid @color-blue;
+        }
+      }
       .arrow {
-        border-top: 1px solid @color-blue;
-        border-right: 1px solid @color-blue;
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        margin-left: 20px;
+        border-top: 1px solid @t-white;
+        border-right: 1px solid @t-white;
+      }
+      .arrow-right {
+        transform: rotate(45deg);
       }
     }
-    .arrow {
+    .menu-option {
+      position: relative;
+      font-size: 15px;
+    }
+  }
+
+  .control {
+    background: linear-gradient(#536677, #67cca3);
+    width: 20px;
+    height: 50px;
+    margin-left: 2px;
+    position: absolute;
+    top: 50%;
+    right: -20px;
+    .aspect-left {
       display: inline-block;
       width: 8px;
       height: 8px;
-      margin-left: 20px;
+      border: none;
       border-top: 1px solid @t-white;
-      border-right: 1px solid @t-white;
+      border-left: 1px solid @t-white;
+      transform: rotate(-45deg);
+      &:hover {
+        border-top: 1px solid @color-blue;
+        border-left: 1px solid @color-blue;
+      }
     }
-    .arrow-right {
-      transform: rotate(45deg);
-    }
-  }
-  .menu-option {
-    position: relative;
-    font-size: 15px;
   }
 }
 
-.menu-fade-in {
+.menu-slide-in {
   left: 0;
   animation: @menu-fade-in;
 }
 
-@menu-fade-in: 0.5s menu-fade-in_; // 对话框
-@keyframes menu-fade-in_ {
+@menu-fade-in: 0.5s menu-fade-in; // 对话框
+@keyframes menu-fade-in {
   0% {
     left: -18%;
   }
@@ -63,41 +91,17 @@
   }
 }
 
-.menu-fade-out {
+.menu-slide-out {
   left: -18%;
   animation: @menu-fade-out;
 }
 
-@menu-fade-out: 0.5s menu-fade-out_; // 对话框
-@keyframes menu-fade-out_ {
+@menu-fade-out: 0.5s menu-fade-out; // 对话框
+@keyframes menu-fade-out {
   0% {
     left: 0;
   }
   100% {
     left: -18%;
-  }
-}
-
-.control {
-  background: linear-gradient(#536677, #67cca3);
-  opacity: 0.9;
-  position: fixed;
-  width: 20px;
-  height: 50px;
-  margin-left: 2px;
-  left: 18%;
-  top: 50%;
-  .aspect-left {
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    border: none;
-    border-top: 1px solid @t-white;
-    border-left: 1px solid @t-white;
-    transform: rotate(-45deg);
-    &:hover {
-      border-top: 1px solid @color-blue;
-      border-left: 1px solid @color-blue;
-    }
   }
 }

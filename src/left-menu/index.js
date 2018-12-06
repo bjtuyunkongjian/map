@@ -14,7 +14,6 @@ import { FetchString } from './webapi';
 
 export default class LeftMenu extends Component {
   state = {
-    // controlLeft: '0%',
     display_name: 'none',
     selectedMenu: -1,
     selectContent: -1,
@@ -47,15 +46,14 @@ export default class LeftMenu extends Component {
     _MAP_.on('mouseup', () => {
       this.setState({ selectedMenu: -1 });
     });
-    this._init();
+    // this._init();
   }
   render() {
     const { selectedMenu, animate } = this.state;
     const optList = this._renderMenulist();
-    console.log('animate', animate);
     return (
-      <div>
-        <div className={'left-menu' + animate}>
+      <div className={`left-menu${animate}`}>
+        <div className="menu-box">
           {menuList.map((item, index) => (
             <div
               className={`menu-item${
@@ -77,7 +75,9 @@ export default class LeftMenu extends Component {
           onClick={() =>
             this.setState({
               animate:
-                animate === ' menu-fade-in' ? ' menu-fade-out' : ' menu-fade-in'
+                animate === ' menu-slide-out'
+                  ? ' menu-slide-in'
+                  : ' menu-slide-out'
             })
           }
         >
