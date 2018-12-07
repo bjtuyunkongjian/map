@@ -1,3 +1,6 @@
+/**
+ * 采用 dom 和的形式，方便在任何一个地方调用
+ */
 const msgContainer = document.createElement('div');
 msgContainer.className = 'ReactMessage__Container';
 document.body.appendChild(msgContainer);

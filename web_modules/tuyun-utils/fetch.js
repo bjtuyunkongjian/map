@@ -1,12 +1,12 @@
-import { BaseConfig as CONFIG } from 'tuyun-config';
-import { TuyunMessage } from 'tuyun-kit';
-
 /**
  * @param {string} url 接口地址
  * @param {string} method 请求方法：GET、POST、PUT、DELETE，只能大写，method 默认为 GET方法
  * @param {JSON} [body=''] body的请求参数，默认为空
  * @return {res: xxx, err: xxx}
  */
+import { BaseConfig as CONFIG } from 'tuyun-config';
+import { TuyunMessage } from 'tuyun-kit';
+
 export const FetchRequest = async function({ url, method = 'GET', body = {} }) {
   const _request = {
     method: method || 'GET',

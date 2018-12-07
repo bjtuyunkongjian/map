@@ -1,12 +1,15 @@
+/**
+ * 采用 dom 和的形式，方便在任何一个地方调用
+ */
 const msgContainer = document.createElement('div');
 msgContainer.className = 'ReactTips__Container';
 document.body.appendChild(msgContainer);
 
-function create(type) {
+function create() {
   return (msg, opt = {}) => {
     const { duration = 3000 } = opt;
     const _msgItemDom = document.createElement('div');
-    _msgItemDom.className = type ? type : 'show';
+    _msgItemDom.className = 'show';
     const _msgInfo = document.createElement('span');
     _msgInfo.innerText = msg;
     _msgItemDom.appendChild(_msgInfo);
@@ -23,9 +26,5 @@ function create(type) {
 }
 
 export default {
-  show: create(),
-  success: create('success'),
-  info: create('info'),
-  warning: create('warning'),
-  error: create('error')
+  show: create()
 };
