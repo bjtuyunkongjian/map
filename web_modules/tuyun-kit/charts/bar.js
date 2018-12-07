@@ -229,9 +229,9 @@ export default class Bar extends Component {
       const _bottomColor = _gradient[1] || '#00f';
       const _drawRact = [
         _xStart * this._ratio,
-        (this._chartBottom - _yStart) * this._ratio,
+        (this._chartBottom - _yStart) * this._ratio || 0,
         (_xEnd - _xStart) * this._ratio,
-        (_yStart - _yEnd) * this._ratio
+        (_yStart - _yEnd) * this._ratio || 0
       ];
       // 填充位置
       const _fillRect = [

@@ -21,8 +21,15 @@ export default class MapBoxDemo extends Component {
 
   componentDidMount() {
     this._init();
+    // TuyunTips.show(
+    //   '按住鼠标右键拖动可切换视角按住鼠标右键拖动可切换视角按住鼠标右键拖动可切换视角按住鼠标右键拖动可切换视角按住鼠标右键拖动可切换视角按住鼠标右键拖动可切换视角按住鼠标右键拖动可切换视角按住鼠标右键拖动可切换视角'
+    // );
     // TuyunTips.show('按住鼠标右键拖动可切换视角');
-    // TuyunMessage.success('This is a success message.');
+    // TuyunTips.show('按住鼠标右键拖动可切换视角');
+    // TuyunTips.show('按住鼠标右键拖动可切换视角');
+    // TuyunMessage.success(
+    //   'This is a success message.This is a success message.This is a success message.This is a success message.This is a success message.This is a success message.'
+    // );
     // TuyunMessage.warning('This is a warning message.');
     // TuyunMessage.info('This is an info message.');
     // TuyunMessage.error('This is an error message.');

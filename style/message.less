@@ -1,21 +1,26 @@
 .ReactMessage__Container {
-  position: fixed;
+  position: absolute;
   top: 5px;
   z-index: 1000;
-  height: 0;
   left: 50%;
   transform: translate(-50%, 0);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   .msg-item-container {
     margin: 5px;
     animation: @fade-in;
     max-width: 400px;
-    padding: 0 8px;
+    padding: 5px 8px;
     border-radius: @radius-m;
     display: flex;
-    height: 40px;
+    min-height: 40px;
     align-items: center;
     box-shadow: @box-shadow-sm;
     background-color: white;
+  }
+  .msg-item-text {
+    flex: 1;
   }
   .msg-item-icon {
     display: flex;

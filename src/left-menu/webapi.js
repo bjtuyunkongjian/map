@@ -5,7 +5,7 @@ import { FetchRequest } from 'tuyun-utils';
 
 export const FetchString = async body => {
   const { res, err } = await FetchRequest({
-    url: 'string',
+    url: 'mapServer/string',
     method: 'POST',
     body
   });

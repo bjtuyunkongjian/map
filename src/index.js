@@ -14,7 +14,6 @@ import LeftMenu from './left-menu';
 class MapApp extends Component {
   render() {
     const _userAgent = navigator.userAgent;
-    !-[1];
     const _browserSupport =
       _userAgent.indexOf('Firefox') > -1 || _userAgent.indexOf('Chrome') > -1;
 

@@ -79,7 +79,7 @@ export default class BarPrompt extends Component {
             }}
           >
             <div>{curData.label}</div>
-            <div>数值：{curData.count}</div>
+            <div>数值：{curData.count || 0}</div>
           </div>
         ) : null}
       </div>
@@ -110,7 +110,7 @@ export default class BarPrompt extends Component {
       const _cellWidth = _boxWidth / data.length;
       const _index = Math.floor((_x - left) / _cellWidth);
       const _maskLeft = _index * _cellWidth + left;
-      const _promptLeft = _x < width - 100 ? _x + 15 : width - 100;
+      const _promptLeft = _x < width - 100 ? _x + 20 : width - 100;
       const _promptTop = _y + 10;
       this.setState({
         showPrompt: true,
