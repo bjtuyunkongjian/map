@@ -76,22 +76,22 @@ export default class LeftMenu extends Component {
     const _bounds = _MAP_.getBounds();
     const _param = {
       test: 400,
-      // points: [
-      //   _bounds._sw.lng,
-      //   _bounds._ne.lat,
-      //   // _bounds._sw.lng,
-      //   // _bounds._sw.lat,
-      //   _bounds._ne.lng,
-      //   _bounds._sw.lat
-      //   // _bounds._ne.lng,
-      //   // _bounds._ne.lat
-      // ]
       points: [
-        38.81869622602193,
-        121.52926123038611,
-        34.91336775296051,
-        115.11873876946055
+        _bounds._sw.lng,
+        _bounds._ne.lat,
+        // _bounds._sw.lng,
+        // _bounds._sw.lat,
+        _bounds._ne.lng,
+        _bounds._sw.lat
+        // _bounds._ne.lng,
+        // _bounds._ne.lat
       ]
+      // points: [
+      //   38.81869622602193,
+      //   121.52926123038611,
+      //   34.91336775296051,
+      //   115.11873876946055
+      // ]
     };
     const { res, err } = await FetchString(_param);
     console.log(res, err);
