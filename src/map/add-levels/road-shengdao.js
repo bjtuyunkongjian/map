@@ -6,7 +6,7 @@ export default [
   {
     id: 'shengdao_bg', // 省道背景
     type: 'line',
-    source: 'road-source',
+    source: 'bff-tile-source',
     'source-layer': 'shengGDBt',
     layout: {
       'line-join': 'round',
@@ -40,7 +40,7 @@ export default [
   {
     id: 'shengdao', // 路网图层（name字段），省道
     type: 'line',
-    source: 'road-source',
+    source: 'bff-tile-source',
     'source-layer': 'shengGDBt',
     layout: {
       'line-cap': 'round',
@@ -74,7 +74,7 @@ export default [
   {
     id: 'shengdao_name', // 省道名称
     type: 'symbol',
-    source: 'road-source',
+    source: 'bff-tile-source',
     'source-layer': 'shengGDBt',
     layout: {
       'text-field': {
@@ -111,7 +111,7 @@ export default [
   {
     id: 'shengdao_icon', // 省道图标
     type: 'symbol',
-    source: 'road-source',
+    source: 'bff-tile-source',
     'source-layer': 'shengGDBt',
     filter: ['!=', 'ENTIID', ''],
     layout: {

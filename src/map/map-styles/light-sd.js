@@ -41,44 +41,44 @@ const layers = [
     },
     labelLayerId: 'GHYDPL_7L'
   },
-  {
-    id: 'GHYDPL_7L', // 记录了一些水渠、河沟，水库的面状要素
-    type: 'fill',
-    source: LevelConfig.addLv7,
-    'source-layer': 'GHYDPL_Merge', // py是面
-    filter: [
-      'any',
-      ['==', 'CLASID', '210200'],
-      ['==', 'CLASID', '230101'],
-      ['==', 'CLASID', '240101'],
-      ['==', 'CLASID', '250100']
-    ],
-    paint: {
-      'fill-color': '#b3d8ff',
-      'fill-opacity': 1,
-      'fill-antialias': false
-    }
-  },
-  {
-    id: 'GHYDPL_OTH', // 记录了一些水渠、河沟，水库的面状要素
-    type: 'fill',
-    source: LevelConfig.addLv7,
-    'source-layer': 'GHYDPL_Merge', // py是面
-    filter: [
-      'all',
-      ['!=', 'CLASID', '210200'],
-      ['!=', 'CLASID', '230101'],
-      ['!=', 'CLASID', '240101'],
-      ['!=', 'CLASID', '250100']
-    ],
-    minzoom: ditchVisibleLevel,
-    layout: {},
-    paint: {
-      'fill-color': '#b3d8ff',
-      'fill-opacity': 1,
-      'fill-antialias': false
-    }
-  },
+  // {
+  //   id: 'GHYDPL_7L', // 记录了一些水渠、河沟，水库的面状要素
+  //   type: 'fill',
+  //   source: LevelConfig.addLv7,
+  //   'source-layer': 'GHYDPL_Merge', // py是面
+  //   filter: [
+  //     'any',
+  //     ['==', 'CLASID', '210200'],
+  //     ['==', 'CLASID', '230101'],
+  //     ['==', 'CLASID', '240101'],
+  //     ['==', 'CLASID', '250100']
+  //   ],
+  //   paint: {
+  //     'fill-color': '#b3d8ff',
+  //     'fill-opacity': 1,
+  //     'fill-antialias': false
+  //   }
+  // },
+  // {
+  //   id: 'GHYDPL_OTH', // 记录了一些水渠、河沟，水库的面状要素
+  //   type: 'fill',
+  //   source: LevelConfig.addLv7,
+  //   'source-layer': 'GHYDPL_Merge', // py是面
+  //   filter: [
+  //     'all',
+  //     ['!=', 'CLASID', '210200'],
+  //     ['!=', 'CLASID', '230101'],
+  //     ['!=', 'CLASID', '240101'],
+  //     ['!=', 'CLASID', '250100']
+  //   ],
+  //   minzoom: ditchVisibleLevel,
+  //   layout: {},
+  //   paint: {
+  //     'fill-color': '#b3d8ff',
+  //     'fill-opacity': 1,
+  //     'fill-antialias': false
+  //   }
+  // },
   // 线
   {
     id: 'GBOULN', // 记录了各个镇的边界，有名字的记录的是省界和岛屿（name不为空）
@@ -228,33 +228,33 @@ const layers = [
   ///////////////////////////////
   // 点
 
-  {
-    id: 'GHYDPL_7L_NAME',
-    type: 'symbol',
-    source: LevelConfig.addLv7,
-    'source-layer': 'GHYDPL_Merge',
-    filter: ['==', 'CLASID', '250100'],
-    layout: {
-      'text-field': '{NAME}',
-      visibility: 'visible',
-      'symbol-placement': 'point',
-      'text-size': 14,
-      'icon-text-fit': 'both',
-      'icon-text-fit-padding': [2, 4, 2, 4],
-      'text-justify': 'center',
-      'text-font': ['黑体'],
-      'text-pitch-alignment': 'viewport',
-      'text-rotation-alignment': 'viewport',
-      'icon-rotation-alignment': 'viewport',
-      'text-anchor': 'center',
-      'text-keep-upright': false
-    },
-    paint: {
-      'text-color': 'rgba(65, 65, 65, 0.9)',
-      'text-halo-width': 2,
-      'text-halo-color': 'rgba(255, 255, 255, 1)'
-    }
-  },
+  // {
+  //   id: 'GHYDPL_7L_NAME',
+  //   type: 'symbol',
+  //   source: LevelConfig.addLv7,
+  //   'source-layer': 'GHYDPL_Merge',
+  //   filter: ['==', 'CLASID', '250100'],
+  //   layout: {
+  //     'text-field': '{NAME}',
+  //     visibility: 'visible',
+  //     'symbol-placement': 'point',
+  //     'text-size': 14,
+  //     'icon-text-fit': 'both',
+  //     'icon-text-fit-padding': [2, 4, 2, 4],
+  //     'text-justify': 'center',
+  //     'text-font': ['黑体'],
+  //     'text-pitch-alignment': 'viewport',
+  //     'text-rotation-alignment': 'viewport',
+  //     'icon-rotation-alignment': 'viewport',
+  //     'text-anchor': 'center',
+  //     'text-keep-upright': false
+  //   },
+  //   paint: {
+  //     'text-color': 'rgba(65, 65, 65, 0.9)',
+  //     'text-halo-width': 2,
+  //     'text-halo-color': 'rgba(255, 255, 255, 1)'
+  //   }
+  // },
 
   {
     id: 'symbol-ref', // 做文字的基层使用
@@ -311,7 +311,7 @@ export default {
       ]
     }
   },
-  sprite: `${BaseConfig.tileHost}sprite/sprite`,
+  sprite: `http://116.62.186.152:12808/sprite/sprite`,
   glyphs: 'http://47.97.24.100:8899/fonts/{fontstack}/{range}.pbf',
   visibility: 'public',
   layers

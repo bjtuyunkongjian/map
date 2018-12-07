@@ -6,7 +6,7 @@ export default [
   {
     id: 'other_bg', // 其他道路背景
     type: 'line',
-    source: 'road-source',
+    source: 'bff-tile-source',
     'source-layer': 'other',
     layout: {
       'line-join': 'round',
@@ -34,7 +34,7 @@ export default [
   {
     id: 'other', // 路网图层（name字段），other
     type: 'line',
-    source: 'road-source',
+    source: 'bff-tile-source',
     'source-layer': 'other',
     layout: {
       'line-cap': 'round',
@@ -62,7 +62,7 @@ export default [
   {
     id: 'other_name', // other名称
     type: 'symbol',
-    source: 'road-source',
+    source: 'bff-tile-source',
     'source-layer': 'other',
     layout: {
       'text-field': {

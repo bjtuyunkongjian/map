@@ -4,7 +4,7 @@
  * 条形图
  */
 import React, { Component } from 'react';
-import { Max } from 'tuyun-utils';
+import { Max, ResolveBlurry } from 'tuyun-utils';
 import BarPrompt from './bar-prompt';
 
 export default class Bar extends Component {
@@ -117,8 +117,8 @@ export default class Bar extends Component {
 
     this._canvas = _canvas;
     this._ctx = _canvas.getContext('2d');
+    this._ratio = ResolveBlurry(this._canvas, this._ctx, { width, height }); // 解决高倍屏变模糊问题
 
-    this._resolveBlurry(); // 解决高倍屏变模糊问题
     const { top = 0, right = 0, bottom = 0, left = 0 } = padding;
     this._titleH = Math.ceil(title.fontSize / 0.62); // 0.62 黄金分割
     this._xLabelW = this._titleW = this._chartW = width - right - left;
@@ -130,22 +130,6 @@ export default class Bar extends Component {
     this._renderBackground(); // 绘制背景
     this._renderTitle(); // 绘制标题
     this._renderChart(); // 绘制图表
-  };
-
-  _resolveBlurry = () => {
-    const { width, height } = this.props;
-    const devicePixelRatio = window.devicePixelRatio || 1;
-    const backingStoreRatio =
-      this._ctx.webkitBackingStorePixelRatio ||
-      this._ctx.mozBackingStorePixelRatio ||
-      this._ctx.msBackingStorePixelRatio ||
-      this._ctx.oBackingStorePixelRatio ||
-      this._ctx.backingStorePixelRatio ||
-      1;
-    this._ratio = devicePixelRatio / backingStoreRatio; // 计算canvas的实际渲染倍率
-    this._canvas.style = `width: ${width}px; height: ${height}px;`;
-    this._canvas.width = width * this._ratio;
-    this._canvas.height = height * this._ratio;
   };
 
   _renderBackground = () => {

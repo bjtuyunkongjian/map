@@ -9,14 +9,17 @@ import Cgd from './road-cgd';
 import XiangDao from './road-xiangdao';
 import Zx from './road-zx';
 import Other from './road-other';
-import { LevelConfig, BaseConfig } from 'tuyun-config';
+import Water from './water';
+import TileBoundary from './tile-boundary';
+
+import { BaseConfig } from 'tuyun-config';
 
 const visibleLevel = 7;
 
 const style = {
   visibleLevel: visibleLevel,
   source: {
-    'road-source': {
+    'bff-tile-source': {
       type: 'vector',
       scheme: 'tms',
       tiles: [
@@ -27,6 +30,8 @@ const style = {
     }
   },
   layers: [
+    ...TileBoundary,
+    ...Water,
     ...Other,
     ...Zx,
     ...XiangDao,
