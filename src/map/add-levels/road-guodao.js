@@ -6,7 +6,7 @@ const layers = [
   {
     id: 'guodao_bg', // 国道背景
     type: 'line',
-    source: 'road-source',
+    source: 'bff-tile-source',
     'source-layer': 'gaoguoGDB',
     layout: {
       'line-join': 'round',
@@ -41,7 +41,7 @@ const layers = [
   {
     id: 'guodao', // 路网图层（name字段），国道
     type: 'line',
-    source: 'road-source',
+    source: 'bff-tile-source',
     'source-layer': 'gaoguoGDB',
     layout: {
       'line-cap': 'round',
@@ -76,7 +76,7 @@ const layers = [
   {
     id: 'guodao_name', // 国道名称
     type: 'symbol',
-    source: 'road-source',
+    source: 'bff-tile-source',
     'source-layer': 'gaoguoGDB',
     layout: {
       'text-field': {
@@ -113,7 +113,7 @@ const layers = [
   {
     id: 'guodao_icon', // 国道图标
     type: 'symbol',
-    source: 'road-source',
+    source: 'bff-tile-source',
     'source-layer': 'gaoguoGDB',
     filter: ['!=', 'ENTIID', ''],
     layout: {

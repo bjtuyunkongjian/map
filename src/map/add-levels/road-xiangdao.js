@@ -6,7 +6,7 @@ export default [
   {
     id: 'xiangdao_bg', //乡道
     type: 'line',
-    source: 'road-source',
+    source: 'bff-tile-source',
     'source-layer': 'xiangdaoGDB',
     layout: {
       'line-join': 'round',
@@ -41,7 +41,7 @@ export default [
   {
     id: 'xiangdao',
     type: 'line',
-    source: 'road-source',
+    source: 'bff-tile-source',
     'source-layer': 'xiangdaoGDB',
     layout: {
       'line-cap': 'round',
@@ -76,7 +76,7 @@ export default [
   {
     id: 'xiangdao_name',
     type: 'symbol',
-    source: 'road-source',
+    source: 'bff-tile-source',
     'source-layer': 'xiangdaoGDB',
     layout: {
       'text-field': {

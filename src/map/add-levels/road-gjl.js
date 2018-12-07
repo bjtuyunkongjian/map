@@ -6,7 +6,7 @@ export default [
   {
     id: 'gjl_bg', //高架路背景
     type: 'line',
-    source: 'road-source',
+    source: 'bff-tile-source',
     'source-layer': 'gjlGDB',
     layout: {
       'line-join': 'round',
@@ -41,7 +41,7 @@ export default [
   {
     id: 'gjl', //高架路
     type: 'line',
-    source: 'road-source',
+    source: 'bff-tile-source',
     'source-layer': 'gjlGDB',
     layout: {
       'line-cap': 'round',
@@ -76,7 +76,7 @@ export default [
   {
     id: 'gjl_name',
     type: 'symbol',
-    source: 'road-source',
+    source: 'bff-tile-source',
     'source-layer': 'gjlGDB',
     // minzoom: _visibleLevel,
     layout: {

@@ -6,7 +6,7 @@ export default [
   {
     id: 'xd_bg', // 县道背景
     type: 'line',
-    source: 'road-source',
+    source: 'bff-tile-source',
     'source-layer': 'xiandaoGDB',
     layout: {
       'line-join': 'round',
@@ -41,7 +41,7 @@ export default [
   {
     id: 'xd', // 路网图层（name字段），县道
     type: 'line',
-    source: 'road-source',
+    source: 'bff-tile-source',
     'source-layer': 'xiandaoGDB',
     layout: {
       'line-cap': 'round',
@@ -76,7 +76,7 @@ export default [
   {
     id: 'xd_name', // xiandao
     type: 'symbol',
-    source: 'road-source',
+    source: 'bff-tile-source',
     'source-layer': 'xiandaoGDB',
     layout: {
       'text-field': {

@@ -6,7 +6,7 @@ export default [
   {
     id: 'cgd_bg',
     type: 'line',
-    source: 'road-source',
+    source: 'bff-tile-source',
     'source-layer': 'cgdGDB',
     layout: {
       'line-join': 'round',
@@ -41,7 +41,7 @@ export default [
   {
     id: 'cgd',
     type: 'line',
-    source: 'road-source',
+    source: 'bff-tile-source',
     'source-layer': 'cgdGDB',
     layout: {
       'line-cap': 'round',
@@ -76,7 +76,7 @@ export default [
   {
     id: 'cgd_name', // 次干道
     type: 'symbol',
-    source: 'road-source',
+    source: 'bff-tile-source',
     'source-layer': 'cgdGDB',
     layout: {
       'text-field': {

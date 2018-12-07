@@ -6,7 +6,7 @@ export default [
   {
     id: 'ksl_bg', //快速路的背景
     type: 'line',
-    source: 'road-source',
+    source: 'bff-tile-source',
     'source-layer': 'kslGDB',
     layout: {
       'line-join': 'round',
@@ -41,7 +41,7 @@ export default [
   {
     id: 'ksl',
     type: 'line',
-    source: 'road-source',
+    source: 'bff-tile-source',
     'source-layer': 'kslGDB',
     layout: {
       'line-cap': 'round',
@@ -76,7 +76,7 @@ export default [
   {
     id: 'ksl_name', // 快速路名称
     type: 'symbol',
-    source: 'road-source',
+    source: 'bff-tile-source',
     'source-layer': 'kslGDB',
     layout: {
       'text-field': {
