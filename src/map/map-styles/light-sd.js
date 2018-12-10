@@ -312,7 +312,7 @@ export default {
     }
   },
   sprite: `${BaseConfig.spriteHost}sprite/sprite`,
-  glyphs: `${BaseConfig.glyphsHost}font/{fontstack}/{range}.pbf`,
+  glyphs: `${BaseConfig.glyphsHost}font/{fontstack}/{range}.pbf`, // http://localhost:3000/static/fonts
   visibility: 'public',
   layers
 };
