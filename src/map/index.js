@@ -67,26 +67,27 @@ export default class MapBoxDemo extends Component {
       console.log(e.lngLat);
     });
 
-    this.map.on('load', () => {
-      this.zoom = Math.ceil(this.map.getZoom()); // 设置起初缩放等级
-      this._addSourceFunc(); // 增加图层组
-      // this._loadRoadSource(); // 添加道路图层
-    });
-    // .on('zoomend', () => {
-    //   const _zoom = Math.ceil(this.map.getZoom()); // 当前缩放等级
-    //   const _bounds = this.map.getBounds();
-    //   if (
-    //     Math.abs(_zoom - this.zoom) >= 1 ||
-    //     this._boundsArr[0][0] > _bounds._sw.lng ||
-    //     this._boundsArr[0][1] < _bounds._ne.lat ||
-    //     this._boundsArr[1][0] < _bounds._ne.lng ||
-    //     this._boundsArr[1][1] > _bounds._sw.lat
-    //   ) {
-    //     this.zoom = _zoom;
-    //     // this._loadRoadSource(); // 添加道路图层
-    //   }
-    //   this._addSourceFunc();
-    // });
+    this.map
+      .on('load', () => {
+        this.zoom = Math.ceil(this.map.getZoom()); // 设置起初缩放等级
+        this._addSourceFunc(); // 增加图层组
+        // this._loadRoadSource(); // 添加道路图层
+      })
+      .on('zoomend', () => {
+        // const _zoom = Math.ceil(this.map.getZoom()); // 当前缩放等级
+        // const _bounds = this.map.getBounds();
+        // if (
+        //   Math.abs(_zoom - this.zoom) >= 1 ||
+        //   this._boundsArr[0][0] > _bounds._sw.lng ||
+        //   this._boundsArr[0][1] < _bounds._ne.lat ||
+        //   this._boundsArr[1][0] < _bounds._ne.lng ||
+        //   this._boundsArr[1][1] > _bounds._sw.lat
+        // ) {
+        //   this.zoom = _zoom;
+        //   // this._loadRoadSource(); // 添加道路图层
+        // }
+        this._addSourceFunc();
+      });
     // 拖出浏览器事件
     // document.addEventListener('mouseup', () => {
     //   const _bounds = this.map.getBounds();

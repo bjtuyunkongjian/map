@@ -9,8 +9,8 @@ import Cgd from './road-cgd';
 import XiangDao from './road-xiangdao';
 import Zx from './road-zx';
 import Other from './road-other';
-import Water from './water';
-import TileBoundary from './tile-boundary';
+// import Water from './water';
+// import TileBoundary from './tile-boundary';
 
 import { BaseConfig } from 'tuyun-config';
 
@@ -30,8 +30,8 @@ const style = {
     }
   },
   layers: [
-    ...TileBoundary,
-    ...Water,
+    // ...TileBoundary,
+    // ...Water,
     ...Other,
     ...Zx,
     ...XiangDao,
