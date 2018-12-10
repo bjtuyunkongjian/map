@@ -4,6 +4,10 @@ import HtmlWebPackPlugin from 'html-webpack-plugin';
 import PackageJson from './package.json';
 
 module.exports = {
+  output: {
+    filename: '[name].js', // [name].[hash].bundle.js
+    path: __dirname + '/dist'
+  },
   module: {
     rules: [
       {
