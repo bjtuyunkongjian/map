@@ -2,7 +2,7 @@
  * @author sl 2019-01-02
  */
 
-const sourceName = "zadao-source";
+const sourceName = 'zadao-source';
 const lineLabelLayerId = 'line-ref';
 const lineBgLabelLayerId = 'line-bg-ref';
 const symbolLabelLayerId = 'symbol-ref';
@@ -10,9 +10,10 @@ const _visibleLevel = 13;
 
 const style = {
   sourceName: sourceName,
-  "dataName": "zadao",
-  layers: [{
-      "id": "zd_bg", //匝道背景
+  dataName: 'zadao',
+  layers: [
+    {
+      id: 'zd_bg', //匝道背景
       type: 'line',
       source: sourceName,
       minzoom: _visibleLevel,
@@ -45,7 +46,8 @@ const style = {
         'line-color': '#fed669'
       },
       labelLayerId: lineBgLabelLayerId
-    }, {
+    },
+    {
       id: 'zd', // 路网图层（name字段），匝道/立交
       type: 'line',
       source: sourceName,
@@ -73,7 +75,7 @@ const style = {
             [19, 11],
             [20, 19],
             [21, 22],
-            [22, 24],
+            [22, 24]
           ]
         },
         'line-color': '#ffeebb'
@@ -87,14 +89,11 @@ const style = {
       minzoom: _visibleLevel,
       layout: {
         'text-field': {
-          stops: [
-            [7, ''],
-            [13, '{NAME}']
-          ]
+          stops: [[7, ''], [13, '{NAME}']]
         },
         visibility: 'visible',
         'symbol-placement': 'line',
-        'text-font': ['Arial Unicode MS Bold'],
+        'text-font': ['黑体'],
         'text-pitch-alignment': 'map',
         'symbol-spacing': 500,
         'text-rotation-alignment': 'map',

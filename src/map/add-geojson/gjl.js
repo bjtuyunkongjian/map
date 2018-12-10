@@ -2,7 +2,7 @@
  * @author sl 2019-01-02
  */
 
-const sourceName = "gjl-source";
+const sourceName = 'gjl-source';
 const lineLabelLayerId = 'line-ref';
 const symbolLabelLayerId = 'symbol-ref';
 const lineBgLabelLayerId = 'line-bg-ref';
@@ -10,9 +10,10 @@ const _visibleLevel = 12;
 
 const style = {
   sourceName: sourceName,
-  "dataName": "gjl",
-  layers: [{
-      "id": "gjl_bg", //高架路背景
+  dataName: 'gjl',
+  layers: [
+    {
+      id: 'gjl_bg', //高架路背景
       type: 'line',
       source: sourceName,
       minzoom: _visibleLevel,
@@ -45,7 +46,8 @@ const style = {
         'line-color': '#d8d8d8'
       },
       labelLayerId: lineLabelLayerId
-    }, {
+    },
+    {
       id: 'gjl', //高架路
       type: 'line',
       source: sourceName,
@@ -73,7 +75,7 @@ const style = {
             [19, 11],
             [20, 19],
             [21, 22],
-            [22, 24],
+            [22, 24]
           ]
         },
         'line-color': '#fed669'
@@ -87,14 +89,11 @@ const style = {
       minzoom: _visibleLevel,
       layout: {
         'text-field': {
-          stops: [
-            [7, ''],
-            [13, '{NAME}']
-          ]
+          stops: [[7, ''], [13, '{NAME}']]
         },
         visibility: 'visible',
         'symbol-placement': 'line',
-        'text-font': ['Arial Unicode MS Bold'],
+        'text-font': ['黑体'],
         'text-pitch-alignment': 'viewport',
         'symbol-spacing': 500,
         'text-rotation-alignment': 'map',

@@ -2,7 +2,7 @@
  * @author sl 2019-01-02
  */
 
-const sourceName = "ksl-source";
+const sourceName = 'ksl-source';
 const lineLabelLayerId = 'line-ref';
 const lineBgLabelLayerId = 'line-bg-ref';
 const symbolLabelLayerId = 'symbol-ref';
@@ -10,9 +10,10 @@ const _visibleLevel = 13;
 
 const style = {
   sourceName: sourceName,
-  "dataName": "ksl",
-  layers: [{
-      "id": "ksl_bg", //快速路的背景
+  dataName: 'ksl',
+  layers: [
+    {
+      id: 'ksl_bg', //快速路的背景
       type: 'line',
       source: sourceName,
       minzoom: _visibleLevel,
@@ -45,7 +46,8 @@ const style = {
         'line-color': '#d8d8d8'
       },
       labelLayerId: lineBgLabelLayerId
-    }, {
+    },
+    {
       id: 'ksl',
       type: 'line',
       source: sourceName,
@@ -73,7 +75,7 @@ const style = {
             [19, 11],
             [20, 19],
             [21, 22],
-            [22, 24],
+            [22, 24]
           ]
         },
         'line-color': '#fff'
@@ -87,14 +89,11 @@ const style = {
       minzoom: _visibleLevel,
       layout: {
         'text-field': {
-          stops: [
-            [7, ''],
-            [13, '{NAME}']
-          ]
+          stops: [[7, ''], [13, '{NAME}']]
         },
         visibility: 'visible',
         'symbol-placement': 'line',
-        'text-font': ['Arial Unicode MS Bold'],
+        'text-font': ['黑体'],
         'text-pitch-alignment': 'map',
         'symbol-spacing': 500,
         'text-rotation-alignment': 'map',

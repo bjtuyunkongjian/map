@@ -2,7 +2,7 @@
  * @author sl 2019-01-02
  */
 
-const sourceName = "zgd-source";
+const sourceName = 'zgd-source';
 const lineLabelLayerId = 'line-sd-ref';
 const lineBgLabelLayerId = 'line-sd-bg-ref';
 const symbolLabelLayerId = 'symbol-ref';
@@ -10,9 +10,10 @@ const _visibleLevel = 12;
 
 const style = {
   sourceName: sourceName,
-  "dataName": "zgd",
-  layers: [{
-      "id": "9L_zgd_bg", // 主干道背景
+  dataName: 'zgd',
+  layers: [
+    {
+      id: '9L_zgd_bg', // 主干道背景
       type: 'line',
       source: sourceName,
       minzoom: _visibleLevel,
@@ -45,7 +46,8 @@ const style = {
         'line-color': '#ffae00'
       },
       labelLayerId: lineBgLabelLayerId
-    }, {
+    },
+    {
       id: '9L_zgd', // 路网图层（name字段），主干道
       type: 'line',
       source: sourceName,
@@ -73,7 +75,7 @@ const style = {
             [19, 11],
             [20, 19],
             [21, 22],
-            [22, 24],
+            [22, 24]
           ]
         },
         'line-color': '#ffeebb'
@@ -87,14 +89,11 @@ const style = {
       minzoom: _visibleLevel,
       layout: {
         'text-field': {
-          stops: [
-            [7, ''],
-            [13, '{NAME}']
-          ]
+          stops: [[7, ''], [13, '{NAME}']]
         },
         visibility: 'visible',
         'symbol-placement': 'line',
-        'text-font': ['Arial Unicode MS Bold'],
+        'text-font': ['黑体'],
         'text-pitch-alignment': 'viewport',
         'symbol-spacing': 500,
         'text-rotation-alignment': 'map',
@@ -107,7 +106,7 @@ const style = {
         'text-halo-color': 'rgba(255, 255, 255, 1)'
       },
       labelLayerId: symbolLabelLayerId
-    },
+    }
   ]
 };
 

@@ -84,7 +84,7 @@ export default [
       },
       visibility: 'visible',
       'symbol-placement': 'line',
-      'text-font': ['Arial Unicode MS Bold'],
+      'text-font': ['黑体'],
       'symbol-spacing': 500,
       'text-pitch-alignment': 'viewport',
       'text-rotation-alignment': 'map',

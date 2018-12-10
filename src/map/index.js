@@ -60,7 +60,7 @@ export default class MapBoxDemo extends Component {
       // bearing: -13.6,
       minZoom: 7,
       maxZoom: 20,
-      localIdeographFontFamily: "'黑体'"
+      localIdeographFontFamily: '黑体'
     });
     // 点击地图在控制台打出经纬度
     this.map.on('mouseup', function(e) {

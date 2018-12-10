@@ -283,7 +283,7 @@ const layers = [
       'text-justify': 'left',
       'text-anchor': 'left',
       'text-offset': [0.5, 0],
-      'text-font': ['Arial Unicode MS Blod', 'Open Sans Regular'],
+      'text-font': ['黑体'],
       'text-pitch-alignment': 'viewport',
       'text-rotation-alignment': 'viewport',
       'icon-rotation-alignment': 'viewport'

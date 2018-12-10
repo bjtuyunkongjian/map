@@ -2,7 +2,7 @@
  * @author sl 2019-01-02
  */
 
-const sourceName = "zx-source";
+const sourceName = 'zx-source';
 const lineLabelLayerId = 'line-ref';
 const lineBgLabelLayerId = 'line-bg-ref';
 const symbolLabelLayerId = 'symbol-ref';
@@ -10,9 +10,10 @@ const _visibleLevel = 14;
 
 const style = {
   sourceName: sourceName,
-  "dataName": "zx",
-  layers: [{
-      "id": "zx_bg",
+  dataName: 'zx',
+  layers: [
+    {
+      id: 'zx_bg',
       type: 'line',
       source: sourceName,
       minzoom: _visibleLevel,
@@ -38,7 +39,8 @@ const style = {
         'line-color': '#d8d8d8'
       },
       labelLayerId: lineBgLabelLayerId
-    }, {
+    },
+    {
       id: 'zx', // 路网图层（name字段），县道
       type: 'line',
       source: sourceName,
@@ -73,14 +75,11 @@ const style = {
       minzoom: _visibleLevel,
       layout: {
         'text-field': {
-          stops: [
-            [7, ''],
-            [13, '{NAME}']
-          ]
+          stops: [[7, ''], [13, '{NAME}']]
         },
         visibility: 'visible',
         'symbol-placement': 'line',
-        'text-font': ['Arial Unicode MS Bold'],
+        'text-font': ['黑体'],
         'text-pitch-alignment': 'map',
         'symbol-spacing': 500,
         'text-rotation-alignment': 'map',

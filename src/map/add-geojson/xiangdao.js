@@ -2,27 +2,27 @@
  * @author sl 2019-01-02
  */
 
-const sourceName = "xiangdao-source";
-const lineLabelLayerId = "line-ref";
-const lineBgLabelLayerId = "line-bg-ref";
-const symbolLabelLayerId = "symbol-ref";
+const sourceName = 'xiangdao-source';
+const lineLabelLayerId = 'line-ref';
+const lineBgLabelLayerId = 'line-bg-ref';
+const symbolLabelLayerId = 'symbol-ref';
 const _visibleLevel = 13;
 
 const style = {
   sourceName: sourceName,
-  dataName: "xiangdao",
+  dataName: 'xiangdao',
   layers: [
     {
-      id: "xiangdao_bg", //乡道
-      type: "line",
+      id: 'xiangdao_bg', //乡道
+      type: 'line',
       source: sourceName,
       minzoom: _visibleLevel,
       layout: {
-        "line-join": "round",
-        "line-cap": "round"
+        'line-join': 'round',
+        'line-cap': 'round'
       },
       paint: {
-        "line-width": {
+        'line-width': {
           base: 2,
           stops: [
             [7, 3],
@@ -43,21 +43,21 @@ const style = {
             [22, 26]
           ]
         },
-        "line-color": "#d8d8d8"
+        'line-color': '#d8d8d8'
       },
       labelLayerId: lineBgLabelLayerId
     },
     {
-      id: "xiangdao",
-      type: "line",
+      id: 'xiangdao',
+      type: 'line',
       source: sourceName,
       minzoom: _visibleLevel,
       layout: {
-        "line-cap": "round",
-        "line-join": "round"
+        'line-cap': 'round',
+        'line-join': 'round'
       },
       paint: {
-        "line-width": {
+        'line-width': {
           base: 2,
           stops: [
             [7, 2],
@@ -78,32 +78,32 @@ const style = {
             [22, 24]
           ]
         },
-        "line-color": "green"
+        'line-color': 'green'
       },
       labelLayerId: lineLabelLayerId
     },
     {
-      id: "xiangdao_name",
-      type: "symbol",
+      id: 'xiangdao_name',
+      type: 'symbol',
       source: sourceName,
       minzoom: _visibleLevel,
       layout: {
-        "text-field": {
-          stops: [[7, ""], [13, "{NAME}"]]
+        'text-field': {
+          stops: [[7, ''], [13, '{NAME}']]
         },
-        visibility: "visible",
-        "symbol-placement": "line",
-        "text-font": ["Arial Unicode MS Bold"],
-        "text-pitch-alignment": "map",
-        "symbol-spacing": 500,
-        "text-rotation-alignment": "map",
-        "text-size": 10,
-        "icon-rotation-alignment": "viewport"
+        visibility: 'visible',
+        'symbol-placement': 'line',
+        'text-font': ['黑体'],
+        'text-pitch-alignment': 'map',
+        'symbol-spacing': 500,
+        'text-rotation-alignment': 'map',
+        'text-size': 10,
+        'icon-rotation-alignment': 'viewport'
       },
       paint: {
-        "text-color": "rgba(65, 65, 65, 0.9)",
-        "text-halo-width": 2,
-        "text-halo-color": "rgba(255, 255, 255, 1)"
+        'text-color': 'rgba(65, 65, 65, 0.9)',
+        'text-halo-width': 2,
+        'text-halo-color': 'rgba(255, 255, 255, 1)'
       },
       labelLayerId: symbolLabelLayerId
     }

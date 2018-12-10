@@ -458,7 +458,7 @@ const style = {
         'text-field': '{NAME}',
         visibility: 'visible',
         'symbol-placement': 'line',
-        'text-font': ['Arial Unicode MS Bold'],
+        'text-font': ['黑体'],
         'text-pitch-alignment': 'viewport',
         'symbol-spacing': 500,
         'text-rotation-alignment': 'map',
@@ -491,7 +491,7 @@ const style = {
         'text-justify': 'left',
         'text-anchor': 'left',
         'text-offset': [0.8, 0],
-        'text-font': ['Arial Unicode MS Blod', 'Open Sans Regular'],
+        'text-font': ['黑体'],
         'text-pitch-alignment': 'viewport',
         'text-rotation-alignment': 'viewport',
         'icon-rotation-alignment': 'viewport'
@@ -518,7 +518,7 @@ const style = {
     //     'text-justify': 'left',
     //     'text-anchor': 'left',
     //     'text-offset': [0.8, 0],
-    //     'text-font': ['Arial Unicode MS Blod', 'Open Sans Regular'],
+    //     'text-font': ['黑体'],
     //     'text-pitch-alignment': 'viewport',
     //     'text-rotation-alignment': 'viewport',
     //     'icon-rotation-alignment': 'viewport'
@@ -543,7 +543,7 @@ const style = {
     //     'text-justify': 'left',
     //     'text-anchor': 'left',
     //     'text-offset': [0.8, 0],
-    //     'text-font': ['Arial Unicode MS Blod', 'Open Sans Regular'],
+    //     'text-font': ['黑体'],
     //     'text-pitch-alignment': 'viewport',
     //     'text-rotation-alignment': 'viewport'
     //   },
@@ -568,7 +568,7 @@ const style = {
     //     'text-justify': 'left',
     //     'text-anchor': 'left',
     //     'text-offset': [0.8, 0],
-    //     'text-font': ['Arial Unicode MS Blod', 'Open Sans Regular'],
+    //     'text-font': ['黑体'],
     //     'text-pitch-alignment': 'viewport',
     //     'text-rotation-alignment': 'viewport',
     //     'icon-rotation-alignment': 'viewport'
@@ -594,7 +594,7 @@ const style = {
     //     'text-justify': 'left',
     //     'text-anchor': 'left',
     //     'text-offset': [0.8, 0],
-    //     'text-font': ['Arial Unicode MS Blod', 'Open Sans Regular'],
+    //     'text-font': ['黑体'],
     //     'text-pitch-alignment': 'viewport',
     //     'text-rotation-alignment': 'viewport',
     //     'icon-rotation-alignment': 'viewport'
@@ -621,7 +621,7 @@ const style = {
         'text-justify': 'left',
         'text-anchor': 'left',
         'text-offset': [0.8, 0],
-        'text-font': ['Arial Unicode MS Blod', 'Open Sans Regular'],
+        'text-font': ['黑体'],
         'text-pitch-alignment': 'viewport',
         'text-rotation-alignment': 'viewport',
         'icon-rotation-alignment': 'viewport'
@@ -650,7 +650,7 @@ const style = {
         'text-justify': 'left',
         'text-anchor': 'left',
         'text-offset': [0.8, 0],
-        'text-font': ['Arial Unicode MS Blod', 'Open Sans Regular'],
+        'text-font': ['黑体'],
         'text-pitch-alignment': 'viewport',
         'text-rotation-alignment': 'viewport',
         'icon-rotation-alignment': 'viewport'
