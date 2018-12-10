@@ -2,7 +2,7 @@
  * @author sl 2019-01-02
  */
 
-const sourceName = "shengdao-source";
+const sourceName = 'shengdao-source';
 const lineLabelLayerId = 'line-sd-ref';
 const lineBgLabelLayerId = 'line-sd-bg-ref';
 const symbolLabelLayerId = 'symbol-ref';
@@ -10,9 +10,10 @@ const _visibleLevel = 9;
 
 const style = {
   sourceName: sourceName,
-  "dataName": "shengdao",
-  layers: [{
-      "id": "shengdao_bg", // 省道背景 
+  dataName: 'shengdao',
+  layers: [
+    {
+      id: 'shengdao_bg', // 省道背景
       type: 'line',
       source: sourceName,
       minzoom: _visibleLevel,
@@ -44,7 +45,8 @@ const style = {
         'line-color': '#ffae00'
       },
       labelLayerId: lineBgLabelLayerId
-    }, {
+    },
+    {
       id: 'shengdao', // 路网图层（name字段），省道
       type: 'line',
       source: sourceName,
@@ -71,7 +73,7 @@ const style = {
             [19, 11],
             [20, 19],
             [21, 22],
-            [22, 24],
+            [22, 24]
           ]
         },
         'line-color': '#ffeebb'
@@ -85,10 +87,7 @@ const style = {
       minzoom: _visibleLevel,
       layout: {
         'text-field': {
-          stops: [
-            [7, ''],
-            [13, '{NAME}']
-          ]
+          stops: [[7, ''], [13, '{NAME}']]
         },
         visibility: 'visible',
         'symbol-placement': 'line',

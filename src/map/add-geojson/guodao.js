@@ -2,16 +2,17 @@
  * @author sl 2019-01-02
  */
 
-const sourceName = "guodao-source";
+const sourceName = 'guodao-source';
 const lineLabelLayerId = 'line-gd-ref';
 const lineBgLabelLayerId = 'line-gd-ref';
 const symbolLabelLayerId = 'symbol-ref';
 
 const style = {
   sourceName: sourceName,
-  "dataName": "guodao",
-  layers: [{
-      "id": "guodao_bg", // 国道背景
+  dataName: 'guodao',
+  layers: [
+    {
+      id: 'guodao_bg', // 国道背景
       type: 'line',
       source: sourceName,
       layout: {
@@ -43,7 +44,8 @@ const style = {
         'line-color': '#f9bd09'
       },
       labelLayerId: lineBgLabelLayerId
-    }, {
+    },
+    {
       id: 'guodao', // 路网图层（name字段），国道
       type: 'line',
       source: sourceName,
@@ -70,7 +72,7 @@ const style = {
             [19, 11],
             [20, 19],
             [21, 22],
-            [22, 24],
+            [22, 24]
           ]
         },
         'line-color': '#fed669'
@@ -83,10 +85,7 @@ const style = {
       source: sourceName,
       layout: {
         'text-field': {
-          stops: [
-            [7, ''],
-            [12, '{NAME}']
-          ]
+          stops: [[7, ''], [12, '{NAME}']]
         },
         visibility: 'visible',
         'symbol-placement': 'line',
