@@ -1,4 +1,4 @@
-import turf from 'turf';
+import { area as Area } from 'turf';
 
 export function MeasureArea() {
   _MAP_.on('load', () => {
@@ -62,9 +62,9 @@ export function MeasureArea() {
         _areaGeojson.features.push(_areaString);
         var value = document.createElement('pre');
         const _totalArea =
-          turf.area(_areaString) > 10 ** 6
-            ? `${(turf.area(_areaString) / 10 ** 6).toLocaleString()} 平方千米`
-            : `${turf.area(_areaString).toLocaleString()} 平方米`;
+          Area(_areaString) > 10 ** 6
+            ? `${(Area(_areaString) / 10 ** 6).toLocaleString()} 平方千米`
+            : `${Area(_areaString).toLocaleString()} 平方米`;
 
         value.textContent = `总面积：${_totalArea}`;
 

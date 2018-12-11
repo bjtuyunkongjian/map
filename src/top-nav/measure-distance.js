@@ -1,4 +1,4 @@
-import turf from 'turf';
+import { lineDistance as LineDistance } from 'turf';
 
 export function MeasureDistance() {
   _MAP_.on('load', () => {
@@ -68,9 +68,9 @@ export function MeasureDistance() {
         _distanceGeojson.features.push(_linestring);
         var value = document.createElement('pre');
         const _totalDistance =
-          turf.lineDistance(_linestring) > 1
-            ? `${turf.lineDistance(_linestring).toLocaleString()} 千米`
-            : `${(turf.lineDistance(_linestring) * 1000).toLocaleString()} 米`;
+          LineDistance(_linestring) > 1
+            ? `${LineDistance(_linestring).toLocaleString()} 千米`
+            : `${(LineDistance(_linestring) * 1000).toLocaleString()} 米`;
         value.textContent = '总距离：' + _totalDistance;
         distanceContainer.appendChild(value);
       }
