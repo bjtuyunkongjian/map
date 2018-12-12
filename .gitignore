@@ -4,6 +4,7 @@
 /node_modules/
 /docs/pages/dist/mapbox-gl-dev.js
 /docs/pages/dist/mapbox-gl.js
+/bin/config.js
 *.js.map
 package-lock.json
 *.sublime-*
