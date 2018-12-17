@@ -1,9 +1,10 @@
 {
-  "presets": ["env", "react", "es2015"],
+  "presets": ["env", "react"],
   "plugins": [
     "minify-dead-code-elimination",
     "transform-async-to-generator",
     "transform-runtime",
-    "transform-class-properties"
+    "transform-class-properties",
+    "transform-decorators-legacy"
   ]
 }

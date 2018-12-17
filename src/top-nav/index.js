@@ -161,10 +161,6 @@ export default class TopNav extends Component {
       this.setState({ selectedNav: -1, selectedColor: -1 });
       return;
     }
-    // if (!RegRgb.test(rgb)) {
-    //   this.setState({ selectedNav: -1, selectedColor: -1 });
-    //   return;
-    // }
     const { selectedColor } = this.state;
     for (let item of colorLabelIdArr[selectedColor]) {
       if (!item.id || item.type === 'POI') continue;

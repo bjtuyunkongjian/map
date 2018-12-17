@@ -22,7 +22,7 @@ const _addListener = function(type, fn, context, once) {
   return this;
 };
 
-class EventEmitter {
+class Emitter {
   constructor() {
     if (this._events === undefined) {
       this._events = Object.create(null);
@@ -152,4 +152,4 @@ class EventEmitter {
   }
 }
 
-export default EventEmitter;
+export default Emitter;
