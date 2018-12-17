@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 // import Content from './Content';
-// import Policedata from './podata';
+import Policedata from './podata';
 // import Camera from './camera';
 // import Case from './case';
 // import Call from './call';
@@ -96,7 +96,7 @@ export default class LeftMenu extends Component {
     const { res, err } = await FetchString(_param);
     console.log(res, err);
   };
-
+  _selectIndex = () => {};
   _renderMenulist = () => {
     let _menuList = null,
       _seletedOpt;
