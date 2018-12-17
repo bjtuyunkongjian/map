@@ -6,9 +6,14 @@ export default class Content extends Component {
   }
 
   static defaultProps = {
-    selectContent: -1,
+    selectedOpt: -1,
     onSelect: () => {}
   };
 
-  render() {}
+  render() {
+    const { selectedOpt } = this.props;
+    const _optItems = Content.map((iyem, index) => {
+      <li />;
+    });
+  }
 }
