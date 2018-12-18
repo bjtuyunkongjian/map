@@ -1,3 +1,7 @@
+/**
+ * @author sl204984
+ */
+
 // mapbox 用到的通用函数
 import AddLevel from './add-level'; // 添加图层
 import FontColor from './font-color'; // mapbox 中精灵图对应的字体颜色

@@ -19,8 +19,12 @@ export default class FilterOptions extends Component {
   }
 
   render() {
+    const { curIndex } = this.state;
     return (
-      <div className="menu-item" onClick={this._selectMenu}>
+      <div
+        className={`menu-item${curIndex === menuItemIndex ? ' checked' : ''}`}
+        onClick={this._selectMenu}
+      >
         筛选
       </div>
     );
@@ -32,10 +36,6 @@ export default class FilterOptions extends Component {
       'change:curIndex',
       curIndex === menuItemIndex ? -1 : menuItemIndex
     );
-    // Event.emit('aaa', 2);
-    // this.setState({
-    //   curIndex: curIndex === menuItemIndex ? -1 : menuItemIndex
-    // });
   };
 }
 
