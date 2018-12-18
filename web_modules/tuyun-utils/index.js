@@ -19,6 +19,8 @@ import {
   FetchRequest // fetch 请求，调用 bffHost
 } from './fetch';
 
+import Emit from './emit';
+
 export {
   AddLevel,
   FontColor,
@@ -31,5 +33,6 @@ export {
   CreateUid,
   DrawRoundRect,
   ResolveBlurry,
-  FetchRequest
+  FetchRequest,
+  Emit
 };

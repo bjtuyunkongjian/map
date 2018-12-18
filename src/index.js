@@ -24,7 +24,7 @@ class MapApp extends Component {
     return (
       <div className="map-app">
         <MapDemo />
-        {/*<TopNav />*/}
+        {/* <TopNav /> */}
         <Restore />
         <LeftMenu />
       </div>

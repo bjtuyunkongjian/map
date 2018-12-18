@@ -1,22 +1,19 @@
+@import './menulist/index'; //导入菜单列表样式
+
 .left-menu {
   width: 240px;
   height: 100%;
+  background: linear-gradient(#536677, #67cca3);
   z-index: 99;
   left: 0;
   top: 0;
   position: fixed;
   opacity: 0.9;
   .menu-box {
-    background: linear-gradient(#536677, #67cca3);
     width: 100%;
     height: 100%;
+    background: linear-gradient(#536677, #67cca3);
     transform: all 0.5s;
-    .icon {
-      width: 20px;
-      height: 20px;
-      margin-top: 6px;
-      margin-right: 25px;
-    }
     .menu-item {
       color: @t-white;
       position: relative;
@@ -79,7 +76,7 @@
   animation: @menu-fade-in;
 }
 
-@menu-fade-in: 0.5s menu-fade-in; // 菜单
+@menu-fade-in: 0.5s menu-fade-in; // 菜单滑入
 @keyframes menu-fade-in {
   0% {
     left: -240px;
@@ -94,7 +91,7 @@
   animation: @menu-fade-out;
 }
 
-@menu-fade-out: 0.5s menu-fade-out; // 菜单
+@menu-fade-out: 0.5s menu-fade-out; // 菜单滑出
 @keyframes menu-fade-out {
   0% {
     left: 0;
