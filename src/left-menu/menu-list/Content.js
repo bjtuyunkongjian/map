@@ -9,7 +9,10 @@ export default class Content extends Component {
   render() {
     const { animate } = this.state;
     return (
-      <div className="menu-item content">
+      <div
+        className="menu-item content"
+        onClick={() => Event.emit('merge:canshu', { a: 1, b: 2 })}
+      >
         <IoIosPaper />
         工作内容
         <span

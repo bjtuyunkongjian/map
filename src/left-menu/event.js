@@ -1,5 +1,5 @@
-import { Emit } from 'tuyun-utils';
+import { Emitter } from 'tuyun-utils';
 
-const Event = new Emit();
+const Event = new Emitter();
 
 export default Event;
