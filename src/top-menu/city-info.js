@@ -23,7 +23,6 @@ export default class CityInfo extends Component {
   };
 
   componentDidMount() {
-    this._fetchCityInfo(); // 获取城市信息
     this._changeCityInfo(); // 改变城市信息
   }
 
@@ -40,6 +39,7 @@ export default class CityInfo extends Component {
   }
 
   _changeCityInfo = () => {
+    this._fetchCityInfo(); // 获取城市信息
     document.addEventListener('mouseup', this._fetchCityInfo);
     _MAP_.on('zoomend', this._fetchCityInfo);
   };
