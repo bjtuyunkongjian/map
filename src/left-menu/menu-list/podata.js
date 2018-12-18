@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import Event from '../event';
 import { IoIosPeople } from 'react-icons/io';
-import menuItems from 'src/top-menu/menu-items';
+// import menuItems from 'src/top-menu/menu-items';
 export default class PoliceData extends Component {
   // state = {
   //   curMenu: -1,
