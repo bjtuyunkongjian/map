@@ -1,0 +1,72 @@
+.top-menu {
+  @height: 45px;
+  @line-height: 15px;
+  position: absolute;
+  height: @height;
+  background-color: #ffffff;
+  right: 70px;
+  z-index: 1;
+  top: 10px;
+  box-shadow: @box-shadow;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  .hidden {
+    display: none;
+  }
+  .menu-item {
+    display: flex;
+    align-items: center;
+    padding: 0 5px;
+    cursor: pointer;
+    color: @t-base;
+    border-right: 1px solid @t-placeholder;
+    position: relative;
+    line-height: @line-height;
+    &:last-child {
+      border-right: 0;
+    }
+    &:hover {
+      color: @color-blue;
+    }
+    &.checked {
+      color: @color-blue;
+    }
+  }
+
+  .city-info {
+    .city-name {
+      margin: 0 5px;
+    }
+  }
+
+  .view-options {
+    .option-container {
+      position: absolute;
+      right: 0;
+      background: white;
+      box-shadow: @box-shadow;
+      border-radius: @radius-m;
+      animation: @fade;
+      top: @height - @line-height + 5;
+      overflow: hidden;
+      .option-item {
+        height: 40px;
+        width: 150px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px;
+        color: black;
+        &:hover {
+          color: @color-blue;
+          background: @bg-hover;
+        }
+        &.checked {
+          color: @color-blue;
+        }
+      }
+    }
+  }
+}

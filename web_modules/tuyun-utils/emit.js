@@ -41,7 +41,7 @@ class Emitter {
     return _addListener.call(this, type, fn, context, true);
   }
 
-  emit(type, ...rest) {
+  emit(type, rest) {
     if (IsNullUndefined(type)) {
       throw new Error('emit must receive at lease one argument');
     }
