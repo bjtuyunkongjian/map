@@ -6,23 +6,26 @@
 import React, { Component } from 'react';
 
 import Event from './event';
+import MenuItems from './menu-items';
 
 export default class FilterOptions extends Component {
   state = {
-    curIndex: -1
+    curMenu: -1
   };
 
   componentWillMount() {
-    Event.on('change:curIndex', curIndex => {
-      this.setState({ curIndex });
+    Event.on('change:curMenu', curMenu => {
+      this.setState({ curMenu });
     });
   }
 
   render() {
-    const { curIndex } = this.state;
+    const { curMenu } = this.state;
     return (
       <div
-        className={`menu-item${curIndex === menuItemIndex ? ' checked' : ''}`}
+        className={`menu-item${
+          curMenu === MenuItems.filterOptions ? ' checked' : ''
+        }`}
         onClick={this._selectMenu}
       >
         筛选
@@ -31,12 +34,10 @@ export default class FilterOptions extends Component {
   }
 
   _selectMenu = () => {
-    const { curIndex } = this.state;
+    const { curMenu } = this.state;
     Event.emit(
-      'change:curIndex',
-      curIndex === menuItemIndex ? -1 : menuItemIndex
+      'change:curMenu',
+      curMenu === MenuItems.filterOptions ? -1 : MenuItems.filterOptions
     );
   };
 }
-
-const menuItemIndex = 2;

@@ -8,23 +8,23 @@ import { MdCheck } from 'react-icons/md';
 import ThematicStyles from './thematic-styles';
 import { ChangeLvStyle } from './change-lv-style';
 import Event from './event';
+import MenuItems from './menu-items';
 
 export default class ViewOptions extends Component {
   state = {
-    curIndex: -1,
+    curMenu: -1,
     selectedOpt: 0
   };
 
   componentWillMount() {
-    Event.on('change:curIndex', curIndex => {
-      console.log('aaa', curIndex);
-      this.setState({ curIndex });
+    Event.on('change:curMenu', curMenu => {
+      this.setState({ curMenu });
     });
   }
 
   render() {
-    const { curIndex, selectedOpt } = this.state;
-    const _selected = curIndex === menuItemIndex;
+    const { curMenu, selectedOpt } = this.state;
+    const _selected = curMenu === MenuItems.viewOptions;
     return (
       <div
         className={`menu-item view-options${_selected ? ' checked' : ''}`}
@@ -51,10 +51,10 @@ export default class ViewOptions extends Component {
   }
 
   _selectMenu = () => {
-    const { curIndex } = this.state;
+    const { curMenu } = this.state;
     Event.emit(
-      'change:curIndex',
-      curIndex === menuItemIndex ? -1 : menuItemIndex
+      'change:curMenu',
+      curMenu === MenuItems.viewOptions ? -1 : MenuItems.viewOptions
     );
   };
 
@@ -98,8 +98,6 @@ export default class ViewOptions extends Component {
     }
   };
 }
-
-const menuItemIndex = 1;
 
 const options = [
   { value: 0, name: '标准视图', theme: 'standard' },
