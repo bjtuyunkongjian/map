@@ -2,41 +2,36 @@ import React, { Component } from 'react';
 
 import Event from '../event';
 import { IoIosPeople } from 'react-icons/io';
+import menuItems from 'src/top-menu/menu-items';
 export default class PoliceData extends Component {
-  state = {
-    curIndex: -1,
-    selectedOpt: 0
-  };
+  // state = {
+  //   curMenu: -1,
+  //   selectedOpt: 0
+  // };
 
-  componentDidMount() {
-    Event.on('change:curIndex', curIndex => {
-      console.log('aaa', curIndex);
-      this.setState({ curIndex });
-    });
-  }
+  // componentDidMount() {
+  //   Event.on('change:curMenu', curMenu => {
+  //     console.log(curMenu);
+  //     this.setState({ curMenu });
+  //   });
+  // }
 
   render() {
-    const { curIndex, selectedOpt } = this.state;
-    // const _selected = curIndex === menuItemIndex;
+    // const { curMenu, selectedOpt } = this.state;
+    // const _selected = curMenu === menuItems;
     return (
-      <div
-        className={`menu-item policedata${_selected ? 'checked' : ''}`}
-        onClick={this._selectMenu}
-      >
+      <div className="menu-item">
         <IoIosPeople />
         一标三实
         <span className="arrow arrow-right" />
-        <ul className={`policedata${_selected ? '' : 'hidden'}`}>
-          {options.map((item, index) => (
+        {/* <ul className={`policedata`}>
+          {['人口', '房屋', '单位'].map((item, index) => (
             <li
-              className="data-item"
-              key={index}
-              onClick={e => this._datamap(index, item.map, e)}
-            >
-              {item.name}
-            </li>
+              className="data-item" */}
+        >{/* {item.name} */}
+        {/* </li>
           ))}
-        </ul>
+        </ul> */}
       </div>
     );
   }
