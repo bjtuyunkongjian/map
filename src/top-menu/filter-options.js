@@ -44,7 +44,7 @@ export default class FilterOptions extends Component {
         <ul className={`option-container ${_selected ? '' : 'hidden'}`}>
           {options.map((item, index) => (
             <li
-              className={`option-item ${!hiddenOpt[index] ? '' : 'disabled'}`}
+              className="option-item"
               key={`filter_option_${index}`}
               onClick={e => this._checkStyle(index, e)}
             >
