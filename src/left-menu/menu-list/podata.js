@@ -7,12 +7,12 @@ export default class PoliceData extends Component {
   //   name: 123
   // };
 
-  // componentDidMount() {
-  //   Event.on('aaa', () => {
-  //     console.log('aaa');
-  //     this.setState({ name: 'hhy' });
-  //   });
-  // }
+  componentDidMount() {
+    Event.on('aaa', param => {
+      console.log('aaa', param);
+      this.setState({ name: 'hhy' });
+    });
+  }
 
   render() {
     // const { name } = this.state;
@@ -21,7 +21,29 @@ export default class PoliceData extends Component {
         <IoIosPeople />
         一标三实
         <span className="arrow arrow-right" />
+        <ul className="policedata">
+          {/* <li className="people" onClick={this._xxx}>
+            人口
+          </li>
+          <li className="house" onClick={this.xxx2}>
+            房屋
+          </li>
+          <li className="">单位</li> */}
+          {['人口', '房屋', '单位'].map((item, index) => (
+            <li
+              className="xxx-item"
+              key={index}
+              onClick={() => this._xxx(index)}
+            >
+              {item}
+            </li>
+          ))}
+        </ul>
       </div>
     );
   }
+
+  _xxx = index => {
+    _MAP_.on();
+  };
 }
