@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Event from '../event';
 import { IoIosPaper } from 'react-icons/io';
+
 export default class Content extends Component {
   state = {
     animate: ''
