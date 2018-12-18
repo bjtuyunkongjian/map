@@ -27,18 +27,18 @@ export default class ViewOptions extends Component {
     const _selected = curMenu === MenuItems.viewOptions;
     return (
       <div
-        className={`menu-item view-options${_selected ? ' checked' : ''}`}
+        className={`menu-item view-options ${_selected ? 'checked' : ''}`}
         onClick={this._selectMenu}
       >
         <IoMdReorder />
         模板
-        <ul className={`option-container${_selected ? '' : ' hidden'}`}>
+        <ul className={`option-container ${_selected ? '' : 'hidden'}`}>
           {options.map((item, index) => (
             <li
               className={`option-item ${
                 selectedOpt === index ? 'checked' : ''
               }`}
-              key={`nav_option_${index}`}
+              key={`view_option_${index}`}
               onClick={e => this._checkStyle(index, item.theme, e)}
             >
               {item.name}

@@ -41,7 +41,8 @@
     }
   }
 
-  .view-options {
+  .view-options,
+  .filter-options {
     .option-container {
       position: absolute;
       right: 0;
@@ -65,6 +66,9 @@
         }
         &.checked {
           color: @color-blue;
+        }
+        &.disabled {
+          color: @t-disabled;
         }
       }
     }
