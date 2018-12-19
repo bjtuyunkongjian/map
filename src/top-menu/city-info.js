@@ -35,16 +35,15 @@ export default class CityInfo extends Component {
   render() {
     const _weatherIcon = this._selectIcon();
     const { cityName, curMenu } = this.state;
+    const _selected = curMenu === MenuItems.cityInfo;
     return (
       <div
-        className={`city-info menu-item${
-          curMenu === MenuItems.cityInfo ? ' checked' : ''
-        }`}
+        className={`city-info menu-item${_selected ? ' checked' : ''}`}
         onClick={this._selectMenu}
       >
         {_weatherIcon}
         <span className="city-name">{cityName}</span>
-        <IoIosArrowDown />
+        <IoIosArrowDown className={_selected ? 'arrow-up' : ''} />
       </div>
     );
   }
