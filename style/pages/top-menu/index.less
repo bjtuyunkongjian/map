@@ -13,7 +13,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 10px;
+  padding-left: @padding;
   border-radius: @radius-s;
   .hidden {
     display: none;
@@ -28,6 +28,7 @@
     line-height: @line-height;
     &:nth-last-child(2) {
       border-right: 0;
+      padding-right: 15px;
     }
     &:hover {
       color: @color-blue;
@@ -47,7 +48,8 @@
   }
 
   .view-options,
-  .filter-options {
+  .filter-options,
+  .tool-box {
     .option-container {
       position: absolute;
       z-index: 1;
@@ -110,7 +112,6 @@
       }
       .select-city {
         padding-bottom: @padding;
-        // border-bottom: 1px solid @border-color-darker;
         .select-city-label {
           padding: @padding 0;
         }
