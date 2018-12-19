@@ -10,8 +10,15 @@ import FilterOptions from './filter-options';
 import FrameSelect from './frame-select';
 import LineSelect from './line-select';
 import ToolBox from './tool-box';
+import Event from './event';
 
 export default class TopMenu extends Component {
+  componentDidMount() {
+    _MAP_.on('mouseup', e => {
+      Event.emit('change:curMenu', -1);
+    });
+  }
+
   render() {
     return (
       <div className="top-menu">
