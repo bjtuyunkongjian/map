@@ -221,6 +221,9 @@ export default class LeftMenu extends Component {
   state = {
     animate: ''
   };
+  componentDidMount() {
+    Event.emit('change:curMenu', -1);
+  }
   render() {
     const { animate } = this.state;
     return (

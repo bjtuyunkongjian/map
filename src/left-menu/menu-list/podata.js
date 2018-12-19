@@ -1,53 +1,73 @@
 import React, { Component } from 'react';
 
-import Event from '../event';
+import Event from './event';
 import { IoIosPeople } from 'react-icons/io';
-// import menuItems from 'src/top-menu/menu-items';
-export default class PoliceData extends Component {
-  // state = {
-  //   curMenu: -1,
-  //   selectedOpt: 0
-  // };
+import MenuItem from './menu-item';
 
-  // componentDidMount() {
-  //   Event.on('change:curMenu', curMenu => {
-  //     console.log(curMenu);
-  //     this.setState({ curMenu });
-  //   });
-  // }
+export default class PoliceData extends Component {
+  state = {
+    curMenu: -1,
+    selectedOpt: 0
+  };
+
+  componentDidMount() {
+    Event.on('change:curMenu', curMenu => {
+      console.log(curMenu);
+      this.setState({ curMenu });
+    });
+  }
 
   render() {
-    // const { curMenu, selectedOpt } = this.state;
-    // const _selected = curMenu === menuItems;
+    const { curMenu, selectedOpt } = this.state;
+    const _selected = curMenu === MenuItem.dataOption;
     return (
-      <div className="menu-item">
+      <div
+        className={`menu-item data${_selected ? 'checked' : ''}`}
+        onClick={this._selectMenu}
+      >
         <IoIosPeople />
         一标三实
         <span className="arrow arrow-right" />
-        {/* <ul className={`policedata`}>
-          {['人口', '房屋', '单位'].map((item, index) => (
+        <ul className={`data-container${_selected ? '' : 'hidden'}`}>
+          {options.map((item, index) => (
             <li
-              className="data-item" */}
-        >{/* {item.name} */}
-        {/* </li>
+              className={`data-item${selectedOpt === index ? 'checked' : ''}`}
+              key={`data_option_${index}`}
+              onClick={e =>
+                this.UNSAFE_componentWillMount._checkmap(index, item.map, e)
+              }
+            >
+              {item.name}
+            </li>
           ))}
-        </ul> */}
+        </ul>
       </div>
     );
   }
 
-  // _selectMenu = () => {
-  //   const { curIndex } = this.state;
-  //   Event.emit(
-  //     'change:curIndex',
-  //     curIndex === menuItemIndex ? -1 : menuItemIndex
-  //   );
-  // };
-  // _datamap = (index, map, e) => {
-  //   e.stopPropagation();
-  //   this.setState({ selectedOpt: index });
-  //   for (let item of MapType) {
-
-  //   }
-  // };
+  _selectMenu = () => {
+    const { curIndex } = this.state;
+    Event.emit(
+      'change:curMenu',
+      curMenu === MenuItem.dataOption ? -1 : MenuItem.dataOption
+    );
+  };
+  _checkmap = (index, map, e) => {
+    e.stopPropagation();
+    this.setState({ selectedOpt: index });
+    for (let item of MapTypes) {
+      if (!item.id || !item[map]) continue;
+      if (_MAP_.getLayer(item.id)) {
+        if (item.map === 'people') {
+          _MAP_.getSource();
+        }
+      }
+    }
+  };
 }
+
+const options = [
+  { value: 0, name: '人口', map: 'people' },
+  { value: 1, name: '房屋', map: 'house' },
+  { value: 2, name: '单位', map: 'unit' }
+];

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Event from '../event';
+import Event from './event';
 import { IoIosPaper } from 'react-icons/io';
 
 export default class Content extends Component {
@@ -11,7 +11,7 @@ export default class Content extends Component {
     return (
       <div
         className="menu-item content"
-        onClick={() => Event.emit('merge:canshu', { a: 1, b: 2 })}
+        onClick={() => Event.emit('merge:canshu')}
       >
         <IoIosPaper />
         工作内容

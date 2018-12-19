@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Event from '../event';
+import Event from './event';
 import { IoIosEye } from 'react-icons/io';
 export default class Camera extends Component {
   render() {
