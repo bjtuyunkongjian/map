@@ -4,12 +4,7 @@ import { IoIosMail } from 'react-icons/io';
 export default class Case extends Component {
   render() {
     return (
-      <div
-        className="menu-item"
-        onClick={() => {
-          Event.emit('aaa');
-        }}
-      >
+      <div className="menu-item" onClick={() => {}}>
         <IoIosMail />
         案件
         <span className="arrow arrow-right" />

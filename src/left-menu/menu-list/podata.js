@@ -7,7 +7,8 @@ import MenuItem from './menu-item';
 export default class PoliceData extends Component {
   state = {
     curMenu: -1,
-    selectedOpt: 0
+    selectedOpt: 0,
+    animate: ''
   };
 
   componentDidMount() {
@@ -18,7 +19,7 @@ export default class PoliceData extends Component {
   }
 
   render() {
-    const { curMenu, selectedOpt } = this.state;
+    const { curMenu, selectedOpt, animate } = this.state;
     const _selected = curMenu === MenuItem.dataOption;
     return (
       <div
@@ -27,8 +28,15 @@ export default class PoliceData extends Component {
       >
         <IoIosPeople />
         一标三实
-        <span className="arrow arrow-right" />
-        <ul className={`data-container${_selected ? '' : 'hidden'}`}>
+        <span
+          className={`arrow arrow-right${animate}`}
+          onClick={() => {
+            this.setState({
+              animate: animate === 'arrow-down' ? 'arrow-right' : 'arrow-down'
+            });
+          }}
+        />
+        <ul className={`data-container${_selected ? 'hidden' : ''}`}>
           {options.map((item, index) => (
             <li
               className={`data-item${selectedOpt === index ? 'checked' : ''}`}
@@ -46,7 +54,7 @@ export default class PoliceData extends Component {
   }
 
   _selectMenu = () => {
-    const { curIndex } = this.state;
+    const { curMenu } = this.state;
     Event.emit(
       'change:curMenu',
       curMenu === MenuItem.dataOption ? -1 : MenuItem.dataOption

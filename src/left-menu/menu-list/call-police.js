@@ -4,12 +4,7 @@ import { IoIosCall } from 'react-icons/io';
 export default class CallPolice extends Component {
   render() {
     return (
-      <div
-        className="menu-item"
-        onClick={() => {
-          Event.emit('aaa');
-        }}
-      >
+      <div className="menu-item" onClick={() => {}}>
         <IoIosCall />
         报警
         <span className="arrow arrow-right" />

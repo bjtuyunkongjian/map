@@ -4,12 +4,7 @@ import { TiUser } from 'react-icons/ti';
 export default class Police extends Component {
   render() {
     return (
-      <div
-        className="menu-item"
-        onClick={() => {
-          Event.emit('aaa');
-        }}
-      >
+      <div className="menu-item" onClick={() => {}}>
         <TiUser />
         警力
         <span className="arrow arrow-right" />

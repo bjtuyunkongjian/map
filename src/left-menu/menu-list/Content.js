@@ -11,7 +11,7 @@ export default class Content extends Component {
     return (
       <div
         className="menu-item content"
-        onClick={() => Event.emit('merge:canshu')}
+        // onClick={() => Event.emit('merge:canshu')}
       >
         <IoIosPaper />
         工作内容
