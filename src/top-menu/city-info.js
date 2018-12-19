@@ -95,8 +95,8 @@ export default class CityInfo extends Component {
     const _param = {
       points: [_bounds.lng, _bounds.lat]
     };
-    const { res, err } = await FetchCityInfo(_param);
-    !err && this.setState({ cityName: res.city_name });
+    // const { res, err } = await FetchCityInfo(_param);
+    // !err && this.setState({ cityName: res.city_name });
   };
 
   _selectMenu = () => {
