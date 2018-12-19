@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Event from '../event';
+import Event from './event';
 import { TiUser } from 'react-icons/ti';
 export default class Police extends Component {
   render() {

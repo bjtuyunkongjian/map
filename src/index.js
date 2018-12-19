@@ -10,7 +10,7 @@ import MapDemo from './map';
 // import TopNav from './top-nav'; // 顶部导航，刚开始版本，由于业务需求顶部导航做了改动，后期改回来放开
 import TopMenu from './top-menu';
 import Restore from './restore';
-import LeftMenu from './left-menu';
+// import LeftMenu from './left-menu';
 
 class MapApp extends Component {
   render() {
@@ -28,7 +28,7 @@ class MapApp extends Component {
         {/*<TopNav />*/}
         <TopMenu />
         <Restore />
-        <LeftMenu />
+        {/*<LeftMenu />*/}
       </div>
     );
   }
