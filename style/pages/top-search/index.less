@@ -1,0 +1,47 @@
+.top-search {
+  @height: 40px;
+  @padding: 10px;
+  @line-height: 15px;
+  position: absolute;
+  height: @height;
+  color: @t-base;
+  background-color: #ffffff;
+  left: 270px;
+  z-index: 1;
+  top: 10px;
+  box-shadow: @box-shadow-mini;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: @radius-s;
+  overflow: hidden;
+  .search-input {
+    width: 150px;
+    margin-left: 10px;
+    border-right: 1px solid @border-color-darker;
+  }
+  .route-icon {
+    color: @color-blue;
+    font-weight: 900;
+    font-size: 20px;
+    cursor: pointer;
+    margin: 0 10px;
+  }
+  .search-btn {
+    width: 50px;
+    height: 100%;
+    background-color: #3385ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    &:hover {
+      background-color: #2e77e5;
+    }
+    .search-icon {
+      color: white;
+      font-weight: 900;
+      font-size: 20px;
+    }
+  }
+}

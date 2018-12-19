@@ -7,6 +7,7 @@ import ReactDom from 'react-dom';
 
 import '../style/index.less';
 import MapDemo from './map';
+import TopSearch from './top-search';
 // import TopNav from './top-nav'; // 顶部导航，刚开始版本，由于业务需求顶部导航做了改动，后期改回来放开
 import TopMenu from './top-menu';
 import Restore from './restore';
@@ -25,6 +26,7 @@ class MapApp extends Component {
     return (
       <div className="map-app">
         <MapDemo />
+        <TopSearch />
         {/*<TopNav />*/}
         <TopMenu />
         <Restore />

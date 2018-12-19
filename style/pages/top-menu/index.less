@@ -9,11 +9,12 @@
   right: 70px;
   z-index: 1;
   top: 10px;
-  box-shadow: @box-shadow;
+  box-shadow: @box-shadow-mini;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 10px;
+  border-radius: @radius-s;
   .hidden {
     display: none;
   }
@@ -49,7 +50,7 @@
       z-index: 1;
       right: 0;
       background: white;
-      box-shadow: @box-shadow;
+      box-shadow: @box-shadow-mini;
       border-radius: @radius-m;
       animation: @fade;
       top: @height - @line-height + 5;
@@ -79,7 +80,7 @@
     left: 0;
     width: 100%;
     background-color: white;
-    box-shadow: @box-shadow;
+    box-shadow: @box-shadow-mini;
     border-radius: @radius-m;
     animation: @fade;
     overflow: auto;
