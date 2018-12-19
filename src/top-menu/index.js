@@ -7,9 +7,12 @@ import React, { Component } from 'react';
 import CityInfo from './city-info';
 import ViewOptions from './view-options';
 import FilterOptions from './filter-options';
+import MarkPlot from './mark-plot';
 import FrameSelect from './frame-select';
 import LineSelect from './line-select';
 import ToolBox from './tool-box';
+import CityList from './city-list'; // 选择城市的下拉列表
+// 事件
 import Event from './event';
 
 export default class TopMenu extends Component {
@@ -25,9 +28,11 @@ export default class TopMenu extends Component {
         <CityInfo />
         <ViewOptions />
         <FilterOptions />
+        <MarkPlot />
         <FrameSelect />
         <LineSelect />
         <ToolBox />
+        <CityList />
       </div>
     );
   }

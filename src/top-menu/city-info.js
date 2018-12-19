@@ -25,9 +25,7 @@ export default class CityInfo extends Component {
   };
 
   componentWillMount() {
-    Event.on('change:curMenu', curMenu => {
-      this.setState({ curMenu });
-    });
+    this._dealWithEvent();
   }
 
   componentDidMount() {
@@ -50,6 +48,15 @@ export default class CityInfo extends Component {
       </div>
     );
   }
+
+  _dealWithEvent = () => {
+    Event.on('change:curMenu', curMenu => {
+      this.setState({ curMenu });
+    });
+    Event.on('change:cityName', cityName => {
+      this.setState({ cityName });
+    });
+  };
 
   _selectIcon = () => {
     const { curWeather } = this.state;
@@ -87,7 +94,7 @@ export default class CityInfo extends Component {
     const _zoom = _MAP_.getZoom();
     if (_zoom < 8) {
       // 暂时将缩放层级小于8的计算放在前台
-      this.setState({ cityName: '山东省' });
+      Event.emit('change:cityName', '山东省');
       return;
     }
     const _bounds = _MAP_.getCenter(); // 获取边界信息
@@ -96,7 +103,7 @@ export default class CityInfo extends Component {
       points: [_bounds.lng, _bounds.lat]
     };
     // const { res, err } = await FetchCityInfo(_param);
-    // !err && this.setState({ cityName: res.city_name });
+    // !err && Event.emit('change:cityName', res.city_name);
   };
 
   _selectMenu = () => {
