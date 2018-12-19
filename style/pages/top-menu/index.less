@@ -1,17 +1,20 @@
 .top-menu {
   @height: 40px;
+  @padding: 10px;
   @line-height: 15px;
   position: absolute;
   height: @height;
+  color: @t-base;
   background-color: #ffffff;
   right: 70px;
   z-index: 1;
   top: 10px;
-  box-shadow: @box-shadow;
+  box-shadow: @box-shadow-mini;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 10px;
+  border-radius: @radius-s;
   .hidden {
     display: none;
   }
@@ -20,11 +23,10 @@
     align-items: center;
     padding: 0 5px;
     cursor: pointer;
-    color: @t-base;
-    border-right: 1px solid @t-placeholder;
+    border-right: 1px solid @border-color-darker;
     position: relative;
     line-height: @line-height;
-    &:last-child {
+    &:nth-last-child(2) {
       border-right: 0;
     }
     &:hover {
@@ -39,15 +41,19 @@
     .city-name {
       margin: 0 5px;
     }
+    .arrow-up {
+      transform: rotate(180deg);
+    }
   }
 
   .view-options,
   .filter-options {
     .option-container {
       position: absolute;
+      z-index: 1;
       right: 0;
       background: white;
-      box-shadow: @box-shadow;
+      box-shadow: @box-shadow-mini;
       border-radius: @radius-m;
       animation: @fade;
       top: @height - @line-height + 5;
@@ -58,7 +64,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 10px;
+        padding: @padding;
         color: black;
         &:hover {
           color: @color-blue;
@@ -66,6 +72,59 @@
         }
         &.checked {
           color: @color-blue;
+        }
+      }
+    }
+  }
+
+  .city-list {
+    position: absolute;
+    top: @height + 5;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    box-shadow: @box-shadow-mini;
+    border-radius: @radius-m;
+    animation: @fade;
+    overflow: auto;
+    .list-header {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: @padding;
+      border-bottom: 1px solid @border-color-darker;
+      .close-icon {
+        cursor: pointer;
+        &:hover {
+          color: @t-gray;
+        }
+      }
+    }
+    .list-body {
+      width: 100%;
+      padding: 0 @padding;
+      .cur-city {
+        padding: @padding 0;
+        border-bottom: 1px solid @border-color-darker;
+      }
+      .select-city {
+        padding-bottom: @padding;
+        // border-bottom: 1px solid @border-color-darker;
+        .select-city-label {
+          padding: @padding 0;
+        }
+        .cities {
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+          .city-item {
+            padding: @padding / 2;
+            cursor: pointer;
+            &:hover {
+              color: @color-blue;
+            }
+          }
         }
       }
     }

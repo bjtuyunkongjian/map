@@ -35,9 +35,7 @@ export default class FilterOptions extends Component {
     const _selected = curMenu === MenuItems.filterOptions;
     return (
       <div
-        className={`menu-item filter-options ${
-          curMenu === _selected ? 'checked' : ''
-        }`}
+        className={`menu-item filter-options ${_selected ? 'checked' : ''}`}
         onClick={this._selectMenu}
       >
         筛选
