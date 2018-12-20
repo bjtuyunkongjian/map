@@ -5,9 +5,11 @@ export default class Police extends Component {
   render() {
     return (
       <div className="menu-item" onClick={() => {}}>
-        <TiUser />
-        警力
-        <span className="arrow arrow-right" />
+        <div className="item-label">
+          <TiUser />
+          警力
+          <span className="arrow arrow-right" />
+        </div>
       </div>
     );
   }

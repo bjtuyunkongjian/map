@@ -1,6 +1,5 @@
-@import './menulist/index'; //导入菜单列表样式
-
 .left-menu {
+  @import './menulist/index'; //导入菜单列表样式
   width: 240px;
   height: 100%;
   background: linear-gradient(#536677, #67cca3);
@@ -12,34 +11,43 @@
   .menu-box {
     width: 100%;
     height: 100%;
+    overflow: scroll;
     background: linear-gradient(#536677, #67cca3);
     transform: all 0.5s;
     .menu-item {
-      color: @t-white;
-      position: relative;
-      display: flex;
-      align-items: center;
-      padding: 0 40px;
-      justify-content: space-between;
-      height: 10%;
-      cursor: pointer;
-      &:hover {
-        color: @color-blue;
-        .arrow {
-          border-top: 1px solid @color-blue;
-          border-right: 1px solid @color-blue;
+      width: 100%;
+      .item-label {
+        color: @t-white;
+        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        padding: 30px 40px;
+        justify-content: space-between;
+        cursor: pointer;
+        &:hover {
+          color: @color-blue;
+          .arrow {
+            border-top: 1px solid @color-blue;
+            border-right: 1px solid @color-blue;
+          }
         }
-      }
-      .arrow {
-        display: inline-block;
-        width: 8px;
-        height: 8px;
-        margin-left: 20px;
-        border-top: 1px solid @t-white;
-        border-right: 1px solid @t-white;
-      }
-      .arrow-right {
-        transform: rotate(45deg);
+        .arrow {
+          display: inline-block;
+          width: 8px;
+          height: 8px;
+          margin-left: 20px;
+          border-top: 1px solid @t-white;
+          border-right: 1px solid @t-white;
+          transform: rotate(45deg);
+        }
+        .arrow-right {
+          animation: @arrow-right;
+        }
+        .arrow-down {
+          transform: rotate(135deg);
+          animation: @arrow-down;
+        }
       }
     }
     .menu-option {
@@ -99,4 +107,30 @@
   100% {
     left: -240px;
   }
+}
+
+@arrow-down: arrow-down; //点击箭头改变下箭头
+@keyframes arrow-down {
+  from {
+    transform: rotate(45deg);
+  }
+  to {
+    transform: rotate(135deg);
+  }
+}
+
+@arrow-right: arrow-right;
+@keyframes arrow-right {
+  from {
+    transform: rotate(135deg);
+  }
+  to {
+    transform: rotate(45deg);
+  }
+}
+
+@menu-down: 0.3s menu-down;
+@keyframes menu-down {
+  0% {}
+  100% {}
 }

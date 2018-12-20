@@ -5,9 +5,11 @@ export default class CallPolice extends Component {
   render() {
     return (
       <div className="menu-item" onClick={() => {}}>
-        <IoIosCall />
-        报警
-        <span className="arrow arrow-right" />
+        <div className="item-label">
+          <IoIosCall />
+          报警
+          <span className="arrow arrow-right" />
+        </div>
       </div>
     );
   }

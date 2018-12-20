@@ -10,9 +10,11 @@ export default class ImportantPalce extends Component {
           Event.emit('aaa');
         }}
       >
-        <GoRadioTower />
-        重要场所
-        <span className="arrow arrow-right" />
+        <div className="item-label">
+          <GoRadioTower />
+          重要场所
+          <span className="arrow arrow-right" />
+        </div>
       </div>
     );
   }

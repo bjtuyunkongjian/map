@@ -10,9 +10,11 @@ export default class Camera extends Component {
           Event.emit('aaa');
         }}
       >
-        <IoIosEye />
-        摄像头
-        <span className="arrow arrow-right" />
+        <div className="item-label">
+          <IoIosEye />
+          摄像头
+          <span className="arrow arrow-right" />
+        </div>
       </div>
     );
   }

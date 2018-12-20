@@ -13,16 +13,19 @@ export default class Content extends Component {
         className="menu-item content"
         // onClick={() => Event.emit('merge:canshu')}
       >
-        <IoIosPaper />
-        工作内容
-        <span
-          className={`arrow arrow-right${animate}`}
-          onClick={() => {
-            this.setState({
-              animate: animate === 'arrow-right' ? 'arrow-down' : 'arrow-right'
-            });
-          }}
-        />
+        <div className="item-label">
+          <IoIosPaper />
+          工作内容
+          <span
+            className={`arrow arrow-right${animate}`}
+            onClick={() => {
+              this.setState({
+                animate:
+                  animate === 'arrow-right' ? 'arrow-down' : 'arrow-right'
+              });
+            }}
+          />
+        </div>
       </div>
     );
   }

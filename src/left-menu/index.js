@@ -225,7 +225,7 @@ export default class LeftMenu extends Component {
   render() {
     const { animate } = this.state;
     return (
-      <div className={`left-menu${animate}`}>
+      <div className={`left-menu ${animate}`}>
         <div className="menu-box">
           <Content />
           <PoliceData />
@@ -242,9 +242,9 @@ export default class LeftMenu extends Component {
           onClick={() =>
             this.setState({
               animate:
-                animate === ' menu-slide-out'
-                  ? ' menu-slide-in'
-                  : ' menu-slide-out'
+                animate === 'menu-slide-out'
+                  ? 'menu-slide-in'
+                  : 'menu-slide-out'
             })
           }
         >

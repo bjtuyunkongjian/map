@@ -10,9 +10,11 @@ export default class CommonFacility extends Component {
           Event.emit('aaa');
         }}
       >
-        <IoMdBusiness />
-        公共设施
-        <span className="arrow arrow-right" />
+        <div className="item-label">
+          <IoMdBusiness />
+          公共设施
+          <span className="arrow arrow-right" />
+        </div>
       </div>
     );
   }
