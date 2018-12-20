@@ -11,7 +11,9 @@ import MarkPlot from './mark-plot';
 import FrameSelect from './frame-select';
 import LineSelect from './line-select';
 import ToolBox from './tool-box';
+// 下拉项
 import CityList from './city-list'; // 选择城市的下拉列表
+import ElementLibrary from './element-library'; // 选择绘制的下拉列表
 // 事件
 import Event from './event';
 
@@ -33,6 +35,7 @@ export default class TopMenu extends Component {
         <LineSelect />
         <ToolBox />
         <CityList />
+        <ElementLibrary />
       </div>
     );
   }

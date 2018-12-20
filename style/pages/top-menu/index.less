@@ -26,7 +26,7 @@
     border-right: 1px solid @border-color-darker;
     position: relative;
     line-height: @line-height;
-    &:nth-last-child(2) {
+    &.tool-box {
       border-right: 0;
       padding-right: 15px;
     }
@@ -125,6 +125,75 @@
             &:hover {
               color: @color-blue;
             }
+          }
+        }
+      }
+    }
+  }
+
+  .element-library {
+    position: absolute;
+    top: @height + 5;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    box-shadow: @box-shadow-mini;
+    border-radius: @radius-m;
+    animation: @fade;
+    overflow: auto;
+
+    &.pop-up {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .library-header {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: @padding;
+      border-bottom: 1px solid @border-color-darker;
+      .btn-text {
+        cursor: pointer;
+        &:hover {
+          color: @t-gray;
+        }
+      }
+    }
+    .library-body {
+      margin: @padding;
+      .select-all {
+        padding-bottom: @padding / 2;
+      }
+      .input-box {
+        width: 100%;
+        padding-bottom: @padding / 2;
+        border-bottom: 1px solid @border-color-darker;
+        > input {
+          width: 100%;
+        }
+      }
+      .element-box {
+        padding-top: @padding / 2;
+        .classification-label {
+          padding-bottom: @padding / 2;
+          display: flex;
+          align-items: center;
+          cursor: pointer;
+          .label-name {
+            margin-left: @padding / 2;
+          }
+        }
+        .classification {
+          display: flex;
+          flex-wrap: wrap;
+          padding: 0 @padding;
+          .element-item {
+            flex: 0 20%;
+            padding-bottom: @padding / 2;
           }
         }
       }
