@@ -36,14 +36,12 @@ export default class PoliceData extends Component {
             });
           }}
         />
-        <ul className={`data-container${_selected ? 'hidden' : ''}`}>
+        <ul className={`data-container${_selected ? '' : 'hidden'}`}>
           {options.map((item, index) => (
             <li
               className={`data-item${selectedOpt === index ? 'checked' : ''}`}
               key={`data_option_${index}`}
-              onClick={e =>
-                this.UNSAFE_componentWillMount._checkmap(index, item.map, e)
-              }
+              onClick={e => this._checkmap(index, item.map, e)}
             >
               {item.name}
             </li>
