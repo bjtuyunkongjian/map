@@ -22,7 +22,7 @@
         display: flex;
         flex-wrap: wrap;
         align-items: center;
-        padding: 30px 40px;
+        padding: 25px 40px;
         justify-content: space-between;
         cursor: pointer;
         &:hover {
@@ -129,8 +129,22 @@
   }
 }
 
-@menu-down: 0.3s menu-down;
+@menu-down: 0.3s menu-down; //子菜单的滑出
 @keyframes menu-down {
-  0% {}
-  100% {}
+  0% {
+    display: none;
+  }
+  100% {
+    display: block;
+  }
+}
+
+@menu-top: 0.3s menu-top;
+@keyframes menu-top {
+  0% {
+    display: block;
+  }
+  100% {
+    display: none;
+  }
 }
