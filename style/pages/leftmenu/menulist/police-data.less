@@ -1,26 +1,60 @@
 .data-container {
-  width: 200px;
-  height: 100%;
+  width: 100px;
+  height: 100px;
+  background: linear-gradient(#536677, #93ebc8);
   border-radius: @radius-m;
-  opacity: 0.7;
-  color: white; // display: none;
-  margin-left: 50px;
-  flex: 0 100%;
+  opacity: 0.8;
+  margin: 0 auto;
+  overflow: hidden;
   &.hidden {
     display: none;
   }
   .data-item {
-    background-color: @bg-gray;
+    // background-color: @bg-gray;
     opacity: 0.8;
     font-size: 13px;
     color: @t-base;
     text-align: center;
-    padding: 5px 10px;
+    padding: 8px;
     &.checked {
-      background-color: #70b7a0;
+      background-color: #edf3f1;
       opacity: 0.5;
       color: @t-base;
       cursor: pointer;
     }
+  }
+}
+
+@menu-down: 0.3s menu-down; //子菜单的滑出
+@keyframes menu-down {
+  0% {
+    // display: none;
+    height: 0px;
+  }
+  100% {
+    // display: block;
+    height: 100px;
+  }
+}
+
+.menu-top {
+  height: 0px;
+  animation: @menu-top;
+}
+
+.menu-down {
+  height: 100px;
+  animation: @menu-down;
+}
+
+@menu-top: 0.3s menu-top;
+@keyframes menu-top {
+  0% {
+    // display: block;
+    height: 100px;
+  }
+  100% {
+    // display: none;
+    height: 0px;
   }
 }
