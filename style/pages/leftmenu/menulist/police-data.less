@@ -1,23 +1,36 @@
+.arrow-box {
+  // position: absolute;
+  width: 25px;
+  padding-left: 10px;
+  padding-top: 5px;
+  flex: auto;
+  background-color: bisque;
+  &.changed {
+    background: rgba(240, 248, 255, 0.3);
+    padding-top: 10px;
+  }
+}
+
 .data-container {
   width: 100px;
-  height: 100px;
-  background: linear-gradient(#536677, #93ebc8);
-  border-radius: @radius-m;
-  opacity: 0.8;
-  margin: 0 auto;
+  height: 100px; // background: linear-gradient(#536677, #93ebc8);
+  // background-color: @bg-gray;
+  // border-radius: @radius-m;
+  background: rgba(240, 248, 255, 0.3); // opacity: 0.8;
+  margin-left: 66px;
+  margin-top: -20px;
   overflow: hidden;
   &.hidden {
     display: none;
   }
   .data-item {
-    // background-color: @bg-gray;
     opacity: 0.8;
-    font-size: 13px;
+    font-size: 12px;
     color: @t-base;
     text-align: center;
     padding: 8px;
     &.checked {
-      background-color: #edf3f1;
+      background-color: #40df9f;
       opacity: 0.5;
       color: @t-base;
       cursor: pointer;

@@ -27,8 +27,10 @@ export default class PoliceData extends Component {
       <div className="menu-item police-data">
         <div className="item-label data" onClick={this._selectMenu}>
           <IoIosPeople />
-          一标三实
-          <span className={`arrow ${_arrow}`} />
+          <span>一标三实</span>
+          <span className={`arrow-box ${_selected ? 'changed' : ''}`}>
+            <span className={`arrow ${_arrow}`} />
+          </span>
         </div>
         <ul className={`data-container ${_selected ? '' : 'hidden'} ${_slide}`}>
           {options.map((item, index) => (
@@ -113,13 +115,13 @@ const options = [
   {
     value: 1,
     name: '房屋',
-    defaultZoom: 15
+    defaultZoom: 16
     // map: 'house'
   },
   {
     value: 2,
     name: '单位',
-    defaultZoom: 12
+    defaultZoom: 17
     // map: 'unit'
   }
 ];
