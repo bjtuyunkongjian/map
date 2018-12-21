@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import Event from './event';
 import { IoIosPeople } from 'react-icons/io';
 import MenuItem from './menu-item';
-import { FetchString } from './webapi';
+import { FetchPopulation } from './webapi';
 
 export default class PoliceData extends Component {
   state = {
@@ -28,9 +28,9 @@ export default class PoliceData extends Component {
         <div className="item-label data" onClick={this._selectMenu}>
           <IoIosPeople />
           <span>一标三实</span>
-          <span className={`arrow-box ${_selected ? 'changed' : ''}`}>
+          <div className={`arrow-box ${_selected ? 'changed' : ''}`}>
             <span className={`arrow ${_arrow}`} />
-          </span>
+          </div>
         </div>
         <ul className={`data-container ${_selected ? '' : 'hidden'} ${_slide}`}>
           {options.map((item, index) => (
@@ -58,50 +58,53 @@ export default class PoliceData extends Component {
     e.stopPropagation();
     this.setState({ selectedOpt: index });
     this._fetchPeopleData(item);
-    // for (let item of MapTypes) {
-    //   if (!item.id || !item[map]) continue;
-    //   if (_MAP_.getLayer(item.id)) {
-    //     if (item.map === 'people') {
-    //       _MAP_.getSource();
-    //     }
-    //   }
-    // }
   };
 
   _fetchPeopleData = async option => {
     this._curZoom = _MAP_.getZoom();
-    // const { res } = await FetchString({ data: [] });
-    // _MAP_.addLayer({});
-    await new Promise(resolve => {
-      this._zoomView(resolve, { endZoom: option.defaultZoom });
+    const _bounds = _MAP_.getBounds();
+    const _points = [
+      _bounds._ne.lat,
+      _bounds._sw.lng,
+      _bounds._sw.lat,
+      _bounds._ne.lng
+    ];
+    const { res } = await FetchPopulation({ points: _points });
+
+    const _features = res.map(item => {
+      return {
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates: item
+        }
+      };
     });
-  };
 
-  _zoomView = (resolve, { endZoom }) => {
-    // 缩放视图，要保证缩放时间相同
-    // endZoom 为最终缩放层级
-    const _zoomStep = 0.1; // 缩放step
-    const _diffZoom = this._curZoom - endZoom; // 当前缩放层级和最终缩放层级的差分
-    if (_diffZoom > _zoomStep) {
-      this._curZoom -= _zoomStep; // 如果 _diffZoom 大于 _zoomStep ， _curZoom 减少 _zoomStep
-    } else if (_diffZoom + _zoomStep < 0) {
-      this._curZoom += _zoomStep; // 如果 _diffZoom 小于负的 _zoomStep ， _curZoom 增加 _zoomStep
-    } else if (this._curZoom !== endZoom) {
-      this._curZoom = endZoom; // 如果 _curZoom 和 endZoom 不同，设置 _curZoom 的值为 endZoom
-    } else {
-      resolve();
-      return; // 如果 _curZoom 和 endZoom 相同，返回
-    }
+    const _geoJSONData = {
+      type: 'geojson',
+      data: {
+        type: 'FeatureCollection',
+        features: _features
+      }
+    };
+    // console.log(_geoJSONData);
 
-    _MAP_.setZoom(this._curZoom); // 缩放
-
-    if (Math.abs(_diffZoom) > _zoomStep) {
-      requestAnimationFrame(() => {
-        this._zoomView(resolve); // 自循环
-      });
-    } else {
-      resolve();
-    }
+    _MAP_.flyTo({ zoom: option.defaultZoom }, (param1, param2) => {
+      console.log(param1, param2);
+    });
+    _MAP_.addLayer({
+      id: 'People_Point',
+      type: 'symbol',
+      source: _geoJSONData,
+      layout: {
+        visibility: 'visible',
+        'symbol-placement': 'point'
+      },
+      paint: {
+        color: 'red'
+      }
+    });
   };
 }
 

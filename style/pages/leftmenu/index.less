@@ -14,13 +14,13 @@
     transform: all 0.5s;
     .menu-item {
       width: 100%;
+      padding: 25px 40px;
       .item-label {
         color: black;
         position: relative;
         display: flex;
         flex-wrap: wrap;
         align-items: center;
-        padding: 25px 40px;
         justify-content: space-between;
         cursor: pointer;
         &:hover {
@@ -33,11 +33,11 @@
         .arrow {
           display: inline-block;
           width: 8px;
-          height: 8px;
-          margin-left: 20px;
+          height: 8px; // margin-left: 20px;
           border-top: 1px solid @t-white;
           border-right: 1px solid @t-white;
           transform: rotate(45deg);
+          transform-origin: center;
         }
         .arrow-right {
           animation: @arrow-right; // background-color: aliceblue;
