@@ -8,7 +8,7 @@ import { FetchString } from './webapi';
 export default class PoliceData extends Component {
   state = {
     curMenu: -1,
-    selectedOpt: 0,
+    selectedOpt: '',
     animate: ''
   };
 
@@ -21,7 +21,6 @@ export default class PoliceData extends Component {
 
   render() {
     const { curMenu, selectedOpt, animate } = this.state;
-    console.log(animate, 'animatee');
     const _selected = curMenu === MenuItem.dataOption;
     return (
       <div className="menu-item police-data">
@@ -36,9 +35,9 @@ export default class PoliceData extends Component {
         <ul className={`data-container ${_selected ? '' : 'hidden'}`}>
           {options.map((item, index) => (
             <li
-              className={`data-item${selectedOpt === index ? 'checked' : ''}`}
+              className={`data-item ${selectedOpt === index ? 'checked' : ''}`}
               key={`data_option_${index}`}
-              onClick={e => this._checkMap(index, item.map, e)}
+              onClick={e => this._checkMap(item, index, e)}
             >
               {item.name}
             </li>
@@ -59,10 +58,10 @@ export default class PoliceData extends Component {
       animate: animate === 'arrow-down' ? 'arrow-right' : 'arrow-down'
     });
   };
-  _checkMap = (index, map, e) => {
+  _checkMap = (item, index, e) => {
     e.stopPropagation();
     this.setState({ selectedOpt: index });
-    this._fetchPeopleData();
+    this._fetchPeopleData({ selectedOpt: index });
     // for (let item of MapTypes) {
     //   if (!item.id || !item[map]) continue;
     //   if (_MAP_.getLayer(item.id)) {
@@ -74,9 +73,9 @@ export default class PoliceData extends Component {
   };
 
   _fetchPeopleData = async () => {
+    this._curZoom = _MAP_.getZoom();
     // const { res } = await FetchString({ data: [] });
     // _MAP_.addLayer({});
-
     await new Promise(resolve => {
       this._zoomView(resolve);
     });
