@@ -20,7 +20,8 @@ import DrawRoundRect from './draw-round-rect'; // canvas 绘制圆角矩形
 import ResolveBlurry from './resolve-blurry'; // canvas 解决模糊问题
 // 请求函数
 import {
-  FetchRequest // fetch 请求，调用 bffHost
+  FetchRequest, // fetch 请求，调用 bffHost
+  UploadRequest // 上传文件请求
 } from './fetch';
 
 import Emitter from './emit';
@@ -38,5 +39,6 @@ export {
   DrawRoundRect,
   ResolveBlurry,
   FetchRequest,
+  UploadRequest,
   Emitter
 };

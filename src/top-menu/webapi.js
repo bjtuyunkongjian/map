@@ -2,7 +2,7 @@
  *这部分js用来和后端进行数据交互
  */
 
-import { FetchRequest } from 'tuyun-utils';
+import { FetchRequest, UploadRequest } from 'tuyun-utils';
 
 export const FetchCityInfo = async body => {
   Object.assign(body, { test: 'switchCity' });
@@ -11,5 +11,10 @@ export const FetchCityInfo = async body => {
     method: 'POST',
     body
   });
+  return { res, err };
+};
+
+export const UploadImages = async body => {
+  const { res, err } = await UploadRequest('mapServer/fileUpload', body);
   return { res, err };
 };

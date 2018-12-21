@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { IoIosClose, IoIosResize, IoIosArrowDown } from 'react-icons/io';
 import MenuItems from './menu-items';
 import Event from './event';
+import { UploadImages } from './webapi';
 
 export default class ElementLibrary extends Component {
   state = {
@@ -42,20 +43,28 @@ export default class ElementLibrary extends Component {
           </div>
 
           <div className="element-box">
-            <div>
-              <div className="classification-label">
-                <IoIosArrowDown />
-                <span className="label-name">常用标号</span>
+            {elLibrary.map((classification, clsIndex) => (
+              <div key={`classification_${clsIndex}`}>
+                <div className="classification-label">
+                  <IoIosArrowDown />
+                  <span className="label-name">{classification.label}</span>
+                </div>
+                <ul className="classification">
+                  {classification.element.map((element, elIndex) => (
+                    <li className="element-item" key={`element_${elIndex}`}>
+                      {element.name}
+                    </li>
+                  ))}
+                </ul>
+
+                <input
+                  multiple
+                  type="file"
+                  accept="image/*"
+                  onChange={this._uploadImage}
+                />
               </div>
-              <ul className="classification">
-                <li className="element-item">aaa</li>
-                <li className="element-item">aaa</li>
-                <li className="element-item">aaa</li>
-                <li className="element-item">aaa</li>
-                <li className="element-item">aaa</li>
-                <li className="element-item">aaa</li>
-              </ul>
-            </div>
+            ))}
           </div>
         </div>
       </div>
@@ -78,6 +87,16 @@ export default class ElementLibrary extends Component {
     cityName !== cityInfo.name && Event.emit('change:cityName', cityInfo.name);
     _MAP_.flyTo({ center: cityInfo.center, zoom: 10 });
   };
+
+  _uploadImage = async e => {
+    const _uploadFile = e.target.files;
+    await UploadImages(_uploadFile);
+  };
 }
 
-const elLibrary = [{ classification: { label: '常用标号' } }];
+const elLibrary = [
+  {
+    label: '常用标号',
+    element: [{ name: 'aaa' }, { name: 'bbb' }, { name: 'ccc' }]
+  }
+];
