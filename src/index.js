@@ -12,6 +12,7 @@ import TopSearch from './top-search';
 import TopMenu from './top-menu';
 import Restore from './restore';
 import LeftMenu from './left-menu';
+import LinkageDisplay from './linkage-display'; // 联动显示
 
 class MapApp extends Component {
   render() {
@@ -31,6 +32,7 @@ class MapApp extends Component {
         <TopMenu />
         <Restore />
         <LeftMenu />
+        <LinkageDisplay />
       </div>
     );
   }

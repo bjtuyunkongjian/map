@@ -1,9 +1,12 @@
 .map-app {
   width: 100%;
   height: 100%;
+  @bottom-menu-height: 50px;
   // @import './nav/index'; // 顶部导航，刚开始版本，由于业务需求顶部导航做了改动，后期改回来放开
-  @import './top-menu/index'; // 顶部导航
+
   @import './fast-restore/index'; // 一键还原样式
   @import './leftmenu/index'; // 左侧菜单栏
   @import './top-search/index'; // 顶部搜索
+  @import 'linkage-display/index'; // 右侧联动显示
+  @import './top-menu/index'; // 顶部导航
 }

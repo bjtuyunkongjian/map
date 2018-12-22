@@ -101,7 +101,7 @@ export default class MapBoxDemo extends Component {
     //   }
     // });
 
-    this.map.addControl(new mapboxgl.NavigationControl());
+    this.map.addControl(new mapboxgl.NavigationControl(), 'bottom-right');
   }
 
   _addSourceFunc() {

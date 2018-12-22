@@ -10,6 +10,12 @@ export default class FrameSelect extends Component {
     curIndex: -1
   };
   render() {
-    return <div className="menu-item">框选</div>;
+    return (
+      <div className="menu-item" onClick={this._selectMeun}>
+        框选
+      </div>
+    );
   }
+
+  _selectMeun = () => {};
 }
