@@ -4,7 +4,7 @@
  */
 
 import React, { Component } from 'react';
-import CityInfo from './city-info';
+// import CityInfo from './city-info';
 import ViewOptions from './view-options';
 import FilterOptions from './filter-options';
 import MarkPlot from './mark-plot';
@@ -26,8 +26,8 @@ export default class TopMenu extends Component {
 
   render() {
     return (
-      <div className="top-menu">
-        <CityInfo />
+      <div className="bottom-nav">
+        {/* <CityInfo /> */}
         <ViewOptions />
         <FilterOptions />
         <MarkPlot />
