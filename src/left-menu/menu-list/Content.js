@@ -30,3 +30,14 @@ export default class Content extends Component {
     );
   }
 }
+
+const options = [
+  { value: 0, name: '全部显示', color: '' },
+  { value: 1, name: '待办任务', color: '#' },
+  { value: 2, name: '情报线索', color: '' },
+  { value: 3, name: '将到期案件', color: '' },
+  { value: 4, name: '居住证转出', color: '' },
+  { value: 5, name: '常口迁入', color: '' },
+  { value: 6, name: '群众求助', color: '' },
+  { value: 7, name: '治安防范', color: '' }
+];

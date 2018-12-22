@@ -209,7 +209,7 @@
 
 import React, { Component } from 'react';
 import Content from './menu-list/Content';
-import PoliceData from './menu-list/policedata';
+import PoliceData from './menu-list/police-data';
 import Camera from './menu-list/camera';
 import Case from './menu-list/case';
 import CallPolice from './menu-list/call-police';

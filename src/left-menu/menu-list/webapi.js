@@ -3,8 +3,9 @@
  */
 import { FetchRequest } from 'tuyun-utils';
 
-export const FetchString = async body => {
-  Object.assign(body, { test: 400 });
+export const FetchPopulation = async body => {
+  Object.assign(body, { test: 'pop' });
+  // console.log(JSON.stringify(body));
   const { res, err } = await FetchRequest({
     url: 'mapServer/string',
     method: 'POST',
