@@ -1,0 +1,23 @@
+.element-library {
+  @margin: 10px;
+  width: @bottom-nav-width;
+  height: calc(~'100% - @{bottom-nav-height}');
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  background: @bg-gradient-base;
+  overflow: auto;
+  color: white;
+  padding: @margin;
+  .btn-text {
+    cursor: pointer;
+    &:hover {
+      opacity: 0.8;
+      transform: scale(1.02);
+    }
+  }
+  @import './library-header.less';
+  @import './select-option.less';
+  @import './classification-box.less';
+}
