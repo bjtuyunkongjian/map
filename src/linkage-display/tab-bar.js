@@ -6,7 +6,10 @@ export default class Tabs extends Component {
     return (
       <ul className="tab-bar">
         {tabs.map((item, index) => (
-          <li className="tab-item" key={`tab_${index}`}>
+          <li
+            className={`tab-item ${index === 0 ? 'selected' : ''}`}
+            key={`tab_${index}`}
+          >
             {item.label}
           </li>
         ))}
