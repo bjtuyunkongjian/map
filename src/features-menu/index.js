@@ -26,7 +26,7 @@ export default class TopMenu extends Component {
 
   render() {
     return (
-      <div className="bottom-nav">
+      <div className="features-menu">
         {/* <CityInfo /> */}
         <ViewOptions />
         <FilterOptions />
