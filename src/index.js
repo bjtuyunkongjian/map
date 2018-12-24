@@ -10,6 +10,7 @@ import MapDemo from './map';
 import TopSearch from './top-search';
 // import TopNav from './top-nav'; // 顶部导航，刚开始版本，由于业务需求顶部导航做了改动，后期改回来放开
 import BottomNav from './bottom-nav';
+import FeaturesMenu from './features-menu';
 // import Restore from './restore';
 import LeftMenu from './left-menu';
 import LinkageDisplay from './linkage-display'; // 联动显示
@@ -33,6 +34,7 @@ class MapApp extends Component {
         <LeftMenu />
         <LinkageDisplay />
         <BottomNav />
+        <FeaturesMenu />
       </div>
     );
   }

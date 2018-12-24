@@ -14,12 +14,13 @@ export default class CompassBtn extends Component {
   }
 
   render() {
-    const { angel } = this.state;
+    const { angel = 0 } = this.state;
+
     return (
       <div className="compass-btn" onClick={this._changeMap}>
         <div
           className="compass-icon"
-          style={{ transform: 'rotate(-' + angel + 'deg)' }}
+          style={{ transform: 'rotate(' + -angel + 'deg)' }}
           ref={el => (this._compassBtn = el)}
         />
       </div>
@@ -34,6 +35,9 @@ export default class CompassBtn extends Component {
       this.setState({ angel: _angel });
     });
     document.addEventListener('mousedown', () => {
+      this._isRotate = true;
+    });
+    document.addEventListener('contextmenu', () => {
       this._isRotate = true;
     });
     document.addEventListener('mousemove', () => {

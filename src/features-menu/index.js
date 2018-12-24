@@ -35,7 +35,7 @@ export default class FeaturesMenu extends Component {
         <LineSelect />
         <ToolBox />
         <CityList />
-        <ElementLibrary />
+        {/* <ElementLibrary /> */}
       </div>
     );
   }
