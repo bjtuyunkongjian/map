@@ -1,31 +1,21 @@
-.arrow-box {
-  width: 25px;
-  height: 25px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  &.changed {
-    background: rgba(240, 248, 255, 0.3);
-  }
-}
-
 .work-container {
-  width: 100%;
-  height: 300px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
+  @work-item-height: 30px;
+  height: @work-item-height * 8;
   overflow: hidden;
   &.hidden {
     display: none;
   }
   .work-item {
-    width: 90px;
     font-size: 12px;
     color: @t-base;
     text-align: center;
-    padding: 8px;
+    height: @work-item-height;
     background: rgba(240, 248, 255, 0.3);
+    display: flex;
+    align-items: center;
+    &:nth-child(1) {
+      justify-content: flex-end;
+    }
     &.checked {
       background-color: #40df9f;
       opacity: 0.5;
@@ -35,15 +25,13 @@
   }
 }
 
-@menu-in: 0.3s menu-in; //子菜单的滑出
+@menu-in: 0.5s menu-in; //子菜单的滑出
 @keyframes menu-in {
   0% {
-    // display: none;
     height: 0px;
   }
   100% {
-    // display: block;
-    height: 300px;
+    height: 240px;
   }
 }
 
@@ -53,18 +41,16 @@
 }
 
 .menu-in {
-  height: 300px;
+  height: 240px;
   animation: @menu-in;
 }
 
-@menu-out: 0.3s menu-out;
+@menu-out: 0.5s menu-out;
 @keyframes menu-out {
   0% {
-    // display: block;
-    height: 300px;
+    height: 240px;
   }
   100% {
-    // display: none;
     height: 0px;
   }
 }

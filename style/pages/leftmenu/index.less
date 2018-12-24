@@ -25,6 +25,16 @@
         cursor: pointer;
         &:hover {
           color: @color-blue;
+          .arrow-box {
+            width: 25px;
+            height: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            &.changed {
+              background: rgba(240, 248, 255, 0.3);
+            }
+          }
           .arrow {
             border-top: 1px solid @color-blue;
             border-right: 1px solid @color-blue;
@@ -33,17 +43,16 @@
         .arrow {
           display: inline-block;
           width: 8px;
-          height: 8px; // margin-left: 20px;
+          height: 8px;
           border-top: 1px solid @t-white;
           border-right: 1px solid @t-white;
           transform: rotate(45deg);
           transform-origin: center;
         }
         .arrow-right {
-          animation: @arrow-right; // background-color: aliceblue;
+          animation: @arrow-right;
         }
         .arrow-down {
-          // background-color: aliceblue;
           transform: rotate(135deg);
           animation: @arrow-down;
         }

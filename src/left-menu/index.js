@@ -208,7 +208,7 @@
 // ];
 
 import React, { Component } from 'react';
-import Content from './menu-list/Content';
+import WorkContent from './menu-list/Content';
 import PoliceData from './menu-list/police-data';
 import Camera from './menu-list/camera';
 import Case from './menu-list/case';
@@ -227,7 +227,7 @@ export default class LeftMenu extends Component {
     return (
       <div className={`left-menu ${animate}`}>
         <div className="menu-box">
-          <Content />
+          <WorkContent />
           <PoliceData />
           <Camera />
           <Case />
