@@ -12,35 +12,26 @@ export default class BarPrompt extends Component {
   state = {
     showPrompt: false,
     maskLeft: 0,
-    maskTop: 0,
     promptLeft: 0,
     promptTop: 0,
     curData: {}
   };
 
   render() {
-    const { width, height, padding = {}, chartTop, data } = this.props;
-    const {
-      promptLeft,
-      promptTop,
-      showPrompt,
-      maskLeft,
-      maskTop,
-      curData
-    } = this.state;
-    const { left, right, top, bottom } = padding;
+    const { padding = {}, chartTop, data } = this.props;
+    const { promptLeft, promptTop, showPrompt, maskLeft, curData } = this.state;
+    const { left = 0, right = 0, top = 0, bottom = 0 } = padding;
     // 计算盒子宽度
-    const _boxWidth = width - left - right;
     return (
       <div
         ref={_barPrompt => (this._barPrompt = _barPrompt)}
         style={{
           // 采用内联样式，更好的通过js控制
           position: 'absolute',
-          top: 0,
+          top: chartTop,
           left: 0,
-          width: width,
-          height: height,
+          width: '100%',
+          height: `calc(100% - ${chartTop + padding.bottom}px)`,
           paddingLeft: left || 0,
           paddingRight: right || 0,
           paddingTop: top || 0,
@@ -57,9 +48,9 @@ export default class BarPrompt extends Component {
               // 采用内联样式，更好的通过js控制
               position: 'absolute',
               left: maskLeft,
-              top: maskTop,
-              width: _boxWidth / data.length,
-              height: height - chartTop - bottom,
+              top: 0,
+              width: `${100 / data.length}%`,
+              height: '100%',
               backgroundColor: 'rgba(102, 102, 102, 0.4)'
             }}
           />
@@ -93,29 +84,35 @@ export default class BarPrompt extends Component {
   _onMouseOver = e => {};
 
   _onMouseMove = e => {
-    const { width, height, padding = {}, chartTop, data } = this.props;
+    const { padding = {}, chartTop, data } = this.props;
     const { left, right, bottom } = padding;
 
-    const _x = e.pageX - this._barPrompt.getBoundingClientRect().left;
-    const _y = event.pageY - this._barPrompt.getBoundingClientRect().top;
+    const {
+      width: _barPromptW,
+      height: _barPromptH,
+      left: _barPromptLeft,
+      top: _barPromptTop
+    } = this._barPrompt.getBoundingClientRect();
+
+    const _x = e.pageX - _barPromptLeft;
+    const _y = e.pageY - _barPromptTop;
 
     if (
       _x > left &&
-      _x < width - right &&
+      _x < _barPromptW - right &&
       _y > chartTop &&
-      _y < height - bottom
+      _y < _barPromptH - bottom
     ) {
       // 在 chart 范围之内
-      const _boxWidth = width - left - right;
+      const _boxWidth = _barPromptW - left - right;
       const _cellWidth = _boxWidth / data.length;
       const _index = Math.floor((_x - left) / _cellWidth);
       const _maskLeft = _index * _cellWidth + left;
-      const _promptLeft = _x < width - 100 ? _x + 20 : width - 100;
+      const _promptLeft = _x < _barPromptW - 100 ? _x + 20 : _barPromptW - 100;
       const _promptTop = _y + 10;
       this.setState({
         showPrompt: true,
         maskLeft: _maskLeft,
-        maskTop: chartTop,
         promptLeft: _promptLeft, // 提示的位置
         promptTop: _promptTop,
         curData: data[_index]

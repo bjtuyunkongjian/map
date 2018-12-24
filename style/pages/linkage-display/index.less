@@ -1,10 +1,50 @@
 .linkage-display {
   width: @bottom-nav-width;
   height: calc(~'100% - @{bottom-nav-height}');
-  // height: 100%;
   position: absolute;
   z-index: 1;
   top: 0;
   right: 0;
-  background-color: lightblue;
+  background: @bg-gradient-base;
+  overflow: auto;
+  padding: 5px;
+  .tab-bar {
+    display: flex;
+    height: 40px;
+    align-items: center;
+    justify-content: space-between;
+    .tab-item {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      color: white;
+      border-top-left-radius: @radius-l;
+      border-top-right-radius: @radius-l;
+      border-top: 1px solid white;
+      border-left: 1px solid white;
+      &:nth-last-child(1) {
+        border-right: 1px solid white;
+      }
+      &.selected {
+        color: @t-base;
+        background-color: white;
+      }
+    }
+  }
+
+  .total-population {
+    width: 100%;
+    border-bottom-left-radius: @radius-l;
+    border-bottom-right-radius: @radius-l;
+    overflow: hidden;
+    margin-bottom: 5px;
+  }
+  .age-distribution {
+    width: 100%;
+    border-radius: @radius-l;
+    overflow: hidden;
+    margin-bottom: 5px;
+  }
 }
