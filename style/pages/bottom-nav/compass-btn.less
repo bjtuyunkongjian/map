@@ -1,0 +1,38 @@
+// 重置旋转角度按钮
+
+.compass-btn {
+  .nav-btn;
+  .compass-icon {
+    @size: 16px;
+    @interval: 1px;
+    width: @size / 2;
+    height: @size;
+    position: relative;
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      display: block;
+      width: 0;
+      height: 0;
+      border-bottom: (@size / 2 - @interval) solid @t-grayer;
+      border-left: @size / 4 solid transparent;
+      border-right: @size / 4 solid transparent;
+      border-top: 0;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: (@size / 2);
+      left: 0;
+      display: block;
+      width: 0;
+      height: 0;
+      border-bottom: 0;
+      border-left: @size / 4 solid transparent;
+      border-right: @size / 4 solid transparent;
+      border-top: (@size / 2 - @interval) solid @t-gray;
+    }
+  }
+}

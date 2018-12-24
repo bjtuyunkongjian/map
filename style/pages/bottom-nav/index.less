@@ -5,7 +5,7 @@
   @line-height: 15px;
   position: absolute;
   height: @height;
-  color: @t-base;
+  color: @t-gray;
   background-color: #ffffff;
   right: 0;
   z-index: 1;
@@ -22,7 +22,16 @@
     width: @bottom-nav-height - (@padding * 2);
     height: @bottom-nav-height - (@padding * 2);
     border-radius: @radius-circle;
-    border: 1px solid @t-base;
+    margin-right: @padding / 2;
+    border: 2px solid @border-color-base;
+
+    cursor: pointer;
+    &:hover {
+      background-color: @bg-gray;
+    }
+  }
+  .features-menu-btn {
+    .nav-btn;
   }
   .zoom-in-btn {
     .nav-btn;
@@ -30,4 +39,6 @@
   .zoom-out-btn {
     .nav-btn;
   }
+  @import './compass-btn.less';
+  @import './reset-pitch-btn.less';
 }
