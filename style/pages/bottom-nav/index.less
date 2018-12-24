@@ -1,0 +1,33 @@
+.bottom-nav {
+  width: @bottom-nav-width;
+  @height: @bottom-nav-height;
+  @padding: 10px;
+  @line-height: 15px;
+  position: absolute;
+  height: @height;
+  color: @t-base;
+  background-color: #ffffff;
+  right: 0;
+  z-index: 1;
+  bottom: 0;
+  box-shadow: @box-shadow-mini;
+  display: flex;
+  align-items: center;
+  padding-left: @padding;
+  border-radius: @radius-s;
+  .nav-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: @bottom-nav-height - (@padding * 2);
+    height: @bottom-nav-height - (@padding * 2);
+    border-radius: @radius-circle;
+    border: 1px solid @t-base;
+  }
+  .zoom-in-btn {
+    .nav-btn;
+  }
+  .zoom-out-btn {
+    .nav-btn;
+  }
+}

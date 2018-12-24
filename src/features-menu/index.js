@@ -17,7 +17,7 @@ import ElementLibrary from './element-library'; // 选择绘制的下拉列表
 // 事件
 import Event from './event';
 
-export default class TopMenu extends Component {
+export default class FeaturesMenu extends Component {
   componentDidMount() {
     _MAP_.on('mouseup', e => {
       Event.emit('change:curMenu', -1);
