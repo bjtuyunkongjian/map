@@ -3,7 +3,7 @@ import Event from './event';
 import { IoIosPaper } from 'react-icons/io';
 import MenuItem from './menu-item';
 
-export default class Content extends Component {
+export default class WorkContent extends Component {
   state = {
     curMenu: -1,
     selectedOpt: 0
@@ -22,21 +22,25 @@ export default class Content extends Component {
       <div className="menu-item content">
         <div className="item-label" onClick={this._selectMenu}>
           <IoIosPaper />
-          工作内容
-          <span className={`arrow-box ${_selected ? 'changed' : ''}`}>
+          <span>工作内容</span>
+          <div className={`arrow-box ${_selected ? 'changed' : ''}`}>
             <span className={`arrow arrow-right ${_arrow}`} />
-          </span>
+          </div>
         </div>
-        <ul className={`work-container ${(_slide, _selected ? '' : 'hidden')}`}>
-          {options.map((item, index) => {
+        <ul className={`work-container ${_selected ? '' : 'hidden'} ${_slide}`}>
+          {options.map((item, index) => (
             <li
               className={`work-item ${selectedOpt === index ? 'checked' : ''}`}
-              key={`data_option_${index}`}
+              key={`work_option_${index}`}
               onClick={e => this._selectWork(item, index, e)}
             >
+              <div
+                className="color-sign"
+                style={{ backgroundColor: item.coslor }}
+              />
               {item.name}
-            </li>;
-          })}
+            </li>
+          ))}
         </ul>
       </div>
     );
@@ -57,11 +61,11 @@ export default class Content extends Component {
 
 const options = [
   { value: 0, name: '全部显示', color: '' },
-  { value: 1, name: '待办任务', color: '' },
-  { value: 2, name: '情报线索', color: '' },
-  { value: 3, name: '将到期案件', color: '' },
-  { value: 4, name: '居住证转出', color: '' },
-  { value: 5, name: '常口迁入', color: '' },
-  { value: 6, name: '群众求助', color: '' },
-  { value: 7, name: '治安防范', color: '' }
+  { value: 1, name: '待办任务', color: '#FF6A6A' },
+  { value: 2, name: '情报线索', color: '#EE3A8C' },
+  { value: 3, name: '将到期案件', color: '#8EE5EE' },
+  { value: 4, name: '居住证转出', color: '#FFD700' },
+  { value: 5, name: '常口迁入', color: '#FFDEAD' },
+  { value: 6, name: '群众求助', color: '#BCEE68' },
+  { value: 7, name: '治安防范', color: '#8968CD' }
 ];
