@@ -25,6 +25,7 @@ import {
 } from './fetch';
 
 import Emitter from './emit';
+import Event from './event';
 
 export {
   AddLevel,
@@ -40,5 +41,6 @@ export {
   ResolveBlurry,
   FetchRequest,
   UploadRequest,
-  Emitter
+  Emitter,
+  Event
 };
