@@ -34,9 +34,17 @@ export default class WorkContent extends Component {
               key={`work_option_${index}`}
               onClick={e => this._selectWork(item, index, e)}
             >
+              <label>
+                <input
+                  type="checkbox"
+                  value={item.value}
+                  className="check-circle"
+                  onClick={this._selectTask()}
+                />
+              </label>
               <div
                 className="color-sign"
-                style={{ backgroundColor: item.coslor }}
+                style={{ backgroundColor: item.color }}
               />
               {item.name}
             </li>
@@ -56,6 +64,9 @@ export default class WorkContent extends Component {
   _selectWork = (item, index, e) => {
     e.stopPropagation();
     this.setState({ selectedOpt: index });
+  };
+  _selectTask = (item, index, value) => {
+    const { curMenu } = this.state;
   };
 }
 

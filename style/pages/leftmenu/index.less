@@ -25,19 +25,19 @@
         cursor: pointer;
         &:hover {
           color: @color-blue;
-          .arrow-box {
-            width: 25px;
-            height: 25px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            &.changed {
-              background: rgba(240, 248, 255, 0.3);
-            }
-          }
           .arrow {
             border-top: 1px solid @color-blue;
             border-right: 1px solid @color-blue;
+          }
+        }
+        .arrow-box {
+          width: 25px;
+          height: 25px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          &.changed {
+            background: rgba(240, 248, 255, 0.3);
           }
         }
         .arrow {

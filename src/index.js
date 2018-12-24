@@ -8,7 +8,8 @@ import ReactDom from 'react-dom';
 import '../style/index.less';
 import MapDemo from './map';
 import TopSearch from './top-search';
-// import TopNav from './top-nav'; // 顶部导航，刚开始版本，由于业务需求顶部导航做了改动，后期改回来放开
+// import TopNav from './top-nav';
+// 顶部导航，刚开始版本，由于业务需求顶部导航做了改动，后期改回来放开
 import BottomNav from './bottom-nav';
 import FeaturesMenu from './features-menu';
 // import Restore from './restore';
@@ -30,7 +31,7 @@ class MapApp extends Component {
       <div className="map-app">
         <MapDemo />
         <TopSearch />
-        {/* <TopNav /> */}
+        {/*<TopNav />*/}
         {/* <Restore /> */}
         <LeftMenu />
         <LinkageDisplay />
