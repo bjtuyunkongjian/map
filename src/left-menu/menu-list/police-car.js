@@ -20,7 +20,9 @@ export default class PoliceCar extends Component {
     const _slide = _selected ? 'menu-dis' : 'menu-apr';
     return (
       <div className="menu-item">
-        <div className="item-label" onClick={`${this._selectTrack}`}>
+        <div className="item-label" 
+        // onClick={`${this._selectTrack}`}
+        >
           <IoIosCar />
           车辆
           <div className={`arrow-box ${_selected ? 'changed' : ''}`}>

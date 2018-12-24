@@ -16,6 +16,8 @@ import FeaturesMenu from './features-menu';
 import LeftMenu from './left-menu';
 import LinkageDisplay from './linkage-display'; // 联动显示
 import ElementLibrary from './element-library'; // 图标库
+// 圣诞节
+import Christmas from './christmas';
 
 class MapApp extends Component {
   render() {
@@ -26,7 +28,9 @@ class MapApp extends Component {
     if (!_browserSupport) {
       return <div className="map-app">浏览器不支持</div>;
     }
-
+    const _today = new Date();
+    const _is1225 = _today.getDate() === 25 && _today.getMonth() === 11;
+    const _showXms = !localStorage.getItem('christmas') && _is1225;
     return (
       <div className="map-app">
         <MapDemo />
@@ -38,6 +42,13 @@ class MapApp extends Component {
         <ElementLibrary />
         <BottomNav />
         <FeaturesMenu />
+        {_showXms && (
+          <Christmas
+            onClick={() => {
+              localStorage.setItem('christmas', 'christmas');
+            }}
+          />
+        )}
       </div>
     );
   }
