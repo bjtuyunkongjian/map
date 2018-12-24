@@ -77,6 +77,9 @@ export default class Bar extends Component {
 
   _ratio = 1; // canvas的实际渲染倍率
 
+  // 图标的 wrap
+  _width = 0;
+
   componentWillMount() {
     const { data } = this.props;
     this._convertData(data);
@@ -94,8 +97,20 @@ export default class Bar extends Component {
       return { label: item.label, value: item.value, count: data[item.value] };
     });
     return (
-      <div style={{ position: 'relative', width, height }}>
-        <canvas ref={_el => this._renderCanvas(_el)} />
+      <div
+        style={{
+          position: 'relative',
+          width,
+          height,
+          overflow: 'hidden',
+          backgroundColor: 'lightblue'
+        }}
+      >
+        <canvas
+          ref={_el => this._renderCanvas(_el)}
+          style={{ width: '100%', height: '100%' }}
+          height={height}
+        />
         <BarPrompt
           padding={padding}
           width={width}
@@ -113,8 +128,10 @@ export default class Bar extends Component {
 
   _renderCanvas = _canvas => {
     if (!_canvas) return;
-    const { width, height, padding, title, xLabel } = this.props;
-
+    const { padding, title, xLabel } = this.props;
+    const { width, height } = _canvas.getBoundingClientRect();
+    this._width = width;
+    this._height = height;
     this._canvas = _canvas;
     this._ctx = _canvas.getContext('2d');
     this._ratio = ResolveBlurry(this._canvas, this._ctx, { width, height }); // 解决高倍屏变模糊问题
@@ -133,10 +150,15 @@ export default class Bar extends Component {
   };
 
   _renderBackground = () => {
-    const { width, height, backgorundColor } = this.props;
+    const { backgorundColor } = this.props;
     this._ctx.save();
     this._ctx.fillStyle = backgorundColor || 'white';
-    this._ctx.fillRect(0, 0, width * this._ratio, height * this._ratio);
+    this._ctx.fillRect(
+      0,
+      0,
+      this._width * this._ratio,
+      this._height * this._ratio
+    );
     this._ctx.restore();
   };
 
@@ -237,16 +259,15 @@ export default class Bar extends Component {
   };
 
   _renderXAxis = () => {
-    const { width } = this.props;
     this._ctx.save();
     this._ctx.lineWidth = 1;
     this._ctx.strokeStyle = 'black';
     this._ctx.moveTo(
-      ((width - this._chartW) / 2) * this._ratio,
+      ((this._width - this._chartW) / 2) * this._ratio,
       this._chartBottom * this._ratio
     );
     this._ctx.lineTo(
-      ((width + this._chartW) / 2) * this._ratio,
+      ((this._width + this._chartW) / 2) * this._ratio,
       this._chartBottom * this._ratio
     );
     this._ctx.stroke();

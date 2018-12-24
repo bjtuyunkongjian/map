@@ -69,6 +69,7 @@ export default class PoliceData extends Component {
       _bounds._sw.lat,
       _bounds._ne.lng
     ];
+    return;
     const { res } = await FetchPopulation({ points: _points });
 
     const _features = res.map(item => {

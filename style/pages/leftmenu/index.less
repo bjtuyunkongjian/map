@@ -1,7 +1,7 @@
 .left-menu {
   @import './menulist/index'; //导入菜单列表样式
   width: 200px;
-  height: 100%; // background: linear-gradient(#536677, #67cca3);
+  height: 100%;
   z-index: 99;
   left: 0;
   top: 0;
@@ -10,7 +10,7 @@
     width: 100%;
     height: 100%;
     overflow: auto;
-    background: linear-gradient(#536677, #67cca3);
+    background: @bg-gradient-base;
     transform: all 0.5s;
     .menu-item {
       width: 100%;
@@ -55,7 +55,7 @@
     }
   }
   .control {
-    background: linear-gradient(#536677, #67cca3);
+    background: @bg-gradient-base;
     width: 20px;
     height: 50px;
     margin-left: 2px;
