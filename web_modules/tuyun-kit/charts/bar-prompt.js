@@ -77,9 +77,7 @@ export default class BarPrompt extends Component {
     );
   }
 
-  _onClick = e => {
-    console.log('e', e);
-  };
+  _onClick = e => {};
 
   _onMouseOver = e => {};
 
