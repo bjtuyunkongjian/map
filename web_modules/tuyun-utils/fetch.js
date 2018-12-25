@@ -44,7 +44,7 @@ export const FetchRequest = async function({ url, method = 'GET', body = {} }) {
       }
       // 状态码没问题
       const { message, data, status } = await _response.json();
-      const _err = status === 'success' && message;
+      const _err = status !== 'success' && message;
       _err && TuyunMessage.error(_err);
       resolve({
         // 有时会返回0的结果
@@ -130,7 +130,7 @@ export const UploadRequest = async function({ url, uploadFile = {} }) {
       }
       // 状态码没问题
       const { message, data, status } = await _response.json();
-      const _err = status === 'success' && message;
+      const _err = status !== 'success' && message;
       _err && TuyunMessage.error(_err);
       resolve({
         // 有时会返回0的结果
