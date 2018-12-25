@@ -1,23 +1,28 @@
 import React, { Component } from 'react';
 import { IoIosClose } from 'react-icons/io';
 import Event from './event';
+import DropDown from './drop-down';
 
 export default class CityList extends Component {
   state = {
-    curMenu: -1,
+    curDropDown: '',
     cityName: '济南市'
   };
 
   _curZoom = 0;
 
   componentWillMount() {
-    this._dealWithEvent();
+    this._init();
   }
 
   render() {
-    const { cityName } = this.state;
+    const { curDropDown, cityName } = this.state;
     return (
-      <div className={`city-list ${true ? '' : 'hidden'}`}>
+      <div
+        className={`city-list ${
+          curDropDown === DropDown.cityList ? '' : 'hidden'
+        }`}
+      >
         <div className="list-header">
           <span>城市列表</span>
           <IoIosClose
@@ -49,9 +54,9 @@ export default class CityList extends Component {
     );
   }
 
-  _dealWithEvent = () => {
-    Event.on('change:curMenu', curMenu => {
-      this.setState({ curMenu });
+  _init = () => {
+    Event.on('change:dropDown', dropDown => {
+      this.setState({ curDropDown: dropDown });
     });
     Event.on('change:cityName', cityName => {
       this.setState({ cityName });
@@ -59,7 +64,7 @@ export default class CityList extends Component {
   };
 
   _closeCityList = () => {
-    Event.emit('change:curMenu', -1);
+    Event.emit('change:dropDown', '');
   };
 
   _selectCity = async cityInfo => {

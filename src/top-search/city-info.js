@@ -17,14 +17,16 @@ import {
 } from 'react-icons/io';
 import { FetchCityInfo } from './webapi';
 import Event from './event';
+import DropDown from './drop-down';
 
 export default class CityInfo extends Component {
   state = {
+    curDropDown: '',
     cityName: '济南市'
   };
 
   componentWillMount() {
-    this._dealWithEvent();
+    this._init();
   }
 
   componentDidMount() {
@@ -33,10 +35,10 @@ export default class CityInfo extends Component {
 
   render() {
     const _weatherIcon = this._selectIcon();
-    const { cityName } = this.state;
-    const _selected = false;
+    const { cityName, curDropDown } = this.state;
+    const _selected = DropDown.cityList === curDropDown;
     return (
-      <div className="city-info" onClick={this._selectMenu}>
+      <div className="city-info" onClick={this._selectDropDown}>
         {_weatherIcon}
         <span className="city-name">{cityName}</span>
         {_selected ? <IoIosArrowUp /> : <IoIosArrowDown />}
@@ -44,9 +46,12 @@ export default class CityInfo extends Component {
     );
   }
 
-  _dealWithEvent = () => {
+  _init = () => {
     Event.on('change:cityName', cityName => {
       this.setState({ cityName });
+    });
+    Event.on('change:dropDown', dropDown => {
+      this.setState({ curDropDown: dropDown });
     });
   };
 
@@ -98,5 +103,11 @@ export default class CityInfo extends Component {
     // !err && Event.emit('change:cityName', res.city_name);
   };
 
-  _selectMenu = () => {};
+  _selectDropDown = () => {
+    const { curDropDown } = this.state;
+    Event.emit(
+      'change:dropDown',
+      curDropDown === DropDown.cityList ? '' : DropDown.cityList
+    );
+  };
 }
