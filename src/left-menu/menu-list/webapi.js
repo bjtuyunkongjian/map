@@ -13,3 +13,25 @@ export const FetchPopulation = async body => {
   });
   return { res, err };
 };
+
+export const FetchCamera = async body => {
+  Object.assign(body, { test: 'cameraNum' });
+  console.log(JSON.stringify(body));
+  const { res, err } = await FetchRequest({
+    url: 'mapServer/string',
+    method: 'POST',
+    body
+  });
+  return { res, err };
+};
+
+export const FetchWorkContent = async body => {
+  Object.assign(body, { test: 'policeDaily' });
+  console.log(JSON.stringify(body));
+  const { res, err } = await FetchRequest({
+    url: 'mapServer/string',
+    method: 'POST',
+    body
+  });
+  return { res, err };
+};

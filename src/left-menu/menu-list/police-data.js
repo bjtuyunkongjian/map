@@ -95,15 +95,16 @@ export default class PoliceData extends Component {
       console.log(param1, param2);
     });
     _MAP_.addLayer({
-      id: 'People_Point',
+      id: 'people_Point',
       type: 'symbol',
       source: _geoJSONData,
       layout: {
+        'text-field': '{}',
         visibility: 'visible',
         'symbol-placement': 'point'
       },
       paint: {
-        color: 'red'
+        'text-color': 'red'
       }
     });
   };
