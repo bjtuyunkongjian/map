@@ -6,7 +6,7 @@ import { IoIosAddCircleOutline } from 'react-icons/io';
 export default class PoliceCar extends Component {
   state = {
     curMenu: -1,
-    selectedOpt: 0
+    selectedOpt: ''
   };
   componentDidMount() {
     Event.on('change:curMenu', curMenu => {

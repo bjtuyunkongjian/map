@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Event from './event';
 import { IoIosPaper } from 'react-icons/io';
 import MenuItem from './menu-item';
+import { FetchWorkContent } from './webapi';
 
 export default class WorkContent extends Component {
   state = {
@@ -64,9 +65,21 @@ export default class WorkContent extends Component {
   _selectWork = (item, index, e) => {
     e.stopPropagation();
     this.setState({ selectedOpt: index });
+    this._fetchWorkContent(item);
   };
   _selectTask = (item, index, value) => {
     const { curMenu } = this.state;
+  };
+  _fetchWorkContent = async option => {
+    const _bounds = _MAP_.getBounds();
+    const _points = [
+      _bounds._ne.lat,
+      _bounds._sw.lng,
+      _bounds._sw.lat,
+      _bounds._ne.lng
+    ];
+    const { res } = await FetchWorkContent({ points: _points });
+    console.log(res);
   };
 }
 
