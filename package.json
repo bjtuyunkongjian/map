@@ -42,6 +42,7 @@
     "react-dom": "^16.6.0",
     "react-icons": "^3.2.2",
     "react-modal": "^3.6.1",
+    "three": "^0.99.0",
     "turf": "^3.0.14"
   }
 }

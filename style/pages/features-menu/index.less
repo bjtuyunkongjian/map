@@ -1,201 +1,65 @@
 .features-menu {
-  width: @bottom-nav-width;
-  @height: @bottom-nav-height;
-  @padding: 10px;
   @line-height: 15px;
   position: absolute;
-  height: @height;
+  // height: @menu-item-height * 6;
   color: @t-base;
-  background-color: #ffffff;
-  right: 0;
+  background-color: white;
+  right: @bottom-nav-width + 2;
   z-index: 1;
   bottom: 0;
-  box-shadow: @box-shadow-mini;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding-left: @padding;
-  border-radius: @radius-s;
-  .hidden {
-    display: none;
-  }
+  border-radius: @radius-m;
+  box-shadow: @box-shadow-mini;
+  animation: @fade;
+
   .menu-item {
+    @menu-item-width: 120px;
+    @menu-item-height: 30px;
+    @menu-item-padding: 5px;
     display: flex;
+    flex: 1;
     align-items: center;
     padding: 0 5px;
     cursor: pointer;
-    border-right: 1px solid @border-color-darker;
     position: relative;
-    line-height: @line-height;
-    &.tool-box {
-      border-right: 0;
-      padding-right: 15px;
-    }
+    height: @menu-item-height;
+    width: @menu-item-width;
+    padding: 0 @menu-item-padding;
     &:hover {
       color: @color-blue;
     }
     &.checked {
       color: @color-blue;
     }
-  }
 
-  .city-info {
-    .city-name {
-      margin: 0 5px;
-    }
-    .arrow-up {
-      transform: rotate(180deg);
-    }
-  }
-
-  .view-options,
-  .filter-options,
-  .tool-box {
+    // option-container
     .option-container {
-      position: absolute;
-      z-index: 1;
-      right: 0;
-      background: white;
-      box-shadow: @box-shadow-mini;
-      border-radius: @radius-m;
-      animation: @fade;
-      top: @height - @line-height + 5;
       overflow: hidden;
+      position: absolute;
+      bottom: 0;
+      left: -(@menu-item-width + 2);
+      box-sizing: border-box;
+      width: @menu-item-width;
+      color: @t-base;
+      border-radius: @radius-m;
+      box-shadow: @box-shadow-mini;
+      animation: @fade;
       .option-item {
-        height: 40px;
-        width: 150px;
+        padding: 0 5px;
+        height: @menu-item-height;
+        background-color: white;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: @padding;
-        color: black;
+        cursor: pointer;
         &:hover {
           color: @color-blue;
-          background: @bg-hover;
         }
         &.checked {
           color: @color-blue;
-        }
-      }
-    }
-  }
-
-  .city-list {
-    position: absolute;
-    top: @height + 5;
-    left: 0;
-    width: 100%;
-    background-color: white;
-    box-shadow: @box-shadow-mini;
-    border-radius: @radius-m;
-    animation: @fade;
-    overflow: auto;
-    .list-header {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: @padding;
-      border-bottom: 1px solid @border-color-darker;
-      .close-icon {
-        cursor: pointer;
-        &:hover {
-          color: @t-gray;
-        }
-      }
-    }
-    .list-body {
-      width: 100%;
-      padding: 0 @padding;
-      .cur-city {
-        padding: @padding 0;
-        border-bottom: 1px solid @border-color-darker;
-      }
-      .select-city {
-        padding-bottom: @padding;
-        .select-city-label {
-          padding: @padding 0;
-        }
-        .cities {
-          display: flex;
-          flex-direction: row;
-          flex-wrap: wrap;
-          .city-item {
-            padding: @padding / 2;
-            cursor: pointer;
-            &:hover {
-              color: @color-blue;
-            }
-          }
-        }
-      }
-    }
-  }
-
-  .element-library {
-    position: absolute;
-    top: @height + 5;
-    left: 0;
-    width: 100%;
-    background-color: white;
-    box-shadow: @box-shadow-mini;
-    border-radius: @radius-m;
-    animation: @fade;
-    overflow: auto;
-
-    &.pop-up {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-
-    .library-header {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: @padding;
-      border-bottom: 1px solid @border-color-darker;
-      .btn-text {
-        cursor: pointer;
-        &:hover {
-          color: @t-gray;
-        }
-      }
-    }
-    .library-body {
-      margin: @padding;
-      .select-all {
-        padding-bottom: @padding / 2;
-      }
-      .input-box {
-        width: 100%;
-        padding-bottom: @padding / 2;
-        border-bottom: 1px solid @border-color-darker;
-        > input {
-          width: 100%;
-        }
-      }
-      .element-box {
-        padding-top: @padding / 2;
-        .classification-label {
-          padding-bottom: @padding / 2;
-          display: flex;
-          align-items: center;
-          cursor: pointer;
-          .label-name {
-            margin-left: @padding / 2;
-          }
-        }
-        .classification {
-          display: flex;
-          flex-wrap: wrap;
-          padding: 0 @padding;
-          .element-item {
-            flex: 0 20%;
-            padding-bottom: @padding / 2;
-          }
         }
       }
     }
