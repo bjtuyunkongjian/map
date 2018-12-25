@@ -12,15 +12,14 @@ import {
   IoIosCloudy,
   IoIosRainy,
   IoIosSnow,
-  IoIosArrowDown
+  IoIosArrowDown,
+  IoIosArrowUp
 } from 'react-icons/io';
 import { FetchCityInfo } from './webapi';
 import Event from './event';
-import MenuItems from './menu-items';
 
 export default class CityInfo extends Component {
   state = {
-    curMenu: -1,
     cityName: '济南市'
   };
 
@@ -34,24 +33,18 @@ export default class CityInfo extends Component {
 
   render() {
     const _weatherIcon = this._selectIcon();
-    const { cityName, curMenu } = this.state;
-    const _selected = curMenu === MenuItems.cityInfo;
+    const { cityName } = this.state;
+    const _selected = false;
     return (
-      <div
-        className={`city-info menu-item${_selected ? ' checked' : ''}`}
-        onClick={this._selectMenu}
-      >
+      <div className="city-info" onClick={this._selectMenu}>
         {_weatherIcon}
         <span className="city-name">{cityName}</span>
-        <IoIosArrowDown className={_selected ? 'arrow-up' : ''} />
+        {_selected ? <IoIosArrowUp /> : <IoIosArrowDown />}
       </div>
     );
   }
 
   _dealWithEvent = () => {
-    Event.on('change:curMenu', curMenu => {
-      this.setState({ curMenu });
-    });
     Event.on('change:cityName', cityName => {
       this.setState({ cityName });
     });
@@ -105,11 +98,5 @@ export default class CityInfo extends Component {
     // !err && Event.emit('change:cityName', res.city_name);
   };
 
-  _selectMenu = () => {
-    const { curMenu } = this.state;
-    Event.emit(
-      'change:curMenu',
-      curMenu === MenuItems.cityInfo ? -1 : MenuItems.cityInfo
-    );
-  };
+  _selectMenu = () => {};
 }

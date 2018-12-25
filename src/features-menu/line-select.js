@@ -7,10 +7,18 @@ import React, { Component } from 'react';
 
 export default class LineSelect extends Component {
   state = {
-    curIndex: -1
+    curMenu: -1
   };
 
   render() {
-    return <div className="menu-item">线选</div>;
+    return (
+      <div className="menu-item" onClick={this._selectMenu}>
+        线选
+      </div>
+    );
   }
+
+  _selectMenu = e => {
+    e.stopPropagation();
+  };
 }

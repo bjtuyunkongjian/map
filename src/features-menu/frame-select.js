@@ -7,15 +7,18 @@ import React, { Component } from 'react';
 
 export default class FrameSelect extends Component {
   state = {
-    curIndex: -1
+    curMenu: -1
   };
+
   render() {
     return (
-      <div className="menu-item" onClick={this._selectMeun}>
+      <div className="menu-item" onClick={this._selectMenu}>
         框选
       </div>
     );
   }
 
-  _selectMeun = () => {};
+  _selectMenu = e => {
+    e.stopPropagation();
+  };
 }

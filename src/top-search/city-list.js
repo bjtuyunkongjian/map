@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { IoIosClose } from 'react-icons/io';
-import MenuItems from './menu-items';
 import Event from './event';
 
 export default class CityList extends Component {
@@ -16,13 +15,9 @@ export default class CityList extends Component {
   }
 
   render() {
-    const { curMenu, cityName } = this.state;
+    const { cityName } = this.state;
     return (
-      <div
-        className={`city-list ${
-          curMenu === MenuItems.cityInfo ? '' : 'hidden'
-        }`}
-      >
+      <div className={`city-list ${true ? '' : 'hidden'}`}>
         <div className="list-header">
           <span>城市列表</span>
           <IoIosClose
@@ -70,40 +65,9 @@ export default class CityList extends Component {
   _selectCity = async cityInfo => {
     const { cityName } = this.state;
     this._curZoom = _MAP_.getZoom();
-    // await new Promise(resolve => {
-    //   this._zoomView(resolve);
-    // });
     cityName !== cityInfo.name && Event.emit('change:cityName', cityInfo.name);
     _MAP_.flyTo({ center: cityInfo.center, zoom: 10 });
   };
-
-  // _zoomView = resolve => {
-  //   // 缩放视图，要保证缩放时间相同
-  //   // 注释了这个动画过程，mapbox自带这个动画
-  //   const _endZoom = 10; // 最终缩放层级
-  //   const _zoomStep = 0.1; // 缩放step
-  //   const _diffZoom = this._curZoom - _endZoom; // 当前缩放层级和最终缩放层级的差分
-  //   if (_diffZoom > _zoomStep) {
-  //     this._curZoom -= _zoomStep; // 如果 _diffZoom 大于 _zoomStep ， _curZoom 减少 _zoomStep
-  //   } else if (_diffZoom + _zoomStep < 0) {
-  //     this._curZoom += _zoomStep; // 如果 _diffZoom 小于负的 _zoomStep ， _curZoom 增加 _zoomStep
-  //   } else if (this._curZoom !== _endZoom) {
-  //     this._curZoom = 10; // 如果 _curZoom 和 _endZoom 不同，设置 _curZoom 的值为 _endZoom
-  //   } else {
-  //     resolve();
-  //     return; // 如果 _curZoom 和 _endZoom 相同，返回
-  //   }
-
-  //   _MAP_.setZoom(this._curZoom); // 缩放
-
-  //   if (Math.abs(_diffZoom) > _zoomStep) {
-  //     requestAnimationFrame(() => {
-  //       this._zoomView(resolve);
-  //     });
-  //   } else {
-  //     resolve();
-  //   }
-  // };
 }
 
 const cityList = [

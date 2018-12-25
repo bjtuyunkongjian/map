@@ -50,7 +50,8 @@ export default class ViewOptions extends Component {
     );
   }
 
-  _selectMenu = () => {
+  _selectMenu = e => {
+    e.stopPropagation();
     const { curMenu } = this.state;
     Event.emit(
       'change:curMenu',

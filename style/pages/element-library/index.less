@@ -10,6 +10,30 @@
   overflow: auto;
   color: white;
   padding: @margin;
+  animation: 0.5s slide-down;
+
+  @keyframes slide-down {
+    0% {
+      transform: translateY(-100%);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+
+  &.hidden {
+    animation: 0.5s slide-up;
+    @keyframes slide-up {
+      0% {
+        transform: translateY(0);
+      }
+      100% {
+        transform: translateY(-100%);
+        display: none;
+      }
+    }
+  }
+
   .btn-text {
     cursor: pointer;
     &:hover {
@@ -18,6 +42,7 @@
     }
   }
   @import './library-header.less';
+  @import './load-library.less';
   @import './select-option.less';
   @import './classification-box.less';
 }
