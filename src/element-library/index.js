@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import LibraryHeader from './library-header';
+import LoadLibrary from './load-library';
 import SelectOption from './select-option';
 import ClassificationBox from './classification-box';
 import { Event } from 'tuyun-utils';
 
 export default class ElementLibrary extends Component {
-  state = { visible: true };
+  state = { visible: false };
 
   _curZoom = 0;
 
@@ -18,6 +19,7 @@ export default class ElementLibrary extends Component {
     return (
       <div className={`element-library ${visible ? '' : 'hidden'}`}>
         <LibraryHeader />
+        <LoadLibrary />
         <SelectOption />
         <ClassificationBox />
       </div>

@@ -29,13 +29,6 @@ export default class ClassificationBox extends Component {
             </div>
           );
         })}
-
-        <input
-          multiple
-          type="file"
-          accept="image/*"
-          onChange={this._uploadImage}
-        />
       </div>
     );
   }
