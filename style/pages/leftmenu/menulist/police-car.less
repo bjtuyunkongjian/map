@@ -1,7 +1,55 @@
-.import-car {
-  list-style-type: none;
-  height: 40px;
-  .hidden {
+.track-container {
+  @track-item-height: 30px;
+  height: @track-item-height;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  overflow: hidden;
+  &.hidden {
     display: none;
+  }
+  .track-item {
+    font-size: 12px;
+    padding: 8px;
+    text-align: center;
+    color: @t-base;
+    background: rgba(240, 248, 255, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    &.checked {
+      background-color: #40df9f;
+      cursor: pointer;
+    }
+  }
+}
+
+.menu-apr {
+  height: 40px;
+  animation: @menu-apr;
+}
+
+@menu-apr: 0.3s menu-apr;
+@keyframes menu-apr {
+  from {
+    height: 0px;
+  }
+  to {
+    height: 40px;
+  }
+}
+
+.menu-dis {
+  height: 0px;
+  animation: @menu-dis;
+}
+
+@menu-dis: 0.3s menu-dis;
+@keyframes menu-dis {
+  from {
+    height: 30px;
+  }
+  to {
+    height: 0px;
   }
 }
