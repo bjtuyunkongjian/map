@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import LibraryHeader from './library-header';
 import SelectOption from './select-option';
 import ClassificationBox from './classification-box';
-import { UploadImages } from './webapi';
+import { Event } from 'tuyun-utils';
 
 export default class ElementLibrary extends Component {
   state = { visible: true };
@@ -10,7 +10,7 @@ export default class ElementLibrary extends Component {
   _curZoom = 0;
 
   componentWillMount() {
-    this._dealWithEvent();
+    this._init();
   }
 
   render() {
@@ -24,14 +24,10 @@ export default class ElementLibrary extends Component {
     );
   }
 
-  _dealWithEvent = () => {};
-
-  _closeElementLibrary = () => {};
-
-  _selectCity = async cityInfo => {};
-
-  _uploadImage = async e => {
-    const _uploadFile = e.target.files;
-    await UploadImages(_uploadFile);
+  _init = () => {
+    Event.on('change:ElementLibrary:visible', () => {
+      const { visible } = this.state;
+      this.setState({ visible: !visible });
+    });
   };
 }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { IoIosClose, IoIosResize } from 'react-icons/io';
+import { IoIosClose, IoIosResize, IoMdMenu } from 'react-icons/io';
+import { Event } from 'tuyun-utils';
 
 export default class LibraryHeader extends Component {
   state = {};
@@ -7,7 +8,8 @@ export default class LibraryHeader extends Component {
     return (
       <div className="library-header">
         <IoIosResize className="btn-text" width={20} />
-        <span>元件库</span>
+        <div className="header-name">元件库</div>
+        <IoMdMenu className="btn-text" />
         <IoIosClose
           className="btn-text"
           size={20}
@@ -17,5 +19,7 @@ export default class LibraryHeader extends Component {
     );
   }
 
-  _closeElementLibrary = () => {};
+  _closeElementLibrary = () => {
+    Event.emit('change:ElementLibrary:visible');
+  };
 }

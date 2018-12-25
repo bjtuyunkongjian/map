@@ -71,7 +71,7 @@ export default class ClassificationBox extends Component {
       const _rows = Math.ceil(
         (classification.element.length - 1) / this._columns
       );
-      this._animate(_rows * 69, 300);
+      this._animate(_rows * 69, 500);
     }
   };
 
@@ -82,10 +82,9 @@ export default class ClassificationBox extends Component {
 
     this._interval = setInterval(() => {
       const { height = 0 } = this.state;
-      if (height < endHeight * 1.02) {
+      if (height < endHeight) {
         this.setState({ height: Math.ceil(height + _step) });
       } else {
-        this.setState({ height: endHeight });
         clearInterval(this._interval);
       }
     }, _millisec);

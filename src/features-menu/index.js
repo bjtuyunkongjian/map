@@ -45,12 +45,19 @@ export default class FeaturesMenu extends Component {
 
   _init = () => {
     _MAP_.on('mouseup', () => {
+      // 添加点击事件
       Event.emit('change:curMenu', -1);
       GlobalEvent.emit('change:FeaturesMenu:visible', false);
     });
-    GlobalEvent.on('change:FeaturesMenu:visible', visible => {
-      !visible && Event.emit('change:curMenu', -1);
-      this.setState({ visible });
+    GlobalEvent.on('change:FeaturesMenu:visible', nextVisible => {
+      if (nextVisible !== undefined) {
+        this.setState({ visible: nextVisible });
+        !nextVisible && Event.emit('change:curMenu', -1); // 下一步不可见，隐藏所有的子菜单
+        return;
+      }
+      const { visible } = this.state; // visible 为当前是否可见
+      visible && Event.emit('change:curMenu', -1); // 当前可见，下一步不可见，隐藏所有的子菜单
+      this.setState({ visible: !visible });
     });
   };
 }

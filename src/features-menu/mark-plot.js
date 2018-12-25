@@ -6,6 +6,7 @@
 import React, { Component } from 'react';
 import MenuItems from './menu-items';
 import Event from './event';
+import { Event as GlobalEvent } from 'tuyun-utils';
 
 export default class LineSelect extends Component {
   state = {
@@ -34,9 +35,7 @@ export default class LineSelect extends Component {
 
   _selectMenu = () => {
     const { curMenu } = this.state;
-    Event.emit(
-      'change:curMenu',
-      curMenu === MenuItems.markPlot ? -1 : MenuItems.markPlot
-    );
+    GlobalEvent.emit('change:FeaturesMenu:visible', false);
+    GlobalEvent.emit('change:ElementLibrary:visible');
   };
 }
