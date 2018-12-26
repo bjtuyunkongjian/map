@@ -130,9 +130,9 @@ export default class BarPrompt extends Component {
       const _cellWidth = _boxWidth / data.length;
       const _index = Math.floor((_x - left) / _cellWidth);
       const _maskLeft = _index * _cellWidth + left;
-      const _promptLeft = _x < _barPromptW - 100 ? _x + 20 : _barPromptW - 100;
-      const _promptTop = _y + 10;
-      const _promptBottom = _barPromptH - _y + 10;
+      const _promptLeft = _x < _barPromptW - 100 ? _x + 15 : _barPromptW - 100;
+      const _promptTop = _y;
+      const _promptBottom = _barPromptH - _y;
       const _isTop = _y < _barPromptH / 2; // 判断按 top 显示还是按照 bottom 显示
       this.setState({
         showPrompt: true,
