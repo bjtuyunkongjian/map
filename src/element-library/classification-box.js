@@ -41,7 +41,7 @@ export default class ClassificationBox extends Component {
           <li className="element-item" key={`element_${elIndex}`}>
             <div className="element-img-box">
               <img
-                src="http://47.110.135.245:12808/map-test/christmas-tree.png"
+                src="http://img5.imgtn.bdimg.com/it/u=1539384982,463814683&fm=26&gp=0.jpg"
                 alt={element.name}
                 className="element-img"
               />
