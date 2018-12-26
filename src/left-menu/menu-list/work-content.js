@@ -78,8 +78,38 @@ export default class WorkContent extends Component {
       _bounds._sw.lat,
       _bounds._ne.lng
     ];
-    const { res } = await FetchWorkContent({ points: _points });
-    console.log(res);
+    const { res } = await FetchWorkContent({ dailypoints: _dailypoints });
+    // console.log(res);
+    const _features = res.map(item => {
+      return {
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates: item
+        }
+      };
+    });
+    const _geoJSONData = {
+      type: 'geojson',
+      data: {
+        type: 'FeatureCollection',
+        features: _features
+      }
+    };
+    _MAP_.addLayer({
+      id: 'daily_point',
+      type: 'symbol',
+      source: _geoJSONData,
+      layout: {
+        'text-field': '{}',
+        visibility: 'visible',
+        'symbol-placement': 'point'
+      },
+      paint: {
+        'text-color': ['get', ['get', 'KIND'], ['literal', FontColor]],
+        'text-halo-width': 2
+      }
+    });
   };
 }
 

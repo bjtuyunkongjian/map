@@ -64,20 +64,13 @@ export default class Camera extends Component {
         type: 'geojson',
         data: {
           type: 'FeatureCollection',
-          features: [
-            {
-              type: 'Features',
-              geometry: {
-                type: 'Point',
-                coordinates: item
-              }
-            }
-          ]
+          features: _features
         }
       },
       layout: {
         'text-field': '{}',
-        'icon-image': ''
+        'icon-image': '',
+        'text-halo-width': 2
       }
     });
   };
