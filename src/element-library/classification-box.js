@@ -9,11 +9,12 @@ export default class ClassificationBox extends Component {
 
   _interval = undefined;
   _columns = 4;
+  _clsBox = undefined;
 
   render() {
     const { visibleValue } = this.state;
     return (
-      <div className="classification-box">
+      <div className="classification-box" ref={el => (this._clsBox = el)}>
         {elLibrary.map((classification, clsIndex) => {
           const _showChildEl = classification.value === visibleValue;
           return (
@@ -64,6 +65,7 @@ export default class ClassificationBox extends Component {
       const _rows = Math.ceil(
         (classification.element.length - 1) / this._columns
       );
+      console.log('_clsBox', this._clsBox.getBoundingClientRect());
       this._animate(_rows * 69, 500);
     }
   };
@@ -84,6 +86,7 @@ export default class ClassificationBox extends Component {
   };
 }
 
+// 原有的库
 const elLibrary = [
   {
     label: '常用标号',
