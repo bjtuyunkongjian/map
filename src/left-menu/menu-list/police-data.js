@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-
+import { IsArray } from 'tuyun-utils';
 import Event from './event';
 import { IoIosPeople } from 'react-icons/io';
 import MenuItem from './menu-item';
+import LayerIds from './layers-id';
 import { FetchPopulation } from './webapi';
 
 export default class PoliceData extends Component {
@@ -54,6 +55,7 @@ export default class PoliceData extends Component {
       curMenu === MenuItem.dataOption ? -1 : MenuItem.dataOption
     );
   };
+
   _checkMap = (item, index, e) => {
     e.stopPropagation();
     this.setState({ selectedOpt: index });
@@ -61,17 +63,11 @@ export default class PoliceData extends Component {
   };
 
   _fetchPeopleData = async option => {
-    this._curZoom = _MAP_.getZoom();
     const _bounds = _MAP_.getBounds();
-    const _points = [
-      _bounds._ne.lat,
-      _bounds._sw.lng,
-      _bounds._sw.lat,
-      _bounds._ne.lng
-    ];
-    // return;
-    const { res } = await FetchPopulation({ points: _points });
-
+    const { res, err } = await FetchPopulation({
+      points: _bounds
+    });
+    if (err || !IsArray(res)) return;
     const _features = res.map(item => {
       return {
         type: 'Feature',
@@ -89,44 +85,62 @@ export default class PoliceData extends Component {
         features: _features
       }
     };
-    // console.log(_geoJSONData);
 
-    _MAP_.flyTo({ zoom: option.defaultZoom }, (param1, param2) => {
-      console.log(param1, param2);
-    });
-    _MAP_.addLayer({
-      id: 'people_Point',
-      type: 'symbol',
-      source: _geoJSONData,
-      layout: {
-        'text-field': '{}',
-        visibility: 'visible',
-        'symbol-placement': 'point'
-      },
-      paint: {
-        'text-color': 'red'
+    if (!_MAP_.getSource(LayerIds.policeData.source)) {
+      _MAP_.addSource(LayerIds.policeData.source, _geoJSONData).addLayer({
+        id: LayerIds.policeData.layer,
+        type: 'symbol',
+        source: LayerIds.policeData.source,
+        layout: {
+          'text-field': '',
+          visibility: 'visible',
+          'symbol-placement': 'point',
+          'text-font': ['黑体'],
+          'icon-image': option.icon
+        }
+      });
+    } else {
+      _MAP_.getSource(LayerIds.policeData.source).setData(_geoJSONData.data);
+      _MAP_.setLayoutProperty(
+        LayerIds.policeData.layer,
+        'icon-image',
+        option.icon
+      );
+    }
+    // Object.keys 不带继承的属性
+    Object.keys(LayerIds).map(key => {
+      const item = LayerIds[key];
+      if (item === LayerIds.policeData) return;
+      if (_MAP_.getLayer(item.layer)) {
+        _MAP_.removeLayer(item.layer);
+      }
+      if (_MAP_.getSource(item.source)) {
+        _MAP_.removeSource(item.source);
       }
     });
   };
+  // _MAP_.flyTo({ zoom: option.defaultZoom }, (param1, param2) => {
+  //   console.log(param1, param2);
+  // });
 }
 
 const options = [
   {
     value: 0,
     name: '人口',
-    defaultZoom: 10
-    // map: 'people'
+    defaultZoom: 10,
+    icon: 'people'
   },
   {
     value: 1,
     name: '房屋',
-    defaultZoom: 16
-    // map: 'house'
+    defaultZoom: 16,
+    icon: 'landmark'
   },
   {
     value: 2,
     name: '单位',
-    defaultZoom: 17
-    // map: 'unit'
+    defaultZoom: 17,
+    icon: 'landmark'
   }
 ];

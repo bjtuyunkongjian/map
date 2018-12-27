@@ -3,6 +3,9 @@ import Event from './event';
 import { IoIosEye } from 'react-icons/io';
 import MenuItem from './menu-item';
 import { FetchCamera } from './webapi';
+import LayerIds from './layers-id';
+import { IsArray } from 'tuyun-utils';
+
 export default class Camera extends Component {
   state = {
     curMenu: -1
@@ -16,13 +19,8 @@ export default class Camera extends Component {
   }
   render() {
     return (
-      <div
-        className="menu-item"
-        onClick={() => {
-          Event.emit('aaa');
-        }}
-      >
-        <div className="item-label" onClick={e => this._showCamera(e)}>
+      <div className="menu-item">
+        <div className="item-label" onClick={this._showCamera}>
           <IoIosEye />
           摄像头
           <span className="arrow arrow-right" />
@@ -38,15 +36,13 @@ export default class Camera extends Component {
     );
     this._fetchCamera();
   };
-  _fetchCamera = async option => {
+
+  _fetchCamera = async () => {
     const _bounds = _MAP_.getBounds();
-    const _cameraPoints = [
-      _bounds._ne.lat,
-      _bounds._sw.lng,
-      _bounds._sw.lat,
-      _bounds._ne.lng
-    ];
-    const { res } = await FetchCamera({ camerapoints: _cameraPoints });
+    const { res, err } = await FetchCamera({
+      points: _bounds
+    });
+    if (err || !IsArray(res)) return;
     const _features = res.map(item => {
       return {
         type: 'Feature',
@@ -56,21 +52,35 @@ export default class Camera extends Component {
         }
       };
     });
-    // console.log(res);
-    _MAP_.addSource({
-      id: 'camera_points',
-      type: 'symbol',
-      source: {
-        type: 'geojson',
-        data: {
-          type: 'FeatureCollection',
-          features: _features
+    const _geoJSONData = {
+      type: 'geojson',
+      data: {
+        type: 'FeatureCollection',
+        features: _features
+      }
+    };
+    if (!_MAP_.getSource(LayerIds.camera.source)) {
+      _MAP_.addSource('cameraSource', _geoJSONData).addLayer({
+        id: LayerIds.camera.layer,
+        type: 'symbol',
+        source: 'cameraSource',
+        layout: {
+          'text-field': '',
+          visibility: 'visible',
+          'symbol-placement': 'point',
+          'text-font': ['黑体'],
+          'icon-image': 'camera'
         }
-      },
-      layout: {
-        'text-field': '{}',
-        'icon-image': '',
-        'text-halo-width': 2
+      });
+    }
+    Object.keys(LayerIds).map(key => {
+      const item = LayerIds[key];
+      if (item === LayerIds.camera) return;
+      if (_MAP_.getLayer(item.layer)) {
+        _MAP_.removeLayer(item.layer);
+      }
+      if (_MAP_.getSource(item.source)) {
+        _MAP_.removeSource(item.source);
       }
     });
   };
