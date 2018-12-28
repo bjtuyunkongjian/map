@@ -66,6 +66,7 @@ export default class MapBoxDemo extends Component {
     // 点击地图在控制台打出经纬度
     this.map.on('mouseup', async e => {
       // const _bound = this.map.getBounds();
+      return;
       const _bound = {
         _sw: { lng: 117.1019026270979, lat: 36.6854218124963 },
         _ne: { lng: 117.10764598182999, lat: 36.689071027421065 }
