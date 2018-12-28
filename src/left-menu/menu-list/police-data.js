@@ -96,7 +96,8 @@ export default class PoliceData extends Component {
           visibility: 'visible',
           'symbol-placement': 'point',
           'text-font': ['黑体'],
-          'icon-image': option.icon
+          'icon-image': option.icon,
+          'icon-size': 1
         }
       });
     } else {

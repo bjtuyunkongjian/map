@@ -22,7 +22,7 @@ export default class Camera extends Component {
       <div className="menu-item">
         <div className="item-label" onClick={this._showCamera}>
           <IoIosEye />
-          摄像头
+          <span>摄像头</span>
           <span className="arrow arrow-right" />
         </div>
       </div>
@@ -60,19 +60,26 @@ export default class Camera extends Component {
       }
     };
     if (!_MAP_.getSource(LayerIds.camera.source)) {
-      _MAP_.addSource('cameraSource', _geoJSONData).addLayer({
+      _MAP_.addSource(LayerIds.camera.source, _geoJSONData).addLayer({
         id: LayerIds.camera.layer,
         type: 'symbol',
-        source: 'cameraSource',
+        source: LayerIds.camera.source,
         layout: {
           'text-field': '',
           visibility: 'visible',
           'symbol-placement': 'point',
           'text-font': ['黑体'],
-          'icon-image': 'camera'
+          'icon-image': 'camera',
+          'icon-size': 1
         }
       });
     }
+    _MAP_.on('mousemove', LayerIds.camera.layer, e => {
+      _MAP_.setLayoutProperty(LayerIds.camera.layer, 'icon-size', 2);
+    });
+    _MAP_.on('mouseleave', LayerIds.camera.layer, e => {
+      _MAP_.setLayoutProperty(LayerIds.camera.layer, 'icon-size', 1);
+    });
     // Object.keys(LayerIds).map(key => {
     //   const item = LayerIds[key];
     //   if (item === LayerIds.camera) return;

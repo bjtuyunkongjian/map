@@ -3,9 +3,9 @@
  */
 import { FetchRequest } from 'tuyun-utils';
 
+// 一标三实
 export const FetchPopulation = async body => {
   Object.assign(body, { test: 'pop' });
-  // console.log(JSON.stringify(body));
   const { res, err } = await FetchRequest({
     url: 'mapServer/string',
     method: 'POST',
@@ -14,6 +14,7 @@ export const FetchPopulation = async body => {
   return { res, err };
 };
 
+// 摄像头
 export const FetchCamera = async body => {
   Object.assign(body, { test: 'cameraNum' });
   console.log(JSON.stringify(body));
@@ -25,6 +26,7 @@ export const FetchCamera = async body => {
   return { res, err };
 };
 
+// 民警工作日常
 export const FetchWorkContent = async body => {
   Object.assign(body, { test: 'policeDaily' });
   console.log(JSON.stringify(body));
@@ -39,6 +41,18 @@ export const FetchWorkContent = async body => {
 // 安保路线规划
 export const FetchRoadInfo = async body => {
   Object.assign(body, { test: 'routePlanning' });
+  console.log(body);
+  const { res, err } = await FetchRequest({
+    url: 'mapServer/string',
+    method: 'POST',
+    body
+  });
+  return { res, err };
+};
+
+// 报警
+export const FetchCallPolice = async body => {
+  Object.assign(body, { test: 'alarmNum' });
   console.log(body);
   const { res, err } = await FetchRequest({
     url: 'mapServer/string',

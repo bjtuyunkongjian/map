@@ -7,7 +7,7 @@ export default class Case extends Component {
       <div className="menu-item" onClick={() => {}}>
         <div className="item-label">
           <IoIosMail />
-          案件
+          <span>案件</span>
           <span className="arrow arrow-right" />
         </div>
       </div>

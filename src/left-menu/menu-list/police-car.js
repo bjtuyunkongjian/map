@@ -23,7 +23,7 @@ export default class PoliceCar extends Component {
       <div className="menu-item">
         <div className="item-label" onClick={this._selectTrack}>
           <IoIosCar />
-          车辆
+          <span>车辆</span>
           <div className={`arrow-box ${_selected ? 'changed' : ''}`}>
             <span className={`arrow ${_arrow}`} />
           </div>

@@ -10,5 +10,9 @@ export default {
   camera: {
     source: 'cameraSource',
     layer: 'cameraLayer'
+  },
+  callPolice: {
+    source: 'callpoliceSource',
+    layer: 'callpoliceLayer'
   }
 };
