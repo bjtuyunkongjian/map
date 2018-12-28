@@ -35,3 +35,15 @@ export const FetchWorkContent = async body => {
   });
   return { res, err };
 };
+
+// 安保路线规划
+export const FetchRoadInfo = async body => {
+  Object.assign(body, { test: 'routePlanning' });
+  console.log(body);
+  const { res, err } = await FetchRequest({
+    url: 'mapServer/string',
+    method: 'POST',
+    body
+  });
+  return { res, err };
+};
