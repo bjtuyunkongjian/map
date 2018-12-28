@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import Event from './event';
-import { IoIosPaper } from 'react-icons/io';
+import { IoIosPaper, IoMdCheckmark } from 'react-icons/io';
 import MenuItem from './menu-item';
 import { FetchWorkContent } from './webapi';
+import LayerIds from './layers-id';
+import { IsArray } from 'tuyun-utils';
 
 export default class WorkContent extends Component {
   state = {
     curMenu: -1,
-    selectedOpt: 0
+    datanum: {},
+    selectedTasks: []
   };
   componentDidMount() {
     Event.on('change:curMenu', curMenu => {
@@ -15,7 +18,7 @@ export default class WorkContent extends Component {
     });
   }
   render() {
-    const { curMenu, selectedOpt } = this.state;
+    const { curMenu, datanum, selectedTasks = [] } = this.state;
     const _selected = curMenu === MenuItem.workContent;
     const _arrow = _selected ? 'arrow-down' : 'arrow-right';
     const _slide = _selected ? 'menu-in' : 'menu-out';
@@ -28,68 +31,167 @@ export default class WorkContent extends Component {
             <span className={`arrow arrow-right ${_arrow}`} />
           </div>
         </div>
+
         <ul className={`work-container ${_selected ? '' : 'hidden'} ${_slide}`}>
-          {options.map((item, index) => (
-            <li
-              className={`work-item ${selectedOpt === index ? 'checked' : ''}`}
-              key={`work_option_${index}`}
-              onClick={e => this._selectWork(item, index, e)}
-            >
-              <label>
-                <input
-                  type="checkbox"
-                  value={item.value}
-                  className="check-circle"
-                  onClick={this._selectTask()}
+          <li className={`work-item`} onClick={e => this._selectAll(e)}>
+            全部显示
+          </li>
+          {options.map((item, index) => {
+            const _isChecked = selectedTasks.indexOf(item.value) > -1;
+            return (
+              <li
+                className={`work-item ${_isChecked ? 'checked' : ''}`}
+                key={`work_option_${index}`}
+                onClick={e => this._selectWork(item, e)}
+              >
+                <div className={`checkbox ${_isChecked ? 'checked' : ''}`}>
+                  {_isChecked ? <IoMdCheckmark /> : null}
+                </div>
+                <div
+                  className="color-sign"
+                  style={{ backgroundColor: item.color }}
                 />
-              </label>
-              <div
-                className="color-sign"
-                style={{ backgroundColor: item.color }}
-              />
-              {item.name}
-            </li>
-          ))}
+                {item.name}
+                {`(${datanum[item.datasum] || 0})`}
+              </li>
+            );
+          })}
         </ul>
       </div>
     );
   }
 
-  _selectMenu = () => {
+  _selectMenu = async () => {
     const { curMenu } = this.state;
     Event.emit(
       'change:curMenu',
       curMenu === MenuItem.workContent ? -1 : MenuItem.workContent
     );
+
+    const _bounds = _MAP_.getBounds();
+    const { res, err } = await FetchWorkContent({
+      points: _bounds
+    });
+
+    if (err) return;
+    this.setState({ datanum: res });
   };
-  _selectWork = (item, index, e) => {
+
+  _selectAll = async e => {
     e.stopPropagation();
-    this.setState({ selectedOpt: index });
+    let { selectedTasks } = this.state;
+    if (selectedTasks.length === options.length) {
+      selectedTasks = [];
+    } else {
+      selectedTasks = options.map(item => item.value);
+    }
+    await this.setState({ selectedTasks });
     this._fetchWorkContent(item);
   };
-  _selectTask = (item, index, value) => {
-    const { curMenu } = this.state;
+
+  _selectWork = async (item, e) => {
+    e.stopPropagation();
+    const { selectedTasks } = this.state;
+    const _taskInd = selectedTasks.indexOf(item.value);
+    const _isSelected = _taskInd > -1;
+    _isSelected
+      ? selectedTasks.splice(_taskInd, 1)
+      : selectedTasks.push(item.value);
+    await this.setState({ selectedTasks });
+    this._fetchWorkContent(item);
   };
+
   _fetchWorkContent = async option => {
+    const { selectedTasks } = this.state;
     const _bounds = _MAP_.getBounds();
-    const _points = [
-      _bounds._ne.lat,
-      _bounds._sw.lng,
-      _bounds._sw.lat,
-      _bounds._ne.lng
-    ];
-    const { res } = await FetchWorkContent({ points: _points });
+    const { res, err } = await FetchWorkContent({
+      points: _bounds,
+      type: selectedTasks
+    });
     console.log(res);
+    if (err || !IsArray(res[option.value])) return;
+    const _features = res[option.value].map(item => {
+      return {
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates: item
+        }
+      };
+    });
+    const _geoJSONData = {
+      type: 'geojson',
+      data: {
+        type: 'FeatureCollection',
+        features: _features
+      }
+    };
+    if (!_MAP_.getSource(LayerIds.workContent.source)) {
+      _MAP_.addSource(LayerIds.workContent.source, _geoJSONData).addLayer({
+        id: LayerIds.workContent.layer,
+        type: 'symbol',
+        source: LayerIds.workContent.source,
+        layout: {
+          'text-field': '',
+          visibility: 'visible',
+          'symbol-placement': 'point',
+          'text-font': ['黑体'],
+          'icon-image': option.color.substring(1)
+        },
+        filter: ['==', 'value', option.value]
+      });
+    } else {
+      _MAP_.getSource(LayerIds.workContent.source).setData(_geoJSONData.data);
+      _MAP_.setLayoutProperty(
+        LayerIds.workContent.layer,
+        'icon-image',
+        option.color.substring(1)
+      );
+    }
+    Object.keys(LayerIds).map(key => {
+      const item = LayerIds[key];
+      if (item === LayerIds.workContent) return;
+      if (_MAP_.getLayer(item.layer)) {
+        _MAP_.removeLayer(item.layer);
+      }
+      if (_MAP_.getSource(item.source)) {
+        _MAP_.removeSource(item.source);
+      }
+    });
   };
 }
 
 const options = [
-  { value: 0, name: '全部显示', color: '' },
-  { value: 1, name: '待办任务', color: '#FF6A6A' },
-  { value: 2, name: '情报线索', color: '#EE3A8C' },
-  { value: 3, name: '将到期案件', color: '#8EE5EE' },
-  { value: 4, name: '居住证转出', color: '#FFD700' },
-  { value: 5, name: '常口迁入', color: '#FFDEAD' },
-  { value: 6, name: '群众求助', color: '#BCEE68' },
-  { value: 7, name: '治安防范', color: '#8968CD' }
+  { value: 'taskLst', name: '待办任务', color: '#EF9DA1', datasum: 'taskNum' },
+  {
+    value: 'cluesLst',
+    name: '情报线索',
+    color: '#9B5C8B',
+    datasum: 'cluesNum'
+  },
+  {
+    value: 'casesLst',
+    name: '将到期案件',
+    color: '#3886CC',
+    datasum: 'casesNum'
+  },
+  {
+    value: 'residenceLst',
+    name: '居住证到期',
+    color: '#FAF575',
+    datasum: 'residenceNum'
+  },
+  {
+    value: 'immigrationLst',
+    name: '常口迁入',
+    color: '#EECE98',
+    datasum: 'immigrationNum'
+  },
+  { value: 'helpLst', name: '群众求助', color: '#8AC89A', datasum: 'helpNum' },
+  {
+    value: 'publicPreLst',
+    name: '治安防范',
+    color: '#837EB4',
+    datasum: 'publicPreNum'
+  }
 ];
