@@ -14,6 +14,7 @@ import BaseStyle from './map-styles/light-sd';
 import AddLevels from './add-levels';
 // import addGeojson from './add-geojson';
 // import gaoguoGDB from './geojson/gaoguoGDB_cx';
+import { FetchRoadInfo } from './webapi';
 
 // import { TuyunMessage, TuyunTips } from 'tuyun-kit';
 export default class MapBoxDemo extends Component {
@@ -63,9 +64,123 @@ export default class MapBoxDemo extends Component {
       localIdeographFontFamily: '黑体'
     });
     // 点击地图在控制台打出经纬度
-    // this.map.on('mouseup', function(e) {
-    //   console.log(e.lngLat);
-    // });
+    this.map.on('mouseup', async e => {
+      // const _bound = this.map.getBounds();
+      const _bound = {
+        _sw: { lng: 117.1019026270979, lat: 36.6854218124963 },
+        _ne: { lng: 117.10764598182999, lat: 36.689071027421065 }
+      };
+      // const _bound = {
+      //   _sw: { lng: 117.11268171525683, lat: 36.68840850415951 },
+      //   _ne: { lng: 117.11389548462586, lat: 36.68917969389619 }
+      // };
+      console.log('开始');
+      console.log('_bound', JSON.stringify(_bound));
+      // const _cood = e.lngLat;
+      const _cood = { lng: 117.10461050111405, lat: 36.68698578295317 };
+      // const _cood = { lng: 117.11320188974429, lat: 36.688900196205964 };
+      console.log(`%c ${JSON.stringify(_cood)}`, 'color: lightblue');
+      console.log(
+        `%c ~~~~~~~~~~~~~~~ 第 ${1} 次请求 ~~~~~~~~~~~~~~~`,
+        'color: red'
+      );
+      let { res, err } = await FetchRoadInfo({
+        coord: _cood,
+        bound: _bound,
+        order: 'first'
+      });
+      console.log('_fetchRes', { res, err });
+      err && console.error(err);
+      const _features = res.map(item => {
+        return {
+          type: 'Feature',
+          geometry: {
+            type: 'Point',
+            coordinates: [item.coordinates[0].x, item.coordinates[0].y]
+          },
+          properties: {
+            title: '点',
+            icon: 'monument'
+          }
+        };
+      });
+      this.map.addLayer({
+        id: 'points' + Math.random(),
+        type: 'symbol',
+        source: {
+          type: 'geojson',
+          data: {
+            type: 'FeatureCollection',
+            features: _features
+          }
+        },
+        layout: {
+          'text-field': '{title}',
+          visibility: 'visible',
+          'symbol-placement': 'point',
+          'text-size': 24,
+          'icon-text-fit': 'both',
+          'text-justify': 'center',
+          'text-font': ['黑体'],
+          'text-pitch-alignment': 'viewport',
+          'text-rotation-alignment': 'viewport',
+          'icon-rotation-alignment': 'viewport',
+          'text-anchor': 'center',
+          'text-keep-upright': false
+        }
+      });
+
+      // 2
+      let _points = res;
+      console.log(
+        `%c ~~~~~~~~~~~~~~~ 第 ${2} 次请求 ~~~~~~~~~~~~~~~`,
+        'color: green'
+      );
+      console.log(
+        '_points',
+        _points,
+        _points.filter(item => item.startPoint)[0]
+      );
+
+      let _param = {
+        prev: _points.filter(item => item.startPoint)[0] || _points[0],
+        suff: _points[1],
+        points: _points,
+        order: 'firstPlus'
+      };
+      let _fetchRes = await FetchRoadInfo(_param);
+      console.log('_fetchRes', _fetchRes);
+      res = _fetchRes.res;
+      err = _fetchRes.err;
+      if (!res || res.length === 0) {
+        console.error(`第 ${2} 次报错了`);
+        return;
+      }
+      // 第三次开始
+      for (let i = 0; i < 10; i++) {
+        _points = res.filter(item => item.type === 'Point');
+        console.log(
+          `%c ~~~~~~~~~~~~~~~ 第 ${3 + i} 次请求 ~~~~~~~~~~~~~~~`,
+          `color: ${i % 2 === 0 ? 'red' : 'green'}`
+        );
+        console.log('_points', _points);
+        _param = {
+          prev: _points[0],
+          suff: _points[1],
+          points: _points,
+          order: 'firstPlus'
+        };
+        _fetchRes = await FetchRoadInfo(_param);
+        console.log('_fetchRes', _fetchRes);
+        res = _fetchRes.res;
+        err = _fetchRes.err;
+
+        if (!res || res.length === 0) {
+          console.error(`第${i + 3}次报错了`);
+          return;
+        }
+      }
+    });
 
     this.map
       .on('load', () => {
