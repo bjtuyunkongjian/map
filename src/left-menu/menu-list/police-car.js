@@ -74,12 +74,11 @@ export default class PoliceCar extends Component {
     this.setState({ selectedOpt: index });
   };
 
-  _setStart = async e => {
+  _setStart = async () => {
     if (this._routeStartF || _MAP_.getLayer('security_route_start')) return;
     const _bound = _MAP_.getBounds();
     // const _coord = e.lngLat;
-    const _coord = { lng: 117.10338726989903, lat: 36.69236306153957 };
-
+    const _coord = { lng: 117.10342087995144, lat: 36.69238760389375 };
     this._routeStartF = [
       {
         type: 'Feature',
@@ -94,15 +93,13 @@ export default class PoliceCar extends Component {
       }
     ];
     this._drawStartPoint(_coord); // 绘制起始点
-
-    console.log('%c ~~~~~~~~~~~~~~~ 第 1 次请求 ~~~~~~~~~~~~~~~', 'color: red');
+    console.log('%c ~~~~~~ 第 1 次请求 ~~~~~~', 'color: green');
     let { res, err } = await FetchRoadInfo({
       coord: _coord,
       bound: _bound,
       order: 'first'
     });
-    console.log('_fetchRes', { res, err });
-    if (err || !res) return;
+    if (err || !res) return; // 保护
     this._roadIds = res.ids;
     let _startPoint; // 起始点
     const _toSelectPoints = [],
@@ -114,10 +111,35 @@ export default class PoliceCar extends Component {
         _startPoint = item;
       } else {
         _toSelectPoints.push(item);
-        _toSelectFeatures.push({});
       }
+      const { coordinates } = item;
+      _toSelectFeatures.push({
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates: [coordinates[0].x, coordinates[0].y]
+        },
+        properties: {
+          title: '点'
+        }
+      });
     }
-    console.log(_startPoint, _toSelectPoints);
+
+    _MAP_.addLayer({
+      id: 'security_route_start' + Math.random(),
+      type: 'symbol',
+      source: {
+        type: 'geojson',
+        data: {
+          type: 'FeatureCollection',
+          features: _toSelectFeatures
+        }
+      },
+      layout: {
+        'icon-image': 'security_route'
+      }
+    });
+
     this._fetch({
       prev: _startPoint,
       suff: _toSelectPoints[0],
@@ -126,14 +148,84 @@ export default class PoliceCar extends Component {
     });
   };
 
-  _loopCounts = 1;
+  // 获取当前屏幕内的 roadIds
+  _fetchRoadIds = async () => {
+    const _bound = _MAP_.getBounds();
+    const { res, err } = await FetchRoadInfo({
+      bound: _bound,
+      order: 'switchScreen'
+    });
+    if (err) return;
+    this._roadIds = res;
+  };
+
+  _loopCounts = 2;
   _fetch = async param => {
-    console.log(
-      `%c ~~~~~~~~~~~~~~~ 第 ${2} 次请求 ~~~~~~~~~~~~~~~`,
-      'color: red'
-    );
+    // console.log( `%c ~~~~~~ 第 ${this._loopCounts} 次请求 ~~~~~~`, 'color: red' );
+
+    await this._fetchRoadIds();
+
     let { res, err } = await FetchRoadInfo(param);
-    console.log('{ res, err }', { res, err });
+    if (err) return;
+
+    const _toSelectFeatures = [];
+
+    for (let item of res) {
+      if (item.type !== 'LineString') {
+        const { coordinates } = item;
+        _toSelectFeatures.push({
+          type: 'Feature',
+          geometry: {
+            type: 'Point',
+            coordinates: [coordinates[0].x, coordinates[0].y]
+          },
+          properties: {
+            title: '点'
+          }
+        });
+      }
+    }
+
+    _MAP_
+      .addSource('security_route_start_source', {
+        type: 'geojson',
+        data: {
+          type: 'FeatureCollection',
+          features: _toSelectFeatures
+        }
+      })
+      .addLayer({
+        id: 'security_route_start' + Math.random(),
+        type: 'symbol',
+        source: 'security_route_start_source',
+        layout: {
+          'icon-image': 'security_route_start'
+        }
+      });
+
+    _MAP_
+      .addSource('security_route_start_source', {
+        type: 'geojson',
+        data: {
+          type: 'FeatureCollection',
+          features: _toSelectFeatures
+        }
+      })
+      .addLayer({
+        id: 'line-animation',
+        type: 'line',
+        source: 'security_route_start_source',
+        layout: {
+          'line-cap': 'round',
+          'line-join': 'round'
+        },
+        paint: {
+          'line-color': '#ed6498',
+          'line-width': 5,
+          'line-opacity': 0.8
+        }
+      });
+    // this._fetch();
   };
 
   _drawStartPoint = coord => {
@@ -151,10 +243,10 @@ export default class PoliceCar extends Component {
         }
       }
     ];
-    //
+    // 绘制
     _MAP_.addLayer({
       id: 'security_route_start',
-      type: 'symbol',
+      type: 'circle',
       source: {
         type: 'geojson',
         data: {
@@ -162,25 +254,12 @@ export default class PoliceCar extends Component {
           features: this._routeStartF
         }
       },
-      layout: {
-        'text-field': '',
-        visibility: 'visible',
-        'symbol-placement': 'point',
-        'text-size': 16,
-        'text-padding': 4,
-        'icon-image': 'security_route_start',
-        'text-justify': 'left',
-        'text-anchor': 'left',
-        'text-offset': [0.5, 0],
-        'text-font': ['黑体'],
-        'text-pitch-alignment': 'viewport',
-        'text-rotation-alignment': 'viewport',
-        'icon-rotation-alignment': 'viewport'
-      },
       paint: {
-        'text-color': 'rgba(65, 65, 65, 1)', // ['get', ['get', 'KIND'], ['literal', FontColor]]
-        'text-halo-width': 2,
-        'text-halo-color': 'rgba(255, 255, 255, 1)'
+        'circle-radius': {
+          base: 5,
+          stops: [[10, 5], [20, 20]]
+        },
+        'circle-color': '#e55e5e'
       }
     });
   };
