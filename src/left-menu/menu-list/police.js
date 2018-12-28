@@ -7,7 +7,7 @@ export default class Police extends Component {
       <div className="menu-item" onClick={() => {}}>
         <div className="item-label">
           <TiUser />
-          警力
+          <span>警力</span>
           <span className="arrow arrow-right" />
         </div>
       </div>

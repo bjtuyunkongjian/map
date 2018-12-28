@@ -12,7 +12,7 @@ export default class ImportantPalce extends Component {
       >
         <div className="item-label">
           <GoRadioTower />
-          重要场所
+          <span>重要场所</span>
           <span className="arrow arrow-right" />
         </div>
       </div>
