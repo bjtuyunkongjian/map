@@ -86,7 +86,7 @@ export default class WorkContent extends Component {
       selectedTasks = options.map(item => item.value);
     }
     await this.setState({ selectedTasks });
-    this._fetchWorkContent(item);
+    this._fetchWorkContent(selectedTasks);
   };
 
   _selectWork = async (item, e) => {
@@ -98,7 +98,7 @@ export default class WorkContent extends Component {
       ? selectedTasks.splice(_taskInd, 1)
       : selectedTasks.push(item.value);
     await this.setState({ selectedTasks });
-    this._fetchWorkContent(item);
+    this._fetchWorkContent(selectedTasks);
   };
 
   _fetchWorkContent = async option => {
@@ -109,16 +109,25 @@ export default class WorkContent extends Component {
       type: selectedTasks
     });
     console.log(res);
-    if (err || !IsArray(res[option.value])) return;
-    const _features = res[option.value].map(item => {
-      return {
-        type: 'Feature',
-        geometry: {
-          type: 'Point',
-          coordinates: item
-        }
-      };
-    });
+    if (err) return;
+    const _features = [];
+    for (let taskVal of selectedTasks) {
+      if (!IsArray(res[taskVal])) return console.log(`${taskVal} 不是数组`);
+      res[taskVal].map(coordArr => {
+        _features.push({
+          type: 'Feature',
+          geometry: {
+            type: 'Point',
+            coordinates: coordArr
+          },
+          properties: {
+            value: taskVal
+          }
+        });
+      });
+    }
+    console.log('%c _features', 'color: #00f');
+    console.log(_features);
     const _geoJSONData = {
       type: 'geojson',
       data: {
@@ -136,28 +145,28 @@ export default class WorkContent extends Component {
           visibility: 'visible',
           'symbol-placement': 'point',
           'text-font': ['黑体'],
-          'icon-image': option.color.substring(1)
-        },
-        filter: ['==', 'value', option.value]
+          'icon-image': '9B5C8B'
+        }
+        // filter: ['==', 'value', ]
       });
     } else {
       _MAP_.getSource(LayerIds.workContent.source).setData(_geoJSONData.data);
       _MAP_.setLayoutProperty(
         LayerIds.workContent.layer,
         'icon-image',
-        option.color.substring(1)
+        '9B5C8B'
       );
     }
-    Object.keys(LayerIds).map(key => {
-      const item = LayerIds[key];
-      if (item === LayerIds.workContent) return;
-      if (_MAP_.getLayer(item.layer)) {
-        _MAP_.removeLayer(item.layer);
-      }
-      if (_MAP_.getSource(item.source)) {
-        _MAP_.removeSource(item.source);
-      }
-    });
+    // Object.keys(LayerIds).map(key => {
+    //   const item = LayerIds[key];
+    //   if (item === LayerIds.workContent) return;
+    //   if (_MAP_.getLayer(item.layer)) {
+    //     _MAP_.removeLayer(item.layer);
+    //   }
+    //   if (_MAP_.getSource(item.source)) {
+    //     _MAP_.removeSource(item.source);
+    //   }
+    // });
   };
 }
 

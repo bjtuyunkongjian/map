@@ -108,16 +108,16 @@ export default class PoliceData extends Component {
       );
     }
     // Object.keys 不带继承的属性
-    Object.keys(LayerIds).map(key => {
-      const item = LayerIds[key];
-      if (item === LayerIds.policeData) return;
-      if (_MAP_.getLayer(item.layer)) {
-        _MAP_.removeLayer(item.layer);
-      }
-      if (_MAP_.getSource(item.source)) {
-        _MAP_.removeSource(item.source);
-      }
-    });
+    // Object.keys(LayerIds).map(key => {
+    //   const item = LayerIds[key];
+    //   if (item === LayerIds.policeData) return;
+    //   if (_MAP_.getLayer(item.layer)) {
+    //     _MAP_.removeLayer(item.layer);
+    //   }
+    //   if (_MAP_.getSource(item.source)) {
+    //     _MAP_.removeSource(item.source);
+    //   }
+    // });
   };
   // _MAP_.flyTo({ zoom: option.defaultZoom }, (param1, param2) => {
   //   console.log(param1, param2);
