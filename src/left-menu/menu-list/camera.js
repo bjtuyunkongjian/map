@@ -73,15 +73,15 @@ export default class Camera extends Component {
         }
       });
     }
-    Object.keys(LayerIds).map(key => {
-      const item = LayerIds[key];
-      if (item === LayerIds.camera) return;
-      if (_MAP_.getLayer(item.layer)) {
-        _MAP_.removeLayer(item.layer);
-      }
-      if (_MAP_.getSource(item.source)) {
-        _MAP_.removeSource(item.source);
-      }
-    });
+    // Object.keys(LayerIds).map(key => {
+    //   const item = LayerIds[key];
+    //   if (item === LayerIds.camera) return;
+    //   if (_MAP_.getLayer(item.layer)) {
+    //     _MAP_.removeLayer(item.layer);
+    //   }
+    //   if (_MAP_.getSource(item.source)) {
+    //     _MAP_.removeSource(item.source);
+    //   }
+    // });
   };
 }

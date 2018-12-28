@@ -1,7 +1,7 @@
 export default {
   workContent: {
     source: 'dailySource',
-    layer: 'dailyLayer'
+    layers: [{ layer: 'cluesLst', iconImg: '' }]
   },
   policeData: {
     source: 'populationSource',
