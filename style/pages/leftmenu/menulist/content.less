@@ -12,13 +12,13 @@
     height: @work-item-height;
     background: rgba(240, 248, 255, 0.3);
     display: flex;
+    cursor: pointer;
     align-items: center;
     &:nth-child(1) {
       justify-content: flex-end;
     }
     &.checked {
-      background-color: #40df9f;
-      opacity: 0.5;
+      background: rgba(64, 223, 159, 0.5);
       color: @t-base;
       cursor: pointer;
     }
@@ -31,12 +31,16 @@
     margin-left: 15px;
     border-radius: @radius-circle;
   }
-  .check-circle {
+  .checkbox {
     width: 15px;
     height: 15px;
     margin-left: 3px;
     border-radius: @radius-s;
-    background-color: @bg-grayer;
+    background-color: @t-white;
+    font-size: 15px;
+    &.checked {
+      background-color: @bg-hover;
+    }
   }
 }
 

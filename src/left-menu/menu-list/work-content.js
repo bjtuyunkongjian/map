@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Event from './event';
-import { IoIosPaper } from 'react-icons/io';
-import { IoMdCheckmark } from 'react-icons/io';
+import { IoIosPaper, IoMdCheckmark } from 'react-icons/io';
 import MenuItem from './menu-item';
 import { FetchWorkContent } from './webapi';
 import LayerIds from './layers-id';
@@ -10,9 +9,8 @@ import { IsArray } from 'tuyun-utils';
 export default class WorkContent extends Component {
   state = {
     curMenu: -1,
-    selectedOpt: 0,
-    datanum: {}
-    // checked:[],
+    datanum: {},
+    selectedTasks: []
   };
   componentDidMount() {
     Event.on('change:curMenu', curMenu => {
@@ -20,7 +18,7 @@ export default class WorkContent extends Component {
     });
   }
   render() {
-    const { curMenu, selectedOpt, datanum } = this.state;
+    const { curMenu, datanum, selectedTasks = [] } = this.state;
     const _selected = curMenu === MenuItem.workContent;
     const _arrow = _selected ? 'arrow-down' : 'arrow-right';
     const _slide = _selected ? 'menu-in' : 'menu-out';
@@ -33,29 +31,31 @@ export default class WorkContent extends Component {
             <span className={`arrow arrow-right ${_arrow}`} />
           </div>
         </div>
+
         <ul className={`work-container ${_selected ? '' : 'hidden'} ${_slide}`}>
-          {options.map((item, index) => (
-            <li
-              className={`work-item ${selectedOpt === index ? 'checked' : ''}`}
-              key={`work_option_${index}`}
-              onClick={e => this._selectWork(item, index, e)}
-            >
-              <label>
-                <input
-                  type="checkbox"
-                  value={item.value}
-                  className="check-circle"
-                  onClick={this._selectTask()}
+          <li className={`work-item`} onClick={e => this._selectAll(e)}>
+            全部显示
+          </li>
+          {options.map((item, index) => {
+            const _isChecked = selectedTasks.indexOf(item.value) > -1;
+            return (
+              <li
+                className={`work-item ${_isChecked ? 'checked' : ''}`}
+                key={`work_option_${index}`}
+                onClick={e => this._selectWork(item, e)}
+              >
+                <div className={`checkbox ${_isChecked ? 'checked' : ''}`}>
+                  {_isChecked ? <IoMdCheckmark /> : null}
+                </div>
+                <div
+                  className="color-sign"
+                  style={{ backgroundColor: item.color }}
                 />
-              </label>
-              <div
-                className="color-sign"
-                style={{ backgroundColor: item.color }}
-              />
-              {item.name}
-              {`(${datanum[item.datasum] || 0})`}
-            </li>
-          ))}
+                {item.name}
+                {`(${datanum[item.datasum] || 0})`}
+              </li>
+            );
+          })}
         </ul>
       </div>
     );
@@ -77,21 +77,36 @@ export default class WorkContent extends Component {
     this.setState({ datanum: res });
   };
 
-  _selectWork = (item, index, e) => {
+  _selectAll = async e => {
     e.stopPropagation();
-    this.setState({ selectedOpt: index });
-    console.log('item', item);
+    let { selectedTasks } = this.state;
+    if (selectedTasks.length === options.length) {
+      selectedTasks = [];
+    } else {
+      selectedTasks = options.map(item => item.value);
+    }
+    await this.setState({ selectedTasks });
     this._fetchWorkContent(item);
   };
 
-  _selectTask = (item, index, value) => {
-    const { curMenu } = this.state;
+  _selectWork = async (item, e) => {
+    e.stopPropagation();
+    const { selectedTasks } = this.state;
+    const _taskInd = selectedTasks.indexOf(item.value);
+    const _isSelected = _taskInd > -1;
+    _isSelected
+      ? selectedTasks.splice(_taskInd, 1)
+      : selectedTasks.push(item.value);
+    await this.setState({ selectedTasks });
+    this._fetchWorkContent(item);
   };
+
   _fetchWorkContent = async option => {
+    const { selectedTasks } = this.state;
     const _bounds = _MAP_.getBounds();
     const { res, err } = await FetchWorkContent({
       points: _bounds,
-      type: option.value
+      type: selectedTasks
     });
     console.log(res);
     if (err || !IsArray(res[option.value])) return;
@@ -122,8 +137,8 @@ export default class WorkContent extends Component {
           'symbol-placement': 'point',
           'text-font': ['黑体'],
           'icon-image': option.color.substring(1)
-        }
-        // filter: ['==', 'value', option.value]
+        },
+        filter: ['==', 'value', option.value]
       });
     } else {
       _MAP_.getSource(LayerIds.workContent.source).setData(_geoJSONData.data);
@@ -147,7 +162,6 @@ export default class WorkContent extends Component {
 }
 
 const options = [
-  { value: 0, name: '全部显示' },
   { value: 'taskLst', name: '待办任务', color: '#EF9DA1', datasum: 'taskNum' },
   {
     value: 'cluesLst',
