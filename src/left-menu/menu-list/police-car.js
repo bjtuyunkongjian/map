@@ -124,7 +124,7 @@ export default class PoliceCar extends Component {
         }
       });
     }
-
+    // 添加图层
     _MAP_.addLayer({
       id: 'security_route_start' + Math.random(),
       type: 'symbol',
@@ -146,17 +146,6 @@ export default class PoliceCar extends Component {
       ids: this._roadIds,
       order: 'firstPlus'
     });
-  };
-
-  // 获取当前屏幕内的 roadIds
-  _fetchRoadIds = async () => {
-    const _bound = _MAP_.getBounds();
-    const { res, err } = await FetchRoadInfo({
-      bound: _bound,
-      order: 'switchScreen'
-    });
-    if (err) return;
-    this._roadIds = res;
   };
 
   _loopCounts = 2;
@@ -186,46 +175,53 @@ export default class PoliceCar extends Component {
       }
     }
 
-    _MAP_
-      .addSource('security_route_start_source', {
+    _MAP_.addLayer({
+      id: 'security_route_start' + Math.random(),
+      type: 'symbol',
+      source: {
         type: 'geojson',
         data: {
           type: 'FeatureCollection',
           features: _toSelectFeatures
         }
-      })
-      .addLayer({
-        id: 'security_route_start' + Math.random(),
-        type: 'symbol',
-        source: 'security_route_start_source',
-        layout: {
-          'icon-image': 'security_route_start'
-        }
-      });
+      },
+      layout: {
+        'icon-image': 'security_route_start'
+      }
+    });
 
-    _MAP_
-      .addSource('security_route_start_source', {
+    _MAP_.addLayer({
+      id: 'line-animation',
+      type: 'line',
+      source: {
         type: 'geojson',
         data: {
           type: 'FeatureCollection',
           features: _toSelectFeatures
         }
-      })
-      .addLayer({
-        id: 'line-animation',
-        type: 'line',
-        source: 'security_route_start_source',
-        layout: {
-          'line-cap': 'round',
-          'line-join': 'round'
-        },
-        paint: {
-          'line-color': '#ed6498',
-          'line-width': 5,
-          'line-opacity': 0.8
-        }
-      });
+      },
+      layout: {
+        'line-cap': 'round',
+        'line-join': 'round'
+      },
+      paint: {
+        'line-color': '#ed6498',
+        'line-width': 5,
+        'line-opacity': 0.8
+      }
+    });
     // this._fetch();
+  };
+
+  // 获取当前屏幕内的 roadIds
+  _fetchRoadIds = async () => {
+    const _bound = _MAP_.getBounds();
+    const { res, err } = await FetchRoadInfo({
+      bound: _bound,
+      order: 'switchScreen'
+    });
+    if (err) return;
+    this._roadIds = res;
   };
 
   _drawStartPoint = coord => {
