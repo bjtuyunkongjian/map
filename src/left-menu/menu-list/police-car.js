@@ -10,6 +10,10 @@ export default class PoliceCar extends Component {
     curMenu: -1,
     selectedOpt: ''
   };
+
+  _routeStartF = undefined;
+  _roadIds = undefined;
+
   componentDidMount() {
     this._init();
   }
@@ -47,8 +51,11 @@ export default class PoliceCar extends Component {
   }
 
   _init = () => {
-    Event.on('change:curMenu', curMenu => this.setState({ curMenu })); // 选择当前菜单
-    _MAP_.on('mouseup', this._fetchRoadInfo);
+    Event.on('change:curMenu', curMenu => {
+      this.setState({ curMenu, selectedOpt: '' });
+    }); // 选择当前菜单
+    // return;
+    _MAP_.on('mouseup', this._setStart);
     _MAP_.on('mouseup', 'POLICE_CAR_START', e => {
       console.log('e.features', e.features);
     });
@@ -67,17 +74,17 @@ export default class PoliceCar extends Component {
     this.setState({ selectedOpt: index });
   };
 
-  _fetchRoadInfo = async e => {
+  _setStart = async () => {
+    if (this._routeStartF || _MAP_.getLayer('security_route_start')) return;
     const _bound = _MAP_.getBounds();
-    const _cood = e.lngLat;
-    console.log(e.points);
-    if (_MAP_.getLayer('POLICE_CAR_START')) return;
-    const _features = [
+    // const _coord = e.lngLat;
+    const _coord = { lng: 117.10342087995144, lat: 36.69238760389375 };
+    this._routeStartF = [
       {
         type: 'Feature',
         geometry: {
           type: 'Point',
-          coordinates: [_cood.lng, _cood.lat]
+          coordinates: [_coord.lng, _coord.lat]
         },
         properties: {
           title: '点',
@@ -85,29 +92,174 @@ export default class PoliceCar extends Component {
         }
       }
     ];
+    this._drawStartPoint(_coord); // 绘制起始点
+    console.log('%c ~~~~~~ 第 1 次请求 ~~~~~~', 'color: green');
+    let { res, err } = await FetchRoadInfo({
+      coord: _coord,
+      bound: _bound,
+      order: 'first'
+    });
+    if (err || !res) return; // 保护
+    this._roadIds = res.ids;
+    let _startPoint; // 起始点
+    const _toSelectPoints = [],
+      _toSelectFeatures = [];
+    for (let item of res.points) {
+      if (item.startPoint) {
+        const _ind = item.userData.indexOf('true');
+        item.userData.splice(_ind, 1);
+        _startPoint = item;
+      } else {
+        _toSelectPoints.push(item);
+      }
+      const { coordinates } = item;
+      _toSelectFeatures.push({
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates: [coordinates[0].x, coordinates[0].y]
+        },
+        properties: {
+          title: '点'
+        }
+      });
+    }
+
     _MAP_.addLayer({
-      id: 'POLICE_CAR_START',
+      id: 'security_route_start' + Math.random(),
       type: 'symbol',
       source: {
         type: 'geojson',
         data: {
           type: 'FeatureCollection',
-          features: _features
+          features: _toSelectFeatures
         }
       },
       layout: {
-        'text-field': '{title}',
-        visibility: 'visible',
-        'symbol-placement': 'point',
-        'text-size': 24,
-        'icon-text-fit': 'both',
-        'text-justify': 'center',
-        'text-font': ['黑体'],
-        'text-pitch-alignment': 'viewport',
-        'text-rotation-alignment': 'viewport',
-        'icon-rotation-alignment': 'viewport',
-        'text-anchor': 'center',
-        'text-keep-upright': false
+        'icon-image': 'security_route'
+      }
+    });
+
+    this._fetch({
+      prev: _startPoint,
+      suff: _toSelectPoints[0],
+      ids: this._roadIds,
+      order: 'firstPlus'
+    });
+  };
+
+  // 获取当前屏幕内的 roadIds
+  _fetchRoadIds = async () => {
+    const _bound = _MAP_.getBounds();
+    const { res, err } = await FetchRoadInfo({
+      bound: _bound,
+      order: 'switchScreen'
+    });
+    if (err) return;
+    this._roadIds = res;
+  };
+
+  _loopCounts = 2;
+  _fetch = async param => {
+    // console.log( `%c ~~~~~~ 第 ${this._loopCounts} 次请求 ~~~~~~`, 'color: red' );
+
+    await this._fetchRoadIds();
+
+    let { res, err } = await FetchRoadInfo(param);
+    if (err) return;
+
+    const _toSelectFeatures = [];
+
+    for (let item of res) {
+      if (item.type !== 'LineString') {
+        const { coordinates } = item;
+        _toSelectFeatures.push({
+          type: 'Feature',
+          geometry: {
+            type: 'Point',
+            coordinates: [coordinates[0].x, coordinates[0].y]
+          },
+          properties: {
+            title: '点'
+          }
+        });
+      }
+    }
+
+    _MAP_
+      .addSource('security_route_start_source', {
+        type: 'geojson',
+        data: {
+          type: 'FeatureCollection',
+          features: _toSelectFeatures
+        }
+      })
+      .addLayer({
+        id: 'security_route_start' + Math.random(),
+        type: 'symbol',
+        source: 'security_route_start_source',
+        layout: {
+          'icon-image': 'security_route_start'
+        }
+      });
+
+    _MAP_
+      .addSource('security_route_start_source', {
+        type: 'geojson',
+        data: {
+          type: 'FeatureCollection',
+          features: _toSelectFeatures
+        }
+      })
+      .addLayer({
+        id: 'line-animation',
+        type: 'line',
+        source: 'security_route_start_source',
+        layout: {
+          'line-cap': 'round',
+          'line-join': 'round'
+        },
+        paint: {
+          'line-color': '#ed6498',
+          'line-width': 5,
+          'line-opacity': 0.8
+        }
+      });
+    // this._fetch();
+  };
+
+  _drawStartPoint = coord => {
+    // 组织点
+    this._routeStartF = [
+      {
+        type: 'Feature',
+        geometry: {
+          type: 'Point',
+          coordinates: [coord.lng, coord.lat]
+        },
+        properties: {
+          title: '点',
+          icon: 'monument'
+        }
+      }
+    ];
+    // 绘制
+    _MAP_.addLayer({
+      id: 'security_route_start',
+      type: 'circle',
+      source: {
+        type: 'geojson',
+        data: {
+          type: 'FeatureCollection',
+          features: this._routeStartF
+        }
+      },
+      paint: {
+        'circle-radius': {
+          base: 5,
+          stops: [[10, 5], [20, 20]]
+        },
+        'circle-color': '#e55e5e'
       }
     });
   };

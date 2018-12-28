@@ -65,20 +65,21 @@ export default class MapBoxDemo extends Component {
     });
     // 点击地图在控制台打出经纬度
     this.map.on('mouseup', async e => {
-      // const _bound = this.map.getBounds();
       return;
-      const _bound = {
-        _sw: { lng: 117.1019026270979, lat: 36.6854218124963 },
-        _ne: { lng: 117.10764598182999, lat: 36.689071027421065 }
-      };
+      const _bound = this.map.getBounds();
+      // return;
+      // const _bound = {
+      //   _sw: { lng: 117.1019026270979, lat: 36.6854218124963 },
+      //   _ne: { lng: 117.10764598182999, lat: 36.689071027421065 }
+      // };
       // const _bound = {
       //   _sw: { lng: 117.11268171525683, lat: 36.68840850415951 },
       //   _ne: { lng: 117.11389548462586, lat: 36.68917969389619 }
       // };
       console.log('开始');
       console.log('_bound', JSON.stringify(_bound));
-      // const _cood = e.lngLat;
-      const _cood = { lng: 117.10461050111405, lat: 36.68698578295317 };
+      const _cood = e.lngLat;
+      // const _cood = { lng: 117.10461050111405, lat: 36.68698578295317 };
       // const _cood = { lng: 117.11320188974429, lat: 36.688900196205964 };
       console.log(`%c ${JSON.stringify(_cood)}`, 'color: lightblue');
       console.log(
