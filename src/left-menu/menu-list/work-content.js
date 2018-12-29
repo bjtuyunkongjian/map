@@ -5,6 +5,7 @@ import MenuItem from './menu-item';
 import { FetchWorkContent } from './webapi';
 import LayerIds from './layers-id';
 import { IsArray } from 'tuyun-utils';
+// import { DailyWork } from '../list-option/daily-work';
 
 export default class WorkContent extends Component {
   state = {
@@ -13,12 +14,11 @@ export default class WorkContent extends Component {
     selectedTasks: []
   };
   componentDidMount() {
-    Event.on('change:curMenu', curMenu => {
-      this.setState({ curMenu });
-    });
+    this._init();
   }
+
   render() {
-    const { curMenu, datanum, selectedTasks = [] } = this.state;
+    const { curMenu, datanum, selectedTasks } = this.state;
     const _selected = curMenu === MenuItem.workContent;
     const _arrow = _selected ? 'arrow-down' : 'arrow-right';
     const _slide = _selected ? 'menu-in' : 'menu-out';
@@ -37,7 +37,7 @@ export default class WorkContent extends Component {
             全部显示
           </li>
           {options.map((item, index) => {
-            const _isChecked = selectedTasks.indexOf(item.value) > -1;
+            const _isChecked = selectedTasks.indexOf(item) > -1;
             return (
               <li
                 className={`work-item ${_isChecked ? 'checked' : ''}`}
@@ -61,6 +61,23 @@ export default class WorkContent extends Component {
     );
   }
 
+  // 点击事件，包括点击切换菜单和点击弹出具体任务框
+  _init = () => {
+    Event.on('change:curMenu', curMenu => {
+      this.setState({ curMenu });
+      if (_MAP_.getSource('dailySource')) {
+        for (let item of options) {
+          _MAP_.removeLayer(item.value);
+        }
+        _MAP_.removeSource('dailySource');
+      }
+    });
+    _MAP_.on('click', 'taskLst', e => {
+      console.log(e.features);
+    });
+  };
+
+  // 点击发射切换菜单事件
   _selectMenu = async () => {
     const { curMenu } = this.state;
     Event.emit(
@@ -68,6 +85,7 @@ export default class WorkContent extends Component {
       curMenu === MenuItem.workContent ? -1 : MenuItem.workContent
     );
 
+    // 点击工作内容向后台请求各个工作的数据量
     const _bounds = _MAP_.getBounds();
     const { res, err } = await FetchWorkContent({
       points: _bounds
@@ -77,43 +95,63 @@ export default class WorkContent extends Component {
     this.setState({ datanum: res });
   };
 
+  // 地图上"全部显示"工作内容
   _selectAll = async e => {
     e.stopPropagation();
     let { selectedTasks } = this.state;
     if (selectedTasks.length === options.length) {
       selectedTasks = [];
     } else {
-      selectedTasks = options.map(item => item.value);
+      selectedTasks = options.map(item => item);
     }
     await this.setState({ selectedTasks });
-    this._fetchWorkContent(selectedTasks);
+    this._fetchWorkContent();
   };
 
+  // 复选框选中多个列表
   _selectWork = async (item, e) => {
     e.stopPropagation();
     const { selectedTasks } = this.state;
-    const _taskInd = selectedTasks.indexOf(item.value);
+    const _taskInd = selectedTasks.indexOf(item);
     const _isSelected = _taskInd > -1;
-    _isSelected
-      ? selectedTasks.splice(_taskInd, 1)
-      : selectedTasks.push(item.value);
+    _isSelected ? selectedTasks.splice(_taskInd, 1) : selectedTasks.push(item);
     await this.setState({ selectedTasks });
-    this._fetchWorkContent(selectedTasks);
+    this._fetchWorkContent();
   };
 
-  _fetchWorkContent = async option => {
+  // 后台请求列表对应的数组点
+  _fetchWorkContent = async () => {
     const { selectedTasks } = this.state;
     const _bounds = _MAP_.getBounds();
     const { res, err } = await FetchWorkContent({
       points: _bounds,
-      type: selectedTasks
+      type: selectedTasks.map(item => item.value)
     });
-    console.log(res);
+
+    // 计算重复点
+    // let _repeatC = 0;
+    // console.log('res', res);
+    // for (let i = 0; i < res.taskLst.length; i++) {
+    //   const item = res.taskLst[i];
+    //   res.taskLst.map((resItem, resIndex) => {
+    //     if (resIndex <= i) return;
+    //     if (item[0] === resItem[0] && item[1] === resItem[1]) {
+    //       _repeatC++;
+    //       console.log('重复点');
+    //       console.log(item);
+    //     }
+    //   });
+    // }
+    // console.log('_repeatC', _repeatC / 2, res.taskLst.length);
+
+    // 保护
+
     if (err) return;
     const _features = [];
-    for (let taskVal of selectedTasks) {
-      if (!IsArray(res[taskVal])) return console.log(`${taskVal} 不是数组`);
-      res[taskVal].map(coordArr => {
+    for (let task of selectedTasks) {
+      if (!IsArray(res[task.value]))
+        return console.log(`${task.value} 不是数组`);
+      res[task.value].map(coordArr => {
         _features.push({
           type: 'Feature',
           geometry: {
@@ -121,7 +159,7 @@ export default class WorkContent extends Component {
             coordinates: coordArr
           },
           properties: {
-            value: taskVal
+            value: task.value
           }
         });
       });
@@ -135,38 +173,24 @@ export default class WorkContent extends Component {
         features: _features
       }
     };
-    if (!_MAP_.getSource(LayerIds.workContent.source)) {
-      _MAP_.addSource(LayerIds.workContent.source, _geoJSONData).addLayer({
-        id: LayerIds.workContent.layer,
-        type: 'symbol',
-        source: LayerIds.workContent.source,
-        layout: {
-          'text-field': '',
-          visibility: 'visible',
-          'symbol-placement': 'point',
-          'text-font': ['黑体'],
-          'icon-image': '9B5C8B'
-        }
-        // filter: ['==', 'value', ]
-      });
+    console.log('_geoJSONData', _geoJSONData);
+    if (!_MAP_.getSource('dailySource')) {
+      _MAP_.addSource('dailySource', _geoJSONData);
+      for (let item of options) {
+        _MAP_.addLayer({
+          id: item.value,
+          type: 'circle',
+          source: 'dailySource',
+          paint: {
+            'circle-color': item.color,
+            'circle-radius': 8
+          },
+          filter: ['==', 'value', item.value]
+        });
+      }
     } else {
-      _MAP_.getSource(LayerIds.workContent.source).setData(_geoJSONData.data);
-      _MAP_.setLayoutProperty(
-        LayerIds.workContent.layer,
-        'icon-image',
-        '9B5C8B'
-      );
+      _MAP_.getSource('dailySource').setData(_geoJSONData.data);
     }
-    // Object.keys(LayerIds).map(key => {
-    //   const item = LayerIds[key];
-    //   if (item === LayerIds.workContent) return;
-    //   if (_MAP_.getLayer(item.layer)) {
-    //     _MAP_.removeLayer(item.layer);
-    //   }
-    //   if (_MAP_.getSource(item.source)) {
-    //     _MAP_.removeSource(item.source);
-    //   }
-    // });
   };
 }
 

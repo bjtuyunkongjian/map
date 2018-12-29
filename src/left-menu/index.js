@@ -233,7 +233,7 @@ export default class LeftMenu extends Component {
           <Case />
           <CallPolice />
           <Police />
-          <PoliceCar />
+          {/* <PoliceCar /> */}
           <CommonFacility />
           <ImportantPalce />
         </div>
