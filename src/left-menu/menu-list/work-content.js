@@ -5,7 +5,7 @@ import MenuItem from './menu-item';
 import { FetchWorkContent } from './webapi';
 import LayerIds from './layers-id';
 import { IsArray } from 'tuyun-utils';
-// import { DailyWork } from '../list-option/daily-work'; fix ====> 苹果手机 input 文字错乱
+// import { DailyWork } from '../list-option/daily-work';
 
 export default class WorkContent extends Component {
   state = {
@@ -32,7 +32,7 @@ export default class WorkContent extends Component {
           </div>
         </div>
 
-        <ul className={`work-container ${_selected ? '' : 'hidden'} ${_slide}`}>
+        <ul className={`work-container ${(_selected ? '' : 'hidden', _slide)}`}>
           <li className={`work-item`} onClick={e => this._selectAll(e)}>
             全部显示
           </li>
