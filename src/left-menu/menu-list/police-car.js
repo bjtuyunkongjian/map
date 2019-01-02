@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
+import { IoIosCar, IoIosAddCircleOutline } from 'react-icons/io';
 import Event from './event';
-import { IoIosCar } from 'react-icons/io';
 import MenuItem from './menu-item';
-import { IoIosAddCircleOutline } from 'react-icons/io';
 import { FetchRoadInfo } from './webapi';
+import {
+  DrawStartPoint,
+  DrawIconPoint,
+  DrawRoad,
+  CarLayers
+} from './car-layer';
 
 export default class PoliceCar extends Component {
   state = {
@@ -13,10 +18,9 @@ export default class PoliceCar extends Component {
 
   _prevPoint = undefined;
   _roadCoords = [];
+  _lineRingFeatures = [];
 
-  componentDidMount() {
-    this._init();
-  }
+  componentDidMount = () => this._init();
 
   render() {
     const { curMenu, selectedOpt } = this.state;
@@ -53,12 +57,36 @@ export default class PoliceCar extends Component {
   _init = () => {
     Event.on('change:curMenu', curMenu => {
       this.setState({ curMenu, selectedOpt: '' });
+      this._prevPoint = undefined;
+      this._roadCoords = [];
     }); // 选择当前菜单
     _MAP_.on('click', this._setStartPoint); // 起点可以随意设置
-    _MAP_.on('click', 'SECURITY_ROUTE_POINT', this._selectRoutePoint);
+    _MAP_.on('click', CarLayers.toSelect, this._selectRoutePoint);
     _MAP_.on('contextmenu', this._setEndPoint);
-    _MAP_.on('click', 'SECURITY_END_ROUTE', this._setEnd);
+    _MAP_.on('click', CarLayers.endRoute, this._setEnd);
+    _MAP_.on('click', CarLayers.lineRingRoute, e => {
+      console.log(e.features, e);
+      const { coordinates } = e.features[0].geometry;
+      // _MAP_.removeSource(CarLayers.lineRingRoute);
+      this._roadCoords = [...this._roadCoords, ...coordinates]; // 组织 coordinate
+      DrawRoad(_MAP_, {
+        id: CarLayers.selectedRoute,
+        features: [
+          {
+            type: 'Feature',
+            geometry: {
+              type: 'LineString',
+              coordinates: this._roadCoords
+            }
+          }
+        ],
+        lineColor: '#888',
+        lineWidth: 8
+      });
+    });
   };
+
+  _cancelEmit = () => {};
 
   _selectTrack = () => {
     const { curMenu } = this.state;
@@ -74,19 +102,20 @@ export default class PoliceCar extends Component {
   };
 
   _setStartPoint = async e => {
-    // 如果有 SECURITY_ROUTE_START 这个层级，说明设置了起点
-    if (_MAP_.getLayer('SECURITY_ROUTE_START')) return;
+    const { curMenu, selectedOpt } = this.state;
+    const _selected =
+      curMenu === MenuItem.carOption && selectedOpt.value === securityRoute;
+    // 如果有 routeStart 这个层级，说明设置了起点
+    if (_selected && _MAP_.getLayer(CarLayers.routeStart)) return;
     const _bound = _MAP_.getBounds(); // 获取屏幕边界
-
     const _coord = e.lngLat; // 获取点击的坐标点
-    this._drawStartPoint(_coord); // 绘制起始点
+    DrawStartPoint(_MAP_, _coord); // 绘制起始点
     let { res, err } = await FetchRoadInfo({
       coord: _coord,
       bound: _bound,
       order: 'first'
     });
     if (err || !res) return; // 保护
-    // this._roadIds = res.ids; // 将 ids 保存 ============> 第一次不需要计算 _roodIds
     let _startMappingF; // 起始点
     const _toSelectPoints = [], // 待选择的点
       _toSelectFeatures = []; // 要绘制的待选择的点
@@ -118,14 +147,14 @@ export default class PoliceCar extends Component {
       }
     }
     // 绘制映射点
-    this._drawIconPoint({
-      id: 'SECURITY_SELECT_START_MAPPING',
+    DrawIconPoint(_MAP_, {
+      id: CarLayers.startEndMapping,
       features: [_startMappingF],
       iconImage: 'security_route'
     });
     // 绘制待选择的点
-    this._drawIconPoint({
-      id: 'SECURITY_ROUTE_POINT',
+    DrawIconPoint(_MAP_, {
+      id: CarLayers.toSelect,
       features: _toSelectFeatures,
       iconImage: 'security_route_start'
     });
@@ -141,12 +170,14 @@ export default class PoliceCar extends Component {
       ids: _roodIds,
       order: 'firstPlus'
     };
-    let { res, err } = await FetchRoadInfo(_param);
+    const { res, err } = await FetchRoadInfo(_param);
+    const { isLineRing, coord } = res;
+    this._lineRingFeatures = []; // 清空环形路
     this._prevPoint = _param.suff;
     if (err) return; // 保护
     const _toSelectPoints = [];
     const _toSelectFeatures = [];
-    for (let item of res) {
+    for (let item of coord) {
       const { coordinates } = item;
       if (item.type !== 'LineString') {
         // 点， 设置 coordinates 第 0 位
@@ -162,19 +193,40 @@ export default class PoliceCar extends Component {
           }
         });
       } else {
-        coordinates.map((coordinate, index) => {
-          // 如果当前道路不为空，将新的道路第一个点删除，拼接到原来的点当中
-          if (this._roadCoords.length > 0) {
-            index > 0 && this._roadCoords.push([coordinate.x, coordinate.y]); // 组织 coordinate
-          } else {
-            this._roadCoords.push([coordinate.x, coordinate.y]); // 组织 coordinate
-          }
-        });
+        if (isLineRing) {
+          const _ringCoords = coordinates.map(coordinate => [
+            coordinate.x,
+            coordinate.y
+          ]);
+          this._lineRingFeatures.push({
+            type: 'Feature',
+            geometry: {
+              type: 'LineString',
+              coordinates: _ringCoords
+            }
+          });
+        } else {
+          coordinates.map((coordinate, index) => {
+            // 如果当前道路不为空，将新的道路第一个点删除，拼接到原来的点当中
+            if (this._roadCoords.length > 0) {
+              index > 0 && this._roadCoords.push([coordinate.x, coordinate.y]); // 组织 coordinate
+            } else {
+              this._roadCoords.push([coordinate.x, coordinate.y]); // 组织 coordinate
+            }
+          });
+        }
       }
     }
+    // 绘制环形路
+    DrawRoad(_MAP_, {
+      id: CarLayers.lineRingRoute,
+      features: this._lineRingFeatures,
+      lineColor: '#800',
+      lineWidth: 8
+    });
     // 绘制整个路
-    this._drawRoad({
-      id: 'SECURITY_ROUTE',
+    DrawRoad(_MAP_, {
+      id: CarLayers.selectedRoute,
       features: [
         {
           type: 'Feature',
@@ -188,8 +240,8 @@ export default class PoliceCar extends Component {
       lineWidth: 8
     });
     // 绘制待点击的点
-    this._drawIconPoint({
-      id: 'SECURITY_ROUTE_POINT',
+    DrawIconPoint(_MAP_, {
+      id: CarLayers.toSelect,
       features: _toSelectFeatures,
       iconImage: 'security_route_start'
     });
@@ -206,7 +258,6 @@ export default class PoliceCar extends Component {
     let { res, err } = await FetchRoadInfo(_param);
     const _features = [];
     if (err) return;
-
     for (let item of res) {
       const { coordinates } = item;
       const _roadCoords = [];
@@ -221,8 +272,8 @@ export default class PoliceCar extends Component {
         }
       });
     }
-    this._drawRoad({
-      id: 'SECURITY_END_ROUTE',
+    DrawRoad(_MAP_, {
+      id: CarLayers.endRoute,
       features: _features,
       lineColor: '#099',
       lineWidth: 8
@@ -230,7 +281,16 @@ export default class PoliceCar extends Component {
   };
 
   _setEnd = async e => {
-    console.log(e);
+    const _roodIds = await this._fetchRoadIds(); // 获取路的 ids
+    if (!_roodIds) return console.log('未获取当前屏幕所有道路id'); // 保护
+
+    const _param = {
+      order: 'last',
+      prev: this._prevPoint,
+      suff: e.lngLat
+    };
+    const { res, err } = await FetchRoadInfo(_param);
+    console.log(res, err);
   };
 
   _fetchRoadIds = async () => {
@@ -241,96 +301,12 @@ export default class PoliceCar extends Component {
     });
     return err ? undefined : res;
   };
-
-  _drawStartPoint = coord => {
-    // 绘制起始点
-    const _features = [
-      {
-        type: 'Feature',
-        geometry: {
-          type: 'Point',
-          coordinates: [coord.lng, coord.lat]
-        },
-        properties: {
-          title: '点',
-          icon: 'monument'
-        }
-      }
-    ];
-    _MAP_.addLayer({
-      id: 'SECURITY_ROUTE_START',
-      type: 'circle',
-      source: {
-        type: 'geojson',
-        data: {
-          type: 'FeatureCollection',
-          features: _features
-        }
-      },
-      paint: {
-        'circle-radius': {
-          base: 5,
-          stops: [[10, 5], [20, 20]]
-        },
-        'circle-color': '#e55e5e'
-      }
-    });
-  };
-
-  _drawIconPoint = ({ id, features, iconImage }) => {
-    if (!_MAP_.getSource(id)) {
-      _MAP_.addLayer({
-        id: id,
-        type: 'symbol',
-        source: {
-          type: 'geojson',
-          data: {
-            type: 'FeatureCollection',
-            features: features
-          }
-        },
-        layout: {
-          'icon-image': iconImage || 'security_route_start'
-        }
-      });
-    } else {
-      _MAP_.getSource(id).setData({
-        type: 'FeatureCollection',
-        features: features
-      });
-    }
-  };
-
-  _drawRoad = ({ id, features, lineColor = '#888', lineWidth = 8 }) => {
-    if (!_MAP_.getSource(id)) {
-      _MAP_.addLayer({
-        id: id,
-        type: 'line',
-        source: {
-          type: 'geojson',
-          data: {
-            type: 'FeatureCollection',
-            features: features
-          }
-        },
-        layout: {
-          'line-join': 'round',
-          'line-cap': 'round'
-        },
-        paint: {
-          'line-color': lineColor,
-          'line-width': lineWidth
-        }
-      });
-    } else {
-      _MAP_.getSource(id).setData({
-        type: 'FeatureCollection',
-        features: features
-      });
-    }
-  };
 }
 
 const options = [
-  { value: 0, name: '重大安保路线', icon: <IoIosAddCircleOutline /> }
+  {
+    value: 'securityRoute',
+    name: '重大安保路线',
+    icon: <IoIosAddCircleOutline />
+  }
 ];
