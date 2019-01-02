@@ -108,12 +108,33 @@ const DrawRoad = (map, { id, features, lineColor = '#888', lineWidth = 8 }) => {
   }
 };
 
-const CreateLineFeatures = coordinates => {};
+const CreateLineFeature = ({ coordinates, properties }) => {
+  return {
+    type: 'Feature',
+    geometry: {
+      type: 'LineString',
+      coordinates: coordinates
+    },
+    properties
+  };
+};
+
+const CreatePointFeature = ({ coordinates, properties }) => {
+  return {
+    type: 'Feature',
+    geometry: {
+      type: 'Point',
+      coordinates: coordinates
+    },
+    properties
+  };
+};
 
 export {
   DrawStartPoint,
   DrawIconPoint,
   DrawRoad,
   CarLayers,
-  CreateLineFeatures
+  CreateLineFeature,
+  CreatePointFeature
 };

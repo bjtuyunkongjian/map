@@ -41,7 +41,7 @@ export const FetchWorkContent = async body => {
 // 安保路线规划
 export const FetchRoadInfo = async body => {
   Object.assign(body, { test: 'routePlanning' });
-  // console.log(JSON.stringify(body));
+  console.log(body);
   const { res, err } = await FetchRequest({
     url: 'mapServer/string',
     method: 'POST',
