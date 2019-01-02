@@ -19,7 +19,7 @@ export default class Camera extends Component {
   }
   render() {
     return (
-      <div className="menu-item">
+      <div className="menu-item camera">
         <div className="item-label" onClick={this._showCamera}>
           <IoIosEye />
           <span>摄像头</span>

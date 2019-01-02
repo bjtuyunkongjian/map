@@ -13,10 +13,7 @@ export default class PoliceData extends Component {
   };
 
   componentDidMount() {
-    Event.on('change:curMenu', curMenu => {
-      console.log(curMenu);
-      this.setState({ curMenu });
-    });
+    this._init();
   }
 
   render() {
@@ -48,6 +45,22 @@ export default class PoliceData extends Component {
     );
   }
 
+  // 点击事件
+  _init = () => {
+    Event.on('change:curMenu', curMenu => {
+      console.log(curMenu);
+      this.setState({ curMenu });
+      if (_MAP_.getSource('populationSource')) {
+        _MAP_.removeLayer(item.value);
+      }
+    });
+    // _MAP_.on('zoomend', '');
+    _MAP_.on('click', 'house', e => {
+      console.log(e.features);
+    });
+  };
+
+  // 发送菜单改变事件
   _selectMenu = () => {
     const { curMenu } = this.state;
     Event.emit(
@@ -56,6 +69,7 @@ export default class PoliceData extends Component {
     );
   };
 
+  // 后台请求数据
   _checkMap = (item, index, e) => {
     e.stopPropagation();
     this.setState({ selectedOpt: index });
@@ -67,7 +81,7 @@ export default class PoliceData extends Component {
     const { res, err } = await FetchPopulation({
       points: _bounds
     });
-    if (err || !IsArray(res)) return;
+    if (err || !IsArray(res)) return; //保护
     const _features = res.map(item => {
       return {
         type: 'Feature',
@@ -86,9 +100,9 @@ export default class PoliceData extends Component {
       }
     };
 
-    if (!_MAP_.getSource(LayerIds.policeData.source)) {
-      _MAP_.addSource(LayerIds.policeData.source, _geoJSONData).addLayer({
-        id: LayerIds.policeData.layer,
+    if (!_MAP_.getSource('populationSource')) {
+      _MAP_.addSource('populationSource', _geoJSONData).addLayer({
+        id: item.value,
         type: 'symbol',
         source: LayerIds.policeData.source,
         layout: {
@@ -96,7 +110,10 @@ export default class PoliceData extends Component {
           visibility: 'visible',
           'symbol-placement': 'point',
           'text-font': ['黑体'],
-          'icon-image': option.icon,
+          'icon-image': {
+            base: 'people',
+            stops: [[7, 'people'], [15, 'landmark']]
+          },
           'icon-size': 1
         }
       });
@@ -105,7 +122,7 @@ export default class PoliceData extends Component {
       _MAP_.setLayoutProperty(
         LayerIds.policeData.layer,
         'icon-image',
-        option.icon
+        'option.icon'
       );
     }
     // Object.keys 不带继承的属性
@@ -127,19 +144,19 @@ export default class PoliceData extends Component {
 
 const options = [
   {
-    value: 0,
+    value: 'population',
     name: '人口',
     defaultZoom: 10,
     icon: 'people'
   },
   {
-    value: 1,
+    value: 'house',
     name: '房屋',
     defaultZoom: 16,
     icon: 'landmark'
   },
   {
-    value: 2,
+    value: 'work',
     name: '单位',
     defaultZoom: 17,
     icon: 'landmark'
