@@ -4,17 +4,13 @@ import { FetchCallPolice } from './webapi';
 import MenuItem from './menu-item';
 import { IoIosCall } from 'react-icons/io';
 import { IsArray } from 'tuyun-utils';
-import LayerIds from './layers-id';
 export default class CallPolice extends Component {
   state = {
     curMenu: -1
   };
 
   componentDidMount() {
-    Event.on('change:curMenu', curMenu => {
-      console.log(curMenu);
-      this.setState({ curMenu });
-    });
+    this._init();
   }
   render() {
     return (
@@ -27,6 +23,19 @@ export default class CallPolice extends Component {
       </div>
     );
   }
+
+  _init = () => {
+    const { curMenu } = this.state;
+    Event.on('change:curMenu', nextMenu => {
+      if (nextMenu === curMenu) return;
+      this.setState({ curMenu: nextMenu });
+      if (_MAP_.getLayer('callpoliceLayer')) {
+        _MAP_.removeLayer('callpoliceLayer');
+        _MAP_.removeSource('callpoliceLayer');
+      }
+    });
+  };
+
   _showPhone = () => {
     const { curMenu } = this.state;
     Event.emit(
@@ -59,26 +68,23 @@ export default class CallPolice extends Component {
         features: _features
       }
     };
-    if (!_MAP_.getSource(LayerIds.callPolice.source)) {
-      _MAP_.addSource(LayerIds.callPolice.source, _geoJSONData).addLayer({
-        id: LayerIds.callPolice.layer,
+    if (!_MAP_.getLayer('callpoliceLayer')) {
+      _MAP_.addLayer({
+        id: 'callpoliceLayer',
         type: 'symbol',
-        source: LayerIds.callPolice.source,
+        source: _geoJSONData,
         layout: {
-          'text-field': '',
-          visibility: 'visible',
-          'symbol-placement': 'point',
-          'text-font': ['黑体'],
           'icon-image': 'call',
           'icon-size': 1
         }
       });
     }
-    _MAP_.on('mousemove', LayerIds.callPolice.layer, e => {
-      _MAP_.setLayoutProperty(LayerIds.callPolice.layer, 'icon-size', 1.5);
-    });
-    _MAP_.on('mouseleave', LayerIds.callPolice.layer, e => {
-      _MAP_.setLayoutProperty(LayerIds.callPolice.layer, 'icon-size', 1);
-    });
+    // _MAP_.on('mousemove', 'callpoliceLayer', e => {
+    //   console.log(e, e.features);
+    //   // _MAP_.setLayoutProperty('callpoliceLayer', 'icon-size', 1.5);
+    // });
+    // _MAP_.on('mouseleave', 'callpoliceLayer', e => {
+    //   // _MAP_.setLayoutProperty('callpoliceLayer', 'icon-size', 1);
+    // });
   };
 }

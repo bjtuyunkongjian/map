@@ -3,7 +3,6 @@ import { IsArray } from 'tuyun-utils';
 import Event from './event';
 import { IoIosPeople } from 'react-icons/io';
 import MenuItem from './menu-item';
-import LayerIds from './layers-id';
 import { FetchPopulation } from './webapi';
 
 export default class PoliceData extends Component {
@@ -47,16 +46,25 @@ export default class PoliceData extends Component {
 
   // 点击事件
   _init = () => {
-    Event.on('change:curMenu', curMenu => {
-      console.log(curMenu);
-      this.setState({ curMenu });
-      if (_MAP_.getSource('populationSource')) {
-        _MAP_.removeLayer(item.value);
+    const { curMenu } = this.state;
+    Event.on('change:curMenu', nextMenu => {
+      if (nextMenu === curMenu) return;
+      this.setState({ curMenu: nextMenu });
+      if (_MAP_.getLayer('populationLayer')) {
+        _MAP_.removeLayer('populationLayer');
       }
     });
-    // _MAP_.on('zoomend', '');
     _MAP_.on('click', 'house', e => {
       console.log(e.features);
+    });
+    _MAP_.on('zoomend', () => {
+      if (!_MAP_.getLayer('populationLayer')) return;
+      const _option = options.filter(item => item.value === 'house')[0];
+      const _landMarkZoom = _option.defaultZoom;
+      console.log(_option, _landMarkZoom);
+      const _zoom = _MAP_.getZoom();
+      const _iconImage = _zoom < _landMarkZoom ? 'people' : 'landmark';
+      _MAP_.setLayoutProperty('populationLayer', 'icon-image', _iconImage);
     });
   };
 
@@ -70,13 +78,25 @@ export default class PoliceData extends Component {
   };
 
   // 后台请求数据
-  _checkMap = (item, index, e) => {
-    e.stopPropagation();
-    this.setState({ selectedOpt: index });
+  _checkMap = async (item, index, e) => {
+    if (item.value === 'house') {
+      const _duration = 500;
+
+      _MAP_.flyTo({
+        zoom: item.defaultZoom,
+        duration: _duration
+      });
+      await new Promise(resolve => {
+        setTimeout(() => {
+          resolve();
+        }, _duration * 1.01);
+      });
+    }
+    await this.setState({ selectedOpt: index });
     this._fetchPeopleData(item);
   };
 
-  _fetchPeopleData = async option => {
+  _fetchPeopleData = async item => {
     const _bounds = _MAP_.getBounds();
     const { res, err } = await FetchPopulation({
       points: _bounds
@@ -100,42 +120,21 @@ export default class PoliceData extends Component {
       }
     };
 
-    if (!_MAP_.getSource('populationSource')) {
-      _MAP_.addSource('populationSource', _geoJSONData).addLayer({
-        id: item.value,
+    if (!_MAP_.getLayer('populationLayer')) {
+      _MAP_.addLayer({
+        id: 'populationLayer',
         type: 'symbol',
-        source: LayerIds.policeData.source,
+        source: _geoJSONData,
         layout: {
-          'text-field': '',
-          visibility: 'visible',
-          'symbol-placement': 'point',
-          'text-font': ['黑体'],
-          'icon-image': {
-            base: 'people',
-            stops: [[7, 'people'], [15, 'landmark']]
-          },
+          'icon-image': item.icon,
           'icon-size': 1
         }
       });
     } else {
-      _MAP_.getSource(LayerIds.policeData.source).setData(_geoJSONData.data);
-      _MAP_.setLayoutProperty(
-        LayerIds.policeData.layer,
-        'icon-image',
-        'option.icon'
-      );
+      _MAP_.getLayer('populationLayer');
+      // .setData(_geoJSONData.data);
+      _MAP_.setLayoutProperty('populationLayer', 'icon-image', item.icon);
     }
-    // Object.keys 不带继承的属性
-    // Object.keys(LayerIds).map(key => {
-    //   const item = LayerIds[key];
-    //   if (item === LayerIds.policeData) return;
-    //   if (_MAP_.getLayer(item.layer)) {
-    //     _MAP_.removeLayer(item.layer);
-    //   }
-    //   if (_MAP_.getSource(item.source)) {
-    //     _MAP_.removeSource(item.source);
-    //   }
-    // });
   };
   // _MAP_.flyTo({ zoom: option.defaultZoom }, (param1, param2) => {
   //   console.log(param1, param2);

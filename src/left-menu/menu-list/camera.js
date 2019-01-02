@@ -12,10 +12,7 @@ export default class Camera extends Component {
   };
 
   componentDidMount() {
-    Event.on('change:curMenu', curMenu => {
-      console.log(curMenu);
-      this.setState({ curMenu });
-    });
+    this._init();
   }
   render() {
     return (
@@ -28,6 +25,21 @@ export default class Camera extends Component {
       </div>
     );
   }
+
+  // 点击事件，切换菜单，层级变化
+  _init = () => {
+    const { curMenu } = this.state;
+    Event.on('change:curMenu', nextMenu => {
+      console.log(nextMenu);
+      if (nextMenu === curMenu) return;
+      this.setState({ curMenu: nextMenu });
+      if (_MAP_.getLayer('cameraLayer')) {
+        _MAP_.removeLayer('cameraLayer');
+        _MAP_.removeSource('cameraLayer');
+      }
+    });
+  };
+
   _showCamera = () => {
     const { curMenu } = this.state;
     Event.emit(
@@ -59,36 +71,22 @@ export default class Camera extends Component {
         features: _features
       }
     };
-    if (!_MAP_.getSource(LayerIds.camera.source)) {
-      _MAP_.addSource(LayerIds.camera.source, _geoJSONData).addLayer({
-        id: LayerIds.camera.layer,
+    if (!_MAP_.getSource('cameraLayer')) {
+      _MAP_.addLayer({
+        id: 'cameraLayer',
         type: 'symbol',
-        source: LayerIds.camera.source,
+        source: _geoJSONData,
         layout: {
-          'text-field': '',
-          visibility: 'visible',
-          'symbol-placement': 'point',
-          'text-font': ['黑体'],
           'icon-image': 'camera',
           'icon-size': 1
         }
       });
     }
-    _MAP_.on('mousemove', LayerIds.camera.layer, e => {
-      _MAP_.setLayoutProperty(LayerIds.camera.layer, 'icon-size', 2);
-    });
-    _MAP_.on('mouseleave', LayerIds.camera.layer, e => {
-      _MAP_.setLayoutProperty(LayerIds.camera.layer, 'icon-size', 1);
-    });
-    // Object.keys(LayerIds).map(key => {
-    //   const item = LayerIds[key];
-    //   if (item === LayerIds.camera) return;
-    //   if (_MAP_.getLayer(item.layer)) {
-    //     _MAP_.removeLayer(item.layer);
-    //   }
-    //   if (_MAP_.getSource(item.source)) {
-    //     _MAP_.removeSource(item.source);
-    //   }
+    // _MAP_.on('mousemove', 'cameraLayer', e => {
+    //   _MAP_.setLayoutProperty('cameraLayer', 'icon-size', 2);
+    // });
+    // _MAP_.on('mouseleave', 'cameraLayer', e => {
+    //   _MAP_.setLayoutProperty('cameraLayer', 'icon-size', 1);
     // });
   };
 }

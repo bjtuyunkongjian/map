@@ -1,6 +1,8 @@
+@left-menu-width: 200px;
+
 .left-menu {
   @import './menulist/index'; //导入菜单列表样式
-  width: 200px;
+  width: @left-menu-width;
   height: 100%;
   z-index: 99;
   left: 0;
@@ -71,6 +73,7 @@
     position: absolute;
     top: 50%;
     right: -20px;
+    transform: translateY(-50%);
     .aspect-left {
       display: inline-block;
       width: 8px;
@@ -95,7 +98,7 @@
 @menu-fade-in: 0.5s menu-fade-in; // 菜单滑入
 @keyframes menu-fade-in {
   0% {
-    left: -240px;
+    left: -@left-menu-width;
   }
   100% {
     left: 0;
@@ -103,7 +106,7 @@
 }
 
 .menu-slide-out {
-  left: -240px;
+  left: -@left-menu-width;
   animation: @menu-fade-out;
 }
 
@@ -113,7 +116,7 @@
     left: 0;
   }
   100% {
-    left: -240px;
+    left: -@left-menu-width;
   }
 }
 
