@@ -30,7 +30,6 @@ export default class Camera extends Component {
   _init = () => {
     const { curMenu } = this.state;
     Event.on('change:curMenu', nextMenu => {
-      console.log(nextMenu);
       if (nextMenu === curMenu) return;
       this.setState({ curMenu: nextMenu });
       if (_MAP_.getLayer('cameraLayer')) {
