@@ -11,7 +11,7 @@ import {
   CarLayers,
   CreatePointFeature,
   CreateLineFeature
-} from './car-layer';
+} from './security-route-layer';
 
 export default class PoliceCar extends Component {
   state = {
@@ -30,30 +30,15 @@ export default class PoliceCar extends Component {
     const { curMenu, selectedOpt } = this.state;
     const _selected = curMenu === MenuItem.carOption;
     const _arrow = _selected ? 'arrow-down' : 'arrow-right';
-    const _slide = _selected ? 'menu-apr' : 'menu-dis';
     return (
       <div className="menu-item">
         <div className="item-label" onClick={this._selectTrack}>
           <IoIosCar />
-          <span>车辆</span>
+          <span>安保路线</span>
           <div className={`arrow-box ${_selected ? 'changed' : ''}`}>
             <span className={`arrow ${_arrow}`} />
           </div>
         </div>
-        <ul
-          className={`track-container ${_selected ? '' : 'hidden'} ${_slide}`}
-        >
-          {options.map((item, index) => (
-            <li
-              className={`track-item ${selectedOpt === index ? 'checked' : ''}`}
-              key={`data_option_${index}`}
-              onClick={e => this._checkTrack(item, index, e)}
-            >
-              {item.icon}
-              {item.name}
-            </li>
-          ))}
-        </ul>
       </div>
     );
   }
@@ -82,17 +67,11 @@ export default class PoliceCar extends Component {
     );
   };
 
-  _checkTrack = (item, index, e) => {
-    e.stopPropagation();
-    this.setState({ selectedOpt: index });
-  };
-
   _setStartPoint = async e => {
-    const { curMenu, selectedOpt } = this.state;
-    const _selected = true;
-    // curMenu === MenuItem.carOption && selectedOpt.value === 'securityRoute';
+    const { curMenu } = this.state;
+    const _selected = curMenu === MenuItem.carOption;
     // 如果有 routeStart 这个层级，说明设置了起点
-    if (_selected && _MAP_.getLayer(CarLayers.routeStart)) return;
+    if (!_selected || _MAP_.getLayer(CarLayers.routeStart)) return;
     const _bound = _MAP_.getBounds(); // 获取屏幕边界
     const _coord = e.lngLat; // 获取点击的坐标点
     DrawStartPoint(_MAP_, _coord); // 绘制起始点
@@ -299,11 +278,3 @@ export default class PoliceCar extends Component {
     return err ? undefined : res;
   };
 }
-
-const options = [
-  {
-    value: 'securityRoute',
-    name: '重大安保路线',
-    icon: <IoIosAddCircleOutline />
-  }
-];

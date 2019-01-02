@@ -5,7 +5,7 @@ import Camera from './menu-list/camera';
 import Case from './menu-list/case';
 import CallPolice from './menu-list/call-police';
 import Police from './menu-list/police';
-import PoliceCar from './menu-list/police-car';
+import SecurityRoute from './menu-list/security-route';
 import CommonFacility from './menu-list/facility';
 import ImportantPalce from './menu-list/palce';
 export default class LeftMenu extends Component {
@@ -24,7 +24,7 @@ export default class LeftMenu extends Component {
           <Case />
           <CallPolice />
           <Police />
-          <PoliceCar />
+          <SecurityRoute />
           <CommonFacility />
           <ImportantPalce />
         </div>
