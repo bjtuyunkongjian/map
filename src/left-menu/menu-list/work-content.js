@@ -5,7 +5,7 @@ import MenuItem from './menu-item';
 import { FetchWorkContent } from './webapi';
 import LayerIds from './layers-id';
 import { IsArray } from 'tuyun-utils';
-// import { DailyWork } from '../list-option/daily-work';
+// import { DailyWork } from '../list-option/daily-work'; fix ====> 苹果手机 input 文字错乱
 
 export default class WorkContent extends Component {
   state = {
@@ -128,22 +128,6 @@ export default class WorkContent extends Component {
       type: selectedTasks.map(item => item.value)
     });
 
-    // 计算重复点
-    // let _repeatC = 0;
-    // console.log('res', res);
-    // for (let i = 0; i < res.taskLst.length; i++) {
-    //   const item = res.taskLst[i];
-    //   res.taskLst.map((resItem, resIndex) => {
-    //     if (resIndex <= i) return;
-    //     if (item[0] === resItem[0] && item[1] === resItem[1]) {
-    //       _repeatC++;
-    //       console.log('重复点');
-    //       console.log(item);
-    //     }
-    //   });
-    // }
-    // console.log('_repeatC', _repeatC / 2, res.taskLst.length);
-
     // 保护
 
     if (err) return;
@@ -151,12 +135,12 @@ export default class WorkContent extends Component {
     for (let task of selectedTasks) {
       if (!IsArray(res[task.value]))
         return console.log(`${task.value} 不是数组`);
-      res[task.value].map(coordArr => {
+      res[task.value].map(coord => {
         _features.push({
           type: 'Feature',
           geometry: {
             type: 'Point',
-            coordinates: coordArr
+            coordinates: [coord.lon, coord.lat]
           },
           properties: {
             value: task.value
@@ -164,8 +148,6 @@ export default class WorkContent extends Component {
         });
       });
     }
-    console.log('%c _features', 'color: #00f');
-    console.log(_features);
     const _geoJSONData = {
       type: 'geojson',
       data: {
@@ -173,7 +155,6 @@ export default class WorkContent extends Component {
         features: _features
       }
     };
-    console.log('_geoJSONData', _geoJSONData);
     if (!_MAP_.getSource('dailySource')) {
       _MAP_.addSource('dailySource', _geoJSONData);
       for (let item of options) {
@@ -183,7 +164,7 @@ export default class WorkContent extends Component {
           source: 'dailySource',
           paint: {
             'circle-color': item.color,
-            'circle-radius': 8
+            'circle-radius': 6
           },
           filter: ['==', 'value', item.value]
         });
