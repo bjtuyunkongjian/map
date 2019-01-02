@@ -15,8 +15,7 @@ import {
 
 export default class PoliceCar extends Component {
   state = {
-    curMenu: -1,
-    selectedOpt: ''
+    curMenu: -1
   };
 
   _prevPoint = undefined;
@@ -27,7 +26,7 @@ export default class PoliceCar extends Component {
   componentDidMount = () => this._init();
 
   render() {
-    const { curMenu, selectedOpt } = this.state;
+    const { curMenu } = this.state;
     const _selected = curMenu === MenuItem.carOption;
     const _arrow = _selected ? 'arrow-down' : 'arrow-right';
     return (
@@ -35,9 +34,7 @@ export default class PoliceCar extends Component {
         <div className="item-label" onClick={this._selectTrack}>
           <IoIosCar />
           <span>安保路线</span>
-          <div className={`arrow-box ${_selected ? 'changed' : ''}`}>
-            <span className={`arrow ${_arrow}`} />
-          </div>
+          <span className="arrow arrow-right" />
         </div>
       </div>
     );
@@ -53,7 +50,7 @@ export default class PoliceCar extends Component {
   };
 
   _dealWithEvent = curMenu => {
-    this.setState({ curMenu, selectedOpt: '' });
+    this.setState({ curMenu });
     this._prevPoint = undefined;
     this._roadFeatures = [];
     this._lineRingFeatures = [];
