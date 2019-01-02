@@ -26,9 +26,6 @@ export default class PoliceCar extends Component {
   componentDidMount = () => this._init();
 
   render() {
-    const { curMenu } = this.state;
-    const _selected = curMenu === MenuItem.carOption;
-    const _arrow = _selected ? 'arrow-down' : 'arrow-right';
     return (
       <div className="menu-item">
         <div className="item-label" onClick={this._selectTrack}>
@@ -45,8 +42,8 @@ export default class PoliceCar extends Component {
     _MAP_.on('click', this._setStartPoint); // 点击起点，起点可以随意设置
     _MAP_.on('click', CarLayers.toSelect, this._selectRoutePoint); // 点击选择路的点
     _MAP_.on('click', CarLayers.lineRingRoute, this._chooseLineRing); // 点击选择环形路
-    _MAP_.on('contextmenu', this._setEndPoint);
-    _MAP_.on('click', CarLayers.endRoute, this._setEnd);
+    _MAP_.on('contextmenu', this._selectEndPoint);
+    _MAP_.on('click', CarLayers.endRoute, this._setEndPoint);
   };
 
   _dealWithEvent = curMenu => {
@@ -197,7 +194,7 @@ export default class PoliceCar extends Component {
     _MAP_.removeLayer(CarLayers.lineRingRoute);
   };
 
-  _setEndPoint = async () => {
+  _selectEndPoint = async () => {
     const _roodIds = await this._fetchRoadIds(); // 获取路的 ids
     if (!_roodIds) return console.log('未获取当前屏幕所有道路id'); // 保护
     const _param = {
@@ -225,7 +222,7 @@ export default class PoliceCar extends Component {
     TuyunTips.show('请选择绿色道路上的点', { duration: 3000 });
   };
 
-  _setEnd = async e => {
+  _setEndPoint = async e => {
     const _roodIds = await this._fetchRoadIds(); // 获取路的 ids
     if (!_roodIds) return console.log('未获取当前屏幕所有道路id'); // 保护
     const _param = {
