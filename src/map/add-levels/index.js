@@ -16,18 +16,18 @@ import LayerLv19 from './layer-lv19';
 import BffTile from './bff-tile';
 
 const addLvs = [
-  LayerLv8,
-  LayerLv9,
-  LayerLv10,
-  LayerLv11,
-  LayerLv12,
-  LayerLv13,
-  LayerLv14,
+  // LayerLv8,
+  // LayerLv9,
+  // LayerLv10,
+  // LayerLv11,
+  // LayerLv12,
+  // LayerLv13,
+  // LayerLv14,
   LayerLv15,
-  LayerLv16,
-  LayerLv17,
-  LayerLv18,
-  LayerLv19,
+  // LayerLv16,
+  // LayerLv17,
+  // LayerLv18,
+  // LayerLv19,
   BffTile
 ];
 
