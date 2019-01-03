@@ -28,14 +28,18 @@ export default class Camera extends Component {
 
   // 点击事件，切换菜单，层级变化
   _init = () => {
-    const { curMenu } = this.state;
     Event.on('change:curMenu', nextMenu => {
+      const { curMenu } = this.state;
+      console.log(nextMenu);
       if (nextMenu === curMenu) return;
       this.setState({ curMenu: nextMenu });
       if (_MAP_.getLayer('cameraLayer')) {
         _MAP_.removeLayer('cameraLayer');
         _MAP_.removeSource('cameraLayer');
       }
+    });
+    _MAP_.on('click', 'camera', e => {
+      console.log(e.features);
     });
   };
 

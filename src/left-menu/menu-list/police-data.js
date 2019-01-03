@@ -18,7 +18,7 @@ export default class PoliceData extends Component {
   render() {
     const { curMenu, selectedOpt } = this.state;
     const _selected = curMenu === MenuItem.dataOption;
-    const _slide = _selected ? 'menu-down' : 'menu-top';
+    const _listshow = _selected ? 'menu-down' : 'menu-top';
     const _arrow = _selected ? 'arrow-down' : 'arrow-right';
     return (
       <div className="menu-item police-data">
@@ -26,10 +26,12 @@ export default class PoliceData extends Component {
           <IoIosPeople />
           <span>一标三实</span>
           <div className={`arrow-box ${_selected ? 'changed' : ''}`}>
-            <span className={`arrow ${_arrow}`} />
+            <span className={`arrow arrow-right ${_arrow}`} />
           </div>
         </div>
-        <ul className={`data-container ${_selected ? '' : 'hidden'} ${_slide}`}>
+        <ul
+          className={`data-container ${(_selected ? '' : 'hidden', _listshow)}`}
+        >
           {options.map((item, index) => (
             <li
               className={`data-item ${selectedOpt === index ? 'checked' : ''}`}

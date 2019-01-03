@@ -25,8 +25,8 @@ export default class CallPolice extends Component {
   }
 
   _init = () => {
-    const { curMenu } = this.state;
     Event.on('change:curMenu', nextMenu => {
+      const { curMenu } = this.state;
       if (nextMenu === curMenu) return;
       this.setState({ curMenu: nextMenu });
       if (_MAP_.getLayer('callpoliceLayer')) {

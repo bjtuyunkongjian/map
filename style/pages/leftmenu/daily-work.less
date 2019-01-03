@@ -1,0 +1,44 @@
+.toast-box {
+  position: fixed;
+  background: @bg-gradient-base;
+  width: 250px;
+  color: @t-white;
+  border-radius: 15px;
+  padding: 20px;
+  .toast-title {
+    font-size: 18px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .close {
+      font-size: 18px;
+      font-weight: 900;
+    }
+  }
+  .toast-list {
+    margin-bottom: 10px;
+    font-size: 14px;
+    > li {
+      margin-bottom: 5px;
+    }
+  }
+  .toast-control {
+    margin-top: 5px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    .control-btn {
+      padding: 8px 25px;
+      color: @t-base;
+      background-color: white;
+      border-radius: @radius-m;
+      &.checked {
+        background-color: #7ec0ee;
+        color: @t-base;
+        border: 1px solid @t-grayer;
+      }
+    }
+  }
+}
