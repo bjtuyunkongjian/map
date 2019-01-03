@@ -5,7 +5,8 @@ import MenuItem from './menu-item';
 import { FetchWorkContent } from './webapi';
 import LayerIds from './layers-id';
 import { IsArray } from 'tuyun-utils';
-// import { DailyWork } from '../list-option/daily-work';
+import { MdControlPoint } from 'react-icons/md';
+import DailyWork from '../list-option/daily-work';
 
 export default class WorkContent extends Component {
   state = {
@@ -57,6 +58,8 @@ export default class WorkContent extends Component {
             );
           })}
         </ul>
+
+        <DailyWork />
       </div>
     );
   }
@@ -72,8 +75,16 @@ export default class WorkContent extends Component {
         _MAP_.removeSource('dailySource');
       }
     });
-    _MAP_.on('click', 'taskLst', e => {
-      console.log(e.features);
+    options.map(item => {
+      _MAP_.on('click', item.value, e => {
+        console.log(e);
+        const { originalEvent, features } = e;
+        Event.emit('showModal', {
+          left: originalEvent.offsetX,
+          top: originalEvent.offsetY,
+          value: features[0].properties.value
+        });
+      });
     });
   };
 

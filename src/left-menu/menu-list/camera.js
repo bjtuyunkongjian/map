@@ -38,6 +38,9 @@ export default class Camera extends Component {
         _MAP_.removeSource('cameraLayer');
       }
     });
+    _MAP_.on('click', 'camera', e => {
+      console.log(e.features);
+    });
   };
 
   _showCamera = () => {
