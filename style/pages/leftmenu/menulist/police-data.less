@@ -22,42 +22,11 @@
       color: @t-base;
     }
   }
-<<<<<<< HEAD
   &.menu-up {
     .pull-up(@item-height * @item-count);
   }
 
   &.menu-down {
     .drop-down(@item-height * @item-count);
-=======
-}
-
-@menu-down: 0.3s menu-down; //子菜单的滑出
-@keyframes menu-down {
-  0% {
-    height: 0px;
-  }
-  100% {
-    height: 94px;
-  }
-}
-
-.menu-down {
-  height: 94px;
-  animation: @menu-down;
-}
-.menu-top {
-  height: 0px;
-  animation: @menu-top;
-}
-
-@menu-top: 0.3s menu-top;
-@keyframes menu-top {
-  0% {
-    height: 94px;
-  }
-  100% {
-    height: 0px;
->>>>>>> 67bee2087eb12c27cfc3d951590fac40f8a6e294
   }
 }
