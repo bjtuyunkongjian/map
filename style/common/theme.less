@@ -87,3 +87,33 @@
 .hidden {
   display: none !important;
 }
+
+// 动画传参类
+.drop-down(@end-height) {
+  @keyfName: ~'drop-down-@{end-height}';
+  @keyframes @keyfName {
+    0% {
+      height: 0px;
+    }
+    100% {
+      height: @end-height;
+    }
+  }
+  height: @end-height;
+  animation: 0.3s @keyfName; //子菜单的滑出
+}
+
+.pull-up(@start-height) {
+  @keyfName: ~'pull-up-@{start-height}';
+
+  @keyframes @keyfName {
+    0% {
+      height: @start-height;
+    }
+    100% {
+      height: 0;
+    }
+  }
+  height: 0;
+  animation: 0.3s @keyfName; //子菜单的滑出
+}

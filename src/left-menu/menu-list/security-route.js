@@ -18,7 +18,7 @@ export default class PoliceCar extends Component {
   state = {
     curMenu: -1,
     selectedOpt: '',
-    height: 0
+    animate: 'hidden'
   };
 
   _roadFeatures = []; // 选中的路
@@ -29,9 +29,8 @@ export default class PoliceCar extends Component {
   componentDidMount = () => this._init();
 
   render() {
-    const { curMenu, selectedOpt } = this.state;
+    const { curMenu, selectedOpt, animate } = this.state;
     const _selected = curMenu === MenuItem.securityRoute;
-    const _slide = _selected ? 'menu-down' : 'menu-top';
     const _arrow = _selected ? 'arrow-down' : 'arrow-right';
     return (
       <div className="menu-item">
@@ -43,7 +42,7 @@ export default class PoliceCar extends Component {
           </div>
         </div>
 
-        <ul className={`data-container ${_selected ? '' : 'hidden'} ${_slide}`}>
+        <ul className={`route-container ${animate}`}>
           {options.map((item, index) => (
             <li
               ref={el => (this._el = el)}
@@ -69,22 +68,6 @@ export default class PoliceCar extends Component {
     _MAP_.on('click', RouteLayers.lineRingRoute, this._chooseLineRing); // 点击选择环形路
     _MAP_.on('contextmenu', this._selectEndPoint);
     _MAP_.on('click', RouteLayers.endRoute, this._setEndPoint);
-    // SaveScurityRoute({
-    //   fileName: '郝艺红',
-    //   fileId: '' + new Date().getTime(),
-    //   content: { name: '郝艺红' }
-    // });
-    // SaveScurityRoute({
-    //   fileName: '赵金燕',
-    //   fileId: '' + new Date().getTime(),
-    //   content: { name: '赵金燕' }
-    // });
-    // SaveScurityRoute({
-    //   fileName: '宋小青',
-    //   fileId: '' + new Date().getTime(),
-    //   content: { name: '宋小青' }
-    // });
-    // FetchAllRoutes();
   };
 
   // 发送菜单改变事件
@@ -96,14 +79,12 @@ export default class PoliceCar extends Component {
     );
   };
 
-  _selectMenuItem = index => {
-    this.setState({ selectedOpt: index });
-  };
-
   _dealWithEvent = nextMenu => {
     const { curMenu } = this.state;
     if (curMenu === nextMenu) return; // 重复点击不做任何操作
-    this.setState({ curMenu: nextMenu });
+    const _animate =
+      nextMenu === MenuItem.securityRoute ? 'menu-down' : 'menu-up';
+    this.setState({ curMenu: nextMenu, selectedOpt: '', animate: _animate });
     this._roadFeatures = [];
     this._roadNode = [];
     this._lineRingFeatures = [];
@@ -112,6 +93,10 @@ export default class PoliceCar extends Component {
       const _val = RouteLayers[key];
       _MAP_.getLayer(_val) && _MAP_.removeLayer(_val).removeSource(_val); // 删除所有 layer 和 source
     });
+  };
+
+  _selectMenuItem = index => {
+    this.setState({ selectedOpt: index });
   };
 
   _setStartPoint = async e => {
@@ -358,9 +343,5 @@ const options = [
   {
     value: 'view',
     name: '查看'
-  },
-  {
-    value: 'work',
-    name: '单位'
   }
 ];
