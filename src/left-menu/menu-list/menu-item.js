@@ -5,5 +5,5 @@ export default {
   callPoliceOption: 'callPolice-option',
   policeOption: 'police-option',
   cameraOption: 'camera-option',
-  carOption: 'car-option'
+  securityRoute: 'car-option'
 };
