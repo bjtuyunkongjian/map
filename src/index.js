@@ -34,7 +34,7 @@ class MapApp extends Component {
         {/* <Restore /> */}
         <LeftMenu />
         <LinkageDisplay />}{/* <ElementLibrary /> */}
-        {/* {<BottomNav />} */}
+        {<BottomNav />}
         <FeaturesMenu />
       </div>
     );

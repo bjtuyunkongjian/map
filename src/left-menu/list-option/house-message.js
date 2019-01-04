@@ -15,6 +15,10 @@ export default class HouseMessage extends Component {
   componentDidMount() {
     this._init();
   }
+
+  componentWillUnmount() {
+    this._reset();
+  }
   render() {
     const { visible, boxLeft, boxTop } = this.state;
     if (!visible) return null;
@@ -42,20 +46,44 @@ export default class HouseMessage extends Component {
             {messages[0].itemdes[2]}
           </li>
         </ul>
+        <div className="space" />
+        <div>
+          <span>选择单元房间号码，查看房间基本信息</span>
+          <ul className="describe">
+            <li>
+              <div className="nth-first" />
+              <span>常住</span>
+            </li>
+            <li>
+              <div className="nth-second" />
+              <span>流动</span>
+            </li>
+            <li>
+              <div className="nth-third" />
+              <span>重点人员</span>
+            </li>
+          </ul>
+        </div>
+        <HouseInfo />
       </div>
     );
   }
 
   _init = () => {
-    Event.on('showMessage', param => {
-      console.log(param);
-      const { left = 0, top = 0, value } = param;
-      this.setState({
-        boxLeft: left,
-        boxTop: top,
-        visible: true,
-        information: value
-      });
+    Event.on('showMessage', this._dealWithEvent);
+  };
+
+  _reset = () => {
+    Event.removeListener('showMessage', this._dealWithEvent);
+  };
+
+  _dealWithEvent = param => {
+    const { left = 0, top = 0, value } = param;
+    this.setState({
+      boxLeft: left,
+      boxTop: top,
+      visible: true,
+      information: value
     });
   };
 
@@ -63,6 +91,7 @@ export default class HouseMessage extends Component {
     this.setState({
       visible: false
     });
+    alert('弹出户口');
   };
 }
 
@@ -79,3 +108,66 @@ const messages = [
     ]
   }
 ];
+
+class HouseInfo extends Component {
+  render() {
+    return (
+      <div>
+        {floors.map((floorItem, floorInd) => (
+          <ul key={`floor_${floorInd}`} className="floor">
+            {doors.map((doorItem, doorInd) => (
+              <li
+                key={'door_' + doorInd}
+                onClick={() => {
+                  <HouseHold />;
+                  // debugger;
+                }}
+                className="household"
+              >
+                {people.map((peopleItem, peopleInd) => (
+                  <div key={'people_' + peopleInd} className="family">
+                    {peopleItem}
+                  </div>
+                ))}
+              </li>
+            ))}
+          </ul>
+        ))}
+      </div>
+    );
+  }
+}
+
+const fllorCounts = 5;
+const floors = [];
+for (let i = 0; i < fllorCounts; i++) {
+  floors.push(i);
+}
+// 户
+const doorCounts = 4;
+const doors = [];
+for (let i = 0; i < doorCounts; i++) {
+  doors.push(i);
+}
+// 人
+const peopleCount = 3;
+const people = [];
+for (let i = 0; i < peopleCount; i++) {
+  people.push(i);
+}
+
+class HouseHold extends Component {
+  render() {
+    return (
+      <div className="doorInfo">
+        <div>1-3-1006</div>
+        <ul>
+          <li>张三</li>
+          <li>李四</li>
+          <li>王五</li>
+          <li>孙六</li>
+        </ul>
+      </div>
+    );
+  }
+}
