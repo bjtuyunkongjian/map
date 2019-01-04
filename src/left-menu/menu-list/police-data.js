@@ -5,6 +5,7 @@ import { IoIosPeople } from 'react-icons/io';
 import MenuItem from './menu-item';
 import { FetchPopulation } from './webapi';
 import HouseMessage from '../list-option/house-message';
+import UnitMessage from '../list-option/unit-message';
 
 export default class PoliceData extends Component {
   state = {
@@ -36,16 +37,19 @@ export default class PoliceData extends Component {
         >
           {options.map((item, index) => (
             <li
-              className={`data-item ${selectedOpt === index ? 'checked' : ''}`}
+              className={`data-item ${
+                selectedOpt === item.value ? 'checked' : ''
+              }`}
               key={`data_option_${index}`}
-              onClick={e => this._checkMap(item, index, e)}
+              onClick={e => this._checkMap(item)}
             >
               {item.name}
             </li>
           ))}
         </ul>
 
-        <HouseMessage />
+        {selectedOpt === 'house' ? <HouseMessage /> : null}
+        {selectedOpt === 'unit' ? <UnitMessage /> : null}
       </div>
     );
   }
@@ -56,29 +60,36 @@ export default class PoliceData extends Component {
       const { curMenu } = this.state;
       if (nextMenu === curMenu) return;
       this.setState({ curMenu: nextMenu });
-      if (_MAP_.getLayer('POLICE_DATA_LAYER')) {
-        _MAP_.removeLayer('POLICE_DATA_LAYER');
+      if (_MAP_.getLayer('policeData-layer')) {
+        _MAP_.removeLayer('policeData-layer');
       }
     });
     // 点击地图图标弹出信息框
-    _MAP_.on('click', 'POLICE_DATA_LAYER', e => {
+    _MAP_.on('click', 'policeData-layer', e => {
       const { selectedOpt } = this.state;
-      const _selectVal = options[selectedOpt].value;
       const { originalEvent } = e;
-      if (_selectVal === 'population') return;
-      Event.emit('showMessage', {
-        value: _selectVal,
-        top: originalEvent.offsetY,
-        left: originalEvent.offsetX
-      });
+      if (selectedOpt === 'population') return;
+      if (selectedOpt === 'house') {
+        Event.emit('showMessage', {
+          value: selectedOpt,
+          top: originalEvent.offsetY,
+          left: originalEvent.offsetX
+        });
+      } else if (selectedOpt === 'unit') {
+        Event.emit('showUnit', {
+          value: selectedOpt,
+          latop: originalEvent.offsetY,
+          laleft: originalEvent.offsetX
+        });
+      }
     });
     _MAP_.on('zoomend', () => {
-      if (!_MAP_.getLayer('POLICE_DATA_LAYER')) return;
+      if (!_MAP_.getLayer('policeData-layer')) return;
       const _option = options.filter(item => item.value === 'house')[0];
       const _landMarkZoom = _option.defaultZoom;
       const _zoom = _MAP_.getZoom();
       const _iconImage = _zoom < _landMarkZoom ? 'people' : 'landmark';
-      _MAP_.setLayoutProperty('POLICE_DATA_LAYER', 'icon-image', _iconImage);
+      _MAP_.setLayoutProperty('policeData-layer', 'icon-image', _iconImage);
     });
   };
 
@@ -92,7 +103,7 @@ export default class PoliceData extends Component {
   };
 
   // 后台请求数据
-  _checkMap = async (item, index, e) => {
+  _checkMap = async item => {
     if (item.value === 'house') {
       const _duration = 500;
 
@@ -106,7 +117,7 @@ export default class PoliceData extends Component {
         }, _duration * 1.01);
       });
     }
-    await this.setState({ selectedOpt: index });
+    await this.setState({ selectedOpt: item.value });
     this._fetchPeopleData(item);
   };
 
@@ -134,9 +145,9 @@ export default class PoliceData extends Component {
       }
     };
 
-    if (!_MAP_.getLayer('POLICE_DATA_LAYER')) {
+    if (!_MAP_.getLayer('policeData-layer')) {
       _MAP_.addLayer({
-        id: 'POLICE_DATA_LAYER',
+        id: 'policeData-layer',
         type: 'symbol',
         source: _geoJSONData,
         layout: {
@@ -145,8 +156,8 @@ export default class PoliceData extends Component {
         }
       });
     } else {
-      _MAP_.getLayer('POLICE_DATA_LAYER');
-      _MAP_.setLayoutProperty('POLICE_DATA_LAYER', 'icon-image', item.icon);
+      _MAP_.getLayer('policeData-layer');
+      _MAP_.setLayoutProperty('policeData-layer', 'icon-image', item.icon);
     }
   };
 }
@@ -165,7 +176,7 @@ const options = [
     icon: 'landmark'
   },
   {
-    value: 'work',
+    value: 'unit',
     name: '单位',
     defaultZoom: 17,
     icon: 'landmark'

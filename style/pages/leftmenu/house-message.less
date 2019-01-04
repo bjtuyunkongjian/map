@@ -1,8 +1,26 @@
-.dialog-title {
+.dialog-box {
   position: fixed;
   background: @bg-gradient-base;
-  width: 250px;
   color: @t-white;
   border-radius: 15px;
   padding: 20px;
+  .dialog-title {
+    font-size: 17px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .close {
+      font-size: 18px;
+      font-weight: 800;
+    }
+  }
+  .dialog-list {
+    margin-bottom: 15px;
+    font-size: 14px;
+    padding: 0px 20px 0px 0px;
+    > li {
+      margin-bottom: 15px;
+    }
+  }
 }
