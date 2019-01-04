@@ -19,7 +19,6 @@ export default class DailyWork extends Component {
     const _selected = execed;
     if (!visible) return null;
     const _column = columns.filter(item => item.value === taskName)[0];
-    console.log(_column);
     return (
       <div style={{ top: boxTop, left: boxLeft }} className="toast-box">
         <div className="toast-title">
