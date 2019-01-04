@@ -83,6 +83,18 @@ export const FetchAllRoutes = async () => {
     method: 'POST',
     body: { test: 'getAllFileNames' }
   });
-  console.log(res, err);
   return { res, err };
 };
+
+export const FetchRouteInfo = async body => {
+  Object.assign(body, { test: 'queryFile' });
+  console.log('body', body);
+  const { res, err } = await FetchRequest({
+    url: 'mapServer/string',
+    method: 'POST',
+    body: body
+  });
+  return { res, err };
+};
+
+export const DivideRoute = async () => {};
