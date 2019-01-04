@@ -1,10 +1,14 @@
 @import '../daily-work.less';
 .work-container {
   @work-item-height: 30px;
-  height: @work-item-height * 8;
+  @item-count: 8;
   overflow: hidden;
-  &.hidden {
-    display: none;
+  &.menu-up {
+    .pull-up(@work-item-height * @item-count);
+  }
+
+  &.menu-down {
+    .drop-down(@work-item-height * @item-count);
   }
   .work-item {
     font-size: 12px;
@@ -43,35 +47,5 @@
     &.checked {
       background-color: @bg-hover;
     }
-  }
-}
-
-@menu-in: 0.5s menu-in; //子菜单的滑出
-@keyframes menu-in {
-  0% {
-    height: 0px;
-  }
-  100% {
-    height: 240px;
-  }
-}
-
-.menu-in {
-  height: 240px;
-  animation: @menu-in;
-}
-
-.menu-out {
-  height: 0px;
-  animation: @menu-out;
-}
-
-@menu-out: 0.5s menu-out;
-@keyframes menu-out {
-  0% {
-    height: 240px;
-  }
-  100% {
-    height: 0px;
   }
 }

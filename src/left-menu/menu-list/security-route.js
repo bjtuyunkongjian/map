@@ -81,8 +81,14 @@ export default class PoliceCar extends Component {
   _dealWithEvent = nextMenu => {
     const { curMenu } = this.state;
     if (curMenu === nextMenu) return; // 重复点击不做任何操作
-    const _animate =
-      nextMenu === MenuItem.securityRoute ? 'menu-down' : 'hidden';
+    let _animate;
+    if (nextMenu === MenuItem.securityRoute) {
+      _animate = 'menu-down';
+    } else if (curMenu === MenuItem.securityRoute) {
+      _animate = 'menu-up';
+    } else {
+      _animate = 'hidden';
+    }
     this.setState({ curMenu: nextMenu, selectedOpt: '', animate: _animate });
     this._roadFeatures = [];
     this._roadNode = [];

@@ -18,9 +18,8 @@ export default class PoliceData extends Component {
   }
 
   render() {
-    const { curMenu, selectedOpt } = this.state;
+    const { curMenu, selectedOpt, animate } = this.state;
     const _selected = curMenu === MenuItem.dataOption;
-    const _listshow = _selected ? 'menu-down' : 'hidden';
     const _arrow = _selected ? 'arrow-down' : 'arrow-right';
     return (
       <div className="menu-item police-data">
@@ -32,7 +31,7 @@ export default class PoliceData extends Component {
           </div>
         </div>
         <ul
-          className={`data-container ${(_selected ? '' : 'hidden', _listshow)}`}
+          className={`data-container ${(_selected ? '' : 'hidden', animate)}`}
         >
           {options.map((item, index) => (
             <li
@@ -55,7 +54,15 @@ export default class PoliceData extends Component {
     Event.on('change:curMenu', nextMenu => {
       const { curMenu } = this.state;
       if (nextMenu === curMenu) return;
-      this.setState({ curMenu: nextMenu });
+      let _animate;
+      if (nextMenu === MenuItem.dataOption) {
+        _animate = 'menu-down';
+      } else if (curMenu === MenuItem.dataOption) {
+        _animate = 'menu-up';
+      } else {
+        _animate = 'hidden';
+      }
+      this.setState({ curMenu: nextMenu, animate: _animate });
       if (_MAP_.getLayer('POLICE_DATA_LAYER')) {
         _MAP_.removeLayer('POLICE_DATA_LAYER');
       }
