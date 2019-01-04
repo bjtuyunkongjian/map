@@ -46,7 +46,7 @@ export default class PoliceCar extends Component {
           {options.map((item, index) => (
             <li
               ref={el => (this._el = el)}
-              className={`data-item ${selectedOpt === index ? 'checked' : ''}`}
+              className={`route-item ${selectedOpt === index ? 'checked' : ''}`}
               key={`data_option_${index}`}
               onClick={() => this._selectMenuItem(index)}
             >
