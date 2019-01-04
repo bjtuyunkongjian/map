@@ -6,6 +6,13 @@
   flex-direction: column;
   align-items: flex-end;
   overflow: hidden;
+  &.menu-up {
+    .pull-up(@item-height * @item-count);
+  }
+
+  &.menu-down {
+    .drop-down(@item-height * @item-count);
+  }
   .route-item {
     width: 90px;
     height: @item-height;
@@ -21,12 +28,5 @@
       background-color: #40df9f;
       color: @t-base;
     }
-  }
-  &.menu-up {
-    .pull-up(@item-height * @item-count);
-  }
-
-  &.menu-down {
-    .drop-down(@item-height * @item-count);
   }
 }

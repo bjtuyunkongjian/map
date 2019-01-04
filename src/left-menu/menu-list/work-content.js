@@ -12,17 +12,17 @@ export default class WorkContent extends Component {
   state = {
     curMenu: -1,
     datanum: {},
-    selectedTasks: []
+    selectedTasks: [],
+    animate: 'hidden'
   };
   componentDidMount() {
     this._init();
   }
 
   render() {
-    const { curMenu, datanum, selectedTasks } = this.state;
+    const { curMenu, datanum, selectedTasks, animate } = this.state;
     const _selected = curMenu === MenuItem.workContent;
     const _arrow = _selected ? 'arrow-down' : 'arrow-right';
-    const _slide = _selected ? 'menu-in' : 'hidden';
     return (
       <div className="menu-item content">
         <div className="item-label" onClick={this._selectMenu}>
@@ -33,7 +33,7 @@ export default class WorkContent extends Component {
           </div>
         </div>
 
-        <ul className={`work-container ${_slide}`}>
+        <ul className={`work-container ${animate}`}>
           <li className={`work-item`} onClick={e => this._selectAll(e)}>
             全部显示
           </li>
@@ -66,8 +66,19 @@ export default class WorkContent extends Component {
 
   // 点击事件，包括点击切换菜单和点击弹出具体任务框
   _init = () => {
-    Event.on('change:curMenu', curMenu => {
-      this.setState({ curMenu });
+    Event.on('change:curMenu', nextMenu => {
+      const { curMenu } = this.state;
+      if (curMenu === nextMenu) return; // 重复点击不做任何操作
+      let _animate;
+      if (nextMenu === MenuItem.workContent) {
+        _animate = 'menu-down';
+      } else if (curMenu === MenuItem.workContent) {
+        _animate = 'menu-up';
+      } else {
+        _animate = 'hidden';
+      }
+      this.setState({ curMenu: nextMenu, animate: _animate });
+
       if (_MAP_.getSource('dailySource')) {
         for (let item of options) {
           _MAP_.removeLayer(item.value);
