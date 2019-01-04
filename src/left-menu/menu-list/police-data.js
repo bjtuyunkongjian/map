@@ -4,6 +4,7 @@ import Event from './event';
 import { IoIosPeople } from 'react-icons/io';
 import MenuItem from './menu-item';
 import { FetchPopulation } from './webapi';
+import HouseMessage from '../list-option/house-message';
 
 export default class PoliceData extends Component {
   state = {
@@ -42,6 +43,8 @@ export default class PoliceData extends Component {
             </li>
           ))}
         </ul>
+
+        <HouseMessage />
       </div>
     );
   }
@@ -52,21 +55,29 @@ export default class PoliceData extends Component {
       const { curMenu } = this.state;
       if (nextMenu === curMenu) return;
       this.setState({ curMenu: nextMenu });
-      if (_MAP_.getLayer('populationLayer')) {
-        _MAP_.removeLayer('populationLayer');
+      if (_MAP_.getLayer('POLICE_DATA_LAYER')) {
+        _MAP_.removeLayer('POLICE_DATA_LAYER');
       }
     });
-    _MAP_.on('click', 'house', e => {
-      console.log(e.features);
+    // 点击地图图标弹出信息框
+    _MAP_.on('click', 'POLICE_DATA_LAYER', e => {
+      const { selectedOpt } = this.state;
+      const _selectVal = options[selectedOpt].value;
+      const { originalEvent } = e;
+      if (_selectVal === 'population') return;
+      Event.emit('showMessage', {
+        value: _selectVal,
+        top: originalEvent.offsetY,
+        left: originalEvent.offsetX
+      });
     });
     _MAP_.on('zoomend', () => {
-      if (!_MAP_.getLayer('populationLayer')) return;
+      if (!_MAP_.getLayer('POLICE_DATA_LAYER')) return;
       const _option = options.filter(item => item.value === 'house')[0];
       const _landMarkZoom = _option.defaultZoom;
-      console.log(_option, _landMarkZoom);
       const _zoom = _MAP_.getZoom();
       const _iconImage = _zoom < _landMarkZoom ? 'people' : 'landmark';
-      _MAP_.setLayoutProperty('populationLayer', 'icon-image', _iconImage);
+      _MAP_.setLayoutProperty('POLICE_DATA_LAYER', 'icon-image', _iconImage);
     });
   };
 
@@ -122,25 +133,21 @@ export default class PoliceData extends Component {
       }
     };
 
-    if (!_MAP_.getLayer('populationLayer')) {
+    if (!_MAP_.getLayer('POLICE_DATA_LAYER')) {
       _MAP_.addLayer({
-        id: 'populationLayer',
+        id: 'POLICE_DATA_LAYER',
         type: 'symbol',
         source: _geoJSONData,
         layout: {
           'icon-image': item.icon,
-          'icon-size': 1
+          'icon-size': 1.5
         }
       });
     } else {
-      _MAP_.getLayer('populationLayer');
-      // .setData(_geoJSONData.data);
-      _MAP_.setLayoutProperty('populationLayer', 'icon-image', item.icon);
+      _MAP_.getLayer('POLICE_DATA_LAYER');
+      _MAP_.setLayoutProperty('POLICE_DATA_LAYER', 'icon-image', item.icon);
     }
   };
-  // _MAP_.flyTo({ zoom: option.defaultZoom }, (param1, param2) => {
-  //   console.log(param1, param2);
-  // });
 }
 
 const options = [

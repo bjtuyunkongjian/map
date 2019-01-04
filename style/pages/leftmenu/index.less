@@ -107,9 +107,15 @@
       border-top: 1px solid @t-white;
       border-left: 1px solid @t-white;
       transform: rotate(-45deg);
+      transform-origin: 50%;
+
       &:hover {
         border-top: 1px solid @color-blue;
         border-left: 1px solid @color-blue;
+      }
+      &.changed {
+        transform: rotate(135deg);
+        margin-left: -6px;
       }
     }
   }

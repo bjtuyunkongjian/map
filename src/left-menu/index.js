@@ -15,6 +15,7 @@ export default class LeftMenu extends Component {
 
   render() {
     const { animate } = this.state;
+
     return (
       <div className={`left-menu ${animate}`}>
         <div className="menu-box">
@@ -39,7 +40,11 @@ export default class LeftMenu extends Component {
             })
           }
         >
-          <span className="aspect-left" />
+          <span
+            className={`aspect-left ${
+              animate === 'menu-slide-out' ? 'changed' : ''
+            }`}
+          />
         </button>
       </div>
     );
