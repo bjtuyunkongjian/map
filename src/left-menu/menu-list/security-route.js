@@ -45,7 +45,6 @@ export default class PoliceCar extends Component {
         <ul className={`route-container ${animate}`}>
           {options.map((item, index) => (
             <li
-              ref={el => (this._el = el)}
               className={`route-item ${selectedOpt === index ? 'checked' : ''}`}
               key={`data_option_${index}`}
               onClick={() => this._selectMenuItem(index)}
@@ -83,7 +82,7 @@ export default class PoliceCar extends Component {
     const { curMenu } = this.state;
     if (curMenu === nextMenu) return; // 重复点击不做任何操作
     const _animate =
-      nextMenu === MenuItem.securityRoute ? 'menu-down' : 'menu-up';
+      nextMenu === MenuItem.securityRoute ? 'menu-down' : 'hidden';
     this.setState({ curMenu: nextMenu, selectedOpt: '', animate: _animate });
     this._roadFeatures = [];
     this._roadNode = [];

@@ -22,7 +22,7 @@ export default class WorkContent extends Component {
     const { curMenu, datanum, selectedTasks } = this.state;
     const _selected = curMenu === MenuItem.workContent;
     const _arrow = _selected ? 'arrow-down' : 'arrow-right';
-    const _slide = _selected ? 'menu-in' : 'menu-out';
+    const _slide = _selected ? 'menu-in' : 'hidden';
     return (
       <div className="menu-item content">
         <div className="item-label" onClick={this._selectMenu}>
@@ -33,7 +33,7 @@ export default class WorkContent extends Component {
           </div>
         </div>
 
-        <ul className={`work-container ${(_selected ? '' : 'hidden', _slide)}`}>
+        <ul className={`work-container ${_slide}`}>
           <li className={`work-item`} onClick={e => this._selectAll(e)}>
             全部显示
           </li>

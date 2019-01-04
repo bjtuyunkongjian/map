@@ -9,7 +9,8 @@ import HouseMessage from '../list-option/house-message';
 export default class PoliceData extends Component {
   state = {
     curMenu: -1,
-    selectedOpt: 0
+    selectedOpt: -1,
+    animate: 'hidden'
   };
 
   componentDidMount() {
@@ -19,7 +20,7 @@ export default class PoliceData extends Component {
   render() {
     const { curMenu, selectedOpt } = this.state;
     const _selected = curMenu === MenuItem.dataOption;
-    const _listshow = _selected ? 'menu-down' : 'menu-up';
+    const _listshow = _selected ? 'menu-down' : 'hidden';
     const _arrow = _selected ? 'arrow-down' : 'arrow-right';
     return (
       <div className="menu-item police-data">
