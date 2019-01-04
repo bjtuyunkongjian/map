@@ -230,6 +230,7 @@ export default class NewRoute extends Component {
         })
       );
     }
+    console.log(JSON.stringify(_features));
     DrawRoad(_MAP_, {
       id: RouteLayers.endRoute,
       features: _features,
@@ -273,12 +274,14 @@ export default class NewRoute extends Component {
         features: [_startMappingF],
         iconImage: 'security_route'
       });
-      _MAP_
-        .removeLayer(RouteLayers.toSelect)
-        .removeSource(RouteLayers.toSelect);
-      _MAP_
-        .removeLayer(RouteLayers.endRoute)
-        .removeSource(RouteLayers.endRoute);
+      _MAP_.getLayer(RouteLayers.toSelect) &&
+        _MAP_
+          .removeLayer(RouteLayers.toSelect)
+          .removeSource(RouteLayers.toSelect);
+      _MAP_.getLayer(RouteLayers.endRoute) &&
+        _MAP_
+          .removeLayer(RouteLayers.endRoute)
+          .removeSource(RouteLayers.endRoute);
     }
   };
 

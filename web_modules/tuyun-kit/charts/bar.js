@@ -61,7 +61,8 @@ export default class Bar extends Component {
       kedaya: 1,
       xiaozhi: 1.8,
       xiaozhizhang: 1.6
-    }
+    },
+    dutyRatio: 0.6 // 占空比，每个单元内图像宽度占整个宽度的面积
   };
 
   // 标题
@@ -216,7 +217,7 @@ export default class Bar extends Component {
   };
 
   _renderChart = () => {
-    const { xAxis, xAxisGradient, data, padding } = this.props;
+    const { xAxis, xAxisGradient, data, padding, dutyRatio } = this.props;
     const _xAxisCellW = this._chartW / xAxis.length; // x轴坐标每一个小单元的宽度
     const _barCellW = _xAxisCellW * dutyRatio; // 每条柱状图的宽度
     for (let index = 0; index < xAxis.length; index++) {
@@ -289,5 +290,3 @@ export default class Bar extends Component {
     );
   };
 }
-
-const dutyRatio = 0.8; // 占空比，每个单元内图像宽度占整个宽度的面积

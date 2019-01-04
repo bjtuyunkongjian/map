@@ -88,7 +88,6 @@ export const FetchAllRoutes = async () => {
 
 export const FetchRouteInfo = async body => {
   Object.assign(body, { test: 'queryFile' });
-  console.log('body', body);
   const { res, err } = await FetchRequest({
     url: 'mapServer/string',
     method: 'POST',
@@ -97,4 +96,12 @@ export const FetchRouteInfo = async body => {
   return { res, err };
 };
 
-export const DivideRoute = async () => {};
+export const DivideRoute = async body => {
+  Object.assign(body, { test: 'divDistance' });
+  const { res, err } = await FetchRequest({
+    url: 'mapServer/string',
+    method: 'POST',
+    body: body
+  });
+  return { res, err };
+};

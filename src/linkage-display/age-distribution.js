@@ -6,11 +6,38 @@ export default class AgeDistribution extends Component {
 
   render() {
     return (
-      <div
-        className="age-distribution"
-        ref={el => (this.width = el.getBoundingClientRect().width)}
-      >
-        <TuyunBar width="100%" height={230} />
+      <div className="age-distribution">
+        <TuyunBar
+          width="100%"
+          height={200}
+          title={{
+            text: '流口年龄分布',
+            align: 'center', // center, left, right, 三个选项，分别向左、向右和居中，默认居中
+            fontSize: 16,
+            fontWeight: 'blod', // blod, normal
+            color: 'black',
+            fontFamily: '微软雅黑'
+          }}
+          xAxis={[
+            { label: '0~18', value: 'range0' },
+            { label: '19~40', value: 'range1' },
+            { label: '41~60', value: 'range2' },
+            { label: '61+', value: 'range3' }
+          ]}
+          data={{
+            range0: 20,
+            range1: 60,
+            range2: 45,
+            range3: 15
+          }}
+          xAxisGradient={{
+            range0: ['#aed1fc', '#e6d1fc'], // 0 表示 topColor， 1 表示 bottomColor
+            range1: ['#aed1fc', '#e6d1fc'],
+            range2: ['#aed1fc', '#e6d1fc'],
+            range3: ['#aed1fc', '#e6d1fc']
+          }}
+          dutyRatio={0.7}
+        />
       </div>
     );
   }
