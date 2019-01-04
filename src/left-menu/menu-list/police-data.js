@@ -19,7 +19,7 @@ export default class PoliceData extends Component {
   render() {
     const { curMenu, selectedOpt } = this.state;
     const _selected = curMenu === MenuItem.dataOption;
-    const _listshow = _selected ? 'menu-down' : 'menu-top';
+    const _listshow = _selected ? 'menu-down' : 'menu-up';
     const _arrow = _selected ? 'arrow-down' : 'arrow-right';
     return (
       <div className="menu-item police-data">
