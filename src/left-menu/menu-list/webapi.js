@@ -62,3 +62,27 @@ export const FetchCallPolice = async body => {
   });
   return { res, err };
 };
+
+// 保存安保路线
+export const SaveScurityRoute = async body => {
+  Object.assign(body, { test: 'storeFile' });
+  console.log(body);
+  const { res, err } = await FetchRequest({
+    url: 'mapServer/string',
+    method: 'POST',
+    body
+  });
+  console.log(res, err);
+  return { res, err };
+};
+
+// 获取所有的安保路线
+export const FetchAllRoutes = async () => {
+  const { res, err } = await FetchRequest({
+    url: 'mapServer/string',
+    method: 'POST',
+    body: { test: 'getAllFileNames' }
+  });
+  console.log(res, err);
+  return { res, err };
+};
