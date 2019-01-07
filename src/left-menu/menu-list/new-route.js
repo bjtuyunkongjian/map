@@ -12,9 +12,12 @@ import { FetchRoadInfo, SaveScurityRoute } from './webapi';
 import { TuyunTips } from 'tuyun-kit';
 
 export default class NewRoute extends Component {
-  state = {};
+  state = {
+    enableStart: false,
+    enableEnd: false
+  };
 
-  _enableStart = false;
+  _newRoute = undefined; // 壳子
   _roadFeatures = []; // 选中的路
   _roadNode = []; // 选中路的节点，撤销使用
   _lineRingFeatures = []; // 环形路
@@ -24,19 +27,31 @@ export default class NewRoute extends Component {
   componentWillUnmount = () => this._reset();
 
   render() {
+    const { enableStart, enableEnd } = this.state;
     return (
       <div
         className="new-route"
+        ref={el => (this._newRoute = el)}
         onClick={e => {
-          console.log('click');
+          // console.log('click');
+          // console.log(this._newRoute.getBoundingClientRect());
         }}
       >
         <div className="title">选择路线</div>
         <div className="point-set">
-          <div className="start-btn" onClick={() => (this._enableStart = true)}>
+          <div
+            className={`start-btn ${enableStart ? 'disabled' : ''}`}
+            onClick={() => {
+              if (!enableStart)
+                this.setState({ enableStart: true, enableEnd: true });
+            }}
+          >
             设置起点
           </div>
-          <div className="end-btn" onClick={this._selectEndPoint}>
+          <div
+            className={`end-btn ${enableEnd ? '' : 'disabled'}`}
+            onClick={this._selectEndPoint}
+          >
             设置终点
           </div>
         </div>
@@ -58,7 +73,6 @@ export default class NewRoute extends Component {
   };
 
   _reset = () => {
-    this._enableStart = false;
     _MAP_.off('click', this._setStartPoint); // 点击起点，起点可以随意设置
     _MAP_.off('click', RouteLayers.toSelect, this._chooseRoutePoint); // 点击选择路的点
     _MAP_.off('click', RouteLayers.lineRingRoute, this._chooseLineRing); // 点击选择环形路
@@ -70,8 +84,9 @@ export default class NewRoute extends Component {
   };
 
   _setStartPoint = async e => {
+    const { enableStart } = this.state;
     // 如果有 routeStart 这个层级，说明设置了起点
-    if (!this._enableStart || _MAP_.getLayer(RouteLayers.routeStart)) return;
+    if (!enableStart || _MAP_.getLayer(RouteLayers.routeStart)) return;
     const _bound = _MAP_.getBounds(); // 获取屏幕边界
     const _coord = e.lngLat; // 获取点击的坐标点
     DrawStartPoint(_MAP_, _coord); // 绘制起始点
@@ -131,8 +146,6 @@ export default class NewRoute extends Component {
     const { isLineRing, coord } = res;
     this._lineRingFeatures = []; // 清空环形路
     this._roadNode.push(_suff); // 添加节点
-    console.log('%c this._roadNode', 'color: green');
-    console.log(this._roadNode);
     this._toSelectFeatures = []; // 绘制待选择的点的 features
     for (let item of coord) {
       const { coordinates } = item;
