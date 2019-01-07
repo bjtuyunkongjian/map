@@ -25,17 +25,26 @@ export default class NewRoute extends Component {
 
   render() {
     return (
-      <div className="new-route">
-        选择路线
-        <div className="start-btn" onClick={() => (this._enableStart = true)}>
-          设置起点
+      <div
+        className="new-route"
+        onClick={e => {
+          console.log('click');
+        }}
+      >
+        <div className="title">选择路线</div>
+        <div className="point-set">
+          <div className="start-btn" onClick={() => (this._enableStart = true)}>
+            设置起点
+          </div>
+          <div className="end-btn" onClick={this._selectEndPoint}>
+            设置终点
+          </div>
         </div>
-        <div className="end-btn" onClick={this._selectEndPoint}>
-          设置终点
-        </div>
-        <div className="cancel-btn">撤销</div>
-        <div className="save-btn" onClick={this._saveSecurityRoute}>
-          保存
+        <div className="btn-container">
+          <div className="cancel-btn">撤销</div>
+          <div className="save-btn" onClick={this._saveSecurityRoute}>
+            保存
+          </div>
         </div>
       </div>
     );
