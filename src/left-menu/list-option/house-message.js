@@ -180,3 +180,59 @@ class HouseHold extends Component {
     );
   }
 }
+
+class PeopleInfo extends Component {
+  render() {
+    const { visible, boxLeft, boxTop } = this.state;
+    return (
+      <div className="people-box">
+        <div className="people-title">
+          人员信息<span className="last" />
+        </div>
+        <span>基础信息</span>
+        <div className="splice" />
+        <ul>
+          <li>姓名：李伟</li>
+          <li>性别：男</li>
+          <li>生日：1979-10-03</li>
+          <li>身份证：420103019791008912</li>
+          <li>地址：济南市市中区魏家庄16号</li>
+          <li>手机号：18967789167，17789896657</li>
+          <li>车辆：鲁A78995Z , 鲁 A7765G </li>
+        </ul>
+        <div className="splice" />
+        <span>相册</span>
+        <div className="splice" />
+        <div>
+          <image />
+          <image />
+        </div>
+        <div className="splice" />
+        <span>房产信息</span>
+        <div className="splice" />
+        2017-10-18 帝景苑B区6栋 1-3005购房
+        <div className="splice" />
+        <span>业务进度</span>
+        <div className="splice" />
+        <ul>
+          <li>身份证：</li>
+          <li>魏家庄配出所(已办理邮寄出)</li>
+          <li>护照办理：</li>
+          <li>公安局出入境大厅(待审核)</li>
+        </ul>
+        <div className="splice" />
+        <span>购票信息</span>
+        <div className="splice" />
+        <ul>
+          <li>2018-03-05 购买飞机票</li>
+          <li>济南-上海 SC4934</li>
+          <li>2017-03-07 11:50出发</li>
+
+          <li>2018-03-10 购买火车票</li>
+          <li>济南-北京 G178</li>
+          <li>2018-03-11 09:50出发</li>
+        </ul>
+      </div>
+    );
+  }
+}
