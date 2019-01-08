@@ -41,10 +41,7 @@ export default class NewRoute extends Component {
         <div className="point-set">
           <div
             className={`start-btn ${enableStart ? 'disabled' : ''}`}
-            onClick={() => {
-              if (!enableStart)
-                this.setState({ enableStart: true, enableEnd: true });
-            }}
+            onClick={this._setStartPoint}
           >
             设置起点
           </div>
@@ -66,14 +63,14 @@ export default class NewRoute extends Component {
   }
 
   _init = () => {
-    _MAP_.on('click', this._setStartPoint); // 点击起点，起点可以随意设置
+    _MAP_.on('click', this._drawStartPoint); // 点击起点，起点可以随意设置
     _MAP_.on('click', RouteLayers.toSelect, this._chooseRoutePoint); // 点击选择路的点
     _MAP_.on('click', RouteLayers.lineRingRoute, this._chooseLineRing); // 点击选择环形路
     _MAP_.on('click', RouteLayers.endRoute, this._setEndPoint); // 设置终点
   };
 
   _reset = () => {
-    _MAP_.off('click', this._setStartPoint); // 点击起点，起点可以随意设置
+    _MAP_.off('click', this._drawStartPoint); // 点击起点，起点可以随意设置
     _MAP_.off('click', RouteLayers.toSelect, this._chooseRoutePoint); // 点击选择路的点
     _MAP_.off('click', RouteLayers.lineRingRoute, this._chooseLineRing); // 点击选择环形路
     _MAP_.off('click', RouteLayers.endRoute, this._setEndPoint); // 设置终点
@@ -83,7 +80,13 @@ export default class NewRoute extends Component {
     });
   };
 
-  _setStartPoint = async e => {
+  _setStartPoint = () => {
+    const { enableStart } = this.state;
+    if (!enableStart) this.setState({ enableStart: true, enableEnd: true });
+    _MAP_.flyTo({ zoom: 15 });
+  };
+
+  _drawStartPoint = async e => {
     const { enableStart } = this.state;
     // 如果有 routeStart 这个层级，说明设置了起点
     if (!enableStart || _MAP_.getLayer(RouteLayers.routeStart)) return;
@@ -172,7 +175,7 @@ export default class NewRoute extends Component {
         ]);
         const _feature = CreateLineFeature({
           coordinates: _coords,
-          properties: { roadMark: '箭头' }
+          properties: { roadMark: '→' }
         });
         this._roadFeatures.push(_feature);
       }
