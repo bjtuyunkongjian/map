@@ -38,8 +38,13 @@ export default class Camera extends Component {
         _MAP_.removeSource('cameraLayer');
       }
     });
-    _MAP_.on('click', 'camera', e => {
-      console.log(e.features);
+    _MAP_.on('click', 'cameraLayer', e => {
+      console.log('添加视频');
+      _MAP_.addSource('cameraSource', {
+        type: 'video',
+        url: [],
+        coordinates: []
+      });
     });
   };
 

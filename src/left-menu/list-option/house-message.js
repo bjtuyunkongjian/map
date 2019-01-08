@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Event from '../menu-list/event';
-import { FaPeriscope } from 'react-icons/fa';
+import { FaPeriscope, Fa500px } from 'react-icons/fa';
 import { MdLocationCity } from 'react-icons/md';
 import { MdPeopleOutline } from 'react-icons/md';
 import { TiHomeOutline } from 'react-icons/ti';
@@ -91,7 +91,6 @@ export default class HouseMessage extends Component {
     this.setState({
       visible: false
     });
-    alert('弹出户口');
   };
 }
 
@@ -118,10 +117,7 @@ class HouseInfo extends Component {
             {doors.map((doorItem, doorInd) => (
               <li
                 key={'door_' + doorInd}
-                onClick={() => {
-                  <HouseHold />;
-                  // debugger;
-                }}
+                onClick={this._houseRegist}
                 className="household"
               >
                 {people.map((peopleItem, peopleInd) => (
@@ -129,6 +125,7 @@ class HouseInfo extends Component {
                     {peopleItem}
                   </div>
                 ))}
+                {selected ? <HouseHold /> : nill}
               </li>
             ))}
           </ul>
@@ -136,6 +133,17 @@ class HouseInfo extends Component {
       </div>
     );
   }
+  _houseRegist = () => {
+    // <div className="doorInfo">
+    //   <div>1-3-1006</div>
+    //   <ul>
+    //     <li>张三</li>
+    //     <li>李四</li>
+    //     <li>王五</li>
+    //     <li>孙六</li>
+    //   </ul>
+    // </div>;
+  };
 }
 
 const fllorCounts = 5;
@@ -158,8 +166,9 @@ for (let i = 0; i < peopleCount; i++) {
 
 class HouseHold extends Component {
   render() {
+    const { visible, boxLeft, boxTop } = this.state;
     return (
-      <div className="doorInfo">
+      <div className="doorInfo" style={{ top: boxTop, left: boxLeft }}>
         <div>1-3-1006</div>
         <ul>
           <li>张三</li>

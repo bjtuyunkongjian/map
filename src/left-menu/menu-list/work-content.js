@@ -3,9 +3,7 @@ import Event from './event';
 import { IoIosPaper, IoMdCheckmark } from 'react-icons/io';
 import MenuItem from './menu-item';
 import { FetchWorkContent } from './webapi';
-import LayerIds from './layers-id';
 import { IsArray } from 'tuyun-utils';
-import { MdControlPoint } from 'react-icons/md';
 import DailyWork from '../list-option/daily-work';
 
 export default class WorkContent extends Component {
@@ -58,7 +56,7 @@ export default class WorkContent extends Component {
             );
           })}
         </ul>
-
+        {/* 具体任务详情 */}
         <DailyWork />
       </div>
     );
