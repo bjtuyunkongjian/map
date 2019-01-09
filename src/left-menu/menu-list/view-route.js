@@ -89,7 +89,9 @@ export default class ViewRoute extends Component {
   _divideRoute = () => {
     console.log('%c _divideRoute', 'color: green');
     let ind = 0;
-    setInterval(() => {
+    const _interval = setInterval(() => {
+      if (ind >= res.length) return;
+
       const _feature = CreatePointFeature({
         coordinates: [res[ind].x, res[ind].y]
       });
