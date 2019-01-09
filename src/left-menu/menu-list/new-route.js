@@ -9,7 +9,7 @@ import {
   CreateLineFeature
 } from './security-route-layer';
 import { FetchRoadInfo, SaveScurityRoute } from './webapi';
-import { TuyunTips } from 'tuyun-kit';
+import { TuyunMessage } from 'tuyun-kit';
 
 export default class NewRoute extends Component {
   state = {
@@ -18,6 +18,8 @@ export default class NewRoute extends Component {
   };
 
   _newRoute = undefined; // 壳子
+  _input = undefined; // 输入框
+  _isLoading = false; // 正在请求数据
   _roadFeatures = []; // 选中的路
   _roadNode = []; // 选中路的节点，撤销使用
   _lineRingFeatures = []; // 环形路
@@ -37,7 +39,15 @@ export default class NewRoute extends Component {
           // console.log(this._newRoute.getBoundingClientRect());
         }}
       >
-        <div className="title">选择路线</div>
+        <div className="title">设置安保路线方案</div>
+
+        <div className="route-row">
+          <div className="route-label">方案名称：</div>
+          <div className="input-box">
+            <input type="text" ref={input => (this._input = input)} />
+          </div>
+        </div>
+
         <div className="point-set">
           <div
             className={`start-btn ${enableStart ? 'disabled' : ''}`}
@@ -52,6 +62,7 @@ export default class NewRoute extends Component {
             设置终点
           </div>
         </div>
+
         <div className="btn-container">
           <div className="cancel-btn">撤销</div>
           <div className="save-btn" onClick={this._saveSecurityRoute}>
@@ -83,21 +94,24 @@ export default class NewRoute extends Component {
   _setStartPoint = () => {
     const { enableStart } = this.state;
     if (!enableStart) this.setState({ enableStart: true, enableEnd: true });
-    _MAP_.flyTo({ zoom: 15 });
+    _MAP_.getZoom() < 15 && _MAP_.flyTo({ zoom: 15 });
   };
 
   _drawStartPoint = async e => {
+    if (this._isLoading) return;
     const { enableStart } = this.state;
     // 如果有 routeStart 这个层级，说明设置了起点
     if (!enableStart || _MAP_.getLayer(RouteLayers.routeStart)) return;
     const _bound = _MAP_.getBounds(); // 获取屏幕边界
     const _coord = e.lngLat; // 获取点击的坐标点
     DrawStartPoint(_MAP_, _coord); // 绘制起始点
+    this._isLoading = true; // 正在加载
     const { res, err } = await FetchRoadInfo({
       coord: _coord,
       bound: _bound,
       order: 'first'
     });
+    this._isLoading = false; // 加载完毕
     if (err || !res) return; // 保护
     let _startMappingF; // 起始点
     this._toSelectFeatures = []; // 要绘制的待选择的点
@@ -133,7 +147,9 @@ export default class NewRoute extends Component {
   };
 
   _chooseRoutePoint = async e => {
+    if (this._isLoading) return;
     const { properties } = e.features[0];
+    this._isLoading = true; // 正在加载
     const _roodIds = await this._fetchRoadIds(); // 获取路的 ids
     if (!_roodIds) return console.log('未获取当前屏幕所有道路id'); // 保护
     const _prev = this._roadNode[this._roadNode.length - 1];
@@ -145,6 +161,7 @@ export default class NewRoute extends Component {
       order: 'firstPlus'
     };
     const { res, err } = await FetchRoadInfo(_param);
+    this._isLoading = false; // 加载完毕
     if (!res || err) return console.log('未返回当前道路和待选择的点'); // 保护
     const { isLineRing, coord } = res;
     this._lineRingFeatures = []; // 清空环形路
@@ -206,7 +223,7 @@ export default class NewRoute extends Component {
         iconImage: 'security_route_start'
       });
     }
-    DrawNodePoint(_MAP_, this._roadNode);
+    // DrawNodePoint(_MAP_, this._roadNode);
   };
 
   _chooseLineRing = async e => {
@@ -235,11 +252,14 @@ export default class NewRoute extends Component {
   };
 
   _selectEndPoint = async () => {
+    if (this._isLoading) return; // 正在加载
+    this._isLoading = true; // 正在加载
     const _roodIds = await this._fetchRoadIds(); // 获取路的 ids
     if (!_roodIds) return console.log('未获取当前屏幕所有道路id'); // 保护
     const _prev = this._roadNode[this._roadNode.length - 1]; // 最后一个点
     const _param = { coord: _prev, ids: _roodIds, order: 'forLast' }; // 参数
     let { res, err } = await FetchRoadInfo(_param);
+    this._isLoading = false; // 加载完毕
     const _features = [];
     if (err) return;
     for (let item of res) {
@@ -255,24 +275,29 @@ export default class NewRoute extends Component {
         })
       );
     }
-    console.log(JSON.stringify(_features));
+    // 删除图层
+    _MAP_.getLayer(RouteLayers.toSelect) &&
+      _MAP_
+        .removeLayer(RouteLayers.toSelect)
+        .removeSource(RouteLayers.toSelect);
     DrawRoad(_MAP_, {
       id: RouteLayers.endRoute,
       features: _features,
       lineColor: '#099',
       lineWidth: 8
     });
-    TuyunTips.show('请选择绿色道路上的点', { duration: 3000 });
   };
 
   _setEndPoint = async e => {
+    if (this._isLoading) return;
+    this._isLoading = true; // 正在加载
     const _roodIds = await this._fetchRoadIds(); // 获取路的 ids
     if (!_roodIds) return console.log('未获取当前屏幕所有道路id'); // 保护
     const _prev = this._roadNode[this._roadNode.length - 1]; // 最后一个点
     const _param = { order: 'last', prev: _prev, suff: e.lngLat }; // 请求的参数
     const { res, err } = await FetchRoadInfo(_param); // 发送请求
+    this._isLoading = false; // 加载完毕
     if (!res || err) return;
-    // this._roadNode.push()
     let _startMappingF;
     for (let item of res) {
       const { coordinates } = item;
@@ -299,10 +324,7 @@ export default class NewRoute extends Component {
         features: [_startMappingF],
         iconImage: 'security_route'
       });
-      _MAP_.getLayer(RouteLayers.toSelect) &&
-        _MAP_
-          .removeLayer(RouteLayers.toSelect)
-          .removeSource(RouteLayers.toSelect);
+
       _MAP_.getLayer(RouteLayers.endRoute) &&
         _MAP_
           .removeLayer(RouteLayers.endRoute)
@@ -320,11 +342,19 @@ export default class NewRoute extends Component {
   };
 
   _saveSecurityRoute = async () => {
+    const _inpVal = this._input.value;
+    if (this._isLoading) return;
+    if (!_inpVal) return TuyunMessage.warning('请输入方案名称');
     const _now = new Date().getTime();
-    const {} = await SaveScurityRoute({
-      fileName: '',
+    this._isLoading = true; // 正在加载
+    const { res, err } = await SaveScurityRoute({
+      fileName: _inpVal,
       fileId: '' + _now,
-      content: {}
+      content: {
+        features: this._roadFeatures
+      }
     });
+    this._isLoading = false; // 加载完毕
+    if (res && !err) TuyunMessage.show('保存成功');
   };
 }

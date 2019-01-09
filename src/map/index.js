@@ -66,7 +66,9 @@ export default class MapBoxDemo extends Component {
     // this.map.on('mouseup', async e => {
     //   console.log('e.lngLat', e.lngLat);
     // });
-
+    this.map.on('click', 'GCOUPL', e => {
+      console.log(e.features);
+    });
     this.map
       .on('load', () => {
         this.zoom = Math.ceil(this.map.getZoom()); // 设置起初缩放等级

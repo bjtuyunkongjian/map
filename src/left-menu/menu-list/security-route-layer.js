@@ -13,7 +13,8 @@ const RouteLayers = {
   selectedRoute: 'SECURITY_ROUTE_SELECTED', // 已选择的安保路线
   selectedRouteMark: 'SECURITY_ROUTE_SELECTED_MARK', // 安保路线
   endRoute: 'SECURITY_ROUTE_END', // 末尾点
-  routeNode: 'SECURITY_ROUTE_NODE_POINT' // 已选择的路的节点
+  routeNode: 'SECURITY_ROUTE_NODE_POINT', // 已选择的路的节点
+  securityCar: 'SECURITY_ROUTE_CAR' // 安保车辆
 };
 
 const DrawStartPoint = (map, coord) => {
@@ -54,7 +55,7 @@ const DrawIconPoint = (map, { id, features, iconImage }) => {
         type: 'geojson',
         data: {
           type: 'FeatureCollection',
-          features: features.reverse()
+          features: features
         }
       },
       layout: {
@@ -183,6 +184,40 @@ const DrawNodePoint = (map, nodeArr) => {
   }
 };
 
+const DrawSecurityCar = (map, { id, features }) => {
+  if (!map.getSource(id)) {
+    map.addLayer({
+      id: id,
+      type: 'symbol',
+      source: {
+        type: 'geojson',
+        data: {
+          type: 'FeatureCollection',
+          features: features
+        }
+      },
+      layout: {
+        'text-field': '{roadMark}',
+        visibility: 'visible',
+        'symbol-placement': 'line',
+        'text-font': ['黑体'],
+        'text-pitch-alignment': 'viewport',
+        'symbol-spacing': 500,
+        'text-rotation-alignment': 'map',
+        'text-size': 10,
+        'icon-rotation-alignment': 'viewport'
+      },
+      paint: {
+        'text-color': 'rgba(65, 65, 65, 0.8)',
+        'text-halo-width': 2,
+        'text-halo-color': 'rgba(255, 255, 255, 1)'
+      }
+    });
+  } else {
+    map.getSource(id).setData({ type: 'FeatureCollection', features });
+  }
+};
+
 const CreateLineFeature = ({ coordinates, properties = {} }) => {
   return {
     type: 'Feature',
@@ -210,6 +245,7 @@ export {
   DrawIconPoint,
   DrawRoad,
   DrawNodePoint,
+  DrawSecurityCar,
   RouteLayers,
   CreateLineFeature,
   CreatePointFeature

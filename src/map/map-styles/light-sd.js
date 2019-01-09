@@ -14,6 +14,13 @@
  */
 
 import { LevelConfig, BaseConfig } from 'tuyun-config';
+const areaColor = {
+  370112: '#412f1f',
+  370102: '#f05b72',
+  370104: '#f47920',
+  370103: '#74905d',
+  370105: '#6a6da9'
+};
 
 const ditchVisibleLevel = 14; // 沟和渠道显示等级
 const maxzoom = 12;
@@ -76,6 +83,18 @@ const layers = [
     paint: {
       'fill-color': '#b3d8ff',
       'fill-opacity': 1,
+      'fill-antialias': false
+    }
+  },
+  // 城市边界
+  {
+    id: 'GCOUPL', // 城市边界
+    type: 'fill',
+    source: LevelConfig.addLv7,
+    'source-layer': 'GCOUPL', // py是面
+    paint: {
+      'fill-color': ['get', ['get', 'ADMINCODE'], ['literal', areaColor]],
+      'fill-opacity': 0.5,
       'fill-antialias': false
     }
   },

@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
-import { FetchAllRoutes, FetchRouteInfo, DivideRoute } from './webapi';
-import { CreatePointFeature } from './security-route-layer';
+import { FetchAllRoutes, FetchRouteInfo } from './webapi';
+import {
+  RouteLayers,
+  CreatePointFeature,
+  DrawRoad,
+  DrawIconPoint
+} from './security-route-layer';
+import turf from 'turf';
 
 export default class ViewRoute extends Component {
   state = {
-    routeList: [
-      { name: '安保路线1安保路线1安保路线1安保路线1', date: '18-12-12' },
-      { name: '安保路线1', date: '18-12-12' },
-      { name: '安保路线1', date: '18-12-12' }
-    ]
+    routeList: []
   };
 
   componentDidMount = () => this._init();
@@ -42,67 +44,61 @@ export default class ViewRoute extends Component {
     this._fetchAllRoutes();
   };
 
-  _reset = () => {};
+  _reset = () => {
+    Object.keys(RouteLayers).map(key => {
+      const _val = RouteLayers[key];
+      _MAP_.getLayer(_val) && _MAP_.removeLayer(_val).removeSource(_val); // 删除所有 layer 和 source
+    });
+  };
 
   _fetchAllRoutes = async () => {
     const { res, err } = await FetchAllRoutes();
     if (!res || err) return console.log('获取重大安保轨迹失败');
     const _dateLen = ('' + new Date().getTime()).length;
     const _routeList = res.map(item => {
-      const _name = item.substr(0, a.length - _dateLen - 1);
-      const _dateTime = parseInt(item.substr(_dateLen));
+      const _name = item.substr(0, item.length - _dateLen - 1);
+      const _timeStep = item.substr(-_dateLen);
+      const _dateTime = parseInt(_timeStep);
       const _newDate = new Date(_dateTime);
       const _year = _newDate.getFullYear();
       const _month = _newDate.getMonth() + 1;
       const _date = _newDate.getDate();
       return {
         name: _name,
-        date: `${_year}-${_month}-${_date}`
+        date: `${_year}-${_month}-${_date}`,
+        timeStep: _timeStep
       };
     });
     this.setState({ routeList: _routeList });
   };
 
-  _fetchRouteInfo = async routeName => {
-    const { res, err } = await FetchRouteInfo({ fileName: routeName });
+  _fetchRouteInfo = async routeItem => {
+    const _routeName = routeItem.name + '_' + routeItem.timeStep;
+    const { res, err } = await FetchRouteInfo({ fileName: _routeName });
     if (!res || err) return console.log('获取重大安保轨迹详情失败');
-    console.log(res);
+    const { features } = res;
+    _MAP_.flyTo({ center: features[0].geometry.coordinates[0], zoom: 15 }); // 以起点为中心点
+    DrawRoad(_MAP_, {
+      id: RouteLayers.selectedRoute,
+      features: features,
+      lineColor: '#888',
+      lineWidth: 8
+    });
   };
 
-  _divideRoute = async () => {
+  _divideRoute = () => {
     console.log('%c _divideRoute', 'color: green');
-    const { res, err } = await DivideRoute({ coordinates: routeCoord });
-    console.log(res, err);
     let ind = 0;
     setInterval(() => {
       const _feature = CreatePointFeature({
         coordinates: [res[ind].x, res[ind].y]
       });
       ind++;
-      if (!_MAP_.getSource('RouteLayers.routeStart'))
-        _MAP_.addLayer({
-          id: 'RouteLayers.routeStart',
-          type: 'circle',
-          source: {
-            type: 'geojson',
-            data: {
-              type: 'FeatureCollection',
-              features: [_feature]
-            }
-          },
-          paint: {
-            'circle-radius': {
-              base: 5,
-              stops: [[10, 5], [20, 20]]
-            },
-            'circle-color': '#e55e5e'
-          }
-        });
-      else
-        _MAP_.getSource('RouteLayers.routeStart').setData({
-          type: 'FeatureCollection',
-          features: [_feature]
-        });
+      DrawIconPoint(_MAP_, {
+        id: RouteLayers.securityCar,
+        features: [_feature],
+        iconImage: 'security-car'
+      });
     }, 10);
   };
 }
