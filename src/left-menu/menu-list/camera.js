@@ -3,7 +3,6 @@ import Event from './event';
 import { IoIosEye } from 'react-icons/io';
 import MenuItem from './menu-item';
 import { FetchCamera } from './webapi';
-import LayerIds from './layers-id';
 import { IsArray } from 'tuyun-utils';
 
 export default class Camera extends Component {
@@ -40,11 +39,11 @@ export default class Camera extends Component {
     });
     _MAP_.on('click', 'cameraLayer', e => {
       console.log('添加视频');
-      _MAP_.addSource('cameraSource', {
-        type: 'video',
-        url: [],
-        coordinates: []
-      });
+      // _MAP_.addSource('cameraSource', {
+      //   type: 'video',
+      //   url: [],
+      //   coordinates: item
+      // });
     });
   };
 

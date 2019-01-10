@@ -125,7 +125,7 @@ class HouseInfo extends Component {
                     {peopleItem}
                   </div>
                 ))}
-                {selected ? <HouseHold /> : nill}
+                {/**{selected ? <HouseHold /> : null} */}
               </li>
             ))}
           </ul>
@@ -187,7 +187,8 @@ class PeopleInfo extends Component {
     return (
       <div className="people-box">
         <div className="people-title">
-          人员信息<span className="last" />
+          人员信息
+          <span className="last" />
         </div>
         <span>基础信息</span>
         <div className="splice" />
