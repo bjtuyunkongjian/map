@@ -1,5 +1,8 @@
 .features-menu {
   @line-height: 15px;
+  @menu-item-width: 120px;
+  @menu-item-height: 30px;
+  @menu-item-padding: 5px;
   position: absolute;
   // height: @menu-item-height * 6;
   color: @t-base;
@@ -16,9 +19,6 @@
   animation: @fade;
 
   .menu-item {
-    @menu-item-width: 120px;
-    @menu-item-height: 30px;
-    @menu-item-padding: 5px;
     display: flex;
     flex: 1;
     align-items: center;
@@ -34,7 +34,6 @@
     &.checked {
       color: @color-blue;
     }
-
     // option-container
     .option-container {
       overflow: hidden;
@@ -63,5 +62,19 @@
         }
       }
     }
+  }
+
+  .disabled-menu {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    padding: 0 5px;
+    cursor: pointer;
+    position: relative;
+    height: @menu-item-height;
+    width: @menu-item-width;
+    padding: 0 @menu-item-padding;
+    color: @t-disabled;
+    cursor: not-allowed;
   }
 }

@@ -6,6 +6,7 @@ import MenuItem from './menu-item';
 import { FetchPopulation } from './webapi';
 import HouseMessage from '../list-option/house-message';
 import UnitMessage from '../list-option/unit-message';
+import { Event as GlobalEvent } from 'tuyun-utils';
 
 export default class PoliceData extends Component {
   state = {
@@ -69,6 +70,11 @@ export default class PoliceData extends Component {
       this.setState({ curMenu: nextMenu, animate: _animate });
       if (_MAP_.getLayer('policeData-layer')) {
         _MAP_.removeLayer('policeData-layer');
+      }
+      if (nextMenu === MenuItem.dataOption) {
+        GlobalEvent.emit('change:FeaturesMenu:enableHeatDensity', true);
+      } else {
+        GlobalEvent.emit('change:FeaturesMenu:enableHeatDensity', false);
       }
     });
     // 点击地图图标弹出信息框

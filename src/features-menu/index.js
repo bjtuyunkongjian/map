@@ -5,6 +5,8 @@
 
 import React, { Component } from 'react';
 import ViewOptions from './view-options';
+import HeatMap from './heat-map';
+import DensityMap from './density-map';
 import FilterOptions from './filter-options';
 import MarkPlot from './mark-plot';
 import FrameSelect from './frame-select';
@@ -27,6 +29,8 @@ export default class FeaturesMenu extends Component {
     return (
       <div className={`features-menu ${visible ? '' : 'hidden'}`}>
         <ViewOptions />
+        <HeatMap />
+        <DensityMap />
         <FilterOptions />
         <MarkPlot />
         <FrameSelect />

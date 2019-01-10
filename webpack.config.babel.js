@@ -11,7 +11,7 @@ const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
 
 module.exports = {
   output: {
-    filename: '[name].js', // [name].[hash].bundle.js
+    filename: '[name].[hash].js', // [name].[hash].bundle.js
     path: __dirname + '/dist'
   },
   module: {
@@ -66,7 +66,7 @@ module.exports = {
       VERSION: JSON.stringify(PackageJson.version)
     }),
     new MiniCssExtractPlugin({
-      filename: '[name].min.css',
+      filename: '[name].[hash].min.css',
       chunkFilename: '[id].css'
     })
   ]
