@@ -21,18 +21,6 @@ export default class MapBoxDemo extends Component {
 
   componentDidMount() {
     this._init();
-    // TuyunTips.show(
-    //   '按住鼠标右键拖动可切换视角按住鼠标右键拖动可切换视角按住鼠标右键拖动可切换视角按住鼠标右键拖动可切换视角按住鼠标右键拖动可切换视角按住鼠标右键拖动可切换视角按住鼠标右键拖动可切换视角按住鼠标右键拖动可切换视角'
-    // );
-    // TuyunTips.show('按住鼠标右键拖动可切换视角');
-    // TuyunTips.show('按住鼠标右键拖动可切换视角');
-    // TuyunTips.show('按住鼠标右键拖动可切换视角');
-    // TuyunMessage.success(
-    //   'This is a success message.This is a success message.This is a success message.This is a success message.This is a success message.This is a success message.'
-    // );
-    // TuyunMessage.warning('This is a warning message.');
-    // TuyunMessage.info('This is an info message.');
-    // TuyunMessage.error('This is an error message.');
   }
 
   componentWillUnmount() {
@@ -48,7 +36,7 @@ export default class MapBoxDemo extends Component {
     );
   }
 
-  _init() {
+  _init = () => {
     window._MAP_ = this.map = new mapboxgl.Map({
       hash: true,
       container: this._mapContainer,
@@ -66,9 +54,9 @@ export default class MapBoxDemo extends Component {
     // this.map.on('mouseup', async e => {
     //   console.log('e.lngLat', e.lngLat);
     // });
-    this.map.on('click', 'GCOUPL', e => {
-      console.log(e.features);
-    });
+    // this.map.on('mouseup', 'GCOUPL', e => {
+    //   console.log('e.lngLat', e.features);
+    // });
     this.map
       .on('load', () => {
         this.zoom = Math.ceil(this.map.getZoom()); // 设置起初缩放等级
@@ -105,13 +93,13 @@ export default class MapBoxDemo extends Component {
 
     // 添加
     // this.map.addControl(new mapboxgl.NavigationControl(), 'bottom-right');
-  }
+  };
 
-  _addSourceFunc() {
+  _addSourceFunc = () => {
     for (let item of AddLevels) {
       AddLevel(this.map, item);
     }
-  }
+  };
 
   // 将国道、省道单独开来，临时处理
   // async _loadRoadSource() {

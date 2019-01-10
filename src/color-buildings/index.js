@@ -122,7 +122,14 @@ export default class ColorBuildings extends Component {
     const _gresplArr = ['GRESPL_1_3D', 'GRESPL_2_3D', 'GRESPL_3_3D'];
     for (let item of _gresplArr) {
       _MAP_.on('contextmenu', item, e => {
-        this._removeCurLayer(); // 删除当前图层
+        // console.log(
+        //   '_MAP_.getLayer(item)',
+        //   // _MAP_.getLayer(item),
+        //   _MAP_.querySourceFeatures('addLv15', {
+        //     sourceLayer: 'GRESPL_Merge_ID1'
+        //   }),
+        //   _MAP_.querySourceFeatures('GRESPL_Merge_ID1')
+        // );
         this.setState({
           left: e.point.x + 10,
           top: e.point.y + 10,
@@ -135,7 +142,6 @@ export default class ColorBuildings extends Component {
           geometry: e.features[0].geometry,
           properties: e.features[0].properties
         };
-
         if (!_MAP_.getSource(curColorLayerId)) {
           _MAP_.addLayer({
             id: curColorLayerId,
@@ -184,6 +190,7 @@ export default class ColorBuildings extends Component {
       curIndex: -1,
       curType: -1
     });
+    this._removeCurLayer(); // 删除当前图层
   };
 
   _confirm = async () => {
@@ -213,8 +220,19 @@ export default class ColorBuildings extends Component {
       curIndex: -1,
       curType: -1
     });
-    this._features.push(this._curFeature);
+    if (curType === '-1') {
+      const _chosenFeatures = this._features.filter(item => {
+        return item.properties.ID === this._curFeature.properties.ID;
+      });
+      _chosenFeatures.map(item => {
+        const _index = this._features.indexOf(item);
+        this._features.splice(_index, 1);
+      });
+    } else {
+      this._features.push(this._curFeature);
+    }
     storage.setItem('features', JSON.stringify(this._features));
+    this._removeCurLayer(); // 删除当前图层
   };
 
   _removeCurLayer = () => {
@@ -260,7 +278,8 @@ const classifications = [
   { name: '学校', type: '1' },
   { name: '医院', type: '2' },
   { name: '大型商贸', type: '3' },
-  { name: '交通枢纽', type: '4' }
+  { name: '交通枢纽', type: '4' },
+  { name: '作废', type: '-1' }
 ];
 
 const colorLayerId = 'COLOR_LAYER_ID';

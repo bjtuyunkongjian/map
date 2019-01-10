@@ -25,6 +25,17 @@ const style = {
   layers: [
     ...ZaDao,
     {
+      id: 'SD_JINAN1', // 此图层记录了村庄POI
+      source: LevelConfig.addLv13,
+      'source-layer': 'jinan1',
+      type: 'circle',
+      paint: {
+        'circle-color': '#ff0000',
+        'circle-radius': 20
+      },
+      labelLayerId: symbolLabelLayerId
+    },
+    {
       id: 'POI_LEVEL_13',
       type: 'symbol',
       source: LevelConfig.addLv13,

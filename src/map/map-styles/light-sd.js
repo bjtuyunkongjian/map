@@ -93,7 +93,11 @@ const layers = [
     source: LevelConfig.addLv7,
     'source-layer': 'GCOUPL', // py是面
     paint: {
-      'fill-color': ['get', ['get', 'ADMINCODE'], ['literal', areaColor]],
+      'fill-color': [
+        'get',
+        ['to-string', ['get', 'PAC']],
+        ['literal', areaColor]
+      ],
       'fill-opacity': 0.5,
       'fill-antialias': false
     }
