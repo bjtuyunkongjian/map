@@ -14,7 +14,8 @@ import { TuyunMessage } from 'tuyun-kit';
 export default class NewRoute extends Component {
   state = {
     enableStart: false,
-    enableEnd: false
+    enableEnd: false,
+    showContinueBtn: false
   };
 
   _newRoute = undefined; // 壳子
@@ -29,7 +30,7 @@ export default class NewRoute extends Component {
   componentWillUnmount = () => this._reset();
 
   render() {
-    const { enableStart, enableEnd } = this.state;
+    const { enableStart, enableEnd, showContinueBtn } = this.state;
     return (
       <div
         className="new-route"
@@ -64,7 +65,9 @@ export default class NewRoute extends Component {
         </div>
 
         <div className="btn-container">
-          <div className="cancel-btn">撤销</div>
+          <div className="cancel-btn" onClick={this._cancelSelection}>
+            {showContinueBtn ? '继续选择' : '撤销'}
+          </div>
           <div className="save-btn" onClick={this._saveSecurityRoute}>
             保存
           </div>
@@ -192,7 +195,7 @@ export default class NewRoute extends Component {
         ]);
         const _feature = CreateLineFeature({
           coordinates: _coords,
-          properties: { roadMark: '→' }
+          properties: { roadMark: '', index: this._roadFeatures.length }
         });
         this._roadFeatures.push(_feature);
       }
@@ -230,7 +233,7 @@ export default class NewRoute extends Component {
     const { coordinates } = e.features[0].geometry;
     const _feature = CreateLineFeature({
       coordinates: coordinates,
-      properties: { roadMark: '箭头' }
+      properties: { roadMark: '', index: this._roadFeatures.length }
     });
     this._roadFeatures.push(_feature);
     // 绘制整个路
@@ -271,7 +274,7 @@ export default class NewRoute extends Component {
       _features.push(
         CreateLineFeature({
           coordinates: _roadCoords,
-          properties: { roadMark: '箭头' }
+          properties: { roadMark: '' }
         })
       );
     }
@@ -306,7 +309,10 @@ export default class NewRoute extends Component {
           coordinate.x,
           coordinate.y
         ]);
-        const _feature = CreateLineFeature({ coordinates: _roadCoords });
+        const _feature = CreateLineFeature({
+          coordinates: _roadCoords,
+          properties: { roadMark: '', index: this._roadFeatures.length }
+        });
         this._roadFeatures.push(_feature);
       } else {
         _startMappingF = CreatePointFeature({
@@ -339,6 +345,87 @@ export default class NewRoute extends Component {
       order: 'switchScreen'
     });
     return err ? undefined : res;
+  };
+
+  _cancelSelection = e => {
+    e.stopPropagation();
+    const { showContinueBtn } = this.state;
+    if (!showContinueBtn) {
+      // 可以撤销
+      DrawNodePoint(_MAP_, this._roadNode); // 绘制节点
+      _MAP_.getLayer(RouteLayers.toSelect) &&
+        _MAP_
+          .removeLayer(RouteLayers.toSelect)
+          .removeSource(RouteLayers.toSelect); // 删除待选择的点
+      this.setState({ showContinueBtn: true });
+      // 撤销道路
+      _MAP_.on('click', RouteLayers.selectedRoute, this._clickSelectedRoute);
+    } else {
+      // 不可以撤销
+      DrawIconPoint(_MAP_, {
+        id: RouteLayers.toSelect,
+        features: this._toSelectFeatures,
+        iconImage: 'security_route_start'
+      }); // 绘制待选择的点
+      _MAP_.getLayer(RouteLayers.routeNode) &&
+        _MAP_
+          .removeLayer(RouteLayers.routeNode)
+          .removeSource(RouteLayers.routeNode);
+      this.setState({ showContinueBtn: false }); // 删除节点
+      _MAP_.off('click', RouteLayers.selectedRoute, this._clickSelectedRoute);
+      this._continueSelect();
+    }
+  };
+
+  _clickSelectedRoute = e => {
+    const { index } = e.features[0].properties;
+    if (index === 0) return TuyunMessage.warning('不能撤销起始路线！');
+    const _spliceLen = this._roadFeatures.splice(index).length;
+    this._roadNode.splice(-_spliceLen);
+    // 撤销道路
+    DrawRoad(_MAP_, {
+      id: RouteLayers.selectedRoute,
+      features: this._roadFeatures,
+      lineColor: '#888',
+      lineWidth: 8
+    });
+    DrawNodePoint(_MAP_, this._roadNode); // 绘制节点
+  };
+
+  _continueSelect = async () => {
+    if (this._isLoading) return;
+    this._isLoading = true; // 正在加载
+    const _roodIds = await this._fetchRoadIds(); // 获取路的 ids
+    if (!_roodIds) return console.log('未获取当前屏幕所有道路id'); // 保护
+    const _prev = this._roadNode[this._roadNode.length - 2];
+    const _suff = this._roadNode[this._roadNode.length - 1]; // 当前选中的点
+    const _param = {
+      prev: _prev,
+      suff: _suff,
+      ids: _roodIds,
+      order: 'firstPlus'
+    };
+    const { res, err } = await FetchRoadInfo(_param);
+    this._isLoading = false; // 加载完毕
+    if (!res || err) return console.log('未返回当前道路和待选择的点'); // 保护
+    const { coord } = res;
+    this._toSelectFeatures = []; // 绘制待选择的点的 features
+    for (let item of coord) {
+      const { coordinates } = item;
+      if (item.type !== 'LineString') {
+        // 点
+        const _feature = CreatePointFeature({
+          coordinates: [coordinates[0].x, coordinates[0].y],
+          properties: { coordInfo: item }
+        });
+        this._toSelectFeatures.push(_feature);
+      }
+    }
+    DrawIconPoint(_MAP_, {
+      id: RouteLayers.toSelect,
+      features: this._toSelectFeatures,
+      iconImage: 'security_route_start'
+    });
   };
 
   _saveSecurityRoute = async () => {
