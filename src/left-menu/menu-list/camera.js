@@ -62,14 +62,13 @@ export default class Camera extends Component {
       points: _bounds
     });
     console.log('res', res);
-    return;
     if (err || !IsArray(res)) return;
     const _features = res.map(item => {
       return {
         type: 'Feature',
         geometry: {
           type: 'Point',
-          coordinates: item
+          coordinates: [item.Lat, item.Lng]
         }
       };
     });

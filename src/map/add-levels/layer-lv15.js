@@ -8,7 +8,7 @@
  * 妈耶 800+行，不忍直视 =_= !
  */
 import { LevelConfig, BaseConfig } from 'tuyun-config';
-import { FontColor } from 'tuyun-utils';
+import { FontColor, BuildingColor } from 'tuyun-utils';
 
 const visibleLevel = 15;
 const symbolLabelLayerId = 'symbol-ref';
@@ -713,7 +713,14 @@ const style = {
       type: 'fill-extrusion',
       filter: ['!=', 'CLASID', '310200'],
       paint: {
-        'fill-extrusion-color': '#dadada',
+        // ['get', ['get', 'ID'], ['literal', FontColor]]
+        // 'fill-extrusion-color': '#dadada',
+
+        'fill-extrusion-color': [
+          'coalesce',
+          ['get', ['to-string', ['get', 'ID']], ['literal', BuildingColor]],
+          '#dadada'
+        ],
         'fill-extrusion-height': [
           'interpolate',
           ['linear'],
@@ -735,7 +742,11 @@ const style = {
       type: 'fill-extrusion',
       filter: ['!=', 'CLASID', '310200'],
       paint: {
-        'fill-extrusion-color': '#dadada',
+        'fill-extrusion-color': [
+          'coalesce',
+          ['get', ['to-string', ['get', 'ID']], ['literal', BuildingColor]],
+          '#dadada'
+        ],
         'fill-extrusion-height': [
           'interpolate',
           ['linear'],
@@ -757,7 +768,11 @@ const style = {
       type: 'fill-extrusion',
       filter: ['!=', 'CLASID', '310200'],
       paint: {
-        'fill-extrusion-color': '#dadada',
+        'fill-extrusion-color': [
+          'coalesce',
+          ['get', ['to-string', ['get', 'ID']], ['literal', BuildingColor]],
+          '#dadada'
+        ],
         'fill-extrusion-height': [
           'interpolate',
           ['linear'],
