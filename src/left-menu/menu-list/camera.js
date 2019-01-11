@@ -61,6 +61,8 @@ export default class Camera extends Component {
     const { res, err } = await FetchCamera({
       points: _bounds
     });
+    console.log('res', res);
+    return;
     if (err || !IsArray(res)) return;
     const _features = res.map(item => {
       return {

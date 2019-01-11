@@ -87,21 +87,21 @@ const layers = [
     }
   },
   // 城市边界
-  {
-    id: 'GCOUPL', // 城市边界
-    type: 'fill',
-    source: LevelConfig.addLv7,
-    'source-layer': 'GCOUPL', // py是面
-    paint: {
-      'fill-color': [
-        'get',
-        ['to-string', ['get', 'PAC']],
-        ['literal', areaColor]
-      ],
-      'fill-opacity': 0.5,
-      'fill-antialias': false
-    }
-  },
+  // {
+  //   id: 'GCOUPL', // 城市边界
+  //   type: 'fill',
+  //   source: LevelConfig.addLv7,
+  //   'source-layer': 'GCOUPL', // py是面
+  //   paint: {
+  //     'fill-color': [
+  //       'get',
+  //       ['to-string', ['get', 'PAC']],
+  //       ['literal', areaColor]
+  //     ],
+  //     'fill-opacity': 0.5,
+  //     'fill-antialias': false
+  //   }
+  // },
   // 线
   {
     id: 'GBOULN', // 记录了各个镇的边界，有名字的记录的是省界和岛屿（name不为空）

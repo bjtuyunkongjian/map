@@ -156,7 +156,6 @@ const DrawNodePoint = (map, nodeArr) => {
     });
     _features.push(_feature);
   }
-  // return;
   if (!map.getSource(RouteLayers.routeNode)) {
     map.addLayer({
       id: RouteLayers.routeNode,
