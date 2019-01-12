@@ -9,11 +9,11 @@ import BuildingType from './building-type';
 //   { name: '作废', type: '-1' }
 // ];
 const typeColor = {
-  0: '#FF6A6A', // 党政机关、电台
-  1: '#7CFC00', // 学校
-  2: '#7CFC00', // 医院
-  3: '#AB82FF', // 大型商贸
-  4: '#7EC0EE' // 交通枢纽
+  0: 'rgb(230, 145, 135)', // 党政机关、电台
+  1: 'rgb(116, 211, 208)', // 学校
+  2: 'rgb(116, 211, 208)', // 医院
+  3: 'rgb(174, 125, 180)', // 大型商贸
+  4: 'rgb(174, 125, 180)' // 交通枢纽
 };
 
 const BuildingColor = {};

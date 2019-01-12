@@ -20,6 +20,10 @@ const lineBgLabelLayerId_sd = 'line-sd-bg-ref';
 // const jqLabelLayerId = 'jq-ref';
 const threeLabelLayerId = '3d-ref';
 
+// 3d 普通建筑颜色和透明度
+const gresplOpacity = 0.7;
+const gresplColor = 'rgb(225, 225, 224)';
+
 const style = {
   visibleLevel: visibleLevel,
   source: {
@@ -719,7 +723,7 @@ const style = {
         'fill-extrusion-color': [
           'coalesce',
           ['get', ['to-string', ['get', 'ID']], ['literal', BuildingColor]],
-          '#dadada'
+          gresplColor
         ],
         'fill-extrusion-height': [
           'interpolate',
@@ -731,7 +735,7 @@ const style = {
           ['*', ['+', ['get', 'H'], 1], 3]
         ],
         'fill-extrusion-base': 0,
-        'fill-extrusion-opacity': 0.7
+        'fill-extrusion-opacity': gresplOpacity
       },
       labelLayerId: threeLabelLayerId
     },
@@ -745,7 +749,7 @@ const style = {
         'fill-extrusion-color': [
           'coalesce',
           ['get', ['to-string', ['get', 'ID']], ['literal', BuildingColor]],
-          '#dadada'
+          gresplColor
         ],
         'fill-extrusion-height': [
           'interpolate',
@@ -757,7 +761,7 @@ const style = {
           ['*', ['+', ['get', 'H'], 1], 3]
         ],
         'fill-extrusion-base': 0,
-        'fill-extrusion-opacity': 0.7
+        'fill-extrusion-opacity': gresplOpacity
       },
       labelLayerId: threeLabelLayerId
     },
@@ -771,7 +775,7 @@ const style = {
         'fill-extrusion-color': [
           'coalesce',
           ['get', ['to-string', ['get', 'ID']], ['literal', BuildingColor]],
-          '#dadada'
+          gresplColor
         ],
         'fill-extrusion-height': [
           'interpolate',
@@ -783,7 +787,7 @@ const style = {
           ['*', ['+', ['get', 'H'], 1], 3]
         ],
         'fill-extrusion-base': 0,
-        'fill-extrusion-opacity': 0.7
+        'fill-extrusion-opacity': gresplOpacity
       },
       labelLayerId: threeLabelLayerId
     }

@@ -53,20 +53,17 @@ export const FetchCase = async body => {
 // 安保路线规划
 export const FetchRoadInfo = async body => {
   Object.assign(body, { test: 'routePlanning' });
-  console.log(body);
   const { res, err } = await FetchRequest({
     url: 'mapServer/string',
     method: 'POST',
     body
   });
-  console.log('_fetchRes', { res, err });
   return { res, err };
 };
 
 // 报警
 export const FetchCallPolice = async body => {
   Object.assign(body, { test: 'alarmNum' });
-  console.log(body);
   const { res, err } = await FetchRequest({
     url: 'mapServer/string',
     method: 'POST',
@@ -78,13 +75,11 @@ export const FetchCallPolice = async body => {
 // 保存安保路线
 export const SaveScurityRoute = async body => {
   Object.assign(body, { test: 'storeFile' });
-  console.log(body);
   const { res, err } = await FetchRequest({
     url: 'mapServer/string',
     method: 'POST',
     body
   });
-  console.log(res, err);
   return { res, err };
 };
 
