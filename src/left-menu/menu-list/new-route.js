@@ -40,14 +40,7 @@ export default class NewRoute extends Component {
       showContinueBtn
     } = this.state;
     return (
-      <div
-        className="new-route"
-        ref={el => (this._newRoute = el)}
-        onClick={e => {
-          // console.log('click');
-          // console.log(this._newRoute.getBoundingClientRect());
-        }}
-      >
+      <div className="new-route" ref={el => (this._newRoute = el)}>
         <div className="title">设置安保路线方案</div>
 
         <div className="route-row">
@@ -77,10 +70,16 @@ export default class NewRoute extends Component {
         </div>
 
         <div className="btn-container">
-          <div className="cancel-btn" onClick={this._cancelSelection}>
+          <div
+            className={`cancel-btn ${enableCancel ? '' : 'disabled'}`}
+            onClick={this._cancelSelection}
+          >
             {showContinueBtn ? '继续选择' : '撤销'}
           </div>
-          <div className="save-btn" onClick={this._saveSecurityRoute}>
+          <div
+            className={`save-btn ${enableSave ? '' : 'disabled'}`}
+            onClick={this._saveSecurityRoute}
+          >
             保存
           </div>
         </div>
@@ -175,12 +174,18 @@ export default class NewRoute extends Component {
     if (this._isLoading) return; // 保护
     const { properties } = e.features[0]; // 解构 properity
     this._isLoading = true; // 正在加载
-    this.setState({ enableCancel: false, enableSave: false }); // 禁止取消和保存
+    this.setState({ enableEnd: false, enableCancel: false, enableSave: false }); // 禁止取消和保存按钮
+    const _prev = this._roadNode[this._roadNode.length - 1]; // 前一个点击的节点
+    const _suff = JSON.parse(properties.coordInfo); // 当前选中的点， coordInfo 中包含待选择的信息
+    const { x, y } = _suff.coordinates[0];
+    const _duration = 500; // 动画时间
+    _MAP_.flyTo({ center: [x, y], zoom: 15, duration: _duration }); // 动画
+    await new Promise(resolve => {
+      setTimeout(() => resolve(), _duration * 1.01);
+    }); // 设置定时器
     this._removeSourceLayer(RouteLayers.toSelect); // 删除待选择图层 ======> 解决重绘延时问题
     const _roodIds = await this._fetchRoadIds(); // 获取路的 ids
     if (!_roodIds) return console.log('未获取当前屏幕所有道路id'); // 保护
-    const _prev = this._roadNode[this._roadNode.length - 1]; // 前一个点击的节点
-    const _suff = JSON.parse(properties.coordInfo); // 当前选中的点， coordInfo 中包含待选择的信息
     const _param = {
       prev: _prev,
       suff: _suff,
@@ -204,8 +209,10 @@ export default class NewRoute extends Component {
       } else if (isLineRing) {
         // 类型：环形路
         const _coords = coordinates.map(coord => [coord.x, coord.y]); // 环形路坐标点
-        const _feature = LineString(_coords); // 环形路 features
-        this._lineRingFeatures.push(_feature);
+        const _feature = LineString(_coords, {
+          index: this._lineRingFeatures.length // 添加环形路索引
+        }); // 环形路 features
+        this._lineRingFeatures.push(_feature); // 添加环形路 feature
       } else {
         // 类型：普通的路
         const _coords = coordinates.map(coord => [coord.x, coord.y]); // 普通路坐标点
@@ -235,15 +242,13 @@ export default class NewRoute extends Component {
         features: this._toSelectFeatures,
         iconImage: 'security_route_start'
       }); // 绘制待点击的点
-      this.setState({ enableCancel: true, enableSave: true }); // 可以取消和保存
+      this.setState({ enableEnd: true, enableCancel: true, enableSave: true }); // 可以取消和保存
     }
   };
 
   _chooseLineRing = e => {
-    const { coordinates } = e.features[0].geometry;
-    const _feature = LineString(coordinates, {
-      index: this._roadFeatures.length
-    }); // 生成 feature
+    const { index } = e.features[0].properties;
+    const _feature = this._lineRingFeatures[index]; // 生成 feature
     this._roadFeatures.push(_feature); // 添加 feature
     this._removeSourceLayer(RouteLayers.lineRingRoute); // 删除环形路
     DrawRoad(_MAP_, {
@@ -257,16 +262,24 @@ export default class NewRoute extends Component {
       features: this._toSelectFeatures,
       iconImage: 'security_route_start'
     }); // 绘制待点击的点
-    this.setState({ enableCancel: true, enableSave: true }); // 可以取消和保存
+    this.setState({ enableEnd: true, enableCancel: true, enableSave: true }); // 可以取消和保存
   };
 
   _selectEndPoint = async () => {
-    if (this._isLoading) return; // 正在加载
+    const { enableEnd } = this.state;
+    if (!enableEnd || this._isLoading) return; // 正在加载
     this._isLoading = true; // 正在加载
-    const _roodIds = await this._fetchRoadIds(); // 获取路的 ids
-    if (!_roodIds) return console.log('未获取当前屏幕所有道路id'); // 保护
     const _prev = this._roadNode[this._roadNode.length - 1]; // 最后一个点
     const _param = { coord: _prev, ids: _roodIds, order: 'forLast' }; // 参数
+    this.setState({ enableEnd: false, enableCancel: false, enableSave: false }); //
+    const { x, y } = _suff.coordinates[0];
+    const _duration = 500; // 动画时间
+    _MAP_.flyTo({ center: [x, y], zoom: 15, duration: _duration }); // 动画
+    await new Promise(resolve => {
+      setTimeout(() => resolve(), _duration * 1.01);
+    }); // 设置定时器
+    const _roodIds = await this._fetchRoadIds(); // 获取路的 ids
+    if (!_roodIds) return console.log('未获取当前屏幕所有道路id'); // 保护
     let { res, err } = await FetchRoadInfo(_param);
     this._isLoading = false; // 加载完毕
     const _features = [];
@@ -284,11 +297,13 @@ export default class NewRoute extends Component {
       lineColor: '#099',
       lineWidth: 8
     });
+    this.setState({ enableEnd: true, enableCancel: true, enableSave: true });
   };
 
   _setEndPoint = async e => {
     if (this._isLoading) return;
     this._isLoading = true; // 正在加载
+    this.setState({ enableEnd: false, enableCancel: false, enableSave: false });
     const _roodIds = await this._fetchRoadIds(); // 获取路的 ids
     if (!_roodIds) return console.log('未获取当前屏幕所有道路id'); // 保护
     const _prev = this._roadNode[this._roadNode.length - 1]; // 最后一个点
@@ -308,19 +323,20 @@ export default class NewRoute extends Component {
         const _feature = TurfPoint([coordinates[0].x, coordinates[0].y]);
         this._startEndFeatures.push(_feature);
       }
-      DrawRoad(_MAP_, {
-        id: RouteLayers.selectedRoute,
-        features: this._roadFeatures,
-        lineColor: '#888',
-        lineWidth: 8
-      });
-      DrawIconPoint(_MAP_, {
-        id: RouteLayers.startEndMapping,
-        features: this._startEndFeatures,
-        iconImage: 'security_route'
-      });
       this._removeSourceLayer(RouteLayers.endRoute);
     }
+    DrawRoad(_MAP_, {
+      id: RouteLayers.selectedRoute,
+      features: this._roadFeatures,
+      lineColor: '#888',
+      lineWidth: 8
+    });
+    DrawIconPoint(_MAP_, {
+      id: RouteLayers.startEndMapping,
+      features: this._startEndFeatures,
+      iconImage: 'security_route'
+    });
+    this.setState({ enableEnd: true, enableCancel: true, enableSave: true });
   };
 
   _fetchRoadIds = async () => {
@@ -334,7 +350,8 @@ export default class NewRoute extends Component {
 
   _cancelSelection = e => {
     e.stopPropagation();
-    const { showContinueBtn } = this.state;
+    const { enableCancel, showContinueBtn } = this.state;
+    if (!enableCancel) return;
     if (!showContinueBtn) {
       // 可以撤销
       DrawNodePoint(_MAP_, this._roadNode); // 绘制节点
@@ -373,6 +390,7 @@ export default class NewRoute extends Component {
 
   _continueSelect = async () => {
     if (this._isLoading) return; // 保护
+    this.setState({ enableEnd: false, enableCancel: false, enableSave: false });
     const _prev = this._roadNode[this._roadNode.length - 2]; // 前一个点
     const _suff = this._roadNode[this._roadNode.length - 1]; // 当前选中的点
     const { x, y } = _suff.coordinates[0];
@@ -407,14 +425,17 @@ export default class NewRoute extends Component {
       features: this._toSelectFeatures,
       iconImage: 'security_route_start'
     });
+    this.setState({ enableEnd: true, enableCancel: true, enableSave: true });
   };
 
   _saveSecurityRoute = async () => {
+    const { enableSave } = this.state;
     const _inpVal = this._input.value;
-    if (this._isLoading) return;
+    if (!enableSave || this._isLoading) return;
     if (!_inpVal) return TuyunMessage.warning('请输入方案名称');
     const _now = new Date().getTime();
     this._isLoading = true; // 正在加载
+    this.setState({ enableEnd: false, enableCancel: false, enableSave: false });
     const { res, err } = await SaveScurityRoute({
       fileName: _inpVal,
       fileId: '' + _now,
@@ -424,6 +445,7 @@ export default class NewRoute extends Component {
     });
     this._isLoading = false; // 加载完毕
     if (res && !err) TuyunMessage.show('保存成功');
+    this.setState({ enableEnd: false, enableCancel: false, enableSave: false });
   };
 
   _removeSourceLayer = layerId => {
