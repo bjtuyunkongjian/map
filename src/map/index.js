@@ -63,6 +63,15 @@ export default class MapBoxDemo extends Component {
     // this.map.on('mouseup', 'GRESPL_3_3D', e => {
     //   console.log('e.lngLat', e.features);
     // });
+    this.map.on('click', 'POI_LEVEL_16_CAMERA', e => {
+      console.log(e.features[0].properties);
+    });
+    // this.map.on('click', '9L_zgd', e => {
+    //   console.log(JSON.stringify(e.features[0].geometry));
+    // });
+    // this.map.on('click', 'gjl', e => {
+    //   console.log(JSON.stringify(e.features[0].geometry));
+    // });
     this.map
       .on('load', () => {
         this.zoom = Math.ceil(this.map.getZoom()); // 设置起初缩放等级

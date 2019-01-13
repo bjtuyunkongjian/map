@@ -48,18 +48,18 @@ const style = {
         'text-halo-color': 'rgba(255, 255, 255, 1)'
       },
       labelLayerId: symbolLabelLayerId
+    },
+    {
+      id: 'POI_LEVEL_16_CAMERA',
+      type: 'symbol',
+      source: LevelConfig.addLv16,
+      'source-layer': 'camera',
+      layout: {
+        'icon-image': 'camera',
+        'icon-size': 1
+      },
+      labelLayerId: symbolLabelLayerId
     }
-    // {
-    //   id: 'POI_LEVEL_16_CAMERA',
-    //   type: 'symbol',
-    //   source: LevelConfig.addLv16,
-    //   'source-layer': 'camera',
-    //   layout: {
-    //     'icon-image': 'camera',
-    //     'icon-size': 1
-    //   },
-    //   labelLayerId: symbolLabelLayerId
-    // }
   ]
 };
 

@@ -217,17 +217,6 @@ const DrawSecurityCar = (map, { id, features }) => {
   }
 };
 
-const CreateLineFeature = ({ coordinates, properties = {} }) => {
-  return {
-    type: 'Feature',
-    geometry: {
-      type: 'LineString',
-      coordinates: coordinates
-    },
-    properties
-  };
-};
-
 const CreatePointFeature = ({ coordinates, properties }) => {
   return {
     type: 'Feature',
@@ -246,6 +235,5 @@ export {
   DrawNodePoint,
   DrawSecurityCar,
   RouteLayers,
-  CreateLineFeature,
   CreatePointFeature
 };
