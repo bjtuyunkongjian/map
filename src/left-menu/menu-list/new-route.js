@@ -14,6 +14,8 @@ export default class NewRoute extends Component {
   state = {
     enableStart: false,
     enableEnd: false,
+    enableCancel: false,
+    enableSave: false,
     showContinueBtn: false
   };
 
@@ -30,7 +32,13 @@ export default class NewRoute extends Component {
   componentWillUnmount = () => this._reset();
 
   render() {
-    const { enableStart, enableEnd, showContinueBtn } = this.state;
+    const {
+      enableStart,
+      enableEnd,
+      enableCancel,
+      enableSave,
+      showContinueBtn
+    } = this.state;
     return (
       <div
         className="new-route"
@@ -107,13 +115,15 @@ export default class NewRoute extends Component {
     this.setState({
       enableStart: false,
       enableEnd: false,
-      showContinueBtn: false
+      showContinueBtn: false,
+      enableCancel: false,
+      enableSave: false
     }); // 重置
   };
 
   _setStartPoint = () => {
     const { enableStart } = this.state;
-    if (!enableStart) this.setState({ enableStart: true, enableEnd: true });
+    if (!enableStart) this.setState({ enableStart: true });
     _MAP_.getZoom() < 15 && _MAP_.flyTo({ zoom: 15 });
   };
 
@@ -157,6 +167,7 @@ export default class NewRoute extends Component {
       features: this._toSelectFeatures,
       iconImage: 'security_route_start'
     }); // 绘制待选择的点
+    this.setState({ enableEnd: true, enableCancel: false, enableSave: false }); // 可以设置终点，禁止取消和缓存
   };
 
   // 选择下一个点
@@ -164,6 +175,7 @@ export default class NewRoute extends Component {
     if (this._isLoading) return; // 保护
     const { properties } = e.features[0]; // 解构 properity
     this._isLoading = true; // 正在加载
+    this.setState({ enableCancel: false, enableSave: false }); // 禁止取消和保存
     this._removeSourceLayer(RouteLayers.toSelect); // 删除待选择图层 ======> 解决重绘延时问题
     const _roodIds = await this._fetchRoadIds(); // 获取路的 ids
     if (!_roodIds) return console.log('未获取当前屏幕所有道路id'); // 保护
@@ -223,6 +235,7 @@ export default class NewRoute extends Component {
         features: this._toSelectFeatures,
         iconImage: 'security_route_start'
       }); // 绘制待点击的点
+      this.setState({ enableCancel: true, enableSave: true }); // 可以取消和保存
     }
   };
 
@@ -244,6 +257,7 @@ export default class NewRoute extends Component {
       features: this._toSelectFeatures,
       iconImage: 'security_route_start'
     }); // 绘制待点击的点
+    this.setState({ enableCancel: true, enableSave: true }); // 可以取消和保存
   };
 
   _selectEndPoint = async () => {

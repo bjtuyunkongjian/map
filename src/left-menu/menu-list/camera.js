@@ -39,6 +39,8 @@ export default class Camera extends Component {
     });
     _MAP_.on('click', 'cameraLayer', e => {
       console.log('添加视频');
+      console.log(e.features[0].properties);
+
       // _MAP_.addSource('cameraSource', {
       //   type: 'video',
       //   url: [],
@@ -64,11 +66,18 @@ export default class Camera extends Component {
     console.log('res', res);
     if (err || !IsArray(res)) return;
     const _features = res.map(item => {
+      if (item.ID === '37019435001310011155') {
+        console.log(item);
+        console.log(res.indexOf(item));
+      }
       return {
         type: 'Feature',
         geometry: {
           type: 'Point',
           coordinates: [item.Lat, item.Lng]
+        },
+        properties: {
+          ID: item.ID
         }
       };
     });
