@@ -66,7 +66,7 @@ export default class Camera extends Component {
     console.log('res', res);
     if (err || !IsArray(res)) return;
     const _features = res.map(item => {
-      if (item.ID === '37019435001310011155') {
+      if (item.ID === '37019435001310051006') {
         console.log(item);
         console.log(res.indexOf(item));
       }
