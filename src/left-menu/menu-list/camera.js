@@ -10,9 +10,8 @@ export default class Camera extends Component {
     curMenu: -1
   };
 
-  componentDidMount() {
-    this._init();
-  }
+  componentDidMount = () => this._init();
+
   render() {
     return (
       <div className="menu-item camera">
@@ -27,34 +26,23 @@ export default class Camera extends Component {
 
   // 点击事件，切换菜单，层级变化
   _init = () => {
-    Event.on('change:curMenu', nextMenu => {
-      const { curMenu } = this.state;
-      console.log(nextMenu);
-      if (nextMenu === curMenu) return;
-      this.setState({ curMenu: nextMenu });
-      if (_MAP_.getLayer('cameraLayer')) {
-        _MAP_.removeLayer('cameraLayer');
-        _MAP_.removeSource('cameraLayer');
-      }
-    });
     _MAP_.on('click', 'cameraLayer', e => {
       console.log('添加视频');
       console.log(e.features[0].properties);
-
-      // _MAP_.addSource('cameraSource', {
-      //   type: 'video',
-      //   url: [],
-      //   coordinates: item
-      // });
     });
   };
 
   _showCamera = () => {
     const { curMenu } = this.state;
-    Event.emit(
-      'change:curMenu',
-      curMenu === MenuItem.cameraOption ? -1 : MenuItem.cameraOption
-    );
+    const _nextMenu =
+      curMenu === MenuItem.cameraOption ? -1 : MenuItem.cameraOption; // 下一个状态
+    _nextMenu !== -1 && Event.emit('change:curMenu', _nextMenu); // 发射事件
+    if (_nextMenu === curMenu) return;
+    this.setState({ curMenu: nextMenu });
+    if (_MAP_.getLayer('cameraLayer')) {
+      _MAP_.removeLayer('cameraLayer');
+      _MAP_.removeSource('cameraLayer');
+    }
     this._fetchCamera();
   };
 

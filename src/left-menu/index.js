@@ -4,7 +4,7 @@ import PoliceData from './menu-list/police-data';
 import Camera from './menu-list/camera';
 import PoliceCase from './menu-list/police-case';
 import CallPolice from './menu-list/call-police';
-import Police from './menu-list/police';
+import PoliceForce from './menu-list/police-force';
 import SecurityRoute from './menu-list/security-route';
 import CommonFacility from './menu-list/facility';
 import ImportantPalce from './menu-list/palce';
@@ -24,7 +24,7 @@ export default class LeftMenu extends Component {
           <Camera />
           <PoliceCase />
           <CallPolice />
-          <Police />
+          <PoliceForce />
           <SecurityRoute />
           <CommonFacility />
           <ImportantPalce />

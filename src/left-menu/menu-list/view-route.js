@@ -44,6 +44,7 @@ export default class ViewRoute extends Component {
 
   _init = async () => {
     var _line = Turf.lineString(lineCoords); // 道路 features
+    console.log('_line', _line);
     const _lineLen = Turf.lineDistance(_line); // 道路总长度，单位 千米
     DrawRoad(_MAP_, {
       id: roadIdPrev,
@@ -52,23 +53,23 @@ export default class ViewRoute extends Component {
       lineWidth: 8
     });
 
-    // let _count = 0;
-    // const _interval = setInterval(() => {
-    //   _count++;
-    //   const _drivenDistance = _count * carSpeed; // 行驶过的道路总长度，单位 千米
-    //   let _carPosition;
-    //   if (_drivenDistance >= _lineLen) {
-    //     _carPosition = Turf.along(_line, _lineLen);
-    //     clearInterval(_interval);
-    //   } else {
-    //     _carPosition = Turf.along(_line, _drivenDistance);
-    //   }
-    //   DrawIconPoint(_MAP_, {
-    //     id: carIdPrev,
-    //     features: [_carPosition],
-    //     iconImage: 'security-car'
-    //   });
-    // }, 1);
+    let _count = 0;
+    const _interval = setInterval(() => {
+      _count++;
+      const _drivenDistance = _count * carSpeed; // 行驶过的道路总长度，单位 千米
+      let _carPosition;
+      if (_drivenDistance >= _lineLen) {
+        _carPosition = Turf.along(_line, _lineLen);
+        clearInterval(_interval);
+      } else {
+        _carPosition = Turf.along(_line, _drivenDistance);
+      }
+      DrawIconPoint(_MAP_, {
+        id: carIdPrev,
+        features: [_carPosition],
+        iconImage: 'security-car'
+      });
+    }, 1);
   };
 
   _reset = () => {
