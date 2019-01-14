@@ -64,7 +64,7 @@ export default class MapBoxDemo extends Component {
     //   console.log('e.lngLat', e.features);
     // });
     this.map.on('click', 'POI_LEVEL_16_CAMERA', e => {
-      console.log(e.features[0].properties);
+      console.log(e.features[0].properties.Monitori_1);
     });
     // this.map.on('click', '9L_zgd', e => {
     //   console.log(JSON.stringify(e.features[0].geometry));

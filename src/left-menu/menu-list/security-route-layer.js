@@ -13,8 +13,7 @@ const RouteLayers = {
   selectedRoute: 'SECURITY_ROUTE_SELECTED', // 已选择的安保路线
   selectedRouteMark: 'SECURITY_ROUTE_SELECTED_MARK', // 安保路线
   endRoute: 'SECURITY_ROUTE_END', // 末尾点
-  routeNode: 'SECURITY_ROUTE_NODE_POINT', // 已选择的路的节点
-  securityCar: 'SECURITY_ROUTE_CAR' // 安保车辆
+  routeNode: 'SECURITY_ROUTE_NODE_POINT' // 已选择的路的节点
 };
 
 const DrawStartPoint = (map, coord) => {

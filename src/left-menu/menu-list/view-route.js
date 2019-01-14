@@ -13,6 +13,8 @@ export default class ViewRoute extends Component {
     routeList: [{ name: '111', date: '2019-01-11' }]
   };
 
+  _roadCarIds = []; // {carId: '', roadId: ''}
+
   componentDidMount = () => this._init();
 
   componentWillUnmount = () => this._reset();
@@ -40,34 +42,33 @@ export default class ViewRoute extends Component {
     );
   }
 
-  _init = () => {
+  _init = async () => {
     var _line = Turf.lineString(lineCoords); // 道路 features
-    const _lineLen = Turf.lineDistance(_line) * 1000; // 道路总长度，单位 米
-    // this._fetchAllRoutes();
-    console.log(_lineLen);
+    const _lineLen = Turf.lineDistance(_line); // 道路总长度，单位 千米
     DrawRoad(_MAP_, {
-      id: 'id' + Math.random(),
+      id: roadIdPrev,
       features: [_line],
       lineColor: '#800',
       lineWidth: 8
     });
-    let _count = 0;
-    const _interval = setInterval(() => {
-      _count++;
-      const _drivenDistance = (_count * carSpeed) / 1000; // 行驶过的道路总长度，单位 米
-      let _carPosition;
-      if (_drivenDistance >= _lineLen) {
-        _carPosition = Turf.along(_line, _lineLen / 1000);
-        clearInterval(_interval);
-      } else {
-        _carPosition = Turf.along(_line, _drivenDistance / 1000);
-      }
-      DrawIconPoint(_MAP_, {
-        id: RouteLayers.securityCar,
-        features: [_carPosition],
-        iconImage: 'security-car'
-      });
-    }, 1);
+
+    // let _count = 0;
+    // const _interval = setInterval(() => {
+    //   _count++;
+    //   const _drivenDistance = _count * carSpeed; // 行驶过的道路总长度，单位 千米
+    //   let _carPosition;
+    //   if (_drivenDistance >= _lineLen) {
+    //     _carPosition = Turf.along(_line, _lineLen);
+    //     clearInterval(_interval);
+    //   } else {
+    //     _carPosition = Turf.along(_line, _drivenDistance);
+    //   }
+    //   DrawIconPoint(_MAP_, {
+    //     id: carIdPrev,
+    //     features: [_carPosition],
+    //     iconImage: 'security-car'
+    //   });
+    // }, 1);
   };
 
   _reset = () => {
@@ -130,8 +131,9 @@ export default class ViewRoute extends Component {
   };
 }
 
-const units = 'miles'; // 单位
-const carSpeed = 16.6; // 汽车运行速度， 多少 units 每秒
+const carSpeed = 16.6 / 1000; // 汽车运行速度， 多少 units 每秒
+const carIdPrev = 'MENU_LIST_VIEW_ROUTE_CAR_'; // 汽车 id
+const roadIdPrev = 'MENU_LIST_VIEW_ROUTE_ROAD_'; // 道路 id
 
 const lineCoords = [
   [117.02548742294312, 36.62030690078126],
