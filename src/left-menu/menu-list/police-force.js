@@ -4,8 +4,7 @@ import { IoMdCheckmark } from 'react-icons/io';
 import { TiUser } from 'react-icons/ti';
 import MenuItem from './menu-item';
 import { FetchGPSPolice } from './webapi';
-import { lineString as LineString, point as TurfPoint } from 'turf';
-import { DrawIconPoint } from './security-route-layer';
+import { point as TurfPoint, lineString as LineString } from 'turf';
 import { IsArray } from 'tuyun-utils';
 
 export default class WorkContent extends Component {
@@ -17,7 +16,9 @@ export default class WorkContent extends Component {
   };
 
   _intervalStart = []; // 记录起始定时时间，第 0 位是请求定时时间
-  _intervalHandler = undefined;
+  _intervalHandler = undefined; // 定时器句柄
+  _intervalMod = 0; // 定时
+  _policeCar = {}; // 警车数据
 
   render() {
     const { curMenu, selectedTasks, animate } = this.state;
@@ -58,7 +59,6 @@ export default class WorkContent extends Component {
     );
   }
 
-  // 点击发射切换菜单事件
   _selectMenu = async () => {
     const { curMenu } = this.state;
     const _nextMenu =
@@ -73,17 +73,12 @@ export default class WorkContent extends Component {
     } else {
       _animate = 'hidden';
     }
-    clearInterval(this._intervalHandler); // 关闭时清除定时器
+    this._intervalMod = 0;
+    clearInterval(this._intervalHandler); // 每次点击，关闭时清除定时器
+    await this.setState({ curMenu: _nextMenu, animate: _animate }); // 动画
     if (_nextMenu === -1) {
-      _MAP_.off('zoomend', this._intervalSearch); // 注销事件
-      _MAP_.off('mouseup', this._intervalSearch); // 注销事件
-      this._removeSourceLayer(carLayerId); // 删除图层
-      this._removeSourceLayer(manLayerId); // 删除图层
-    } else {
-      _MAP_.on('zoomend', this._intervalSearch); // 添加事件
-      _MAP_.on('mouseup', this._intervalSearch); // 添加事件
+      options.map(item => this._removeSourceLayer(item.layerId)); // 删除图层
     }
-    await this.setState({ curMenu: _nextMenu, animate: _animate });
   };
 
   // 复选框选中多个列表
@@ -99,26 +94,35 @@ export default class WorkContent extends Component {
 
   _intervalSearch = () => {
     const { selectedTasks } = this.state;
-    // console.log('selectedTasks', selectedTasks);
     if (selectedTasks.length === 0) {
-      this._removeSourceLayer(carLayerId); // 删除图层
-      this._removeSourceLayer(manLayerId); // 删除图层
+      options.map(item => this._removeSourceLayer(item.layerId)); // 删除图层
       return; // 如果选中长度为0，返回
     }
+    this._intervalMod = 0; // 重置取余
     clearInterval(this._intervalHandler); // 清除定时器
-    const _intervalSec = 5; // 定时请求时间，单位：秒
     this._fetchData(); // 向后台请求数据
-    this._intervalHandler = setInterval(this._fetchData, 1000 * _intervalSec); // 定时器
+    this._intervalHandler = setInterval(
+      this._fetchData,
+      1000 * policeCarInterval
+    ); // 定时器
   };
 
   _fetchData = () => {
     const { selectedTasks } = this.state;
+    this._intervalMod++;
     for (let item of options) {
-      selectedTasks.indexOf(item) > -1 && this._fetchPolice(item);
+      selectedTasks.indexOf(item) > -1
+        ? this._fetchPolice(item)
+        : this._removeSourceLayer(item.layerId);
     }
   };
 
-  _fetchPolice = async () => {
+  _fetchPolice = async option => {
+    const _scale = handheldIntereval / policeCarInterval; // 手持设备 定时请求时间相对 警车定时请求时间 的倍数
+    if (option.value === 'policman' && this._intervalMod === _scale) {
+      this._intervalMod = 0;
+      return;
+    }
     const _bound = _MAP_.getBounds(); // 获取边界范围
     const _duration = 500; // 动画时间
     const _zoom = _MAP_.getZoom();
@@ -129,43 +133,42 @@ export default class WorkContent extends Component {
       ); // 设置定时器
     }
     const _param = { bound: _bound }; // 请求参数
-    // console.log('_param', JSON.stringify(_param));
     const { res, err } = await FetchGPSPolice(_param); // 向后台请求数据
-    // console.log(res);
+    // var _line = LineString(res); // 道路 features
     if (err || !IsArray(res)) return; // 保护
     const _features = res.map(item =>
       TurfPoint([item.longitude, item.latitude])
     ); // 生成 features
-    // DrawIconPoint(_MAP_, {
-    //   id: carLayerId,
-    //   features: _features,
-    //   iconImage: 'security-car'
-    // }); // 绘制待点击的点
-    if (!_MAP_.getSource(carLayerId)) {
-      _MAP_.addLayer({
-        id: carLayerId,
-        type: 'circle',
-        source: {
-          type: 'geojson',
-          data: {
-            type: 'FeatureCollection',
-            features: _features
-          }
-        },
-        paint: {
-          'circle-radius': {
-            base: 10,
-            stops: [[10, 10], [20, 30]]
-          },
-          'circle-color': '#e55e5e'
-        }
-      });
-    } else {
-      _MAP_.getSource(carLayerId).setData({
-        type: 'FeatureCollection',
-        features: _features
-      });
-    }
+    DrawIconPoint(_MAP_, {
+      id: option.layerId,
+      features: _features,
+      iconImage: 'security-car'
+    }); // 绘制待点击的点
+    // if (!_MAP_.getSource(option.layerId)) {
+    //   _MAP_.addLayer({
+    //     id: option.layerId,
+    //     type: 'circle',
+    //     source: {
+    //       type: 'geojson',
+    //       data: {
+    //         type: 'FeatureCollection',
+    //         features: _features
+    //       }
+    //     },
+    //     paint: {
+    //       'circle-radius': {
+    //         base: 10,
+    //         stops: [[10, 10], [20, 30]]
+    //       },
+    //       'circle-color': '#e55e5e'
+    //     }
+    //   });
+    // } else {
+    //   _MAP_.getSource(option.layerId).setData({
+    //     type: 'FeatureCollection',
+    //     features: _features
+    //   });
+    // }
   };
 
   _removeSourceLayer = layerId => {
@@ -173,10 +176,20 @@ export default class WorkContent extends Component {
   };
 }
 
-const manLayerId = 'MENU_LIST_POLICE_FORCE_MAN'; // 警力 id
-const carLayerId = 'MENU_LIST_POLICE_FORCE_CAR'; // 汽车 id
-
 const options = [
-  { value: 'policman', name: '警员', color: '#EF9DA1' },
-  { value: 'policecar', name: '警车', color: '#9B5C8B' }
+  {
+    value: 'policman',
+    name: '警员',
+    color: '#EF9DA1',
+    layerId: 'MENU_LIST_POLICE_FORCE_MAN'
+  },
+  {
+    value: 'policecar',
+    name: '警车',
+    color: '#9B5C8B',
+    layerId: 'MENU_LIST_POLICE_FORCE_CAR'
+  }
 ];
+
+const policeCarInterval = 5; // 警车请求间隔
+const handheldIntereval = 30; // 手持设备请求时间间隔
