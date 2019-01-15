@@ -7,6 +7,7 @@ import { FetchPopulation } from './webapi';
 import HouseMessage from '../list-option/house-message';
 import UnitMessage from '../list-option/unit-message';
 import { Event as GlobalEvent } from 'tuyun-utils';
+import { point as TurfPoint } from 'turf';
 
 export default class PoliceData extends Component {
   state = {
@@ -15,9 +16,7 @@ export default class PoliceData extends Component {
     animate: 'hidden'
   };
 
-  componentDidMount() {
-    this._init();
-  }
+  componentDidMount = () => this._init();
 
   render() {
     const { curMenu, selectedOpt, animate } = this.state;
@@ -32,16 +31,14 @@ export default class PoliceData extends Component {
             <span className={`arrow arrow-right ${_arrow}`} />
           </div>
         </div>
-        <ul
-          className={`data-container ${(_selected ? '' : 'hidden', animate)}`}
-        >
+        <ul className={`data-container ${animate}`}>
           {options.map((item, index) => (
             <li
               className={`data-item ${
                 selectedOpt === item.value ? 'checked' : ''
               }`}
               key={`data_option_${index}`}
-              onClick={e => this._checkMap(item)}
+              onClick={e => this._checkMap(item, e)}
             >
               {item.name}
             </li>
@@ -68,17 +65,17 @@ export default class PoliceData extends Component {
         _animate = 'hidden';
       }
       this.setState({ curMenu: nextMenu, animate: _animate });
-      if (_MAP_.getLayer('policeData-layer')) {
-        _MAP_.removeLayer('policeData-layer');
-      }
+      this._removeSourceLayer(layerId); // 删除图层
       if (nextMenu === MenuItem.dataOption) {
         GlobalEvent.emit('change:FeaturesMenu:enableHeatDensity', true);
+        this._addEventListener();
       } else {
         GlobalEvent.emit('change:FeaturesMenu:enableHeatDensity', false);
+        this._removeEventListener();
       }
     });
     // 点击地图图标弹出信息框
-    _MAP_.on('click', 'policeData-layer', e => {
+    _MAP_.on('click', layerId, e => {
       const { selectedOpt } = this.state;
       const { originalEvent } = e;
       if (selectedOpt === 'population') return;
@@ -96,14 +93,25 @@ export default class PoliceData extends Component {
         });
       }
     });
-    _MAP_.on('zoomend', () => {
-      if (!_MAP_.getLayer('policeData-layer')) return;
-      const _option = options.filter(item => item.value === 'house')[0];
-      const _landMarkZoom = _option.defaultZoom;
-      const _zoom = _MAP_.getZoom();
-      const _iconImage = _zoom < _landMarkZoom ? 'people' : 'landmark';
-      _MAP_.setLayoutProperty('policeData-layer', 'icon-image', _iconImage);
-    });
+  };
+
+  _addEventListener = () => {
+    _MAP_.on('zoomend', this._fetchPeopleData);
+    _MAP_.on('mouseup', this._fetchPeopleData);
+  };
+
+  _removeEventListener = () => {
+    _MAP_.off('zoomend', this._fetchPeopleData);
+    _MAP_.off('mouseup', this._fetchPeopleData);
+  };
+
+  _zoomListener = () => {
+    if (!_MAP_.getLayer(layerId)) return;
+    const _option = options.filter(item => item.value === 'house')[0];
+    const _landMarkZoom = _option.defaultZoom;
+    const _zoom = _MAP_.getZoom();
+    const _iconImage = _zoom < _landMarkZoom ? 'people' : 'landmark';
+    _MAP_.setLayoutProperty(layerId, 'icon-image', _iconImage);
   };
 
   // 发送菜单改变事件
@@ -116,40 +124,37 @@ export default class PoliceData extends Component {
   };
 
   // 后台请求数据
-  _checkMap = async item => {
-    if (item.value === 'house') {
-      const _duration = 500;
-
-      _MAP_.flyTo({
-        zoom: item.defaultZoom,
-        duration: _duration
-      });
-      await new Promise(resolve => {
-        setTimeout(() => {
-          resolve();
-        }, _duration * 1.01);
-      });
-    }
-    await this.setState({ selectedOpt: item.value });
-    this._fetchPeopleData(item);
+  _checkMap = async (option, e) => {
+    e && e.stopPropagation();
+    await this.setState({ selectedOpt: option.value });
+    // 动画
+    const _duration = 500;
+    this._removeEventListener(); // 删除监听
+    _MAP_.flyTo({
+      zoom: option.defaultZoom,
+      duration: _duration
+    });
+    await new Promise(resolve => {
+      setTimeout(() => {
+        resolve();
+      }, _duration * 1.01);
+    });
+    this._addEventListener(); // 恢复监听
+    this._fetchPeopleData();
   };
 
-  _fetchPeopleData = async item => {
+  _fetchPeopleData = async () => {
     const _bounds = _MAP_.getBounds();
     const { res, err } = await FetchPopulation({
       points: _bounds
     });
     if (err || !IsArray(res)) return; //保护
-    const _features = res.map(item => {
-      return {
-        type: 'Feature',
-        geometry: {
-          type: 'Point',
-          coordinates: item
-        }
-      };
-    });
+    const _zoom = _MAP_.getZoom();
+    const _landMarkZoom = options.filter(item => item.value === 'house')[0]
+      .defaultZoom;
+    const _iconImage = _zoom < _landMarkZoom ? 'people' : 'landmark';
 
+    const _features = res.map(coords => TurfPoint(coords));
     const _geoJSONData = {
       type: 'geojson',
       data: {
@@ -158,20 +163,23 @@ export default class PoliceData extends Component {
       }
     };
 
-    if (!_MAP_.getLayer('policeData-layer')) {
+    if (!_MAP_.getLayer(layerId)) {
       _MAP_.addLayer({
-        id: 'policeData-layer',
+        id: layerId,
         type: 'symbol',
         source: _geoJSONData,
         layout: {
-          'icon-image': item.icon,
+          'icon-image': _iconImage,
           'icon-size': 1.5
         }
       });
     } else {
-      _MAP_.getLayer('policeData-layer');
-      _MAP_.setLayoutProperty('policeData-layer', 'icon-image', item.icon);
+      _MAP_.setLayoutProperty(layerId, 'icon-image', _iconImage);
     }
+  };
+
+  _removeSourceLayer = layerId => {
+    _MAP_.getLayer(layerId) && _MAP_.removeLayer(layerId).removeSource(layerId); // 删除所有 layer 和 source
   };
 }
 
@@ -179,7 +187,7 @@ const options = [
   {
     value: 'population',
     name: '人口',
-    defaultZoom: 10,
+    defaultZoom: 12,
     icon: 'people'
   },
   {
@@ -195,3 +203,5 @@ const options = [
     icon: 'landmark'
   }
 ];
+
+const layerId = 'policeData-layer';
