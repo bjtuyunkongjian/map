@@ -88,12 +88,12 @@ export default class WorkContent extends Component {
         // 未选中工作内容
         Event.emit('closeModal'); // 关闭弹框
         this._reset(); // 重置
-        _MAP_.off('zoomend', this._fetchWorkContent); // 删除 zoomend 事件
-        _MAP_.off('mouseup', this._fetchWorkContent); // 删除 mouseup 事件
+        _MAP_.off('zoomend', this._eventListener); // 删除 zoomend 事件
+        _MAP_.off('mouseup', this._eventListener); // 删除 mouseup 事件
       } else {
         // 选中工作内容
-        _MAP_.on('zoomend', this._fetchWorkContent); // 添加 zoomend 事件
-        _MAP_.on('mouseup', this._fetchWorkContent); // 添加 mouseup 事件
+        _MAP_.on('zoomend', this._eventListener); // 添加 zoomend 事件
+        _MAP_.on('mouseup', this._eventListener); // 添加 mouseup 事件
       }
     });
     // 点击图标事件
@@ -109,7 +109,12 @@ export default class WorkContent extends Component {
     });
   };
 
-  _reset = () => {
+  _eventListener = () => {
+    this._fetchDataNum();
+    this._fetchWorkContent();
+  };
+
+  _reset = async () => {
     this.setState({
       datanumMap: {},
       selectedTasks: []
@@ -124,11 +129,16 @@ export default class WorkContent extends Component {
     Event.emit('change:curMenu', _nextMenu);
     if (_nextMenu !== MenuItem.workContent) return; // 如果当前点击的不是工作内容，不需要发送请求
     // 点击工作内容向后台请求各个工作的数据量
+    this._fetchDataNum();
+  };
+
+  _fetchDataNum = async () => {
+    // 点击工作内容向后台请求各个工作的数据量
     const _bounds = _MAP_.getBounds();
     const { res, err } = await FetchWorkContent({
       points: _bounds
     });
-    if (err) return; // 保护
+    if (err || !res) return; // 保护
     this.setState({ datanumMap: res });
   };
 
