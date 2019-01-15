@@ -54,7 +54,13 @@ export default class MapBoxDemo extends Component {
     // this.map.on('mouseup', async e => {
     //   console.log('e.lngLat', e.lngLat);
     // });
-    // this.map.on('mouseup', 'GCOUPL', e => {
+    // this.map.on('mouseup', 'GRESPL_1_3D', e => {
+    //   console.log('e.lngLat', e.features);
+    // });
+    // this.map.on('mouseup', 'GRESPL_2_3D', e => {
+    //   console.log('e.lngLat', e.features);
+    // });
+    // this.map.on('mouseup', 'GRESPL_3_3D', e => {
     //   console.log('e.lngLat', e.features);
     // });
     this.map

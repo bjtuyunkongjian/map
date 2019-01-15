@@ -22,6 +22,7 @@ export default class NewRoute extends Component {
   _input = undefined; // 输入框
   _isLoading = false; // 正在请求数据
   _roadFeatures = []; // 选中的路
+  _startEndFeatures = []; // 起始点和终点 feature
   _roadNode = []; // 选中路的节点，撤销使用
   _lineRingFeatures = []; // 环形路
   _toSelectFeatures = []; // 待选择的点
@@ -45,7 +46,11 @@ export default class NewRoute extends Component {
         <div className="route-row">
           <div className="route-label">方案名称：</div>
           <div className="input-box">
-            <input type="text" ref={input => (this._input = input)} />
+            <input
+              type="text"
+              className="input"
+              ref={input => (this._input = input)}
+            />
           </div>
         </div>
 
@@ -90,7 +95,7 @@ export default class NewRoute extends Component {
     _MAP_.off('click', RouteLayers.endRoute, this._setEndPoint); // 设置终点
     Object.keys(RouteLayers).map(key => {
       const _val = RouteLayers[key];
-      _MAP_.getLayer(_val) && _MAP_.removeLayer(_val).removeSource(_val); // 删除所有 layer 和 source
+      this._removeSourceLayer(_val); // 删除所有 layer 和 source
     });
   };
 
@@ -116,7 +121,6 @@ export default class NewRoute extends Component {
     });
     this._isLoading = false; // 加载完毕
     if (err || !res) return; // 保护
-    let _startMappingF; // 起始点
     this._toSelectFeatures = []; // 要绘制的待选择的点
     for (let item of res.points) {
       const { coordinates } = item;
@@ -124,9 +128,10 @@ export default class NewRoute extends Component {
         const _ind = item.userData.indexOf('true'); // 删除 "true" 属性
         item.userData.splice(_ind, 1);
         this._roadNode.push(item); // 添加节点
-        _startMappingF = CreatePointFeature({
+        const _feature = CreatePointFeature({
           coordinates: [coordinates[0].x, coordinates[0].y]
         });
+        this._startEndFeatures.push(_feature);
       } else {
         const _feature = CreatePointFeature({
           coordinates: [coordinates[0].x, coordinates[0].y],
@@ -138,7 +143,7 @@ export default class NewRoute extends Component {
     // 绘制映射点
     DrawIconPoint(_MAP_, {
       id: RouteLayers.startEndMapping,
-      features: [_startMappingF],
+      features: this._startEndFeatures,
       iconImage: 'security_route'
     });
     // 绘制待选择的点
@@ -153,8 +158,10 @@ export default class NewRoute extends Component {
     if (this._isLoading) return;
     const { properties } = e.features[0];
     this._isLoading = true; // 正在加载
+    this._removeSourceLayer(RouteLayers.toSelect); // 删除待选择图层
     const _roodIds = await this._fetchRoadIds(); // 获取路的 ids
     if (!_roodIds) return console.log('未获取当前屏幕所有道路id'); // 保护
+
     const _prev = this._roadNode[this._roadNode.length - 1];
     const _suff = JSON.parse(properties.coordInfo); // 当前选中的点
     const _param = {
@@ -208,9 +215,6 @@ export default class NewRoute extends Component {
         lineColor: '#800',
         lineWidth: 8
       });
-      _MAP_
-        .removeLayer(RouteLayers.toSelect)
-        .removeSource(RouteLayers.toSelect); // 删除待选择点的 layer 和
     } else {
       // 绘制整个路
       DrawRoad(_MAP_, {
@@ -226,7 +230,6 @@ export default class NewRoute extends Component {
         iconImage: 'security_route_start'
       });
     }
-    // DrawNodePoint(_MAP_, this._roadNode);
   };
 
   _chooseLineRing = async e => {
@@ -249,9 +252,7 @@ export default class NewRoute extends Component {
       features: this._toSelectFeatures,
       iconImage: 'security_route_start'
     });
-    _MAP_
-      .removeLayer(RouteLayers.lineRingRoute)
-      .removeSource(RouteLayers.lineRingRoute);
+    this._removeSourceLayer(RouteLayers.lineRingRoute);
   };
 
   _selectEndPoint = async () => {
@@ -279,10 +280,7 @@ export default class NewRoute extends Component {
       );
     }
     // 删除图层
-    _MAP_.getLayer(RouteLayers.toSelect) &&
-      _MAP_
-        .removeLayer(RouteLayers.toSelect)
-        .removeSource(RouteLayers.toSelect);
+    this._removeSourceLayer(RouteLayers.toSelect);
     DrawRoad(_MAP_, {
       id: RouteLayers.endRoute,
       features: _features,
@@ -301,7 +299,6 @@ export default class NewRoute extends Component {
     const { res, err } = await FetchRoadInfo(_param); // 发送请求
     this._isLoading = false; // 加载完毕
     if (!res || err) return;
-    let _startMappingF;
     for (let item of res) {
       const { coordinates } = item;
       if (item.type === 'LineString') {
@@ -315,9 +312,10 @@ export default class NewRoute extends Component {
         });
         this._roadFeatures.push(_feature);
       } else {
-        _startMappingF = CreatePointFeature({
+        const _feature = CreatePointFeature({
           coordinates: [coordinates[0].x, coordinates[0].y]
         });
+        this._startEndFeatures.push(_feature);
       }
       DrawRoad(_MAP_, {
         id: RouteLayers.selectedRoute,
@@ -326,15 +324,11 @@ export default class NewRoute extends Component {
         lineWidth: 8
       });
       DrawIconPoint(_MAP_, {
-        id: RouteLayers.startEndMapping + Math.random(),
-        features: [_startMappingF],
+        id: RouteLayers.startEndMapping,
+        features: this._startEndFeatures,
         iconImage: 'security_route'
       });
-
-      _MAP_.getLayer(RouteLayers.endRoute) &&
-        _MAP_
-          .removeLayer(RouteLayers.endRoute)
-          .removeSource(RouteLayers.endRoute);
+      this._removeSourceLayer(RouteLayers.endRoute);
     }
   };
 
@@ -353,10 +347,7 @@ export default class NewRoute extends Component {
     if (!showContinueBtn) {
       // 可以撤销
       DrawNodePoint(_MAP_, this._roadNode); // 绘制节点
-      _MAP_.getLayer(RouteLayers.toSelect) &&
-        _MAP_
-          .removeLayer(RouteLayers.toSelect)
-          .removeSource(RouteLayers.toSelect); // 删除待选择的点
+      this._removeSourceLayer(RouteLayers.toSelect); // 删除待选择的点
       this.setState({ showContinueBtn: true });
       // 撤销道路
       _MAP_.on('click', RouteLayers.selectedRoute, this._clickSelectedRoute);
@@ -367,11 +358,8 @@ export default class NewRoute extends Component {
         features: this._toSelectFeatures,
         iconImage: 'security_route_start'
       }); // 绘制待选择的点
-      _MAP_.getLayer(RouteLayers.routeNode) &&
-        _MAP_
-          .removeLayer(RouteLayers.routeNode)
-          .removeSource(RouteLayers.routeNode);
-      this.setState({ showContinueBtn: false }); // 删除节点
+      this.setState({ showContinueBtn: false });
+      this._removeSourceLayer(RouteLayers.routeNode); // 删除节点
       _MAP_.off('click', RouteLayers.selectedRoute, this._clickSelectedRoute);
       this._continueSelect();
     }
@@ -443,5 +431,9 @@ export default class NewRoute extends Component {
     });
     this._isLoading = false; // 加载完毕
     if (res && !err) TuyunMessage.show('保存成功');
+  };
+
+  _removeSourceLayer = layerId => {
+    _MAP_.getLayer(layerId) && _MAP_.removeLayer(layerId).removeSource(layerId); // 删除所有 layer 和 source
   };
 }

@@ -6,11 +6,11 @@ import {
   DrawRoad,
   DrawIconPoint
 } from './security-route-layer';
-import turf from 'turf';
+import Turf from 'turf';
 
 export default class ViewRoute extends Component {
   state = {
-    routeList: []
+    routeList: [{ name: '111', date: '2019-01-11' }]
   };
 
   componentDidMount = () => this._init();
@@ -41,7 +41,11 @@ export default class ViewRoute extends Component {
   }
 
   _init = () => {
-    this._fetchAllRoutes();
+    // this._fetchAllRoutes();
+    const _line = Turf.lineString([[-83, 30], [-84, 36], [-78, 41]]);
+    console.log('_line', _line);
+    // var _along = Turf.along(_line, 200, turfOpt);
+    // console.log(_along);
   };
 
   _reset = () => {
@@ -87,7 +91,6 @@ export default class ViewRoute extends Component {
   };
 
   _divideRoute = () => {
-    console.log('%c _divideRoute', 'color: green');
     let ind = 0;
     const _interval = setInterval(() => {
       if (ind >= res.length) return;
@@ -104,3 +107,5 @@ export default class ViewRoute extends Component {
     }, 10);
   };
 }
+
+const turfOpt = { units: 'miles' };

@@ -87,7 +87,8 @@ export default class ColorBuildings extends Component {
 
   _init = () => {
     this._clickBuilding();
-    const _features = storage.getItem('features');
+    storage.removeItem('features');
+    const _features = storage.getItem('features_modify');
     this._features = JSON.parse(_features) || [];
     setTimeout(() => {
       _MAP_.addLayer({
@@ -231,7 +232,7 @@ export default class ColorBuildings extends Component {
     } else {
       this._features.push(this._curFeature);
     }
-    storage.setItem('features', JSON.stringify(this._features));
+    storage.setItem('features_modify', JSON.stringify(this._features));
     this._removeCurLayer(); // 删除当前图层
   };
 

@@ -8,7 +8,7 @@
  * 妈耶 800+行，不忍直视 =_= !
  */
 import { LevelConfig, BaseConfig } from 'tuyun-config';
-import { FontColor } from 'tuyun-utils';
+import { FontColor, BuildingColor } from 'tuyun-utils';
 
 const visibleLevel = 15;
 const symbolLabelLayerId = 'symbol-ref';
@@ -19,6 +19,10 @@ const lineBgLabelLayerId_sd = 'line-sd-bg-ref';
 
 // const jqLabelLayerId = 'jq-ref';
 const threeLabelLayerId = '3d-ref';
+
+// 3d 普通建筑颜色和透明度
+const gresplOpacity = 0.7;
+const gresplColor = 'rgb(225, 225, 224)';
 
 const style = {
   visibleLevel: visibleLevel,
@@ -713,7 +717,14 @@ const style = {
       type: 'fill-extrusion',
       filter: ['!=', 'CLASID', '310200'],
       paint: {
-        'fill-extrusion-color': '#dadada',
+        // ['get', ['get', 'ID'], ['literal', FontColor]]
+        // 'fill-extrusion-color': '#dadada',
+
+        'fill-extrusion-color': [
+          'coalesce',
+          ['get', ['to-string', ['get', 'ID']], ['literal', BuildingColor]],
+          gresplColor
+        ],
         'fill-extrusion-height': [
           'interpolate',
           ['linear'],
@@ -724,7 +735,7 @@ const style = {
           ['*', ['+', ['get', 'H'], 1], 3]
         ],
         'fill-extrusion-base': 0,
-        'fill-extrusion-opacity': 0.7
+        'fill-extrusion-opacity': gresplOpacity
       },
       labelLayerId: threeLabelLayerId
     },
@@ -735,7 +746,11 @@ const style = {
       type: 'fill-extrusion',
       filter: ['!=', 'CLASID', '310200'],
       paint: {
-        'fill-extrusion-color': '#dadada',
+        'fill-extrusion-color': [
+          'coalesce',
+          ['get', ['to-string', ['get', 'ID']], ['literal', BuildingColor]],
+          gresplColor
+        ],
         'fill-extrusion-height': [
           'interpolate',
           ['linear'],
@@ -746,7 +761,7 @@ const style = {
           ['*', ['+', ['get', 'H'], 1], 3]
         ],
         'fill-extrusion-base': 0,
-        'fill-extrusion-opacity': 0.7
+        'fill-extrusion-opacity': gresplOpacity
       },
       labelLayerId: threeLabelLayerId
     },
@@ -757,7 +772,11 @@ const style = {
       type: 'fill-extrusion',
       filter: ['!=', 'CLASID', '310200'],
       paint: {
-        'fill-extrusion-color': '#dadada',
+        'fill-extrusion-color': [
+          'coalesce',
+          ['get', ['to-string', ['get', 'ID']], ['literal', BuildingColor]],
+          gresplColor
+        ],
         'fill-extrusion-height': [
           'interpolate',
           ['linear'],
@@ -768,7 +787,7 @@ const style = {
           ['*', ['+', ['get', 'H'], 1], 3]
         ],
         'fill-extrusion-base': 0,
-        'fill-extrusion-opacity': 0.7
+        'fill-extrusion-opacity': gresplOpacity
       },
       labelLayerId: threeLabelLayerId
     }
