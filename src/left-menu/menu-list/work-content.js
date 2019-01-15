@@ -5,11 +5,12 @@ import MenuItem from './menu-item';
 import { FetchWorkContent } from './webapi';
 import { IsArray } from 'tuyun-utils';
 import DailyWork from '../list-option/daily-work';
+import { point as TurfPoint } from 'turf';
 
 export default class WorkContent extends Component {
   state = {
     curMenu: -1,
-    datanum: {},
+    datanumMap: {},
     selectedTasks: [],
     animate: 'hidden'
   };
@@ -18,7 +19,7 @@ export default class WorkContent extends Component {
   }
 
   render() {
-    const { curMenu, datanum, selectedTasks, animate } = this.state;
+    const { curMenu, datanumMap, selectedTasks, animate } = this.state;
     const _selected = curMenu === MenuItem.workContent;
     const _arrow = _selected ? 'arrow-down' : 'arrow-right';
     return (
@@ -32,7 +33,7 @@ export default class WorkContent extends Component {
         </div>
 
         <ul className={`work-container ${animate}`}>
-          <li className={`work-item`} onClick={e => this._selectAll(e)}>
+          <li className="work-item" onClick={e => this._selectAll(e)}>
             全部显示
           </li>
           {options.map((item, index) => {
@@ -51,7 +52,7 @@ export default class WorkContent extends Component {
                   style={{ backgroundColor: item.color }}
                 />
                 {item.name}
-                {`(${datanum[item.datasum] || 0})`}
+                {`(${datanumMap[item.datasum] || 0})`}
               </li>
             );
           })}
@@ -76,17 +77,28 @@ export default class WorkContent extends Component {
         _animate = 'hidden';
       }
       this.setState({ curMenu: nextMenu, animate: _animate });
-
+      // 清空所有图层
       if (_MAP_.getSource('dailySource')) {
         for (let item of options) {
           _MAP_.removeLayer(item.value);
         }
         _MAP_.removeSource('dailySource');
       }
+      if (nextMenu !== MenuItem.workContent) {
+        // 未选中工作内容
+        Event.emit('closeModal'); // 关闭弹框
+        this._reset(); // 重置
+        _MAP_.off('zoomend', this._fetchWorkContent); // 删除 zoomend 事件
+        _MAP_.off('mouseup', this._fetchWorkContent); // 删除 mouseup 事件
+      } else {
+        // 选中工作内容
+        _MAP_.on('zoomend', this._fetchWorkContent); // 添加 zoomend 事件
+        _MAP_.on('mouseup', this._fetchWorkContent); // 添加 mouseup 事件
+      }
     });
+    // 点击图标事件
     options.map(item => {
       _MAP_.on('click', item.value, e => {
-        console.log(e);
         const { originalEvent, features } = e;
         Event.emit('showModal', {
           left: originalEvent.offsetX,
@@ -97,22 +109,27 @@ export default class WorkContent extends Component {
     });
   };
 
+  _reset = () => {
+    this.setState({
+      datanumMap: {},
+      selectedTasks: []
+    }); // 重置 state
+  };
+
   // 点击发射切换菜单事件
   _selectMenu = async () => {
     const { curMenu } = this.state;
-    Event.emit(
-      'change:curMenu',
-      curMenu === MenuItem.workContent ? -1 : MenuItem.workContent
-    );
-
+    const _nextMenu =
+      curMenu === MenuItem.workContent ? -1 : MenuItem.workContent;
+    Event.emit('change:curMenu', _nextMenu);
+    if (_nextMenu !== MenuItem.workContent) return; // 如果当前点击的不是工作内容，不需要发送请求
     // 点击工作内容向后台请求各个工作的数据量
     const _bounds = _MAP_.getBounds();
     const { res, err } = await FetchWorkContent({
       points: _bounds
     });
-
-    if (err) return;
-    this.setState({ datanum: res });
+    if (err) return; // 保护
+    this.setState({ datanumMap: res });
   };
 
   // 地图上"全部显示"工作内容
@@ -142,31 +159,24 @@ export default class WorkContent extends Component {
   // 后台请求列表对应的数组点
   _fetchWorkContent = async () => {
     const { selectedTasks } = this.state;
+    if (selectedTasks.length === 0) return; // 如果未选中任何代办任务，就不需要发请求
     const _bounds = _MAP_.getBounds();
     const { res, err } = await FetchWorkContent({
       points: _bounds,
       type: selectedTasks.map(item => item.value)
     });
-
-    // 保护
-
-    if (err) return;
-    const _features = [];
+    if (err || !res) return; // 错误保护，没有返回结果也保护
+    let _features = [];
     for (let task of selectedTasks) {
-      if (!IsArray(res[task.value]))
-        return console.log(`${task.value} 不是数组`);
-      res[task.value].map(coord => {
-        _features.push({
-          type: 'Feature',
-          geometry: {
-            type: 'Point',
-            coordinates: [coord.lon, coord.lat]
-          },
-          properties: {
-            value: task.value
-          }
+      const _taskItems = res[task.value];
+      if (!IsArray(_taskItems)) return console.log(`${task.value} 不是数组`); // 保护
+      _taskItems.map(coord => {
+        const _feature = TurfPoint([coord.lon, coord.lat], {
+          value: task.value,
+          color: task.color
         });
-      });
+        _features.push(_feature);
+      }); // 生成点的 features
     }
     const _geoJSONData = {
       type: 'geojson',

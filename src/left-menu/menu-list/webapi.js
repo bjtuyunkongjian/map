@@ -29,7 +29,6 @@ export const FetchCamera = async body => {
 // 民警工作日常
 export const FetchWorkContent = async body => {
   Object.assign(body, { test: 'policeDaily' });
-  console.log(JSON.stringify(body));
   const { res, err } = await FetchRequest({
     url: 'mapServer/string',
     method: 'POST',

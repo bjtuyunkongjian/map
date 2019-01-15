@@ -62,6 +62,9 @@ export default class DailyWork extends Component {
         taskName: value
       });
     });
+    Event.on('closeModal', () => {
+      this.setState({ visible: false });
+    });
   };
   _closeToast = () => {
     this.setState({
@@ -77,8 +80,8 @@ const columns = [
     itemtext: [
       '地址:济南市趵突泉派出所',
       '事件:待办任务清单',
-      '执行人员；张三',
-      '待办事项:对一般违法人员的帮教工作'
+      '执行人员: 张三',
+      '待办事项: 对一般违法人员的帮教工作'
     ]
   },
   {
