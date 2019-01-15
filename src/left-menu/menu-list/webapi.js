@@ -112,3 +112,13 @@ export const DivideRoute = async body => {
   });
   return { res, err };
 };
+
+export const FetchGPSPolice = async body => {
+  Object.assign(body, { test: 'GPSLocation' });
+  const { res, err } = await FetchRequest({
+    url: 'GPSServer/string',
+    method: 'POST',
+    body: body
+  });
+  return { res, err };
+};

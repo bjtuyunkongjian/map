@@ -22,7 +22,7 @@ const threeLabelLayerId = '3d-ref';
 
 // 3d 普通建筑颜色和透明度
 const gresplOpacity = 0.7;
-const gresplColor = 'rgb(225, 225, 224)';
+const gresplColor = 'rgb(255, 255, 255)';
 
 const style = {
   visibleLevel: visibleLevel,
@@ -713,7 +713,7 @@ const style = {
     {
       id: 'GRESPL_1_3D',
       source: LevelConfig.addLv15,
-      'source-layer': 'GRESPL_Merge_ID1',
+      'source-layer': 'GRESPL_Merge-1',
       type: 'fill-extrusion',
       filter: ['!=', 'CLASID', '310200'],
       paint: {

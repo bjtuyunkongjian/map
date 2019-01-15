@@ -28,6 +28,7 @@
     .input-box {
       flex: 1;
       border-bottom: 1px solid @border-color-base;
+      padding-left: 2px;
       .input {
         color: white;
       }
@@ -90,6 +91,14 @@
       border-radius: 3px;
       &:hover {
         opacity: 0.8;
+      }
+    }
+    .disabled {
+      color: @t-disabled;
+      cursor: not-allowed;
+      background-color: @bg-disabled;
+      &:hover {
+        opacity: 1;
       }
     }
   }

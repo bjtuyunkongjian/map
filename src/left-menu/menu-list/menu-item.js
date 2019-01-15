@@ -3,7 +3,7 @@ export default {
   dataOption: 'data-option',
   caseOption: 'case-option',
   callPoliceOption: 'callPolice-option',
-  policeOption: 'police-option',
   cameraOption: 'camera-option',
-  securityRoute: 'car-option'
+  securityRoute: 'car-option',
+  policeForce: 'police-force'
 };

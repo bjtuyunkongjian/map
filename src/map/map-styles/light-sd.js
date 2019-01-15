@@ -14,13 +14,13 @@
  */
 
 import { LevelConfig, BaseConfig } from 'tuyun-config';
-const areaColor = {
-  370112: '#412f1f',
-  370102: '#f05b72',
-  370104: '#f47920',
-  370103: '#74905d',
-  370105: '#6a6da9'
-};
+// const areaColor = {
+//   370112: '#412f1f',
+//   370102: '#f05b72',
+//   370104: '#f47920',
+//   370103: '#74905d',
+//   370105: '#6a6da9'
+// };
 
 const ditchVisibleLevel = 14; // 沟和渠道显示等级
 const maxzoom = 12;
