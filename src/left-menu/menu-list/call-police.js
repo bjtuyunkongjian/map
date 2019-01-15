@@ -29,19 +29,18 @@ export default class CallPolice extends Component {
       const { curMenu } = this.state;
       if (nextMenu === curMenu) return;
       this.setState({ curMenu: nextMenu });
-      if (_MAP_.getLayer('callpoliceLayer')) {
-        _MAP_.removeLayer('callpoliceLayer');
-        _MAP_.removeSource('callpoliceLayer');
-      }
+      nextMenu !== MenuItem.callPoliceOption &&
+        _MAP_.getLayer('callpoliceLayer') &&
+        _MAP_.removeLayer('callpoliceLayer').removeSource('callpoliceLayer'); // 删除当前图层
     });
   };
 
   _showPhone = () => {
     const { curMenu } = this.state;
-    Event.emit(
-      'change:curMenu',
-      curMenu === MenuItem.callPoliceOption ? -1 : MenuItem.callPoliceOption
-    );
+    const _nextMenu =
+      curMenu === MenuItem.callPoliceOption ? -1 : MenuItem.callPoliceOption;
+    Event.emit('change:curMenu', _nextMenu);
+    if (_nextMenu !== MenuItem.callPoliceOption) return;
     this._fetchCallPolice();
   };
 
