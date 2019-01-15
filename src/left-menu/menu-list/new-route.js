@@ -166,7 +166,7 @@ export default class NewRoute extends Component {
       features: this._toSelectFeatures,
       iconImage: 'security_route_start'
     }); // 绘制待选择的点
-    this.setState({ enableEnd: true, enableCancel: false, enableSave: false }); // 可以设置终点，禁止取消和缓存
+    // this.setState({ enableEnd: true, enableCancel: false, enableSave: false }); // 可以设置终点，禁止取消和缓存
   };
 
   // 选择下一个点
