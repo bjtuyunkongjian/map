@@ -29,20 +29,17 @@ export default class LeftMenu extends Component {
           <CommonFacility />
           <ImportantPalce />
         </div>
-        <button
-          className="control"
-          onClick={() =>
-            this.setState({
-              animate:
-                animate === 'menu-slide-out'
-                  ? 'menu-slide-in'
-                  : 'menu-slide-out'
-            })
-          }
-        >
+        <button className="control" onClick={this._toggleLeftMenu}>
           <span className={`aspect-left ${_slide}`} />
         </button>
       </div>
     );
   }
+
+  _toggleLeftMenu = () => {
+    const { animate } = this.state;
+    this.setState({
+      animate: animate === 'menu-slide-out' ? 'menu-slide-in' : 'menu-slide-out'
+    });
+  };
 }
