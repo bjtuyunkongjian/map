@@ -84,7 +84,8 @@ export default class Camera extends Component {
         layout: {
           'icon-image': 'camera',
           'icon-size': 1
-        }
+        },
+        minzoom: 16
       });
     }
     // _MAP_.on('mousemove', 'cameraLayer', e => {
