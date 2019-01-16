@@ -270,6 +270,7 @@ export default class NewRoute extends Component {
     if (!enableEnd || this._isLoading) return; // 正在加载
     this._isLoading = true; // 正在加载
     const _prev = this._roadNode[this._roadNode.length - 1]; // 最后一个点
+    const _suff = this._roadNode[this._roadNode.length - 2]; // 倒数第二个点
     const _param = { coord: _prev, ids: _roodIds, order: 'forLast' }; // 参数
     this.setState({ enableEnd: false, enableCancel: false, enableSave: false }); //
     const { x, y } = _suff.coordinates[0];
