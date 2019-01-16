@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import TabBar from './tab-bar';
 import PopulationTab from './population-tab';
-import TotalPopulation from './total-population';
+import CaseTab from './case-tab';
+import AlarmTab from './alarm-tab';
 
 export default class LinkageDisplay extends Component {
   render() {
@@ -9,7 +10,8 @@ export default class LinkageDisplay extends Component {
       <div className="linkage-display">
         <TabBar />
         <PopulationTab />
-        <TotalPopulation />
+        <CaseTab />
+        <AlarmTab />
       </div>
     );
   }

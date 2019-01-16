@@ -32,11 +32,11 @@ export default class TabBar extends Component {
   }
 
   _init = () => {
-    // Event.on('change:curBar', nextBar => {
-    //   const { curBar } = this.state;
-    //   if (nextBar === curBar) return;
-    //   // this.setState({ curBar: nextBar });
-    // });
+    Event.on('change:curBar', nextBar => {
+      const { curBar } = this.state;
+      if (nextBar === curBar) return;
+      this.setState({ curBar: nextBar });
+    });
   };
 
   _changeTab = curBar => {

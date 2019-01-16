@@ -11,24 +11,19 @@ export default class PopulationTab extends Component {
   };
 
   componentDidMount = () => this._init();
-  componentWillUnmount = () => {
-    console.log('PopulationTab unmount');
-  };
 
   render() {
     const { curBar } = this.state;
-
-    if (curBar !== 'population') return <div />;
+    if (curBar !== 'population') return null;
     return (
-      <div className="linkage-display">
-        <TabBar />
+      <div className="population-tab">
         <TotalPopulation />
         <AgeDistribution />
       </div>
     );
   }
 
-  _init = async () => {
+  _init = () => {
     // const _bounds = _MAP_.getBounds();
     // const { res, err } = await FetchChartData({
     //   points: _bounds,
@@ -36,11 +31,17 @@ export default class PopulationTab extends Component {
     // });
     // console.log('res, err', JSON.stringify(res), err);
     Event.on('change:curBar', nextBar => {
-      console.log('event', Event);
       const { curBar } = this.state;
       if (nextBar === curBar) return;
       this.setState({ curBar: nextBar });
+      if (nextBar === 'population') {
+      }
     });
+  };
+
+  _fetchPopulation = async () => {
+    const _bounds = _MAP_.getBounds();
+    const { res, err } = FetchChartData({ points: _bounds });
   };
 }
 
