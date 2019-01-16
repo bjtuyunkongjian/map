@@ -113,8 +113,8 @@ export const DivideRoute = async body => {
   return { res, err };
 };
 
-export const FetchGPSPolice = async body => {
-  Object.assign(body, { test: 'GPSLocation' });
+export const FetchLocationCar = async body => {
+  Object.assign(body, { test: 'locationCar' });
   const { res, err } = await FetchRequest({
     url: 'GPSServer/string',
     method: 'POST',
