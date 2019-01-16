@@ -84,6 +84,13 @@ export default class PoliceCase extends Component {
         }
         _MAP_.removeSource('caseSource');
       }
+      if (nextMenu === MenuItem.caseOption) {
+        _MAP_.on('mouseup', this._eventListener);
+        _MAP_.on('zoomend', this._eventListener);
+      } else {
+        _MAP_.off('mouseup', this._eventListener);
+        _MAP_.off('zoomend', this._eventListener);
+      }
     });
     options.map(item => {
       _MAP_.on('click', item.value, e => {
@@ -97,6 +104,11 @@ export default class PoliceCase extends Component {
     });
   };
 
+  _eventListener = () => {
+    this._fetchCaseNum();
+    this._fetchCase();
+  };
+
   // 触发切换菜单
   _selectMenu = async () => {
     const { curMenu } = this.state;
@@ -104,13 +116,15 @@ export default class PoliceCase extends Component {
       'change:curMenu',
       curMenu === MenuItem.caseOption ? -1 : MenuItem.caseOption
     );
+    this._fetchCaseNum();
+  };
 
+  _fetchCaseNum = async () => {
     const _bounds = _MAP_.getBounds();
     const { res, err } = await FetchCase({
       points: _bounds
     });
-    console.log('res', res);
-    if (err) return;
+    if (err || !res) return;
     this.setState({ casenum: res });
   };
 
