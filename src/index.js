@@ -14,7 +14,7 @@ import BottomNav from './bottom-nav';
 import FeaturesMenu from './features-menu';
 // import Restore from './restore';
 import LeftMenu from './left-menu';
-// import LinkageDisplay from './linkage-display'; // 联动显示
+import LinkageDisplay from './linkage-display'; // 联动显示
 // import ElementLibrary from './element-library'; // 图标库
 
 class MapApp extends Component {
@@ -33,7 +33,7 @@ class MapApp extends Component {
         {/*<TopNav />*/}
         {/* <Restore /> */}
         <LeftMenu />
-        {/* <LinkageDisplay /> */}
+        <LinkageDisplay />
         {/* <ElementLibrary /> */}
         <BottomNav />
         <FeaturesMenu />

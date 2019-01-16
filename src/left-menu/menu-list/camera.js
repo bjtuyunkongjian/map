@@ -36,14 +36,21 @@ export default class Camera extends Component {
     const { curMenu } = this.state;
     const _nextMenu =
       curMenu === MenuItem.cameraOption ? -1 : MenuItem.cameraOption; // 下一个状态
-    _nextMenu !== -1 && Event.emit('change:curMenu', _nextMenu); // 发射事件
+    Event.emit('change:curMenu', _nextMenu); // 发射事件
     if (_nextMenu === curMenu) return;
-    this.setState({ curMenu: nextMenu });
-    if (_MAP_.getLayer('cameraLayer')) {
-      _MAP_.removeLayer('cameraLayer');
-      _MAP_.removeSource('cameraLayer');
+    this.setState({ curMenu: _nextMenu });
+    _MAP_.getLayer('cameraLayer') &&
+      _MAP_.removeLayer('cameraLayer').removeSource('cameraLayer');
+    if (_nextMenu === MenuItem.cameraOption) {
+      this._fetchCamera();
+      // 添加监听事件
+      _MAP_.on('mouseup', this._fetchCamera);
+      _MAP_.on('zoomend', this._fetchCamera);
+    } else {
+      // 删除监听事件
+      _MAP_.off('mouseup', this._fetchCamera);
+      _MAP_.off('zoomend', this._fetchCamera);
     }
-    this._fetchCamera();
   };
 
   _fetchCamera = async () => {
@@ -51,21 +58,13 @@ export default class Camera extends Component {
     const { res, err } = await FetchCamera({
       points: _bounds
     });
-    console.log('res', res);
     if (err || !IsArray(res)) return;
     const _features = res.map(item => {
-      if (item.ID === '37019435001310051006') {
-        console.log(item);
-        console.log(res.indexOf(item));
-      }
       return {
         type: 'Feature',
         geometry: {
           type: 'Point',
-          coordinates: [item.Lat, item.Lng]
-        },
-        properties: {
-          ID: item.ID
+          coordinates: item
         }
       };
     });
