@@ -33,6 +33,10 @@ export default class HeatMap extends Component {
     _MAP_.on('click', heatMapLayerId, e => console.log(e.features));
     GlobalEvent.on('change:FeaturesMenu:enableHeatDensity', enable => {
       this.setState({ enableHeatMap: enable });
+      if (!enable) {
+        _MAP_.getLayer(heatMapLayerId) &&
+          _MAP_.removeLayer(heatMapLayerId).removeSource(heatMapSourceId);
+      }
     });
     // 事件
     Event.on('change:curMenu', curMenu => {
@@ -55,8 +59,12 @@ export default class HeatMap extends Component {
             'source-layer': 'FQ_JYGLFQ_PCS_PG1',
             type: 'fill',
             paint: {
-              'fill-opacity': 0.4,
-              'fill-color': '#ccc',
+              'fill-opacity': 0.7,
+              'fill-color': [
+                'coalesce',
+                ['get', ['to-string', ['get', 'flow']], ['literal', areaColor]],
+                '#ccc'
+              ],
               'fill-antialias': false
             }
           });
@@ -79,3 +87,16 @@ export default class HeatMap extends Component {
 
 const heatMapSourceId = 'HEAT_MAP_SOURCE_ID';
 const heatMapLayerId = 'HEAT_MAP_LAYER_ID';
+
+const areaColor = {
+  0: '#006000',
+  1: '#00DB00',
+  2: '#02DF82',
+  3: '#006030',
+  4: '#003E3E',
+  5: '#00E3E3',
+  6: '#0080FF',
+  7: '#000079',
+  8: '#000079',
+  9: '#4A4AFF'
+};

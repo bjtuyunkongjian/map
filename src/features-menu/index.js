@@ -41,11 +41,11 @@ export default class FeaturesMenu extends Component {
   }
 
   _init = () => {
-    _MAP_.on('mouseup', () => {
-      // 添加点击事件
-      Event.emit('change:curMenu', -1);
-      GlobalEvent.emit('change:FeaturesMenu:visible', false);
-    });
+    // _MAP_.on('mouseup', () => {
+    //   // 添加点击事件
+    //   Event.emit('change:curMenu', -1);
+    //   GlobalEvent.emit('change:FeaturesMenu:visible', false);
+    // });
     GlobalEvent.on('change:FeaturesMenu:visible', nextVisible => {
       if (nextVisible !== undefined) {
         this.setState({ visible: nextVisible });
