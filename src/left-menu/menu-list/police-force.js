@@ -11,7 +11,6 @@ import {
   along as TurfAlong // 'kilometers
 } from 'turf';
 import { IsEmpty, IsArray } from 'tuyun-utils';
-import { DrawIconPoint } from './security-route-layer';
 import { BaseConfig } from 'tuyun-config';
 import { AddLevel } from 'tuyun-utils';
 
@@ -71,17 +70,18 @@ export default class WorkContent extends Component {
   }
 
   _resetInterval = () => {
-    this._intervalMod = 0;
+    this._intervalMod = 0; // 重置
     this._enableMove = false; // 禁止警车移动
-    clearInterval(this._clockIntervalHandler); // 每次点击，关闭时清除定时器
+    clearInterval(this._clockIntervalHandler); // 清除定时器
   }; // 重置定时器
 
   _selectMenu = async () => {
     const { curMenu } = this.state;
     const _nextMenu =
-      curMenu === MenuItem.policeForce ? -1 : MenuItem.policeForce;
-    _nextMenu !== -1 && Event.emit('change:curMenu', _nextMenu); // 下一个状态
+      curMenu === MenuItem.policeForce ? -1 : MenuItem.policeForce; // 下一个状态
+    _nextMenu !== -1 && Event.emit('change:curMenu', _nextMenu); // 发射下一个状态
     if (curMenu === _nextMenu) return; // 重复点击不做任何操作
+    // 菜单栏展开动画
     let _animate;
     if (_nextMenu === MenuItem.policeForce) {
       _animate = 'menu-down';
@@ -90,33 +90,33 @@ export default class WorkContent extends Component {
     } else {
       _animate = 'hidden';
     }
-    this._resetInterval(); // 重置定时器
     await this.setState({ curMenu: _nextMenu, animate: _animate }); // 动画
-    if (_nextMenu === -1) {
-      this._removePolicecarLayer(); // 删除图层
-      this._removeHandheldLayer(); //
-    }
+    // 警力动画，重置定时器并删除所有图层
+    this._resetInterval(); // 重置定时器
+    this._removePolicecarLayer(); // 删除警车图层
+    this._removeHandheldLayer(); // 删除手持设备图层
   };
 
-  // 复选框选中多个列表，重置定时器
+  // 复选框选中多个列表
   _selectPolice = async (item, e) => {
     e.stopPropagation();
     const { selectedTasks } = this.state;
     const _taskInd = selectedTasks.indexOf(item);
     const _isSelected = _taskInd > -1; // 点击之前是否已选中
     _isSelected ? selectedTasks.splice(_taskInd, 1) : selectedTasks.push(item); // 点击之前已选中，取消选中；点击之前未选中，选中
-    await this.setState({ selectedTasks });
+    await this.setState({ selectedTasks }); // 设置state
     this._intervalSearch(); // 定时请求
   };
 
   _intervalSearch = () => {
     const { selectedTasks } = this.state;
+    // 如果未选中任何选项
     if (selectedTasks.length === 0) {
       this._removePolicecarLayer();
       this._removeHandheldLayer(); // 删除图层
-      return; // 如果选中长度为0，返回
+      return;
     }
-    this._resetInterval(); // 重置定时器
+    this._resetInterval(); // 清空定时器
     this._fetchData(); // 向后台请求数据
     this._clockIntervalHandler = setInterval(
       this._intervalFunc,
@@ -155,20 +155,14 @@ export default class WorkContent extends Component {
 
   _fetchData = () => {
     const { selectedTasks } = this.state;
+    console.log('aaaaaaa', selectedTasks);
     for (let item of options) {
-      if (selectedTasks.indexOf(item) <= -1) {
-        this._removePolicecarLayer();
-        continue;
-      } // 删除对应图层
+      const _selected = selectedTasks.indexOf(item) > -1;
       if (item.value === 'policeman') {
-        selectedTasks.indexOf(item) > -1
-          ? this._addHandheldLayer()
-          : this._removeHandheldLayer();
+        _selected ? this._addHandheldLayer() : this._removeHandheldLayer();
       }
       if (item.value === 'policecar') {
-        selectedTasks.indexOf(item) > -1
-          ? this._fetchPoliceCar()
-          : this._removePolicecarLayer();
+        _selected ? this._fetchPoliceCar() : this._removePolicecarLayer();
       }
     }
   };
@@ -198,10 +192,11 @@ export default class WorkContent extends Component {
         _trajectory = roadPoints;
       }
       if (flag === '2') {
-        const _lineFeatures = LineString(_trajectory, { objectID }); // 生成 features
+        let _objIdArr = IsArray(objectID) ? objectID : [objectID];
+        const _lineFeatures = LineString(_trajectory, { objectID: _objIdArr }); // 生成 features
         const _lineLen = LineDistance(_lineFeatures, units); // 道路长度，单位：千米
         const _speed = _lineLen / (policeCarInterval - _timeout); // 汽车行驶速度，单位：千米 / 毫秒
-        this._nextPoliceCar[objectID] = {
+        this._nextPoliceCar[_objIdArr[0]] = {
           count: 0, // 该字段记录 警车 在该道路上行驶到哪个点
           speed: _speed, // 该字段记录小车
           lineLen: _lineLen, // 道路总长度
@@ -222,28 +217,33 @@ export default class WorkContent extends Component {
     const _features = Object.keys(this._curPoliceCar).map(key => {
       const _policeCarInfo = this._curPoliceCar[key];
       const { count, features, speed, lineLen } = _policeCarInfo;
-      let _feature;
       const _moveDistance = count * carRerenderInterval * speed; // count * carRerenderInterval 是行驶时间，单位毫秒
-      if (_moveDistance >= lineLen) {
-        _feature = TurfAlong(features, _moveDistance, units);
-      } else {
-        _feature = TurfAlong(features, lineLen, units); // 如果行驶距离大于当前距离，暂停在那
-      }
+      console.log(
+        '_moveDistance',
+        _moveDistance / speed,
+        lineLen / speed,
+        lineLen * 1000
+      );
+      const _feature = TurfAlong(features, _moveDistance, units); // 生成 feature
       _policeCarInfo.count++;
       return _feature;
     });
-    DrawIconPoint(_MAP_, {
-      id: policecarLayerId,
-      features: _features,
-      iconImage: 'security-car'
-    }); // 绘制待点击的点
+    console.log('%c ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~', 'color: blue');
+    this._drawIconPoint(_features); // 绘制待点击的点
   };
 
   _addHandheldLayer = () => {
-    AddLevel(_MAP_, handheldStyle);
+    this._addSourceFunc();
+    _MAP_.flyTo({ zoom: visibleLevel });
+    _MAP_.on('zoomend', this._addSourceFunc);
+  };
+
+  _addSourceFunc = () => {
+    AddLevel(_MAP_, handheldStyle); // 添加图层
   };
 
   _removeHandheldLayer = () => {
+    _MAP_.off('zoomend', this._addSourceFunc);
     _MAP_.getLayer(handheldLayerId) &&
       _MAP_.removeLayer(handheldLayerId).removeSource(handheldSource);
   };
@@ -251,6 +251,34 @@ export default class WorkContent extends Component {
   _removePolicecarLayer = () => {
     _MAP_.getLayer(policecarLayerId) &&
       _MAP_.removeLayer(policecarLayerId).removeSource(policecarLayerId); // 删除所有 layer 和 source
+  };
+
+  _drawIconPoint = features => {
+    if (!_MAP_.getSource(policecarLayerId)) {
+      _MAP_.addLayer({
+        id: policecarLayerId,
+        type: 'circle',
+        source: {
+          type: 'geojson',
+          data: {
+            type: 'FeatureCollection',
+            features: features
+          }
+        },
+        paint: {
+          'circle-radius': {
+            base: 8,
+            stops: [[10, 8], [20, 20]]
+          },
+          'circle-color': '#0f0'
+        }
+      });
+    } else {
+      _MAP_.getSource(policecarLayerId).setData({
+        type: 'FeatureCollection',
+        features: features
+      });
+    }
   };
 }
 
@@ -274,7 +302,7 @@ const options = [
 
 const policeCarInterval = 10 * 1000; // 警车请求间隔，单位：毫秒
 const carDelayInterval = 5 * 1000; // 警车延时时间，单位：毫秒
-const carRerenderInterval = 1000; // 警车移动时间间隔，单位：毫秒 ==========> 一定要可以被 1000 整除！！！！！
+const carRerenderInterval = 20; // 警车移动时间间隔，单位：毫秒 ==========> 一定要可以被 1000 整除！！！！！
 const handheldIntereval = 30 * 1000; // 手持设备请求时间间隔，单位：毫秒
 
 const policeCarRatio = policeCarInterval / carRerenderInterval; // 请求警车数据时间间隔 与 小车动一次时间间隔 的比例
@@ -285,8 +313,9 @@ const units = 'kilometers';
 
 const symbolLabelLayerId = 'symbol-ref';
 // 手持设备样式配置
+const visibleLevel = 14;
 const handheldStyle = {
-  visibleLevel: 10,
+  visibleLevel: visibleLevel,
   source: {
     [handheldSource]: {
       type: 'vector',
@@ -303,7 +332,7 @@ const handheldStyle = {
       id: handheldLayerId,
       type: 'symbol',
       source: handheldSource,
-      'source-layer': 'locationHandHeld',
+      'source-layer': 'handHeld',
       layout: {
         'icon-image': 'landmark',
         'icon-size': 1.5
