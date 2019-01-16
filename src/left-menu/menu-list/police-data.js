@@ -66,13 +66,12 @@ export default class PoliceData extends Component {
       }
       this.setState({ curMenu: nextMenu, animate: _animate });
       this._removeSourceLayer(layerId); // 删除图层
+      // 禁止显示动态热力图等
       if (nextMenu === MenuItem.dataOption) {
-        GlobalEvent.emit('change:FeaturesMenu:enableHeatDensity', true);
-        this._addEventListener();
-      } else {
-        GlobalEvent.emit('change:FeaturesMenu:enableHeatDensity', false);
-        this._removeEventListener();
+        this.setState({ selectedOpt: -1 });
       }
+      GlobalEvent.emit('change:FeaturesMenu:enableHeatDensity', false);
+      this._removeEventListener();
     });
     // 点击地图图标弹出信息框
     _MAP_.on('click', layerId, e => {
@@ -130,6 +129,13 @@ export default class PoliceData extends Component {
     // 动画
     const _duration = 500;
     this._removeEventListener(); // 删除监听
+    if (option.value === 'population') {
+      GlobalEvent.emit('change:FeaturesMenu:enableHeatDensity', true);
+      this._addEventListener();
+    } else {
+      GlobalEvent.emit('change:FeaturesMenu:enableHeatDensity', false);
+      this._removeEventListener();
+    }
     _MAP_.flyTo({
       zoom: option.defaultZoom,
       duration: _duration
@@ -153,7 +159,6 @@ export default class PoliceData extends Component {
     const _landMarkZoom = options.filter(item => item.value === 'house')[0]
       .defaultZoom;
     const _iconImage = _zoom < _landMarkZoom ? 'people' : 'landmark';
-
     const _features = res.map(coords => TurfPoint(coords));
     const _geoJSONData = {
       type: 'geojson',
