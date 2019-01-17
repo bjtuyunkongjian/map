@@ -39,14 +39,8 @@ export default class Camera extends Component {
     _nextMenu !== -1 && Event.emit('change:curMenu', _nextMenu); // 发射事件
     if (_nextMenu === curMenu) return;
     this.setState({ curMenu: _nextMenu });
-    var visibility = _MAP_.getLayoutProperty(
-      'POI_LEVEL_16_CAMERA',
-      'visibility'
-    );
-    if (visibility === 'visible') {
-      _MAP_.setLayoutProperty('POI_LEVEL_16_CAMERA', 'visibility', 'none');
-    } else {
-      _MAP_.setLayoutProperty('POI_LEVEL_16_CAMERA', 'visibility', 'visible');
-    }
+    if (!_MAP_ || !_MAP_.getLayer('POI_LEVEL_16_CAMERA')) return;
+    const visibility = _nextMenu === MenuItem.cameraOption ? 'visible' : 'none';
+    _MAP_.setLayoutProperty('POI_LEVEL_16_CAMERA', 'visibility', visibility);
   };
 }

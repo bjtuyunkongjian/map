@@ -329,7 +329,7 @@ const style = {
         'text-halo-width': 2,
         'text-halo-color': 'rgba(255, 255, 255, 1)'
       },
-      labelLayerId: lineNameLabelLayerId
+      labelLayerId: symbolLabelLayerId
     },
     {
       id: 'SD_GAGNPT', // 此图层记录了村庄POI
@@ -356,7 +356,7 @@ const style = {
         'text-halo-width': 2,
         'text-halo-color': 'rgba(255, 255, 255, 1)'
       },
-      labelLayerId: lineNameLabelLayerId
+      labelLayerId: symbolLabelLayerId
     },
     //////////////////////////////////
     // poi
