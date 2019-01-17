@@ -103,11 +103,15 @@ export default class WorkContent extends Component {
   _selectPolice = async (item, e) => {
     e.stopPropagation();
     const { selectedTasks } = this.state;
+
     const _taskInd = selectedTasks.indexOf(item);
     const _isSelected = _taskInd > -1; // 点击之前是否已选中
     _isSelected ? selectedTasks.splice(_taskInd, 1) : selectedTasks.push(item); // 点击之前已选中，取消选中；点击之前未选中，选中
     await this.setState({ selectedTasks }); // 设置state
     this._intervalSearch(); // 定时请求
+    if (item.value === 'policeman' && !_isSelected) {
+      _MAP_.flyTo({ zoom: visibleLevel });
+    }
   };
 
   _intervalSearch = () => {
@@ -239,7 +243,7 @@ export default class WorkContent extends Component {
 
   _addHandheldLayer = () => {
     this._addSourceFunc();
-    _MAP_.flyTo({ zoom: visibleLevel });
+    // _MAP_.flyTo({ zoom: visibleLevel });
     _MAP_.on('zoomend', this._addSourceFunc);
   };
 
