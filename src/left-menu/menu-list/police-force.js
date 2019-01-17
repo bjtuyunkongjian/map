@@ -28,7 +28,7 @@ export default class WorkContent extends Component {
   _curPoliceCar = {}; // 警车数据，当前
   _nextPoliceCar = {}; // 警车数据，下一刻数据
   _isLoadingPoliceCar = false; // 判断请求警车数据有没有回来
-  _enableMove = false; // 小车可以开始移动
+  _enableStart = false; // 可以开始
 
   render() {
     const { curMenu, selectedTasks, animate } = this.state;
@@ -71,7 +71,9 @@ export default class WorkContent extends Component {
 
   _resetInterval = () => {
     this._intervalMod = 0; // 重置
-    this._enableMove = false; // 禁止警车移动
+    this._curPoliceCar = {}; // 警车数据，当前
+    this._nextPoliceCar = {}; // 警车数据，下一刻数据
+    this._enableStart = false; // 重置
     clearInterval(this._clockIntervalHandler); // 清除定时器
   }; // 重置定时器
 
@@ -155,24 +157,23 @@ export default class WorkContent extends Component {
 
   _fetchData = () => {
     const { selectedTasks } = this.state;
-    console.log('aaaaaaa', selectedTasks);
     for (let item of options) {
-      const _selected = selectedTasks.indexOf(item) > -1;
+      const _selected = selectedTasks.indexOf(item) > -1; // 是否选中
       if (item.value === 'policeman') {
-        _selected ? this._addHandheldLayer() : this._removeHandheldLayer();
+        _selected ? this._addHandheldLayer() : this._removeHandheldLayer(); // 选中警员
       }
       if (item.value === 'policecar') {
-        _selected ? this._fetchPoliceCar() : this._removePolicecarLayer();
+        _selected ? this._fetchPoliceCar() : this._removePolicecarLayer(); // 选中警车
       }
     }
   };
 
   _fetchPoliceCar = async () => {
-    // todo 如果当前缩放层级小于最小显示层级，返回
     const _param = {}; // 请求参数
     const _startTime = new Date().getTime(); // 开始请求的时间
     this._isLoadingPoliceCar = true; // 开始请求
     const { res, err } = await FetchLocationCar(_param); // 向后台请求数据
+    if (!res || err) return; // 保护
     const _endTime = new Date().getTime(); // 结束请求时间
     const _reqTime = _endTime - _startTime; // 请求时间
     let _timeout = 0; // 超时时间
@@ -181,6 +182,12 @@ export default class WorkContent extends Component {
     }
     console.log('%c ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~', 'color: green');
     if (err || !IsArray(res)) return; // 保护
+    let _drivenTime; // 行驶时间
+    if (!this._enableStart) {
+      _drivenTime = policeCarInterval - _reqTime;
+    } else {
+      _drivenTime = policeCarInterval - _timeout;
+    }
     this._nextPoliceCar = {}; // 下一秒车子位置
     for (let carInfo of res) {
       const { roadPoints, flag, objectID, gpsPoints } = carInfo; // 解构
@@ -191,23 +198,27 @@ export default class WorkContent extends Component {
       } else {
         _trajectory = roadPoints;
       }
-      if (flag === '2') {
-        let _objIdArr = IsArray(objectID) ? objectID : [objectID];
-        const _lineFeatures = LineString(_trajectory, { objectID: _objIdArr }); // 生成 features
-        const _lineLen = LineDistance(_lineFeatures, units); // 道路长度，单位：千米
-        const _speed = _lineLen / (policeCarInterval - _timeout); // 汽车行驶速度，单位：千米 / 毫秒
-        this._nextPoliceCar[_objIdArr[0]] = {
-          count: 0, // 该字段记录 警车 在该道路上行驶到哪个点
-          speed: _speed, // 该字段记录小车
-          lineLen: _lineLen, // 道路总长度
-          features: _lineFeatures, // 该字段记录道路的 feature
-          flag: flag // 该字段记录 flag
-        };
-      }
+      // if (flag === '2') {
+      let _objIdArr = IsArray(objectID) ? objectID : [objectID];
+      const _lineFeatures = LineString(_trajectory, { objectID: _objIdArr }); // 生成 features
+      const _lineLen = LineDistance(_lineFeatures, units); // 道路长度，单位：千米
+      const _speed = _lineLen / _drivenTime; // 汽车行驶速度，单位：千米 / 毫秒
+      this._nextPoliceCar[_objIdArr[0]] = {
+        count: 0, // 该字段记录 警车 在该道路上行驶到哪个点
+        speed: _speed, // 该字段记录小车
+        lineLen: _lineLen, // 道路总长度
+        features: _lineFeatures, // 该字段记录道路的 feature
+        flag: flag, // 该字段记录 flag
+        objectID: _objIdArr
+      };
+      // }
     }
     this._isLoadingPoliceCar = false; // 结束请求，处理结束
     // 如果请求时间大于 carDelayInterval 延时时间，重绘 =====> 保护
-    if (_reqTime > carDelayInterval) {
+    if (!this._enableStart) {
+      this._enableStart = true;
+      this._curPoliceCar = this._nextPoliceCar;
+    } else if (_reqTime > carDelayInterval) {
       this._curPoliceCar = this._nextPoliceCar;
     }
   };
@@ -218,17 +229,11 @@ export default class WorkContent extends Component {
       const _policeCarInfo = this._curPoliceCar[key];
       const { count, features, speed, lineLen } = _policeCarInfo;
       const _moveDistance = count * carRerenderInterval * speed; // count * carRerenderInterval 是行驶时间，单位毫秒
-      console.log(
-        '_moveDistance',
-        _moveDistance / speed,
-        lineLen / speed,
-        lineLen * 1000
-      );
       const _feature = TurfAlong(features, _moveDistance, units); // 生成 feature
       _policeCarInfo.count++;
       return _feature;
     });
-    console.log('%c ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~', 'color: blue');
+    console.log('_features', _features.length);
     this._drawIconPoint(_features); // 绘制待点击的点
   };
 
@@ -309,7 +314,9 @@ const policeCarRatio = policeCarInterval / carRerenderInterval; // 请求警车�
 const handheldRatio = handheldIntereval / carRerenderInterval; // 手持设备
 const carDelayRatio = carDelayInterval / carRerenderInterval; // 警车延时刷新比
 
-const units = 'kilometers';
+const carDistance = 10; // 两辆车的车距
+
+const units = 'kilometers'; // 计算单位
 
 const symbolLabelLayerId = 'symbol-ref';
 // 手持设备样式配置
@@ -324,7 +331,8 @@ const handheldStyle = {
         `${
           BaseConfig.bffHost
         }GPSServer/string?test=locationHandHeld&type=tms&zoom={z}&row={x}&column={y}`
-      ]
+      ],
+      minzoom: visibleLevel
     }
   },
   layers: [
