@@ -55,7 +55,7 @@ const style = {
       source: LevelConfig.addLv16,
       'source-layer': 'camera1',
       layout: {
-        'icon-image': 'camera',
+        'icon-image': 'ic_map_camera_{ID}',
         'icon-size': 1
       },
       labelLayerId: symbolLabelLayerId

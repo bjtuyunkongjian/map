@@ -8,7 +8,7 @@ import {
   point as TurfPoint,
   lineString as LineString,
   lineDistance as LineDistance,
-  along as TurfAlong // 'kilometers
+  along as TurfAlong
 } from 'turf';
 import { IsEmpty, IsArray } from 'tuyun-utils';
 import { BaseConfig } from 'tuyun-config';
@@ -184,7 +184,6 @@ export default class WorkContent extends Component {
     if (_reqTime > carDelayInterval) {
       _timeout = _reqTime - carDelayInterval; // 请求时间大于 carDelayInterval 延时时间
     }
-    console.log('%c ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~', 'color: green');
     if (err || !IsArray(res)) return; // 保护
     let _drivenTime; // 行驶时间
     if (!this._enableStart) {
@@ -266,7 +265,7 @@ export default class WorkContent extends Component {
     if (!_MAP_.getSource(policecarLayerId)) {
       _MAP_.addLayer({
         id: policecarLayerId,
-        type: 'circle',
+        type: 'symbol',
         source: {
           type: 'geojson',
           data: {
@@ -274,12 +273,9 @@ export default class WorkContent extends Component {
             features: features
           }
         },
-        paint: {
-          'circle-radius': {
-            base: 8,
-            stops: [[10, 8], [20, 20]]
-          },
-          'circle-color': '#0f0'
+        layout: {
+          'icon-image': 'ic_map_policecar',
+          'icon-size': 1.3
         }
       });
     } else {
@@ -324,7 +320,7 @@ const units = 'kilometers'; // 计算单位
 
 const symbolLabelLayerId = 'symbol-ref';
 // 手持设备样式配置
-const visibleLevel = 14;
+const visibleLevel = 15;
 const handheldStyle = {
   visibleLevel: visibleLevel,
   source: {
@@ -346,8 +342,8 @@ const handheldStyle = {
       source: handheldSource,
       'source-layer': 'handHeld',
       layout: {
-        'icon-image': 'landmark',
-        'icon-size': 1.5
+        'icon-image': 'ic_map_policeman',
+        'icon-size': 1
       },
       labelLayerId: symbolLabelLayerId
     }

@@ -2,7 +2,7 @@ import { LevelConfig } from 'tuyun-config';
 
 const lineLabelLayerId = 'line-ref';
 const lineBgLabelLayerId = 'line-bg-ref';
-const symbolLabelLayerId = 'symbol-ref';
+const symbolLabelLayerId = 'line-name-ref';
 
 export default [
   {

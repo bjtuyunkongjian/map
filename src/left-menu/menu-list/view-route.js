@@ -1,37 +1,45 @@
 import React, { Component } from 'react';
 import { FetchAllRoutes, FetchRouteInfo } from './webapi';
-import {
-  RouteLayers,
-  CreatePointFeature,
-  DrawRoad,
-  DrawIconPoint
-} from './security-route-layer';
-import Turf from 'turf';
+import { DrawRoad, DrawIconPoint } from './security-route-layer';
+import Turf, {
+  lineDistance as LineDistance,
+  lineString as LineString,
+  point as TurfPoint,
+  along as TurfAlong
+} from 'turf';
+import { IoMdCheckmark } from 'react-icons/io';
 
 export default class ViewRoute extends Component {
   state = {
-    routeList: [{ name: '111', date: '2019-01-11' }]
+    routeList: [],
+    selectedPlan: []
   };
 
-  _roadCarIds = []; // {carId: '', roadId: ''}
+  _carRoutes = {}; // []: {carId: '', roadId: ''}
+  _animateInterval = undefined; // 动画定时器
+  _colorIndex = 0; // 记录使用的是第几个颜色
 
   componentDidMount = () => this._init();
 
   componentWillUnmount = () => this._reset();
 
   render() {
-    const { routeList } = this.state;
+    const { routeList, selectedPlan } = this.state;
     return (
       <div className="view-route">
         <div className="title">重大安保轨迹</div>
         <ul className="table-wrap">
           {routeList.map((item, index) => {
+            const _isChecked = selectedPlan.indexOf(item) > -1;
             return (
               <li
                 className="table-row"
                 key={`route_list_${index}`}
-                onClick={() => this._fetchRouteInfo(item)}
+                onClick={() => this._selectRoute(item)}
               >
+                <div className={`checkbox ${_isChecked ? 'checked' : ''}`}>
+                  {_isChecked ? <IoMdCheckmark /> : null}
+                </div>
                 <div className="table-name">{item.name}</div>
                 <div className="table-date">{item.date}</div>
               </li>
@@ -43,40 +51,13 @@ export default class ViewRoute extends Component {
   }
 
   _init = async () => {
-    var _line = Turf.lineString(lineCoords); // 道路 features
-    console.log('_line', _line);
-    const _lineLen = Turf.lineDistance(_line); // 道路总长度，单位 千米
-    DrawRoad(_MAP_, {
-      id: roadIdPrev,
-      features: [_line],
-      lineColor: '#800',
-      lineWidth: 8
-    });
-
-    let _count = 0;
-    const _interval = setInterval(() => {
-      _count++;
-      const _drivenDistance = _count * carSpeed; // 行驶过的道路总长度，单位 千米
-      let _carPosition;
-      if (_drivenDistance >= _lineLen) {
-        _carPosition = Turf.along(_line, _lineLen);
-        clearInterval(_interval);
-      } else {
-        _carPosition = Turf.along(_line, _drivenDistance);
-      }
-      DrawIconPoint(_MAP_, {
-        id: carIdPrev,
-        features: [_carPosition],
-        iconImage: 'security-car'
-      });
-    }, 1);
+    this._fetchAllRoutes(); // 获取所有道路
   };
 
   _reset = () => {
-    Object.keys(RouteLayers).map(key => {
-      const _val = RouteLayers[key];
-      _MAP_.getLayer(_val) && _MAP_.removeLayer(_val).removeSource(_val); // 删除所有 layer 和 source
-    });
+    clearInterval(this._animateInterval); // 清空定时器
+    this._removeSourceLayer(carId); // 删除小车图层
+    this._removeSourceLayer(roadId); // 删除道路图层
   };
 
   _fetchAllRoutes = async () => {
@@ -94,147 +75,180 @@ export default class ViewRoute extends Component {
       return {
         name: _name,
         date: `${_year}-${_month}-${_date}`,
-        timeStep: _timeStep
+        timeStep: _timeStep,
+        originName: item
       };
     });
     this.setState({ routeList: _routeList });
   };
 
-  _fetchRouteInfo = async routeItem => {
-    const _routeName = routeItem.name + '_' + routeItem.timeStep;
-    const { res, err } = await FetchRouteInfo({ fileName: _routeName });
-    if (!res || err) return console.log('获取重大安保轨迹详情失败');
-    const { features } = res;
-    _MAP_.flyTo({ center: features[0].geometry.coordinates[0], zoom: 15 }); // 以起点为中心点
-    DrawRoad(_MAP_, {
-      id: RouteLayers.selectedRoute,
-      features: features,
-      lineColor: '#888',
-      lineWidth: 8
-    });
+  // 选中道路
+  _selectRoute = async routePlan => {
+    const { selectedPlan } = this.state;
+    const { originName } = routePlan;
+    const _index = selectedPlan.indexOf(routePlan); // 当前点击安保路线在选中安保路线中的索引
+    const _isChecked = selectedPlan.indexOf(routePlan) > -1; // 判断选中安保路线中是否已经有点击的路线
+    _isChecked ? selectedPlan.splice(_index, 1) : selectedPlan.push(routePlan); // 如果显示已选中，删除；如果未选中，添加
+    await this.setState({ selectedPlan }); // 设置选中方案
+    const _carRoute = this._carRoutes[originName];
+    if (_carRoute) {
+      // 已加载过该条道路，如果有选中的路线方案，重绘道路和小车
+      _carRoute.drivenLength = 0; // 重置小车移动距离
+      if (!_isChecked) {
+        const _startCoords = _carRoute.startCoords; // 计算该条道路起始点坐标
+        _MAP_.flyTo({ center: _startCoords, zoom: 15 }); // 如果是选中该条道路，飞到该条道路起始位置
+      }
+      if (selectedPlan.length > 0) {
+        this._drawRoad(); // 重新绘制路线
+        this._animateCar(); // 小车动画
+      } else {
+        clearInterval(this._animateInterval); // 清空定时器
+        this._removeSourceLayer(carId); // 删除小车图层
+        this._removeSourceLayer(roadId); // 删除道路图层
+        this._carRoutes[originName].drivenLength = 0; // 重置该图层行驶过的路程
+      }
+    } else {
+      this._fetchRouteInfo(originName); // 如果未加载过该条道路，去后端加载该条道路，请求结束后重绘
+    }
   };
 
-  _divideRoute = () => {
-    let ind = 0;
-    const _interval = setInterval(() => {
-      if (ind >= res.length) return;
+  // 获取道路信息
+  _fetchRouteInfo = async originName => {
+    const { res, err } = await FetchRouteInfo({ fileName: originName }); // 去后端请求数据
+    if (!res || err) return console.log('获取重大安保轨迹详情失败');
+    const { features } = res;
+    const _roadCoords = [];
+    for (let feature of features) {
+      const { coordinates } = feature.geometry;
+      for (let coords of coordinates) {
+        _roadCoords.push(coords);
+      }
+    }
+    const _lineColor = colorArr[this._colorIndex]; // 线条颜色
+    console.log(_lineColor, this._colorIndex);
+    this._colorIndex =
+      this._colorIndex === colorArr.length - 1 ? 0 : this._colorIndex + 1;
+    const _newFeatures = LineString(_roadCoords, {
+      lineColor: _lineColor // todo set color
+    }); // 生成 features
+    const _roadLen = LineDistance(_newFeatures, units); // 道路总长
+    this._carRoutes[originName] = {
+      features: _newFeatures, // 该字段记录 features
+      drivenLength: 0, // 行驶长度
+      roadLength: _roadLen, // 道路总长度
+      lineColor: _lineColor, // 该字段记录线条颜色
+      startCoords: _roadCoords[0], // 该字段记录起始坐标
+      endCoords: _roadCoords[_roadCoords.length - 1] // 该字段记录道路最后一个坐标
+    };
+    _MAP_.flyTo({ center: _roadCoords[0], zoom: 15 }); // 以刚点击的路线的起点为中心点
+    this._drawRoad(); // 重新绘制路线
+    this._animateCar(); // 小车动画
+  };
 
-      const _feature = CreatePointFeature({
-        coordinates: [res[ind].x, res[ind].y]
+  // 绘制路线
+  _drawRoad = () => {
+    const { selectedPlan } = this.state;
+    const _features = [];
+    for (let item of selectedPlan) {
+      const { originName } = item;
+      if (!this._carRoutes[originName]) continue;
+      const { features } = this._carRoutes[originName];
+      _features.push(features);
+    }
+    if (!_MAP_.getSource(roadId)) {
+      _MAP_.addLayer(
+        {
+          id: roadId,
+          type: 'line',
+          source: {
+            type: 'geojson',
+            data: {
+              type: 'FeatureCollection',
+              features: _features
+            }
+          },
+          layout: {
+            'line-join': 'round',
+            'line-cap': 'round'
+          },
+          paint: {
+            'line-color': ['get', 'lineColor'],
+            'line-width': 8,
+            'line-opacity': 0.5
+          }
+        },
+        lineTopRef
+      );
+    } else {
+      _MAP_.getSource(roadId).setData({
+        type: 'FeatureCollection',
+        features: _features
       });
-      ind++;
-      DrawIconPoint(_MAP_, {
-        id: RouteLayers.securityCar,
-        features: [_feature],
-        iconImage: 'security-car'
+    }
+  };
+
+  // 警车动画
+  _animateCar = () => {
+    const intrevalTime = 1; // 单位：毫秒
+    this._animateInterval = setInterval(() => {
+      const { selectedPlan } = this.state;
+      const _speedPerInterval = carSpeed / intrevalTime / 1000; // 每个定时器间隔行驶的距离
+      const _features = [];
+      for (let item of selectedPlan) {
+        const { originName } = item;
+        if (!this._carRoutes[originName]) continue; // 保护
+        const {
+          features,
+          drivenLength,
+          roadLength,
+          endCoords
+        } = this._carRoutes[originName]; // 解构
+        let _feature; // 计算呢小车位置
+        if (roadLength <= drivenLength) {
+          _feature = TurfPoint(endCoords); // 如果超出总长度，直接赋值最后一个值
+        } else {
+          _feature = TurfAlong(features, drivenLength, units); // 如果没有超出总长度，计算当前的 feature
+        }
+        this._carRoutes[originName].drivenLength += _speedPerInterval; // 下一个节点
+        _features.push(_feature);
+      }
+      this._drawIconPoint(_features);
+    }, intrevalTime);
+  };
+
+  _drawIconPoint = features => {
+    if (!_MAP_.getSource(carId)) {
+      _MAP_.addLayer({
+        id: carId,
+        type: 'symbol',
+        source: {
+          type: 'geojson',
+          data: {
+            type: 'FeatureCollection',
+            features: features
+          }
+        },
+        layout: {
+          'icon-image': 'ic_map_policecar'
+        }
       });
-    }, 10);
+    } else {
+      _MAP_.getSource(carId).setData({
+        type: 'FeatureCollection',
+        features: features
+      });
+    }
+  };
+
+  _removeSourceLayer = layerId => {
+    _MAP_.getLayer(layerId) && _MAP_.removeLayer(layerId).removeSource(layerId); // 删除所有 layer 和 source
   };
 }
 
 const carSpeed = 16.6 / 1000; // 汽车运行速度， 多少 units 每秒
-const carIdPrev = 'MENU_LIST_VIEW_ROUTE_CAR_'; // 汽车 id
-const roadIdPrev = 'MENU_LIST_VIEW_ROUTE_ROAD_'; // 道路 id
-
-const lineCoords = [
-  [117.02548742294312, 36.62030690078126],
-  [117.02577710151672, 36.62064273019513],
-  [117.02658176422119, 36.621521046360954],
-  [117.0269787311554, 36.62207214159095],
-  [117.02719330787659, 36.6224596280656],
-  [117.02738642692566, 36.622907387788246],
-  [117.02746152877808, 36.62318293094022],
-  [117.02764391899109, 36.62404399694175],
-  [117.02775120735168, 36.624655347963795],
-  [117.02780485153198, 36.62499976893943],
-  [117.02789068222046, 36.62535279884224],
-  [117.02800869941711, 36.62564555412058],
-  [117.02836275100708, 36.626411878849],
-  [117.02848076820374, 36.626756291975596],
-  [117.02852368354797, 36.62695432882646],
-  [117.02853441238403, 36.62716097543269],
-  [117.02850222587585, 36.62786701382353],
-  [117.02851295471191, 36.62809948846359],
-  [117.02853441238403, 36.62837501305488],
-  [117.02862024307251, 36.628779688012514],
-  [117.02874898910522, 36.62933073134657],
-  [117.02885627746582, 36.62957181156628],
-  [117.02895283699036, 36.62972679130925],
-  [117.0292854309082, 36.63013145916884],
-  [117.02970385551453, 36.630518905128255],
-  [117.03027248382568, 36.63113020479187],
-  [117.03056216239929, 36.63141432833693],
-  [117.03083038330078, 36.6316640117996],
-  [117.03115224838257, 36.63192230418555],
-  [117.03152775764465, 36.63220642481011],
-  [117.03215003013611, 36.632611079648726],
-  [117.03282594680786, 36.633084609208396],
-  [117.03346967697144, 36.63352369765444],
-  [117.03409194946289, 36.63396278359838],
-  [117.0342206954956, 36.63404026909346],
-  [117.03165650367737, 36.63228391207136],
-  [117.03215003013611, 36.632611079648726],
-  [117.03282594680786, 36.633084609208396],
-  [117.03346967697144, 36.63352369765444],
-  [117.03409194946289, 36.63396278359838],
-  [117.03506827354431, 36.63461710310763],
-  [117.03552961349487, 36.634901213796],
-  [117.03581929206848, 36.63505618282083],
-  [117.03610897064209, 36.63520254216921],
-  [117.03643083572388, 36.63534890123954],
-  [117.03685998916626, 36.63550386936396],
-  [117.03731060028076, 36.63564161854622],
-  [117.0377504825592, 36.63573632096616],
-  [117.03823328018188, 36.635831023269716],
-  [117.03863024711609, 36.635899897599174],
-  [117.03933835029602, 36.63602903680096],
-  [117.03973531723022, 36.636097910953424],
-  [117.04188108444214, 36.636580028296734],
-  [117.04248189926147, 36.63674360313851],
-  [117.04307198524475, 36.636881350104304],
-  [117.04350113868713, 36.63697605100046],
-  [117.04399466514587, 36.637070751780186],
-  [117.04442381858826, 36.63712240670188],
-  [117.04482078552246, 36.63721710730171],
-  [117.04527139663696, 36.63721710730171],
-  [117.04552888870239, 36.637199889019485],
-  [117.04586148262024, 36.63716545244351],
-  [117.04634428024292, 36.63708797009126],
-  [117.0468270778656, 36.63698466016707],
-  [117.04709529876709, 36.63690717763298],
-  [117.04736351966858, 36.63682108583707],
-  [117.04740643501282, 36.63679525827955],
-  [117.04803943634033, 36.63654559144369],
-  [117.04908013343811, 36.63608930168773],
-  [117.05034613609314, 36.635228370260634],
-  [117.05049633979797, 36.63515088596034],
-  [117.05059289932251, 36.63512505784291],
-  [117.05072164535522, 36.63504757343874],
-  [117.05087184906006, 36.63486677619258],
-  [117.05102205276489, 36.634746244459464],
-  [117.05109715461731, 36.63466015024896],
-  [117.05116152763367, 36.63462571253781],
-  [117.05130100250244, 36.634634321967056],
-  [117.05135464668274, 36.63461710310763],
-  [117.05156922340393, 36.63466015024896],
-  [117.0517086982727, 36.634642931395305],
-  [117.05185890197754, 36.63450518042761],
-  [117.05200910568237, 36.634556837069354],
-  [117.05220222473145, 36.63466875967434],
-  [117.05225586891174, 36.63466875967434],
-  [117.0524275302887, 36.634384648128844],
-  [117.05256700515747, 36.63435881975458],
-  [117.05315709114075, 36.63435881975458],
-  [117.0543909072876, 36.63446213319969],
-  [117.05636501312256, 36.63472902562508],
-  [117.05770611763, 36.634935651384],
-  [117.05816745758057, 36.63509922971686],
-  [117.05891847610474, 36.63547804136486],
-  [117.0599913597107, 36.63619261281252],
-  [117.06126809120178, 36.63677803990305],
-  [117.06165432929993, 36.636898568457724],
-  [117.06218004226685, 36.6370793609362],
-  [117.06248044967651, 36.63715684329712],
-  [117.06264138221741, 36.63713962500141],
-  [117.06272721290588, 36.63711379755067]
-];
+const units = 'kilometers'; // 单位
+const carId = 'MENU_LIST_VIEW_ROUTE_CAR_'; // 汽车 id
+const roadId = 'MENU_LIST_VIEW_ROUTE_ROAD_'; // 道路 id
+const colorArr = ['#f19ec2', '#89c997', '#aa89bd', '#7ecef4'];
+const lineTopRef = 'line-top-ref';
+const lineNameRef = 'line-name-ref';
