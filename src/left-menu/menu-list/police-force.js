@@ -17,7 +17,6 @@ import { AddLevel } from 'tuyun-utils';
 export default class WorkContent extends Component {
   state = {
     curMenu: -1,
-    datanum: {},
     selectedTasks: [],
     animate: 'hidden'
   };
@@ -29,6 +28,8 @@ export default class WorkContent extends Component {
   _nextPoliceCar = {}; // 警车数据，下一刻数据
   _isLoadingPoliceCar = false; // 判断请求警车数据有没有回来
   _enableStart = false; // 可以开始
+
+  componentDidMount = () => this._init();
 
   render() {
     const { curMenu, selectedTasks, animate } = this.state;
@@ -69,6 +70,17 @@ export default class WorkContent extends Component {
     );
   }
 
+  _init = () => {
+    _MAP_.on('click', handheldLayerId, e => {
+      console.log(e);
+      // 点击手持设备事件
+    });
+
+    _MAP_.on('click', policecarLayerId, e => {
+      console.log(e);
+      // 点击警车事件
+    });
+  };
   _resetInterval = () => {
     this._intervalMod = 0; // 重置
     this._curPoliceCar = {}; // 警车数据，当前
@@ -92,7 +104,11 @@ export default class WorkContent extends Component {
     } else {
       _animate = 'hidden';
     }
-    await this.setState({ curMenu: _nextMenu, animate: _animate }); // 动画
+    await this.setState({
+      curMenu: _nextMenu,
+      animate: _animate,
+      selectedTasks: []
+    }); // 动画
     // 警力动画，重置定时器并删除所有图层
     this._resetInterval(); // 重置定时器
     this._removePolicecarLayer(); // 删除警车图层
@@ -206,26 +222,28 @@ export default class WorkContent extends Component {
       const _lineFeatures = LineString(_trajectory, { objectID: _objIdArr }); // 生成 features
       const _lineLen = LineDistance(_lineFeatures, units); // 道路长度，单位：千米
       const _speed = _lineLen / _drivenTime; // 汽车行驶速度，单位：千米 / 毫秒
-      let _addFeatures,
+      let _addedFeatures,
         _addedLineLen = 0;
-      // if (this._curPoliceCar[_objIdArr[0]]) {
-      //   const { features, lineLen, addedFeatures } = this._curPoliceCar[
-      //     _objIdArr[0]
-      //   ];
-      //   if (lineLen < tailCarCount * carDistance) {
-      //     // 前一段路长度不足，将上上段路补上
-      //     const _addedCoords = addedFeatures
-      //       ? addedFeatures.geometry.coordinates
-      //       : [];
-      //     const _originCoords = features ? features.geometry.coordinates : [];
-      //     const _coords = [..._addedCoords, ..._originCoords];
-      //     _addFeatures = LineString(_coords, { objectID: _objIdArr });
-      //   } else {
-      //     // 前一段道路足够长，直接将前一段道路补上
-      //     _addFeatures = features;
-      //   }
-      //   _addedLineLen = LineDistance(_addFeatures, units);
-      // }
+      if (this._curPoliceCar[_objIdArr[0]]) {
+        const { features, lineLen, addedFeatures } = this._curPoliceCar[
+          _objIdArr[0]
+        ];
+        if (lineLen < tailCarCount * carDistance) {
+          // 前一段路长度不足，将上上段路补上
+          const _addedCoords = addedFeatures
+            ? addedFeatures.geometry.coordinates
+            : [];
+          const _originCoords = features ? features.geometry.coordinates : [];
+          const _coords = [..._addedCoords, ..._originCoords];
+          _addedFeatures = LineString(_coords, { objectID: _objIdArr });
+        } else {
+          // 前一段道路足够长，直接将前一段道路补上
+          _addedFeatures = features;
+        }
+        _addedLineLen = _addedFeatures
+          ? LineDistance(_addedFeatures, units)
+          : 0;
+      }
       this._nextPoliceCar[_objIdArr[0]] = {
         count: 0, // 该字段记录 警车 在该道路上行驶到哪个点
         flag: flag, // 该字段记录 flag
@@ -234,7 +252,7 @@ export default class WorkContent extends Component {
         features: _lineFeatures, // 该字段记录道路的 feature
         coords: _trajectory, // 坐标
         objectID: _objIdArr, // 警车 id
-        addedFeatures: _addFeatures, // 添加的 feature
+        addedFeatures: _addedFeatures, // 添加的 feature
         addedLineLen: _addedLineLen // 添加道路的长度
       };
       // }
@@ -262,23 +280,28 @@ export default class WorkContent extends Component {
         addedFeatures,
         addedLineLen
       } = _policeCarInfo;
+      // 计算头车信息
       const _moveDistance = count * carRerenderInterval * speed; // count * carRerenderInterval 是行驶时间，单位毫秒
       const _headFeature = TurfAlong(features, _moveDistance, units); // 生成头车 feature
       _headFeatures.push(_headFeature);
       _policeCarInfo.count++;
-      // if (IsEmpty(addedFeatures) || addedLineLen === 0) return;
-      // for (let i = tailCarCount; i > 0; i--) {
-      //   let _tailFeature;
-      //   const _distanceDiff = _moveDistance - i * carDistance; // 距离差值
-      //   if (_distanceDiff < 0) {
-      //     let _len = addedLineLen + _distanceDiff; // 距离差值为负值，定义中间变量，记录离添加道路起点的距离
-      //     _len = _len > 0 ? _len : 0; // 如果该值为负值，定为 0
-      //     _tailFeature = TurfAlong(_len, _moveDistance, units); // 尾车 feature
-      //   } else {
-      //     _tailFeature = TurfAlong(features, _distanceDiff, units); // 距离差值为正值，直接计算
-      //   }
-      //   _tailFeatures.push(_tailFeature);
-      // }
+      // 计算尾车信息
+      const _hasAddedLine = !(IsEmpty(addedFeatures) || addedLineLen === 0); // 是否有添加的路线
+      for (let i = tailCarCount; i > 0; i--) {
+        let _tailFeature;
+        const _distanceDiff = _moveDistance - i * carDistance; // 距离差值
+        if (_distanceDiff <= 0) {
+          if (_hasAddedLine) {
+            let _len = addedLineLen + _distanceDiff; // 距离差值为负值，定义中间变量，记录离添加道路起点的距离
+            _len = _len > 0 ? _len : 0; // 如果该值为负值，定为 0
+            _tailFeature = TurfAlong(addedFeatures, _len, units); // 尾车 feature
+            _tailFeatures.push(_tailFeature);
+          }
+        } else {
+          _tailFeature = TurfAlong(features, _distanceDiff, units); // 距离差值为正值，直接计算
+          _tailFeatures.push(_tailFeature);
+        }
+      }
     });
     const _features = [..._tailFeatures, ..._headFeatures];
     this._drawIconPoint(_features); // 绘制待点击的点
@@ -351,7 +374,7 @@ const options = [
 
 const policeCarInterval = 10 * 1000; // 警车请求间隔，单位：毫秒
 const carDelayInterval = 5 * 1000; // 警车延时时间，单位：毫秒
-const carRerenderInterval = 20; // 警车移动时间间隔，单位：毫秒 ==========> 一定要可以被 1000 整除！！！！！
+const carRerenderInterval = 1; // 警车移动时间间隔，单位：毫秒 ==========> 一定要可以被 1000 整除！！！！！
 const handheldIntereval = 30 * 1000; // 手持设备请求时间间隔，单位：毫秒
 
 const policeCarRatio = policeCarInterval / carRerenderInterval; // 请求警车数据时间间隔 与 小车动一次时间间隔 的比例
