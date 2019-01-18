@@ -65,10 +65,6 @@ export default class PoliceForce extends Component {
                 <div className={`checkbox ${_isChecked ? 'checked' : ''}`}>
                   {_isChecked ? <IoMdCheckmark /> : null}
                 </div>
-                <div
-                  className="color-sign"
-                  style={{ backgroundColor: item.color }}
-                />
                 {item.name}
               </li>
             );
