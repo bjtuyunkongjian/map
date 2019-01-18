@@ -214,10 +214,11 @@ export default class WorkContent extends Component {
       //   ];
       //   if (lineLen < tailCarCount * carDistance) {
       //     // 前一段路长度不足，将上上段路补上
-      //     const _coords = [
-      //       addedFeatures.geometry.coordinates,
-      //       features.geometry.coordinates
-      //     ];
+      //     const _addedCoords = addedFeatures
+      //       ? addedFeatures.geometry.coordinates
+      //       : [];
+      //     const _originCoords = features ? features.geometry.coordinates : [];
+      //     const _coords = [..._addedCoords, ..._originCoords];
       //     _addFeatures = LineString(_coords, { objectID: _objIdArr });
       //   } else {
       //     // 前一段道路足够长，直接将前一段道路补上
@@ -257,9 +258,9 @@ export default class WorkContent extends Component {
       const {
         count,
         features,
-        speed
-        // addedFeatures,
-        // addedLineLen
+        speed,
+        addedFeatures,
+        addedLineLen
       } = _policeCarInfo;
       const _moveDistance = count * carRerenderInterval * speed; // count * carRerenderInterval 是行驶时间，单位毫秒
       const _headFeature = TurfAlong(features, _moveDistance, units); // 生成头车 feature

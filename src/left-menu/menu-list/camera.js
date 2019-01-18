@@ -26,9 +26,13 @@ export default class Camera extends Component {
 
   // 点击事件，切换菜单，层级变化
   _init = () => {
-    _MAP_.on('click', 'cameraLayer', e => {
-      console.log('添加视频');
-      console.log(e.features[0].properties);
+    _MAP_.on('click', 'POI_LEVEL_16_CAMERA', e => {
+      const num = e.features[0].properties.Number;
+      const url =
+        'http://10.49.7.228:80/cas/remoteLogin?username=tuyun&password=8f0a06ebd27f187d9f98ffd78cbe56ed8b340f3f1948d1587a7511875c517c1c&service=http%3A%2F%2F10.49.7.228%2Fvas%2Fweb%2FpreviewCtrl.action%3FcameraIndexCodes%' +
+        num +
+        '%26wndNum%3D1%26previewType%3D1';
+      fetch('http://localhost:8000/camera?url=' + url);
     });
   };
 
