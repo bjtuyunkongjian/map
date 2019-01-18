@@ -325,7 +325,6 @@ export default class WorkContent extends Component {
 
   _addHandheldLayer = () => {
     this._addSourceFunc();
-    // _MAP_.flyTo({ zoom: visibleLevel });
     _MAP_.on('zoomend', this._addSourceFunc);
   };
 
