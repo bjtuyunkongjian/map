@@ -208,23 +208,23 @@ export default class WorkContent extends Component {
       const _speed = _lineLen / _drivenTime; // 汽车行驶速度，单位：千米 / 毫秒
       let _addFeatures,
         _addedLineLen = 0;
-      if (this._curPoliceCar[_objIdArr[0]]) {
-        const { features, lineLen, addedFeatures } = this._curPoliceCar[
-          _objIdArr[0]
-        ];
-        if (lineLen < tailCarCount * carDistance) {
-          // 前一段路长度不足，将上上段路补上
-          const _coords = [
-            addedFeatures.geometry.coordinates,
-            features.geometry.coordinates
-          ];
-          _addFeatures = LineString(_coords, { objectID: _objIdArr });
-        } else {
-          // 前一段道路足够长，直接将前一段道路补上
-          _addFeatures = features;
-        }
-        _addedLineLen = LineDistance(_addFeatures, units);
-      }
+      // if (this._curPoliceCar[_objIdArr[0]]) {
+      //   const { features, lineLen, addedFeatures } = this._curPoliceCar[
+      //     _objIdArr[0]
+      //   ];
+      //   if (lineLen < tailCarCount * carDistance) {
+      //     // 前一段路长度不足，将上上段路补上
+      //     const _coords = [
+      //       addedFeatures.geometry.coordinates,
+      //       features.geometry.coordinates
+      //     ];
+      //     _addFeatures = LineString(_coords, { objectID: _objIdArr });
+      //   } else {
+      //     // 前一段道路足够长，直接将前一段道路补上
+      //     _addFeatures = features;
+      //   }
+      //   _addedLineLen = LineDistance(_addFeatures, units);
+      // }
       this._nextPoliceCar[_objIdArr[0]] = {
         count: 0, // 该字段记录 警车 在该道路上行驶到哪个点
         flag: flag, // 该字段记录 flag
@@ -257,27 +257,27 @@ export default class WorkContent extends Component {
       const {
         count,
         features,
-        speed,
-        addedFeatures,
-        addedLineLen
+        speed
+        // addedFeatures,
+        // addedLineLen
       } = _policeCarInfo;
       const _moveDistance = count * carRerenderInterval * speed; // count * carRerenderInterval 是行驶时间，单位毫秒
       const _headFeature = TurfAlong(features, _moveDistance, units); // 生成头车 feature
       _headFeatures.push(_headFeature);
       _policeCarInfo.count++;
-      if (IsEmpty(addedFeatures) || addedLineLen === 0) return;
-      for (let i = tailCarCount; i > 0; i--) {
-        let _tailFeature;
-        const _distanceDiff = _moveDistance - i * carDistance; // 距离差值
-        if (_distanceDiff < 0) {
-          let _len = addedLineLen + _distanceDiff; // 距离差值为负值，定义中间变量，记录离添加道路起点的距离
-          _len = _len > 0 ? _len : 0; // 如果该值为负值，定为 0
-          _tailFeature = TurfAlong(_len, _moveDistance, units); // 尾车 feature
-        } else {
-          _tailFeature = TurfAlong(features, _distanceDiff, units); // 距离差值为正值，直接计算
-        }
-        _tailFeatures.push(_tailFeature);
-      }
+      // if (IsEmpty(addedFeatures) || addedLineLen === 0) return;
+      // for (let i = tailCarCount; i > 0; i--) {
+      //   let _tailFeature;
+      //   const _distanceDiff = _moveDistance - i * carDistance; // 距离差值
+      //   if (_distanceDiff < 0) {
+      //     let _len = addedLineLen + _distanceDiff; // 距离差值为负值，定义中间变量，记录离添加道路起点的距离
+      //     _len = _len > 0 ? _len : 0; // 如果该值为负值，定为 0
+      //     _tailFeature = TurfAlong(_len, _moveDistance, units); // 尾车 feature
+      //   } else {
+      //     _tailFeature = TurfAlong(features, _distanceDiff, units); // 距离差值为正值，直接计算
+      //   }
+      //   _tailFeatures.push(_tailFeature);
+      // }
     });
     const _features = [..._tailFeatures, ..._headFeatures];
     this._drawIconPoint(_features); // 绘制待点击的点
