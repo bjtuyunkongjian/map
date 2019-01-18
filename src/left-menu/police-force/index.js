@@ -12,12 +12,15 @@ import {
 import { IsEmpty, IsArray } from 'tuyun-utils';
 import { BaseConfig } from 'tuyun-config';
 import { AddLevel } from 'tuyun-utils';
+import Dialog from './dialog';
 
 export default class WorkContent extends Component {
   state = {
     curMenu: -1,
     selectedTasks: [],
-    animate: 'hidden'
+    animate: 'hidden',
+    showDialog: false,
+    dialogTitle: ''
   };
 
   _intervalStart = []; // 记录起始定时时间，第 0 位是请求定时时间
@@ -31,7 +34,13 @@ export default class WorkContent extends Component {
   componentDidMount = () => this._init();
 
   render() {
-    const { curMenu, selectedTasks, animate } = this.state;
+    const {
+      curMenu,
+      selectedTasks,
+      animate,
+      showDialog,
+      dialogTitle
+    } = this.state;
     const _selected = curMenu === MenuItem.policeForce;
     const _arrow = _selected ? 'arrow-down' : 'arrow-right';
     return (
@@ -65,21 +74,28 @@ export default class WorkContent extends Component {
             );
           })}
         </ul>
+
+        {_selected ? (
+          <Dialog
+            visible={showDialog}
+            title={dialogTitle}
+            onClose={this._closeDialog}
+          />
+        ) : null}
       </div>
     );
   }
 
   _init = () => {
     _MAP_.on('click', handheldLayerId, e => {
-      console.log(e);
-      // 点击手持设备事件
+      this.setState({ showDialog: true, dialogTitle: '警员信息' }); // 点击手持设备事件
     });
 
     _MAP_.on('click', policecarLayerId, e => {
-      console.log(e);
-      // 点击警车事件
+      this.setState({ showDialog: true, dialogTitle: '警车信息' }); // 点击警车事件
     });
   };
+
   _resetInterval = () => {
     this._intervalMod = 0; // 重置
     this._curPoliceCar = {}; // 警车数据，当前
@@ -106,8 +122,9 @@ export default class WorkContent extends Component {
     await this.setState({
       curMenu: _nextMenu,
       animate: _animate,
-      selectedTasks: []
-    }); // 动画
+      selectedTasks: [],
+      showDialog: false
+    }); // 重置
     // 警力动画，重置定时器并删除所有图层
     this._resetInterval(); // 重置定时器
     this._removePolicecarLayer(); // 删除警车图层
@@ -350,6 +367,10 @@ export default class WorkContent extends Component {
         features: features
       });
     }
+  };
+
+  _closeDialog = () => {
+    this.setState({ showDialog: false });
   };
 }
 
