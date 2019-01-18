@@ -1,6 +1,6 @@
 const lineLabelLayerId = 'line-gd-ref';
 const lineBgLabelLayerId = 'line-gd-ref';
-const symbolLabelLayerId = 'line-name-ref';
+const symbolLabelLayerId = 'symbol-ref';
 
 const layers = [
   {

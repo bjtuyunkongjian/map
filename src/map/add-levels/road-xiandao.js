@@ -1,6 +1,6 @@
 const lineLabelLayerId = 'line-ref';
 // const lineBgLabelLayerId = 'line-bg-ref';
-const symbolLabelLayerId = 'line-name-ref';
+const symbolLabelLayerId = 'symbol-ref';
 
 export default [
   {

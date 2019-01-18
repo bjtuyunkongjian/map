@@ -16,7 +16,7 @@ const lineLabelLayerId = 'line-lv15-ref';
 const lineBgLabelLayerId = 'line-bg-ref';
 const lineLabelLayerId_sd = 'line-sd-ref';
 const lineBgLabelLayerId_sd = 'line-sd-bg-ref';
-const lineNameLabelLayerId = 'line-name-ref';
+const lineNameLabelLayerId = 'symbol-ref';
 
 // const jqLabelLayerId = 'jq-ref';
 const threeLabelLayerId = '3d-ref';
