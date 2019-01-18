@@ -14,7 +14,7 @@ import { BaseConfig } from 'tuyun-config';
 import { AddLevel } from 'tuyun-utils';
 import Dialog from './dialog';
 
-export default class WorkContent extends Component {
+export default class PoliceForce extends Component {
   state = {
     curMenu: -1,
     selectedTasks: [],
