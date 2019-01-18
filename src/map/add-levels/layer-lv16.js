@@ -56,8 +56,7 @@ const style = {
       'source-layer': 'camera1',
       layout: {
         'icon-image': 'camera_{Camera}',
-        'icon-size': 1,
-        visibility: 'none'
+        'icon-size': 1
       },
       labelLayerId: symbolLabelLayerId
     }
