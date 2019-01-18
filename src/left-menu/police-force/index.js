@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import Event from './event';
+import Event from '../menu-list/event';
 import { IoMdCheckmark } from 'react-icons/io';
 import { TiUser } from 'react-icons/ti';
-import MenuItem from './menu-item';
-import { FetchLocationCar } from './webapi';
+import MenuItem from '../menu-list/menu-item';
+import { FetchLocationCar } from '../menu-list/webapi';
 import {
-  point as TurfPoint,
   lineString as LineString,
   lineDistance as LineDistance,
   along as TurfAlong
