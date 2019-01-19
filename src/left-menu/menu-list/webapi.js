@@ -122,3 +122,13 @@ export const FetchLocationCar = async body => {
   });
   return { res, err };
 };
+
+export const QueryDetail = async body => {
+  Object.assign(body, { test: 'queryDetail' });
+  const { res, err } = await FetchRequest({
+    url: 'GPSServer/string',
+    method: 'POST',
+    body: body
+  });
+  return { res, err };
+};

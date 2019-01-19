@@ -3,7 +3,7 @@ import Event from '../menu-list/event';
 import { IoMdCheckmark } from 'react-icons/io';
 import { TiUser } from 'react-icons/ti';
 import MenuItem from '../menu-list/menu-item';
-import { FetchLocationCar } from '../menu-list/webapi';
+import { FetchLocationCar, QueryDetail } from '../menu-list/webapi';
 import {
   lineString as LineString,
   lineDistance as LineDistance,
@@ -20,7 +20,8 @@ export default class PoliceForce extends Component {
     selectedTasks: [],
     animate: 'hidden',
     showDialog: false,
-    dialogTitle: ''
+    dialogTitle: '警员信息',
+    dialogInfo: []
   };
 
   _intervalStart = []; // 记录起始定时时间，第 0 位是请求定时时间
@@ -39,7 +40,8 @@ export default class PoliceForce extends Component {
       selectedTasks,
       animate,
       showDialog,
-      dialogTitle
+      dialogTitle,
+      dialogInfo
     } = this.state;
     const _selected = curMenu === MenuItem.policeForce;
     const _arrow = _selected ? 'arrow-down' : 'arrow-right';
@@ -76,6 +78,7 @@ export default class PoliceForce extends Component {
             visible={showDialog}
             title={dialogTitle}
             onClose={this._closeDialog}
+            dialogInfo={dialogInfo}
           />
         ) : null}
       </div>
@@ -83,12 +86,34 @@ export default class PoliceForce extends Component {
   }
 
   _init = () => {
-    _MAP_.on('click', handheldLayerId, e => {
-      this.setState({ showDialog: true, dialogTitle: '警员信息' }); // 点击手持设备事件
+    _MAP_.on('click', handheldLayerId, async e => {
+      const { objectID } = e.features[0].properties;
+      const { res, err } = await QueryDetail({ objectid: objectID });
+      if (err || !res) return;
+      const _deviceType = `设备名称：${res.devicetypebig_name}`;
+      const _callNum = `呼号：${res.name}`;
+      const _policeType = `警种类型：${res.policetypebig_name}`;
+      const _orgCode = `组织机构代码：${res.deptid}`;
+      this.setState({
+        showDialog: true,
+        dialogTitle: '警员信息',
+        dialogInfo: [_deviceType, _callNum, _policeType, _orgCode]
+      }); // 点击手持设备事件
     });
 
-    _MAP_.on('click', policecarLayerId, e => {
-      this.setState({ showDialog: true, dialogTitle: '警车信息' }); // 点击警车事件
+    _MAP_.on('click', policecarLayerId, async e => {
+      const { objectID } = e.features[0].properties;
+      const { res, err } = await QueryDetail({ objectid: objectID });
+      if (err || !res) return;
+      const _deviceType = `设备名称：${res.devicetypebig_name}`;
+      const _carNum = `车牌号：${res.name}`;
+      const _policeType = `警种类型：${res.policetypebig_name}`;
+      const _orgCode = `组织机构代码：${res.deptid}`;
+      this.setState({
+        showDialog: true,
+        dialogTitle: '警车信息',
+        dialogInfo: [_deviceType, _carNum, _policeType, _orgCode]
+      }); // 点击警车事件
     });
   };
 
@@ -290,11 +315,13 @@ export default class PoliceForce extends Component {
         features,
         speed,
         addedFeatures,
-        addedLineLen
+        addedLineLen,
+        objectID
       } = _policeCarInfo;
       // 计算头车信息
       const _moveDistance = count * carRerenderInterval * speed; // count * carRerenderInterval 是行驶时间，单位毫秒
       const _headFeature = TurfAlong(features, _moveDistance, units); // 生成头车 feature
+      _headFeature.properties.objectID = objectID[0];
       _headFeatures.push(_headFeature);
       _policeCarInfo.count++;
       // 计算尾车信息
@@ -307,15 +334,20 @@ export default class PoliceForce extends Component {
             let _len = addedLineLen + _distanceDiff; // 距离差值为负值，定义中间变量，记录离添加道路起点的距离
             _len = _len > 0 ? _len : 0; // 如果该值为负值，定为 0
             _tailFeature = TurfAlong(addedFeatures, _len, units); // 尾车 feature
+            i === tailCarCount &&
+              (_tailFeature.properties.objectID =
+                objectID[objectID.length - 1]); // 添加 objectid
             _tailFeatures.push(_tailFeature);
           }
         } else {
           _tailFeature = TurfAlong(features, _distanceDiff, units); // 距离差值为正值，直接计算
+          i === tailCarCount &&
+            (_tailFeature.properties.objectid = objectID[objectID.length - 1]); // 添加 objectid
           _tailFeatures.push(_tailFeature);
         }
       }
     });
-    const _features = [..._tailFeatures, ..._headFeatures];
+    const _features = [..._headFeatures, ..._tailFeatures];
     this._drawIconPoint(_features); // 绘制待点击的点
   };
 
@@ -389,7 +421,7 @@ const options = [
 
 const policeCarInterval = 10 * 1000; // 警车请求间隔，单位：毫秒
 const carDelayInterval = 5 * 1000; // 警车延时时间，单位：毫秒
-const carRerenderInterval = 1; // 警车移动时间间隔，单位：毫秒 ==========> 一定要可以被 1000 整除！！！！！
+const carRerenderInterval = 10; // 警车移动时间间隔，单位：毫秒 ==========> 一定要可以被 1000 整除！！！！！
 const handheldIntereval = 30 * 1000; // 手持设备请求时间间隔，单位：毫秒
 
 const policeCarRatio = policeCarInterval / carRerenderInterval; // 请求警车数据时间间隔 与 小车动一次时间间隔 的比例
@@ -397,7 +429,7 @@ const handheldRatio = handheldIntereval / carRerenderInterval; // 手持设备
 const carDelayRatio = carDelayInterval / carRerenderInterval; // 警车延时刷新比
 
 const tailCarCount = 3; // 尾车数量
-const carDistance = 10; // 两辆车的车距
+const carDistance = 20 / 1000; // 两辆车的车距，单位：千米
 
 const units = 'kilometers'; // 计算单位
 
