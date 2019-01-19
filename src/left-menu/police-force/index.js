@@ -117,6 +117,26 @@ export default class PoliceForce extends Component {
         dialogInfo: [_deviceType, _carNum, _policeType, _orgCode]
       }); // 点击警车事件
     });
+
+    Event.on('change:curMenu', async nextMenu => {
+      const { curMenu } = this.state;
+      if (
+        nextMenu === MenuItem.securityRoute &&
+        curMenu === MenuItem.policeForce
+      ) {
+        const _animate = 'hidden';
+        await this.setState({
+          curMenu: -1,
+          animate: _animate,
+          selectedTasks: [],
+          showDialog: false
+        }); // 重置
+        // 警力动画，重置定时器并删除所有图层
+        this._resetInterval(); // 重置定时器
+        this._removePolicecarLayer(); // 删除警车图层
+        this._removeHandheldLayer(); // 删除手持设备图层
+      }
+    }); // 选择当前菜单
   };
 
   _resetInterval = () => {

@@ -192,7 +192,7 @@ export default class ViewRoute extends Component {
     const intrevalTime = 10; // 单位：毫秒
     this._animateInterval = setInterval(() => {
       const { selectedPlan } = this.state;
-      const _speedPerInterval = carSpeed / intrevalTime / 1000; // 每个定时器间隔行驶的距离
+      const _speedPerInterval = (carSpeed * intrevalTime) / 1000; // 每个定时器间隔行驶的距离
       const _features = [];
       for (let item of selectedPlan) {
         const { originName } = item;
