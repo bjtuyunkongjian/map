@@ -88,6 +88,7 @@ export default class PoliceForce extends Component {
   _init = () => {
     _MAP_.on('click', handheldLayerId, async e => {
       const { objectID } = e.features[0].properties;
+      if (!objectID) return;
       const { res, err } = await QueryDetail({ objectid: objectID });
       if (err || !res) return;
       const _deviceType = `设备名称：${res.devicetypebig_name}`;
@@ -103,6 +104,7 @@ export default class PoliceForce extends Component {
 
     _MAP_.on('click', policecarLayerId, async e => {
       const { objectID } = e.features[0].properties;
+      if (!objectID) return;
       const { res, err } = await QueryDetail({ objectid: objectID });
       if (err || !res) return;
       const _deviceType = `设备名称：${res.devicetypebig_name}`;

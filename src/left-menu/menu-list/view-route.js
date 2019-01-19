@@ -189,7 +189,7 @@ export default class ViewRoute extends Component {
 
   // 警车动画
   _animateCar = () => {
-    const intrevalTime = 1; // 单位：毫秒
+    const intrevalTime = 10; // 单位：毫秒
     this._animateInterval = setInterval(() => {
       const { selectedPlan } = this.state;
       const _speedPerInterval = carSpeed / intrevalTime / 1000; // 每个定时器间隔行驶的距离
