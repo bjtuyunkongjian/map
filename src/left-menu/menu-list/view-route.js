@@ -125,7 +125,6 @@ export default class ViewRoute extends Component {
       }
     }
     const _lineColor = colorArr[this._colorIndex]; // 线条颜色
-    console.log(_lineColor, this._colorIndex);
     this._colorIndex =
       this._colorIndex === colorArr.length - 1 ? 0 : this._colorIndex + 1;
     const _newFeatures = LineString(_roadCoords, {
@@ -174,7 +173,7 @@ export default class ViewRoute extends Component {
           paint: {
             'line-color': ['get', 'lineColor'],
             'line-width': 8,
-            'line-opacity': 0.5
+            'line-opacity': 0.85
           }
         },
         lineTopRef
@@ -190,6 +189,7 @@ export default class ViewRoute extends Component {
   // 警车动画
   _animateCar = () => {
     const intrevalTime = 10; // 单位：毫秒
+    clearInterval(this._animateInterval);
     this._animateInterval = setInterval(() => {
       const { selectedPlan } = this.state;
       const _speedPerInterval = (carSpeed * intrevalTime) / 1000; // 每个定时器间隔行驶的距离
@@ -229,7 +229,7 @@ export default class ViewRoute extends Component {
           }
         },
         layout: {
-          'icon-image': 'ic_map_policecar'
+          'icon-image': 'ic_map_headcar'
         }
       });
     } else {
@@ -249,6 +249,6 @@ const carSpeed = 16.6 / 1000; // 汽车运行速度， 多少 units 每秒
 const units = 'kilometers'; // 单位
 const carId = 'MENU_LIST_VIEW_ROUTE_CAR_'; // 汽车 id
 const roadId = 'MENU_LIST_VIEW_ROUTE_ROAD_'; // 道路 id
-const colorArr = ['#f19ec2', '#89c997', '#aa89bd', '#7ecef4'];
+const colorArr = ['#ff0056', '#e66f51', '#2a9d8e', '#264653'];
 const lineTopRef = 'line-top-ref';
 const lineNameRef = 'line-name-ref';
