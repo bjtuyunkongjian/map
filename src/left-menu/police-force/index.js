@@ -368,12 +368,12 @@ export default class PoliceForce extends Component {
       } else {
         _trajectory = roadPoints;
       }
-      // if (flag === '2') {
+      // if (flag === '2' || flag === '3') {
       let _objIdArr = IsArray(objectID) ? objectID : [objectID];
-      if (this._curPoliceCar[_objIdArr[0]] && _trajectory.length < 2) {
+      if (this._curPoliceCar[_objIdArr[0]]) {
         const { coords } = this._curPoliceCar[_objIdArr[0]];
         if (coords && coords.length > 0) {
-          _trajectory.push(coords[0]);
+          _trajectory.unshift(coords[coords.length - 1]);
         }
       }
       const _lineFeatures = LineString(_trajectory, { objectID: _objIdArr }); // 生成 features
@@ -434,8 +434,8 @@ export default class PoliceForce extends Component {
         count,
         features,
         speed,
-        addedFeatures,
-        addedLineLen,
+        // addedFeatures,
+        // addedLineLen,
         objectID
       } = _policeCarInfo;
       // 计算头车信息
@@ -446,35 +446,35 @@ export default class PoliceForce extends Component {
       _headFeatures.push(_headFeature);
       _policeCarInfo.count++;
       // 计算尾车信息
-      const _hasAddedLine = !(IsEmpty(addedFeatures) || addedLineLen === 0); // 是否有添加的路线
-      for (let i = tailCarCount; i > 0; i--) {
-        let _tailFeature;
-        const _distanceDiff = _moveDistance - i * carDistance; // 距离差值
-        if (_distanceDiff <= 0) {
-          if (_hasAddedLine) {
-            let _len = addedLineLen + _distanceDiff; // 距离差值为负值，定义中间变量，记录离添加道路起点的距离
-            _len = _len > 0 ? _len : 0; // 如果该值为负值，定为 0
-            _tailFeature = TurfAlong(addedFeatures, _len, units); // 尾车 feature
+      // const _hasAddedLine = !(IsEmpty(addedFeatures) || addedLineLen === 0); // 是否有添加的路线
+      // for (let i = tailCarCount; i > 0; i--) {
+      //   let _tailFeature;
+      //   const _distanceDiff = _moveDistance - i * carDistance; // 距离差值
+      //   if (_distanceDiff <= 0) {
+      //     if (_hasAddedLine) {
+      //       let _len = addedLineLen + _distanceDiff; // 距离差值为负值，定义中间变量，记录离添加道路起点的距离
+      //       _len = _len > 0 ? _len : 0; // 如果该值为负值，定为 0
+      //       _tailFeature = TurfAlong(addedFeatures, _len, units); // 尾车 feature
 
-            if (i === tailCarCount) {
-              _tailFeature.properties.objectID = objectID[objectID.length - 1]; //尾车， 添加 objectid
-              _tailFeature.properties.img = 'icon_map_tailcar'; // 添加尾车图标
-            } else {
-              _tailFeature.properties.img = 'ic_map_wheel'; // 添加中间车图标
-            }
-            _tailFeatures.push(_tailFeature);
-          }
-        } else {
-          _tailFeature = TurfAlong(features, _distanceDiff, units); // 距离差值为正值，直接计算
-          if (i === tailCarCount) {
-            _tailFeature.properties.objectid = objectID[objectID.length - 1]; // 添加 objectid
-            _tailFeature.properties.img = 'icon_map_tailcar'; // 添加尾车图标
-          } else {
-            _tailFeature.properties.img = 'ic_map_wheel'; // 添加中间车图标
-          }
-          _tailFeatures.push(_tailFeature);
-        }
-      }
+      //       if (i === tailCarCount) {
+      //         _tailFeature.properties.objectID = objectID[objectID.length - 1]; //尾车， 添加 objectid
+      //         _tailFeature.properties.img = 'icon_map_tailcar'; // 添加尾车图标
+      //       } else {
+      //         _tailFeature.properties.img = 'ic_map_wheel'; // 添加中间车图标
+      //       }
+      //       _tailFeatures.push(_tailFeature);
+      //     }
+      //   } else {
+      //     _tailFeature = TurfAlong(features, _distanceDiff, units); // 距离差值为正值，直接计算
+      //     if (i === tailCarCount) {
+      //       _tailFeature.properties.objectid = objectID[objectID.length - 1]; // 添加 objectid
+      //       _tailFeature.properties.img = 'icon_map_tailcar'; // 添加尾车图标
+      //     } else {
+      //       _tailFeature.properties.img = 'ic_map_wheel'; // 添加中间车图标
+      //     }
+      //     _tailFeatures.push(_tailFeature);
+      //   }
+      // }
     });
     const _features = [..._headFeatures, ..._tailFeatures];
     this._drawIconPoint(_features); // 绘制待点击的点
@@ -509,21 +509,26 @@ export default class PoliceForce extends Component {
 
   _drawIconPoint = features => {
     if (!_MAP_.getSource(policecarLayerId)) {
-      _MAP_.addLayer({
-        id: policecarLayerId,
-        type: 'symbol',
-        source: {
-          type: 'geojson',
-          data: {
-            type: 'FeatureCollection',
-            features: features
+      _MAP_.addLayer(
+        {
+          id: policecarLayerId,
+          type: 'symbol',
+          source: {
+            type: 'geojson',
+            data: {
+              type: 'FeatureCollection',
+              features: features
+            }
+          },
+          layout: {
+            'icon-image': ['get', 'img'],
+            'icon-size': 1.3,
+            'icon-padding': 0,
+            'icon-allow-overlap': true
           }
-        },
-        layout: {
-          'icon-image': ['get', 'img'],
-          'icon-size': 1.3
         }
-      });
+        // lineNameRef
+      );
     } else {
       _MAP_.getSource(policecarLayerId).setData({
         type: 'FeatureCollection',
@@ -576,6 +581,7 @@ const units = 'kilometers'; // 计算单位
 
 const symbolLabelLayerId = 'symbol-ref';
 const lineTopRef = 'line-top-ref';
+const lineNameRef = 'line-name-ref';
 
 // 手持设备样式配置
 const visibleLevel = 15;

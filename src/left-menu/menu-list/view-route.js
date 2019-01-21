@@ -204,13 +204,31 @@ export default class ViewRoute extends Component {
           endCoords
         } = this._carRoutes[originName]; // 解构
         let _feature; // 计算呢小车位置
+        // 添加头车
         if (roadLength <= drivenLength) {
           _feature = TurfPoint(endCoords); // 如果超出总长度，直接赋值最后一个值
         } else {
           _feature = TurfAlong(features, drivenLength, units); // 如果没有超出总长度，计算当前的 feature
         }
-        this._carRoutes[originName].drivenLength += _speedPerInterval; // 下一个节点
+
+        _feature.properties.img = 'ic_map_headcar';
         _features.push(_feature);
+        // 添加尾车
+        for (let i = tailCarCount; i > 0; i--) {
+          // console.log(i, drivenLength, i * carDistance);
+          if (drivenLength > i * carDistance) {
+            let _tailFeature = TurfAlong(
+              features,
+              drivenLength - i * carDistance,
+              units
+            ); // 计算尾车
+            _tailFeature.properties.img =
+              tailCarCount !== i ? 'ic_map_wheel' : 'icon_map_tailcar';
+            // console.log('_tailFeature', _tailFeature);
+            _features.push(_tailFeature); // 添加尾车
+          }
+        }
+        this._carRoutes[originName].drivenLength += _speedPerInterval; // 下一个节点
       }
       this._drawIconPoint(_features);
     }, intrevalTime);
@@ -218,20 +236,26 @@ export default class ViewRoute extends Component {
 
   _drawIconPoint = features => {
     if (!_MAP_.getSource(carId)) {
-      _MAP_.addLayer({
-        id: carId,
-        type: 'symbol',
-        source: {
-          type: 'geojson',
-          data: {
-            type: 'FeatureCollection',
-            features: features
+      _MAP_.addLayer(
+        {
+          id: carId,
+          type: 'symbol',
+          source: {
+            type: 'geojson',
+            data: {
+              type: 'FeatureCollection',
+              features: features
+            }
+          },
+          layout: {
+            'icon-image': ['get', 'img'],
+            'icon-size': 1,
+            'icon-padding': 0,
+            'icon-allow-overlap': true
           }
         },
-        layout: {
-          'icon-image': 'ic_map_headcar'
-        }
-      });
+        lineNameRef
+      );
     } else {
       _MAP_.getSource(carId).setData({
         type: 'FeatureCollection',
@@ -252,3 +276,5 @@ const roadId = 'MENU_LIST_VIEW_ROUTE_ROAD_'; // 道路 id
 const colorArr = ['#ff0056', '#e66f51', '#2a9d8e', '#264653'];
 const lineTopRef = 'line-top-ref';
 const lineNameRef = 'line-name-ref';
+const tailCarCount = 3; // 尾车数量
+const carDistance = 15 / 1000; // 两辆车的车距，单位：千米
