@@ -15,7 +15,7 @@ export default class ViewRoute extends Component {
     selectedPlan: []
   };
 
-  _carRoutes = {}; // []: {carId: '', roadId: ''}
+  _carRoutes = {}; //
   _animateInterval = undefined; // 动画定时器
   _colorIndex = 0; // 记录使用的是第几个颜色
 
@@ -253,8 +253,8 @@ export default class ViewRoute extends Component {
             'icon-padding': 0,
             'icon-allow-overlap': true
           }
-        },
-        lineNameRef
+        }
+        // lineNameRef
       );
     } else {
       _MAP_.getSource(carId).setData({

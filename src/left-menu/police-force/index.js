@@ -18,6 +18,7 @@ import { IsEmpty, IsArray } from 'tuyun-utils';
 import { BaseConfig } from 'tuyun-config';
 import { AddLevel } from 'tuyun-utils';
 import Dialog from './dialog';
+// import mapboxgl from 'mapbox-gl';
 
 export default class PoliceForce extends Component {
   state = {
@@ -36,7 +37,8 @@ export default class PoliceForce extends Component {
   _nextPoliceCar = {}; // 警车数据，下一刻数据
   _isLoadingPoliceCar = false; // 判断请求警车数据有没有回来
   _enableStart = false; // 可以开始
-  _securityRoute = [];
+  _securityRoute = []; // 安保路线
+  _selectedPoliceCar = undefined;
 
   componentDidMount = () => this._init();
 
@@ -219,7 +221,7 @@ export default class PoliceForce extends Component {
       this._drawRoad();
       return;
     }
-
+    // 如果没有安保路线，从后端获取安保路线
     const { res: allRoutes, err: allRoutesErr } = await FetchAllRoutes(); // 获取所有道路
     if (!allRoutes || allRoutesErr) return;
     let _colorIndex = 0;
@@ -429,6 +431,7 @@ export default class PoliceForce extends Component {
     const _headFeatures = [];
     const _tailFeatures = [];
     Object.keys(this._curPoliceCar).map(key => {
+      // if (key != '37010000000014470') return; // 显示固定的 objectid
       const _policeCarInfo = this._curPoliceCar[key];
       const {
         count,

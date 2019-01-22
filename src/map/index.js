@@ -63,8 +63,8 @@ export default class MapBoxDemo extends Component {
     // this.map.on('mouseup', 'GRESPL_3_3D', e => {
     //   console.log('e.lngLat', e.features);
     // });
-    _MAP_.on('click', 'POI_LEVEL_16_CAMERA', e => {
-      const num = e.features[0].properties.Number;
+    _MAP_.on('click', 'POI_LEVEL_15_CAMERA', e => {
+      const num = e.features[0].properties.N;
       fetch('http://localhost:8000/camera?url=' + num);
     });
     // this.map.on('click', '9L_zgd', e => {

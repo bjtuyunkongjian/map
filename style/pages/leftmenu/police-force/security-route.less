@@ -1,0 +1,56 @@
+.security-route {
+  right: @bottom-nav-width + 20;
+  position: fixed;
+  top: @top-search-top;
+  width: 260px;
+  background: @bg-gradient-base;
+  padding: 10px 15px;
+  border-radius: 5px;
+  z-index: 1;
+  .title {
+    font-size: 15px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 5px;
+  }
+  .table-wrap {
+    .table-row {
+      display: flex;
+      align-items: center;
+      color: white;
+      cursor: pointer;
+      margin-top: 5px;
+      &:hover {
+        opacity: 0.8;
+      }
+      .checkbox {
+        width: 15px;
+        height: 15px;
+        margin-left: 3px;
+        border-radius: @radius-s;
+        background-color: @t-white;
+        font-size: 15px;
+        margin-right: 10px;
+        color: @t-base;
+        cursor: pointer;
+        &.checked {
+          background-color: @bg-hover;
+        }
+      }
+      .table-name {
+        flex: 0 60%;
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .table-date {
+        flex: 0 40%;
+        display: flex;
+        justify-content: flex-end;
+      }
+    }
+  }
+}
