@@ -18,7 +18,7 @@ import { IsEmpty, IsArray } from 'tuyun-utils';
 import { BaseConfig } from 'tuyun-config';
 import { AddLevel } from 'tuyun-utils';
 import Dialog from './dialog';
-// import mapboxgl from 'mapbox-gl';
+import SecurityRoute from './security-route';
 
 export default class PoliceForce extends Component {
   state = {
@@ -89,6 +89,8 @@ export default class PoliceForce extends Component {
             dialogInfo={dialogInfo}
           />
         ) : null}
+
+        {_selected ? <SecurityRoute /> : null}
       </div>
     );
   }
@@ -431,7 +433,7 @@ export default class PoliceForce extends Component {
     const _headFeatures = [];
     const _tailFeatures = [];
     Object.keys(this._curPoliceCar).map(key => {
-      // if (key != '37010000000014470') return; // 显示固定的 objectid
+      if (key != '37010000000014470') return; // 显示固定的 objectid
       const _policeCarInfo = this._curPoliceCar[key];
       const {
         count,

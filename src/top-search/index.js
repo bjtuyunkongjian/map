@@ -9,7 +9,12 @@ export default class TopSearch extends Component {
       <div className="top-search">
         <CityInfo />
         <input type="text" placeholder="图云搜索" className="search-input" />
-        <IoMdShareAlt className="route-icon" />
+        <IoMdShareAlt
+          className="route-icon"
+          onClick={() => {
+            _MAP_.flyTo({ center: [117.015378, 36.639001], zoom: 17 });
+          }}
+        />
         <div className="search-btn">
           <IoMdSearch className="search-icon" />
         </div>
