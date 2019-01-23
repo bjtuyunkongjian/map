@@ -402,7 +402,18 @@ export default class PoliceForce extends Component {
     const _headFeatures = [];
     const _tailFeatures = [];
     Object.keys(this._curPoliceCar).map(key => {
-      if (key != '37010000000061044') return; // 显示固定的 objectid
+      if (key != '29999') return; // 显示固定的 objectid
+
+      if (!objectIdRoadMap[key]) {
+        // 未选中头尾车，返回
+        const { selectedRoutePlan } = this.state;
+        const { roadName } = objectIdRoadMap[key]; // 头尾车
+        const _selected = selectedRoutePlan.filter(
+          item => item.originName === roadName
+        );
+        if (!_selected) return;
+      }
+
       const _policeCarInfo = this._curPoliceCar[key];
       const {
         count,
@@ -419,39 +430,56 @@ export default class PoliceForce extends Component {
       _headFeature.properties.img = 'ic_map_headcar';
       _headFeatures.push(_headFeature);
       _policeCarInfo.count++;
-      if (!objectIdRoadMap[key]) {
-        return;
-      }
-      // 计算尾车信息
-      // const _hasAddedLine = !(IsEmpty(addedFeatures) || addedLineLen === 0); // 是否有添加的路线
-      // for (let i = tailCarCount; i > 0; i--) {
-      //   let _tailFeature;
-      //   const _distanceDiff = _moveDistance - i * carDistance; // 距离差值
-      //   if (_distanceDiff <= 0) {
-      //     if (_hasAddedLine) {
-      //       let _len = addedLineLen + _distanceDiff; // 距离差值为负值，定义中间变量，记录离添加道路起点的距离
-      //       _len = _len > 0 ? _len : 0; // 如果该值为负值，定为 0
-      //       _tailFeature = TurfAlong(addedFeatures, _len, units); // 尾车 feature
 
-      //       if (i === tailCarCount) {
-      //         _tailFeature.properties.objectID = objectID[objectID.length - 1]; //尾车， 添加 objectid
-      //         _tailFeature.properties.img = 'icon_map_tailcar'; // 添加尾车图标
-      //       } else {
-      //         _tailFeature.properties.img = 'ic_map_wheel'; // 添加中间车图标
-      //       }
-      //       _tailFeatures.push(_tailFeature);
-      //     }
-      //   } else {
-      //     _tailFeature = TurfAlong(features, _distanceDiff, units); // 距离差值为正值，直接计算
-      //     if (i === tailCarCount) {
-      //       _tailFeature.properties.objectid = objectID[objectID.length - 1]; // 添加 objectid
-      //       _tailFeature.properties.img = 'icon_map_tailcar'; // 添加尾车图标
-      //     } else {
-      //       _tailFeature.properties.img = 'ic_map_wheel'; // 添加中间车图标
-      //     }
-      //     _tailFeatures.push(_tailFeature);
-      //   }
-      // }
+      // 计算时间
+      const _now = new Date();
+      const _timeStamp = _now.getTime();
+      const _year = _now.getFullYear();
+      const _mouth = _now.getMonth();
+      const _date = _now.getDate();
+      const _startTime = new Date(
+        _year,
+        _mouth,
+        _date,
+        ...tailCarFollowingTime.start
+      );
+      const _endTime = new Date(
+        _year,
+        _mouth,
+        _date,
+        ...tailCarFollowingTime.end
+      );
+      if (_timeStamp < _startTime || _timeStamp > _endTime) return; // 如果不在该时间段之内，不添加尾车
+      // 计算尾车信息
+      const _hasAddedLine = !(IsEmpty(addedFeatures) || addedLineLen === 0); // 是否有添加的路线
+      for (let i = tailCarCount; i > 0; i--) {
+        let _tailFeature;
+        const _distanceDiff = _moveDistance - i * carDistance; // 距离差值
+        if (_distanceDiff <= 0) {
+          if (_hasAddedLine) {
+            let _len = addedLineLen + _distanceDiff; // 距离差值为负值，定义中间变量，记录离添加道路起点的距离
+            _len = _len > 0 ? _len : 0; // 如果该值为负值，定为 0
+            _tailFeature = TurfAlong(addedFeatures, _len, units); // 尾车 feature
+
+            if (i === tailCarCount) {
+              _tailFeature.properties.objectID = objectID[objectID.length - 1]; //尾车， 添加 objectid
+              _tailFeature.properties.img = 'icon_map_tailcar'; // 添加尾车图标
+            } else {
+              _tailFeature.properties.img = 'ic_map_wheel'; // 添加中间车图标
+            }
+            _tailFeatures.push(_tailFeature);
+          }
+        } else {
+          _tailFeature = TurfAlong(features, _distanceDiff, units); // 距离差值为正值，直接计算
+          if (i === tailCarCount) {
+            _tailFeature.properties.objectid = objectID[objectID.length - 1]; // 添加 objectid
+            _tailFeature.properties.img = 'icon_map_tailcar'; // 添加尾车图标
+          } else {
+            _tailFeature.properties.img = 'ic_map_wheel'; // 添加中间车图标
+          }
+          _tailFeatures.push(_tailFeature);
+        }
+      }
     });
     const _features = [..._headFeatures, ..._tailFeatures];
     this._drawIconPoint(_features); // 绘制待点击的点
@@ -595,9 +623,9 @@ const handheldStyle = {
   ]
 };
 
-const objectIdRoadMap = {}; // [ObjectId] : {}
+const objectIdRoadMap = {}; // [ObjectId] : {roadName: 'xxxxxx'}
 
 const tailCarFollowingTime = {
-  start: '9:00',
-  end: '15:00'
+  start: [9, 0],
+  end: [15, 0]
 };

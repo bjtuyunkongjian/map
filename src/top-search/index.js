@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { IoMdShareAlt, IoMdSearch } from 'react-icons/io';
+import { IoMdShareAlt } from 'react-icons/io';
+import SearchInput from './search-input';
+import SearchBtn from './search-btn';
 import CityInfo from './city-info';
 import CityList from './city-list';
 
@@ -8,17 +10,14 @@ export default class TopSearch extends Component {
     return (
       <div className="top-search">
         <CityInfo />
-        <input type="text" placeholder="图云搜索" className="search-input" />
+        <SearchInput />
         <IoMdShareAlt
           className="route-icon"
           onClick={() => {
             _MAP_.flyTo({ center: [117.015378, 36.639001], zoom: 17 });
           }}
         />
-        <div className="search-btn">
-          <IoMdSearch className="search-icon" />
-        </div>
-
+        <SearchBtn />
         <CityList />
       </div>
     );
