@@ -22,9 +22,7 @@
       color: white;
       cursor: pointer;
       margin-top: 5px;
-      &:hover {
-        opacity: 0.8;
-      }
+
       .checkbox {
         width: 15px;
         height: 15px;
@@ -38,6 +36,9 @@
         &.checked {
           background-color: @bg-hover;
         }
+        &:hover {
+          opacity: 0.8;
+        }
       }
       .table-name {
         flex: 0 60%;
@@ -46,10 +47,12 @@
         text-overflow: ellipsis;
         white-space: nowrap;
       }
-      .table-date {
+      .table-select {
+        color: white;
         flex: 0 40%;
         display: flex;
         justify-content: flex-end;
+        cursor: pointer;
       }
     }
   }

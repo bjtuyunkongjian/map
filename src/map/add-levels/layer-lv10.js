@@ -48,6 +48,17 @@ const style = {
         'text-halo-color': 'rgba(255, 255, 255, 1)'
       },
       labelLayerId: symbolLabelLayerId
+    },
+    {
+      id: 'POI_LEVEL_10_CAMERA',
+      type: 'symbol',
+      source: LevelConfig.addLv10,
+      'source-layer': 'camera',
+      layout: {
+        'icon-image': 'camera_Important',
+        'icon-size': 1
+      },
+      labelLayerId: symbolLabelLayerId
     }
   ]
 };

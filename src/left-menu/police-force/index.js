@@ -6,8 +6,7 @@ import MenuItem from '../menu-list/menu-item';
 import {
   FetchLocationCar,
   QueryDetail,
-  FetchAllRoutes,
-  FetchRouteInfo
+  FetchAllRoutes
 } from '../menu-list/webapi';
 import {
   lineString as LineString,
@@ -27,7 +26,9 @@ export default class PoliceForce extends Component {
     animate: 'hidden',
     showDialog: false,
     dialogTitle: '警员信息',
-    dialogInfo: []
+    dialogInfo: [],
+    selectedRoutePlan: [],
+    routeList: []
   };
 
   _intervalStart = []; // 记录起始定时时间，第 0 位是请求定时时间
@@ -49,17 +50,22 @@ export default class PoliceForce extends Component {
       animate,
       showDialog,
       dialogTitle,
-      dialogInfo
+      dialogInfo,
+      selectedRoutePlan,
+      routeList
     } = this.state;
     const _selected = curMenu === MenuItem.policeForce;
     const _arrow = _selected ? 'arrow-down' : 'arrow-right';
+    const _showRoute = !!selectedTasks.filter(
+      item => item.value === 'securityRoute'
+    )[0];
     return (
       <div className="menu-item content">
         <div className="item-label" onClick={this._selectMenu}>
           <TiUser />
           <span>警力</span>
           <div className={`arrow-box ${_selected ? 'changed' : ''}`}>
-            <span className={`arrow arrow-right ${_arrow}`} />
+            <span className={`arrow ${_arrow}`} />
           </div>
         </div>
 
@@ -90,7 +96,14 @@ export default class PoliceForce extends Component {
           />
         ) : null}
 
-        {_selected ? <SecurityRoute /> : null}
+        {_selected && _showRoute ? (
+          <SecurityRoute
+            visible={_showRoute}
+            selectedPlan={selectedRoutePlan}
+            routeList={routeList}
+            onSelect={this._selectSecurityRoute}
+          />
+        ) : null}
       </div>
     );
   }
@@ -144,7 +157,6 @@ export default class PoliceForce extends Component {
         // 警力动画，重置定时器并删除所有图层
         this._resetInterval(); // 重置定时器
         this._removePolicecarLayer(); // 删除警车图层
-        this._removeSecurityRouteLayer(); // 删除安保路线图层
         this._removeHandheldLayer(); // 删除手持设备图层
       }
     }); // 选择当前菜单
@@ -182,7 +194,6 @@ export default class PoliceForce extends Component {
     // 警力动画，重置定时器并删除所有图层
     this._resetInterval(); // 重置定时器
     this._removePolicecarLayer(); // 删除警车图层
-    this._removeSecurityRouteLayer(); // 删除安保路线图层
     this._removeHandheldLayer(); // 删除手持设备图层
   };
 
@@ -212,73 +223,31 @@ export default class PoliceForce extends Component {
       item => item.value === 'securityRoute'
     )[0];
     if (_selected) {
-      this._addSecurityRoute();
-    } else {
-      this._removeSecurityRouteLayer();
+      this._fetchAllRoutes();
     }
   };
 
-  _addSecurityRoute = async () => {
-    if (this._securityRoute.length > 0) {
-      this._drawRoad();
-      return;
-    }
+  _fetchAllRoutes = async () => {
     // 如果没有安保路线，从后端获取安保路线
     const { res: allRoutes, err: allRoutesErr } = await FetchAllRoutes(); // 获取所有道路
     if (!allRoutes || allRoutesErr) return;
-    let _colorIndex = 0;
-    for (let item of allRoutes) {
-      const { res, err } = await FetchRouteInfo({ fileName: item }); // 去后端请求数据
-      if (!res || err) continue;
-      const { features } = res;
-      const _roadCoords = [];
-      for (let feature of features) {
-        const { coordinates } = feature.geometry;
-        for (let coords of coordinates) {
-          _roadCoords.push(coords);
-        }
-      }
-      const _lineColor = colorArr[_colorIndex]; // 线条颜色
-      _colorIndex = _colorIndex === colorArr.length - 1 ? 0 : _colorIndex + 1;
-      const _newFeatures = LineString(_roadCoords, {
-        lineColor: _lineColor // todo set color
-      });
-      this._securityRoute.push(_newFeatures);
-    }
-    this._drawRoad();
-  };
-
-  _drawRoad = () => {
-    if (!_MAP_.getSource(securityRouteLayerId)) {
-      _MAP_.addLayer(
-        {
-          id: securityRouteLayerId,
-          type: 'line',
-          source: {
-            type: 'geojson',
-            data: {
-              type: 'FeatureCollection',
-              features: this._securityRoute
-            }
-          },
-          layout: {
-            'line-join': 'round',
-            'line-cap': 'round'
-          },
-          paint: {
-            'line-color': ['get', 'lineColor'],
-            'line-width': 8,
-            'line-opacity': 0.85
-          }
-        },
-        lineTopRef
-      );
-    } else {
-      _MAP_.getSource(securityRouteLayerId).setData({
-        type: 'FeatureCollection',
-        features: this._securityRoute
-      });
-    }
+    const _dateLen = ('' + new Date().getTime()).length; // 日期长度
+    const _routeList = allRoutes.map(item => {
+      const _name = item.substr(0, item.length - _dateLen - 1);
+      const _timeStep = item.substr(-_dateLen);
+      const _dateTime = parseInt(_timeStep);
+      const _newDate = new Date(_dateTime);
+      const _year = _newDate.getFullYear();
+      const _month = _newDate.getMonth() + 1;
+      const _date = _newDate.getDate();
+      return {
+        name: _name,
+        date: `${_year}-${_month}-${_date}`,
+        timeStep: _timeStep,
+        originName: item
+      };
+    });
+    await this.setState({ routeList: _routeList });
   };
 
   _intervalSearch = () => {
@@ -433,7 +402,7 @@ export default class PoliceForce extends Component {
     const _headFeatures = [];
     const _tailFeatures = [];
     Object.keys(this._curPoliceCar).map(key => {
-      if (key != '37010000000014470') return; // 显示固定的 objectid
+      if (key != '37010000000061044') return; // 显示固定的 objectid
       const _policeCarInfo = this._curPoliceCar[key];
       const {
         count,
@@ -450,6 +419,9 @@ export default class PoliceForce extends Component {
       _headFeature.properties.img = 'ic_map_headcar';
       _headFeatures.push(_headFeature);
       _policeCarInfo.count++;
+      if (!objectIdRoadMap[key]) {
+        return;
+      }
       // 计算尾车信息
       // const _hasAddedLine = !(IsEmpty(addedFeatures) || addedLineLen === 0); // 是否有添加的路线
       // for (let i = tailCarCount; i > 0; i--) {
@@ -505,13 +477,6 @@ export default class PoliceForce extends Component {
       _MAP_.removeLayer(policecarLayerId).removeSource(policecarLayerId); // 删除所有 layer 和 source
   };
 
-  _removeSecurityRouteLayer = () => {
-    _MAP_.getLayer(securityRouteLayerId) &&
-      _MAP_
-        .removeLayer(securityRouteLayerId)
-        .removeSource(securityRouteLayerId); // 删除所有 layer 和 source
-  };
-
   _drawIconPoint = features => {
     if (!_MAP_.getSource(policecarLayerId)) {
       _MAP_.addLayer(
@@ -540,6 +505,10 @@ export default class PoliceForce extends Component {
         features: features
       });
     }
+  };
+
+  _selectSecurityRoute = selectedRoutePlan => {
+    this.setState({ selectedRoutePlan });
   };
 
   _closeDialog = () => {
@@ -585,7 +554,6 @@ const carDistance = 20 / 1000; // 两辆车的车距，单位：千米
 const units = 'kilometers'; // 计算单位
 
 const symbolLabelLayerId = 'symbol-ref';
-const lineTopRef = 'line-top-ref';
 const lineNameRef = 'line-name-ref';
 
 // 手持设备样式配置
@@ -614,9 +582,22 @@ const handheldStyle = {
         'icon-image': 'ic_map_policeman',
         'icon-size': 1
       },
+      // filter: [
+      //   'any',
+      //   ['==', 'objectID', '102127'],
+      //   ['==', 'objectID', '29999'],
+      //   ['==', 'objectID', '102122'],
+      //   ['==', 'objectID', '512095'],
+      //   ['==', 'objectID', '212122']
+      // ],
       labelLayerId: symbolLabelLayerId
     }
   ]
 };
 
-const colorArr = ['#ff0056', '#e66f51', '#2a9d8e', '#264653'];
+const objectIdRoadMap = {}; // [ObjectId] : {}
+
+const tailCarFollowingTime = {
+  start: '9:00',
+  end: '15:00'
+};
