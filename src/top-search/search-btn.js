@@ -34,11 +34,26 @@ export default class SearchBtn extends Component {
   _searchDevice = async () => {
     if (this._disabled) return TuyunMessage.show('请选中警员和警车');
     this._inputVal = this._inputVal.replace(/\s/g, '');
+    this._inputVal = this._inputVal.replace(/，/g, ',');
     if (!this._inputVal) return TuyunMessage.show('请输入想要查找内容');
     const _devices = this._inputVal.split(',');
     const _param = { devices: _devices };
     const { res, err } = await SearchDevice(_param);
     if (!res || err) return;
     if (IsEmpty(res)) return TuyunMessage.show('查询设备编号均为空');
+    const _carInfo = {};
+    const _manInfo = {};
+    for (let item of res) {
+      const { objectId, deviceType } = item;
+      if (deviceType === '0') {
+        _carInfo[objectId] = item;
+      } else if (deviceType === '1') {
+        _manInfo[objectId] = item;
+      }
+    }
+    GlobalEvent.emit('change:LeftMenu:searchInfo', {
+      carInfo: _carInfo,
+      manInfo: _manInfo
+    });
   };
 }

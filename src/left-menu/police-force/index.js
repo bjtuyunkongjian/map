@@ -174,6 +174,10 @@ export default class PoliceForce extends Component {
         this._removeHandheldLayer(); // 删除手持设备图层
       }
     }); // 选择当前菜单
+
+    GlobalEvent.on('change:LeftMenu:searchInfo', ({ carInfo, manInfo }) => {
+      console.log(carInfo, manInfo);
+    });
   };
 
   _resetInterval = () => {

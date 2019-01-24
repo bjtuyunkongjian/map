@@ -36,18 +36,39 @@ export default class SearchInput extends Component {
 
   _onChange = e => {
     this.setState({ inputVal: e.target.value });
+    if (!e.target.value) {
+      GlobalEvent.emit('change:LeftMenu:searchInfo', {
+        carInfo: {},
+        manInfo: {}
+      }); // 清空
+    }
     Event.emit('change:inputVal', e.target.value);
   };
 
   _onKeyUp = async e => {
     if (e.keyCode !== 13) return;
     const { inputVal } = this.state;
-    const _inputVal = inputVal.replace(/\s/g, '');
+    let _inputVal = inputVal.replace(/\s/g, '');
+    _inputVal = inputVal.replace(/，/g, ',');
     if (!_inputVal) return TuyunMessage.show('请输入想要查找内容');
     const _devices = _inputVal.split(',');
     const _param = { devices: _devices };
     const { res, err } = await SearchDevice(_param);
     if (!res || err) return;
     if (IsEmpty(res)) return TuyunMessage.show('查询设备编号均为空');
+    const _carInfo = {};
+    const _manInfo = {};
+    for (let item of res) {
+      const { objectId, deviceType } = item;
+      if (deviceType === '0') {
+        _carInfo[objectId] = item;
+      } else if (deviceType === '1') {
+        _manInfo[objectId] = item;
+      }
+    }
+    GlobalEvent.emit('change:LeftMenu:searchInfo', {
+      carInfo: _carInfo,
+      manInfo: _manInfo
+    });
   };
 }
