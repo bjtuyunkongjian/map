@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { IoMdShareAlt } from 'react-icons/io';
+// import { IoMdShareAlt } from 'react-icons/io';
+import { MdFilterTiltShift } from 'react-icons/md';
 import SearchInput from './search-input';
 import SearchBtn from './search-btn';
 import CityInfo from './city-info';
@@ -11,7 +12,7 @@ export default class TopSearch extends Component {
       <div className="top-search">
         <CityInfo />
         <SearchInput />
-        <IoMdShareAlt
+        <MdFilterTiltShift
           className="route-icon"
           onClick={() => {
             _MAP_.flyTo({ center: [117.015378, 36.639001], zoom: 17 });

@@ -467,18 +467,18 @@ const style = {
         'fill-extrusion-opacity': gresplOpacity
       },
       labelLayerId: threeLabelLayerId
+    },
+    {
+      id: 'POI_LEVEL_15_CAMERA',
+      type: 'symbol',
+      source: LevelConfig.addLv15,
+      'source-layer': 'camera',
+      layout: {
+        'icon-image': 'camera_{CAMERA}',
+        'icon-size': 1
+      },
+      labelLayerId: symbolLabelLayerId
     }
-    // {
-    //   id: 'POI_LEVEL_15_CAMERA',
-    //   type: 'symbol',
-    //   source: LevelConfig.addLv15,
-    //   'source-layer': 'camera',
-    //   layout: {
-    //     'icon-image': 'camera_Important',
-    //     'icon-size': 1
-    //   },
-    //   labelLayerId: symbolLabelLayerId
-    // }
   ]
 };
 

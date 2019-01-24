@@ -3,6 +3,7 @@ import Event from './event';
 import { Event as GlobalEvent, IsEmpty } from 'tuyun-utils';
 import { TuyunMessage } from 'tuyun-kit';
 import { SearchDevice } from './webapi';
+import { MdHighlightOff } from 'react-icons/md';
 
 export default class SearchInput extends Component {
   state = {
@@ -14,6 +15,7 @@ export default class SearchInput extends Component {
 
   render() {
     const { disabled, inputVal } = this.state;
+    const _isHidden = inputVal ? '' : 'hidden';
     return (
       <div className="search-input-box">
         <input
@@ -25,6 +27,9 @@ export default class SearchInput extends Component {
           onChange={this._onChange}
           onKeyUp={this._onKeyUp}
         />
+        <div className={`search-clear ${_isHidden}`} onClick={this._clearInput}>
+          <MdHighlightOff />
+        </div>
       </div>
     );
   }
@@ -51,6 +56,10 @@ export default class SearchInput extends Component {
       }); // 清空
     }
     Event.emit('change:inputVal', e.target.value);
+  };
+
+  _clearInput = () => {
+    this.setState({ inputVal: '' });
   };
 
   _onKeyUp = async e => {

@@ -131,10 +131,11 @@ export default class PoliceForce extends Component {
       if (!objectID) return;
       const { res, err } = await QueryDetail({ objectid: objectID });
       if (err || !res) return;
-      const _deviceType = `设备名称：${res.devicetypebig_name}`;
-      const _callNum = `呼号：${res.name}`;
-      const _policeType = `警种类型：${res.policetypebig_name}`;
-      const _orgCode = `组织机构代码：${res.deptid}`;
+      const { devicetypebig_name, name, policetypebig_name, deptid } = res;
+      const _deviceType = `设备名称：${devicetypebig_name || '暂无'}`;
+      const _callNum = `呼号：${name || '暂无'}`;
+      const _policeType = `警种类型：${policetypebig_name || '暂无'}`;
+      const _orgCode = `组织机构代码：${deptid || '暂无'}`;
       this.setState({
         showDialog: true,
         dialogTitle: '警员信息',
@@ -147,10 +148,11 @@ export default class PoliceForce extends Component {
       if (!objectID) return;
       const { res, err } = await QueryDetail({ objectid: objectID });
       if (err || !res) return;
-      const _deviceType = `设备名称：${res.devicetypebig_name}`;
-      const _carNum = `设备号：${res.name}`;
-      const _policeType = `警种类型：${res.policetypebig_name}`;
-      const _orgCode = `组织机构代码：${res.deptid}`;
+      const { devicetypebig_name, name, policetypebig_name, deptid } = res;
+      const _deviceType = `设备名称：${devicetypebig_name || '暂无'}`;
+      const _carNum = `设备号：${name || '暂无'}`;
+      const _policeType = `警种类型：${policetypebig_name || '暂无'}`;
+      const _orgCode = `组织机构代码：${deptid || '暂无'}`;
       this.setState({
         showDialog: true,
         dialogTitle: '警车信息',
