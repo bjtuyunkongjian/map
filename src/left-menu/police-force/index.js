@@ -11,7 +11,8 @@ import {
 import {
   lineString as LineString,
   lineDistance as LineDistance,
-  along as TurfAlong
+  along as TurfAlong,
+  point as TurfPoint
 } from 'turf';
 import { IsEmpty, IsArray } from 'tuyun-utils';
 import { BaseConfig } from 'tuyun-config';
@@ -41,6 +42,8 @@ export default class PoliceForce extends Component {
   _enableStart = false; // 可以开始
   _securityRoute = []; // 安保路线
   _selectedPoliceCar = undefined;
+  _searchCarInfo = {}; // 搜索结果
+  _searchManInfo = {}; // 搜索结果
 
   componentDidMount = () => this._init();
   componentWillUpdate = () => {
@@ -176,7 +179,47 @@ export default class PoliceForce extends Component {
     }); // 选择当前菜单
 
     GlobalEvent.on('change:LeftMenu:searchInfo', ({ carInfo, manInfo }) => {
-      console.log(carInfo, manInfo);
+      this._searchCarInfo = carInfo;
+      this._searchManInfo = manInfo;
+      if (IsEmpty(manInfo)) {
+        this._removeSearchManLayer(); // 删除对应图层
+        _MAP_.getLayer(handheldLayerId) &&
+          _MAP_.setLayoutProperty(handheldLayerId, 'visibility', 'visible');
+        return;
+      }
+      // 搜索没有警员信息
+      const _features = Object.keys(manInfo).map(key => {
+        const { objectId, latitude, longitude } = manInfo[key];
+        return TurfPoint([longitude, latitude], { objectID: objectId });
+      });
+      _MAP_.getLayer(handheldLayerId) &&
+        _MAP_.setLayoutProperty(handheldLayerId, 'visibility', 'none');
+      if (!_MAP_.getSource(manSearchResultLayerId)) {
+        _MAP_.addLayer(
+          {
+            id: manSearchResultLayerId,
+            type: 'symbol',
+            source: {
+              type: 'geojson',
+              data: {
+                type: 'FeatureCollection',
+                features: _features
+              }
+            },
+            layout: {
+              'icon-image': 'ic_map_policeman',
+              'icon-size': 1
+            },
+            labelLayerId: symbolLabelLayerId
+          },
+          symbolLabelLayerId
+        );
+      } else {
+        _MAP_.getSource(manSearchResultLayerId).setData({
+          type: 'FeatureCollection',
+          features: _features
+        });
+      }
     });
   };
 
@@ -289,7 +332,6 @@ export default class PoliceForce extends Component {
   };
 
   _intervalFunc = () => {
-    // console.log('render');
     const { selectedTasks } = this.state;
     const _handheldSelected = selectedTasks.filter(
       item => item.value === 'policeman'
@@ -300,7 +342,6 @@ export default class PoliceForce extends Component {
     _selectedPolicecar && this._drawPoliceCars(); // 选中警车，每过 carRerenderInterval 毫秒重绘警车
     this._intervalMod = this._intervalMod + 1; // 递增
     if (this._intervalMod % policeCarRatio === 0) {
-      // console.log('fetch');
       _selectedPolicecar && this._fetchPoliceCar(); // 选中警车，请求警车额数据
     }
     if (this._intervalMod % policeCarRatio === carDelayRatio) {
@@ -423,6 +464,7 @@ export default class PoliceForce extends Component {
     const _tailFeatures = [];
     Object.keys(this._curPoliceCar).map(key => {
       // if (key != '29999') return; // 显示固定的 objectid
+      if (!IsEmpty(this._searchCarInfo) && !this._searchCarInfo[key]) return; // 如果搜索车结果不为空并且没有对应的车，返回
 
       if (objectIdRoadMap[key]) {
         // 未选中头尾车，返回
@@ -513,6 +555,10 @@ export default class PoliceForce extends Component {
 
   _addSourceFunc = () => {
     AddLevel(_MAP_, handheldStyle); // 添加图层
+    if (!IsEmpty(this._searchManInfo)) {
+      _MAP_.getLayer(handheldLayerId) &&
+        _MAP_.setLayoutProperty(handheldLayerId, 'visibility', 'none');
+    }
   };
 
   _removeHandheldLayer = () => {
@@ -524,6 +570,13 @@ export default class PoliceForce extends Component {
   _removePolicecarLayer = () => {
     _MAP_.getLayer(policecarLayerId) &&
       _MAP_.removeLayer(policecarLayerId).removeSource(policecarLayerId); // 删除所有 layer 和 source
+  };
+
+  _removeSearchManLayer = () => {
+    _MAP_.getSource(manSearchResultLayerId) &&
+      _MAP_
+        .removeLayer(manSearchResultLayerId)
+        .removeSource(manSearchResultLayerId); // 删除对应图层
   };
 
   _drawIconPoint = features => {
@@ -569,7 +622,7 @@ const handheldLayerId = 'MENU_LIST_POLICE_FORCE_MAN';
 const handheldSource = 'MENU_LIST_POLICE_CAR_SOURCE';
 const policecarLayerId = 'MENU_LIST_POLICE_FORCE_CAR';
 const securityRouteLayerId = 'MENU_LIST_SECURITY_ROUTE';
-
+const manSearchResultLayerId = 'MAN_SEARCH_RESULT_LAYER_ID';
 const options = [
   {
     value: 'policeman',

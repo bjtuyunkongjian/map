@@ -13,13 +13,14 @@ export default class SearchInput extends Component {
   componentDidMount = () => this._init();
 
   render() {
-    const { disabled } = this.state;
+    const { disabled, inputVal } = this.state;
     return (
       <div className="search-input-box">
         <input
           type="text"
           placeholder="图云搜索"
           className="search-input"
+          value={inputVal}
           disabled={disabled}
           onChange={this._onChange}
           onKeyUp={this._onKeyUp}
@@ -31,6 +32,13 @@ export default class SearchInput extends Component {
   _init = () => {
     GlobalEvent.on('change:TopSearch:disable', disabled => {
       this.setState({ disabled });
+      if (disabled) {
+        this.setState({ inputVal: '' });
+        GlobalEvent.emit('change:LeftMenu:searchInfo', {
+          carInfo: {},
+          manInfo: {}
+        }); // 清空
+      }
     });
   };
 

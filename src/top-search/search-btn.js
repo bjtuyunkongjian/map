@@ -6,8 +6,6 @@ import { Event as GlobalEvent, IsEmpty } from 'tuyun-utils';
 import { TuyunMessage } from 'tuyun-kit';
 
 export default class SearchBtn extends Component {
-  state = {};
-
   _inputVal = undefined;
   _disabled = true;
 
