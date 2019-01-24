@@ -173,7 +173,7 @@ export default class ViewRoute extends Component {
           paint: {
             'line-color': ['get', 'lineColor'],
             'line-width': 8,
-            'line-opacity': 0.85
+            'line-opacity': 0.5
           }
         },
         lineTopRef
@@ -188,7 +188,7 @@ export default class ViewRoute extends Component {
 
   // 警车动画
   _animateCar = () => {
-    const intrevalTime = 10; // 单位：毫秒
+    const intrevalTime = 20; // 单位：毫秒
     clearInterval(this._animateInterval);
     this._animateInterval = setInterval(() => {
       const { selectedPlan } = this.state;

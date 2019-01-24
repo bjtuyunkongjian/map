@@ -18,6 +18,7 @@ import { BaseConfig } from 'tuyun-config';
 import { AddLevel } from 'tuyun-utils';
 import Dialog from './dialog';
 import SecurityRoute from './security-route';
+import { Event as GlobalEvent } from 'tuyun-utils';
 
 export default class PoliceForce extends Component {
   state = {
@@ -42,6 +43,19 @@ export default class PoliceForce extends Component {
   _selectedPoliceCar = undefined;
 
   componentDidMount = () => this._init();
+  componentWillUpdate = () => {
+    const { selectedTasks } = this.state;
+    const _selectedPoliceMan = !!selectedTasks.filter(
+      item => item.value === 'policeman'
+    )[0];
+    const _selectedPoliceCar = !!selectedTasks.filter(
+      item => item.value === 'policecar'
+    )[0];
+    GlobalEvent.emit(
+      'change:TopSearch:disable',
+      !_selectedPoliceMan || !_selectedPoliceCar
+    );
+  };
 
   render() {
     const {
@@ -131,7 +145,7 @@ export default class PoliceForce extends Component {
       const { res, err } = await QueryDetail({ objectid: objectID });
       if (err || !res) return;
       const _deviceType = `设备名称：${res.devicetypebig_name}`;
-      const _carNum = `车牌号：${res.name}`;
+      const _carNum = `设备号：${res.name}`;
       const _policeType = `警种类型：${res.policetypebig_name}`;
       const _orgCode = `组织机构代码：${res.deptid}`;
       this.setState({
@@ -271,6 +285,7 @@ export default class PoliceForce extends Component {
   };
 
   _intervalFunc = () => {
+    // console.log('render');
     const { selectedTasks } = this.state;
     const _handheldSelected = selectedTasks.filter(
       item => item.value === 'policeman'
@@ -281,6 +296,7 @@ export default class PoliceForce extends Component {
     _selectedPolicecar && this._drawPoliceCars(); // 选中警车，每过 carRerenderInterval 毫秒重绘警车
     this._intervalMod = this._intervalMod + 1; // 递增
     if (this._intervalMod % policeCarRatio === 0) {
+      // console.log('fetch');
       _selectedPolicecar && this._fetchPoliceCar(); // 选中警车，请求警车额数据
     }
     if (this._intervalMod % policeCarRatio === carDelayRatio) {
@@ -402,9 +418,9 @@ export default class PoliceForce extends Component {
     const _headFeatures = [];
     const _tailFeatures = [];
     Object.keys(this._curPoliceCar).map(key => {
-      if (key != '29999') return; // 显示固定的 objectid
+      // if (key != '29999') return; // 显示固定的 objectid
 
-      if (!objectIdRoadMap[key]) {
+      if (objectIdRoadMap[key]) {
         // 未选中头尾车，返回
         const { selectedRoutePlan } = this.state;
         const { roadName } = objectIdRoadMap[key]; // 头尾车
@@ -419,8 +435,8 @@ export default class PoliceForce extends Component {
         count,
         features,
         speed,
-        // addedFeatures,
-        // addedLineLen,
+        addedFeatures,
+        addedLineLen,
         objectID
       } = _policeCarInfo;
       // 计算头车信息
@@ -449,6 +465,7 @@ export default class PoliceForce extends Component {
         _date,
         ...tailCarFollowingTime.end
       );
+      if (!objectIdRoadMap[key]) return; // 如果没有id，不需要尾车
       if (_timeStamp < _startTime || _timeStamp > _endTime) return; // 如果不在该时间段之内，不添加尾车
       // 计算尾车信息
       const _hasAddedLine = !(IsEmpty(addedFeatures) || addedLineLen === 0); // 是否有添加的路线
@@ -569,7 +586,7 @@ const options = [
 
 const policeCarInterval = 10 * 1000; // 警车请求间隔，单位：毫秒
 const carDelayInterval = 5 * 1000; // 警车延时时间，单位：毫秒
-const carRerenderInterval = 10; // 警车移动时间间隔，单位：毫秒 ==========> 一定要可以被 1000 整除！！！！！
+const carRerenderInterval = 20; // 警车移动时间间隔，单位：毫秒 ==========> 一定要可以被 1000 整除！！！！！
 const handheldIntereval = 30 * 1000; // 手持设备请求时间间隔，单位：毫秒
 
 const policeCarRatio = policeCarInterval / carRerenderInterval; // 请求警车数据时间间隔 与 小车动一次时间间隔 的比例

@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 import { IoMdSearch } from 'react-icons/io';
 import { SearchDevice } from './webapi';
 import Event from './event';
+import { Event as GlobalEvent, IsEmpty } from 'tuyun-utils';
+import { TuyunMessage } from 'tuyun-kit';
 
 export default class SearchBtn extends Component {
   state = {};
 
   _inputVal = undefined;
+  _disabled = true;
 
   componentDidMount = () => this._init();
 
@@ -22,12 +25,20 @@ export default class SearchBtn extends Component {
     Event.on('change:inputVal', value => {
       this._inputVal = value;
     });
+
+    GlobalEvent.on('change:TopSearch:disable', disabled => {
+      this._disabled = disabled;
+    });
   };
 
   _searchDevice = async () => {
+    if (this._disabled) return TuyunMessage.show('请选中警员和警车');
+    this._inputVal = this._inputVal.replace(/\s/g, '');
+    if (!this._inputVal) return TuyunMessage.show('请输入想要查找内容');
     const _devices = this._inputVal.split(',');
     const _param = { devices: _devices };
     const { res, err } = await SearchDevice(_param);
-    console.log(res, err);
+    if (!res || err) return;
+    if (IsEmpty(res)) return TuyunMessage.show('查询设备编号均为空');
   };
 }

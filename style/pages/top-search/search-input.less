@@ -1,5 +1,21 @@
-.search-input {
-  width: 150px;
+.search-input-box {
+  display: flex;
+  align-items: center;
   margin-left: 10px;
   border-right: 1px solid @border-color-darker;
+  .search-input {
+    width: 135px;
+  }
+  .search-clear {
+    width: 14px;
+    height: 14px;
+    opacity: 0;
+    font-size: 12px;
+    &.show {
+      color: @t-grayer;
+      opacity: 1;
+      border-radius: 50%;
+      border: 1px solid @t-grayer;
+    }
+  }
 }
