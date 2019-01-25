@@ -13,7 +13,9 @@ export default class CommonFacility extends Component {
         <div className="item-label">
           <IoMdBusiness />
           <span>公共设施</span>
-          <span className="arrow arrow-right" />
+          <div className="arrow-box">
+            <span className="arrow arrow-right" />
+          </div>
         </div>
       </div>
     );

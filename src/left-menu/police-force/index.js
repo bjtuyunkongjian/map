@@ -131,15 +131,14 @@ export default class PoliceForce extends Component {
       if (!objectID) return;
       const { res, err } = await QueryDetail({ objectid: objectID });
       if (err || !res) return;
-      const { devicetypebig_name, name, policetypebig_name, deptid } = res;
+      const { devicetypebig_name, name, policetypebig_name } = res;
       const _deviceType = `设备名称：${devicetypebig_name || '暂无'}`;
       const _callNum = `呼号：${name || '暂无'}`;
       const _policeType = `警种类型：${policetypebig_name || '暂无'}`;
-      const _orgCode = `组织机构代码：${deptid || '暂无'}`;
       this.setState({
         showDialog: true,
         dialogTitle: '警员信息',
-        dialogInfo: [_deviceType, _callNum, _policeType, _orgCode]
+        dialogInfo: [_deviceType, _callNum, _policeType]
       }); // 点击手持设备事件
     });
 
@@ -148,15 +147,30 @@ export default class PoliceForce extends Component {
       if (!objectID) return;
       const { res, err } = await QueryDetail({ objectid: objectID });
       if (err || !res) return;
-      const { devicetypebig_name, name, policetypebig_name, deptid } = res;
+      const { devicetypebig_name, name, policetypebig_name } = res;
       const _deviceType = `设备名称：${devicetypebig_name || '暂无'}`;
       const _carNum = `设备号：${name || '暂无'}`;
       const _policeType = `警种类型：${policetypebig_name || '暂无'}`;
-      const _orgCode = `组织机构代码：${deptid || '暂无'}`;
       this.setState({
         showDialog: true,
         dialogTitle: '警车信息',
-        dialogInfo: [_deviceType, _carNum, _policeType, _orgCode]
+        dialogInfo: [_deviceType, _carNum, _policeType]
+      }); // 点击警车事件
+    });
+
+    _MAP_.on('click', manSearchResultLayerId, async e => {
+      const { objectID } = e.features[0].properties;
+      if (!objectID) return;
+      const { res, err } = await QueryDetail({ objectid: objectID });
+      if (err || !res) return;
+      const { devicetypebig_name, name, policetypebig_name } = res;
+      const _deviceType = `设备名称：${devicetypebig_name || '暂无'}`;
+      const _carNum = `设备号：${name || '暂无'}`;
+      const _policeType = `警种类型：${policetypebig_name || '暂无'}`;
+      this.setState({
+        showDialog: true,
+        dialogTitle: '警车信息',
+        dialogInfo: [_deviceType, _carNum, _policeType]
       }); // 点击警车事件
     });
 
@@ -181,6 +195,8 @@ export default class PoliceForce extends Component {
     }); // 选择当前菜单
 
     GlobalEvent.on('change:LeftMenu:searchInfo', ({ carInfo, manInfo }) => {
+      if (!IsEmpty(manInfo) || !IsEmpty(carInfo))
+        _MAP_.flyTo({ zoom: 10, center: [116.932, 36.656] });
       this._searchCarInfo = carInfo;
       this._searchManInfo = manInfo;
       if (IsEmpty(manInfo)) {
@@ -474,7 +490,7 @@ export default class PoliceForce extends Component {
         const { roadName } = objectIdRoadMap[key]; // 头尾车
         const _selected = selectedRoutePlan.filter(
           item => item.originName === roadName
-        );
+        )[0];
         if (!_selected) return;
       }
 
@@ -491,7 +507,9 @@ export default class PoliceForce extends Component {
       const _moveDistance = count * carRerenderInterval * speed; // count * carRerenderInterval 是行驶时间，单位毫秒
       const _headFeature = TurfAlong(features, _moveDistance, units); // 生成头车 feature
       _headFeature.properties.objectID = objectID[0];
-      _headFeature.properties.img = 'ic_map_headcar';
+      _headFeature.properties.img = objectIdRoadMap[key]
+        ? 'ic_map_wheel'
+        : 'ic_map_headcar';
       _headFeatures.push(_headFeature);
       _policeCarInfo.count++;
 
@@ -528,7 +546,7 @@ export default class PoliceForce extends Component {
 
             if (i === tailCarCount) {
               _tailFeature.properties.objectID = objectID[objectID.length - 1]; //尾车， 添加 objectid
-              _tailFeature.properties.img = 'icon_map_tailcar'; // 添加尾车图标
+              _tailFeature.properties.img = 'ic_map_wheel'; // 添加尾车图标
             } else {
               _tailFeature.properties.img = 'ic_map_wheel'; // 添加中间车图标
             }
@@ -538,7 +556,7 @@ export default class PoliceForce extends Component {
           _tailFeature = TurfAlong(features, _distanceDiff, units); // 距离差值为正值，直接计算
           if (i === tailCarCount) {
             _tailFeature.properties.objectid = objectID[objectID.length - 1]; // 添加 objectid
-            _tailFeature.properties.img = 'icon_map_tailcar'; // 添加尾车图标
+            _tailFeature.properties.img = 'ic_map_wheel'; // 添加尾车图标
           } else {
             _tailFeature.properties.img = 'ic_map_wheel'; // 添加中间车图标
           }
@@ -686,22 +704,37 @@ const handheldStyle = {
         'icon-image': 'ic_map_policeman',
         'icon-size': 1
       },
-      // filter: [
-      //   'any',
-      //   ['==', 'objectID', '102127'],
-      //   ['==', 'objectID', '29999'],
-      //   ['==', 'objectID', '102122'],
-      //   ['==', 'objectID', '512095'],
-      //   ['==', 'objectID', '212122']
-      // ],
       labelLayerId: symbolLabelLayerId
     }
   ]
 };
 
-const objectIdRoadMap = {}; // [ObjectId] : {roadName: 'xxxxxx'}
+const objectIdRoadMap = {
+  '37010000000118234': {
+    roadName: '舜耕山庄_1548319270213',
+    arrived: false
+  },
+  '37010000000118193': {
+    roadName: '颐正大厦_1548325328859',
+    arrived: false
+  },
+  '37010000000118199': {
+    roadName: '珍珠泉宾馆_1548319062920',
+    arrived: false
+  },
+  '37010000000061044': {
+    roadName: '蓝海御华_1548325668029',
+    arrived: false
+  },
+  '37010000000118507': {
+    roadName: '新闻大厦_1548319394926',
+    arrived: false
+  }
+}; // [ObjectId] : {roadName: 'xxxxxx'}
+// 37010000000118168 备用
+// 37010000000118507 新闻大厦
 
 const tailCarFollowingTime = {
-  start: [9, 0],
-  end: [15, 0]
+  start: [6, 0],
+  end: [23, 0]
 };

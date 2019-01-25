@@ -16,7 +16,9 @@ export default class Camera extends Component {
         <div className="item-label" onClick={this._showCamera}>
           <IoIosEye />
           <span>摄像头</span>
-          <span className="arrow arrow-right" />
+          <div className="arrow-box">
+            <span className="arrow arrow-right" />
+          </div>
         </div>
       </div>
     );

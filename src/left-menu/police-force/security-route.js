@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { FetchAllRoutes, FetchRouteInfo } from '../menu-list/webapi';
-import { lineString as LineString } from 'turf';
+import { lineString as LineString, point as TurfPoint } from 'turf';
 import { IoMdCheckmark } from 'react-icons/io';
 
 export default class SecurityRoute extends Component {
@@ -74,6 +74,7 @@ export default class SecurityRoute extends Component {
 
   _reset = () => {
     this._removeSecurityRouteLayer();
+    this._removeSecurityRouteIconLayer();
   };
 
   _fetchAllRoutes = async () => {
@@ -146,12 +147,49 @@ export default class SecurityRoute extends Component {
 
   _drawRoad = () => {
     const { selectedPlan } = this.props;
-    const _features = [];
+    const _roadFeatures = [];
+    const _startFeatures = [];
+    const _endFeatures = [];
     for (let item of selectedPlan) {
       const { originName } = item;
       if (!this._carRoutes[originName]) continue;
-      _features.push(this._carRoutes[originName].features);
+      const { features, coords } = this._carRoutes[originName];
+      _roadFeatures.push(features);
+      const _startFeature = TurfPoint(coords[0], {
+        image: 'security_route_start'
+      });
+      _startFeatures.push(_startFeature);
+      const _endFeature = TurfPoint(coords[coords.length - 1], {
+        image: 'security_route_start'
+      });
+      _endFeatures.push(_endFeature);
     }
+    // 添加图标坐标
+    const _iconFeatures = [..._startFeatures, ..._endFeatures];
+    // 添加图标
+    if (!_MAP_.getSource(securityRouteIconLayerId)) {
+      _MAP_.addLayer({
+        id: securityRouteIconLayerId,
+        type: 'symbol',
+        source: {
+          type: 'geojson',
+          data: {
+            type: 'FeatureCollection',
+            features: _iconFeatures
+          }
+        },
+        layout: {
+          'icon-image': '{image}',
+          'icon-size': 0.7
+        }
+      });
+    } else {
+      _MAP_.getSource(securityRouteIconLayerId).setData({
+        type: 'FeatureCollection',
+        features: _iconFeatures
+      });
+    }
+    // 添加道路
     if (!_MAP_.getSource(securityRouteLayerId)) {
       _MAP_.addLayer(
         {
@@ -161,7 +199,7 @@ export default class SecurityRoute extends Component {
             type: 'geojson',
             data: {
               type: 'FeatureCollection',
-              features: _features
+              features: _roadFeatures
             }
           },
           layout: {
@@ -179,7 +217,7 @@ export default class SecurityRoute extends Component {
     } else {
       _MAP_.getSource(securityRouteLayerId).setData({
         type: 'FeatureCollection',
-        features: _features
+        features: _roadFeatures
       });
     }
   };
@@ -190,11 +228,19 @@ export default class SecurityRoute extends Component {
         .removeLayer(securityRouteLayerId)
         .removeSource(securityRouteLayerId); // 删除所有 layer 和 source
   };
+
+  _removeSecurityRouteIconLayer = () => {
+    _MAP_.getLayer(securityRouteIconLayerId) &&
+      _MAP_
+        .removeLayer(securityRouteIconLayerId)
+        .removeSource(securityRouteIconLayerId); // 删除所有 layer 和 source
+  };
 }
 
 const colorArr = ['#ff0056', '#e66f51', '#2a9d8e', '#264653'];
 
 const securityRouteLayerId = 'MENU_LIST_SECURITY_ROUTE';
+const securityRouteIconLayerId = 'MENU_LIST_SECURITY_ROUTE_ICON'; // 安保路线起始点
 const lineTopRef = 'line-top-ref';
 const storage = window.localStorage;
 const storageKey = 'tuyun:carStateMap';
