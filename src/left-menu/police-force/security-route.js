@@ -10,10 +10,13 @@ export default class SecurityRoute extends Component {
     routeList: []
   };
 
+  state = {
+    carStateMap: {} // 车辆状态
+  };
+
   _carRoutes = {}; // 安保路线
   _colorIndex = 0; // 颜色索引
   _securityRoute = []; // 当前显示的安保路线
-  _carStateMap = {}; // 车辆状态
 
   componentDidMount = () => this._init();
 
@@ -21,6 +24,7 @@ export default class SecurityRoute extends Component {
 
   render() {
     const { visible, selectedPlan, routeList } = this.props;
+    const { carStateMap } = this.state;
     if (!visible) return null;
     return (
       <div className="security-route">
@@ -28,7 +32,7 @@ export default class SecurityRoute extends Component {
         <ul className="table-wrap">
           {routeList.map((item, index) => {
             const _isChecked = selectedPlan.indexOf(item) > -1;
-            const _selectedVal = this._carStateMap[item.originName];
+            const _selectedVal = carStateMap[item.originName];
             return (
               <li className="table-row" key={`route_list_${index}`}>
                 <div
@@ -47,11 +51,9 @@ export default class SecurityRoute extends Component {
                   className="table-select"
                   value={_selectedVal}
                   onChange={e => {
-                    this._carStateMap[item.originName] = e.target.value;
-                    storage.setItem(
-                      storageKey,
-                      JSON.stringify(this._carStateMap)
-                    );
+                    carStateMap[item.originName] = e.target.value;
+                    storage.setItem(storageKey, JSON.stringify(carStateMap));
+                    this.setState({ carStateMap });
                   }}
                 >
                   <option value="toStart">未出发</option>
@@ -68,7 +70,8 @@ export default class SecurityRoute extends Component {
 
   _init = () => {
     const _storageString = storage.getItem(storageKey);
-    this._carStateMap = _storageString ? JSON.parse(_storageString) : {};
+    const _carStateMap = _storageString ? JSON.parse(_storageString) : {};
+    this.setState({ carStateMap: _carStateMap });
     this._fetchAllRoutes();
   };
 
@@ -180,7 +183,7 @@ export default class SecurityRoute extends Component {
         },
         layout: {
           'icon-image': '{image}',
-          'icon-size': 0.7
+          'icon-size': 0.9
         }
       });
     } else {
