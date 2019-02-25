@@ -6,26 +6,15 @@
 import React, { Component } from 'react';
 import { Max, ResolveBlurry } from 'tuyun-utils';
 import BarPrompt from './bar-prompt';
+import { Padding, Title } from './style-options';
 
 export default class Bar extends Component {
   static defaultProps = {
     width: 300,
     height: 300,
     backgorundColor: '#fff',
-    padding: {
-      top: 5,
-      right: 5,
-      bottom: 5,
-      left: 5
-    },
-    title: {
-      text: '示例',
-      align: 'center', // center, left, right, 三个选项，分别向左、向右和居中，默认居中
-      fontSize: 20,
-      fontWeight: 'blod', // blod, normal
-      color: 'black',
-      fontFamily: '微软雅黑'
-    },
+    padding: Padding,
+    title: Title,
     // 提示
     tooltip: {},
     // 图例
@@ -82,13 +71,11 @@ export default class Bar extends Component {
   _width = 0;
 
   componentWillMount() {
-    const { data } = this.props;
-    this._convertData(data);
+    this._convertProps(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
-    const { data } = nextProps;
-    this._convertData(data);
+    this._convertProps(nextProps);
   }
 
   render() {
@@ -123,8 +110,11 @@ export default class Bar extends Component {
     );
   }
 
-  _convertData = data => {
-    data.max = Max(data);
+  _convertProps = props => {
+    const { data, padding, title } = props;
+    data.max = Math.ceil(Max(data) * 1.05);
+    Object.assign({}, Padding, padding);
+    Object.assign(title, Object.assign({}, Title, title));
   };
 
   _renderCanvas = _canvas => {

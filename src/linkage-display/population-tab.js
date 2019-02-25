@@ -1,20 +1,18 @@
 import React, { Component } from 'react';
-import TabBar from './tab-bar';
 import TotalPopulation from './total-population';
 import AgeDistribution from './age-distribution';
 import Event from './event';
-import { FetchChartData } from './webapi';
 
 export default class PopulationTab extends Component {
   state = {
-    curBar: 'population'
+    curBar: barName
   };
 
   componentDidMount = () => this._init();
 
   render() {
     const { curBar } = this.state;
-    if (curBar !== 'population') return null;
+    if (curBar !== barName) return null;
     return (
       <div className="population-tab">
         <TotalPopulation />
@@ -24,31 +22,18 @@ export default class PopulationTab extends Component {
   }
 
   _init = () => {
-    // const _bounds = _MAP_.getBounds();
-    // const { res, err } = await FetchChartData({
-    //   points: _bounds,
-    //   type: 'alarm'
-    // });
-    // console.log('res, err', JSON.stringify(res), err);
     Event.on('change:curBar', nextBar => {
       const { curBar } = this.state;
       if (nextBar === curBar) return;
       this.setState({ curBar: nextBar });
-      if (nextBar === 'population') {
-      }
     });
-  };
-
-  _fetchPopulation = async () => {
-    const _bounds = _MAP_.getBounds();
-    const { res, err } = FetchChartData({ points: _bounds });
   };
 }
 
 // pop ====> 人口
 // case ====> 案件
 // alarm =====> 报警
-
+const barName = 'population'; // 对应条形图名称
 const pop = {
   ageDistri: {
     ageNum3: 133, // 40 ~ 60

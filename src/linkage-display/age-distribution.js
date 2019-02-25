@@ -12,11 +12,7 @@ export default class AgeDistribution extends Component {
           height={200}
           title={{
             text: '流口年龄分布',
-            align: 'center', // center, left, right, 三个选项，分别向左、向右和居中，默认居中
-            fontSize: 16,
-            fontWeight: 'blod', // blod, normal
-            color: 'black',
-            fontFamily: '微软雅黑'
+            fontSize: 16
           }}
           xAxis={[
             { label: '0~18', value: 'range0' },
