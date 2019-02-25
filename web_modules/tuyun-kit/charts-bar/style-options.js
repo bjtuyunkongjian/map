@@ -1,7 +1,10 @@
+const width = 300;
+const height = 300;
+
 const Padding = {
   top: 5,
-  right: 5,
-  bottom: 5,
+  right: 10,
+  bottom: 10,
   left: 5
 };
 
