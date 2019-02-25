@@ -13,7 +13,9 @@ export default class ImportantPalce extends Component {
         <div className="item-label">
           <GoRadioTower />
           <span>重要场所</span>
-          <span className="arrow arrow-right" />
+          <div className="arrow-box">
+            <span className="arrow arrow-right" />
+          </div>
         </div>
       </div>
     );

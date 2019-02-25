@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import Event from './event';
 import { IoIosEye } from 'react-icons/io';
 import MenuItem from './menu-item';
-import { FetchCamera } from './webapi';
-import { IsArray } from 'tuyun-utils';
 
 export default class Camera extends Component {
   state = {
@@ -18,7 +16,9 @@ export default class Camera extends Component {
         <div className="item-label" onClick={this._showCamera}>
           <IoIosEye />
           <span>摄像头</span>
-          <span className="arrow arrow-right" />
+          <div className="arrow-box">
+            <span className="arrow arrow-right" />
+          </div>
         </div>
       </div>
     );
@@ -26,9 +26,9 @@ export default class Camera extends Component {
 
   // 点击事件，切换菜单，层级变化
   _init = () => {
-    _MAP_.on('click', 'cameraLayer', e => {
-      console.log('添加视频');
-      console.log(e.features[0].properties);
+    _MAP_.on('click', 'POI_LEVEL_16_CAMERA', e => {
+      const num = e.features[0].properties.Number;
+      fetch('http://localhost:8000/camera?url=' + num);
     });
   };
 

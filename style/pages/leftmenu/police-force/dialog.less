@@ -1,0 +1,33 @@
+.police-force-dialog {
+  right: 40px;
+  position: fixed;
+  top: @top-search-top;
+  width: 200px;
+  background: @bg-gradient-base;
+  padding: 10px 15px;
+  border-radius: 5px;
+  z-index: 1;
+  color: white;
+  .title {
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid white;
+    display: flex;
+    justify-content: space-between;
+    .title-icon {
+      cursor: pointer;
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+  }
+  .dialog-row {
+    margin-bottom: 5px;
+    width: 100%;
+    .text-ellipsis; // 文字溢出
+  }
+}

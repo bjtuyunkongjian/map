@@ -226,9 +226,8 @@ const layers = [
       'fill-opacity': 0
     }
   },
-  /////////////////////////////
   {
-    id: 'jq-ref', // 做街区的基层使用
+    id: 'line-top-ref', // 介于线和线名中间
     type: 'fill',
     source: LevelConfig.addLv7,
     'source-layer': 'empty',
@@ -237,6 +236,17 @@ const layers = [
       'fill-opacity': 0
     }
   },
+  {
+    id: 'line-name-ref', // 做线名称的基层使用
+    type: 'fill',
+    source: LevelConfig.addLv7,
+    'source-layer': 'empty',
+    layout: {},
+    paint: {
+      'fill-opacity': 0
+    }
+  },
+  /////////////////////////////
   {
     id: '3d-ref', // 做三维建筑的基层使用
     type: 'fill',

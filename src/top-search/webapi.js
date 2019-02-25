@@ -18,3 +18,13 @@ export const UploadImages = async body => {
   const { res, err } = await UploadRequest('mapServer/fileUpload', body);
   return { res, err };
 };
+
+export const SearchDevice = async body => {
+  Object.assign(body, { test: 'searchDevice' });
+  const { res, err } = await FetchRequest({
+    url: 'GPSServer/string',
+    method: 'POST',
+    body
+  });
+  return { res, err };
+};

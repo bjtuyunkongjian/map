@@ -269,7 +269,6 @@ export default class NewRoute extends Component {
     const { enableEnd } = this.state;
     if (!enableEnd || this._isLoading) return; // 正在加载
     this._isLoading = true; // 正在加载
-    const _prev = this._roadNode[this._roadNode.length - 1];
     const _suff = this._roadNode[this._roadNode.length - 1]; // 最后一个点
     const _param = { coord: _suff, ids: _roodIds, order: 'forLast' }; // 参数
     this.setState({ enableEnd: false, enableCancel: false, enableSave: false }); //
