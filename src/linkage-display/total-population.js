@@ -9,10 +9,8 @@ export default class TotalPopulation extends Component {
         <TuyunBar
           width="100%"
           height={200}
-          title={{
-            text: '人口分布',
-            fontSize: 16
-          }}
+          title={{ text: '人口分布' }}
+          legend={{ text: '人口总数：65' }}
           xAxis={[
             { label: '常口', value: 'changkou' },
             { label: '流口', value: 'liukou' },

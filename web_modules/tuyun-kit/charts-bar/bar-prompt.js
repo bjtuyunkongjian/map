@@ -24,7 +24,7 @@ export default class BarPrompt extends Component {
           top: chartTop,
           left: 0,
           width: '100%',
-          height: `calc(100% - ${chartTop + padding.bottom}px)`,
+          height: `calc(100% - ${chartTop + bottom}px)`,
           paddingLeft: left || 0,
           paddingRight: right || 0,
           paddingTop: top || 0,
@@ -78,7 +78,7 @@ export default class BarPrompt extends Component {
         style={Object.assign(
           {
             position: 'absolute',
-            padding: 5,
+            padding: '5px 10px',
             width: 100,
             borderRadius: 4,
             background: 'rgba(0, 0, 0, 0.65)',
