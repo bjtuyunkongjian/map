@@ -8,15 +8,13 @@ import { Max, ResolveBlurry } from 'tuyun-utils';
 import BarPrompt from './bar-prompt';
 import { Padding, Title, Legend, XLabel } from './style-options';
 
-export default class Bar extends Component {
+export default class CahrtsBar extends Component {
   static defaultProps = {
     width: 300,
     height: 300,
     backgorundColor: '#fff',
     padding: Padding,
     title: Title,
-    // 提示
-    tooltip: {},
     // 图例，说明
     legend: Legend,
     // x 坐标轴
