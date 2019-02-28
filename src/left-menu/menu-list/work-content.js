@@ -169,7 +169,7 @@ export default class WorkContent extends Component {
   // 后台请求列表对应的数组点
   _fetchWorkContent = async () => {
     const { selectedTasks } = this.state;
-    if (selectedTasks.length === 0) return; // 如果未选中任何代办任务，就不需要发请求
+    if (selectedTasks.length === 0) return; // 如果未选中任何待办任务，就不需要发请求
     const _bounds = _MAP_.getBounds();
     const { res, err } = await FetchWorkContent({
       points: _bounds,

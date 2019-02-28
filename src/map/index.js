@@ -14,8 +14,10 @@ import BaseStyle from './map-styles/light-sd';
 import AddLevels from './add-levels';
 // import addGeojson from './add-geojson';
 // import gaoguoGDB from './geojson/gaoguoGDB_cx';
-
+import { point as TurfPoint } from 'turf';
+import { center } from 'turf';
 // import { TuyunMessage, TuyunTips } from 'tuyun-kit';
+
 export default class MapBoxDemo extends Component {
   // _boundsArr = [[], []];
 
@@ -79,6 +81,61 @@ export default class MapBoxDemo extends Component {
         this.zoom = Math.ceil(this.map.getZoom()); // 设置起初缩放等级
         this._addSourceFunc(); // 增加图层组
         // this._loadRoadSource(); // 添加道路图层
+
+        // const _features = [];
+        // let _long = 117.037292;
+        // let _lat = 36.655261;
+        // for (let i = 0; i < 50; i++) {
+        //   let _r = 0;
+        //   _long += (Math.random() - 0.5) / 100;
+        //   _lat += (Math.random() - 0.5) / 100;
+        //   for (let j = 0; j < 1000; j++) {
+        //     const _theta = Math.random() * Math.PI * 2;
+        //     const _dr = 0.0002 * (Math.random() - 0.5);
+        //     _r += _dr;
+        //     const coords = [
+        //       _long + _r * Math.cos(_theta),
+        //       _lat + _r * Math.sin(_theta)
+        //     ];
+        //     _features.push(
+        //       TurfPoint(coords, { count: (Math.random() * 10000).toFixed(0) })
+        //     );
+        //   }
+        // }
+        // const _geoJSONData = {
+        //   type: 'geojson',
+        //   data: {
+        //     type: 'FeatureCollection',
+        //     features: _features
+        //   }
+        // };
+        // _MAP_.addLayer(
+        //   {
+        //     id: 'heat',
+        //     type: 'heatmap',
+        //     source: _geoJSONData,
+        //     paint: {
+        //       'heatmap-color': [
+        //         'interpolate',
+        //         ['linear'],
+        //         ['heatmap-density'],
+        //         0,
+        //         'rgba(33,102,172,0)',
+        //         0.5,
+        //         'green',
+        //         0.8,
+        //         'yellow',
+        //         1,
+        //         'red'
+        //       ],
+        //       // Adjust the heatmap radius by zoom level
+        //       'heatmap-radius': 5,
+        //       // Transition from heatmap to circle layer by zoom level
+        //       'heatmap-opacity': 1
+        //     }
+        //   },
+        //   'line-gd-ref'
+        // );
       })
       .on('zoomend', () => {
         // const _zoom = Math.ceil(this.map.getZoom()); // 当前缩放等级

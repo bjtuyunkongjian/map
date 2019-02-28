@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import TotalPopulation from './total-population';
 import AgeDistribution from './age-distribution';
+<<<<<<< HEAD
+import PeopleDensity from './people-density';
+=======
 import TestPie from './test-pie';
+>>>>>>> a03a34e2ae9a698f0a014c7d18b36ee3fad21b48
 import Event from './event';
 
 export default class PopulationTab extends Component {
@@ -18,7 +22,7 @@ export default class PopulationTab extends Component {
       <div className="population-tab">
         <TotalPopulation />
         <AgeDistribution />
-        <TestPie />
+        <PeopleDensity />
       </div>
     );
   }
