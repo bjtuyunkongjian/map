@@ -241,13 +241,15 @@ export default class ChartsPie extends Component {
     const _radius =
       (Math.min(this._chartH, this._chartW) / 2) * 0.9 * this._ratio; // 长宽较小值的一半的百分之九十
     let _addedPercentage = 0;
+    const _interval = 120 / data.length;
     this._sectorArr = data.map((item, index) => {
       const _sector = {}; // 扇形
       _sector.x = _center.x; // 圆心 x 坐标
       _sector.y = _center.y; // 圆心 y 坐标
       _sector.originRadius = _sector.radius = _radius; // 原始半径 和 显示半径
-      _sector.hue = index % 2 ? 180 + (20 * index) / 2 : 20 * (index - 1); // 色调
-      _sector.saturation = 70; // 饱和度
+      _sector.hue = index % 2 ? 180 + _interval * index : _interval * index;
+      // index % 2 ? 180 + (20 * index) / 2 : 20 * (index - 1); // 色调
+      _sector.saturation = 80; // 饱和度
       _sector.lightness = 60; // 亮度
       _sector.color = `hsla(${_sector.hue}, ${_sector.saturation}%, ${
         _sector.lightness
@@ -314,7 +316,7 @@ export default class ChartsPie extends Component {
           sector.radius = sector.originRadius * 1.05; // 半径是原来的 1.05 倍
           sector.path2D = this._createSectorPath(sector);
           sector.color = `hsla(${sector.hue}, ${sector.saturation *
-            1.2}%, ${sector.lightness * 1.05}%, 1)`; // 颜色变亮
+            1.2}%, ${sector.lightness * 1.1}%, 1)`; // 颜色变亮
           sector.expanded = true; // 扩展
           _shouldRedraw = true; // 需要重绘
         }
