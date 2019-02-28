@@ -8,7 +8,10 @@ import HouseMessage from '../list-option/house-message';
 import UnitMessage from '../list-option/unit-message';
 import { Event as GlobalEvent } from 'tuyun-utils';
 import { point as TurfPoint } from 'turf';
-
+import {
+  center as TurfCenter,
+  featureCollection as FeatureCollection
+} from 'turf';
 export default class PoliceData extends Component {
   state = {
     curMenu: -1,
@@ -148,40 +151,182 @@ export default class PoliceData extends Component {
     this._addEventListener(); // 恢复监听
     this._fetchPeopleData();
   };
-
-  _fetchPeopleData = async () => {
-    const _bounds = _MAP_.getBounds();
-    const { res, err } = await FetchPopulation({
-      points: _bounds
+  _fetchPeopleData = () => {
+    const data1 = _MAP_.querySourceFeatures('addLv15', {
+      sourceLayer: 'GRESPL_Merge-1'
     });
-    if (err || !IsArray(res)) return; //保护
-    const _zoom = _MAP_.getZoom();
-    const _landMarkZoom = options.filter(item => item.value === 'house')[0]
-      .defaultZoom;
-    const _iconImage = _zoom < _landMarkZoom ? 'people' : 'landmark';
-    const _features = res.map(coords => TurfPoint(coords));
+    const data2 = _MAP_.querySourceFeatures('addLv15', {
+      sourceLayer: 'GRESPL_Merge-2'
+    });
+    const data3 = _MAP_.querySourceFeatures('addLv15', {
+      sourceLayer: 'GRESPL_Merge-3'
+    });
+    let buildingData = [];
+    if (data1.length > 0) {
+      buildingData = data1;
+    } else if (data2.length > 0) {
+      buildingData = data2;
+    } else {
+      buildingData = data3;
+    }
+    if (buildingData.length < 1) return;
+    const _featureCollection = FeatureCollection(
+      buildingData.map(item => {
+        const _centerPt = TurfCenter(item);
+        _centerPt.properties.count = (Math.random() * 1000).toFixed(0);
+        return _centerPt;
+      })
+    );
     const _geoJSONData = {
       type: 'geojson',
-      data: {
-        type: 'FeatureCollection',
-        features: _features
-      }
+      data: _featureCollection
     };
-
-    if (!_MAP_.getLayer(layerId)) {
+    if (!_MAP_.getSource('mingpailayer')) {
       _MAP_.addLayer({
-        id: layerId,
+        id: 'mingpailayer',
         type: 'symbol',
         source: _geoJSONData,
+
         layout: {
-          'icon-image': _iconImage,
-          'icon-size': 1.5
+          'text-field': '{count}',
+          visibility: 'visible',
+          'symbol-placement': 'point',
+          'icon-image': 'ic_map_gh.9',
+          'icon-text-fit': 'both',
+          'icon-text-fit-padding': [1, 2, 1, 2],
+          'text-justify': 'center',
+          'text-font': ['黑体'],
+          'text-pitch-alignment': 'viewport',
+          'symbol-spacing': 500,
+          'text-rotation-alignment': 'map',
+          'text-size': 10,
+          'icon-rotation-alignment': 'map',
+          'text-anchor': 'center'
+        },
+        paint: {
+          'text-color': 'white'
         }
       });
     } else {
-      _MAP_.setLayoutProperty(layerId, 'icon-image', _iconImage);
+      _MAP_.getSource('mingpailayer').setData(_featureCollection);
     }
   };
+  // _fetchPeopleData = async () => {
+  //   const _bounds = _MAP_.getBounds();
+  //   const { res, err } = await FetchPopulation({
+  //     points: _bounds
+  //   });
+  //   if (err || !IsArray(res)) return; //保护
+  //   const _zoom = _MAP_.getZoom();
+  //   const _landMarkZoom = options.filter(item => item.value === 'house')[0]
+  //     .defaultZoom;
+  //   const _iconImage = _zoom < _landMarkZoom ? 'people' : 'landmark';
+  //   const _features = res.map(coords => TurfPoint(coords));
+
+  //   // const _features = [];
+  //   // for (let i = 0; i < 30000; i++) {
+  //   //   _features.push(
+  //   //     TurfPoint([
+  //   //       Math.random() * 0.1 + 117.116692,
+  //   //       Math.random() * 0.05 + 36.642122
+  //   //     ])
+  //   //   );
+  //   // }
+  //   const _features1 = [];
+  //   let _long = 117.19715;
+  //   let _lat = 36.689885;
+  //   for (let i = 0; i < 1500; i++) {
+  //     _long += (Math.random() - 0.5) / 100;
+  //     _lat += (Math.random() - 0.5) / 100;
+  //     _features1.push(
+  //       TurfPoint(
+  //         [
+  //           Math.random() * 0.003 + 117.19715,
+  //           Math.random() * 0.003 + 36.689885
+  //         ],
+  //         {
+  //           count: (100 + Math.random() * 100).toFixed(0)
+  //         }
+  //       )
+  //     );
+  //   }
+
+  //   const _geoJSONData = {
+  //     type: 'geojson',
+  //     data: {
+  //       type: 'FeatureCollection',
+  //       features: _features
+  //     }
+  //   };
+  //   const _geoJSONData1 = {
+  //     type: 'geojson',
+  //     data: {
+  //       type: 'FeatureCollection',
+  //       features: _features1
+  //     }
+  //   };
+
+  //   if (!_MAP_.getLayer(layerId)) {
+  //     // _MAP_.addLayer({
+  //     //   id: layerId,
+  //     //   type: 'symbol',
+  //     //   source: _geoJSONData,
+  //     //   layout: {
+  //     //     'icon-image': _iconImage,
+  //     //     'icon-size': 1.5
+  //     //   }
+  //     // });
+  //     // 以下注释代码为假数据，对比某一区域内模糊化数据和原数据
+  //     _MAP_.addLayer(
+  //       {
+  //         id: layerId,
+  //         type: 'symbol',
+  //         source: _geoJSONData1,
+  //         layout: {
+  //           'text-field': '{count}',
+  //           visibility: 'visible',
+  //           'text-font': ['黑体'],
+  //           'text-size': 10,
+  //           'icon-image': 'ic_map_gh.9',
+  //           'icon-text-fit': 'both',
+  //           'icon-text-fit-padding': [1, 2, 1, 2],
+  //           'text-justify': 'center',
+  //           'text-pitch-alignment': 'map'
+  //         },
+  //         paint: {
+  //           'text-color': 'white'
+  //         }
+  //         // minzoom: 12,
+  //         // paint: {
+  //         //   'heatmap-weight': 1,
+  //         //   'heatmap-intensity': 3,
+  //         //   'heatmap-radius': 20
+  //         //   // 'circle-radius': 4,
+  //         //   // 'circle-color': 'red',
+  //         //   // 'circle-blur': 1.5
+  //         //   // 'circle-opacity': 0.3
+  //         // }
+  //       }
+  //       // 'GVEGPL'
+  //     );
+  //     // _MAP_.addLayer(
+  //     //   {
+  //     //     id: layerId + 1,
+  //     //     type: 'circle',
+  //     //     source: _geoJSONData1,
+  //     //     minzoom: 12,
+  //     //     paint: {
+  //     //       'circle-radius': 4,
+  //     //       'circle-color': 'blue',
+  //     //       'circle-blur': 0
+  //     //     }
+  //     //   }
+  //     //   // 'GVEGPL'
+  //     // );
+  //   } else {
+  //     // _MAP_.setLayoutProperty(layerId, 'icon-image', _iconImage);
+  //   }
+  // };
 
   _removeSourceLayer = layerId => {
     _MAP_.getLayer(layerId) && _MAP_.removeLayer(layerId).removeSource(layerId); // 删除所有 layer 和 source
@@ -192,19 +337,19 @@ const options = [
   {
     value: 'population',
     name: '人口',
-    defaultZoom: 12,
+    defaultZoom: 16.5,
     icon: 'people'
+  },
+  {
+    value: 'unit',
+    name: '单位',
+    // defaultZoom: 16,
+    icon: 'landmark'
   },
   {
     value: 'house',
     name: '房屋',
     defaultZoom: 16,
-    icon: 'landmark'
-  },
-  {
-    value: 'unit',
-    name: '单位',
-    defaultZoom: 17,
     icon: 'landmark'
   }
 ];

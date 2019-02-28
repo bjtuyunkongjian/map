@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import TabBar from './tab-bar';
 import TotalPopulation from './total-population';
 import AgeDistribution from './age-distribution';
+import PeopleDensity from './people-density';
 import Event from './event';
 import { FetchChartData } from './webapi';
 
@@ -19,6 +20,7 @@ export default class PopulationTab extends Component {
       <div className="population-tab">
         <TotalPopulation />
         <AgeDistribution />
+        <PeopleDensity />
       </div>
     );
   }

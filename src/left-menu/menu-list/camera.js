@@ -27,7 +27,13 @@ export default class Camera extends Component {
   // 点击事件，切换菜单，层级变化
   _init = () => {
     _MAP_.on('click', 'cameraLayer', e => {
-      console.log('添加视频');
+      // console.log('添加视频');
+      _MAP_.addLayer({
+        id: 'video',
+        'type': 'video',
+        'urls': [''],
+        'coordinates':item
+      });
       console.log(e.features[0].properties);
     });
   };

@@ -31,6 +31,7 @@ export default class HeatMap extends Component {
 
   _init = () => {
     _MAP_.on('click', heatMapLayerId, e => console.log(e.features));
+    //接收热力图
     GlobalEvent.on('change:FeaturesMenu:enableHeatDensity', enable => {
       this.setState({ enableHeatMap: enable });
       if (!enable) {

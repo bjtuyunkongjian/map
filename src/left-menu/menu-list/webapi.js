@@ -6,6 +6,7 @@ import { FetchRequest } from 'tuyun-utils';
 // 一标三实
 export const FetchPopulation = async body => {
   Object.assign(body, { test: 'pop' });
+  console.log(JSON.stringify(body));
   const { res, err } = await FetchRequest({
     url: 'mapServer/string',
     method: 'POST',
@@ -17,7 +18,7 @@ export const FetchPopulation = async body => {
 // 摄像头
 export const FetchCamera = async body => {
   Object.assign(body, { test: 'cameraNum' });
-  console.log(JSON.stringify(body));
+  // console.log(JSON.stringify(body));
   const { res, err } = await FetchRequest({
     url: 'mapServer/string',
     method: 'POST',
@@ -40,7 +41,7 @@ export const FetchWorkContent = async body => {
 //案件
 export const FetchCase = async body => {
   Object.assign(body, { test: 'case' });
-  console.log(JSON.stringify(body));
+  // console.log(JSON.stringify(body));
   const { res, err } = await FetchRequest({
     url: 'mapServer/string',
     method: 'POST',

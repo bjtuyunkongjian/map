@@ -119,6 +119,7 @@ export default class PoliceCase extends Component {
     this._fetchCaseNum();
   };
 
+  // 返回所有案件数量
   _fetchCaseNum = async () => {
     const _bounds = _MAP_.getBounds();
     const { res, err } = await FetchCase({
@@ -152,7 +153,7 @@ export default class PoliceCase extends Component {
     this._fetchCase();
   };
 
-  // 请求数据
+  // 请求案件数据
   _fetchCase = async () => {
     const { selectedCase } = this.state;
     const _bounds = _MAP_.getBounds();
