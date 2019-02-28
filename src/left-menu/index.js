@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import WorkContent from './menu-list/work-content';
 import PoliceData from './menu-list/police-data';
-import Camera from './menu-list/camera';
+// import Camera from './menu-list/camera';
 import PoliceCase from './menu-list/police-case';
 import CallPolice from './menu-list/call-police';
-import PoliceForce from './menu-list/police-force';
+import PoliceForce from './police-force';
 import SecurityRoute from './menu-list/security-route';
 import CommonFacility from './menu-list/facility';
 import ImportantPalce from './menu-list/palce';
@@ -21,7 +21,6 @@ export default class LeftMenu extends Component {
         <div className="menu-box">
           <WorkContent />
           <PoliceData />
-          <Camera />
           <PoliceCase />
           <CallPolice />
           <PoliceForce />

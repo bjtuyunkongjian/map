@@ -1,14 +1,6 @@
 import React, { Component } from 'react';
 
 export default class BarPrompt extends Component {
-  static defaultProps = {
-    width: 300,
-    height: 300,
-    padding: {},
-    chartTop: 0,
-    data: []
-  };
-
   state = {
     showPrompt: false,
     maskLeft: 0,
@@ -20,7 +12,7 @@ export default class BarPrompt extends Component {
   };
 
   render() {
-    const { padding = {}, chartTop } = this.props;
+    const { padding = {}, chartTop = 0 } = this.props;
     const { left = 0, right = 0, top = 0, bottom = 0 } = padding;
     // 计算盒子宽度
     return (
@@ -32,7 +24,7 @@ export default class BarPrompt extends Component {
           top: chartTop,
           left: 0,
           width: '100%',
-          height: `calc(100% - ${chartTop + padding.bottom}px)`,
+          height: `calc(100% - ${chartTop + bottom}px)`,
           paddingLeft: left || 0,
           paddingRight: right || 0,
           paddingTop: top || 0,
@@ -50,7 +42,7 @@ export default class BarPrompt extends Component {
   }
 
   _createMask = () => {
-    const { data } = this.props;
+    const { data = [] } = this.props;
     const { showPrompt, maskLeft } = this.state;
 
     return showPrompt ? ( // mask 是否显示
@@ -86,7 +78,7 @@ export default class BarPrompt extends Component {
         style={Object.assign(
           {
             position: 'absolute',
-            padding: 5,
+            padding: '5px 10px',
             width: 100,
             borderRadius: 4,
             background: 'rgba(0, 0, 0, 0.65)',
@@ -106,7 +98,7 @@ export default class BarPrompt extends Component {
   _onMouseOver = e => {};
 
   _onMouseMove = e => {
-    const { padding = {}, chartTop, data } = this.props;
+    const { padding = {}, chartTop = 0, data = [] } = this.props;
     const { left, right, bottom } = padding;
 
     const {

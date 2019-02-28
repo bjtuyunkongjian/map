@@ -10,14 +10,8 @@ export default class AgeDistribution extends Component {
         <TuyunBar
           width="100%"
           height={200}
-          title={{
-            text: '流口年龄分布',
-            align: 'center', // center, left, right, 三个选项，分别向左、向右和居中，默认居中
-            fontSize: 16,
-            fontWeight: 'blod', // blod, normal
-            color: 'black',
-            fontFamily: '微软雅黑'
-          }}
+          title={{ text: '流口年龄分布' }}
+          legend={{ text: '人口总数：140' }}
           xAxis={[
             { label: '0~18', value: 'range0' },
             { label: '19~40', value: 'range1' },

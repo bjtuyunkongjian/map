@@ -9,14 +9,8 @@ export default class TotalPopulation extends Component {
         <TuyunBar
           width="100%"
           height={200}
-          title={{
-            text: '人口分布',
-            align: 'center', // center, left, right, 三个选项，分别向左、向右和居中，默认居中
-            fontSize: 16,
-            fontWeight: 'blod', // blod, normal
-            color: 'black',
-            fontFamily: '微软雅黑'
-          }}
+          title={{ text: '人口分布' }}
+          legend={{ text: '人口总数：65' }}
           xAxis={[
             { label: '常口', value: 'changkou' },
             { label: '流口', value: 'liukou' },

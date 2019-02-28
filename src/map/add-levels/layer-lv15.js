@@ -16,6 +16,7 @@ const lineLabelLayerId = 'line-lv15-ref';
 const lineBgLabelLayerId = 'line-bg-ref';
 const lineLabelLayerId_sd = 'line-sd-ref';
 const lineBgLabelLayerId_sd = 'line-sd-bg-ref';
+const lineNameLabelLayerId = 'symbol-ref';
 
 // const jqLabelLayerId = 'jq-ref';
 const threeLabelLayerId = '3d-ref';
@@ -39,120 +40,6 @@ const style = {
     }
   },
   layers: [
-    // 区域面的配置
-    // todo 只显示名称 SD_GRFCPL
-    // {
-    //   id: 'GRFCPL', // 记录了一些公司，养殖场，墓地等区域
-    //   type: 'fill',
-    //   source: LevelConfig.addLv15,
-    //   'source-layer': 'SD_GRFCPL', // py是面
-    //   layout: {},
-    //   paint: {
-    //     'fill-color': '#ff0000',
-    //     'fill-antialias': false
-    //   }
-    // },
-
-    /**
-     * 线
-     */
-    // {
-    //   id: 'SD_GHFCLN', // 记录了河流，黄河，隧道等的边界   ====> 没有名称
-    //   type: 'symbol',
-    //   source: LevelConfig.addLv15,
-    //   'source-layer': 'SD_GHFCLN', // LN，line的简写
-    //   layout: {
-    //     'line-cap': 'round',
-    //     'line-join': 'round',
-    //   },
-    //   paint: {
-    //     'line-width': {
-    //       'base': 2,
-    //       'stops': [
-    //         [15, 5.2],
-    //         [16, 5.2],
-    //         [17, 6.1],
-    //         [18, 7],
-    //         [19, 8],
-    //         [20, 17.5]
-    //       ]
-    //     },
-    //     'line-color': '#d8d8d8',
-    //   }
-    // },
-    // {
-    //   id: 'SD_GHYDLN', // 记录了一些线性的水渠、河沟 不显示  ======> 不显示是不是不妥 =======> 只显示名称
-    //   type: 'symbol',
-    //   source: LevelConfig.addLv15,
-    //   'source-layer': 'SD_GHYDLN', // LN，line的简写
-    //   layout: {
-    //     'line-cap': 'round',
-    //     'line-join': 'round',
-    //   },
-    //   paint: {
-    //     'line-width': {
-    //       'base': 2,
-    //       'stops': [
-    //         [15, 5.2],
-    //         [16, 5.2],
-    //         [17, 6.1],
-    //         [18, 7],
-    //         [19, 8],
-    //         [20, 17.5]
-    //       ]
-    //     },
-    //     'line-color': '#d8d8d8',
-    //   }
-    // },
-    // {
-    //   id: 'SD_GRFCLN', // 记录了长城岭，养殖场等 =====>  NAME 属性为空，暂时注释了
-    //   type: 'symbol',
-    //   source: LevelConfig.addLv15,
-    //   'source-layer': 'SD_GRFCLN', // LN，line的简写
-    //   layout: {
-    //     'line-cap': 'round',
-    //     'line-join': 'round',
-    //   },
-    //   paint: {
-    //     'line-width': {
-    //       'base': 2,
-    //       'stops': [
-    //         [15, 5.2],
-    //         [16, 5.2],
-    //         [17, 6.1],
-    //         [18, 7],
-    //         [19, 8],
-    //         [20, 17.5]
-    //       ]
-    //     },
-    //     'line-color': '#d8d8d8',
-    //   }
-    // },
-    // {
-    //   id: 'SD_GTFCLN', // 记录了XX桥，XX通道  ==========> 没有 NAME
-    //   type: 'symbol',
-    //   source: LevelConfig.addLv15,
-    //   'source-layer': 'SD_GTFCLN', // LN，line的简写
-    //   layout: {
-    //     'line-cap': 'round',
-    //     'line-join': 'round',
-    //   },
-    //   paint: {
-    //     'line-width': {
-    //       'base': 2,
-    //       'stops': [
-    //         [15, 5.2],
-    //         [16, 5.2],
-    //         [17, 6.1],
-    //         [18, 7],
-    //         [19, 8],
-    //         [20, 17.5]
-    //       ]
-    //     },
-    //     'line-color': '#d8d8d8',
-    //   }
-    // },
-
     {
       id: 'GROALN_other_ZD_bg', // 路网图层（name字段），栈道、内部道路、机耕路、乡村路、小路 + 专用公路、其他公路、村道
       type: 'line',
@@ -343,69 +230,6 @@ const style = {
       },
       labelLayerId: lineLabelLayerId_sd
     },
-    ///////////////
-    // {
-    //   id: 'GROALN_other_GS_bg', // 路网图层（name字段），高速公路，背景充当描边
-    //   type: 'line',
-    //   source: LevelConfig.addLv15,
-    //   filter: ['any',
-    //     ['==', 'CLASID', '420704'],
-    //     ['==', 'CLASID', '420705'],
-    //     ['==', 'CLASID', '420706'],
-    //     ['==', 'CLASID', '420600']
-    //   ],
-    //   'source-layer': 'GROALN_other',
-    //   layout: {
-    //     'line-cap': 'round',
-    //     'line-join': 'round',
-    //   },
-    //   paint: {
-    //     'line-width': {
-    //       'base': 2,
-    //       'stops': [
-    //         [15, 8.5],
-    //         [16, 10.5],
-    //         [17, 12.5],
-    //         [18, 14.5],
-    //         [19, 19.5],
-    //         [20, 20]
-    //       ]
-    //     },
-    //     'line-color': '#ffae00'
-    //   },
-    //   labelLayerId: lineBgLabelLayerId_sd
-    // },
-    // {
-    //   id: 'GROALN_other_GS', // 路网图层（name字段），高速公路
-    //   type: 'line',
-    //   source: LevelConfig.addLv15,
-    //   filter: ['any',
-    //     ['==', 'CLASID', '420704'],
-    //     ['==', 'CLASID', '420705'],
-    //     ['==', 'CLASID', '420706'],
-    //     ['==', 'CLASID', '420600']
-    //   ],
-    //   'source-layer': 'GROALN_other',
-    //   layout: {
-    //     'line-cap': 'round',
-    //     'line-join': 'round',
-    //   },
-    //   paint: {
-    //     'line-width': {
-    //       'base': 2,
-    //       'stops': [
-    //         [15, 7],
-    //         [16, 9],
-    //         [17, 11],
-    //         [18, 14],
-    //         [19, 19],
-    //         [20, 19]
-    //       ]
-    //     },
-    //     'line-color': '#ffeebb'
-    //   },
-    //   labelLayerId: lineLabelLayerId_sd
-    // },
     ////////////////////////
     {
       id: 'GROALN_other_KSL_bg', // 路网图层（name字段），背景充当描边 快速路，高架路
@@ -474,7 +298,7 @@ const style = {
         'text-halo-width': 2,
         'text-halo-color': 'rgba(255, 255, 255, 1)'
       },
-      labelLayerId: symbolLabelLayerId
+      labelLayerId: lineNameLabelLayerId
     },
 
     /**
@@ -507,109 +331,6 @@ const style = {
       },
       labelLayerId: symbolLabelLayerId
     },
-    // {
-    //   id: 'GHYDPT', // 记录一些井和XX泉  =======> 貌似没有数据 不对，是 NAME 属性为空，但是数据还是有的
-    //   type: 'symbol',
-    //   source: LevelConfig.addLv15,
-    //   'source-layer': 'SD_GHYDPT',
-    //   layout: {
-    //     'text-field': '{NAME}',
-    //     'visibility': 'visible',
-    //     'symbol-placement': 'point',
-    //     'text-size': 11,
-    //     'text-padding': 4,
-    //     'icon-image': 'btn_bubble_a_normal',
-    //     'text-justify': 'left',
-    //     'text-anchor': 'left',
-    //     'text-offset': [0.8, 0],
-    //     'text-font': ['黑体'],
-    //     'text-pitch-alignment': 'viewport',
-    //     'text-rotation-alignment': 'viewport',
-    //     'icon-rotation-alignment': 'viewport'
-    //   },
-    //   paint: {
-    //     'text-color': '#737517',
-    //     'text-halo-width': 2,
-    //     'text-halo-color': 'rgba(255, 255, 255, 1)'
-    //   }
-    // },
-    // {
-    //   id: 'GNPNPT', // 记录了XX山和水库
-    //   type: 'symbol',
-    //   source: LevelConfig.addLv15,
-    //   'source-layer': 'SD_GNPNPT',
-    //   layout: {
-    //     'text-field': '{NAME}',
-    //     'visibility': 'visible',
-    //     'symbol-placement': 'point',
-    //     'text-size': 11,
-    //     'text-padding': 4,
-    //     'text-justify': 'left',
-    //     'text-anchor': 'left',
-    //     'text-offset': [0.8, 0],
-    //     'text-font': ['黑体'],
-    //     'text-pitch-alignment': 'viewport',
-    //     'text-rotation-alignment': 'viewport'
-    //   },
-    //   paint: {
-    //     'text-color': '#409FD8',
-    //     'text-halo-width': 2,
-    //     'text-halo-color': 'rgba(255, 255, 255, 1)'
-    //   }
-    // },
-    // {
-    //   id: 'SD_GRFCPT', // 记录了一些学校，自来水厂，服务站，输油站，液化气站，遗址，陵墓，寺庙，游乐场等  ======> NAME属性为空
-    //   type: 'symbol',
-    //   source: LevelConfig.addLv15,
-    //   'source-layer': 'SD_GRFCPT',
-    //   layout: {
-    //     'text-field': '{NAME}',
-    //     'visibility': 'visible',
-    //     'symbol-placement': 'point',
-    //     'text-size': 11,
-    //     'text-padding': 4,
-    //     'icon-image': 'ic_map_{KIND}',
-    //     'text-justify': 'left',
-    //     'text-anchor': 'left',
-    //     'text-offset': [0.8, 0],
-    //     'text-font': ['黑体'],
-    //     'text-pitch-alignment': 'viewport',
-    //     'text-rotation-alignment': 'viewport',
-    //     'icon-rotation-alignment': 'viewport'
-    //   },
-    //   paint: {
-    //     'text-color': '#737517',
-    //     'text-halo-width': 2,
-    //     'text-halo-color': 'rgba(255, 255, 255, 1)'
-    //   }
-    // },
-    // {
-    //   id: 'GTFCPT', // 记录了一些学校，自来水厂，服务站，输油站，液化气站，遗址，陵墓，寺庙，游乐场等   =======> 没有名称属性 NAME
-    //   type: 'symbol',
-    //   source: LevelConfig.addLv15,
-    //   'source-layer': 'SD_GTFCPT',
-    //   layout: {
-    //     'text-field': '{NAME}',
-    //     'visibility': 'visible',
-    //     'symbol-placement': 'point',
-    //     'text-size': 11,
-    //     'text-padding': 4,
-    //     'icon-image': 'ic_map_{KIND}',
-    //     'text-justify': 'left',
-    //     'text-anchor': 'left',
-    //     'text-offset': [0.8, 0],
-    //     'text-font': ['黑体'],
-    //     'text-pitch-alignment': 'viewport',
-    //     'text-rotation-alignment': 'viewport',
-    //     'icon-rotation-alignment': 'viewport'
-    //   },
-    //   paint: {
-    //     'text-color': '#737517',
-    //     'text-halo-width': 2,
-    //     'text-halo-color': 'rgba(255, 255, 255, 1)'
-    //   }
-    // },
-
     {
       id: 'SD_GAGNPT', // 此图层记录了村庄POI
       type: 'symbol',
@@ -666,47 +387,6 @@ const style = {
       },
       labelLayerId: symbolLabelLayerId
     },
-
-    // 街区
-    // {
-    //   id: 'GRESPL_1_jq',
-    //   source: LevelConfig.addLv15,
-    //   'source-layer': 'GRESPL_Merge_1',
-    //   type: 'fill',
-    //   filter: ['!=', 'CLASID', '310200'],
-    //   paint: {
-    //     'fill-color': '#ccc',
-    //     'fill-opacity': 0.4,
-    //     'fill-antialias': false
-    //   },
-    //   labelLayerId: jqLabelLayerId
-    // },
-    // {
-    //   id: 'GRESPL_2_jq',
-    //   source: LevelConfig.addLv15,
-    //   'source-layer': 'GRESPL_Merge_2',
-    //   type: 'fill',
-    //   filter: ['==', 'CLASID', '310200'],
-    //   paint: {
-    //     'fill-color': '#ccc',
-    //     'fill-opacity': 0.4,
-    //     'fill-antialias': false
-    //   },
-    //   labelLayerId: jqLabelLayerId
-    // },
-    // {
-    //   id: 'GRESPL_3_jq',
-    //   source: LevelConfig.addLv15,
-    //   'source-layer': 'GRESPL_Merge_3',
-    //   type: 'fill',
-    //   filter: ['==', 'CLASID', '310200'],
-    //   paint: {
-    //     'fill-color': '#ccc',
-    //     'fill-opacity': 0.6,
-    //     'fill-antialias': false
-    //   },
-    //   labelLayerId: jqLabelLayerId
-    // },
     /**
      * 3d建筑
      * */
@@ -717,9 +397,6 @@ const style = {
       type: 'fill-extrusion',
       filter: ['!=', 'CLASID', '310200'],
       paint: {
-        // ['get', ['get', 'ID'], ['literal', FontColor]]
-        // 'fill-extrusion-color': '#dadada',
-
         'fill-extrusion-color': [
           'coalesce',
           ['get', ['to-string', ['get', 'ID']], ['literal', BuildingColor]],
@@ -790,6 +467,17 @@ const style = {
         'fill-extrusion-opacity': gresplOpacity
       },
       labelLayerId: threeLabelLayerId
+    },
+    {
+      id: 'POI_LEVEL_15_CAMERA',
+      type: 'symbol',
+      source: LevelConfig.addLv15,
+      'source-layer': 'camera',
+      layout: {
+        'icon-image': 'camera_{CAMERA}',
+        'icon-size': 1
+      },
+      labelLayerId: symbolLabelLayerId
     }
   ]
 };

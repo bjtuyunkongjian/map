@@ -18,7 +18,9 @@ export default class CallPolice extends Component {
         <div className="item-label" onClick={this._showPhone}>
           <IoIosCall />
           <span>报警</span>
-          <span className="arrow arrow-right" />
+          <div className="arrow-box">
+            <span className="arrow arrow-right" />
+          </div>
         </div>
       </div>
     );

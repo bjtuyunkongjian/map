@@ -92,6 +92,6 @@ const options = [
   },
   {
     value: 'viewRoute',
-    name: '查看'
+    name: '模拟'
   }
 ];
