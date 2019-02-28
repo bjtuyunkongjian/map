@@ -16,16 +16,13 @@ const Title = {
 
 const Legend = {
   text: '注释',
-  align: 'right', // center, left, right, 三个选项，分别向左、向右和居中，默认居中
+  align: 'center', // center, left, right, 三个选项，分别向左、向右和居中，默认居中
   fontSize: 11,
   color: '#888',
   fontFamily: '微软雅黑'
 };
 
-const XLabel = {
-  fontSize: 12,
-  color: 'black',
-  fontFamily: '微软雅黑'
-};
+const PromptWidth = 100; // 提示信息框的宽度
+const PromptGap = 10; // 提示框距离鼠标的横向距离
 
-export { Padding, Title, Legend, XLabel };
+export { Padding, Title, Legend, PromptWidth, PromptGap };
