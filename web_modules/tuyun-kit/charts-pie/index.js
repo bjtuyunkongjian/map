@@ -45,8 +45,6 @@ export default class ChartsPie extends Component {
   _ratio = 1;
   // canvas 元素距离浏览器顶部和底部的距离
   _canvasEl; // canvas 元素
-  _canvasTop = 0;
-  _canvasLeft = 0;
   _canvasW = 0;
   _canvasH = 0;
   // 总的数据
@@ -136,13 +134,10 @@ export default class ChartsPie extends Component {
     const {
       width: canvasWidth,
       height: canvasHeight,
-      top: canvasTop,
       left: canvasLeft
     } = this._canvasEl.getBoundingClientRect(); // 获取 canvas 元素的宽和高
     this._canvasW = canvasWidth; // 赋值
     this._canvasH = canvasHeight; // 赋值
-    this._canvasTop = canvasTop; // 赋值
-    this._canvasLeft = canvasLeft; // 赋值
     this._ctx = this._canvasEl.getContext('2d'); // 赋值
     this._ratio = ResolveBlurry(this._canvasEl, this._ctx, {
       width: canvasWidth,
@@ -295,8 +290,12 @@ export default class ChartsPie extends Component {
   };
 
   _onMouseMove = event => {
-    const _x = event.clientX - this._canvasLeft;
-    const _y = event.clientY - this._canvasTop;
+    const {
+      top: canvasTop,
+      left: canvasLeft
+    } = this._canvasEl.getBoundingClientRect(); // 获取 canvas 元素的宽和高
+    const _x = event.clientX - canvasLeft;
+    const _y = event.clientY - canvasTop;
     const _ratioX = _x * this._ratio;
     const _ratioY = _y * this._ratio;
     let _shouldRedraw = false; // 需不需要重渲染
