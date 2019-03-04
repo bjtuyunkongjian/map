@@ -35,7 +35,8 @@ export default class ChartsPie extends Component {
     // 数据
     data: [],
     // 选中的扇形
-    selectedIndex: -1
+    selectedIndex: -1,
+    onClick: () => {}
   };
 
   // canvas的实际渲染倍率
@@ -61,6 +62,10 @@ export default class ChartsPie extends Component {
 
   componentWillReceiveProps(nextProps) {
     this._convertProps(nextProps);
+    const { selectedIndex } = this.props;
+    if (nextProps.selectedIndex !== selectedIndex) {
+      this._renderSelected(nextProps.selectedIndex);
+    }
   }
 
   render() {
@@ -132,8 +137,7 @@ export default class ChartsPie extends Component {
     if (!this._canvasEl) return;
     const {
       width: canvasWidth,
-      height: canvasHeight,
-      left: canvasLeft
+      height: canvasHeight
     } = this._canvasEl.getBoundingClientRect(); // 获取 canvas 元素的宽和高
     this._canvasW = canvasWidth; // 赋值
     this._canvasH = canvasHeight; // 赋值
@@ -226,6 +230,7 @@ export default class ChartsPie extends Component {
     this._ctx.restore();
   };
 
+  // 绘制饼图
   _renderChart = () => {
     const { data, selectedIndex } = this.props;
     const _center = {
@@ -233,59 +238,29 @@ export default class ChartsPie extends Component {
       y: (this._chartBottom - this._chartH / 2) * this._ratio
     };
     const _radius =
-      (Math.min(this._chartH, this._chartW) / 2) * 0.8 * this._ratio; // 长宽较小值的一半的百分之九十
-    let _addedPercentage = 0;
+      (Math.min(this._chartH, this._chartW) / 2) * 0.8 * this._ratio; // 长宽较小值的一半的百分之八十
+    let _addedPercentage = 0; // 已经计算的百分比
     const _scLength = SectorColors.length; // 扇区长度
     this._sectorArr = data.map((item, index) => {
       const _sector = {}; // 扇形
       _sector.x = _center.x; // 圆心 x 坐标
       _sector.y = _center.y; // 圆心 y 坐标
-      _sector.originRadius = _sector.radius = _radius; // 原始半径 和 显示半径
-      _sector.hue = SectorColors[index % _scLength][0];
+      _sector.originRadius = _radius; // 原始半径 和 显示半径
+      _sector.selected = selectedIndex === index; // 是否被选中
+      _sector.hue = SectorColors[index % _scLength][0]; // 色调
       _sector.saturation = SectorColors[index % _scLength][1]; // 饱和度
       _sector.lightness = SectorColors[index % _scLength][2]; // 亮度
-      _sector.color = `hsla(${_sector.hue}, ${_sector.saturation}%, ${
-        _sector.lightness
-      }%, 1)`; // 颜色
       _sector.value = item.value; // 值
       _sector.name = item.name; // 名称
       _sector.percentage = item.value / this._totalData; // 占的百分比
       _sector.startAngle = _addedPercentage * Math.PI * 2; // 起始角
       _sector.endAngle = (_addedPercentage + _sector.percentage) * Math.PI * 2; // 终止角
-      _sector.path2D = this._createSectorPath(_sector);
-      _sector.selected = selectedIndex === index; // 是否被选中
+      _sector.path2D = this._createSectorPath(_sector); // 扇形区域
+      // todo 绘制指向的线
       _addedPercentage += _sector.percentage; // 计算下一个百分比的起始值
       return _sector;
     });
     this._drawSector();
-  };
-
-  _createSectorPath = sector => {
-    const path2D = new Path2D(); // 路径
-    path2D.arc(
-      sector.x,
-      sector.y,
-      sector.radius,
-      sector.startAngle,
-      sector.endAngle
-    ); // 该扇形区间的面积
-    path2D.lineTo(sector.x, sector.y);
-    return path2D;
-  };
-
-  _drawSector = () => {
-    this._ctx.clearRect(
-      0,
-      (this._chartBottom - this._chartH) * this._ratio,
-      this._chartW * this._ratio,
-      this._chartH * this._ratio
-    );
-    for (let item of this._sectorArr) {
-      this._ctx.save();
-      this._ctx.fillStyle = item.color;
-      this._ctx.fill(item.path2D);
-      this._ctx.restore();
-    }
   };
 
   _onMouseMove = event => {
@@ -309,13 +284,10 @@ export default class ChartsPie extends Component {
     let _promptBottom = 0;
     for (let sector of this._sectorArr) {
       if (this._ctx.isPointInPath(sector.path2D, _ratioX, _ratioY)) {
-        if (!sector.expanded) {
+        if (!sector.hovered) {
           // 鼠标在该扇形区域内，并且该扇形区域扩展了，不做任何操作
-          sector.radius = sector.originRadius * 1.05; // 半径是原来的 1.05 倍
+          sector.hovered = true; // 扩展
           sector.path2D = this._createSectorPath(sector);
-          sector.color = `hsla(${sector.hue}, ${sector.saturation *
-            1.2}%, ${sector.lightness * 1.2}%, 1)`; // 颜色变亮
-          sector.expanded = true; // 扩展
           _shouldRedraw = true; // 需要重绘
         }
         // 计算提示框信息，prompt 是相对 canvas 父元素定位，要计算 padding
@@ -328,14 +300,11 @@ export default class ChartsPie extends Component {
         _isTop = _y < this._chartBottom - this._chartH / 2;
         _promptTop = _y + padding.top;
         _promptBottom = this._canvasH + padding.bottom - _y; // (padding.top + this._chartH + padding.bottom) - (_y + padding.top)
-      } else if (sector.expanded && !sector.selected) {
+      } else if (sector.hovered && !sector.selected) {
         // 不在该扇形区间内，该扇形区间已做扩展并且未被选中
         sector.radius = sector.originRadius; // 半径恢复为原来的半径
+        sector.hovered = false; // 没有扩展
         sector.path2D = this._createSectorPath(sector);
-        sector.color = `hsla(${sector.hue}, ${sector.saturation}%, ${
-          sector.lightness
-        }%, 1)`; // 颜色恢复
-        sector.expanded = false; // 没有扩展
         _shouldRedraw = true; // 需要重绘
       }
     }
@@ -356,20 +325,13 @@ export default class ChartsPie extends Component {
     let _shouldRedraw = true; // 需要重绘
     for (let sector of this._sectorArr) {
       if (sector.selected) {
-        // 鼠标在该扇形区域内，并且该扇形区域扩展了，不做任何操作
-        sector.radius = sector.originRadius * 1.05; // 半径是原来的 1.05 倍
+        sector.hovered = true; // 扩展
         sector.path2D = this._createSectorPath(sector);
-        sector.color = `hsla(${sector.hue}, ${sector.saturation *
-          1.2}%, ${sector.lightness * 1.2}%, 1)`; // 颜色变亮
-        sector.expanded = true; // 扩展
         _shouldRedraw = true; // 需要重绘
       } else {
         sector.radius = sector.originRadius; // 半径恢复为原来的半径
+        sector.hovered = false; // 没有扩展
         sector.path2D = this._createSectorPath(sector);
-        sector.color = `hsla(${sector.hue}, ${sector.saturation}%, ${
-          sector.lightness
-        }%, 1)`; // 颜色恢复
-        sector.expanded = false; // 没有扩展
         _shouldRedraw = true; // 需要重绘
       }
     }
@@ -378,6 +340,7 @@ export default class ChartsPie extends Component {
   };
 
   _onClick = () => {
+    const { onClick } = this.props;
     const {
       top: canvasTop,
       left: canvasLeft
@@ -390,9 +353,53 @@ export default class ChartsPie extends Component {
       const sector = this._sectorArr[index];
       if (this._ctx.isPointInPath(sector.path2D, _ratioX, _ratioY)) {
         // 计算提示框信息，prompt 是相对 canvas 父元素定位，要计算 padding
-        console.log(index);
+        onClick({ curIndex: index, curSector: sector });
         break;
       }
+    }
+  };
+
+  // 渲染选中区域
+  _renderSelected = selectedIndex => {
+    for (let index = 0; index < this._sectorArr.length; index++) {
+      const sector = this._sectorArr[index];
+      sector.hovered = false;
+      sector.selected = selectedIndex === index;
+      sector.path2D = this._createSectorPath(sector); // 扇形区域
+    }
+    this._drawSector(); // 重绘
+  };
+
+  _createSectorPath = sector => {
+    const path2D = new Path2D(); // 路径
+    const _isHighLight = sector.selected || sector.hovered; // 是否高亮
+    const _radius = _isHighLight
+      ? sector.originRadius * 1.05
+      : sector.originRadius; // 半径
+    path2D.arc(sector.x, sector.y, _radius, sector.startAngle, sector.endAngle); // 该扇形区间的面积
+    path2D.lineTo(sector.x, sector.y); // 回到圆心
+    return path2D;
+  };
+
+  _drawSector = () => {
+    this._ctx.clearRect(
+      0,
+      (this._chartBottom - this._chartH) * this._ratio,
+      this._chartW * this._ratio,
+      this._chartH * this._ratio
+    ); // 清空绘图区
+    for (let sector of this._sectorArr) {
+      const _isHighLight = sector.selected || sector.hovered; // 是否高亮
+      const _highlightColor = `hsla(${sector.hue}, ${sector.saturation *
+        1.2}%, ${sector.lightness * 1.2}%, 1)`;
+      const _originColor = `hsla(${sector.hue}, ${sector.saturation}%, ${
+        sector.lightness
+      }%, 1)`;
+      const _color = _isHighLight ? _highlightColor : _originColor; // 设置颜色是否高亮
+      this._ctx.save();
+      this._ctx.fillStyle = _color;
+      this._ctx.fill(sector.path2D);
+      this._ctx.restore();
     }
   };
 }

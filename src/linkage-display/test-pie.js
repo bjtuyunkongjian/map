@@ -2,8 +2,12 @@ import React, { Component } from 'react';
 import { TuyunPie } from 'tuyun-kit';
 
 export default class TestPie extends Component {
-  state = {};
+  state = {
+    selectedIndex: -1
+  };
+
   render() {
+    const { selectedIndex } = this.state;
     return (
       <div className="age-distribution">
         <TuyunPie
@@ -30,6 +34,10 @@ export default class TestPie extends Component {
             { value: 234, name: '联盟广告' },
             { value: 135, name: '视频广告' }
           ]}
+          selectedIndex={selectedIndex}
+          onClick={param => {
+            this.setState({ selectedIndex: param.curIndex });
+          }}
         />
       </div>
     );
