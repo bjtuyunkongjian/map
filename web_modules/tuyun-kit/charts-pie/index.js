@@ -5,7 +5,8 @@ import {
   Title,
   Legend,
   PromptWidth,
-  PromptGap
+  PromptGap,
+  SectorColors
 } from './style-options';
 import Prompt from './prompt';
 
@@ -32,13 +33,9 @@ export default class ChartsPie extends Component {
     // 对应的渐变色
     xAxisGradient: {},
     // 数据
-    data: [
-      { value: 435, name: '直接访问' },
-      { value: 310, name: '邮件营销' },
-      { value: 234, name: '联盟广告' },
-      { value: 135, name: '视频广告' },
-      { value: 1548, name: '搜索引擎' }
-    ]
+    data: [],
+    // 选中的扇形
+    selectedIndex: -1
   };
 
   // canvas的实际渲染倍率
@@ -98,6 +95,8 @@ export default class ChartsPie extends Component {
           style={{ width: '100%', height: '100%' }}
           height={height}
           onMouseMove={this._onMouseMove}
+          onMouseLeave={this._onMouseLeave}
+          onClick={this._onClick}
         />
         <Prompt
           showPrompt={showPrompt}
@@ -228,24 +227,23 @@ export default class ChartsPie extends Component {
   };
 
   _renderChart = () => {
-    const { data } = this.props;
+    const { data, selectedIndex } = this.props;
     const _center = {
       x: (this._chartW * this._ratio) / 2,
       y: (this._chartBottom - this._chartH / 2) * this._ratio
     };
     const _radius =
-      (Math.min(this._chartH, this._chartW) / 2) * 0.9 * this._ratio; // 长宽较小值的一半的百分之九十
+      (Math.min(this._chartH, this._chartW) / 2) * 0.8 * this._ratio; // 长宽较小值的一半的百分之九十
     let _addedPercentage = 0;
-    const _interval = 120 / data.length;
+    const _scLength = SectorColors.length; // 扇区长度
     this._sectorArr = data.map((item, index) => {
       const _sector = {}; // 扇形
       _sector.x = _center.x; // 圆心 x 坐标
       _sector.y = _center.y; // 圆心 y 坐标
       _sector.originRadius = _sector.radius = _radius; // 原始半径 和 显示半径
-      _sector.hue = index % 2 ? 180 + _interval * index : _interval * index;
-      // index % 2 ? 180 + (20 * index) / 2 : 20 * (index - 1); // 色调
-      _sector.saturation = 80; // 饱和度
-      _sector.lightness = 60; // 亮度
+      _sector.hue = SectorColors[index % _scLength][0];
+      _sector.saturation = SectorColors[index % _scLength][1]; // 饱和度
+      _sector.lightness = SectorColors[index % _scLength][2]; // 亮度
       _sector.color = `hsla(${_sector.hue}, ${_sector.saturation}%, ${
         _sector.lightness
       }%, 1)`; // 颜色
@@ -255,6 +253,7 @@ export default class ChartsPie extends Component {
       _sector.startAngle = _addedPercentage * Math.PI * 2; // 起始角
       _sector.endAngle = (_addedPercentage + _sector.percentage) * Math.PI * 2; // 终止角
       _sector.path2D = this._createSectorPath(_sector);
+      _sector.selected = selectedIndex === index; // 是否被选中
       _addedPercentage += _sector.percentage; // 计算下一个百分比的起始值
       return _sector;
     });
@@ -315,7 +314,7 @@ export default class ChartsPie extends Component {
           sector.radius = sector.originRadius * 1.05; // 半径是原来的 1.05 倍
           sector.path2D = this._createSectorPath(sector);
           sector.color = `hsla(${sector.hue}, ${sector.saturation *
-            1.2}%, ${sector.lightness * 1.1}%, 1)`; // 颜色变亮
+            1.2}%, ${sector.lightness * 1.2}%, 1)`; // 颜色变亮
           sector.expanded = true; // 扩展
           _shouldRedraw = true; // 需要重绘
         }
@@ -351,5 +350,49 @@ export default class ChartsPie extends Component {
       promptBottom: _promptBottom
     });
     _shouldRedraw && this._drawSector();
+  };
+
+  _onMouseLeave = () => {
+    let _shouldRedraw = true; // 需要重绘
+    for (let sector of this._sectorArr) {
+      if (sector.selected) {
+        // 鼠标在该扇形区域内，并且该扇形区域扩展了，不做任何操作
+        sector.radius = sector.originRadius * 1.05; // 半径是原来的 1.05 倍
+        sector.path2D = this._createSectorPath(sector);
+        sector.color = `hsla(${sector.hue}, ${sector.saturation *
+          1.2}%, ${sector.lightness * 1.2}%, 1)`; // 颜色变亮
+        sector.expanded = true; // 扩展
+        _shouldRedraw = true; // 需要重绘
+      } else {
+        sector.radius = sector.originRadius; // 半径恢复为原来的半径
+        sector.path2D = this._createSectorPath(sector);
+        sector.color = `hsla(${sector.hue}, ${sector.saturation}%, ${
+          sector.lightness
+        }%, 1)`; // 颜色恢复
+        sector.expanded = false; // 没有扩展
+        _shouldRedraw = true; // 需要重绘
+      }
+    }
+    this.setState({ showPrompt: false });
+    _shouldRedraw && this._drawSector();
+  };
+
+  _onClick = () => {
+    const {
+      top: canvasTop,
+      left: canvasLeft
+    } = this._canvasEl.getBoundingClientRect(); // 获取 canvas 元素的宽和高
+    const _x = event.clientX - canvasLeft;
+    const _y = event.clientY - canvasTop;
+    const _ratioX = _x * this._ratio;
+    const _ratioY = _y * this._ratio;
+    for (let index = 0; index < this._sectorArr.length; index++) {
+      const sector = this._sectorArr[index];
+      if (this._ctx.isPointInPath(sector.path2D, _ratioX, _ratioY)) {
+        // 计算提示框信息，prompt 是相对 canvas 父元素定位，要计算 padding
+        console.log(index);
+        break;
+      }
+    }
   };
 }
