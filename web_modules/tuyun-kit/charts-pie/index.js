@@ -308,7 +308,6 @@ export default class ChartsPie extends Component {
         _promptBottom = this._canvasH + padding.bottom - _y; // (padding.top + this._chartH + padding.bottom) - (_y + padding.top)
       } else if (sector.hovered && !sector.selected) {
         // 不在该扇形区间内，该扇形区间已做扩展并且未被选中
-        sector.radius = sector.originRadius; // 半径恢复为原来的半径
         sector.hovered = false; // 没有扩展
         sector.path2D = this._createSectorPath(sector);
         _shouldRedraw = true; // 需要重绘
