@@ -20,6 +20,7 @@ import CreateUid from './create-uid'; // 产生唯一的 uid
 // canvas 画图相关通用函数
 import DrawRoundRect from './draw-round-rect'; // canvas 绘制圆角矩形
 import ResolveBlurry from './resolve-blurry'; // canvas 解决模糊问题
+import CreateRoundRect from './create-round-rect'; // 创造圆角矩形路径
 // 请求函数
 import {
   FetchRequest, // fetch 请求，调用 bffHost
@@ -42,6 +43,7 @@ export {
   Max,
   CreateUid,
   DrawRoundRect,
+  CreateRoundRect,
   ResolveBlurry,
   FetchRequest,
   UploadRequest,

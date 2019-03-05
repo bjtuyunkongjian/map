@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { DrawRoundRect, ResolveBlurry } from 'tuyun-utils';
-import { Padding, Title, Legend } from './style-options';
+import { ResolveBlurry, CreateRoundRect } from 'tuyun-utils';
+import { Padding, Title, Legend, LabelColor } from './style-options';
 // import { Prompt } from './prompt';
 
 export default class ChartsDensity extends Component {
@@ -178,18 +178,25 @@ export default class ChartsDensity extends Component {
 
   _renderChart = () => {
     const { data, selectedIndex } = this.props;
-    const _cellHeight = this._chartH / data.length; // 每一个数据的高度
-    const _fontsize = _cellHeight * 0.31; // 字体大小 0.62 / 2
-    const _circleRadius = (_fontsize / 2) * this._ratio; // 圆的直径
+    const _cellHeight = (this._chartH / data.length) * this._ratio; // 每一个数据的高度
+    const _labelFontSize = Math.floor((_cellHeight / 2) * 0.62); // 字体大小
+    const _numFontSize = Math.floor((_cellHeight / 4) * 0.62); // 数字大小
+    const _circleRadius = Math.floor((_cellHeight / 4) * 0.62); // 圆的直径
     this._densityArr = data.map((item, index) => {
       const _densityCell = Object.assign({}, item);
       _densityCell.index = index; // 索引
+      // 上半部分
       _densityCell.topMiddle =
-        (_cellHeight * (index + 1 / 4) + this._chartTop) * this._ratio; // 顶部
+        _cellHeight * (index + 1 / 4) + this._chartTop * this._ratio; // 顶部
       _densityCell.height = _cellHeight; // 高度
       _densityCell.circleRadius = _circleRadius; // 圆的半径
-      _densityCell.fontSize = _fontsize; // 字体大小
       _densityCell.circle = this._createCircle(_densityCell); // 圆
+      _densityCell.labelFontSize = Math.min(_labelFontSize, 10 * this._ratio); // 字体大小
+      // 下半部分
+      _densityCell.bottomMiddle =
+        _cellHeight * (index + 3 / 4) + this._chartTop * this._ratio; // 顶部
+      _densityCell.bar = this._createBar(_densityCell); // 圆角条形
+      _densityCell.numFontSize = Math.min(_numFontSize, 10 * this._ratio); // 数字大小
       return _densityCell;
     });
     this._drawDensityCells();
@@ -203,6 +210,18 @@ export default class ChartsDensity extends Component {
     return _path2D;
   };
 
+  _createBar = cell => {
+    const { bottomMiddle, height } = cell; // 解构
+    const _path2D = CreateRoundRect({
+      x: 0,
+      y: bottomMiddle - height / 4,
+      width: this._chartW * this._ratio,
+      height: height / 4,
+      r: height / 8
+    });
+    return _path2D;
+  };
+
   _drawDensityCells = () => {
     this._ctx.clearRect(
       0,
@@ -212,10 +231,19 @@ export default class ChartsDensity extends Component {
     ); // 清空绘图区
     for (let densityCell of this._densityArr) {
       const {
+        height,
         circleRadius,
+        circle,
         topMiddle,
+        start = 0,
         startColor = '#0f0',
+        end = 10,
         endColor = '#00f',
+        labelFontSize,
+        label,
+        bottomMiddle,
+        numFontSize,
+        bar,
         selected,
         hovered
       } = densityCell; // 解构
@@ -224,79 +252,39 @@ export default class ChartsDensity extends Component {
       // 绘制圆形
       const _yTop = topMiddle - circleRadius,
         _yBottom = topMiddle + circleRadius;
-      const _grad = this._ctx.createLinearGradient(0, _yTop, 0, _yBottom); // 渐变色
-      _grad.addColorStop(0, startColor); // 渐变起始色
-      _grad.addColorStop(1, endColor); // 渐变终止色
-      this._ctx.fillStyle = _grad;
-      this._ctx.fill(densityCell.circle);
-
-      // this._ctx.strokeStyle = _originColor;
-      // this._ctx.stroke(sector.indicator);
-      // // 绘制扇形
-      // this._ctx.fillStyle = _color;
-      // this._ctx.fill(densityCell.circle);
-      // 绘制文字
-      // this._ctx.fillStyle = _originColor;
-      // this._ctx.font = "16px '微软雅黑'";
-      // this._ctx.textAlign = sector.textAlign;
-      // this._ctx.textBaseline = 'middle';
-      // this._ctx.fillText(sector.name, ...sector.textStart);
-      // this._ctx.restore();
+      const _circleGrad = this._ctx.createLinearGradient(0, _yTop, 0, _yBottom); // 渐变色
+      _circleGrad.addColorStop(0, startColor); // 渐变起始色
+      _circleGrad.addColorStop(1, endColor); // 渐变终止色
+      this._ctx.fillStyle = _circleGrad;
+      this._ctx.fill(circle);
+      // 绘制右上角文字
+      this._ctx.fillStyle = LabelColor;
+      this._ctx.font = `${labelFontSize}px '微软雅黑'`;
+      this._ctx.textAlign = 'right';
+      this._ctx.textBaseline = 'middle';
+      this._ctx.fillText(label, this._chartW * this._ratio, topMiddle);
+      // 绘制圆角矩形
+      const _barGrad = this._ctx.createLinearGradient(
+        0,
+        0,
+        this._chartW * this._ratio,
+        0
+      ); // 生成渐变色
+      _barGrad.addColorStop(0, startColor); // 渐变起始色
+      _barGrad.addColorStop(1, endColor); // 渐变终止色
+      this._ctx.fillStyle = _barGrad;
+      this._ctx.fill(bar); // 条形
+      // 绘制小三角形
+      // 绘制圆角矩形下面的数字
+      const _numBaseLine = bottomMiddle + height / 8; //
+      this._ctx.fillStyle = LabelColor;
+      this._ctx.font = `${numFontSize}px '微软雅黑'`;
+      this._ctx.textAlign = 'left';
+      this._ctx.textBaseline = 'middle';
+      this._ctx.fillText(start, 0, _numBaseLine);
+      this._ctx.textAlign = 'right';
+      this._ctx.fillText(end, this._chartW * this._ratio, _numBaseLine);
     }
-  };
-
-  _renderCircle = () => {
-    const { circle = {}, gradColor = ['#ff0', '#0ff'] } = this.props;
-    const { r = 5 } = circle;
-    const _x = 10 * this._ratio;
-    const _y = 10 * this._ratio;
-    const _r = r * this._ratio;
-    this._ctx.save();
-    this._ctx.beginPath();
-    this._ctx.arc(_x, _y, _r, 0, Math.PI * 2, true);
-    this._ctx.closePath();
-    // 填充
-    const _grad = this._ctx.createRadialGradient(_x, _y, 0, _x, _y, _r);
-    _grad.addColorStop(0, gradColor[0]);
-    _grad.addColorStop(1, gradColor[1]);
-    this._ctx.fillStyle = _grad;
-    this._ctx.fill();
-    this._ctx.restore();
-  };
-
-  _renderBar = () => {
-    const {
-      width,
-      padding,
-      bar = {},
-      gradColor = ['#ff0', '#0ff']
-    } = this.props;
-    const { top, right, left } = padding;
-    const { height: barHeight = 0 } = bar;
-    // 设置绘制属性
-    const _xStart = left * this._ratio;
-    const _yStart = top * this._ratio;
-    const _barWidth = (width - left - right) * this._ratio;
-    const _barHeight = barHeight * this._ratio;
-    // 填充位置
-    const _fillRect = [
-      _xStart,
-      _yStart,
-      _xStart + _barWidth,
-      _yStart + _barHeight
-    ];
-    const _grad = this._ctx.createLinearGradient(..._fillRect); // 创建一个渐变色线性对象
-    _grad.addColorStop(0, gradColor[0]); // 定义渐变色开始的颜色
-    _grad.addColorStop(1, gradColor[1]); // 定义渐变色结束的颜色
-    DrawRoundRect(this._ctx, {
-      x: _xStart,
-      y: _yStart,
-      width: _barWidth,
-      height: _barHeight,
-      r: Math.min(_barHeight, _barWidth) / 2,
-      fill: true,
-      fillStyle: _grad
-    });
   };
 }
 

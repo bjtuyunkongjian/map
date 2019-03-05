@@ -22,4 +22,6 @@ const Legend = {
   fontFamily: '微软雅黑'
 };
 
-export { Padding, Title, Legend };
+const LabelColor = '#888';
+
+export { Padding, Title, Legend, LabelColor };
