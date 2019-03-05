@@ -4,5 +4,13 @@ import TuyunTips from './tips'; // 建议
 // 图表
 import TuyunBar from './charts-bar';
 import TuyunPie from './charts-pie';
+import TuyunDensity from './charts-density';
 
-export { TuyunModal, TuyunMessage, TuyunTips, TuyunBar, TuyunPie };
+export {
+  TuyunModal,
+  TuyunMessage,
+  TuyunTips,
+  TuyunBar,
+  TuyunPie,
+  TuyunDensity
+};
