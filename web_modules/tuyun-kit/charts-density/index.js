@@ -93,7 +93,6 @@ export default class ChartsDensity extends Component {
       width: canvasWidth,
       height: canvasHeight
     } = this._canvasEl.getBoundingClientRect(); // 获取 canvas 元素的宽和高
-    this._canvasW = canvasWidth; // 赋值
     this._canvasH = canvasHeight; // 赋值
     this._ctx = this._canvasEl.getContext('2d'); // 赋值
     this._ratio = ResolveBlurry(this._canvasEl, this._ctx, {
@@ -104,9 +103,9 @@ export default class ChartsDensity extends Component {
     this._titleH = this._ratio * this._titleH;
     this._legendH = this._ratio * this._legendH;
     // 设置图表高度
-    this._chartW = this._xLabelW = this._titleW = this._legendW =
+    this._canvasW = this._chartW = this._xLabelW = this._titleW = this._legendW =
       canvasWidth * this._ratio; // 设置 x轴宽度/标题宽度/注释宽度/图表宽度，这几个宽度相同
-    this._chartBottom = canvasHeight * this._ratio; // 图表底部
+    this._canvasH = this._chartBottom = canvasHeight * this._ratio; // 图表底部
     this._chartH = this._chartBottom - this._titleH - this._legendH; // 图表高度
     this._chartTop = this._chartBottom - this._chartH; // 图标距离上面的距离
     this._renderTitle(); // 绘制标题
@@ -217,14 +216,14 @@ export default class ChartsDensity extends Component {
     const _ratioX = _x * this._ratio;
     const _ratioY = _y * this._ratio;
     let _shouldRedraw = false; // 需不需要重渲染
-    for (let dnsityCell of this._densityArr) {
-      if (this._ctx.isPointInPath(dnsityCell.backRect, _ratioX, _ratioY)) {
-        if (!dnsityCell.hovered) {
-          dnsityCell.hovered = true;
+    for (let densityCell of this._densityArr) {
+      if (this._ctx.isPointInPath(densityCell.backRect, _ratioX, _ratioY)) {
+        if (!densityCell.hovered) {
+          densityCell.hovered = true;
           _shouldRedraw = true;
         }
-      } else if (dnsityCell.hovered) {
-        dnsityCell.hovered = false;
+      } else if (densityCell.hovered) {
+        densityCell.hovered = false;
         _shouldRedraw = true;
       }
     }
@@ -383,6 +382,7 @@ export default class ChartsDensity extends Component {
       this._ctx.fillText(start, 0, _numBaseLine);
       this._ctx.textAlign = 'right';
       this._ctx.fillText(end, this._chartW, _numBaseLine);
+      this._ctx.restore();
     }
   };
 }

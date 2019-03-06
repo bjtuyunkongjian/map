@@ -4,29 +4,31 @@
  * 条形图
  */
 import React, { Component } from 'react';
-import { Max, ResolveBlurry } from 'tuyun-utils';
-import BarPrompt from './bar-prompt';
-import { Padding, Title, Legend, XLabel } from './style-options';
+import { ResolveBlurry } from 'tuyun-utils';
+// import BarPrompt from './bar-prompt';
+import { LabelColor, Padding, Title, Legend, XLabel } from './style-options';
 
 export default class CahrtsBar extends Component {
   static defaultProps = {
     width: 300,
     height: 300,
-    backgorundColor: '#fff',
+    backgroundColor: '#fff',
     padding: Padding,
     title: Title,
     // 图例，说明
     legend: Legend,
-    // x 坐标轴
-    xAxis: [],
+    // x 坐标轴，下面的文字
     xLabel: XLabel,
-    // 对应的渐变色
-    xAxisGradient: {},
     // 数据
-    data: {},
-    dutyRatio: 0.6 // 占空比，每个单元内图像宽度占整个宽度的面积
+    data: [],
+    dutyRatio: 0.6, // 占空比，每个单元内图像宽度占整个宽度的面积
+    // 选中的柱状
+    selectedIndex: -1,
+    onClick: () => {}
   };
 
+  // canvas 对象
+  _canvasEl;
   // 标题
   _titleH = 0;
   _titleW = 0;
@@ -50,15 +52,16 @@ export default class CahrtsBar extends Component {
     this._convertProps(this.props);
   }
 
+  componentDidMount() {
+    this._renderCanvas(this._canvasEl);
+  }
+
   componentWillReceiveProps(nextProps) {
     this._convertProps(nextProps);
   }
 
   render() {
-    const { width, height, padding, xAxis, data } = this.props;
-    const _data = xAxis.map(item => {
-      return { label: item.label, value: item.value, count: data[item.value] };
-    });
+    const { width, height, padding, backgroundColor } = this.props;
     return (
       <div
         style={{
@@ -66,29 +69,27 @@ export default class CahrtsBar extends Component {
           width,
           height,
           overflow: 'hidden',
-          backgroundColor: 'white',
-          cursor: 'pointer'
+          backgroundColor,
+          cursor: 'pointer',
+          paddingLeft: padding.left,
+          paddingRight: padding.right,
+          paddingTop: padding.top,
+          paddingBottom: padding.bottom
         }}
       >
         <canvas
-          ref={_el => this._renderCanvas(_el)}
+          ref={_el => (this._canvasEl = _el)}
           style={{ width: '100%', height: '100%' }}
           height={height}
-        />
-        <BarPrompt
-          padding={padding}
-          width={width}
-          height={height}
-          chartTop={this._titleH + this._legendH}
-          data={_data}
+          onMouseMove={this._onMouseMove}
+          onMouseLeave={this._onMouseLeave}
         />
       </div>
     );
   }
 
   _convertProps = props => {
-    const { data, padding, title, legend, xLabel } = props;
-    data.max = Math.ceil(Max(data) * 1.05);
+    const { padding, title, legend, xLabel } = props;
     // 融入默认属性
     Object.assign(padding, Object.assign({}, Padding, padding));
     Object.assign(title, Object.assign({}, Title, title));
@@ -101,207 +102,256 @@ export default class CahrtsBar extends Component {
   };
 
   _renderCanvas = _canvas => {
-    if (!_canvas) return;
-    const { padding } = this.props;
-    const { width: canvasW, height: canvasH } = _canvas.getBoundingClientRect(); // 获取 canvas 元素的宽和高
-    this._canvasW = canvasW; // 赋值
-    this._canvasH = canvasH; // 赋值
-    this._ctx = _canvas.getContext('2d'); // 赋值
-    this._ratio = ResolveBlurry(_canvas, this._ctx, {
-      width: canvasW,
-      height: canvasH
-    }); // 解决高倍屏变模糊问题
+    if (!this._canvasEl) return;
     const {
-      top: paddingTop,
-      right: paddingRight,
-      bottom: paddingBottom,
-      left: paddingLeft
-    } = padding;
+      width: canvasWidth,
+      height: canvasHeight
+    } = this._canvasEl.getBoundingClientRect(); // 获取 canvas 元素的宽和高
+    this._canvasW = canvasWidth; // 赋值
+    this._canvasH = canvasHeight; // 赋值
+    this._ctx = this._canvasEl.getContext('2d'); // 赋值
+    this._ratio = ResolveBlurry(this._canvasEl, this._ctx, {
+      width: canvasWidth,
+      height: canvasHeight
+    }); // 解决高倍屏变模糊问题
+    // 重置 _titleH 和 _legendH
+    this._titleH = this._ratio * this._titleH;
+    this._legendH = this._ratio * this._legendH;
+    // 设置图表高度
     this._chartW = this._xLabelW = this._titleW = this._legendW =
-      canvasW - paddingRight - paddingLeft; // 设置 x轴宽度/标题宽度/注释宽度/图表宽度，这几个宽度相同
-    // 图表框大小计算
-    this._chartH =
-      canvasH -
-      paddingTop -
-      paddingBottom -
-      this._titleH -
-      this._legendH -
-      this._xLabelH; // 图表高度
-    this._chartBottom = canvasH - paddingTop - paddingBottom - this._xLabelH; // 图表底部
-    // 开始绘制
+      canvasWidth * this._ratio; // 设置 x轴宽度/标题宽度/注释宽度/图表宽度，这几个宽度相同
+    this._chartBottom = canvasHeight * this._ratio; // 图表底部
+    this._chartH = this._chartBottom - this._titleH - this._legendH; // 图表高度
+    this._chartTop = this._chartBottom - this._chartH; // 图标距离上面的距离
     this._renderBackground(); // 绘制背景
     this._renderTitle(); // 绘制标题
-    this._renderLegend(); // 绘制图例
+    this._renderLegend(); // 绘制
     this._renderChart(); // 绘制图表
   };
 
   // 绘制背景颜色
   _renderBackground = () => {
-    const { backgorundColor } = this.props;
+    const { backgroundColor } = this.props;
     this._ctx.save();
-    this._ctx.fillStyle = backgorundColor || 'white';
-    this._ctx.fillRect(
-      0,
-      0,
-      this._canvasW * this._ratio,
-      this._canvasH * this._ratio
-    );
+    this._ctx.fillStyle = backgroundColor || 'white';
+    this._ctx.fillRect(0, 0, this._canvasW, this._canvasH);
     this._ctx.restore();
   };
 
-  // 计算标题位置
-  // 上下居中，文字基线对齐选项是 middle，起始位置是 paddingTop + this._titleH / 2
-  // 左对齐、右对齐、左右居中都要把 padding 给计算进去
   _renderTitle = () => {
-    const { title, padding } = this.props;
+    const { title } = this.props;
     const { text, align, fontSize, fontWeight, color, fontFamily } = title;
-    const { top: paddingTop, right: paddingRight, left: paddingLeft } = padding;
     this._ctx.save();
     this._ctx.fillStyle = color;
     this._ctx.font = `${fontSize * this._ratio}px '${fontFamily}'`;
     let _textStart;
-    const _textMiddle = this._titleH / 2 + paddingTop; // 文字位置上下居中
+    const _textMiddle = this._titleH / 2; // 文字位置上下居中
     /* 文字靠左 */ if (align === 'left') {
       this._ctx.textAlign = 'start';
-      _textStart = paddingLeft;
+      _textStart = 0;
     } /* 文字靠右 */ else if (align === 'right') {
       this._ctx.textAlign = 'end';
-      _textStart = this._titleW + paddingLeft;
+      _textStart = this._titleW;
     } /* 默认是居中 */ else {
       this._ctx.textAlign = 'center';
-      _textStart = (this._titleW + paddingLeft + paddingRight) / 2;
+      _textStart = this._titleW / 2;
     }
     this._ctx.textBaseline = 'middle';
     if (fontWeight === 'blod') {
-      this._ctx.fillText(
-        text,
-        _textStart * this._ratio,
-        (_textMiddle - 0.5) * this._ratio
-      );
-      this._ctx.fillText(
-        text,
-        (_textStart - 0.5) * this._ratio,
-        _textMiddle * this._ratio
-      );
-      this._ctx.fillText(
-        text,
-        _textStart * this._ratio,
-        (_textMiddle + 0.5) * this._ratio
-      );
-      this._ctx.fillText(
-        text,
-        (_textStart + 0.5) * this._ratio,
-        _textMiddle * this._ratio
-      );
+      this._ctx.fillText(text, _textStart, _textMiddle - 0.5);
+      this._ctx.fillText(text, _textStart - 0.5, _textMiddle);
+      this._ctx.fillText(text, _textStart, _textMiddle + 0.5);
+      this._ctx.fillText(text, _textStart + 0.5, _textMiddle);
     } else {
-      this._ctx.fillText(
-        text,
-        _textStart * this._ratio,
-        _textMiddle * this._ratio
-      );
+      this._ctx.fillText(text, _textStart, _textMiddle);
     }
     this._ctx.restore();
   };
 
-  // 绘制注释文字
   _renderLegend = () => {
-    const { legend, padding } = this.props;
+    const { legend } = this.props;
     const { text, align, fontSize, color, fontFamily } = legend;
-    const { top: paddingTop, right: paddingRight, left: paddingLeft } = padding;
     this._ctx.save();
     this._ctx.fillStyle = color;
     this._ctx.font = `${fontSize * this._ratio}px '${fontFamily}'`;
     let _textStart;
-    const _textMiddle = this._titleH + paddingTop + this._legendH / 2; // 文字位置上下居中
+    const _textMiddle = this._titleH + this._legendH / 2; // 文字位置上下居中
     /* 文字靠左 */ if (align === 'left') {
       this._ctx.textAlign = 'start';
-      _textStart = paddingLeft;
+      _textStart = 0;
     } /* 文字靠右 */ else if (align === 'right') {
       this._ctx.textAlign = 'end';
-      _textStart = this._titleW + paddingLeft;
+      _textStart = this._titleW;
     } /* 默认是居中 */ else {
       this._ctx.textAlign = 'center';
-      _textStart = (this._titleW + paddingLeft + paddingRight) / 2;
+      _textStart = this._titleW / 2;
     }
-    this._ctx.fillText(
-      text,
-      _textStart * this._ratio,
-      _textMiddle * this._ratio
-    );
+    this._ctx.fillText(text, _textStart, _textMiddle);
     this._ctx.restore();
   };
 
   _renderChart = () => {
-    const { xAxis, xAxisGradient, data, padding, dutyRatio } = this.props;
-    const _xAxisCellW = this._chartW / xAxis.length; // x轴坐标每一个小单元的宽度
-    const _barCellW = _xAxisCellW * dutyRatio; // 每条柱状图的宽度
-    for (let index = 0; index < xAxis.length; index++) {
-      const _val = xAxis[index].value;
-      const _gradient = xAxisGradient[_val] || [];
-      const _y = data[_val];
-      const _max = data.max;
-      // 绘制属性
-      const _xStart =
-        index * _xAxisCellW + (_xAxisCellW - _barCellW) / 2 + padding.left;
-      const _xEnd =
-        index * _xAxisCellW + (_xAxisCellW + _barCellW) / 2 + padding.left;
-      const _yStart = (_y / _max) * this._chartH;
-      const _yEnd = 0;
-      const _topColor = _gradient[0] || '#f00';
-      const _bottomColor = _gradient[1] || '#00f';
-      const _drawRact = [
-        _xStart * this._ratio,
-        (this._chartBottom - _yStart) * this._ratio || 0,
-        (_xEnd - _xStart) * this._ratio,
-        (_yStart - _yEnd) * this._ratio || 0
-      ];
-      // 填充位置
-      const _fillRect = [
-        _drawRact[0],
-        _drawRact[1],
-        _drawRact[2] + _drawRact[0],
-        _drawRact[3] + _drawRact[1]
-      ];
-      const _grad = this._ctx.createLinearGradient(..._fillRect); // 创建一个渐变色线性对象
-      _grad.addColorStop(0, _topColor); // 定义渐变色开始的颜色
-      _grad.addColorStop(1, _bottomColor); // 定义渐变色结束的颜色
-      this._ctx.save();
-      this._ctx.fillStyle = _grad; // 设置fillStyle为当前的渐变对象
-      this._ctx.fillRect(..._drawRact); //绘制渐变图形
-      this._ctx.restore();
-      this._renderXLabel((_xStart + _xEnd) / 2, xAxis[index].label); // 绘制x标注，参数: x坐标轴标注位置, x坐标轴标注值
+    const { data, dutyRatio, xLabel, selectedIndex } = this.props;
+    const _maxData = Math.ceil(this._computeMaxVal() * 1.05);
+    const _cellWidth = this._chartW / data.length; // 每一个单元格的宽度
+    // x 轴坐标文字
+    const _xLabelH = (xLabel.fontSize / 0.62) * this._ratio; // x 轴文字标注的高度
+    const _xLabelTop = this._chartBottom - _xLabelH; // x 轴文字标注的顶部纵坐标
+    // 彩条
+    const _equalSize = (this._chartH - _xLabelH) / _maxData; // chart 高度方向等分成 _maxData 份，每份的大小
+    const _barBottom = _xLabelTop; // 彩条的底部纵坐标
+    this._barArr = data.map((item, index) => {
+      const _barCell = Object.assign({}, item);
+      _barCell.index = index;
+      _barCell.max = _maxData;
+      _barCell.selected = selectedIndex === index; // 是否被选中
+      _barCell.dutyRatio = dutyRatio; // 占空比
+      _barCell.xStart = index * _cellWidth; // 每个单元格的起始 x 坐标
+      _barCell.xEnd = _barCell.xStart + _cellWidth; // 每个单元格的终止 x 坐标
+      _barCell.xMiddle = (_barCell.xStart + _barCell.xEnd) / 2; // 每个单元格的中间 x 坐标
+      _barCell.yStart = this._chartTop; // 每个单元格的起始 y 坐标
+      _barCell.cellWidth = _cellWidth; // 每一个单元格的宽度
+      _barCell.cellHeight = this._chartH; // 每一个单元格的高度
+      // 矩形遮罩
+      _barCell.modalRect = this._createModalRect(_barCell); // 矩形遮罩
+      // 彩条
+      _barCell.barWidth = _cellWidth * dutyRatio; // 每一个彩条的宽度
+      _barCell.barHeight = _equalSize * item.value; // 每一个彩条的高度
+      _barCell.barX = _barCell.xMiddle - _barCell.barWidth / 2; // 彩条的横坐标
+      _barCell.barY = _barBottom - _barCell.barHeight; // 彩条的纵坐标
+      _barCell.bar = this._createBar(_barCell); // 彩条
+      // x 轴
+      _barCell.xAxisY = _barBottom;
+      _barCell.lineWidth = 1; // x 轴的宽度
+      _barCell.xAxis = this._createXAxis(_barCell);
+      // x 轴下文字
+      _barCell.textX = _barCell.xMiddle; // x 轴下文本中心位置横坐标
+      _barCell.textY = _xLabelTop + _xLabelH / 2; // x 轴下面文本中心位置纵坐标
+      _barCell.textFontSize = xLabel.fontSize * this._ratio; // 文字大小
+      return _barCell;
+    });
+    this._drawBarCells();
+  };
+
+  _onMouseMove = event => {
+    const {
+      top: canvasTop,
+      left: canvasLeft
+    } = this._canvasEl.getBoundingClientRect(); // 获取 canvas 元素的宽和高
+    const _x = event.clientX - canvasLeft;
+    const _y = event.clientY - canvasTop;
+    const _ratioX = _x * this._ratio;
+    const _ratioY = _y * this._ratio;
+    let _shouldRedraw = false; // 需不需要重渲染
+    for (let barCell of this._barArr) {
+      if (this._ctx.isPointInPath(barCell.modalRect, _ratioX, _ratioY)) {
+        if (!barCell.hovered) {
+          barCell.hovered = true;
+          _shouldRedraw = true;
+        }
+      } else if (barCell.hovered) {
+        barCell.hovered = false;
+        _shouldRedraw = true;
+      }
     }
-    this._renderXAxis(); // 绘制x轴
+    _shouldRedraw && this._drawBarCells();
   };
 
-  _renderXAxis = () => {
-    this._ctx.save();
-    this._ctx.lineWidth = 1;
-    this._ctx.strokeStyle = 'black';
-    this._ctx.moveTo(
-      ((this._canvasW - this._chartW) / 2) * this._ratio,
-      this._chartBottom * this._ratio
-    );
-    this._ctx.lineTo(
-      ((this._canvasW + this._chartW) / 2) * this._ratio,
-      this._chartBottom * this._ratio
-    );
-    this._ctx.stroke();
-    this._ctx.restore();
+  _onMouseLeave = () => {
+    let _shouldRedraw = false; // 需要重绘
+    for (let barCell of this._barArr) {
+      if (!barCell.selected) {
+        barCell.hovered = false;
+        _shouldRedraw = true; // 需要重绘
+      }
+    }
+    this.setState({ showPrompt: false });
+    _shouldRedraw && this._drawBarCells();
   };
 
-  _renderXLabel = (textStart, text) => {
-    const { xLabel } = this.props;
-    const { color, fontSize, fontFamily } = xLabel;
-    this._ctx.fillStyle = color;
-    this._ctx.font = `${fontSize * this._ratio}px '${fontFamily}'`;
-    const _textMiddle = this._chartBottom + this._xLabelH / 2; // 文字居中位置
-    this._ctx.textAlign = 'center';
-    this._ctx.textBaseline = 'middle';
-    this._ctx.fillText(
-      text,
-      textStart * this._ratio,
-      _textMiddle * this._ratio
-    );
+  _computeMaxVal = () => {
+    const { data } = this.props;
+    let _max = data[0].value;
+    for (let item of data) {
+      if (_max < item.value) _max = item.value;
+    }
+    return _max;
+  };
+
+  _createModalRect = barCell => {
+    const { xStart, yStart, cellWidth, cellHeight } = barCell;
+    const _path2D = new Path2D();
+    _path2D.rect(xStart, yStart, cellWidth - 1, cellHeight); // 减 1 像素，避免同时选中两个背景的问题
+    return _path2D;
+  };
+
+  _createBar = barCell => {
+    const { barX, barY, barWidth, barHeight } = barCell;
+    const _path2D = new Path2D();
+    _path2D.rect(barX, barY, barWidth, barHeight);
+    return _path2D;
+  };
+
+  _createXAxis = barCell => {
+    const { xStart, xEnd, xAxisY, lineWidth } = barCell;
+    const _path2D = new Path2D();
+    _path2D.moveTo(xStart, xAxisY + lineWidth); // 起始位置
+    _path2D.lineTo(xEnd, xAxisY + lineWidth); // 终止位置
+    return _path2D;
+  };
+
+  _drawBarCells = () => {
+    this._ctx.clearRect(0, this._chartTop, this._chartW, this._chartH); // 清空绘图区
+
+    for (let barCell of this._barArr) {
+      const {
+        modalRect,
+        bar,
+        barY,
+        barHeight,
+        startColor = gradStartColor,
+        endColor = gradEndColor,
+        selected,
+        hovered,
+        xAxis,
+        lineWidth,
+        label,
+        textX,
+        textY,
+        textFontSize
+      } = barCell;
+      this._ctx.save();
+
+      // 绘制彩条
+      const _yTop = barY,
+        _yBottom = barY + barHeight;
+      const _barGrad = this._ctx.createLinearGradient(0, _yTop, 0, _yBottom); // 渐变色
+      _barGrad.addColorStop(0, startColor); // 渐变起始色
+      _barGrad.addColorStop(1, endColor); // 渐变终止色
+      this._ctx.fillStyle = _barGrad;
+      this._ctx.fill(bar);
+      this._ctx.restore();
+      // 绘制坐标轴
+      this._ctx.lineWidth = lineWidth;
+      this._ctx.stroke(xAxis);
+      // 绘制文字
+      this._ctx.fillStyle = LabelColor;
+      this._ctx.font = `${textFontSize}px '微软雅黑'`;
+      this._ctx.textAlign = 'center';
+      this._ctx.textBaseline = 'middle';
+      this._ctx.fillText(label, textX, textY);
+
+      // 绘制背部矩形
+      if (selected) {
+        this._ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+        this._ctx.fill(modalRect);
+      } else if (hovered) {
+        this._ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+        this._ctx.fill(modalRect);
+      }
+    }
   };
 }
+
+const gradStartColor = '#FF00FF';
+const gradEndColor = '#00FFFF';

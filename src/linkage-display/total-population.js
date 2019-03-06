@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import { TuyunBar } from 'tuyun-kit';
 
 export default class TotalPopulation extends Component {
-  state = {};
+  state = {
+    selectedIndex: -1
+  };
   render() {
+    const { selectedIndex } = this.state;
     return (
       <div className="total-population">
         <TuyunBar
@@ -11,21 +14,33 @@ export default class TotalPopulation extends Component {
           height={200}
           title={{ text: '人口分布' }}
           legend={{ text: '人口总数：65' }}
-          xAxis={[
-            { label: '常口', value: 'changkou' },
-            { label: '流口', value: 'liukou' },
-            { label: '重点人口', value: 'zhongdianrenkou' }
+          data={[
+            {
+              label: '常口',
+              value: 30,
+              startColor: '#bbaddc',
+              endColor: '#facff0'
+            },
+            {
+              label: '流口',
+              value: 20,
+              startColor: '#aed3fc',
+              endColor: '#e6d1fc'
+            },
+            {
+              label: '重点人口',
+              value: 15,
+              startColor: '#fbdcd4',
+              endColor: '#fed9fe'
+            }
           ]}
-          data={{
-            changkou: 30,
-            liukou: 20,
-            zhongdianrenkou: 15
-          }}
-          xAxisGradient={{
-            changkou: ['#bbaddc', '#facff0'], // 0 表示 topColor， 1 表示 bottomColor
-            liukou: ['#aed3fc', '#e6d1fc'],
-            zhongdianrenkou: ['#fbdcd4', '#fed9fe']
-          }}
+          selectedIndex={selectedIndex}
+          onClick={param =>
+            this.setState({
+              selectedIndex:
+                param.curIndex === selectedIndex ? -1 : param.curIndex
+            })
+          }
         />
       </div>
     );
