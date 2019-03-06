@@ -1,9 +1,27 @@
 import React, { Component } from 'react';
 import { ResolveBlurry, CreateRoundRect } from 'tuyun-utils';
-import { Padding, Title, Legend, LabelColor } from './style-options';
-// import { Prompt } from './prompt';
+import {
+  Padding,
+  Title,
+  Legend,
+  LabelColor,
+  PromptWidth,
+  PromptGap
+} from './style-options';
+import Prompt from './prompt';
 
 export default class ChartsDensity extends Component {
+  state = {
+    showPrompt: false,
+    curCell: {},
+    isLeft: false,
+    promptLeft: 0,
+    promptRight: 0,
+    isTop: false,
+    promptTop: 0,
+    promptBottom: 0
+  };
+
   static defaultProps = {
     width: 300,
     height: 100,
@@ -48,6 +66,16 @@ export default class ChartsDensity extends Component {
   }
 
   render() {
+    const {
+      showPrompt,
+      curCell,
+      promptLeft,
+      promptRight,
+      isLeft,
+      isTop,
+      promptTop,
+      promptBottom
+    } = this.state;
     const { width, height, padding, backgroundColor } = this.props;
     return (
       <div
@@ -71,6 +99,16 @@ export default class ChartsDensity extends Component {
           onMouseMove={this._onMouseMove}
           onClick={this._onClick}
           onMouseLeave={this._onMouseLeave}
+        />
+        <Prompt
+          showPrompt={showPrompt}
+          curData={curCell}
+          isLeft={isLeft}
+          promptLeft={promptLeft}
+          promptRight={promptRight}
+          isTop={isTop}
+          promptTop={promptTop}
+          promptBottom={promptBottom}
         />
       </div>
     );
@@ -209,24 +247,67 @@ export default class ChartsDensity extends Component {
   _onMouseMove = event => {
     const {
       top: canvasTop,
-      left: canvasLeft
+      left: canvasLeft,
+      width: canvasWidth,
+      height: canvasHeight
     } = this._canvasEl.getBoundingClientRect(); // 获取 canvas 元素的宽和高
     const _x = event.clientX - canvasLeft;
     const _y = event.clientY - canvasTop;
     const _ratioX = _x * this._ratio;
     const _ratioY = _y * this._ratio;
     let _shouldRedraw = false; // 需不需要重渲染
+    // 提示框信息
+    let _showPrompt = false; // 显示提示框
+    let _curCell = {}; // 当前扇形
+    let _isLeft = false; // 是否在左边
+    let _promptLeft = 0; // 提示框距离左边的距离
+    let _promptRight = 0; // 提示框距离右边的距离
+    let _isTop = false; // 鼠标是否在图表的上半部分
+    let _promptTop = 0;
+    let _promptBottom = 0;
     for (let densityCell of this._densityArr) {
       if (this._ctx.isPointInPath(densityCell.modalRect, _ratioX, _ratioY)) {
         if (!densityCell.hovered) {
           densityCell.hovered = true;
           _shouldRedraw = true;
         }
+        // 计算提示框信息，prompt 是相对 canvas 父元素定位，要计算 padding
+        _showPrompt = true; // 显示提示框
+        const { padding } = this.props;
+        _curCell = densityCell; // 当前鼠标所在扇形区间
+        _isLeft = _x < canvasWidth + padding.right - PromptWidth - PromptGap;
+        _promptLeft = _x + padding.left + PromptGap;
+        _promptRight = canvasWidth + padding.right - _x + PromptGap;
+        _isTop = _y < canvasHeight - this._chartH / this._ratio / 2;
+        _promptTop = _y + padding.top;
+        _promptBottom = canvasHeight + padding.bottom - _y; // (padding.top + this._chartH + padding.bottom) - (_y + padding.top)
       } else if (densityCell.hovered) {
         densityCell.hovered = false;
         _shouldRedraw = true;
       }
     }
+    this.setState({
+      showPrompt: _showPrompt,
+      curCell: _curCell,
+      isLeft: _isLeft,
+      promptLeft: _promptLeft,
+      promptRight: _promptRight,
+      isTop: _isTop,
+      promptTop: _promptTop,
+      promptBottom: _promptBottom
+    });
+    _shouldRedraw && this._drawDensityCells();
+  };
+
+  _onMouseLeave = () => {
+    let _shouldRedraw = false; // 需要重绘
+    for (let densityCell of this._densityArr) {
+      if (!densityCell.selected) {
+        densityCell.hovered = false;
+        _shouldRedraw = true; // 需要重绘
+      }
+    }
+    this.setState({ showPrompt: false });
     _shouldRedraw && this._drawDensityCells();
   };
 
@@ -248,18 +329,6 @@ export default class ChartsDensity extends Component {
         break;
       }
     }
-  };
-
-  _onMouseLeave = () => {
-    let _shouldRedraw = false; // 需要重绘
-    for (let densityCell of this._densityArr) {
-      if (!densityCell.selected) {
-        densityCell.hovered = false;
-        _shouldRedraw = true; // 需要重绘
-      }
-    }
-    this.setState({ showPrompt: false });
-    _shouldRedraw && this._drawDensityCells();
   };
 
   // 渲染选中区域

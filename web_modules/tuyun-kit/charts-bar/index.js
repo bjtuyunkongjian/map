@@ -305,8 +305,8 @@ export default class CahrtsBar extends Component {
           barCell.hovered = true;
           _shouldRedraw = true;
         }
-        _showPrompt = true; // 显示提示框
         // 计算提示框信息，prompt 是相对 canvas 父元素定位，要计算 padding
+        _showPrompt = true; // 显示提示框
         const { padding } = this.props;
         _curCell = barCell; // 当前鼠标所在扇形区间
         _isLeft = _x < canvasWidth + padding.right - PromptWidth - PromptGap;
