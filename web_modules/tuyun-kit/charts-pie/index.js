@@ -249,7 +249,9 @@ export default class ChartsPie extends Component {
   _onMouseMove = event => {
     const {
       top: canvasTop,
-      left: canvasLeft
+      left: canvasLeft,
+      width: canvasWidth,
+      height: canvasHeight
     } = this._canvasEl.getBoundingClientRect(); // 获取 canvas 元素的宽和高
     const _x = event.clientX - canvasLeft;
     const _y = event.clientY - canvasTop;
@@ -277,12 +279,12 @@ export default class ChartsPie extends Component {
         const { padding } = this.props;
         _showPrompt = true; // 显示提示框
         _curSector = sector; // 当前鼠标所在扇形区间
-        _isLeft = _x < this._canvasW + padding.right - PromptWidth - PromptGap;
+        _isLeft = _x < canvasWidth + padding.right - PromptWidth - PromptGap;
         _promptLeft = _x + padding.left + PromptGap;
-        _promptRight = this._canvasW + padding.right - _x + PromptGap;
-        _isTop = _y < this._chartBottom - this._chartH / 2;
+        _promptRight = canvasWidth + padding.right - _x + PromptGap;
+        _isTop = _y < canvasHeight - this._chartH / this._ratio / 2;
         _promptTop = _y + padding.top;
-        _promptBottom = this._canvasH + padding.bottom - _y; // (padding.top + this._chartH + padding.bottom) - (_y + padding.top)
+        _promptBottom = canvasHeight + padding.bottom - _y; // (padding.top + this._chartH + padding.bottom) - (_y + padding.top)
       } else if (sector.hovered && !sector.selected) {
         // 不在该扇形区间内，该扇形区间已做扩展并且未被选中
         sector.hovered = false; // 没有扩展
