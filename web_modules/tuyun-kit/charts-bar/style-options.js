@@ -1,4 +1,6 @@
 const LabelColor = '#888';
+const PromptWidth = 100; // 提示信息框的宽度
+const PromptGap = 10; // 提示框距离鼠标的横向距离
 
 const Padding = {
   top: 5,
@@ -30,4 +32,4 @@ const XLabel = {
   fontFamily: '微软雅黑'
 };
 
-export { LabelColor, Padding, Title, Legend, XLabel };
+export { LabelColor, PromptWidth, PromptGap, Padding, Title, Legend, XLabel };

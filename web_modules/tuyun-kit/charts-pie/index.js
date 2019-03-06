@@ -228,7 +228,7 @@ export default class ChartsPie extends Component {
       _sector.saturation = SectorColors[index % _scLength][1]; // 饱和度
       _sector.lightness = SectorColors[index % _scLength][2]; // 亮度
       _sector.value = item.value; // 值
-      _sector.name = item.name; // 名称
+      _sector.label = item.label; // 名称
       _sector.percentage = item.value / this._totalData; // 占的百分比
       _sector.startAngle = _addedPercentage * Math.PI * 2; // 起始角
       _sector.endAngle = (_addedPercentage + _sector.percentage) * Math.PI * 2; // 终止角
@@ -422,7 +422,7 @@ export default class ChartsPie extends Component {
       this._ctx.font = "16px '微软雅黑'";
       this._ctx.textAlign = sector.textAlign;
       this._ctx.textBaseline = 'middle';
-      this._ctx.fillText(sector.name, ...sector.textStart);
+      this._ctx.fillText(sector.label, ...sector.textStart);
       this._ctx.restore();
     }
   };

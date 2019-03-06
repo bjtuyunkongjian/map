@@ -6,9 +6,29 @@
 import React, { Component } from 'react';
 import { ResolveBlurry } from 'tuyun-utils';
 // import BarPrompt from './bar-prompt';
-import { LabelColor, Padding, Title, Legend, XLabel } from './style-options';
+import Prompt from './prompt';
+import {
+  LabelColor,
+  Padding,
+  Title,
+  Legend,
+  XLabel,
+  PromptWidth,
+  PromptGap
+} from './style-options';
 
 export default class CahrtsBar extends Component {
+  state = {
+    showPrompt: false,
+    curCell: {},
+    isLeft: false,
+    promptLeft: 0,
+    promptRight: 0,
+    isTop: false,
+    promptTop: 0,
+    promptBottom: 0
+  };
+
   static defaultProps = {
     width: 300,
     height: 300,
@@ -58,9 +78,23 @@ export default class CahrtsBar extends Component {
 
   componentWillReceiveProps(nextProps) {
     this._convertProps(nextProps);
+    const { selectedIndex } = this.props;
+    if (nextProps.selectedIndex !== selectedIndex) {
+      this._renderSelected(nextProps.selectedIndex);
+    }
   }
 
   render() {
+    const {
+      showPrompt,
+      curCell,
+      promptLeft,
+      promptRight,
+      isLeft,
+      isTop,
+      promptTop,
+      promptBottom
+    } = this.state;
     const { width, height, padding, backgroundColor } = this.props;
     return (
       <div
@@ -83,6 +117,17 @@ export default class CahrtsBar extends Component {
           height={height}
           onMouseMove={this._onMouseMove}
           onMouseLeave={this._onMouseLeave}
+          onClick={this._onClick}
+        />
+        <Prompt
+          showPrompt={showPrompt}
+          curData={curCell}
+          isLeft={isLeft}
+          promptLeft={promptLeft}
+          promptRight={promptRight}
+          isTop={isTop}
+          promptTop={promptTop}
+          promptBottom={promptBottom}
         />
       </div>
     );
@@ -236,24 +281,55 @@ export default class CahrtsBar extends Component {
   _onMouseMove = event => {
     const {
       top: canvasTop,
-      left: canvasLeft
+      left: canvasLeft,
+      width: canvasWidth,
+      height: canvasHeight
     } = this._canvasEl.getBoundingClientRect(); // 获取 canvas 元素的宽和高
     const _x = event.clientX - canvasLeft;
     const _y = event.clientY - canvasTop;
     const _ratioX = _x * this._ratio;
     const _ratioY = _y * this._ratio;
     let _shouldRedraw = false; // 需不需要重渲染
+    // 提示框信息
+    let _showPrompt = false; // 显示提示框
+    let _curCell = {}; // 当前扇形
+    let _isLeft = false; // 是否在左边
+    let _promptLeft = 0; // 提示框距离左边的距离
+    let _promptRight = 0; // 提示框距离右边的距离
+    let _isTop = false; // 鼠标是否在图表的上半部分
+    let _promptTop = 0;
+    let _promptBottom = 0;
     for (let barCell of this._barArr) {
       if (this._ctx.isPointInPath(barCell.modalRect, _ratioX, _ratioY)) {
         if (!barCell.hovered) {
           barCell.hovered = true;
           _shouldRedraw = true;
         }
+        _showPrompt = true; // 显示提示框
+        // 计算提示框信息，prompt 是相对 canvas 父元素定位，要计算 padding
+        const { padding } = this.props;
+        _curCell = barCell; // 当前鼠标所在扇形区间
+        _isLeft = _x < canvasWidth + padding.right - PromptWidth - PromptGap;
+        _promptLeft = _x + padding.left + PromptGap;
+        _promptRight = canvasWidth + padding.right - _x + PromptGap;
+        _isTop = _y < canvasHeight - this._chartH / this._ratio / 2;
+        _promptTop = _y + padding.top;
+        _promptBottom = canvasHeight + padding.bottom - _y; // (padding.top + this._chartH + padding.bottom) - (_y + padding.top)
       } else if (barCell.hovered) {
         barCell.hovered = false;
         _shouldRedraw = true;
       }
     }
+    this.setState({
+      showPrompt: _showPrompt,
+      curCell: _curCell,
+      isLeft: _isLeft,
+      promptLeft: _promptLeft,
+      promptRight: _promptRight,
+      isTop: _isTop,
+      promptTop: _promptTop,
+      promptBottom: _promptBottom
+    });
     _shouldRedraw && this._drawBarCells();
   };
 
@@ -267,6 +343,36 @@ export default class CahrtsBar extends Component {
     }
     this.setState({ showPrompt: false });
     _shouldRedraw && this._drawBarCells();
+  };
+
+  _onClick = () => {
+    const { onClick } = this.props;
+    const {
+      top: canvasTop,
+      left: canvasLeft
+    } = this._canvasEl.getBoundingClientRect(); // 获取 canvas 元素的宽和高
+    const _x = event.clientX - canvasLeft;
+    const _y = event.clientY - canvasTop;
+    const _ratioX = _x * this._ratio;
+    const _ratioY = _y * this._ratio;
+    for (let index = 0; index < this._barArr.length; index++) {
+      const _barCell = this._barArr[index];
+      if (this._ctx.isPointInPath(_barCell.modalRect, _ratioX, _ratioY)) {
+        // 计算提示框信息，prompt 是相对 canvas 父元素定位，要计算 padding
+        onClick({ curIndex: index, curCell: _barCell });
+        break;
+      }
+    }
+  };
+
+  // 渲染选中区域
+  _renderSelected = selectedIndex => {
+    for (let index = 0; index < this._barArr.length; index++) {
+      const _barCell = this._barArr[index];
+      _barCell.hovered = false;
+      _barCell.selected = selectedIndex === index;
+    }
+    this._drawBarCells(); // 重绘
   };
 
   _computeMaxVal = () => {
@@ -330,7 +436,6 @@ export default class CahrtsBar extends Component {
       _barGrad.addColorStop(1, endColor); // 渐变终止色
       this._ctx.fillStyle = _barGrad;
       this._ctx.fill(bar);
-      this._ctx.restore();
       // 绘制坐标轴
       this._ctx.lineWidth = lineWidth;
       this._ctx.stroke(xAxis);
@@ -340,15 +445,16 @@ export default class CahrtsBar extends Component {
       this._ctx.textAlign = 'center';
       this._ctx.textBaseline = 'middle';
       this._ctx.fillText(label, textX, textY);
-
-      // 绘制背部矩形
+      // 绘制矩形遮罩
       if (selected) {
-        this._ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
-        this._ctx.fill(modalRect);
-      } else if (hovered) {
         this._ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
         this._ctx.fill(modalRect);
+      } else if (hovered) {
+        this._ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+        this._ctx.fill(modalRect);
       }
+      // restore
+      this._ctx.restore();
     }
   };
 }

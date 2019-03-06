@@ -199,8 +199,8 @@ export default class ChartsDensity extends Component {
       _densityCell.bottomMiddle =
         (_densityCell.bottomTop + _densityCell.bottomBottom) / 2; // 中间位置
       _densityCell.numFontSize = Math.min(_numFontSize, 10 * this._ratio); // 数字字体大小
-      // 后面的矩形
-      _densityCell.backRect = this._createBacRect(_densityCell); // 生成背景矩形
+      // 矩形遮罩
+      _densityCell.modalRect = this._createModalRect(_densityCell); // 生成矩形遮罩
       return _densityCell;
     });
     this._drawDensityCells();
@@ -217,7 +217,7 @@ export default class ChartsDensity extends Component {
     const _ratioY = _y * this._ratio;
     let _shouldRedraw = false; // 需不需要重渲染
     for (let densityCell of this._densityArr) {
-      if (this._ctx.isPointInPath(densityCell.backRect, _ratioX, _ratioY)) {
+      if (this._ctx.isPointInPath(densityCell.modalRect, _ratioX, _ratioY)) {
         if (!densityCell.hovered) {
           densityCell.hovered = true;
           _shouldRedraw = true;
@@ -242,7 +242,7 @@ export default class ChartsDensity extends Component {
     const _ratioY = _y * this._ratio;
     for (let index = 0; index < this._densityArr.length; index++) {
       const _densityCell = this._densityArr[index];
-      if (this._ctx.isPointInPath(_densityCell.backRect, _ratioX, _ratioY)) {
+      if (this._ctx.isPointInPath(_densityCell.modalRect, _ratioX, _ratioY)) {
         // 计算提示框信息，prompt 是相对 canvas 父元素定位，要计算 padding
         onClick({ curIndex: index, curCell: _densityCell });
         break;
@@ -272,7 +272,7 @@ export default class ChartsDensity extends Component {
     this._drawDensityCells(); // 重绘
   };
 
-  _createBacRect = cell => {
+  _createModalRect = cell => {
     const { width, height, topTop } = cell;
     const _path2D = new Path2D();
     _path2D.rect(0, topTop, width, height);
@@ -337,19 +337,11 @@ export default class ChartsDensity extends Component {
         bar,
         selected,
         hovered,
-        backRect,
+        modalRect,
         triangle
       } = densityCell; // 解构
       this._ctx.save();
       // 开始绘制
-      // 背景
-      if (selected) {
-        this._ctx.fillStyle = '#ddd';
-        this._ctx.fill(backRect);
-      } else if (hovered) {
-        this._ctx.fillStyle = '#eee';
-        this._ctx.fill(backRect);
-      }
       // 绘制圆形
       const _yTop = topMiddle - circleRadius,
         _yBottom = topMiddle + circleRadius;
@@ -382,6 +374,14 @@ export default class ChartsDensity extends Component {
       this._ctx.fillText(start, 0, _numBaseLine);
       this._ctx.textAlign = 'right';
       this._ctx.fillText(end, this._chartW, _numBaseLine);
+      // 矩形遮罩
+      if (selected) {
+        this._ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+        this._ctx.fill(modalRect);
+      } else if (hovered) {
+        this._ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+        this._ctx.fill(modalRect);
+      }
       this._ctx.restore();
     }
   };

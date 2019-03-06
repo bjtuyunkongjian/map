@@ -23,12 +23,11 @@ export default class Prompt extends Component {
       showPrompt,
       curData
     } = this.props;
-
     const _xStyle = isLeft ? { left: promptLeft } : { right: promptRight };
     const _yStyle = isTop ? { top: promptTop } : { bottom: promptBottom };
     return showPrompt ? (
       <div style={Object.assign({}, promptStyle, _xStyle, _yStyle)}>
-        <div>{curData.name}</div>
+        <div>{curData.label}</div>
         <div>数值：{curData.value || 0}</div>
         <div>占比：{(curData.percentage * 100).toFixed(2) || 0}%</div>
       </div>

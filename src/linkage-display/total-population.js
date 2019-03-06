@@ -35,12 +35,12 @@ export default class TotalPopulation extends Component {
             }
           ]}
           selectedIndex={selectedIndex}
-          onClick={param =>
+          onClick={param => {
             this.setState({
               selectedIndex:
                 param.curIndex === selectedIndex ? -1 : param.curIndex
-            })
-          }
+            });
+          }}
         />
       </div>
     );
