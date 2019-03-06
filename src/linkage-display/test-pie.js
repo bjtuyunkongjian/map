@@ -36,7 +36,10 @@ export default class TestPie extends Component {
           ]}
           selectedIndex={selectedIndex}
           onClick={param => {
-            this.setState({ selectedIndex: param.curIndex });
+            this.setState({
+              selectedIndex:
+                param.curIndex === selectedIndex ? -1 : param.curIndex
+            });
           }}
         />
       </div>
