@@ -141,8 +141,8 @@ export default class CahrtsBar extends Component {
     Object.assign(legend, Object.assign({}, Legend, legend));
     Object.assign(xLabel, Object.assign({}, XLabel, xLabel));
     // 设置初始值
-    this._titleH = Math.ceil(title.fontSize / 0.62); // 0.62 黄金分割
-    this._legendH = Math.ceil(legend.fontSize / 0.62); // 注释的高度
+    this._titleH = title.text ? Math.ceil(title.fontSize / 0.62) : 0; // 0.62 黄金分割
+    this._legendH = legend.text ? Math.ceil(legend.fontSize / 0.62) : 0; // 注释的高度
     this._xLabelH = Math.ceil(xLabel.fontSize / 0.62); // x标注高度
   };
 

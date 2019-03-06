@@ -10,7 +10,7 @@ const Padding = {
 };
 
 const Title = {
-  text: '示例',
+  text: '',
   align: 'center', // center, left, right, 三个选项，分别向左、向右和居中，默认居中
   fontSize: 16,
   fontWeight: 'blod', // blod, normal
@@ -19,7 +19,7 @@ const Title = {
 };
 
 const Legend = {
-  text: '注释',
+  text: '',
   align: 'right', // center, left, right, 三个选项，分别向左、向右和居中，默认居中
   fontSize: 11,
   color: LabelColor,
