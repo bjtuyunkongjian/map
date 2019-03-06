@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import TotalPopulation from './total-population';
-// import AgeDistribution from './age-distribution';
-import TestPie from './test-pie';
-import TestDensity from './test-density';
-import Event from './event';
+import KeyPersonnel from './key-personnel';
+import PopulationDensity from './population-density';
+import Event from '../event';
 
 export default class PopulationTab extends Component {
   state = {
@@ -18,8 +17,8 @@ export default class PopulationTab extends Component {
     return (
       <div className="population-tab">
         <TotalPopulation />
-        <TestPie />
-        <TestDensity />
+        <KeyPersonnel />
+        <PopulationDensity />
       </div>
     );
   }

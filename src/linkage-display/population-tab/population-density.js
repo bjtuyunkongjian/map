@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import { TuyunDensity } from 'tuyun-kit';
 
-export default class TestDensity extends Component {
+/*
+- 总人口
+   - 流口
+   - 重点人口
+*/
+export default class PopulationDensity extends Component {
   state = {
     selectedIndex: -1
   };
@@ -13,12 +18,12 @@ export default class TestDensity extends Component {
         <TuyunDensity
           width="100%"
           height={200}
-          title={{ text: '密度图' }}
+          title={{ text: '人口密度图' }}
           legend={{ text: '人口总数：65' }}
           data={[
-            { value: 2, label: '人口密度' },
-            { value: 4, label: '人口密度' },
-            { value: 6, label: '人口密度' }
+            { value: 2, label: '总人口' },
+            { value: 4, label: '流口' },
+            { value: 6, label: '重点人口' }
           ]}
           selectedIndex={selectedIndex}
           onClick={param =>
