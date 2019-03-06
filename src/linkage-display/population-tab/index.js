@@ -1,3 +1,11 @@
+/**
+ * @author sl 2019-03-06
+ * @name 人口面板
+ * 1. 人口柱状图
+ * 2. 重点人员饼状图
+ * 3. 人口密度图
+ */
+
 import React, { Component } from 'react';
 import TotalPopulation from './total-population';
 import KeyPersonnel from './key-personnel';

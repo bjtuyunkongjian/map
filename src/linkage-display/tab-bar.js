@@ -48,6 +48,7 @@ export default class TabBar extends Component {
 
 const tabs = [
   { label: '人口', value: 'population' },
+  { label: '单位', value: 'unit' },
   { label: '案件', value: 'case' },
   { label: '报警', value: 'alarm' }
 ];

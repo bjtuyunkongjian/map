@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import TabBar from './tab-bar';
 import PopulationTab from './population-tab';
+import UnitTab from './unit-tab';
 
 export default class LinkageDisplay extends Component {
   state = {
@@ -14,6 +15,7 @@ export default class LinkageDisplay extends Component {
         <div className="linkage-display">
           <TabBar />
           <PopulationTab />
+          <UnitTab />
         </div>
         <button className="control" onClick={this._toggleRightMenu}>
           <div className={`aspect-right ${_slide}`} />
@@ -21,6 +23,7 @@ export default class LinkageDisplay extends Component {
       </div>
     );
   }
+
   _toggleRightMenu = () => {
     const { animate } = this.state;
     this.setState({
