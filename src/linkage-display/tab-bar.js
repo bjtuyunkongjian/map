@@ -10,10 +10,6 @@ export default class TabBar extends Component {
     this._init();
   }
 
-  componentWillUnmount() {
-    console.log('TabBar unmount');
-  }
-
   render() {
     const { curBar } = this.state;
     return (
@@ -40,7 +36,6 @@ export default class TabBar extends Component {
   };
 
   _changeTab = curBar => {
-    console.log('curBar', curBar);
     this.setState({ curBar: curBar });
     Event.emit('change:curBar', curBar);
   };
