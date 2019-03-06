@@ -232,7 +232,7 @@ export default class ChartsPie extends Component {
       _sector.percentage = item.value / this._totalData; // 占的百分比
       _sector.startAngle = _addedPercentage * Math.PI * 2; // 起始角
       _sector.endAngle = (_addedPercentage + _sector.percentage) * Math.PI * 2; // 终止角
-      _sector.path2D = this._createSectorPath(_sector); // 扇形区域
+      _sector.sectorPath = this._createSectorPath(_sector); // 扇形区域
       const { indicator, textAlign, textStart } = this._createIndicator(
         _sector
       ); // 指示
@@ -268,11 +268,11 @@ export default class ChartsPie extends Component {
     let _promptTop = 0;
     let _promptBottom = 0;
     for (let sector of this._sectorArr) {
-      if (this._ctx.isPointInPath(sector.path2D, _ratioX, _ratioY)) {
+      if (this._ctx.isPointInPath(sector.sectorPath, _ratioX, _ratioY)) {
         if (!sector.hovered) {
           // 鼠标在该扇形区域内，并且该扇形区域扩展了，不做任何操作
           sector.hovered = true; // 扩展
-          sector.path2D = this._createSectorPath(sector);
+          sector.sectorPath = this._createSectorPath(sector);
           _shouldRedraw = true; // 需要重绘
         }
         // 计算提示框信息，prompt 是相对 canvas 父元素定位，要计算 padding
@@ -288,7 +288,7 @@ export default class ChartsPie extends Component {
       } else if (sector.hovered && !sector.selected) {
         // 不在该扇形区间内，该扇形区间已做扩展并且未被选中
         sector.hovered = false; // 没有扩展
-        sector.path2D = this._createSectorPath(sector);
+        sector.sectorPath = this._createSectorPath(sector);
         _shouldRedraw = true; // 需要重绘
       }
     }
@@ -310,7 +310,7 @@ export default class ChartsPie extends Component {
     for (let sector of this._sectorArr) {
       if (!sector.selected) {
         sector.hovered = false; // 没有扩展
-        sector.path2D = this._createSectorPath(sector);
+        sector.sectorPath = this._createSectorPath(sector);
         _shouldRedraw = true; // 需要重绘
       }
     }
@@ -330,7 +330,7 @@ export default class ChartsPie extends Component {
     const _ratioY = _y * this._ratio;
     for (let index = 0; index < this._sectorArr.length; index++) {
       const sector = this._sectorArr[index];
-      if (this._ctx.isPointInPath(sector.path2D, _ratioX, _ratioY)) {
+      if (this._ctx.isPointInPath(sector.sectorPath, _ratioX, _ratioY)) {
         // 计算提示框信息，prompt 是相对 canvas 父元素定位，要计算 padding
         onClick({ curIndex: index, curSector: sector });
         break;
@@ -344,7 +344,7 @@ export default class ChartsPie extends Component {
       const sector = this._sectorArr[index];
       sector.hovered = false;
       sector.selected = selectedIndex === index;
-      sector.path2D = this._createSectorPath(sector); // 扇形区域
+      sector.sectorPath = this._createSectorPath(sector); // 扇形区域
     }
     this._drawSector(); // 重绘
   };
@@ -416,7 +416,7 @@ export default class ChartsPie extends Component {
       this._ctx.stroke(sector.indicator);
       // 绘制扇形
       this._ctx.fillStyle = _color;
-      this._ctx.fill(sector.path2D);
+      this._ctx.fill(sector.sectorPath);
       // 绘制文字
       // this._ctx.fillStyle = _originColor;
       this._ctx.font = "16px '微软雅黑'";
