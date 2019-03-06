@@ -182,31 +182,35 @@ export default class PoliceData extends Component {
       data: _featureCollection
     };
     if (!_MAP_.getSource('mingpailayer')) {
-      _MAP_.addLayer({
-        id: 'mingpailayer',
-        type: 'symbol',
-        source: _geoJSONData,
+      _MAP_.addLayer(
+        {
+          id: 'mingpailayer',
+          type: 'symbol',
+          source: _geoJSONData,
 
-        layout: {
-          'text-field': '{count}',
-          visibility: 'visible',
-          'symbol-placement': 'point',
-          'icon-image': 'ic_map_gh.9',
-          'icon-text-fit': 'both',
-          'icon-text-fit-padding': [1, 2, 1, 2],
-          'text-justify': 'center',
-          'text-font': ['黑体'],
-          'text-pitch-alignment': 'viewport',
-          'symbol-spacing': 500,
-          'text-rotation-alignment': 'map',
-          'text-size': 10,
-          'icon-rotation-alignment': 'map',
-          'text-anchor': 'center'
+          layout: {
+            'text-field': '{count}',
+            visibility: 'visible',
+            'symbol-placement': 'point',
+            'icon-image': 'ic_map_gh.9',
+            'icon-text-fit': 'both',
+            'icon-text-fit-padding': [1, 2, 1, 2],
+            'text-justify': 'center',
+            'text-font': ['黑体'],
+            'text-pitch-alignment': 'viewport',
+            'symbol-spacing': 500,
+            'text-rotation-alignment': 'viewport',
+            'text-size': 10,
+            'icon-rotation-alignment': 'viewport',
+            'text-anchor': 'center'
+          },
+          paint: {
+            'text-color': 'black'
+          }
         },
-        paint: {
-          'text-color': 'white'
-        }
-      });
+        // 'line-top-ref'
+        'line-name-ref'
+      );
     } else {
       _MAP_.getSource('mingpailayer').setData(_featureCollection);
     }

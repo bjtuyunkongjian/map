@@ -22,7 +22,7 @@ const lineNameLabelLayerId = 'symbol-ref';
 const threeLabelLayerId = '3d-ref';
 
 // 3d 普通建筑颜色和透明度
-const gresplOpacity = 0.7;
+const gresplOpacity = 0.5;
 const gresplColor = 'rgb(255, 255, 255)';
 
 const style = {

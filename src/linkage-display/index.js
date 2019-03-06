@@ -20,7 +20,7 @@ export default class LinkageDisplay extends Component {
           <AlarmTab />
         </div>
         <button className="control" onClick={this._toggleRightMenu}>
-          <span className={`aspect-right ${_slide}`} />
+          <div className={`aspect-right ${_slide}`} />
         </button>
       </div>
     );

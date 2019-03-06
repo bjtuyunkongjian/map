@@ -7,7 +7,7 @@
   right: 0;
   .linkage-display {
     width: @bottom-nav-width;
-    height: calc(~'100% - @{bottom-nav-height}');
+    height: 100%;
     position: absolute;
     z-index: 1;
     top: 0;
@@ -15,14 +15,18 @@
     background: @bg-gradient-base;
     overflow: auto;
     padding: 5px;
+    display: flex;
+    flex-direction: column;
     .tab-bar {
       display: flex;
+      border-radius: @radius-m;
       height: 40px;
+      z-index: 99;
       align-items: center;
       justify-content: space-between;
       .tab-item {
-        flex: 1;
         display: flex;
+        flex: 1;
         align-items: center;
         justify-content: center;
         height: 100%;
@@ -41,6 +45,8 @@
       }
     }
     .population-tab {
+      flex: 1;
+      overflow: auto;
       .total-population {
         width: 100%;
         border-bottom-left-radius: @radius-l;
@@ -137,7 +143,7 @@
       }
       &.changed {
         transform: rotate(-45deg);
-        margin-left: -6px;
+        margin-left: 5px;
       }
     }
   }
