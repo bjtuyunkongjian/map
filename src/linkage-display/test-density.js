@@ -21,9 +21,12 @@ export default class TestDensity extends Component {
             { value: 6, label: '人口密度' }
           ]}
           selectedIndex={selectedIndex}
-          onClick={param => {
-            this.setState({ selectedIndex: param.curIndex });
-          }}
+          onClick={param =>
+            this.setState({
+              selectedIndex:
+                param.curIndex === selectedIndex ? -1 : param.curIndex
+            })
+          }
         />
       </div>
     );

@@ -70,6 +70,7 @@ export default class ChartsDensity extends Component {
           height={height}
           onMouseMove={this._onMouseMove}
           onClick={this._onClick}
+          onMouseLeave={this._onMouseLeave}
         />
       </div>
     );
@@ -250,6 +251,18 @@ export default class ChartsDensity extends Component {
     }
   };
 
+  _onMouseLeave = () => {
+    let _shouldRedraw = false; // 需要重绘
+    for (let densityCell of this._densityArr) {
+      if (!densityCell.selected) {
+        densityCell.hovered = false;
+        _shouldRedraw = true; // 需要重绘
+      }
+    }
+    this.setState({ showPrompt: false });
+    _shouldRedraw && this._drawDensityCells();
+  };
+
   // 渲染选中区域
   _renderSelected = selectedIndex => {
     for (let index = 0; index < this._densityArr.length; index++) {
@@ -328,11 +341,14 @@ export default class ChartsDensity extends Component {
         backRect,
         triangle
       } = densityCell; // 解构
-      const _isHighLight = selected || hovered; // 是否高亮
       this._ctx.save();
-      // 绘制
-      if (_isHighLight) {
-        this._ctx.fillStyle = '#eee'; //
+      // 开始绘制
+      // 背景
+      if (selected) {
+        this._ctx.fillStyle = '#ddd';
+        this._ctx.fill(backRect);
+      } else if (hovered) {
+        this._ctx.fillStyle = '#eee';
         this._ctx.fill(backRect);
       }
       // 绘制圆形

@@ -327,14 +327,9 @@ export default class ChartsPie extends Component {
   };
 
   _onMouseLeave = () => {
-    let _shouldRedraw = true; // 需要重绘
+    let _shouldRedraw = false; // 需要重绘
     for (let sector of this._sectorArr) {
-      if (sector.selected) {
-        sector.hovered = true; // 扩展
-        sector.path2D = this._createSectorPath(sector);
-        _shouldRedraw = true; // 需要重绘
-      } else {
-        sector.radius = sector.originRadius; // 半径恢复为原来的半径
+      if (!sector.selected) {
         sector.hovered = false; // 没有扩展
         sector.path2D = this._createSectorPath(sector);
         _shouldRedraw = true; // 需要重绘
