@@ -38,4 +38,3 @@ export default class UnitTab extends Component {
     });
   };
 }
-const barName = 'unit'; // 对应条形图名称
