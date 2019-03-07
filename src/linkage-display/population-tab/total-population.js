@@ -11,7 +11,6 @@ export default class TotalPopulation extends Component {
     return (
       <div className="charts-box">
         <TuyunBar
-          width="100%"
           height={200}
           title={{ text: '人口分布' }}
           legend={{ text: '人口总数：85' }}

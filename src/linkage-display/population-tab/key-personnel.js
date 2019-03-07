@@ -11,7 +11,6 @@ export default class KeyPersonnel extends Component {
     return (
       <div className="charts-box">
         <TuyunPie
-          width="100%"
           height={200}
           title={{ text: '重点人员' }}
           legend={{ text: '人口总数：65' }}

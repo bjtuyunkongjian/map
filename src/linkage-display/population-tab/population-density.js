@@ -16,7 +16,6 @@ export default class PopulationDensity extends Component {
     return (
       <div className="charts-box">
         <TuyunDensity
-          width="100%"
           height={200}
           title={{ text: '人口密度图' }}
           legend={{ text: '人口总数：65' }}

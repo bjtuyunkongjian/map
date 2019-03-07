@@ -33,7 +33,6 @@ export default class SpecialUnit extends Component {
     return (
       <div className="charts-box">
         <TuyunPie
-          width="100%"
           height={200}
           title={{ text: '特种单位' }}
           legend={{ text: '人口总数：65' }}

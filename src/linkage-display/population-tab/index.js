@@ -44,21 +44,6 @@ export default class PopulationTab extends Component {
 // case ====> 案件
 // alarm =====> 报警
 const barName = 'population'; // 对应条形图名称
-const pop = {
-  ageDistri: {
-    ageNum3: 133, // 40 ~ 60
-    ageNum4: 84, // 60 ~ 80
-    ageNum5: 20, // 80 ~ 100
-    ageNum1: 29, // 0 ~ 20
-    ageNum2: 70 // 20 ~ 40
-  }, // 年龄分布
-  nums: { importpopNum: 39, floatpopNum: 100, perpopNum: 197 }, // 人口数量
-  popDensity: {
-    importpopDensityLevel: 0, // 重点
-    perpopDensityLevel: 2, // 常驻
-    floatpopDensityLevel: 1 // 流动
-  } // 人口密度
-};
 
 const case_ = {
   caseDensity: { casedLevel: 1, caseaLevel: 3, casebLevel: 5, casecLevel: 4 }, // ABCD 四类 密度

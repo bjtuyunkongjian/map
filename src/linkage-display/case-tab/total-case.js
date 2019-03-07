@@ -19,7 +19,6 @@ export default class TotalCase extends Component {
     return (
       <div className="charts-box">
         <TuyunBar
-          width="100%"
           height={200}
           title={{ text: '案件' }}
           legend={{ text: '人口总数：65' }}

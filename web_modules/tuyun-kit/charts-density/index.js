@@ -23,7 +23,7 @@ export default class ChartsDensity extends Component {
   };
 
   static defaultProps = {
-    width: 300,
+    width: '100%',
     height: 100,
     padding: Padding,
     title: Title,

@@ -30,7 +30,7 @@ export default class CahrtsBar extends Component {
   };
 
   static defaultProps = {
-    width: 300,
+    width: '100%',
     height: 300,
     backgroundColor: '#fff',
     padding: Padding,
