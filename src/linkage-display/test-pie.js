@@ -33,6 +33,22 @@ export default class TestPie extends Component {
             // { value: 310, name: '邮件营销' },
             // { value: 234, name: '联盟广告' },
             // { value: 135, name: '视频广告' }
+            // { value: 435, label: '直接访问' },
+            // { value: 310, label: '邮件营销' },
+            // { value: 234, label: '联盟广告' },
+            // { value: 135, label: '视频广告' },
+            // { value: 435, label: '直接访问' },
+            // { value: 310, label: '邮件营销' },
+            // { value: 234, label: '联盟广告' },
+            // { value: 135, label: '视频广告' },
+            // { value: 435, label: '直接访问' },
+            // { value: 310, label: '邮件营销' },
+            // { value: 234, label: '联盟广告' },
+            // { value: 135, label: '视频广告' },
+            // { value: 435, label: '直接访问' },
+            // { value: 310, label: '邮件营销' },
+            // { value: 234, label: '联盟广告' },
+            // { value: 135, label: '视频广告' }
           ]}
           selectedIndex={selectedIndex}
           onClick={param => {

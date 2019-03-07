@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import TotalPopulation from './total-population';
-import AgeDistribution from './age-distribution';
+// import AgeDistribution from './age-distribution';
 import TestPie from './test-pie';
+import TestDensity from './test-density';
 import Event from './event';
 
 export default class PopulationTab extends Component {
@@ -17,8 +18,12 @@ export default class PopulationTab extends Component {
     return (
       <div className="population-tab">
         <TotalPopulation />
+<<<<<<< HEAD
         {/*<AgeDistribution />*/}
+=======
+>>>>>>> c608c15e749fba21ae8f6d29bed9f26e98ec5955
         <TestPie />
+        <TestDensity />
       </div>
     );
   }

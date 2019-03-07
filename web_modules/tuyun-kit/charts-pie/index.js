@@ -139,16 +139,18 @@ export default class ChartsPie extends Component {
       width: canvasWidth,
       height: canvasHeight
     } = this._canvasEl.getBoundingClientRect(); // 获取 canvas 元素的宽和高
-    this._canvasW = canvasWidth; // 赋值
-    this._canvasH = canvasHeight; // 赋值
     this._ctx = this._canvasEl.getContext('2d'); // 赋值
     this._ratio = ResolveBlurry(this._canvasEl, this._ctx, {
       width: canvasWidth,
       height: canvasHeight
     }); // 解决高倍屏变模糊问题
-    this._chartW = this._xLabelW = this._titleW = this._legendW = canvasWidth; // 设置 x轴宽度/标题宽度/注释宽度/图表宽度，这几个宽度相同
-    this._chartH = canvasHeight - this._titleH - this._legendH; // 图表高度
-    this._chartBottom = canvasHeight; // 图表底部
+    // 重新计算 _titleH 和 _legendH
+    this._titleH = this._titleH * this._ratio;
+    this._legendH = this._legendH * this._ratio;
+    this._canvasW = this._chartW = this._xLabelW = this._titleW = this._legendW =
+      canvasWidth * this._ratio; // 设置 x轴宽度/标题宽度/注释宽度/图表宽度，这几个宽度相同
+    this._chartH = canvasHeight * this._ratio - this._titleH - this._legendH; // 图表高度
+    this._canvasH = this._chartBottom = canvasHeight * this._ratio; // 图表底部
     this._renderTitle(); // 绘制标题
     this._renderLegend(); // 绘制
     this._renderChart(); // 绘制图表
@@ -174,32 +176,12 @@ export default class ChartsPie extends Component {
     }
     this._ctx.textBaseline = 'middle';
     if (fontWeight === 'blod') {
-      this._ctx.fillText(
-        text,
-        _textStart * this._ratio,
-        (_textMiddle - 0.5) * this._ratio
-      );
-      this._ctx.fillText(
-        text,
-        (_textStart - 0.5) * this._ratio,
-        _textMiddle * this._ratio
-      );
-      this._ctx.fillText(
-        text,
-        _textStart * this._ratio,
-        (_textMiddle + 0.5) * this._ratio
-      );
-      this._ctx.fillText(
-        text,
-        (_textStart + 0.5) * this._ratio,
-        _textMiddle * this._ratio
-      );
+      this._ctx.fillText(text, _textStart, _textMiddle - 0.5);
+      this._ctx.fillText(text, _textStart - 0.5, _textMiddle);
+      this._ctx.fillText(text, _textStart, _textMiddle + 0.5);
+      this._ctx.fillText(text, _textStart + 0.5, _textMiddle);
     } else {
-      this._ctx.fillText(
-        text,
-        _textStart * this._ratio,
-        _textMiddle * this._ratio
-      );
+      this._ctx.fillText(text, _textStart, _textMiddle);
     }
     this._ctx.restore();
   };
@@ -222,11 +204,7 @@ export default class ChartsPie extends Component {
       this._ctx.textAlign = 'center';
       _textStart = this._titleW / 2;
     }
-    this._ctx.fillText(
-      text,
-      _textStart * this._ratio,
-      _textMiddle * this._ratio
-    );
+    this._ctx.fillText(text, _textStart, _textMiddle);
     this._ctx.restore();
   };
 
@@ -234,11 +212,10 @@ export default class ChartsPie extends Component {
   _renderChart = () => {
     const { data, selectedIndex } = this.props;
     const _center = {
-      x: (this._chartW * this._ratio) / 2,
-      y: (this._chartBottom - this._chartH / 2) * this._ratio
+      x: this._chartW / 2,
+      y: this._chartBottom - this._chartH / 2
     };
-    const _radius =
-      (Math.min(this._chartH, this._chartW) / 2) * 0.8 * this._ratio; // 长宽较小值的一半的百分之八十
+    const _radius = (Math.min(this._chartH, this._chartW) / 2) * 0.8; // 长宽较小值的一半的百分之八十
     let _addedPercentage = 0; // 已经计算的百分比
     const _scLength = SectorColors.length; // 扇区长度
     this._sectorArr = data.map((item, index) => {
@@ -251,11 +228,11 @@ export default class ChartsPie extends Component {
       _sector.saturation = SectorColors[index % _scLength][1]; // 饱和度
       _sector.lightness = SectorColors[index % _scLength][2]; // 亮度
       _sector.value = item.value; // 值
-      _sector.name = item.name; // 名称
+      _sector.label = item.label; // 名称
       _sector.percentage = item.value / this._totalData; // 占的百分比
       _sector.startAngle = _addedPercentage * Math.PI * 2; // 起始角
       _sector.endAngle = (_addedPercentage + _sector.percentage) * Math.PI * 2; // 终止角
-      _sector.path2D = this._createSectorPath(_sector); // 扇形区域
+      _sector.sectorPath = this._createSectorPath(_sector); // 扇形区域
       const { indicator, textAlign, textStart } = this._createIndicator(
         _sector
       ); // 指示
@@ -272,7 +249,9 @@ export default class ChartsPie extends Component {
   _onMouseMove = event => {
     const {
       top: canvasTop,
-      left: canvasLeft
+      left: canvasLeft,
+      width: canvasWidth,
+      height: canvasHeight
     } = this._canvasEl.getBoundingClientRect(); // 获取 canvas 元素的宽和高
     const _x = event.clientX - canvasLeft;
     const _y = event.clientY - canvasTop;
@@ -289,28 +268,27 @@ export default class ChartsPie extends Component {
     let _promptTop = 0;
     let _promptBottom = 0;
     for (let sector of this._sectorArr) {
-      if (this._ctx.isPointInPath(sector.path2D, _ratioX, _ratioY)) {
+      if (this._ctx.isPointInPath(sector.sectorPath, _ratioX, _ratioY)) {
         if (!sector.hovered) {
           // 鼠标在该扇形区域内，并且该扇形区域扩展了，不做任何操作
           sector.hovered = true; // 扩展
-          sector.path2D = this._createSectorPath(sector);
+          sector.sectorPath = this._createSectorPath(sector);
           _shouldRedraw = true; // 需要重绘
         }
         // 计算提示框信息，prompt 是相对 canvas 父元素定位，要计算 padding
         const { padding } = this.props;
         _showPrompt = true; // 显示提示框
         _curSector = sector; // 当前鼠标所在扇形区间
-        _isLeft = _x < this._canvasW + padding.right - PromptWidth - PromptGap;
+        _isLeft = _x < canvasWidth + padding.right - PromptWidth - PromptGap;
         _promptLeft = _x + padding.left + PromptGap;
-        _promptRight = this._canvasW + padding.right - _x + PromptGap;
-        _isTop = _y < this._chartBottom - this._chartH / 2;
+        _promptRight = canvasWidth + padding.right - _x + PromptGap;
+        _isTop = _y < canvasHeight - this._chartH / this._ratio / 2;
         _promptTop = _y + padding.top;
-        _promptBottom = this._canvasH + padding.bottom - _y; // (padding.top + this._chartH + padding.bottom) - (_y + padding.top)
+        _promptBottom = canvasHeight + padding.bottom - _y; // (padding.top + this._chartH + padding.bottom) - (_y + padding.top)
       } else if (sector.hovered && !sector.selected) {
         // 不在该扇形区间内，该扇形区间已做扩展并且未被选中
-        sector.radius = sector.originRadius; // 半径恢复为原来的半径
         sector.hovered = false; // 没有扩展
-        sector.path2D = this._createSectorPath(sector);
+        sector.sectorPath = this._createSectorPath(sector);
         _shouldRedraw = true; // 需要重绘
       }
     }
@@ -328,16 +306,11 @@ export default class ChartsPie extends Component {
   };
 
   _onMouseLeave = () => {
-    let _shouldRedraw = true; // 需要重绘
+    let _shouldRedraw = false; // 需要重绘
     for (let sector of this._sectorArr) {
-      if (sector.selected) {
-        sector.hovered = true; // 扩展
-        sector.path2D = this._createSectorPath(sector);
-        _shouldRedraw = true; // 需要重绘
-      } else {
-        sector.radius = sector.originRadius; // 半径恢复为原来的半径
+      if (!sector.selected) {
         sector.hovered = false; // 没有扩展
-        sector.path2D = this._createSectorPath(sector);
+        sector.sectorPath = this._createSectorPath(sector);
         _shouldRedraw = true; // 需要重绘
       }
     }
@@ -357,7 +330,7 @@ export default class ChartsPie extends Component {
     const _ratioY = _y * this._ratio;
     for (let index = 0; index < this._sectorArr.length; index++) {
       const sector = this._sectorArr[index];
-      if (this._ctx.isPointInPath(sector.path2D, _ratioX, _ratioY)) {
+      if (this._ctx.isPointInPath(sector.sectorPath, _ratioX, _ratioY)) {
         // 计算提示框信息，prompt 是相对 canvas 父元素定位，要计算 padding
         onClick({ curIndex: index, curSector: sector });
         break;
@@ -371,7 +344,7 @@ export default class ChartsPie extends Component {
       const sector = this._sectorArr[index];
       sector.hovered = false;
       sector.selected = selectedIndex === index;
-      sector.path2D = this._createSectorPath(sector); // 扇形区域
+      sector.sectorPath = this._createSectorPath(sector); // 扇形区域
     }
     this._drawSector(); // 重绘
   };
@@ -425,9 +398,9 @@ export default class ChartsPie extends Component {
   _drawSector = () => {
     this._ctx.clearRect(
       0,
-      (this._chartBottom - this._chartH) * this._ratio,
-      this._chartW * this._ratio,
-      this._chartH * this._ratio
+      this._chartBottom - this._chartH,
+      this._chartW,
+      this._chartH
     ); // 清空绘图区
     for (let sector of this._sectorArr) {
       const _isHighLight = sector.selected || sector.hovered; // 是否高亮
@@ -443,13 +416,13 @@ export default class ChartsPie extends Component {
       this._ctx.stroke(sector.indicator);
       // 绘制扇形
       this._ctx.fillStyle = _color;
-      this._ctx.fill(sector.path2D);
+      this._ctx.fill(sector.sectorPath);
       // 绘制文字
       // this._ctx.fillStyle = _originColor;
       this._ctx.font = "16px '微软雅黑'";
       this._ctx.textAlign = sector.textAlign;
       this._ctx.textBaseline = 'middle';
-      this._ctx.fillText(sector.name, ...sector.textStart);
+      this._ctx.fillText(sector.label, ...sector.textStart);
       this._ctx.restore();
     }
   };

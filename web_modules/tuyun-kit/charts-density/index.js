@@ -1,23 +1,16 @@
-/**
- * @author sl204984
- * tuyun-bar
- * 条形图
- */
 import React, { Component } from 'react';
-import { ResolveBlurry } from 'tuyun-utils';
-// import BarPrompt from './bar-prompt';
-import Prompt from './prompt';
+import { ResolveBlurry, CreateRoundRect } from 'tuyun-utils';
 import {
-  LabelColor,
   Padding,
   Title,
   Legend,
-  XLabel,
+  LabelColor,
   PromptWidth,
   PromptGap
 } from './style-options';
+import Prompt from './prompt';
 
-export default class CahrtsBar extends Component {
+export default class ChartsDensity extends Component {
   state = {
     showPrompt: false,
     curCell: {},
@@ -31,42 +24,30 @@ export default class CahrtsBar extends Component {
 
   static defaultProps = {
     width: 300,
-    height: 300,
-    backgroundColor: '#fff',
+    height: 100,
     padding: Padding,
     title: Title,
-    // 图例，说明
-    legend: Legend,
-    // x 坐标轴，下面的文字
-    xLabel: XLabel,
-    // 数据
+    gradColor: ['#ff0', '#0ff'],
+    step: 0.1,
+    start: 0,
+    stop: 10,
+    backgroundColor: 'white',
     data: [],
-    dutyRatio: 0.6, // 占空比，每个单元内图像宽度占整个宽度的面积
-    // 选中的柱状
+    // 选中的扇形
     selectedIndex: -1,
     onClick: () => {}
   };
 
-  // canvas 对象
-  _canvasEl;
+  _canvasEl; // canvas 对象
+  _ratio = 1; // canvas的实际渲染倍率
   // 标题
   _titleH = 0;
-  _titleW = 0;
-  // 图例说明
   _legendH = 0;
-  _legendW = 0;
-  // 图表
-  _chartH = 0;
+  // 密度图
   _chartW = 0;
+  _chartH = 0;
+  _chartTop = 0;
   _chartBottom = 0;
-  // x轴标注
-  _xLabelH = 0;
-  _xLabelW = 0;
-  // canvas的实际渲染倍率
-  _ratio = 1;
-  // 图标的 wrap
-  _canvasW = 0;
-  _canvasH = 0;
 
   componentWillMount() {
     this._convertProps(this.props);
@@ -116,8 +97,8 @@ export default class CahrtsBar extends Component {
           style={{ width: '100%', height: '100%' }}
           height={height}
           onMouseMove={this._onMouseMove}
-          onMouseLeave={this._onMouseLeave}
           onClick={this._onClick}
+          onMouseLeave={this._onMouseLeave}
         />
         <Prompt
           showPrompt={showPrompt}
@@ -134,16 +115,14 @@ export default class CahrtsBar extends Component {
   }
 
   _convertProps = props => {
-    const { padding, title, legend, xLabel } = props;
+    const { padding, title, legend } = props;
     // 融入默认属性
     Object.assign(padding, Object.assign({}, Padding, padding));
     Object.assign(title, Object.assign({}, Title, title));
     Object.assign(legend, Object.assign({}, Legend, legend));
-    Object.assign(xLabel, Object.assign({}, XLabel, xLabel));
     // 设置初始值
     this._titleH = Math.ceil(title.fontSize / 0.62); // 0.62 黄金分割
     this._legendH = Math.ceil(legend.fontSize / 0.62); // 注释的高度
-    this._xLabelH = Math.ceil(xLabel.fontSize / 0.62); // x标注高度
   };
 
   _renderCanvas = _canvas => {
@@ -152,7 +131,6 @@ export default class CahrtsBar extends Component {
       width: canvasWidth,
       height: canvasHeight
     } = this._canvasEl.getBoundingClientRect(); // 获取 canvas 元素的宽和高
-    this._canvasW = canvasWidth; // 赋值
     this._canvasH = canvasHeight; // 赋值
     this._ctx = this._canvasEl.getContext('2d'); // 赋值
     this._ratio = ResolveBlurry(this._canvasEl, this._ctx, {
@@ -163,24 +141,14 @@ export default class CahrtsBar extends Component {
     this._titleH = this._ratio * this._titleH;
     this._legendH = this._ratio * this._legendH;
     // 设置图表高度
-    this._chartW = this._xLabelW = this._titleW = this._legendW =
+    this._canvasW = this._chartW = this._xLabelW = this._titleW = this._legendW =
       canvasWidth * this._ratio; // 设置 x轴宽度/标题宽度/注释宽度/图表宽度，这几个宽度相同
-    this._chartBottom = canvasHeight * this._ratio; // 图表底部
+    this._canvasH = this._chartBottom = canvasHeight * this._ratio; // 图表底部
     this._chartH = this._chartBottom - this._titleH - this._legendH; // 图表高度
     this._chartTop = this._chartBottom - this._chartH; // 图标距离上面的距离
-    this._renderBackground(); // 绘制背景
     this._renderTitle(); // 绘制标题
     this._renderLegend(); // 绘制
     this._renderChart(); // 绘制图表
-  };
-
-  // 绘制背景颜色
-  _renderBackground = () => {
-    const { backgroundColor } = this.props;
-    this._ctx.save();
-    this._ctx.fillStyle = backgroundColor || 'white';
-    this._ctx.fillRect(0, 0, this._canvasW, this._canvasH);
-    this._ctx.restore();
   };
 
   _renderTitle = () => {
@@ -236,46 +204,44 @@ export default class CahrtsBar extends Component {
   };
 
   _renderChart = () => {
-    const { data, dutyRatio, xLabel, selectedIndex } = this.props;
-    const _maxData = Math.ceil(this._computeMaxVal() * 1.05);
-    const _cellWidth = this._chartW / data.length; // 每一个单元格的宽度
-    // x 轴坐标文字
-    const _xLabelH = (xLabel.fontSize / 0.62) * this._ratio; // x 轴文字标注的高度
-    const _xLabelTop = this._chartBottom - _xLabelH; // x 轴文字标注的顶部纵坐标
-    // 彩条
-    const _equalSize = (this._chartH - _xLabelH) / _maxData; // chart 高度方向等分成 _maxData 份，每份的大小
-    const _barBottom = _xLabelTop; // 彩条的底部纵坐标
-    this._barArr = data.map((item, index) => {
-      const _barCell = Object.assign({}, item);
-      _barCell.index = index;
-      _barCell.max = _maxData;
-      _barCell.selected = selectedIndex === index; // 是否被选中
-      _barCell.dutyRatio = dutyRatio; // 占空比
-      _barCell.xStart = index * _cellWidth; // 每个单元格的起始 x 坐标
-      _barCell.xEnd = _barCell.xStart + _cellWidth; // 每个单元格的终止 x 坐标
-      _barCell.xMiddle = (_barCell.xStart + _barCell.xEnd) / 2; // 每个单元格的中间 x 坐标
-      _barCell.yStart = this._chartTop; // 每个单元格的起始 y 坐标
-      _barCell.cellWidth = _cellWidth; // 每一个单元格的宽度
-      _barCell.cellHeight = this._chartH; // 每一个单元格的高度
+    const { data, selectedIndex } = this.props;
+    const _cellHeight = this._chartH / data.length; // 每一个数据的高度
+    const _labelFontSize = Math.floor((_cellHeight / 3) * 0.62); // 字体大小
+    const _circleRadius = Math.floor(_cellHeight / 8); // 圆的直径
+    const _numFontSize = Math.floor((_cellHeight / 3) * 0.62); // 数字大小
+    this._densityArr = data.map((item, index) => {
+      const _densityCell = Object.assign({}, item);
+      _densityCell.index = index; // 索引
+      _densityCell.selected = selectedIndex === index; // 选中区域
+      _densityCell.height = _cellHeight; // 高度
+      _densityCell.width = this._chartW;
+      // 上面 1/3 部分显示圆圈和名称
+      _densityCell.topTop = _cellHeight * index + this._chartTop; // 顶部的顶部位置
+      _densityCell.topBottom = _densityCell.topTop + _cellHeight / 3; // 顶部的底部位置
+      _densityCell.topMiddle =
+        (_densityCell.topTop + _densityCell.topBottom) / 2; // 顶部的中间位置
+      _densityCell.circleRadius = _circleRadius; // 圆的半径
+      _densityCell.circle = this._createCircle(_densityCell); // 圆
+      _densityCell.labelFontSize = Math.min(_labelFontSize, 10 * this._ratio); // 字体大小
+      // 中间 1/3 部分，显示条形
+      _densityCell.centerTop = _densityCell.topBottom;
+      _densityCell.centerBottom = _densityCell.centerTop + _cellHeight / 3; // 顶部的底部位置
+      _densityCell.centerMiddle =
+        (_densityCell.centerTop + _densityCell.centerBottom) / 2; // 顶部
+      _densityCell.barPercentage = 2 / 3; // 矩形条占的比例
+      _densityCell.bar = this._createBar(_densityCell); // 圆角矩形条
+      _densityCell.triangle = this._createTriangle(_densityCell); // 三角形
+      // 下面 1/3 部分
+      _densityCell.bottomTop = _densityCell.centerBottom;
+      _densityCell.bottomBottom = _densityCell.bottomTop + _cellHeight / 3; // 底部位置
+      _densityCell.bottomMiddle =
+        (_densityCell.bottomTop + _densityCell.bottomBottom) / 2; // 中间位置
+      _densityCell.numFontSize = Math.min(_numFontSize, 10 * this._ratio); // 数字字体大小
       // 矩形遮罩
-      _barCell.modalRect = this._createModalRect(_barCell); // 矩形遮罩
-      // 彩条
-      _barCell.barWidth = _cellWidth * dutyRatio; // 每一个彩条的宽度
-      _barCell.barHeight = _equalSize * item.value; // 每一个彩条的高度
-      _barCell.barX = _barCell.xMiddle - _barCell.barWidth / 2; // 彩条的横坐标
-      _barCell.barY = _barBottom - _barCell.barHeight; // 彩条的纵坐标
-      _barCell.bar = this._createBar(_barCell); // 彩条
-      // x 轴
-      _barCell.xAxisY = _barBottom;
-      _barCell.lineWidth = 1; // x 轴的宽度
-      _barCell.xAxis = this._createXAxis(_barCell);
-      // x 轴下文字
-      _barCell.textX = _barCell.xMiddle; // x 轴下文本中心位置横坐标
-      _barCell.textY = _xLabelTop + _xLabelH / 2; // x 轴下面文本中心位置纵坐标
-      _barCell.textFontSize = xLabel.fontSize * this._ratio; // 文字大小
-      return _barCell;
+      _densityCell.modalRect = this._createModalRect(_densityCell); // 生成矩形遮罩
+      return _densityCell;
     });
-    this._drawBarCells();
+    this._drawDensityCells();
   };
 
   _onMouseMove = event => {
@@ -299,24 +265,24 @@ export default class CahrtsBar extends Component {
     let _isTop = false; // 鼠标是否在图表的上半部分
     let _promptTop = 0;
     let _promptBottom = 0;
-    for (let barCell of this._barArr) {
-      if (this._ctx.isPointInPath(barCell.modalRect, _ratioX, _ratioY)) {
-        if (!barCell.hovered) {
-          barCell.hovered = true;
+    for (let densityCell of this._densityArr) {
+      if (this._ctx.isPointInPath(densityCell.modalRect, _ratioX, _ratioY)) {
+        if (!densityCell.hovered) {
+          densityCell.hovered = true;
           _shouldRedraw = true;
         }
         // 计算提示框信息，prompt 是相对 canvas 父元素定位，要计算 padding
         _showPrompt = true; // 显示提示框
         const { padding } = this.props;
-        _curCell = barCell; // 当前鼠标所在扇形区间
+        _curCell = densityCell; // 当前鼠标所在扇形区间
         _isLeft = _x < canvasWidth + padding.right - PromptWidth - PromptGap;
         _promptLeft = _x + padding.left + PromptGap;
         _promptRight = canvasWidth + padding.right - _x + PromptGap;
         _isTop = _y < canvasHeight - this._chartH / this._ratio / 2;
         _promptTop = _y + padding.top;
         _promptBottom = canvasHeight + padding.bottom - _y; // (padding.top + this._chartH + padding.bottom) - (_y + padding.top)
-      } else if (barCell.hovered) {
-        barCell.hovered = false;
+      } else if (densityCell.hovered) {
+        densityCell.hovered = false;
         _shouldRedraw = true;
       }
     }
@@ -330,19 +296,19 @@ export default class CahrtsBar extends Component {
       promptTop: _promptTop,
       promptBottom: _promptBottom
     });
-    _shouldRedraw && this._drawBarCells();
+    _shouldRedraw && this._drawDensityCells();
   };
 
   _onMouseLeave = () => {
     let _shouldRedraw = false; // 需要重绘
-    for (let barCell of this._barArr) {
-      if (!barCell.selected) {
-        barCell.hovered = false;
+    for (let densityCell of this._densityArr) {
+      if (!densityCell.selected) {
+        densityCell.hovered = false;
         _shouldRedraw = true; // 需要重绘
       }
     }
     this.setState({ showPrompt: false });
-    _shouldRedraw && this._drawBarCells();
+    _shouldRedraw && this._drawDensityCells();
   };
 
   _onClick = () => {
@@ -355,11 +321,11 @@ export default class CahrtsBar extends Component {
     const _y = event.clientY - canvasTop;
     const _ratioX = _x * this._ratio;
     const _ratioY = _y * this._ratio;
-    for (let index = 0; index < this._barArr.length; index++) {
-      const _barCell = this._barArr[index];
-      if (this._ctx.isPointInPath(_barCell.modalRect, _ratioX, _ratioY)) {
+    for (let index = 0; index < this._densityArr.length; index++) {
+      const _densityCell = this._densityArr[index];
+      if (this._ctx.isPointInPath(_densityCell.modalRect, _ratioX, _ratioY)) {
         // 计算提示框信息，prompt 是相对 canvas 父元素定位，要计算 padding
-        onClick({ curIndex: index, curCell: _barCell });
+        onClick({ curIndex: index, curCell: _densityCell });
         break;
       }
     }
@@ -367,85 +333,117 @@ export default class CahrtsBar extends Component {
 
   // 渲染选中区域
   _renderSelected = selectedIndex => {
-    for (let index = 0; index < this._barArr.length; index++) {
-      const _barCell = this._barArr[index];
-      _barCell.hovered = false;
-      _barCell.selected = selectedIndex === index;
+    for (let index = 0; index < this._densityArr.length; index++) {
+      const _densityCell = this._densityArr[index];
+      _densityCell.hovered = false;
+      _densityCell.selected = selectedIndex === index;
     }
-    this._drawBarCells(); // 重绘
+    this._drawDensityCells(); // 重绘
   };
 
-  _computeMaxVal = () => {
-    const { data } = this.props;
-    let _max = data[0].value;
-    for (let item of data) {
-      if (_max < item.value) _max = item.value;
-    }
-    return _max;
-  };
-
-  _createModalRect = barCell => {
-    const { xStart, yStart, cellWidth, cellHeight } = barCell;
+  _createModalRect = cell => {
+    const { width, height, topTop } = cell;
     const _path2D = new Path2D();
-    _path2D.rect(xStart, yStart, cellWidth - 1, cellHeight); // 减 1 像素，避免同时选中两个背景的问题
+    _path2D.rect(0, topTop, width, height);
     return _path2D;
   };
 
-  _createBar = barCell => {
-    const { barX, barY, barWidth, barHeight } = barCell;
-    const _path2D = new Path2D();
-    _path2D.rect(barX, barY, barWidth, barHeight);
+  _createCircle = cell => {
+    const { circleRadius, topMiddle } = cell; // 解构
+    const _path2D = new Path2D(); // 新建路径
+    const _center = { x: circleRadius, y: topMiddle }; // 圆心
+    _path2D.arc(_center.x, topMiddle, circleRadius, 0, 2 * Math.PI); // 绘制圆
     return _path2D;
   };
 
-  _createXAxis = barCell => {
-    const { xStart, xEnd, xAxisY, lineWidth } = barCell;
-    const _path2D = new Path2D();
-    _path2D.moveTo(xStart, xAxisY + lineWidth); // 起始位置
-    _path2D.lineTo(xEnd, xAxisY + lineWidth); // 终止位置
+  _createBar = cell => {
+    const { width, centerTop, centerBottom, barPercentage } = cell; // 解构
+    const _totalH = (centerBottom - centerTop) * barPercentage;
+    const _spaceH = _totalH / 3; // 空白部分的高度，占整个圆角矩形彩条高度的三分之一
+    const _path2D = CreateRoundRect({
+      x: 0,
+      y: centerTop + _spaceH,
+      width,
+      height: _totalH - _spaceH
+    });
     return _path2D;
   };
 
-  _drawBarCells = () => {
+  _createTriangle = cell => {
+    const {
+      width,
+      centerTop,
+      centerBottom,
+      value,
+      start = 0,
+      end = 10,
+      barPercentage
+    } = cell; // 解构
+    const _triHeight = (centerBottom - centerTop) * (1 - barPercentage); // 正三角形的高
+    const _triTopX = (value / (end - start)) * width; // 正三角形上顶点的横坐标
+    const _path2D = new Path2D();
+    _path2D.moveTo(_triTopX, centerBottom - _triHeight); // 正三角形上顶点
+    _path2D.lineTo(_triTopX - _triHeight / Math.sqrt(3), centerBottom); // 正三角形左下角顶点
+    _path2D.lineTo(_triTopX + _triHeight / Math.sqrt(3), centerBottom); // 正三角形右下角顶点
+    return _path2D;
+  };
+
+  _drawDensityCells = () => {
     this._ctx.clearRect(0, this._chartTop, this._chartW, this._chartH); // 清空绘图区
-
-    for (let barCell of this._barArr) {
+    for (let densityCell of this._densityArr) {
       const {
-        modalRect,
-        bar,
-        barY,
-        barHeight,
+        circleRadius,
+        circle,
+        topMiddle,
+        start = 0,
         startColor = gradStartColor,
+        end = 10,
         endColor = gradEndColor,
+        labelFontSize,
+        label,
+        bottomMiddle,
+        numFontSize,
+        bar,
         selected,
         hovered,
-        xAxis,
-        lineWidth,
-        label,
-        textX,
-        textY,
-        textFontSize
-      } = barCell;
+        modalRect,
+        triangle
+      } = densityCell; // 解构
       this._ctx.save();
-
-      // 绘制彩条
-      const _yTop = barY,
-        _yBottom = barY + barHeight;
-      const _barGrad = this._ctx.createLinearGradient(0, _yTop, 0, _yBottom); // 渐变色
+      // 开始绘制
+      // 绘制圆形
+      const _yTop = topMiddle - circleRadius,
+        _yBottom = topMiddle + circleRadius;
+      const _circleGrad = this._ctx.createLinearGradient(0, _yTop, 0, _yBottom); // 渐变色
+      _circleGrad.addColorStop(0, startColor); // 渐变起始色
+      _circleGrad.addColorStop(1, endColor); // 渐变终止色
+      this._ctx.fillStyle = _circleGrad;
+      this._ctx.fill(circle);
+      // 绘制右上角文字
+      this._ctx.fillStyle = LabelColor;
+      this._ctx.font = `${labelFontSize}px '微软雅黑'`;
+      this._ctx.textAlign = 'right';
+      this._ctx.textBaseline = 'middle';
+      this._ctx.fillText(label, this._chartW, topMiddle);
+      // 绘制圆角矩形
+      const _barGrad = this._ctx.createLinearGradient(0, 0, this._chartW, 0); // 生成渐变色
       _barGrad.addColorStop(0, startColor); // 渐变起始色
       _barGrad.addColorStop(1, endColor); // 渐变终止色
       this._ctx.fillStyle = _barGrad;
-      this._ctx.fill(bar);
-      // 绘制坐标轴
-      this._ctx.lineWidth = lineWidth;
-      this._ctx.stroke(xAxis);
-      // 绘制文字
+      this._ctx.fill(bar); // 条形
+      // 绘制小三角形
       this._ctx.fillStyle = LabelColor;
-      this._ctx.font = `${textFontSize}px '微软雅黑'`;
-      this._ctx.textAlign = 'center';
+      this._ctx.fill(triangle);
+      // 绘制圆角矩形下面的数字
+      const _numBaseLine = bottomMiddle; //
+      this._ctx.fillStyle = LabelColor;
+      this._ctx.font = `${numFontSize}px '微软雅黑'`;
+      this._ctx.textAlign = 'left';
       this._ctx.textBaseline = 'middle';
-      this._ctx.fillText(label, textX, textY);
-      // 绘制矩形遮罩
+      this._ctx.fillText(start, 0, _numBaseLine);
+      this._ctx.textAlign = 'right';
+      this._ctx.fillText(end, this._chartW, _numBaseLine);
+      // 矩形遮罩
       if (selected) {
         this._ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
         this._ctx.fill(modalRect);
@@ -453,7 +451,6 @@ export default class CahrtsBar extends Component {
         this._ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
         this._ctx.fill(modalRect);
       }
-      // restore
       this._ctx.restore();
     }
   };

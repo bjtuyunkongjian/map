@@ -26,10 +26,4 @@ const Legend = {
   fontFamily: '微软雅黑'
 };
 
-const XLabel = {
-  fontSize: 10,
-  color: 'black',
-  fontFamily: '微软雅黑'
-};
-
-export { LabelColor, PromptWidth, PromptGap, Padding, Title, Legend, XLabel };
+export { PromptWidth, PromptGap, Padding, Title, Legend, LabelColor };

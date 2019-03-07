@@ -29,7 +29,6 @@ export default class Prompt extends Component {
       <div style={Object.assign({}, promptStyle, _xStyle, _yStyle)}>
         <div>{curData.label}</div>
         <div>数值：{curData.value || 0}</div>
-        <div>占比：{(curData.percentage * 100).toFixed(2) || 0}%</div>
       </div>
     ) : null;
   }
