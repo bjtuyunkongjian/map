@@ -26,7 +26,7 @@ export default class ProtectionUnit extends Component {
     const { selectedIndex } = this.state;
 
     return (
-      <div className="total-population">
+      <div className="charts-box">
         <TuyunPie
           width="100%"
           height={200}

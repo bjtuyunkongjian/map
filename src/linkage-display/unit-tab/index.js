@@ -21,7 +21,7 @@ export default class UnitTab extends Component {
     const { curBar } = this.state;
     if (curBar !== barName) return null;
     return (
-      <div className="population-tab">
+      <div className="tab-charts">
         <UnitBar />
         <SpecialUnit />
         <ProtectionUnit />

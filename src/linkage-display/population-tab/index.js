@@ -23,7 +23,7 @@ export default class PopulationTab extends Component {
     const { curBar } = this.state;
     if (curBar !== barName) return null;
     return (
-      <div className="population-tab">
+      <div className="tab-charts">
         <TotalPopulation />
         <KeyPersonnel />
         <PopulationDensity />

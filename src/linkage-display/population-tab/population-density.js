@@ -14,7 +14,7 @@ export default class PopulationDensity extends Component {
   render() {
     const { selectedIndex } = this.state;
     return (
-      <div className="age-distribution">
+      <div className="charts-box">
         <TuyunDensity
           width="100%"
           height={200}

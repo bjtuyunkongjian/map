@@ -19,7 +19,7 @@ export default class UnitBar extends Component {
   render() {
     const { selectedIndex } = this.state;
     return (
-      <div className="total-population">
+      <div className="charts-box">
         <TuyunBar
           width="100%"
           height={200}
