@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Event from './event';
+import Event, { EventName } from './event';
 
 export default class TabNav extends Component {
   state = {
@@ -28,7 +28,7 @@ export default class TabNav extends Component {
   }
 
   _init = () => {
-    Event.on('change:curBar', nextBar => {
+    Event.on(EventName.changeNav, nextBar => {
       const { curBar } = this.state;
       if (nextBar === curBar) return;
       this.setState({ curBar: nextBar });
@@ -37,7 +37,7 @@ export default class TabNav extends Component {
 
   _changeTab = curBar => {
     this.setState({ curBar: curBar });
-    Event.emit('change:curBar', curBar);
+    Event.emit(EventName.changeNav, curBar);
   };
 }
 

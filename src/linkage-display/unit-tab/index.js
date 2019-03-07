@@ -10,10 +10,10 @@ import React, { Component } from 'react';
 import UnitBar from './unit-bar';
 import SpecialUnit from './special-unit';
 import ProtectionUnit from './protection-unit';
-import Event, { defaultTab } from '../event';
+import Event, { DefaultTab, EventName } from '../event';
 
 export default class UnitTab extends Component {
-  state = { curBar: defaultTab };
+  state = { curBar: DefaultTab };
 
   componentDidMount = () => this._init();
 
@@ -30,7 +30,7 @@ export default class UnitTab extends Component {
   }
 
   _init = () => {
-    Event.on('change:curBar', nextBar => {
+    Event.on(EventName.changeNav, nextBar => {
       const { curBar } = this.state;
       if (nextBar === curBar) return;
       this.setState({ curBar: nextBar });

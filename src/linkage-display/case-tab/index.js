@@ -4,10 +4,10 @@
  */
 import React, { Component } from 'react';
 import TotalCase from './total-case';
-import Event, { defaultTab } from '../event';
+import Event, { DefaultTab, EventName } from '../event';
 
 export default class CaseTab extends Component {
-  state = { curBar: defaultTab };
+  state = { curBar: DefaultTab };
 
   componentDidMount = () => this._init();
 
@@ -22,7 +22,7 @@ export default class CaseTab extends Component {
   }
 
   _init = () => {
-    Event.on('change:curBar', nextBar => {
+    Event.on(EventName.changeNav, nextBar => {
       const { curBar } = this.state;
       if (nextBar === curBar) return;
       this.setState({ curBar: nextBar });

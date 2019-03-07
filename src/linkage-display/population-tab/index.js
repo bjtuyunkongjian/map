@@ -10,11 +10,11 @@ import React, { Component } from 'react';
 import TotalPopulation from './total-population';
 import KeyPersonnel from './key-personnel';
 import PopulationDensity from './population-density';
-import Event, { defaultTab } from '../event';
+import Event, { DefaultTab, EventName } from '../event';
 
 export default class PopulationTab extends Component {
   state = {
-    curBar: defaultTab
+    curBar: DefaultTab
   };
 
   componentDidMount = () => this._init();
@@ -32,7 +32,7 @@ export default class PopulationTab extends Component {
   }
 
   _init = () => {
-    Event.on('change:curBar', nextBar => {
+    Event.on(EventName.changeNav, nextBar => {
       const { curBar } = this.state;
       if (nextBar === curBar) return;
       this.setState({ curBar: nextBar });
