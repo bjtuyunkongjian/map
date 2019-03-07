@@ -32,6 +32,12 @@ export default class TotalPopulation extends Component {
               value: 15,
               startColor: '#fbdcd4',
               endColor: '#fed9fe'
+            },
+            {
+              label: '境外人员',
+              value: 10,
+              startColor: '#9795f0',
+              endColor: '#fbc8d4'
             }
           ]}
           selectedIndex={selectedIndex}

@@ -18,10 +18,6 @@ export default class PopulationTab extends Component {
     return (
       <div className="population-tab">
         <TotalPopulation />
-<<<<<<< HEAD
-        {/*<AgeDistribution />*/}
-=======
->>>>>>> c608c15e749fba21ae8f6d29bed9f26e98ec5955
         <TestPie />
         <TestDensity />
       </div>
