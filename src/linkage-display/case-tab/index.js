@@ -4,6 +4,7 @@
  */
 import React, { Component } from 'react';
 import TotalCase from './total-case';
+import CaseDensity from './case-density';
 import Event, { DefaultTab, EventName } from '../event';
 
 export default class CaseTab extends Component {
@@ -17,6 +18,7 @@ export default class CaseTab extends Component {
     return (
       <div className="tab-charts">
         <TotalCase />
+        <CaseDensity />
       </div>
     );
   }
