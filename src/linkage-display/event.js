@@ -1,5 +1,7 @@
 import { Emitter } from 'tuyun-utils';
 
-const Event = new Emitter();
+export default new Emitter(); // Event
 
-export default Event;
+const defaultTab = 'population';
+
+export { defaultTab };

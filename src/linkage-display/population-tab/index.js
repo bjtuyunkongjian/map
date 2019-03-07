@@ -10,11 +10,11 @@ import React, { Component } from 'react';
 import TotalPopulation from './total-population';
 import KeyPersonnel from './key-personnel';
 import PopulationDensity from './population-density';
-import Event from '../event';
+import Event, { defaultTab } from '../event';
 
 export default class PopulationTab extends Component {
   state = {
-    curBar: barName
+    curBar: defaultTab
   };
 
   componentDidMount = () => this._init();

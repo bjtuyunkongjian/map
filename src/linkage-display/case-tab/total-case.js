@@ -1,10 +1,9 @@
 /**
  * @author sl 2019-03-07
  * @name 案件总量柱状图
- * A类案件 caseA
- * B类案件 caseB
- * C类案件 caseC
- * D类案件 caseD
+ * 1. 全部
+ * 2. 刑事
+ * 3. 案前
  */
 
 import React, { Component } from 'react';
@@ -22,32 +21,26 @@ export default class TotalCase extends Component {
         <TuyunBar
           width="100%"
           height={200}
-          title={{ text: '案件总量' }}
-          legend={{ text: '人口总数：63' }}
+          title={{ text: '案件' }}
+          legend={{ text: '人口总数：65' }}
           data={[
             {
-              label: 'A类',
+              label: '全部',
               value: 30,
               startColor: '#bbaddc',
               endColor: '#facff0'
             },
             {
-              label: 'B类',
+              label: '刑事',
               value: 20,
               startColor: '#aed3fc',
               endColor: '#e6d1fc'
             },
             {
-              label: 'C类',
+              label: '案前',
               value: 15,
               startColor: '#fbdcd4',
               endColor: '#fed9fe'
-            },
-            {
-              label: 'D类',
-              value: 8,
-              startColor: '#bbaddc',
-              endColor: '#facff0'
             }
           ]}
           selectedIndex={selectedIndex}

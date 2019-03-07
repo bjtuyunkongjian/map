@@ -10,10 +10,10 @@ import React, { Component } from 'react';
 import UnitBar from './unit-bar';
 import SpecialUnit from './special-unit';
 import ProtectionUnit from './protection-unit';
-import Event from '../event';
+import Event, { defaultTab } from '../event';
 
 export default class UnitTab extends Component {
-  state = { curBar: 'population' };
+  state = { curBar: defaultTab };
 
   componentDidMount = () => this._init();
 
