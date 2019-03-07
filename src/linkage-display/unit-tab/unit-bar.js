@@ -23,7 +23,7 @@ export default class UnitBar extends Component {
         <TuyunBar
           width="100%"
           height={200}
-          title={{ text: '人口分布' }}
+          title={{ text: '单位' }}
           legend={{ text: '人口总数：85' }}
           data={[
             {
