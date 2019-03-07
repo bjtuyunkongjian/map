@@ -20,7 +20,7 @@ export default class BuildingPie extends Component {
       <div className="charts-box">
         <TuyunPie
           height={200}
-          title={{ text: '重点人员' }}
+          title={{ text: '房屋' }}
           legend={{ text: '人口总数：65' }}
           data={[
             { value: 435, label: '房屋总量' },

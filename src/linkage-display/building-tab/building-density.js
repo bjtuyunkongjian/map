@@ -21,7 +21,7 @@ export default class AlarmDensity extends Component {
       <div className="charts-box">
         <TuyunDensity
           height={260}
-          title={{ text: '报警密度图' }}
+          title={{ text: '房屋密度图' }}
           legend={{ text: '人口总数：65' }}
           data={[
             { value: 2, label: '房屋密度' },
