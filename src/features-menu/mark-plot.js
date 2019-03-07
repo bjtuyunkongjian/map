@@ -17,6 +17,7 @@ export default class LineSelect extends Component {
     );
   }
 
+
   _selectMenu = e => {
     e.stopPropagation();
     GlobalEvent.emit('change:FeaturesMenu:visible', false);
