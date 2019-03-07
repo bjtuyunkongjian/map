@@ -1,102 +1,15 @@
-.linkage {
+.linkage-display {
   width: @bottom-nav-width;
   height: calc(~'100% - @{bottom-nav-height}');
   position: absolute;
   z-index: 1;
   top: 0;
   right: 0;
-  .linkage-display {
-    width: @bottom-nav-width;
-    height: 100%;
-    position: absolute;
-    z-index: 1;
-    top: 0;
-    right: 0;
-    background: @bg-gradient-base;
-    overflow: auto;
-    padding: 5px;
-    display: flex;
-    flex-direction: column;
-    .tab-bar {
-      display: flex;
-      border-radius: @radius-m;
-      height: 40px;
-      z-index: 99;
-      align-items: center;
-      justify-content: space-between;
-      .tab-item {
-        display: flex;
-        flex: 1;
-        align-items: center;
-        justify-content: center;
-        height: 100%;
-        color: white;
-        border-top-left-radius: @radius-l;
-        border-top-right-radius: @radius-l;
-        border-top: 1px solid white;
-        border-left: 1px solid white;
-        &:nth-last-child(1) {
-          border-right: 1px solid white;
-        }
-        &.selected {
-          color: @t-base;
-          background-color: white;
-        }
-      }
-    }
-    .population-tab {
-      flex: 1;
-      overflow: auto;
-      .total-population {
-        width: 100%;
-        border-bottom-left-radius: @radius-l;
-        border-bottom-right-radius: @radius-l;
-        overflow: hidden;
-        margin-bottom: 5px;
-      }
-      .age-distribution {
-        width: 100%;
-        border-radius: @radius-l;
-        overflow: hidden;
-        margin-bottom: 5px;
-      }
-    }
-    .case-tab {
-      .total-population {
-        width: 100%;
-        border-bottom-left-radius: @radius-l;
-        border-bottom-right-radius: @radius-l;
-        overflow: hidden;
-        margin-bottom: 5px;
-      }
-      .age-distribution {
-        width: 100%;
-        border-radius: @radius-l;
-        overflow: hidden;
-        margin-bottom: 5px;
-      }
-    }
-    .alarm-tab {
-      .total-population {
-        width: 100%;
-        border-bottom-left-radius: @radius-l;
-        border-bottom-right-radius: @radius-l;
-        overflow: hidden;
-        margin-bottom: 5px;
-      }
-      .age-distribution {
-        width: 100%;
-        border-radius: @radius-l;
-        overflow: hidden;
-        margin-bottom: 5px;
-      }
-    }
-  }
   &.slide-in {
     right: 0;
     animation: @slide-in;
-    @slide-in: 0.5s slide-in;
-    @keyframes slide-in {
+    @slide-in: 0.5s linkage-slide-in;
+    @keyframes linkage-slide-in {
       0% {
         right: -@bottom-nav-width;
       }
@@ -108,8 +21,8 @@
   &.slide-out {
     right: -@bottom-nav-width;
     animation: @slide-out;
-    @slide-out: 0.5s slide-out;
-    @keyframes slide-out {
+    @slide-out: 0.5s linkage-slide-out;
+    @keyframes linkage-slide-out {
       0% {
         right: 0;
       }
@@ -118,6 +31,7 @@
       }
     }
   }
+  // 伸缩按钮
   .control {
     background: linear-gradient(#5c958c, #5d9b8e);
     width: 20px;
@@ -128,6 +42,7 @@
     transform: translateY(-50%);
     border-bottom-left-radius: @radius-m;
     border-top-left-radius: @radius-m;
+    cursor: pointer;
     .aspect-right {
       display: inline-block;
       width: 8px;
@@ -144,6 +59,63 @@
       &.changed {
         transform: rotate(-45deg);
         margin-left: 5px;
+      }
+    }
+  }
+  // 面板详情
+  .tab-box {
+    width: @bottom-nav-width;
+    height: 100%;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    background: @bg-gradient-base;
+    overflow: auto;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    .tab-nav {
+      display: flex;
+      border-radius: @radius-m;
+      height: 40px;
+      z-index: 99;
+      align-items: center;
+      justify-content: space-between;
+      .nav-item {
+        display: flex;
+        flex: 1;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        color: white;
+        border-top-left-radius: @radius-l;
+        border-top-right-radius: @radius-l;
+        border-top: 1px solid white;
+        border-left: 1px solid white;
+        cursor: pointer;
+        &:nth-last-child(1) {
+          border-right: 1px solid white;
+        }
+        &.selected {
+          color: @t-base;
+          background-color: white;
+          flex: 0 60px;
+        }
+      }
+    }
+    .tab-charts {
+      flex: 1;
+      overflow: auto;
+      .charts-box {
+        width: 100%;
+        border-radius: @radius-l;
+        overflow: hidden;
+        margin-bottom: 5px;
+        &:nth-of-type(1) {
+          border-top-left-radius: 0;
+          border-top-right-radius: 0;
+        }
       }
     }
   }

@@ -23,7 +23,7 @@ export default class ChartsPie extends Component {
   };
 
   static defaultProps = {
-    width: 300,
+    width: '100%',
     height: 300,
     backgroundColor: '#fff',
     padding: Padding,
@@ -124,8 +124,8 @@ export default class ChartsPie extends Component {
     Object.assign(title, Object.assign({}, Title, title));
     Object.assign(legend, Object.assign({}, Legend, legend));
     // // 设置初始值
-    this._titleH = Math.ceil(title.fontSize / 0.62); // 0.62 黄金分割
-    this._legendH = Math.ceil(legend.fontSize / 0.62); // 注释的高度
+    this._titleH = title.text ? Math.ceil(title.fontSize / 0.62) : 0; // 0.62 黄金分割
+    this._legendH = legend.text ? Math.ceil(legend.fontSize / 0.62) : 0; // 注释的高度
     let _total = 0;
     for (let item of data) {
       _total += item.value;

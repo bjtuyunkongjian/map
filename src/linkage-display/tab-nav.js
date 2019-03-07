@@ -1,26 +1,23 @@
 import React, { Component } from 'react';
-import Event from './event';
+import Event, { EventName } from './event';
+import { DefaultTab, TabArr } from './constant';
 
-export default class TabBar extends Component {
+export default class TabNav extends Component {
   state = {
-    curBar: 'population'
+    curBar: DefaultTab
   };
 
   componentDidMount() {
     this._init();
   }
 
-  componentWillUnmount() {
-    console.log('TabBar unmount');
-  }
-
   render() {
     const { curBar } = this.state;
     return (
-      <ul className="tab-bar">
-        {tabs.map((item, index) => (
+      <ul className="tab-nav">
+        {TabArr.map((item, index) => (
           <li
-            className={`tab-item ${item.value === curBar ? 'selected' : ''}`}
+            className={`nav-item ${item.value === curBar ? 'selected' : ''}`}
             key={`tab_${index}`}
             onClick={() => this._changeTab(item.value)}
           >
@@ -32,7 +29,7 @@ export default class TabBar extends Component {
   }
 
   _init = () => {
-    Event.on('change:curBar', nextBar => {
+    Event.on(EventName.changeNav, nextBar => {
       const { curBar } = this.state;
       if (nextBar === curBar) return;
       this.setState({ curBar: nextBar });
@@ -40,14 +37,7 @@ export default class TabBar extends Component {
   };
 
   _changeTab = curBar => {
-    console.log('curBar', curBar);
     this.setState({ curBar: curBar });
-    Event.emit('change:curBar', curBar);
+    Event.emit(EventName.changeNav, curBar);
   };
 }
-
-const tabs = [
-  { label: '人口', value: 'population' },
-  { label: '案件', value: 'case' },
-  { label: '报警', value: 'alarm' }
-];

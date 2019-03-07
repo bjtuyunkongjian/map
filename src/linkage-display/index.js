@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import TabBar from './tab-bar';
+import TabNav from './tab-nav';
 import PopulationTab from './population-tab';
+import UnitTab from './unit-tab';
+import BuildingTab from './building-tab';
 import CaseTab from './case-tab';
 import AlarmTab from './alarm-tab';
 
@@ -8,14 +10,17 @@ export default class LinkageDisplay extends Component {
   state = {
     animate: ''
   };
+
   render() {
     const { animate } = this.state;
     const _slide = animate === 'slide-out' ? 'changed' : '';
     return (
-      <div className={`linkage ${animate}`}>
-        <div className="linkage-display">
-          <TabBar />
+      <div className={`linkage-display ${animate}`}>
+        <div className="tab-box">
+          <TabNav />
           <PopulationTab />
+          <UnitTab />
+          <BuildingTab />
           <CaseTab />
           <AlarmTab />
         </div>
@@ -25,6 +30,7 @@ export default class LinkageDisplay extends Component {
       </div>
     );
   }
+
   _toggleRightMenu = () => {
     const { animate } = this.state;
     this.setState({

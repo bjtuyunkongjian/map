@@ -1,5 +1,10 @@
 import { Emitter } from 'tuyun-utils';
 
-const Event = new Emitter();
+export default new Emitter(); // Event
 
-export default Event;
+// 事件名称
+const EventName = {
+  changeNav: 'change:curBar'
+};
+
+export { EventName };
