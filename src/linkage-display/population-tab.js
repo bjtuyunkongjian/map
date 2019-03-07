@@ -17,7 +17,7 @@ export default class PopulationTab extends Component {
     return (
       <div className="population-tab">
         <TotalPopulation />
-        <AgeDistribution />
+        {/*<AgeDistribution />*/}
         <TestPie />
       </div>
     );
