@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import TabNav from './tab-nav';
 import PopulationTab from './population-tab';
 import UnitTab from './unit-tab';
+import BuildingTab from './building-tab';
 import CaseTab from './case-tab';
 import AlarmTab from './alarm-tab';
 
@@ -19,6 +20,7 @@ export default class LinkageDisplay extends Component {
           <TabNav />
           <PopulationTab />
           <UnitTab />
+          <BuildingTab />
           <CaseTab />
           <AlarmTab />
         </div>
