@@ -1,7 +1,17 @@
 /**
  * @author sl 2019-03-06
  * @name 保护单位饼状图
- *
+ * 1. 新闻
+ * 2. 学校
+ * 3. 交通枢纽
+ * 4. 加油站
+ * 5. 国防科研
+ * 6. 党政机关
+ * 7. 电信
+ * 8. 物流
+ * 9. 银行
+ * 10. 能源
+ * 11. 物资储备
  */
 
 import React, { Component } from 'react';
@@ -20,20 +30,20 @@ export default class ProtectionUnit extends Component {
         <TuyunPie
           width="100%"
           height={200}
-          title={{ text: '重点人员' }}
+          title={{ text: '保护单位' }}
           legend={{ text: '人口总数：65' }}
           data={[
-            { value: 435, label: '网安' },
-            { value: 310, label: '经侦' },
-            { value: 234, label: '刑警' },
-            { value: 135, label: '户政' },
-            { value: 435, label: '禁毒' },
-            { value: 310, label: '情报' },
-            { value: 234, label: '国保' },
-            { value: 135, label: '反邪教' },
-            { value: 435, label: '反恐' },
-            { value: 310, label: '交警' },
-            { value: 234, label: '泽雨' }
+            { value: 435, label: '新闻' },
+            { value: 310, label: '学校' },
+            { value: 234, label: '交通枢纽' },
+            { value: 135, label: '加油站' },
+            { value: 435, label: '国防科研' },
+            { value: 310, label: '党政机关' },
+            { value: 234, label: '电信' },
+            { value: 135, label: '物流' },
+            { value: 435, label: '银行' },
+            { value: 310, label: '能源' },
+            { value: 234, label: '物资储备' }
           ]}
           selectedIndex={selectedIndex}
           onClick={param => {

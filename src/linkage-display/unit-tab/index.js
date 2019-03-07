@@ -8,6 +8,7 @@
 
 import React, { Component } from 'react';
 import UnitBar from './unit-bar';
+import SpecialUnit from './special-unit';
 import ProtectionUnit from './protection-unit';
 import Event from '../event';
 
@@ -22,6 +23,7 @@ export default class UnitTab extends Component {
     return (
       <div className="population-tab">
         <UnitBar />
+        <SpecialUnit />
         <ProtectionUnit />
       </div>
     );
