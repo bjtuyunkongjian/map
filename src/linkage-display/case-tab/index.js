@@ -5,7 +5,8 @@
 import React, { Component } from 'react';
 import TotalCase from './total-case';
 import CaseDensity from './case-density';
-import Event, { DefaultTab, EventName } from '../event';
+import Event, { EventName } from '../event';
+import { DefaultTab, TabValue } from '../constant';
 
 export default class CaseTab extends Component {
   state = { curBar: DefaultTab };
@@ -14,7 +15,7 @@ export default class CaseTab extends Component {
 
   render() {
     const { curBar } = this.state;
-    if (curBar !== barName) return null;
+    if (curBar !== TabValue.case) return null;
     return (
       <div className="tab-charts">
         <TotalCase />
@@ -31,5 +32,3 @@ export default class CaseTab extends Component {
     });
   };
 }
-
-const barName = 'case'; // 对应条形图名称

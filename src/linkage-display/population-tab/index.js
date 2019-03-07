@@ -10,7 +10,8 @@ import React, { Component } from 'react';
 import TotalPopulation from './total-population';
 import KeyPersonnel from './key-personnel';
 import PopulationDensity from './population-density';
-import Event, { DefaultTab, EventName } from '../event';
+import Event, { EventName } from '../event';
+import { DefaultTab, TabValue } from '../constant';
 
 export default class PopulationTab extends Component {
   state = {
@@ -21,7 +22,7 @@ export default class PopulationTab extends Component {
 
   render() {
     const { curBar } = this.state;
-    if (curBar !== barName) return null;
+    if (curBar !== TabValue.population) return null;
     return (
       <div className="tab-charts">
         <TotalPopulation />
@@ -43,7 +44,6 @@ export default class PopulationTab extends Component {
 // pop ====> 人口
 // case ====> 案件
 // alarm =====> 报警
-const barName = 'population'; // 对应条形图名称
 
 const case_ = {
   caseDensity: { casedLevel: 1, caseaLevel: 3, casebLevel: 5, casecLevel: 4 }, // ABCD 四类 密度

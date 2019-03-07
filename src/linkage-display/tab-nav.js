@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import Event, { EventName } from './event';
+import { DefaultTab, TabArr } from './constant';
 
 export default class TabNav extends Component {
   state = {
-    curBar: 'population'
+    curBar: DefaultTab
   };
 
   componentDidMount() {
@@ -14,7 +15,7 @@ export default class TabNav extends Component {
     const { curBar } = this.state;
     return (
       <ul className="tab-nav">
-        {tabs.map((item, index) => (
+        {TabArr.map((item, index) => (
           <li
             className={`nav-item ${item.value === curBar ? 'selected' : ''}`}
             key={`tab_${index}`}
@@ -40,10 +41,3 @@ export default class TabNav extends Component {
     Event.emit(EventName.changeNav, curBar);
   };
 }
-
-const tabs = [
-  { label: '人口', value: 'population' },
-  { label: '单位', value: 'unit' },
-  { label: '案件', value: 'case' },
-  { label: '报警', value: 'alarm' }
-];

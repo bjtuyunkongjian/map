@@ -1,11 +1,14 @@
+/**
+ * @author sl 2017-03-07
+ * @name 人口密度图
+ * 1. 总人口
+ * 2. 流口
+ * 3. 重点人口
+ */
+
 import React, { Component } from 'react';
 import { TuyunDensity } from 'tuyun-kit';
 
-/*
-- 总人口
-   - 流口
-   - 重点人口
-*/
 export default class PopulationDensity extends Component {
   state = {
     selectedIndex: -1

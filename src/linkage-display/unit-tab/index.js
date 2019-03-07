@@ -10,7 +10,8 @@ import React, { Component } from 'react';
 import UnitBar from './unit-bar';
 import SpecialUnit from './special-unit';
 import ProtectionUnit from './protection-unit';
-import Event, { DefaultTab, EventName } from '../event';
+import Event, { EventName } from '../event';
+import { DefaultTab, TabValue } from '../constant';
 
 export default class UnitTab extends Component {
   state = { curBar: DefaultTab };
@@ -19,7 +20,7 @@ export default class UnitTab extends Component {
 
   render() {
     const { curBar } = this.state;
-    if (curBar !== barName) return null;
+    if (curBar !== TabValue.unit) return null;
     return (
       <div className="tab-charts">
         <UnitBar />
@@ -37,5 +38,4 @@ export default class UnitTab extends Component {
     });
   };
 }
-
 const barName = 'unit'; // 对应条形图名称
