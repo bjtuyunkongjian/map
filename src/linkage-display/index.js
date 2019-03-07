@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import TabNav from './tab-nav';
 import PopulationTab from './population-tab';
 import UnitTab from './unit-tab';
+import CaseTab from './case-tab';
 
 export default class LinkageDisplay extends Component {
   state = {
@@ -16,6 +17,7 @@ export default class LinkageDisplay extends Component {
           <TabNav />
           <PopulationTab />
           <UnitTab />
+          <CaseTab />
         </div>
         <button className="control" onClick={this._toggleRightMenu}>
           <div className={`aspect-right ${_slide}`} />
