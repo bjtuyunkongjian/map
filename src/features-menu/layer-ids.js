@@ -70,9 +70,6 @@ const ResidentLabelIds = [
   { id: 'GRESPL_1_3D', type: '3d' },
   { id: 'GRESPL_2_3D', type: '3d' },
   { id: 'GRESPL_3_3D', type: '3d' }
-  // { id: "GRESPL_1_jq", type: "fill" },
-  // { id: "GRESPL_2_jq", type: "fill" },
-  // { id: "GRESPL_3_jq", type: "fill" }
 ];
 const BoundaryLabelIds = [{ id: 'GBOULN', type: 'boundary' }];
 
