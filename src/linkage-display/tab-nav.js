@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Event from './event';
 
-export default class TabBar extends Component {
+export default class TabNav extends Component {
   state = {
     curBar: 'population'
   };
@@ -13,10 +13,10 @@ export default class TabBar extends Component {
   render() {
     const { curBar } = this.state;
     return (
-      <ul className="tab-bar">
+      <ul className="tab-nav">
         {tabs.map((item, index) => (
           <li
-            className={`tab-item ${item.value === curBar ? 'selected' : ''}`}
+            className={`nav-item ${item.value === curBar ? 'selected' : ''}`}
             key={`tab_${index}`}
             onClick={() => this._changeTab(item.value)}
           >

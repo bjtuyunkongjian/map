@@ -1,11 +1,11 @@
-.linkage {
+.linkage-display {
   width: @bottom-nav-width;
   height: calc(~'100% - @{bottom-nav-height}');
   position: absolute;
   z-index: 1;
   top: 0;
   right: 0;
-  .linkage-display {
+  .tab-box {
     width: @bottom-nav-width;
     height: 100%;
     position: absolute;
@@ -17,14 +17,14 @@
     padding: 5px;
     display: flex;
     flex-direction: column;
-    .tab-bar {
+    .tab-nav {
       display: flex;
       border-radius: @radius-m;
       height: 40px;
       z-index: 99;
       align-items: center;
       justify-content: space-between;
-      .tab-item {
+      .nav-item {
         display: flex;
         flex: 1;
         align-items: center;

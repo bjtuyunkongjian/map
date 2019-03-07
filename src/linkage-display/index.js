@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import TabBar from './tab-bar';
+import TabNav from './tab-nav';
 import PopulationTab from './population-tab';
 import UnitTab from './unit-tab';
 
@@ -11,9 +11,9 @@ export default class LinkageDisplay extends Component {
     const { animate } = this.state;
     const _slide = animate === 'slide-out' ? 'changed' : '';
     return (
-      <div className={`linkage ${animate}`}>
-        <div className="linkage-display">
-          <TabBar />
+      <div className={`linkage-display ${animate}`}>
+        <div className="tab-box">
+          <TabNav />
           <PopulationTab />
           <UnitTab />
         </div>
