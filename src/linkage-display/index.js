@@ -3,11 +3,13 @@ import TabNav from './tab-nav';
 import PopulationTab from './population-tab';
 import UnitTab from './unit-tab';
 import CaseTab from './case-tab';
+import AlarmTab from './alarm-tab';
 
 export default class LinkageDisplay extends Component {
   state = {
     animate: ''
   };
+
   render() {
     const { animate } = this.state;
     const _slide = animate === 'slide-out' ? 'changed' : '';
@@ -18,6 +20,7 @@ export default class LinkageDisplay extends Component {
           <PopulationTab />
           <UnitTab />
           <CaseTab />
+          <AlarmTab />
         </div>
         <button className="control" onClick={this._toggleRightMenu}>
           <div className={`aspect-right ${_slide}`} />
