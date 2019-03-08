@@ -14,8 +14,7 @@ import BaseStyle from './map-styles/light-sd';
 import AddLevels from './add-levels';
 // import addGeojson from './add-geojson';
 // import gaoguoGDB from './geojson/gaoguoGDB_cx';
-import { point as TurfPoint } from 'turf';
-import { center } from 'turf';
+// import { point as TurfPoint } from 'turf';
 // import { TuyunMessage, TuyunTips } from 'tuyun-kit';
 
 export default class MapBoxDemo extends Component {
