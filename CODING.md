@@ -16,9 +16,9 @@
 ```
 
 const a = {
-attrName1: 'attrValue1', // 属性名用 小驼峰格式命名
-attrName2: 'attrValue2',
-...
+  attrName1: 'attrValue1', // 属性名用 小驼峰格式命名
+  attrName2: 'attrValue2',
+  ...
 }
 
 ```
@@ -52,18 +52,31 @@ attrName2: 'attrValue2',
 
 ### 数组部分
 
-- 向数组添加元素时，使用 Array.push 替代直接赋值
+- 向数组添加元素时，使用 Array.push 替代直接赋值，eg:
 
 ```
 
-eg:const a=[]; a.push('asdfghj');
+const a=[]; 
+a.push('asdfghj');
 
 ```
 
-- 使用拓展运算符...复制数组
-  eg:const items=[...items];
-- 使用 Array.from 把一个类数组对象转换成数组
-  eg:const b = Array.from(a);
+- 使用拓展运算符...复制数组，eg:
+
+```
+
+const items=[...items];
+
+```
+
+- 使用 Array.from 把一个类数组对象转换成数组，eg:
+
+```
+
+const b = Array.from(a);
+
+```
+
 - 使用解构存取和使用多属性对象
 
 ## css 部分
@@ -79,14 +92,10 @@ eg:const a=[]; a.push('asdfghj');
 ```
 
 .a {
-width: 10px;
-border: 2px solid #fff;
+  width: 10px;
+  border: 2px solid #fff;
 }
 
 ```
 
 - 使用行注释代替块注释，注释独占一行
-
-```
-
-```
