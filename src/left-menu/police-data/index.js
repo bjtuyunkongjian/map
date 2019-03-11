@@ -1,17 +1,22 @@
+/**
+ * @author 郝艺红
+ * @name 一标三实
+ */
+
 import React, { Component } from 'react';
-import { IsArray } from 'tuyun-utils';
-import Event from './event';
+import { IsArray, Event as GlobalEvent } from 'tuyun-utils';
 import { IoIosPeople } from 'react-icons/io';
-import MenuItem from './menu-item';
-import { FetchPopulation } from './webapi';
-import HouseMessage from '../list-option/house-message';
-import UnitMessage from '../list-option/unit-message';
-import { Event as GlobalEvent } from 'tuyun-utils';
-import { point as TurfPoint } from 'turf';
 import {
+  point as TurfPoint,
   center as TurfCenter,
   featureCollection as FeatureCollection
 } from 'turf';
+
+import Event from '../event';
+import { MenuItems } from '../constant';
+import { FetchPopulation } from './webapi';
+import HouseMessage from './house-message';
+import UnitMessage from './unit-message';
 export default class PoliceData extends Component {
   state = {
     curMenu: -1,
@@ -23,7 +28,7 @@ export default class PoliceData extends Component {
 
   render() {
     const { curMenu, selectedOpt, animate } = this.state;
-    const _selected = curMenu === MenuItem.dataOption;
+    const _selected = curMenu === MenuItems.dataOption;
     const _arrow = _selected ? 'arrow-down' : 'arrow-right';
     return (
       <div className="menu-item police-data">
@@ -60,9 +65,9 @@ export default class PoliceData extends Component {
       const { curMenu } = this.state;
       if (nextMenu === curMenu) return;
       let _animate;
-      if (nextMenu === MenuItem.dataOption) {
+      if (nextMenu === MenuItems.dataOption) {
         _animate = 'menu-down';
-      } else if (curMenu === MenuItem.dataOption) {
+      } else if (curMenu === MenuItems.dataOption) {
         _animate = 'menu-up';
       } else {
         _animate = 'hidden';
@@ -70,7 +75,7 @@ export default class PoliceData extends Component {
       this.setState({ curMenu: nextMenu, animate: _animate });
       this._removeSourceLayer(layerId); // 删除图层
       // 禁止显示动态热力图等
-      if (nextMenu === MenuItem.dataOption) {
+      if (nextMenu === MenuItems.dataOption) {
         this.setState({ selectedOpt: -1 });
       }
       GlobalEvent.emit('change:FeaturesMenu:enableHeatDensity', false);
@@ -121,7 +126,7 @@ export default class PoliceData extends Component {
     const { curMenu } = this.state;
     Event.emit(
       'change:curMenu',
-      curMenu === MenuItem.dataOption ? -1 : MenuItem.dataOption
+      curMenu === MenuItems.dataOption ? -1 : MenuItems.dataOption
     );
   };
 

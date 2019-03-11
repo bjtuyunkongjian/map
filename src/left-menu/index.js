@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import WorkContent from './menu-list/work-content';
-import PoliceData from './menu-list/police-data';
+import WorkContent from './work-content';
+import PoliceData from './police-data';
 // import Camera from './menu-list/camera';
 import PoliceCase from './menu-list/police-case';
 import CallPolice from './menu-list/call-police';

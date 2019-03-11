@@ -64,6 +64,9 @@ export default class MapBoxDemo extends Component {
     // this.map.on('mouseup', 'GRESPL_3_3D', e => {
     //   console.log('e.lngLat', e.features);
     // });
+    _MAP_.on('click', () => {
+      console.log(_MAP_.getBounds());
+    });
     _MAP_.on('click', 'POI_LEVEL_15_CAMERA', e => {
       const num = e.features[0].properties.NUMBER;
       // console.log(e.features[0].properties);

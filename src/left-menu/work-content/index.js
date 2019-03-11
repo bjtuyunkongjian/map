@@ -1,11 +1,17 @@
+/**
+ * @author 郝艺红
+ * @name 工作内容
+ */
+
 import React, { Component } from 'react';
-import Event from './event';
 import { IoIosPaper, IoMdCheckmark } from 'react-icons/io';
-import MenuItem from './menu-item';
-import { FetchWorkContent } from './webapi';
-import { IsArray } from 'tuyun-utils';
-import DailyWork from '../list-option/daily-work';
 import { point as TurfPoint } from 'turf';
+import { IsArray } from 'tuyun-utils';
+
+import Event from '../event';
+import { MenuItems } from '../constant';
+import { FetchWorkContent } from './webapi';
+import DailyWork from './daily-work';
 
 export default class WorkContent extends Component {
   state = {
@@ -20,7 +26,7 @@ export default class WorkContent extends Component {
 
   render() {
     const { curMenu, datanumMap, selectedTasks, animate } = this.state;
-    const _selected = curMenu === MenuItem.workContent;
+    const _selected = curMenu === MenuItems.workContent;
     const _arrow = _selected ? 'arrow-down' : 'arrow-right';
     return (
       <div className="menu-item content">
@@ -69,9 +75,9 @@ export default class WorkContent extends Component {
       const { curMenu } = this.state;
       if (curMenu === nextMenu) return; // 重复点击不做任何操作
       let _animate;
-      if (nextMenu === MenuItem.workContent) {
+      if (nextMenu === MenuItems.workContent) {
         _animate = 'menu-down';
-      } else if (curMenu === MenuItem.workContent) {
+      } else if (curMenu === MenuItems.workContent) {
         _animate = 'menu-up';
       } else {
         _animate = 'hidden';
@@ -84,7 +90,7 @@ export default class WorkContent extends Component {
         }
         _MAP_.removeSource('dailySource');
       }
-      if (nextMenu !== MenuItem.workContent) {
+      if (nextMenu !== MenuItems.workContent) {
         // 未选中工作内容
         Event.emit('closeModal'); // 关闭弹框
         this._reset(); // 重置
@@ -125,9 +131,9 @@ export default class WorkContent extends Component {
   _selectMenu = async () => {
     const { curMenu } = this.state;
     const _nextMenu =
-      curMenu === MenuItem.workContent ? -1 : MenuItem.workContent;
+      curMenu === MenuItems.workContent ? -1 : MenuItems.workContent;
     Event.emit('change:curMenu', _nextMenu);
-    if (_nextMenu !== MenuItem.workContent) return; // 如果当前点击的不是工作内容，不需要发送请求
+    if (_nextMenu !== MenuItems.workContent) return; // 如果当前点击的不是工作内容，不需要发送请求
     // 点击工作内容向后台请求各个工作的数据量
     this._fetchDataNum();
   };
