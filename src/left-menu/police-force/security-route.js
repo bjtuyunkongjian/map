@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FetchAllRoutes, FetchRouteInfo } from '../menu-list/webapi';
+import { FetchAllRoutes, FetchRouteInfo } from './webapi';
 import { lineString as LineString, point as TurfPoint } from 'turf';
 import { IoMdCheckmark } from 'react-icons/io';
 
