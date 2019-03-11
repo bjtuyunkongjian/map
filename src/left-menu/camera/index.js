@@ -1,7 +1,12 @@
+/**
+ * @author 郝艺红
+ * @name 摄像头
+ */
+
 import React, { Component } from 'react';
-import Event from './event';
+import Event from '../event';
 import { IoIosEye } from 'react-icons/io';
-import MenuItem from './menu-item';
+import { MenuItems } from '../constant';
 
 export default class Camera extends Component {
   state = {
@@ -35,13 +40,13 @@ export default class Camera extends Component {
   _showCamera = () => {
     const { curMenu } = this.state;
     const _nextMenu =
-      curMenu === MenuItem.cameraOption ? -1 : MenuItem.cameraOption; // 下一个状态
+      curMenu === MenuItems.cameraOption ? -1 : MenuItems.cameraOption; // 下一个状态
     Event.emit('change:curMenu', _nextMenu); // 发射事件
     if (_nextMenu === curMenu) return;
     this.setState({ curMenu: _nextMenu });
     _MAP_.getLayer('cameraLayer') &&
       _MAP_.removeLayer('cameraLayer').removeSource('cameraLayer');
-    if (_nextMenu === MenuItem.cameraOption) {
+    if (_nextMenu === MenuItems.cameraOption) {
       this._fetchCamera();
       // 添加监听事件
       _MAP_.on('mouseup', this._fetchCamera);

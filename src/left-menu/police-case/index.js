@@ -1,11 +1,17 @@
+/**
+ * @author 郝艺红
+ * @name 一标三实
+ */
+
 import React, { Component } from 'react';
-import Event from './event';
 import { IoIosMail, IoMdCheckmark } from 'react-icons/io';
 import { IsArray } from 'tuyun-utils';
+
+import CaseDetail from './case-message';
 import { FetchCase } from './webapi';
-import MenuItem from './menu-item';
-<CaseDetail />;
-import CaseDetail from '../list-option/case-message';
+
+import Event from '../event';
+import { MenuItems } from '../constant';
 
 export default class PoliceCase extends Component {
   state = {
@@ -19,7 +25,7 @@ export default class PoliceCase extends Component {
   }
   render() {
     const { curMenu, casenum, selectedCase, animate } = this.state;
-    const _selected = curMenu === MenuItem.caseOption;
+    const _selected = curMenu === MenuItems.caseOption;
     const _arrow = _selected ? 'arrow-down' : 'arrow-right';
     return (
       <div className="menu-item">
@@ -69,9 +75,9 @@ export default class PoliceCase extends Component {
       const { curMenu } = this.state;
       if (curMenu === nextMenu) return;
       let _animate;
-      if (nextMenu === MenuItem.caseOption) {
+      if (nextMenu === MenuItems.caseOption) {
         _animate = 'menu-down';
-      } else if (curMenu === MenuItem.caseOption) {
+      } else if (curMenu === MenuItems.caseOption) {
         _animate = 'menu-up';
       } else {
         _animate = 'hidden';
@@ -84,7 +90,7 @@ export default class PoliceCase extends Component {
         }
         _MAP_.removeSource('caseSource');
       }
-      if (nextMenu === MenuItem.caseOption) {
+      if (nextMenu === MenuItems.caseOption) {
         _MAP_.on('mouseup', this._eventListener);
         _MAP_.on('zoomend', this._eventListener);
       } else {
@@ -114,7 +120,7 @@ export default class PoliceCase extends Component {
     const { curMenu } = this.state;
     Event.emit(
       'change:curMenu',
-      curMenu === MenuItem.caseOption ? -1 : MenuItem.caseOption
+      curMenu === MenuItems.caseOption ? -1 : MenuItems.caseOption
     );
     this._fetchCaseNum();
   };
