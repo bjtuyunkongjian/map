@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import Event from './event';
 import { GoRadioTower } from 'react-icons/go';
+import Event from '../event';
+
 export default class ImportantPalce extends Component {
   render() {
     return (

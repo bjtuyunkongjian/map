@@ -6,8 +6,8 @@ import PoliceCase from './police-case';
 import CallPolice from './call-police';
 import PoliceForce from './police-force';
 import SecurityRoute from './security-route';
-import CommonFacility from './menu-list/facility';
-import ImportantPalce from './menu-list/palce';
+import CommonFacility from './public-facility';
+import ImportantPlace from './important-place';
 export default class LeftMenu extends Component {
   state = {
     animate: ''
@@ -26,7 +26,7 @@ export default class LeftMenu extends Component {
           <PoliceForce />
           <SecurityRoute />
           <CommonFacility />
-          <ImportantPalce />
+          <ImportantPlace />
         </div>
         <button className="control" onClick={this._toggleLeftMenu}>
           <span className={`aspect-left ${_slide}`} />
