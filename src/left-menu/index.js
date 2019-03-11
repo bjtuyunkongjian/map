@@ -5,7 +5,7 @@ import PoliceData from './police-data';
 import PoliceCase from './police-case';
 import CallPolice from './call-police';
 import PoliceForce from './police-force';
-import SecurityRoute from './menu-list/security-route';
+import SecurityRoute from './security-route';
 import CommonFacility from './menu-list/facility';
 import ImportantPalce from './menu-list/palce';
 export default class LeftMenu extends Component {

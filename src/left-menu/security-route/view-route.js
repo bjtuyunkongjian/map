@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import { FetchAllRoutes, FetchRouteInfo } from './webapi';
-import { DrawRoad, DrawIconPoint } from './security-route-layer';
-import Turf, {
+import {
   lineDistance as LineDistance,
   lineString as LineString,
   point as TurfPoint,
   along as TurfAlong
 } from 'turf';
 import { IoMdCheckmark } from 'react-icons/io';
+
+import { FetchAllRoutes, FetchRouteInfo } from './webapi';
 
 export default class ViewRoute extends Component {
   state = {

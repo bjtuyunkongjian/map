@@ -1,25 +1,21 @@
 import React, { Component } from 'react';
-import Event from '../menu-list/event';
 import { IoMdCheckmark } from 'react-icons/io';
 import { TiUser } from 'react-icons/ti';
-import MenuItem from '../menu-list/menu-item';
-import {
-  FetchLocationCar,
-  QueryDetail,
-  FetchAllRoutes
-} from '../menu-list/webapi';
 import {
   lineString as LineString,
   lineDistance as LineDistance,
   along as TurfAlong,
   point as TurfPoint
 } from 'turf';
-import { IsEmpty, IsArray } from 'tuyun-utils';
+import { IsEmpty, IsArray, AddLevel, Event as GlobalEvent } from 'tuyun-utils';
 import { BaseConfig } from 'tuyun-config';
-import { AddLevel } from 'tuyun-utils';
+
+import { FetchLocationCar, QueryDetail, FetchAllRoutes } from './webapi';
 import Dialog from './dialog';
 import SecurityRoute from './security-route';
-import { Event as GlobalEvent } from 'tuyun-utils';
+
+import Event from '../event';
+import { MenuItems } from '../constant';
 
 export default class PoliceForce extends Component {
   state = {
@@ -71,7 +67,7 @@ export default class PoliceForce extends Component {
       selectedRoutePlan,
       routeList
     } = this.state;
-    const _selected = curMenu === MenuItem.policeForce;
+    const _selected = curMenu === MenuItems.policeForce;
     const _arrow = _selected ? 'arrow-down' : 'arrow-right';
     const _showRoute = !!selectedTasks.filter(
       item => item.value === 'securityRoute'
@@ -177,8 +173,8 @@ export default class PoliceForce extends Component {
     Event.on('change:curMenu', async nextMenu => {
       const { curMenu } = this.state;
       if (
-        nextMenu === MenuItem.securityRoute &&
-        curMenu === MenuItem.policeForce
+        nextMenu === MenuItems.securityRoute &&
+        curMenu === MenuItems.policeForce
       ) {
         const _animate = 'menu-up';
         await this.setState({
@@ -252,14 +248,14 @@ export default class PoliceForce extends Component {
   _selectMenu = async () => {
     const { curMenu } = this.state;
     const _nextMenu =
-      curMenu === MenuItem.policeForce ? -1 : MenuItem.policeForce; // 下一个状态
+      curMenu === MenuItems.policeForce ? -1 : MenuItems.policeForce; // 下一个状态
     _nextMenu !== -1 && Event.emit('change:curMenu', _nextMenu); // 发射下一个状态
     if (curMenu === _nextMenu) return; // 重复点击不做任何操作
     // 菜单栏展开动画
     let _animate;
-    if (_nextMenu === MenuItem.policeForce) {
+    if (_nextMenu === MenuItems.policeForce) {
       _animate = 'menu-down';
-    } else if (curMenu === MenuItem.policeForce) {
+    } else if (curMenu === MenuItems.policeForce) {
       _animate = 'menu-up';
     } else {
       _animate = 'hidden';

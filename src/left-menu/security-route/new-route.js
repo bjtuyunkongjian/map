@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { lineString as LineString, point as TurfPoint } from 'turf';
+import { TuyunMessage } from 'tuyun-kit';
+
 import {
   DrawStartPoint,
   DrawIconPoint,
@@ -7,8 +10,6 @@ import {
   RouteLayers
 } from './security-route-layer';
 import { FetchRoadInfo, SaveScurityRoute } from './webapi';
-import { TuyunMessage } from 'tuyun-kit';
-import { lineString as LineString, point as TurfPoint } from 'turf';
 
 export default class NewRoute extends Component {
   state = {
