@@ -31,6 +31,7 @@ const a = {
 ### css/less
 
 1. css/less 用中划线形式命名，如：\.css-less
+2. css/less 类的名称尽量与模块名称一致
 
 ## JSX/JS 部分
 
@@ -56,7 +57,7 @@ const a = {
 
 ```
 
-const a=[]; 
+const a=[];
 a.push('asdfghj');
 
 ```
