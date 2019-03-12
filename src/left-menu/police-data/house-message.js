@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Event from '../event';
-import { FaPeriscope, Fa500px } from 'react-icons/fa';
+import { FaPeriscope } from 'react-icons/fa';
 import { MdLocationCity } from 'react-icons/md';
 import { MdPeopleOutline } from 'react-icons/md';
 import { TiHomeOutline } from 'react-icons/ti';
