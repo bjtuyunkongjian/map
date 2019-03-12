@@ -1,14 +1,4 @@
 .left-menu {
-  @import './work-content/index.less'; // 工作内容
-  @import './police-data/index.less'; // 一标三实
-  @import './camera/index.less'; // 摄像头
-  @import './police-case/index.less'; // 案件
-  @import './call-police/index.less'; // 报警
-  @import './police-force/index.less'; // 警力
-  @import './security-route/index.less'; // 安保路线
-  @import './public-facility/index.less'; // 公共设施
-  @import './important-place/index.less'; // 重要场所
-
   width: @left-menu-width;
   height: 100%;
   z-index: 1;
@@ -39,114 +29,15 @@
       }
     }
   }
-
-  .menu-box {
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background: @bg-gradient-base;
-    transform: all 0.5s;
-    .menu-item {
-      width: 100%;
-      padding: 25px 30px;
-      .item-label {
-        color: @t-white;
-        position: relative;
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        justify-content: space-between;
-        cursor: pointer;
-        &:hover {
-          color: @color-blue;
-          .arrow {
-            border-top: 1px solid @color-blue;
-            border-right: 1px solid @color-blue;
-          }
-        }
-        .arrow-box {
-          width: 25px;
-          height: 25px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          &.changed {
-            background: rgba(240, 248, 255, 0.3);
-          }
-        }
-        .arrow {
-          display: inline-block;
-          width: 8px;
-          height: 8px;
-          border-top: 1px solid @t-white;
-          border-right: 1px solid @t-white;
-          transform: rotate(45deg);
-          transform-origin: center;
-        }
-        .arrow-right {
-          animation: @arrow-right;
-        }
-        .arrow-down {
-          transform: rotate(135deg);
-          animation: @arrow-down;
-        }
-      }
-    }
-    .menu-option {
-      position: relative;
-      font-size: 15px;
-    }
-  }
-  .control {
-    background: linear-gradient(#5c958c, #5d9b8e);
-    width: 20px;
-    height: 50px;
-    margin-left: 2px;
-    position: absolute;
-    top: 50%;
-    right: -20px;
-    transform: translateY(-50%);
-    border-top-right-radius: @radius-m;
-    border-bottom-right-radius: @radius-m;
-    cursor: pointer;
-    .aspect-left {
-      display: inline-block;
-      width: 8px;
-      height: 8px;
-      border: none;
-      border-top: 1px solid @t-white;
-      border-left: 1px solid @t-white;
-      transform: rotate(-45deg);
-      transform-origin: 50%;
-
-      &:hover {
-        border-top: 1px solid @color-blue;
-        border-left: 1px solid @color-blue;
-      }
-      &.changed {
-        transform: rotate(135deg);
-        margin-left: -6px;
-      }
-    }
-  }
-}
-
-@arrow-down: arrow-down; //点击箭头改变下箭头
-@keyframes arrow-down {
-  from {
-    transform: rotate(45deg);
-  }
-  to {
-    transform: rotate(135deg);
-  }
-}
-
-@arrow-right: arrow-right;
-@keyframes arrow-right {
-  from {
-    transform: rotate(135deg);
-  }
-  to {
-    transform: rotate(45deg);
-  }
+  @import './menu-box/index.less'; // 通用菜单样式
+  @import './work-content/index.less'; // 工作内容
+  @import './police-data/index.less'; // 一标三实
+  @import './camera/index.less'; // 摄像头
+  @import './police-case/index.less'; // 案件
+  @import './call-police/index.less'; // 报警
+  @import './police-force/index.less'; // 警力
+  @import './security-route/index.less'; // 安保路线
+  @import './public-facility/index.less'; // 公共设施
+  @import './important-place/index.less'; // 重要场所
+  @import './control.less'; // 控制菜单滑入滑出按钮
 }
