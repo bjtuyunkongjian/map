@@ -22,7 +22,6 @@ import Event from '../event';
 export default class PoliceData extends Component {
   state = {
     expanded: false,
-    curMenu: -1,
     selectedOpt: -1,
     selectedOpts: [],
     animate: 'hidden'
@@ -31,7 +30,7 @@ export default class PoliceData extends Component {
   componentDidMount = () => this._init();
 
   render() {
-    const { expanded, selectedOpt, animate } = this.state;
+    const { expanded, selectedOpts, animate } = this.state;
     const _arrow = expanded ? 'arrow-down' : 'arrow-right';
     return (
       <div className="menu-item police-data">
@@ -44,14 +43,12 @@ export default class PoliceData extends Component {
         </div>
         <ul className={`data-container ${animate}`}>
           {options.map((item, index) => {
-            const _isChecked = true;
+            const _isChecked = selectedOpts.indexOf(item) > -1;
             return (
               <li
-                className={`data-item ${
-                  selectedOpt === item.value ? 'checked' : ''
-                }`}
+                className={`data-item ${_isChecked ? 'checked' : ''}`}
                 key={`data_option_${index}`}
-                onClick={e => this._checkMap(item, e)}
+                onClick={e => this._selectPoliceData(item, e)}
               >
                 <div className={`checkbox ${_isChecked ? 'checked' : ''}`}>
                   {_isChecked ? <IoMdCheckmark /> : null}
@@ -61,9 +58,8 @@ export default class PoliceData extends Component {
             );
           })}
         </ul>
-
-        {selectedOpt === 'house' ? <HouseMessage /> : null}
-        {selectedOpt === 'unit' ? <UnitMessage /> : null}
+        {/* {selectedOpt === 'house' ? <HouseMessage /> : null}
+        {selectedOpt === 'unit' ? <UnitMessage /> : null} */}
       </div>
     );
   }
@@ -92,13 +88,11 @@ export default class PoliceData extends Component {
   };
 
   _addEventListener = () => {
-    _MAP_.on('zoomend', this._fetchPeopleData);
-    _MAP_.on('mouseup', this._fetchPeopleData);
+    _MAP_.on('moveend', this._fetchPeopleData);
   };
 
   _removeEventListener = () => {
-    _MAP_.off('zoomend', this._fetchPeopleData);
-    _MAP_.off('mouseup', this._fetchPeopleData);
+    _MAP_.off('moveend', this._fetchPeopleData);
   };
 
   _zoomListener = () => {
@@ -118,28 +112,22 @@ export default class PoliceData extends Component {
   };
 
   // 后台请求数据
-  _checkMap = async (option, e) => {
-    e && e.stopPropagation();
-    await this.setState({ selectedOpt: option.value });
-    // 动画
-    const _duration = 500;
-    this._removeEventListener(); // 删除监听
-    if (option.value === 'population') {
-      this._addEventListener();
-    } else {
-      this._removeEventListener();
+  _selectPoliceData = async (option, e) => {
+    e.stopPropagation();
+    const { selectedOpts } = this.state;
+    const _optInd = selectedOpts.indexOf(option);
+    const _isSelected = _optInd > -1;
+    _isSelected ? selectedOpts.splice(_optInd, 1) : selectedOpts.push(option);
+    await this.setState({ selectedOpts: selectedOpts });
+    // 当前选中房屋，直接飞到房屋对应的等级
+    if (_isSelected && option.value === 'house') {
+      _MAP_.flyTo({
+        zoom: option.defaultZoom,
+        duration: 500
+      });
     }
-    _MAP_.flyTo({
-      zoom: option.defaultZoom,
-      duration: _duration
-    });
-    await new Promise(resolve => {
-      setTimeout(() => {
-        resolve();
-      }, _duration * 1.01);
-    });
-    this._addEventListener(); // 恢复监听
-    this._fetchPeopleData();
+    // this._addEventListener(); // 恢复监听
+    // this._fetchPeopleData();
   };
 
   _fetchPeopleData = async () => {
@@ -269,19 +257,22 @@ const options = [
     value: 'population',
     name: '人口',
     defaultZoom: 16.5,
-    icon: 'people'
+    icon: 'people',
+    layerId: 'POLICE_DATA_POPULATION'
   },
   {
     value: 'unit',
     name: '单位',
-    // defaultZoom: 16,
-    icon: 'landmark'
+    defaultZoom: 16,
+    icon: 'landmark',
+    layerId: 'POLICE_DATA_UNIT'
   },
   {
     value: 'house',
     name: '房屋',
     defaultZoom: 16,
-    icon: 'landmark'
+    icon: 'landmark',
+    layerId: 'POLICE_DATA_HOUSE'
   }
 ];
 
