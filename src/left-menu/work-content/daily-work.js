@@ -36,10 +36,9 @@ export default class DailyWork extends Component {
           </span>
         </div>
         <ul className="toast-list">
-          <li>{_column.itemtext[0]}</li>
-          <li>{_column.itemtext[1]}</li>
-          <li>{_column.itemtext[2]}</li>
-          <li>{_column.itemtext[3]}</li>
+          {_column.itemtext.map((item, index) => (
+            <li key={`item_text_${index}`}>{item}</li>
+          ))}
         </ul>
         <div className="toast-control">
           <div
