@@ -6,7 +6,7 @@
 import React, { Component } from 'react';
 import { FaTimes } from 'react-icons/fa';
 
-import Event from '../event';
+import Event, { EventName } from '../event';
 
 export default class DailyWork extends Component {
   state = {
@@ -24,9 +24,9 @@ export default class DailyWork extends Component {
 
   render() {
     const { visible, taskName, boxLeft, boxTop, execed } = this.state;
-    const _selected = execed;
     if (!visible) return null;
     const _column = columns.filter(item => item.value === taskName)[0];
+    if (!_column) return null;
     return (
       <div style={{ top: boxTop, left: boxLeft + 10 }} className="toast-box">
         <div className="toast-title">
@@ -42,13 +42,13 @@ export default class DailyWork extends Component {
         </ul>
         <div className="toast-control">
           <div
-            className={`control-btn ${_selected ? 'checked' : ''}`}
+            className={`control-btn ${execed ? 'checked' : ''}`}
             onClick={() => this.setState({ execed: true })}
           >
             已执行
           </div>
           <div
-            className={`control-btn ${_selected ? '' : 'checked'}`}
+            className={`control-btn ${execed ? '' : 'checked'}`}
             onClick={() => this.setState({ execed: false })}
           >
             未执行
@@ -60,19 +60,19 @@ export default class DailyWork extends Component {
 
   // 初始化
   _init = () => {
-    Event.on('showModal', param => {
-      const { left = 0, top = 0, value, lngLat } = param;
+    Event.on(EventName.showContentModal, param => {
+      const { visible = false, left = 0, top = 0, value, lngLat = [] } = param;
       this.setState({
         boxLeft: left,
         boxTop: top,
-        visible: true,
+        visible,
         taskName: value,
         lngLat: lngLat
       });
     });
-    Event.on('closeModal', () => {
-      this.setState({ visible: false });
-    });
+    Event.on(EventName.closeContentModal, () =>
+      this.setState({ visible: false })
+    );
     _MAP_.on('move', this._moveListener); // 添加事件
   };
 
@@ -83,11 +83,8 @@ export default class DailyWork extends Component {
   _moveListener = () => {
     const { lngLat, visible } = this.state;
     if (!visible) return;
-    const { x, y } = _MAP_.project(lngLat);
-    this.setState({
-      boxLeft: x,
-      boxTop: y
-    });
+    const { x, y } = _MAP_.project(lngLat); // {lat, lng} => {x, y}
+    this.setState({ boxLeft: x, boxTop: y });
   };
 
   _closeToast = () => this.setState({ visible: false });

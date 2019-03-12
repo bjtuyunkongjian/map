@@ -14,7 +14,7 @@ import { IsArray } from 'tuyun-utils';
 import { FetchWorkContent } from './webapi';
 import DailyWork from './daily-work';
 
-import Event from '../event';
+import Event, { EventName } from '../event';
 
 export default class WorkContent extends Component {
   state = {
@@ -23,6 +23,8 @@ export default class WorkContent extends Component {
     selectedTasks: [],
     animate: 'hidden'
   };
+
+  _modalValue;
 
   componentDidMount = () => this._init();
 
@@ -75,7 +77,9 @@ export default class WorkContent extends Component {
     // 点击图标事件
     _MAP_.on('click', contentLayerId, e => {
       const { originalEvent, features, lngLat } = e;
-      Event.emit('showModal', {
+      this._modalValue = features[0].properties.value;
+      Event.emit(EventName.showContentModal, {
+        visible: true,
         left: originalEvent.offsetX,
         top: originalEvent.offsetY,
         value: features[0].properties.value,
@@ -117,6 +121,7 @@ export default class WorkContent extends Component {
       selectedTasks = options.map(item => item);
     }
     await this.setState({ selectedTasks });
+    this._closeContentModal();
     this._fetchWorkContent();
   };
 
@@ -128,7 +133,16 @@ export default class WorkContent extends Component {
     const _isSelected = _taskInd > -1;
     _isSelected ? selectedTasks.splice(_taskInd, 1) : selectedTasks.push(item);
     await this.setState({ selectedTasks });
+    this._closeContentModal();
     this._fetchWorkContent();
+  };
+
+  // 判断关闭弹框
+  _closeContentModal = () => {
+    const { selectedTasks } = this.state;
+    const _visible =
+      selectedTasks.filter(item => item.value === this._modalValue).length > 0; // 判断当前弹框对应的选项是否选中
+    !_visible && Event.emit(EventName.closeContentModal); // 当前弹框对应选项未选中，需要关闭弹框
   };
 
   // 后台请求列表对应的数组点
@@ -154,6 +168,7 @@ export default class WorkContent extends Component {
         _features.push(_feature);
       }); // 生成点的 features
     }
+    if (_features.length === 0) return this._removeSourceLayer(contentLayerId); // 如果查询结果为空，删除对应的图层
     const _geoJSONData = {
       type: 'geojson',
       data: FeatureCollection(_features)
@@ -169,7 +184,7 @@ export default class WorkContent extends Component {
         }
       });
     } else {
-      _MAP_.getSource(contentLayerId).setData(_geoJSONData.data);
+      _MAP_.getSource(contentLayerId).setData(_geoJSONData.data); // 重置 data
     }
   };
 
