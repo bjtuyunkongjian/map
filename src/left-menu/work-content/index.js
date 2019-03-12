@@ -8,10 +8,11 @@ import { IoIosPaper, IoMdCheckmark } from 'react-icons/io';
 import { point as TurfPoint } from 'turf';
 import { IsArray } from 'tuyun-utils';
 
-import Event from '../event';
-import { MenuItems } from '../constant';
 import { FetchWorkContent } from './webapi';
 import DailyWork from './daily-work';
+
+import Event from '../event';
+import { MenuItems } from '../constant';
 
 export default class WorkContent extends Component {
   state = {
@@ -20,9 +21,8 @@ export default class WorkContent extends Component {
     selectedTasks: [],
     animate: 'hidden'
   };
-  componentDidMount() {
-    this._init();
-  }
+
+  componentDidMount = () => this._init();
 
   render() {
     const { curMenu, datanumMap, selectedTasks, animate } = this.state;
@@ -94,22 +94,20 @@ export default class WorkContent extends Component {
         // 未选中工作内容
         Event.emit('closeModal'); // 关闭弹框
         this._reset(); // 重置
-        _MAP_.off('zoomend', this._eventListener); // 删除 zoomend 事件
-        _MAP_.off('mouseup', this._eventListener); // 删除 mouseup 事件
       } else {
         // 选中工作内容
-        _MAP_.on('zoomend', this._eventListener); // 添加 zoomend 事件
-        _MAP_.on('mouseup', this._eventListener); // 添加 mouseup 事件
+        _MAP_.on('move', this._eventListener); // 添加 move 监听事件
       }
     });
     // 点击图标事件
     options.map(item => {
       _MAP_.on('click', item.value, e => {
-        const { originalEvent, features } = e;
+        const { originalEvent, features, lngLat } = e;
         Event.emit('showModal', {
           left: originalEvent.offsetX,
           top: originalEvent.offsetY,
-          value: features[0].properties.value
+          value: features[0].properties.value,
+          lngLat: lngLat
         });
       });
     });
@@ -125,6 +123,7 @@ export default class WorkContent extends Component {
       datanumMap: {},
       selectedTasks: []
     }); // 重置 state
+    _MAP_.off('move', this._eventListener); // 删除 move 监听事件
   };
 
   // 点击发射切换菜单事件
@@ -138,8 +137,8 @@ export default class WorkContent extends Component {
     this._fetchDataNum();
   };
 
+  // 请求各个类型工作的数据量
   _fetchDataNum = async () => {
-    // 点击工作内容向后台请求各个工作的数据量
     const _bounds = _MAP_.getBounds();
     const { res, err } = await FetchWorkContent({
       points: _bounds

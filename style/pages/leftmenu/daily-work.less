@@ -1,18 +1,33 @@
 .toast-box {
   position: fixed;
+  // z-index: -1;
   background: @bg-gradient-base;
-  width: 250px;
+  width: 220px;
   color: @t-white;
-  border-radius: 15px;
-  padding: 20px;
+  border-radius: @radius-l;
+  padding: 10px;
+  transform: translateY(-50%);
+  // 渐变三角形有问题
+  // &:before {
+  //   content: '';
+  //   display: block;
+  //   position: absolute;
+  //   z-index: -1;
+  //   width: 20px;
+  //   height: 20px;
+  //   left: -10px;
+  //   background: @bg-gradient-base;
+  //   transform: translateY(-50%) rotate(135deg);
+  //   top: 50%;
+  // }
   .toast-title {
-    font-size: 18px;
-    margin-bottom: 10px;
+    font-size: 14px;
+    margin-bottom: 5px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     .close {
-      font-size: 18px;
+      font-size: 14px;
       font-weight: 900;
       cursor: pointer;
       &:hover {
@@ -22,26 +37,28 @@
   }
   .toast-list {
     margin-bottom: 10px;
-    font-size: 14px;
+    font-size: 12px;
     > li {
       margin-bottom: 5px;
     }
   }
   .toast-control {
-    margin-top: 5px;
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     .control-btn {
-      padding: 8px 25px;
+      padding: 8px 15px;
       color: @t-base;
       background-color: white;
-      border-radius: @radius-m;
+      border-radius: @radius-s;
       &.checked {
+        border: 1px solid @border-color-darker;
+      }
+      &:nth-of-type(1) {
         background-color: #7ec0ee;
-        color: @t-base;
-        border: 1px solid @t-grayer;
+        color: white;
+        margin-right: 20px;
       }
     }
   }
