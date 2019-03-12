@@ -73,7 +73,6 @@ export default class WorkContent extends Component {
   }
 
   _init = () => {
-    _MAP_.on('moveend', this._eventListener); // 添加 move 监听事件
     // 点击图标事件
     _MAP_.on('click', contentLayerId, e => {
       const { originalEvent, features, lngLat } = e;
@@ -117,8 +116,10 @@ export default class WorkContent extends Component {
     let { selectedTasks } = this.state;
     if (selectedTasks.length === options.length) {
       selectedTasks = [];
+      _MAP_.off('moveend', this._eventListener); // 移除 move 监听事件
     } else {
       selectedTasks = options.map(item => item);
+      _MAP_.on('moveend', this._eventListener); // 添加 move 监听事件
     }
     await this.setState({ selectedTasks });
     this._closeContentModal();
@@ -132,6 +133,11 @@ export default class WorkContent extends Component {
     const _taskInd = selectedTasks.indexOf(item);
     const _isSelected = _taskInd > -1;
     _isSelected ? selectedTasks.splice(_taskInd, 1) : selectedTasks.push(item);
+    if (selectedTasks.length > 0) {
+      _MAP_.on('moveend', this._eventListener); // 选中了某些选项，添加 move 监听事件
+    } else {
+      _MAP_.off('moveend', this._eventListener); // 所有选项都未选中，移除 move 监听事件
+    }
     await this.setState({ selectedTasks });
     this._closeContentModal();
     this._fetchWorkContent();

@@ -68,22 +68,9 @@ export default class PoliceData extends Component {
   _init = () => {
     // 点击地图图标弹出信息框
     _MAP_.on('click', policeDataLayer, e => {
-      const { selectedOpt } = this.state;
+      const { selectedOpts } = this.state;
       const { originalEvent } = e;
-      if (selectedOpt === 'population') return;
-      if (selectedOpt === 'house') {
-        Event.emit('showMessage', {
-          value: selectedOpt,
-          top: originalEvent.offsetY,
-          left: originalEvent.offsetX
-        });
-      } else if (selectedOpt === 'unit') {
-        Event.emit('showUnit', {
-          value: selectedOpt,
-          latop: originalEvent.offsetY,
-          laleft: originalEvent.offsetX
-        });
-      }
+      console.log(selectedOpts, originalEvent);
     });
   };
 
@@ -93,15 +80,6 @@ export default class PoliceData extends Component {
 
   _removeEventListener = () => {
     _MAP_.off('moveend', this._fetchPeopleData);
-  };
-
-  _zoomListener = () => {
-    if (!_MAP_.getLayer(policeDataLayer)) return;
-    const _option = options.filter(item => item.value === 'house')[0];
-    const _landMarkZoom = _option.defaultZoom;
-    const _zoom = _MAP_.getZoom();
-    const _iconImage = _zoom < _landMarkZoom ? 'people' : 'landmark';
-    _MAP_.setLayoutProperty(policeDataLayer, 'icon-image', _iconImage);
   };
 
   // 发送菜单改变事件
@@ -116,18 +94,19 @@ export default class PoliceData extends Component {
     e.stopPropagation();
     const { selectedOpts } = this.state;
     const _optInd = selectedOpts.indexOf(option);
-    const _isSelected = _optInd > -1;
-    _isSelected ? selectedOpts.splice(_optInd, 1) : selectedOpts.push(option);
+    const _isSelected = _optInd > -1; // 判断之前是否选中
+    _isSelected ? selectedOpts.splice(_optInd, 1) : selectedOpts.push(option); // 之前选中，删除对应选项；之前未选中，添加对应选项
+    if (selectedOpts.length > 0) {
+      this._addEventListener(); // 添加监听
+    } else {
+      this._removeEventListener(); // 移除监听
+    }
     await this.setState({ selectedOpts: selectedOpts });
     // 当前选中房屋，直接飞到房屋对应的等级
-    if (_isSelected && option.value === 'house') {
-      _MAP_.flyTo({
-        zoom: option.defaultZoom,
-        duration: 500
-      });
+    if (!_isSelected && option.value === 'house') {
+      _MAP_.flyTo({ zoom: option.defaultZoom, duration: 500 });
     }
-    // this._addEventListener(); // 恢复监听
-    // this._fetchPeopleData();
+    this._fetchPeopleData();
   };
 
   _fetchPeopleData = async () => {
@@ -136,6 +115,7 @@ export default class PoliceData extends Component {
       points: _bounds
     });
     if (err || !IsArray(res)) return; //保护
+    return console.log('aaaaaa');
     const _zoom = _MAP_.getZoom();
     const _landMarkZoom = options.filter(item => item.value === 'house')[0]
       .defaultZoom;
