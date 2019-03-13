@@ -18,7 +18,7 @@ export default class KeyPersonnel extends Component {
             { value: 435, label: '网安' },
             { value: 310, label: '经侦' },
             { value: 234, label: '刑警' },
-            { value: 135, label: '户政' },
+            { value: 135, label: '护证' },
             { value: 435, label: '禁毒' },
             { value: 310, label: '情报' },
             { value: 234, label: '国保' },
