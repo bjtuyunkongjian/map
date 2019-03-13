@@ -9,7 +9,8 @@ export default class HouseMessage extends Component {
   state = {
     visible: true,
     boxLeft: '50%',
-    boxTop: '50%'
+    boxTop: '50%',
+    selectedHouseItem: undefined
   };
 
   componentDidMount = () => this._init();
@@ -17,7 +18,7 @@ export default class HouseMessage extends Component {
   componentWillUnmount = () => this._reset();
 
   render() {
-    const { visible, boxLeft, boxTop } = this.state;
+    const { visible, boxLeft, boxTop, selectedHouseItem } = this.state;
     if (!visible) return null;
     return (
       <div style={{ top: boxTop, left: boxLeft }} className="house-message">
@@ -62,20 +63,24 @@ export default class HouseMessage extends Component {
         </ul>
 
         <ul className="house-list">
-          {[1, 2, 3, 4, 5].map((item, index) => (
-            <li
-              className="house-item selected-house"
-              key={`house_item_${index}`}
-              onClick={() => {}}
-            >
-              <div className="room-code">1-340030000</div>
-              <div className="type-box">
-                <div className="pop-type resident-pop">1</div>
-                <div className="pop-type floating-pop">2</div>
-                <div className="pop-type key-pop">3</div>
-              </div>
-            </li>
-          ))}
+          {[1, 2, 3, 4, 5].map((item, index) => {
+            const _selected = selectedHouseItem === item;
+
+            return (
+              <li
+                className={`house-item ${_selected ? 'selected-house' : ''}`}
+                key={`house_item_${index}`}
+                onClick={() => this._selectHouseRoom(item)}
+              >
+                <div className="room-code">1-340030000</div>
+                <div className="type-box">
+                  <div className="pop-type resident-pop">1</div>
+                  <div className="pop-type floating-pop">2</div>
+                  <div className="pop-type key-pop">3</div>
+                </div>
+              </li>
+            );
+          })}
         </ul>
       </div>
     );
@@ -106,18 +111,8 @@ export default class HouseMessage extends Component {
       visible: false
     });
   };
-}
 
-const messages = [
-  {
-    icon: <FaPeriscope />,
-    title: '地点 济南市历下区草山岭小区',
-    value: 'house',
-    itemicon: [<MdLocationCity />, <TiHomeOutline />, <MdPeopleOutline />],
-    itemdes: [
-      '楼栋信息 该楼共1单元 34层',
-      '建筑地址 济南市历下区草山岭小区9栋1单元',
-      '常住人口1220      流动人口223       重点人员5'
-    ]
-  }
-];
+  _selectHouseRoom = option => {
+    this.setState({ selectedHouseItem: option });
+  };
+}

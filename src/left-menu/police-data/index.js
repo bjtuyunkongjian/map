@@ -4,8 +4,7 @@
  */
 
 import React, { Component } from 'react';
-import { IsArray, Event as GlobalEvent } from 'tuyun-utils';
-import { IoIosPeople, IoMdCheckmark } from 'react-icons/io';
+import { IoIosPeople } from 'react-icons/io';
 
 import PopOption from './pop-option';
 import UnitOption from './unit-option';
