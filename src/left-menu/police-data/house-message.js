@@ -10,7 +10,7 @@ import HousingStaff from './housing-staff';
 
 export default class HouseMessage extends Component {
   state = {
-    visible: true,
+    visible: false,
     boxLeft: '50%',
     boxTop: '50%',
     selectedHouseItem: undefined
