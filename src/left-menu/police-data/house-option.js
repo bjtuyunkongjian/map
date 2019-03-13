@@ -5,6 +5,7 @@ import {
   featureCollection as FeatureCollection
 } from 'turf';
 import { IsArray, Event as GlobalEvent } from 'tuyun-utils';
+import { TuyunMessage } from 'tuyun-kit';
 
 import { FetchPopulation } from './webapi';
 
@@ -38,7 +39,9 @@ export default class HouseOption extends Component {
   _selectHouseData = async () => {
     const { isChecked } = this.state;
     this.setState({ isChecked: !isChecked });
+
     if (!isChecked) {
+      return TuyunMessage.error('接口数据获取失败！'); // temp
       _MAP_.flyTo({ zoom: 16 });
       _MAP_.on('moveend', this._fetchHouse);
     } else {

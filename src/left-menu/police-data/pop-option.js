@@ -5,6 +5,7 @@ import {
   point as TurfPoint,
   featureCollection as FeatureCollection
 } from 'turf';
+import { TuyunMessage } from 'tuyun-kit';
 
 import { FetchPopulation } from './webapi';
 
@@ -41,6 +42,7 @@ export default class PopOption extends Component {
     const { isChecked } = this.state;
     this.setState({ isChecked: !isChecked });
     if (!isChecked) {
+      return TuyunMessage.error('接口数据获取失败！'); // temp
       this._fetchPopulation();
       _MAP_.on('moveend', this._fetchPopulation);
     } else {

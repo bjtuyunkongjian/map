@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { IoMdCheckmark } from 'react-icons/io';
+import { TuyunMessage } from 'tuyun-kit';
 
 export default class UnitOption extends Component {
   state = {
@@ -25,6 +26,7 @@ export default class UnitOption extends Component {
     const { isChecked } = this.state;
     this.setState({ isChecked: !isChecked });
     if (!isChecked) {
+      return TuyunMessage.error('接口数据获取失败！'); // temp
       this._fetchUnit();
       _MAP_.on('moveend', this._fetchUnit);
     } else {

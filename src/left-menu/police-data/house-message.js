@@ -5,6 +5,9 @@ import { MdLocationCity } from 'react-icons/md';
 import { MdPeopleOutline } from 'react-icons/md';
 import { TiHomeOutline } from 'react-icons/ti';
 import { FaTimes } from 'react-icons/fa';
+
+import HousingStaff from './housing-staff';
+
 export default class HouseMessage extends Component {
   state = {
     visible: true,
@@ -82,6 +85,8 @@ export default class HouseMessage extends Component {
             );
           })}
         </ul>
+
+        {selectedHouseItem ? <HousingStaff /> : null}
       </div>
     );
   }
@@ -113,6 +118,11 @@ export default class HouseMessage extends Component {
   };
 
   _selectHouseRoom = option => {
-    this.setState({ selectedHouseItem: option });
+    const { selectedHouseItem } = this.state;
+    if (selectedHouseItem === option) {
+      this.setState({ selectedHouseItem: undefined });
+    } else {
+      this.setState({ selectedHouseItem: option });
+    }
   };
 }
