@@ -7,64 +7,58 @@ import { TiHomeOutline } from 'react-icons/ti';
 import { FaTimes } from 'react-icons/fa';
 export default class HouseMessage extends Component {
   state = {
-    visible: false,
-    boxLeft: 0,
-    boxTop: 0
+    visible: true,
+    boxLeft: '50%',
+    boxTop: '50%'
   };
 
-  componentDidMount() {
-    this._init();
-  }
+  componentDidMount = () => this._init();
 
-  componentWillUnmount() {
-    this._reset();
-  }
+  componentWillUnmount = () => this._reset();
 
   render() {
     const { visible, boxLeft, boxTop } = this.state;
     if (!visible) return null;
     return (
-      <div style={{ top: boxTop, left: boxLeft }} className="dialog-box">
-        <div className="dialog-title">
-          <span>
-            {messages[0].icon} {messages[0].title}
-          </span>
-          <span className="close" onClick={this._clostHouse}>
-            <FaTimes />
-          </span>
+      <div style={{ top: boxTop, left: boxLeft }} className="house-message">
+        <div className="house-title">
+          <FaPeriscope className="icon-left" />
+          <div className="title-text">地点 济南市历下区草山岭小区</div>
+          <FaTimes className="close" onClick={this._clostHouse} />
         </div>
-        <ul className="dialog-list">
+        <ul className="house-list">
           <li>
-            {messages[0].itemicon[0]}
-            {messages[0].itemdes[0]}
+            <MdLocationCity className="icon-left" />
+            楼栋信息：该楼共1单元 34层
           </li>
           <li>
-            {messages[0].itemicon[1]}
-            {messages[0].itemdes[1]}
+            <TiHomeOutline className="icon-left" />
+            建筑地址：济南市历下区草山岭小区9栋1单元
           </li>
-          <li className="list-pop">
-            {messages[0].itemicon[2]}
-            {messages[0].itemdes[2]}
+          <li>
+            <MdPeopleOutline className="icon-left" />
+            <div>
+              <div>常住：1220</div>
+              <div>流动：223</div>
+              <div>重点：5</div>
+            </div>
           </li>
         </ul>
-        <div className="space" />
-        <div>
-          <span>选择单元房间号码，查看房间基本信息</span>
-          <ul className="describe">
-            <li>
-              <div className="nth-first" />
-              <span>常住</span>
-            </li>
-            <li>
-              <div className="nth-second" />
-              <span>流动</span>
-            </li>
-            <li>
-              <div className="nth-third" />
-              <span>重点人员</span>
-            </li>
-          </ul>
-        </div>
+
+        <ul className="describe">
+          <li>
+            <div className="resident-pop" />
+            <span>常住</span>
+          </li>
+          <li>
+            <div className="floating-pop" />
+            <span>流动</span>
+          </li>
+          <li>
+            <div className="key-pop" />
+            <span>重点人员</span>
+          </li>
+        </ul>
       </div>
     );
   }

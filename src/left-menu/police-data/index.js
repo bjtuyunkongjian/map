@@ -6,21 +6,13 @@
 import React, { Component } from 'react';
 import { IsArray, Event as GlobalEvent } from 'tuyun-utils';
 import { IoIosPeople, IoMdCheckmark } from 'react-icons/io';
-import {
-  point as TurfPoint,
-  center as TurfCenter,
-  featureCollection as FeatureCollection
-} from 'turf';
 
-import { FetchPopulation } from './webapi';
 import PopOption from './pop-option';
 import UnitOption from './unit-option';
 import HouseOption from './house-option';
 
 import HouseMessage from './house-message';
 import UnitMessage from './unit-message';
-
-import Event, { EventName } from '../event';
 
 export default class PoliceData extends Component {
   state = {
@@ -47,7 +39,7 @@ export default class PoliceData extends Component {
           <UnitOption />
           <HouseOption />
         </ul>
-        {/* {houseSelected ? <HouseMessage /> : null} */}
+        <HouseMessage />
         {/* {selectedOpt === 'unit' ? <UnitMessage /> : null} */}
       </div>
     );

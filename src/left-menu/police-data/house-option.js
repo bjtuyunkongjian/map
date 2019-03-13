@@ -48,7 +48,6 @@ export default class HouseOption extends Component {
   };
 
   _fetchHouse = async () => {
-    console.log('zoomed');
     const _bounds = _MAP_.getBounds(); // 获取屏幕边界范围
     const _zoom = _MAP_.getZoom(); // 当前缩放层级
     if (_zoom < 16) return this._removeSourceLayer(houseOption.layerId); // 地图缩小到 16 级以下，房屋不显示
