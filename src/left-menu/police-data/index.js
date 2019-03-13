@@ -17,7 +17,7 @@ import { FetchPopulation } from './webapi';
 import HouseMessage from './house-message';
 import UnitMessage from './unit-message';
 
-import Event from '../event';
+import Event, { EventName } from '../event';
 
 export default class PoliceData extends Component {
   state = {
@@ -30,7 +30,6 @@ export default class PoliceData extends Component {
 
   render() {
     const { expanded, selectedOpts, animate } = this.state;
-    const { houseSelected } = this._computeSelected();
     const _arrow = expanded ? 'arrow-down' : 'arrow-right';
     return (
       <div className="menu-item police-data">
@@ -42,7 +41,7 @@ export default class PoliceData extends Component {
           </div>
         </div>
         <ul className={`data-container ${animate}`}>
-          {options.map((item, index) => {
+          {policeDataOpts.map((item, index) => {
             const _isChecked = selectedOpts.indexOf(item) > -1;
             return (
               <li
@@ -67,11 +66,157 @@ export default class PoliceData extends Component {
   // 点击事件
   _init = () => {
     // 点击地图图标弹出信息框
-    _MAP_.on('click', policeDataLayer, e => {
-      const { selectedOpts } = this.state;
-      const { originalEvent } = e;
-      console.log(selectedOpts, originalEvent);
+    policeDataOpts.map(item => {
+      _MAP_.on('click', item.layerId, e => {
+        const { lngLat, originalEvent, features } = e;
+        // _MAP_.flyTo({ center: [lngLat.lng, lngLat.lat], duration: 500 });
+        console.log(e, originalEvent, features, item);
+        if (item.value === 'population') {
+          Event.emit(EventName.showPoDataPop, {
+            visible: true,
+            left: originalEvent.offsetX,
+            top: originalEvent.offsetY,
+            value: features[0].properties.value,
+            lngLat: lngLat
+          });
+        } else if (item.value === 'unit') {
+          Event.emit(EventName.showPoDataUnit, {
+            visible: true,
+            left: originalEvent.offsetX,
+            top: originalEvent.offsetY,
+            value: features[0].properties.value,
+            lngLat: lngLat
+          });
+        } else if (item.value === 'house') {
+          Event.emit(EventName.showPoDataHouse, {
+            visible: true,
+            left: originalEvent.offsetX,
+            top: originalEvent.offsetY,
+            value: features[0].properties.value,
+            lngLat: lngLat
+          });
+        }
+      });
     });
+  };
+
+  _addEventListener = () => {
+    _MAP_.on('moveend', this._fetchPoliceData);
+  };
+
+  _removeEventListener = () => {
+    _MAP_.off('moveend', this._fetchPoliceData);
+  };
+
+  // 发送菜单改变事件
+  _selectMenu = () => {
+    const { expanded } = this.state;
+    const _animate = !expanded ? 'menu-down' : 'menu-up';
+    this.setState({ expanded: !expanded, animate: _animate }); // 修改 state
+  };
+
+  // 后台请求数据
+  _selectPoliceData = async (option, e) => {
+    e.stopPropagation();
+    const { selectedOpts } = this.state;
+    const _optInd = selectedOpts.indexOf(option);
+    const _isSelected = _optInd > -1; // 判断之前是否选中
+    _isSelected ? selectedOpts.splice(_optInd, 1) : selectedOpts.push(option); // 之前选中，删除对应选项；之前未选中，添加对应选项
+    await this.setState({ selectedOpts: selectedOpts });
+    _isSelected && this._removeSourceLayer(option.layerId); // 之前选中，当前要变为未选中，删除对应图层
+    // 当前选中房屋，直接飞到房屋对应的等级
+    if (!_isSelected && option.value === 'house') {
+      _MAP_.flyTo({ zoom: option.defaultZoom, duration: 500 });
+    }
+    if (selectedOpts.length > 0) {
+      this._addEventListener(); // 添加监听
+      this._fetchPoliceData();
+    } else {
+      this._removeEventListener(); // 移除监听
+    }
+  };
+
+  _fetchPoliceData = async () => {
+    const { selectedOpts } = this.state;
+    if (selectedOpts.length === 0) return; // 没有选中子选项，不需要发送请求
+    const _bounds = _MAP_.getBounds(); // 获取屏幕边界范围
+    const _zoom = _MAP_.getZoom(); // 当前缩放层级
+    const param = { bounds: _bounds, zoom: _zoom };
+    const {
+      popSelected,
+      unitSelected,
+      houseSelected
+    } = this._computeSelected();
+    popSelected && this._fetchPopulation(param); // 选中人口
+    unitSelected && this._fetchUnit(param); // 选中单位
+    houseSelected && this._fetchHouse(param); // 选中房屋
+  };
+
+  _fetchPopulation = async param => {
+    const { zoom, bounds } = param;
+    const { res, err } = await FetchPopulation({ points: bounds }); // 发送请求
+    if (err || !IsArray(res)) return console.log('获取一标三识数据出错'); //保护
+    const _features = res.map(coords => TurfPoint(coords));
+    const _geoJSONData = {
+      type: 'geojson',
+      data: FeatureCollection(_features)
+    };
+    // 小于 17.5 级：多于 200 个点，以热力图形式呈现，在建筑物底下；
+    // 小于 17.5 级：少于 200 个点，以点图形式呈现，在 3d 建筑物之上，可点击；
+    // 大于 17.5 级：点图，铭牌形式，在 3d 建筑物上面，自动避让，优先级最高；
+    if (!_MAP_.getLayer(popLayerId)) {
+      _MAP_.addLayer({
+        id: popLayerId,
+        type: 'circle',
+        source: _geoJSONData,
+        minzoom: 12,
+        paint: {
+          'circle-radius': 4,
+          'circle-color': 'blue',
+          'circle-blur': 0
+        }
+      });
+    } else {
+      _MAP_.getSource(popLayerId).setData(_geoJSONData.data); // 重置 data
+    }
+  };
+
+  _fetchUnit = async param => {
+    const { zoom, bounds } = param;
+    // 大于 17.5 级：3d 建筑 + 数量标识
+    // 小于 17.5 级：点的数据量在 200 以内，现有点的大小，需要有点击功能
+    // 小于 17.5 级：点的数据量在 200~1000/1500 之间， 以中等的点呈现，不需要点击功能
+    // 小于 17.5 级：点的数据量在 1000/1500 以上，以最小的点呈现，肉眼可见
+  };
+
+  _fetchHouse = async param => {
+    const { zoom, bounds } = param;
+    const { res, err } = await FetchPopulation({ points: bounds }); // 发送请求
+    if (err || !IsArray(res)) return console.log('获取一标三识数据出错'); //保护
+    const _features = res.map(coords => TurfPoint(coords));
+    const _geoJSONData = {
+      type: 'geojson',
+      data: FeatureCollection(_features)
+    };
+    // 地图缩小到 16 级以下，房屋不显示，放大到大于 16 级，房屋又出现；
+    // 小于 17.5 级：多于 200 个点，以热力图形式呈现，在建筑物底下；
+    // 小于 17.5 级：少于 200 个点，以点图形式呈现，在 3d 建筑物之上，可点击；
+    // 大于 17.5 级：点图，铭牌形式，在 3d 建筑物上面，自动避让，优先级最高；
+    if (!_MAP_.getLayer(houseLayerId)) {
+      _MAP_.addLayer({
+        id: houseLayerId,
+        type: 'circle',
+        source: _geoJSONData,
+        minzoom: 16,
+        paint: {
+          'circle-radius': 4,
+          'circle-color': 'red',
+          'circle-blur': 0
+        }
+      });
+    } else {
+      _MAP_.getSource(houseLayerId).setData(_geoJSONData.data); // 重置 data
+    }
   };
 
   _computeSelected = () => {
@@ -95,186 +240,35 @@ export default class PoliceData extends Component {
     };
   };
 
-  _addEventListener = () => {
-    _MAP_.on('moveend', this._fetchPeopleData);
-  };
-
-  _removeEventListener = () => {
-    _MAP_.off('moveend', this._fetchPeopleData);
-  };
-
-  // 发送菜单改变事件
-  _selectMenu = () => {
-    const { expanded } = this.state;
-    const _animate = !expanded ? 'menu-down' : 'menu-up';
-    this.setState({ expanded: !expanded, animate: _animate }); // 修改 state
-  };
-
-  // 后台请求数据
-  _selectPoliceData = async (option, e) => {
-    e.stopPropagation();
-    const { selectedOpts } = this.state;
-    const _optInd = selectedOpts.indexOf(option);
-    const _isSelected = _optInd > -1; // 判断之前是否选中
-    _isSelected ? selectedOpts.splice(_optInd, 1) : selectedOpts.push(option); // 之前选中，删除对应选项；之前未选中，添加对应选项
-    if (selectedOpts.length > 0) {
-      this._addEventListener(); // 添加监听
-    } else {
-      this._removeEventListener(); // 移除监听
-    }
-    await this.setState({ selectedOpts: selectedOpts });
-    // 当前选中房屋，直接飞到房屋对应的等级
-    if (!_isSelected && option.value === 'house') {
-      _MAP_.flyTo({ zoom: option.defaultZoom, duration: 500 });
-    }
-    this._fetchPeopleData();
-  };
-
-  _fetchPeopleData = async () => {
-    const _bounds = _MAP_.getBounds();
-    const { res, err } = await FetchPopulation({
-      points: _bounds
-    });
-    if (err || !IsArray(res)) return; //保护
-    return console.log('aaaaaa');
-    const _zoom = _MAP_.getZoom();
-    const _landMarkZoom = options.filter(item => item.value === 'house')[0]
-      .defaultZoom;
-    const _iconImage = _zoom < _landMarkZoom ? 'people' : 'landmark';
-    const _features = res.map(coords => TurfPoint(coords));
-
-    // const _features = [];
-    // for (let i = 0; i < 30000; i++) {
-    //   _features.push(
-    //     TurfPoint([
-    //       Math.random() * 0.1 + 117.116692,
-    //       Math.random() * 0.05 + 36.642122
-    //     ])
-    //   );
-    // }
-    const _features1 = [];
-    let _long = 117.19715;
-    let _lat = 36.689885;
-    for (let i = 0; i < 1500; i++) {
-      _long += (Math.random() - 0.5) / 100;
-      _lat += (Math.random() - 0.5) / 100;
-      _features1.push(
-        TurfPoint(
-          [
-            Math.random() * 0.003 + 117.19715,
-            Math.random() * 0.003 + 36.689885
-          ],
-          {
-            count: (100 + Math.random() * 100).toFixed(0)
-          }
-        )
-      );
-    }
-
-    const _geoJSONData = {
-      type: 'geojson',
-      data: {
-        type: 'FeatureCollection',
-        features: _features
-      }
-    };
-    const _geoJSONData1 = {
-      type: 'geojson',
-      data: {
-        type: 'FeatureCollection',
-        features: _features1
-      }
-    };
-
-    if (!_MAP_.getLayer(policeDataLayer)) {
-      // _MAP_.addLayer({
-      //   id: policeDataLayer,
-      //   type: 'symbol',
-      //   source: _geoJSONData,
-      //   layout: {
-      //     'icon-image': _iconImage,
-      //     'icon-size': 1.5
-      //   }
-      // });
-      // 以下注释代码为假数据，对比某一区域内模糊化数据和原数据
-      _MAP_.addLayer(
-        {
-          id: policeDataLayer,
-          type: 'symbol',
-          source: _geoJSONData1,
-          layout: {
-            'text-field': '{count}',
-            visibility: 'visible',
-            'text-font': ['黑体'],
-            'text-size': 10,
-            'icon-image': 'ic_map_gh.9',
-            'icon-text-fit': 'both',
-            'icon-text-fit-padding': [1, 2, 1, 2],
-            'text-justify': 'center',
-            'text-pitch-alignment': 'map'
-          },
-          paint: {
-            'text-color': 'white'
-          }
-          // minzoom: 12,
-          // paint: {
-          //   'heatmap-weight': 1,
-          //   'heatmap-intensity': 3,
-          //   'heatmap-radius': 20
-          //   // 'circle-radius': 4,
-          //   // 'circle-color': 'red',
-          //   // 'circle-blur': 1.5
-          //   // 'circle-opacity': 0.3
-          // }
-        }
-        // 'GVEGPL'
-      );
-      // _MAP_.addLayer(
-      //   {
-      //     id: policeDataLayer + 1,
-      //     type: 'circle',
-      //     source: _geoJSONData1,
-      //     minzoom: 12,
-      //     paint: {
-      //       'circle-radius': 4,
-      //       'circle-color': 'blue',
-      //       'circle-blur': 0
-      //     }
-      //   }
-      //   // 'GVEGPL'
-      // );
-    } else {
-      // _MAP_.setLayoutProperty(policeDataLayer, 'icon-image', _iconImage);
-    }
-  };
-
   _removeSourceLayer = layerId => {
     _MAP_.getLayer(layerId) && _MAP_.removeLayer(layerId).removeSource(layerId); // 删除所有 layer 和 source
   };
 }
 
-const options = [
+const popLayerId = 'POLICE_DATA_POPULATION';
+const unitLayerId = 'POLICE_DATA_UNIT';
+const houseLayerId = 'POLICE_DATA_HOUSE'; // 一标三识 房屋
+
+const policeDataOpts = [
   {
     value: 'population',
     name: '人口',
     defaultZoom: 16.5,
     icon: 'people',
-    layerId: 'POLICE_DATA_POPULATION'
+    layerId: popLayerId
   },
   {
     value: 'unit',
     name: '单位',
     defaultZoom: 16,
     icon: 'landmark',
-    layerId: 'POLICE_DATA_UNIT'
+    layerId: unitLayerId
   },
   {
     value: 'house',
     name: '房屋',
     defaultZoom: 16,
     icon: 'landmark',
-    layerId: 'POLICE_DATA_HOUSE'
+    layerId: houseLayerId
   }
 ];
-
-const policeDataLayer = 'POLICE_DATA_LAYER';
