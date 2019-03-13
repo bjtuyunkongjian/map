@@ -5,7 +5,7 @@
   color: @t-white;
   border-radius: @radius-l;
   padding: 10px;
-  width: 240px;
+  width: 270px;
   transform: translateY(-50%);
   .house-title {
     font-size: 14px;
@@ -27,7 +27,7 @@
     }
   }
 
-  .house-list {
+  .house-detail {
     margin-bottom: 10px;
     font-size: 12px;
     > li {
@@ -67,7 +67,7 @@
     background-color: #9acd32;
   }
 
-  .describe {
+  .house-explanation {
     display: flex;
     justify-content: flex-end;
     > li {
@@ -75,42 +75,45 @@
       display: flex;
       margin-left: 15px;
       align-items: center;
-      margin-bottom: 10px;
     }
   }
-  .floor {
+
+  .house-list {
     display: flex;
     flex-wrap: wrap;
-    .household {
+    .house-item {
       display: flex;
+      flex-direction: column;
       flex: 0 25%;
-      padding: 10px;
       cursor: pointer;
-      .family {
-        width: 20px;
-        height: 20px;
+      width: 25%;
+      &:hover {
+        opacity: 0.8;
+        background-color: @bg-gradient-opacity;
+      }
+      &.selected-house {
+        background-color: @bg-gradient-opacity;
+      }
+
+      .room-code {
+        .text-ellipsis;
+        width: 100%;
+        margin-top: 10px;
+        margin-bottom: 5px;
+      }
+      .type-box {
+        width: 100%;
         display: flex;
         align-items: center;
-        border-radius: 50%;
-        justify-content: center;
-        margin-right: 2px;
-        &:nth-child(1) {
-          background-color: #cdc9a5;
+        justify-content: flex-start;
+
+        .pop-type {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 16px;
+          height: 16px;
         }
-        &:nth-child(2) {
-          background-color: #cdcd00;
-        }
-        &:nth-child(3) {
-          background-color: #9acd32;
-        }
-      }
-      .doorInfo {
-        position: fixed;
-        background: @bg-gradient-base;
-        width: 100px;
-        height: 100px;
-        left: 300px;
-        top: 200px;
       }
     }
   }

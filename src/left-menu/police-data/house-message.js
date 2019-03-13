@@ -26,7 +26,8 @@ export default class HouseMessage extends Component {
           <div className="title-text">地点 济南市历下区草山岭小区</div>
           <FaTimes className="close" onClick={this._clostHouse} />
         </div>
-        <ul className="house-list">
+
+        <ul className="house-detail">
           <li>
             <MdLocationCity className="icon-left" />
             楼栋信息：该楼共1单元 34层
@@ -45,7 +46,7 @@ export default class HouseMessage extends Component {
           </li>
         </ul>
 
-        <ul className="describe">
+        <ul className="house-explanation">
           <li>
             <div className="resident-pop" />
             <span>常住</span>
@@ -58,6 +59,23 @@ export default class HouseMessage extends Component {
             <div className="key-pop" />
             <span>重点人员</span>
           </li>
+        </ul>
+
+        <ul className="house-list">
+          {[1, 2, 3, 4, 5].map((item, index) => (
+            <li
+              className="house-item selected-house"
+              key={`house_item_${index}`}
+              onClick={() => {}}
+            >
+              <div className="room-code">1-340030000</div>
+              <div className="type-box">
+                <div className="pop-type resident-pop">1</div>
+                <div className="pop-type floating-pop">2</div>
+                <div className="pop-type key-pop">3</div>
+              </div>
+            </li>
+          ))}
         </ul>
       </div>
     );
