@@ -6,7 +6,6 @@
 import React, { Component } from 'react';
 import { IsArray, Event as GlobalEvent } from 'tuyun-utils';
 import { IoIosPeople, IoMdCheckmark } from 'react-icons/io';
-
 import {
   point as TurfPoint,
   center as TurfCenter,
@@ -14,6 +13,9 @@ import {
 } from 'turf';
 
 import { FetchPopulation } from './webapi';
+import PopOption from './pop-option';
+import UnitOption from './unit-option';
+
 import HouseMessage from './house-message';
 import UnitMessage from './unit-message';
 
@@ -41,6 +43,8 @@ export default class PoliceData extends Component {
           </div>
         </div>
         <ul className={`data-container ${animate}`}>
+          <PopOption />
+          <UnitOption />
           {policeDataOpts.map((item, index) => {
             const _isChecked = selectedOpts.indexOf(item) > -1;
             return (
@@ -70,7 +74,6 @@ export default class PoliceData extends Component {
       _MAP_.on('click', item.layerId, e => {
         const { lngLat, originalEvent, features } = e;
         // _MAP_.flyTo({ center: [lngLat.lng, lngLat.lat], duration: 500 });
-        console.log(e, originalEvent, features, item);
         if (item.value === 'population') {
           Event.emit(EventName.showPoDataPop, {
             visible: true,
@@ -161,23 +164,62 @@ export default class PoliceData extends Component {
       type: 'geojson',
       data: FeatureCollection(_features)
     };
+    this._removeSourceLayer(popLayerId);
     // 小于 17.5 级：多于 200 个点，以热力图形式呈现，在建筑物底下；
-    // 小于 17.5 级：少于 200 个点，以点图形式呈现，在 3d 建筑物之上，可点击；
-    // 大于 17.5 级：点图，铭牌形式，在 3d 建筑物上面，自动避让，优先级最高；
-    if (!_MAP_.getLayer(popLayerId)) {
+    if (zoom < 17.5 && res.length > 200) {
+      _MAP_.addLayer(
+        {
+          id: popLayerId,
+          type: 'heatmap',
+          source: _geoJSONData,
+          paint: {
+            'heatmap-color': [
+              'interpolate',
+              ['linear'],
+              ['heatmap-density'],
+              0,
+              'rgba(33,102,172,0)',
+              0.5,
+              'green',
+              0.8,
+              'yellow',
+              1,
+              'red'
+            ],
+            // Adjust the heatmap radius by zoom level
+            'heatmap-radius': 10,
+            // Transition from heatmap to circle layer by zoom level
+            'heatmap-opacity': 1
+          }
+        },
+        'line-gd-ref'
+      );
+    } else if (zoom < 17.5 && res.length <= 200) {
+      // 小于 17.5 级：少于 200 个点，以点图形式呈现，在 3d 建筑物之上，可点击；
       _MAP_.addLayer({
         id: popLayerId,
         type: 'circle',
         source: _geoJSONData,
-        minzoom: 12,
+        // minzoom: 12,
         paint: {
           'circle-radius': 4,
           'circle-color': 'blue',
           'circle-blur': 0
         }
       });
-    } else {
-      _MAP_.getSource(popLayerId).setData(_geoJSONData.data); // 重置 data
+    } else if (zoom >= 17.5) {
+      // 大于 17.5 级：点图，铭牌形式，在 3d 建筑物上面，自动避让，优先级最高；
+      _MAP_.addLayer({
+        id: popLayerId,
+        type: 'circle',
+        source: _geoJSONData,
+        // minzoom: 12,
+        paint: {
+          'circle-radius': 4,
+          'circle-color': 'blue',
+          'circle-blur': 0
+        }
+      });
     }
   };
 
@@ -191,6 +233,7 @@ export default class PoliceData extends Component {
 
   _fetchHouse = async param => {
     const { zoom, bounds } = param;
+    if (zoom < 16) return; // 地图缩小到 16 级以下，房屋不显示
     const { res, err } = await FetchPopulation({ points: bounds }); // 发送请求
     if (err || !IsArray(res)) return console.log('获取一标三识数据出错'); //保护
     const _features = res.map(coords => TurfPoint(coords));
@@ -199,15 +242,12 @@ export default class PoliceData extends Component {
       data: FeatureCollection(_features)
     };
     // 地图缩小到 16 级以下，房屋不显示，放大到大于 16 级，房屋又出现；
-    // 小于 17.5 级：多于 200 个点，以热力图形式呈现，在建筑物底下；
-    // 小于 17.5 级：少于 200 个点，以点图形式呈现，在 3d 建筑物之上，可点击；
-    // 大于 17.5 级：点图，铭牌形式，在 3d 建筑物上面，自动避让，优先级最高；
     if (!_MAP_.getLayer(houseLayerId)) {
       _MAP_.addLayer({
         id: houseLayerId,
         type: 'circle',
         source: _geoJSONData,
-        minzoom: 16,
+        minzoom: 16, // 最小显示层级
         paint: {
           'circle-radius': 4,
           'circle-color': 'red',
@@ -250,20 +290,6 @@ const unitLayerId = 'POLICE_DATA_UNIT';
 const houseLayerId = 'POLICE_DATA_HOUSE'; // 一标三识 房屋
 
 const policeDataOpts = [
-  {
-    value: 'population',
-    name: '人口',
-    defaultZoom: 16.5,
-    icon: 'people',
-    layerId: popLayerId
-  },
-  {
-    value: 'unit',
-    name: '单位',
-    defaultZoom: 16,
-    icon: 'landmark',
-    layerId: unitLayerId
-  },
   {
     value: 'house',
     name: '房屋',
