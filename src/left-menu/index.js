@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import WorkContent from './menu-list/work-content';
-import PoliceData from './menu-list/police-data';
+import WorkContent from './work-content';
+import PoliceData from './police-data';
 // import Camera from './menu-list/camera';
-import PoliceCase from './menu-list/police-case';
-import CallPolice from './menu-list/call-police';
+import PoliceCase from './police-case';
+import CallPolice from './call-police';
 import PoliceForce from './police-force';
-import SecurityRoute from './menu-list/security-route';
-import CommonFacility from './menu-list/facility';
-import ImportantPalce from './menu-list/palce';
+import SecurityRoute from './security-route';
+import CommonFacility from './public-facility';
+import ImportantPlace from './important-place';
 export default class LeftMenu extends Component {
   state = {
     animate: ''
@@ -26,7 +26,7 @@ export default class LeftMenu extends Component {
           <PoliceForce />
           <SecurityRoute />
           <CommonFacility />
-          <ImportantPalce />
+          <ImportantPlace />
         </div>
         <button className="control" onClick={this._toggleLeftMenu}>
           <span className={`aspect-left ${_slide}`} />

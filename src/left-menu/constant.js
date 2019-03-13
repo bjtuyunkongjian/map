@@ -1,4 +1,4 @@
-export default {
+const MenuItems = {
   workContent: 'work-option',
   dataOption: 'data-option',
   caseOption: 'case-option',
@@ -7,3 +7,5 @@ export default {
   securityRoute: 'car-option',
   policeForce: 'police-force'
 };
+
+export { MenuItems };

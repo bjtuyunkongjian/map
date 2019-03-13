@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import Event from './event';
 import { IoMdBusiness } from 'react-icons/io';
-export default class CommonFacility extends Component {
+
+import Event from '../event';
+
+export default class PublicFacility extends Component {
   render() {
     return (
       <div

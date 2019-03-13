@@ -1,18 +1,26 @@
+/**
+ * @author 郝艺红
+ * @name 工作内容弹框
+ */
+
 import React, { Component } from 'react';
-import Event from '../menu-list/event';
 import { FaTimes } from 'react-icons/fa';
+
+import Event from '../event';
+
 export default class DailyWork extends Component {
   state = {
     visible: false,
     taskName: '',
     boxLeft: 0,
     boxTop: 0,
-    execed: true
+    execed: true,
+    lngLat: []
   };
 
-  componentDidMount() {
-    this._init();
-  }
+  componentDidMount = () => this._init();
+
+  componentWillUnmount = () => this._reset();
 
   render() {
     const { visible, taskName, boxLeft, boxTop, execed } = this.state;
@@ -20,7 +28,7 @@ export default class DailyWork extends Component {
     if (!visible) return null;
     const _column = columns.filter(item => item.value === taskName)[0];
     return (
-      <div style={{ top: boxTop, left: boxLeft }} className="toast-box">
+      <div style={{ top: boxTop, left: boxLeft + 10 }} className="toast-box">
         <div className="toast-title">
           <span>{_column.title}</span>
           <span className="close" onClick={this._closeToast}>
@@ -54,23 +62,36 @@ export default class DailyWork extends Component {
   // 初始化
   _init = () => {
     Event.on('showModal', param => {
-      const { left = 0, top = 0, value } = param;
+      const { left = 0, top = 0, value, lngLat } = param;
       this.setState({
         boxLeft: left,
         boxTop: top,
         visible: true,
-        taskName: value
+        taskName: value,
+        lngLat: lngLat
       });
     });
     Event.on('closeModal', () => {
       this.setState({ visible: false });
     });
+    _MAP_.on('move', this._moveListener); // 添加事件
   };
-  _closeToast = () => {
+
+  _reset = () => {
+    _MAP_.off('move', this._moveListener); // 移除事件
+  };
+
+  _moveListener = () => {
+    const { lngLat, visible } = this.state;
+    if (!visible) return;
+    const { x, y } = _MAP_.project(lngLat);
     this.setState({
-      visible: false
+      boxLeft: x,
+      boxTop: y
     });
   };
+
+  _closeToast = () => this.setState({ visible: false });
 }
 
 const columns = [

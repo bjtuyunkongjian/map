@@ -1,9 +1,15 @@
+/**
+ * @author sl
+ * @name 安保路线
+ */
 import React, { Component } from 'react';
 import { IoIosCar } from 'react-icons/io';
-import MenuItem from './menu-item';
-import Event from './event';
+
+import Event from '../event';
 import NewRoute from './new-route'; // 新建安保路线
 import ViewRoute from './view-route'; // 查看安保路线
+
+import { MenuItems } from '../constant';
 
 export default class PoliceCar extends Component {
   state = {
@@ -21,7 +27,7 @@ export default class PoliceCar extends Component {
 
   render() {
     const { curMenu, selectedOpt, animate } = this.state;
-    const _selected = curMenu === MenuItem.securityRoute;
+    const _selected = curMenu === MenuItems.securityRoute;
     const _arrow = _selected ? 'arrow-down' : 'arrow-right';
     return (
       <div className="menu-item">
@@ -62,7 +68,7 @@ export default class PoliceCar extends Component {
     const { curMenu } = this.state;
     Event.emit(
       'change:curMenu',
-      curMenu === MenuItem.securityRoute ? -1 : MenuItem.securityRoute
+      curMenu === MenuItems.securityRoute ? -1 : MenuItems.securityRoute
     );
   };
 
@@ -70,9 +76,9 @@ export default class PoliceCar extends Component {
     const { curMenu } = this.state;
     if (curMenu === nextMenu) return; // 重复点击不做任何操作
     let _animate;
-    if (nextMenu === MenuItem.securityRoute) {
+    if (nextMenu === MenuItems.securityRoute) {
       _animate = 'menu-down';
-    } else if (curMenu === MenuItem.securityRoute) {
+    } else if (curMenu === MenuItems.securityRoute) {
       _animate = 'menu-up';
     } else {
       _animate = 'hidden';

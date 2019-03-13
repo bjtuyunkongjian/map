@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Event from '../menu-list/event';
+import Event from '../event';
 import { FaTimes } from 'react-icons/fa';
 
 export default class UnitMessage extends Component {

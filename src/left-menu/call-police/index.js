@@ -1,9 +1,17 @@
+/**
+ * @author 郝艺红
+ * @name 摄像头
+ */
+
 import React, { Component } from 'react';
-import Event from './event';
-import { FetchCallPolice } from './webapi';
-import MenuItem from './menu-item';
 import { IoIosCall } from 'react-icons/io';
 import { IsArray } from 'tuyun-utils';
+
+import { FetchCallPolice } from './webapi';
+
+import Event from '../event';
+import { MenuItems } from '../constant';
+
 export default class CallPolice extends Component {
   state = {
     curMenu: -1
@@ -31,7 +39,7 @@ export default class CallPolice extends Component {
       const { curMenu } = this.state;
       if (nextMenu === curMenu) return;
       this.setState({ curMenu: nextMenu });
-      nextMenu !== MenuItem.callPoliceOption &&
+      nextMenu !== MenuItems.callPoliceOption &&
         _MAP_.getLayer('callpoliceLayer') &&
         _MAP_.removeLayer('callpoliceLayer').removeSource('callpoliceLayer'); // 删除当前图层
     });
@@ -40,9 +48,9 @@ export default class CallPolice extends Component {
   _showPhone = () => {
     const { curMenu } = this.state;
     const _nextMenu =
-      curMenu === MenuItem.callPoliceOption ? -1 : MenuItem.callPoliceOption;
+      curMenu === MenuItems.callPoliceOption ? -1 : MenuItems.callPoliceOption;
     Event.emit('change:curMenu', _nextMenu);
-    if (_nextMenu !== MenuItem.callPoliceOption) return;
+    if (_nextMenu !== MenuItems.callPoliceOption) return;
     this._fetchCallPolice();
   };
 
