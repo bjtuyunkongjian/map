@@ -22,7 +22,6 @@ import Event from '../event';
 export default class PoliceData extends Component {
   state = {
     expanded: false,
-    selectedOpt: -1,
     selectedOpts: [],
     animate: 'hidden'
   };
@@ -31,6 +30,7 @@ export default class PoliceData extends Component {
 
   render() {
     const { expanded, selectedOpts, animate } = this.state;
+    const { houseSelected } = this._computeSelected();
     const _arrow = expanded ? 'arrow-down' : 'arrow-right';
     return (
       <div className="menu-item police-data">
@@ -58,8 +58,8 @@ export default class PoliceData extends Component {
             );
           })}
         </ul>
-        {/* {selectedOpt === 'house' ? <HouseMessage /> : null}
-        {selectedOpt === 'unit' ? <UnitMessage /> : null} */}
+        {/* {houseSelected ? <HouseMessage /> : null} */}
+        {/* {selectedOpt === 'unit' ? <UnitMessage /> : null} */}
       </div>
     );
   }
@@ -72,6 +72,27 @@ export default class PoliceData extends Component {
       const { originalEvent } = e;
       console.log(selectedOpts, originalEvent);
     });
+  };
+
+  _computeSelected = () => {
+    const { selectedOpts } = this.state;
+    let _popSelected = false,
+      _unitSelected = false,
+      _houseSelected = false;
+    for (let item of selectedOpts) {
+      if (item.value === 'population') {
+        _popSelected = true;
+      } else if (item.value === 'unit') {
+        _unitSelected = true;
+      } else if (item.value === 'house') {
+        _houseSelected = true;
+      }
+    }
+    return {
+      popSelected: _popSelected,
+      unitSelected: _unitSelected,
+      houseSelected: _houseSelected
+    };
   };
 
   _addEventListener = () => {
