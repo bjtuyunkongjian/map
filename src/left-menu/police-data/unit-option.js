@@ -40,6 +40,10 @@ export default class UnitOption extends Component {
     // 小于 17.5 级：点的数据量在 200~1000/1500 之间， 以中等的点呈现，不需要点击功能
     // 小于 17.5 级：点的数据量在 1000/1500 以上，以最小的点呈现，肉眼可见
   };
+
+  _removeSourceLayer = layerId => {
+    _MAP_.getLayer(layerId) && _MAP_.removeLayer(layerId).removeSource(layerId); // 删除所有 layer 和 source
+  };
 }
 
 const unitOption = {
