@@ -44,7 +44,13 @@ export default class PopOption extends Component {
     // 事件监听
     _MAP_.on('click', popOption.layerId, e => {
       const { lngLat, originalEvent, features } = e;
-      _MAP_.flyTo({ center: [lngLat.lng, lngLat.lat], duration: 500 });
+      // _MAP_.flyTo({ center: [lngLat.lng, lngLat.lat], duration: 500 });
+      Event.emit(EventName.showPoDataPop, {
+        visible: true,
+        boxLeft: originalEvent.x,
+        boxTop: originalEvent.y,
+        lngLat: lngLat
+      });
     });
   };
 

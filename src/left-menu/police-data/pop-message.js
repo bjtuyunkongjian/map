@@ -14,7 +14,8 @@ export default class HouseMessage extends Component {
     visible: false,
     boxLeft: '50%',
     boxTop: '50%',
-    lngLat: {}
+    lngLat: {},
+    selectedHouseItem: undefined
   };
 
   componentDidMount = () => this._init();
@@ -22,7 +23,7 @@ export default class HouseMessage extends Component {
   componentWillUnmount = () => this._reset();
 
   render() {
-    const { visible, boxLeft, boxTop } = this.state;
+    const { visible, boxLeft, boxTop, selectedHouseItem } = this.state;
     if (!visible) return null;
     return (
       <div
@@ -71,10 +72,13 @@ export default class HouseMessage extends Component {
 
         <ul className="popup-list">
           {[1, 2, 3, 4, 5].map((item, index) => {
+            const _selected = selectedHouseItem === item;
+
             return (
               <li
                 className={`list-item ${_selected ? 'selected-item' : ''}`}
                 key={`house_item_${index}`}
+                onClick={() => this._selectHouseRoom(item)}
               >
                 <div className="room-code">1-340030000</div>
                 <div className="type-box">
@@ -86,18 +90,20 @@ export default class HouseMessage extends Component {
             );
           })}
         </ul>
+
+        {selectedHouseItem ? <HousingStaff /> : null}
       </div>
     );
   }
 
   _init = () => {
-    Event.on(EventName.showPoDataHouse, this._dealWithEvent);
-    Event.on(EventName.closePoDataHouse, this._clostPopup);
+    Event.on(EventName.showPoDataPop, this._dealWithEvent);
+    Event.on(EventName.closePoDataPop, this._clostPopup);
   };
 
   _reset = () => {
-    Event.removeListener(EventName.showPoDataHouse, this._dealWithEvent);
-    Event.removeListener(EventName.closePoDataHouse, this._clostPopup);
+    Event.removeListener(EventName.showPoDataPop, this._dealWithEvent);
+    Event.removeListener(EventName.closePoDataPop, this._clostPopup);
   };
 
   _dealWithEvent = param => {
@@ -121,5 +127,14 @@ export default class HouseMessage extends Component {
     if (!visible || !lngLat) return;
     const { x, y } = _MAP_.project(lngLat); // {lat, lng} => {x, y}
     this.setState({ boxLeft: x, boxTop: y });
+  };
+
+  _selectHouseRoom = option => {
+    const { selectedHouseItem } = this.state;
+    if (selectedHouseItem === option) {
+      this.setState({ selectedHouseItem: undefined });
+    } else {
+      this.setState({ selectedHouseItem: option });
+    }
   };
 }

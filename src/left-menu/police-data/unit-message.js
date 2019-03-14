@@ -10,7 +10,7 @@ import HousingStaff from './housing-staff';
 
 export default class HouseMessage extends Component {
   state = {
-    visible: true,
+    visible: false,
     boxLeft: '50%',
     boxTop: '50%',
     selectedHouseItem: undefined
@@ -92,7 +92,7 @@ export default class HouseMessage extends Component {
   }
 
   _init = () => {
-    console.log('init');
+    // console.log('init');
     // Event.on('showMessage', this._dealWithEvent);
   };
 

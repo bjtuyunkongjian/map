@@ -11,8 +11,10 @@ const EventName = {
   // 一标三识
   changePoDataChecked: 'change:poData:selected',
   showPoDataPop: 'show:poData:pop',
+  closePoDataPop: 'close:poData:pop',
   showPoDataUnit: 'show:poData:unit',
-  showPoDataHouse: 'show:poData:house'
+  showPoDataHouse: 'show:poData:house',
+  closePoDataHouse: 'close:poData:house'
 };
 
 export { EventName };
