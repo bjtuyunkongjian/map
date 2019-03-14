@@ -16,7 +16,6 @@ import FeaturesMenu from './features-menu';
 import LeftMenu from './left-menu';
 import LinkageDisplay from './linkage-display'; // 联动显示
 // import ElementLibrary from './element-library'; // 图标库
-import ColorBuildings from './color-buildings';
 
 class MapApp extends Component {
   render() {
@@ -38,7 +37,6 @@ class MapApp extends Component {
         {/* <ElementLibrary /> */}
         <BottomNav />
         <FeaturesMenu />
-        <ColorBuildings />
       </div>
     );
   }

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { IoMdCheckmark } from 'react-icons/io';
 import { IsArray, Event as GlobalEvent } from 'tuyun-utils';
 import {
   point as TurfPoint,
@@ -23,9 +22,6 @@ export default class PopOption extends Component {
         className={`data-item ${isChecked ? 'checked' : ''}`}
         onClick={e => this._selectPopData()}
       >
-        <div className={`checkbox ${isChecked ? 'checked' : ''}`}>
-          {isChecked ? <IoMdCheckmark /> : null}
-        </div>
         {popOption.name}
       </li>
     );

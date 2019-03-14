@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { IoMdCheckmark } from 'react-icons/io';
 import { TuyunMessage } from 'tuyun-kit';
 
 export default class UnitOption extends Component {
@@ -14,9 +13,6 @@ export default class UnitOption extends Component {
         className={`data-item ${isChecked ? 'checked' : ''}`}
         onClick={e => this._selectUnitData()}
       >
-        <div className={`checkbox ${isChecked ? 'checked' : ''}`}>
-          {isChecked ? <IoMdCheckmark /> : null}
-        </div>
         {unitOption.name}
       </li>
     );

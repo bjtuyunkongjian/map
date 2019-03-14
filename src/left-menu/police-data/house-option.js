@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { IoMdCheckmark } from 'react-icons/io';
 import {
   point as TurfPoint,
   featureCollection as FeatureCollection
@@ -21,9 +20,6 @@ export default class HouseOption extends Component {
         className={`data-item ${isChecked ? 'checked' : ''}`}
         onClick={e => this._selectHouseData()}
       >
-        <div className={`checkbox ${isChecked ? 'checked' : ''}`}>
-          {isChecked ? <IoMdCheckmark /> : null}
-        </div>
         {houseOption.name}
       </li>
     );
