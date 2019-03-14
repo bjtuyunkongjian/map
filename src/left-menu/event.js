@@ -13,6 +13,7 @@ const EventName = {
   showPoDataPop: 'show:poData:pop',
   closePoDataPop: 'close:poData:pop',
   showPoDataUnit: 'show:poData:unit',
+  closePoDataUnit: 'close:poData:unit',
   showPoDataHouse: 'show:poData:house',
   closePoDataHouse: 'close:poData:house'
 };

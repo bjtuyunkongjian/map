@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Event from '../event';
 import { FaPeriscope } from 'react-icons/fa';
 import { MdLocationCity } from 'react-icons/md';
 import { MdPeopleOutline } from 'react-icons/md';
@@ -8,12 +7,15 @@ import { FaTimes } from 'react-icons/fa';
 
 import HousingStaff from './housing-staff';
 
-export default class HouseMessage extends Component {
+import Event, { EventName } from '../event';
+
+export default class UnitMessage extends Component {
   state = {
     visible: false,
-    boxLeft: '50%',
-    boxTop: '50%',
-    selectedHouseItem: undefined
+    boxLeft: 0,
+    boxTop: 0,
+    lngLat: {},
+    selectedItem: undefined
   };
 
   componentDidMount = () => this._init();
@@ -21,14 +23,17 @@ export default class HouseMessage extends Component {
   componentWillUnmount = () => this._reset();
 
   render() {
-    const { visible, boxLeft, boxTop, selectedHouseItem } = this.state;
+    const { visible, boxLeft, boxTop, selectedItem } = this.state;
     if (!visible) return null;
     return (
-      <div style={{ top: boxTop, left: boxLeft }} className="podata-popup">
+      <div
+        style={{ top: boxTop + 10, left: boxLeft + 10 }}
+        className="podata-popup"
+      >
         <div className="popup-title">
           <FaPeriscope className="icon-left" />
           <div className="title-text">地点 济南市历下区草山岭小区</div>
-          <FaTimes className="close" onClick={this._clostHouse} />
+          <FaTimes className="close" onClick={this._clostPopup} />
         </div>
 
         <ul className="popup-detail">
@@ -67,7 +72,7 @@ export default class HouseMessage extends Component {
 
         <ul className="popup-list">
           {[1, 2, 3, 4, 5].map((item, index) => {
-            const _selected = selectedHouseItem === item;
+            const _selected = selectedItem === item;
 
             return (
               <li
@@ -86,43 +91,50 @@ export default class HouseMessage extends Component {
           })}
         </ul>
 
-        {selectedHouseItem ? <HousingStaff /> : null}
+        {selectedItem ? <HousingStaff /> : null}
       </div>
     );
   }
 
   _init = () => {
-    // console.log('init');
-    // Event.on('showMessage', this._dealWithEvent);
+    Event.on(EventName.showPoDataUnit, this._dealWithEvent);
+    Event.on(EventName.closePoDataUnit, this._clostPopup);
   };
 
   _reset = () => {
-    console.log('reset!');
-    // Event.removeListener('showMessage', this._dealWithEvent);
+    Event.removeListener(EventName.showPoDataUnit, this._dealWithEvent);
+    Event.removeListener(EventName.closePoDataUnit, this._clostPopup);
   };
 
   _dealWithEvent = param => {
-    const { left = 0, top = 0, value } = param;
+    const { visible, boxLeft, boxTop, lngLat } = param;
     this.setState({
-      boxLeft: left,
-      boxTop: top,
-      visible: true,
-      information: value
+      visible: visible,
+      boxLeft: boxLeft,
+      boxTop: boxTop,
+      lngLat: lngLat
     });
+    _MAP_.on('move', this._moveListener);
   };
 
-  _clostHouse = () => {
-    this.setState({
-      visible: false
-    });
+  _clostPopup = () => {
+    this.setState({ visible: false });
+    _MAP_.off('move', this._moveListener);
+  };
+
+  _moveListener = () => {
+    const { lngLat, visible } = this.state;
+    if (!visible || !lngLat) return;
+    const { x, y } = _MAP_.project(lngLat); // {lat, lng} => {x, y}
+    this.setState({ boxLeft: x, boxTop: y });
   };
 
   _selectHouseRoom = option => {
-    const { selectedHouseItem } = this.state;
-    if (selectedHouseItem === option) {
-      this.setState({ selectedHouseItem: undefined });
+    const { selectedItem } = this.state;
+    if (selectedItem === option) {
+      this.setState({ selectedItem: undefined });
     } else {
-      this.setState({ selectedHouseItem: option });
+      this.setState({ selectedItem: option });
     }
   };
 }

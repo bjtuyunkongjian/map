@@ -35,6 +35,7 @@ export default class UnitOption extends Component {
       this.setState({ isChecked: _isChecked });
     });
   };
+
   _selectUnitData = () => {
     const { isChecked } = this.state;
     Event.emit(EventName.changePoDataChecked, { clickedLabel: optionName });
