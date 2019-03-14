@@ -14,13 +14,14 @@
  */
 
 import { LevelConfig, BaseConfig } from 'tuyun-config';
-// const areaColor = {
-//   370112: '#412f1f',
-//   370102: '#f05b72',
-//   370104: '#f47920',
-//   370103: '#74905d',
-//   370105: '#6a6da9'
-// };
+
+const areaColor = {
+  370502: '#412f1f', /// 东营区
+  370503: '#f05b72', //  河口区
+  370505: '#f47920', // 垦利县
+  370522: '#74905d', //  利津县
+  370523: '#6a6da9' // 广饶县	
+};
 
 const ditchVisibleLevel = 14; // 沟和渠道显示等级
 const maxzoom = 12;
@@ -87,21 +88,21 @@ const layers = [
     }
   },
   // 城市边界
-  // {
-  //   id: 'GCOUPL', // 城市边界
-  //   type: 'fill',
-  //   source: LevelConfig.addLv7,
-  //   'source-layer': 'GCOUPL', // py是面
-  //   paint: {
-  //     'fill-color': [
-  //       'get',
-  //       ['to-string', ['get', 'PAC']],
-  //       ['literal', areaColor]
-  //     ],
-  //     'fill-opacity': 0.5,
-  //     'fill-antialias': false
-  //   }
-  // },
+  {
+    id: 'GCOUPL', // 城市边界
+    type: 'fill',
+    source: LevelConfig.addLv7,
+    'source-layer': 'GCOUPL', // py是面
+    paint: {
+      'fill-color': [
+        'get',
+        ['to-string', ['get', 'PAC']],
+        ['literal', areaColor]
+      ],
+      'fill-opacity': 0.5,
+      'fill-antialias': false
+    }
+  },
   // 线
   {
     id: 'GBOULN', // 记录了各个镇的边界，有名字的记录的是省界和岛屿（name不为空）
