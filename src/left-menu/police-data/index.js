@@ -28,7 +28,7 @@ export default class PoliceData extends Component {
       <div className="menu-item police-data">
         <div className="item-label data" onClick={this._selectMenu}>
           <IoIosPeople />
-          <span>一标三实</span>
+          <span>一标三识</span>
           <div className={`arrow-box ${expanded ? 'changed' : ''}`}>
             <span className={`arrow arrow-right ${_arrow}`} />
           </div>
