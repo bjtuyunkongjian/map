@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Event from '../event';
 import { FaPeriscope } from 'react-icons/fa';
 import { MdLocationCity } from 'react-icons/md';
 import { MdPeopleOutline } from 'react-icons/md';
@@ -8,11 +7,13 @@ import { FaTimes } from 'react-icons/fa';
 
 import HousingStaff from './housing-staff';
 
+import Event, { EventName } from '../event';
+
 export default class HouseMessage extends Component {
   state = {
-    visible: true,
-    boxLeft: '50%',
-    boxTop: '50%',
+    visible: false,
+    boxLeft: 0,
+    boxTop: 0,
     selectedHouseItem: undefined
   };
 
@@ -70,11 +71,7 @@ export default class HouseMessage extends Component {
             const _selected = selectedHouseItem === item;
 
             return (
-              <li
-                className={`list-item ${_selected ? 'selected-item' : ''}`}
-                key={`house_item_${index}`}
-                onClick={() => this._selectHouseRoom(item)}
-              >
+              <li className="list-item" key={`house_item_${index}`}>
                 <div className="room-code">1-340030000</div>
                 <div className="type-box">
                   <div className="pop-type resident-pop">1</div>
@@ -93,6 +90,8 @@ export default class HouseMessage extends Component {
 
   _init = () => {
     console.log('init');
+    // todo 获取数据
+    Event.on(EventName.showPoDataHouse, () => {});
     // Event.on('showMessage', this._dealWithEvent);
   };
 
@@ -112,17 +111,6 @@ export default class HouseMessage extends Component {
   };
 
   _clostHouse = () => {
-    this.setState({
-      visible: false
-    });
-  };
-
-  _selectHouseRoom = option => {
-    const { selectedHouseItem } = this.state;
-    if (selectedHouseItem === option) {
-      this.setState({ selectedHouseItem: undefined });
-    } else {
-      this.setState({ selectedHouseItem: option });
-    }
+    this.setState({ visible: false });
   };
 }
