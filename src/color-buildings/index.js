@@ -139,7 +139,6 @@ export default class ColorBuildings extends Component {
         //   }),
         //   _MAP_.querySourceFeatures('GRESPL_Merge_ID1')
         // );
-        console.log(e.features);
         _MAP_.on('move', this._moveListener); // 添加事件
         this.setState({
           left: e.point.x,
@@ -227,9 +226,10 @@ export default class ColorBuildings extends Component {
       body: _body
     });
     this._isLoading = false; // 正在加载
-    res && !err
-      ? TuyunMessage.show('保存成功')
-      : TuyunMessage.warning('保存失败');
+    if (err || !res) {
+      return TuyunMessage.warning('保存失败'); // 保存失败
+    }
+    TuyunMessage.show('保存成功');
     this.setState({
       left: 0,
       top: 0,

@@ -20,7 +20,7 @@ const areaColor = {
   370503: '#f05b72', //  河口区
   370505: '#f47920', // 垦利县
   370522: '#74905d', //  利津县
-  370523: '#6a6da9' // 广饶县	
+  370523: '#6a6da9' // 广饶县
 };
 
 const ditchVisibleLevel = 14; // 沟和渠道显示等级
@@ -92,7 +92,7 @@ const layers = [
     id: 'GCOUPL', // 城市边界
     type: 'fill',
     source: LevelConfig.addLv7,
-    'source-layer': 'GCOUPL', // py是面
+    'source-layer': 'dongyingarea', // py是面
     paint: {
       'fill-color': [
         'get',
