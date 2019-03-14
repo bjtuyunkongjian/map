@@ -1,4 +1,4 @@
-.house-message {
+.podata-popup {
   position: fixed;
   z-index: -1;
   background: @bg-gradient-base;
@@ -7,7 +7,7 @@
   padding: 10px;
   width: 270px;
   transform: translateY(-50%);
-  .house-title {
+  .popup-title {
     font-size: 14px;
     margin-bottom: 10px;
     display: flex;
@@ -27,7 +27,7 @@
     }
   }
 
-  .house-detail {
+  .popup-detail {
     margin-bottom: 10px;
     font-size: 12px;
     > li {
@@ -67,7 +67,7 @@
     background-color: #9acd32;
   }
 
-  .house-explanation {
+  .popup-explanation {
     display: flex;
     justify-content: flex-end;
     > li {
@@ -78,10 +78,10 @@
     }
   }
 
-  .house-list {
+  .popup-list {
     display: flex;
     flex-wrap: wrap;
-    .house-item {
+    .list-item {
       display: flex;
       flex-direction: column;
       flex: 0 25%;
@@ -93,7 +93,7 @@
         opacity: 0.8;
         background-color: @bg-gradient-opacity;
       }
-      &.selected-house {
+      &.selected-item {
         background-color: @bg-gradient-opacity;
       }
 

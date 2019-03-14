@@ -10,7 +10,7 @@ import HousingStaff from './housing-staff';
 
 export default class HouseMessage extends Component {
   state = {
-    visible: false,
+    visible: true,
     boxLeft: '50%',
     boxTop: '50%',
     selectedHouseItem: undefined
@@ -24,14 +24,14 @@ export default class HouseMessage extends Component {
     const { visible, boxLeft, boxTop, selectedHouseItem } = this.state;
     if (!visible) return null;
     return (
-      <div style={{ top: boxTop, left: boxLeft }} className="house-message">
-        <div className="house-title">
+      <div style={{ top: boxTop, left: boxLeft }} className="podata-popup">
+        <div className="popup-title">
           <FaPeriscope className="icon-left" />
           <div className="title-text">地点 济南市历下区草山岭小区</div>
           <FaTimes className="close" onClick={this._clostHouse} />
         </div>
 
-        <ul className="house-detail">
+        <ul className="popup-detail">
           <li>
             <MdLocationCity className="icon-left" />
             楼栋信息：该楼共1单元 34层
@@ -50,7 +50,7 @@ export default class HouseMessage extends Component {
           </li>
         </ul>
 
-        <ul className="house-explanation">
+        <ul className="popup-explanation">
           <li>
             <div className="resident-pop" />
             <span>常住</span>
@@ -65,13 +65,13 @@ export default class HouseMessage extends Component {
           </li>
         </ul>
 
-        <ul className="house-list">
+        <ul className="popup-list">
           {[1, 2, 3, 4, 5].map((item, index) => {
             const _selected = selectedHouseItem === item;
 
             return (
               <li
-                className={`house-item ${_selected ? 'selected-house' : ''}`}
+                className={`list-item ${_selected ? 'selected-item' : ''}`}
                 key={`house_item_${index}`}
                 onClick={() => this._selectHouseRoom(item)}
               >
