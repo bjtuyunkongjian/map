@@ -4,8 +4,8 @@ export default class HousingStaff extends Component {
   state = {};
   render() {
     return (
-      <div className="housing-staff">
-        <div className="staff-title">人员信息</div>
+      <div className="sub-popup">
+        <div className="popup-title">人员信息</div>
       </div>
     );
   }
