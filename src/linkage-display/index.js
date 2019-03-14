@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Event as GlobalEvent, EventName as GloEventName } from 'tuyun-utils';
+
 import TabNav from './tab-nav';
 import PopulationTab from './population-tab';
 import UnitTab from './unit-tab';
@@ -10,6 +12,8 @@ export default class LinkageDisplay extends Component {
   state = {
     animate: ''
   };
+
+  componentDidMount = () => this._init();
 
   render() {
     const { animate } = this.state;
@@ -30,6 +34,13 @@ export default class LinkageDisplay extends Component {
       </div>
     );
   }
+
+  _init = () => {
+    GlobalEvent.on(GloEventName.toggleLinkage, ({ visible }) => {
+      const { animate } = this.state;
+      visible && animate !== 'slide-in' && this._toggleRightMenu();
+    }); // 显示右侧联动数据
+  };
 
   _toggleRightMenu = () => {
     const { animate } = this.state;

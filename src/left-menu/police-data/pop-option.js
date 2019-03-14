@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
-import { IsArray, Event as GlobalEvent } from 'tuyun-utils';
+import {
+  IsArray,
+  Event as GlobalEvent,
+  EventName as GloEventName
+} from 'tuyun-utils';
 import {
   point as TurfPoint,
   featureCollection as FeatureCollection
@@ -22,7 +26,7 @@ export default class PopOption extends Component {
     return (
       <li
         className={`data-item ${isChecked ? 'checked' : ''}`}
-        onClick={e => this._selectPopData()}
+        onClick={this._selectPopData}
       >
         {popOption.name}
       </li>
@@ -57,6 +61,8 @@ export default class PopOption extends Component {
   _selectPopData = () => {
     const { isChecked } = this.state;
     Event.emit(EventName.changePoDataChecked, { clickedLabel: optionName });
+    GlobalEvent.emit(GloEventName.toggleLinkage, { visible: !isChecked }); // 显示右侧联动数据
+    GlobalEvent.emit(GloEventName.toggleLinkageTab, { tabName: 'population' }); // 显示右侧联动数据人口
     if (!isChecked) {
       return TuyunMessage.error('接口数据获取失败！'); // temp
       this._fetchPopulation();

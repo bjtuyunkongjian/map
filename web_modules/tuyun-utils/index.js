@@ -29,6 +29,7 @@ import {
 
 import Emitter from './emit';
 import Event from './event';
+import EventName from './event-name';
 
 export {
   AddLevel,
@@ -48,5 +49,6 @@ export {
   FetchRequest,
   UploadRequest,
   Emitter,
-  Event
+  Event,
+  EventName
 };

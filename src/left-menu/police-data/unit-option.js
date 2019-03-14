@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
 import { TuyunMessage } from 'tuyun-kit';
+import {
+  IsArray,
+  Event as GlobalEvent,
+  EventName as GloEventName
+} from 'tuyun-utils';
 
 import Event, { EventName } from '../event';
 
@@ -15,7 +20,7 @@ export default class UnitOption extends Component {
     return (
       <li
         className={`data-item ${isChecked ? 'checked' : ''}`}
-        onClick={e => this._selectUnitData()}
+        onClick={this._selectUnitData}
       >
         {unitOption.name}
       </li>
@@ -39,6 +44,8 @@ export default class UnitOption extends Component {
   _selectUnitData = () => {
     const { isChecked } = this.state;
     Event.emit(EventName.changePoDataChecked, { clickedLabel: optionName });
+    GlobalEvent.emit(GloEventName.toggleLinkage, { visible: !isChecked }); // 显示右侧联动数据
+    GlobalEvent.emit(GloEventName.toggleLinkageTab, { tabName: 'unit' }); // 显示右侧联动数据单位
     if (!isChecked) {
       return TuyunMessage.error('接口数据获取失败！'); // temp
       this._fetchUnit();

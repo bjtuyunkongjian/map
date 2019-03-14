@@ -3,7 +3,11 @@ import {
   point as TurfPoint,
   featureCollection as FeatureCollection
 } from 'turf';
-import { IsArray, Event as GlobalEvent } from 'tuyun-utils';
+import {
+  IsArray,
+  Event as GlobalEvent,
+  EventName as GloEventName
+} from 'tuyun-utils';
 import { TuyunMessage } from 'tuyun-kit';
 
 import { FetchPopulation } from './webapi';
@@ -20,7 +24,7 @@ export default class HouseOption extends Component {
     return (
       <li
         className={`data-item ${isChecked ? 'checked' : ''}`}
-        onClick={e => this._selectHouseData()}
+        onClick={this._selectHouseData}
       >
         {houseOption.name}
       </li>
@@ -55,6 +59,8 @@ export default class HouseOption extends Component {
   _selectHouseData = async () => {
     const { isChecked } = this.state;
     Event.emit(EventName.changePoDataChecked, { clickedLabel: optionName });
+    GlobalEvent.emit(GloEventName.toggleLinkage, { visible: !isChecked }); // 显示右侧联动数据
+    GlobalEvent.emit(GloEventName.toggleLinkageTab, { tabName: 'house' }); // 显示右侧联动数据房屋
     if (!isChecked) {
       return TuyunMessage.error('接口数据获取失败！'); // temp
       _MAP_.flyTo({ zoom: 16 });

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { Event as GlobalEvent, EventName as GloEventName } from 'tuyun-utils';
+
 import Event, { EventName } from './event';
-import { DefaultTab, TabArr } from './constant';
+import { DefaultTab, TabValue, TabArr } from './constant';
 
 export default class TabNav extends Component {
   state = {
@@ -34,6 +36,15 @@ export default class TabNav extends Component {
       if (nextBar === curBar) return;
       this.setState({ curBar: nextBar });
     });
+    GlobalEvent.on(GloEventName.toggleLinkageTab, ({ tabName }) => {
+      if (tabName === 'population') {
+        this._changeTab(TabValue.population);
+      } else if (tabName === 'unit') {
+        this._changeTab(TabValue.unit);
+      } else if (tabName === 'house') {
+        this._changeTab(TabValue.building);
+      }
+    }); // 显示右侧联动数据人口
   };
 
   _changeTab = curBar => {
