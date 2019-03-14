@@ -11,7 +11,7 @@ import UnitOption from './unit-option';
 import HouseOption from './house-option';
 
 import HouseMessage from './house-message';
-import UnitMessage from './unit-message';
+// import UnitMessage from './unit-message';
 
 export default class PoliceData extends Component {
   state = {
