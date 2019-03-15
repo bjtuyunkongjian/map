@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import Event from './event';
-import { Event as GlobalEvent, IsEmpty } from 'tuyun-utils';
+import {
+  Event as GlobalEvent,
+  EventName as GloEventName,
+  IsEmpty
+} from 'tuyun-utils';
 import { TuyunMessage } from 'tuyun-kit';
 import { SearchDevice } from './webapi';
 import { MdHighlightOff } from 'react-icons/md';
@@ -39,7 +43,7 @@ export default class SearchInput extends Component {
       this.setState({ disabled });
       if (disabled) {
         this.setState({ inputVal: '' });
-        GlobalEvent.emit('change:LeftMenu:searchInfo', {
+        GlobalEvent.emit(GloEventName.changeLeMenuSearchInfo, {
           carInfo: {},
           manInfo: {}
         }); // 清空
@@ -50,7 +54,7 @@ export default class SearchInput extends Component {
   _onChange = e => {
     this.setState({ inputVal: e.target.value });
     if (!e.target.value) {
-      GlobalEvent.emit('change:LeftMenu:searchInfo', {
+      GlobalEvent.emit(GloEventName.changeLeMenuSearchInfo, {
         carInfo: {},
         manInfo: {}
       }); // 清空
@@ -83,7 +87,7 @@ export default class SearchInput extends Component {
         _manInfo[objectId] = item;
       }
     }
-    GlobalEvent.emit('change:LeftMenu:searchInfo', {
+    GlobalEvent.emit(GloEventName.changeLeMenuSearchInfo, {
       carInfo: _carInfo,
       manInfo: _manInfo
     });

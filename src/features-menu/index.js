@@ -12,7 +12,7 @@ import LineSelect from './line-select';
 import ToolBox from './tool-box';
 // 事件
 import Event from './event';
-import { Event as GlobalEvent } from 'tuyun-utils';
+import { Event as GlobalEvent, EventName as GloEventName } from 'tuyun-utils';
 
 export default class FeaturesMenu extends Component {
   state = { visible: false };
@@ -40,9 +40,9 @@ export default class FeaturesMenu extends Component {
     // _MAP_.on('mouseup', () => {
     //   // 添加点击事件
     //   Event.emit('change:curMenu', -1);
-    //   GlobalEvent.emit('change:FeaturesMenu:visible', false);
+    //   GlobalEvent.emit(GloEventName.toggleFeMenu, false);
     // });
-    GlobalEvent.on('change:FeaturesMenu:visible', nextVisible => {
+    GlobalEvent.on(GloEventName.toggleFeMenu, nextVisible => {
       if (nextVisible !== undefined) {
         this.setState({ visible: nextVisible });
         !nextVisible && Event.emit('change:curMenu', -1); // 下一步不可见，隐藏所有的子菜单

@@ -7,7 +7,13 @@ import {
   along as TurfAlong,
   point as TurfPoint
 } from 'turf';
-import { IsEmpty, IsArray, AddLevel, Event as GlobalEvent } from 'tuyun-utils';
+import {
+  IsEmpty,
+  IsArray,
+  AddLevel,
+  Event as GlobalEvent,
+  EventName as GloEventName
+} from 'tuyun-utils';
 import { BaseConfig } from 'tuyun-config';
 
 import { FetchLocationCar, QueryDetail, FetchAllRoutes } from './webapi';
@@ -190,51 +196,54 @@ export default class PoliceForce extends Component {
       }
     }); // 选择当前菜单
 
-    GlobalEvent.on('change:LeftMenu:searchInfo', ({ carInfo, manInfo }) => {
-      if (!IsEmpty(manInfo) || !IsEmpty(carInfo))
-        _MAP_.flyTo({ zoom: 10, center: [116.932, 36.656] });
-      this._searchCarInfo = carInfo;
-      this._searchManInfo = manInfo;
-      if (IsEmpty(manInfo)) {
-        this._removeSearchManLayer(); // 删除对应图层
-        _MAP_.getLayer(handheldLayerId) &&
-          _MAP_.setLayoutProperty(handheldLayerId, 'visibility', 'visible');
-        return;
-      }
-      // 搜索没有警员信息
-      const _features = Object.keys(manInfo).map(key => {
-        const { objectId, latitude, longitude } = manInfo[key];
-        return TurfPoint([longitude, latitude], { objectID: objectId });
-      });
-      _MAP_.getLayer(handheldLayerId) &&
-        _MAP_.setLayoutProperty(handheldLayerId, 'visibility', 'none');
-      if (!_MAP_.getSource(manSearchResultLayerId)) {
-        _MAP_.addLayer(
-          {
-            id: manSearchResultLayerId,
-            type: 'symbol',
-            source: {
-              type: 'geojson',
-              data: {
-                type: 'FeatureCollection',
-                features: _features
-              }
-            },
-            layout: {
-              'icon-image': 'ic_map_policeman',
-              'icon-size': 1
-            },
-            labelLayerId: symbolLabelLayerId
-          },
-          symbolLabelLayerId
-        );
-      } else {
-        _MAP_.getSource(manSearchResultLayerId).setData({
-          type: 'FeatureCollection',
-          features: _features
+    GlobalEvent.on(
+      GloEventName.changeLeMenuSearchInfo,
+      ({ carInfo, manInfo }) => {
+        if (!IsEmpty(manInfo) || !IsEmpty(carInfo))
+          _MAP_.flyTo({ zoom: 10, center: [116.932, 36.656] });
+        this._searchCarInfo = carInfo;
+        this._searchManInfo = manInfo;
+        if (IsEmpty(manInfo)) {
+          this._removeSearchManLayer(); // 删除对应图层
+          _MAP_.getLayer(handheldLayerId) &&
+            _MAP_.setLayoutProperty(handheldLayerId, 'visibility', 'visible');
+          return;
+        }
+        // 搜索没有警员信息
+        const _features = Object.keys(manInfo).map(key => {
+          const { objectId, latitude, longitude } = manInfo[key];
+          return TurfPoint([longitude, latitude], { objectID: objectId });
         });
+        _MAP_.getLayer(handheldLayerId) &&
+          _MAP_.setLayoutProperty(handheldLayerId, 'visibility', 'none');
+        if (!_MAP_.getSource(manSearchResultLayerId)) {
+          _MAP_.addLayer(
+            {
+              id: manSearchResultLayerId,
+              type: 'symbol',
+              source: {
+                type: 'geojson',
+                data: {
+                  type: 'FeatureCollection',
+                  features: _features
+                }
+              },
+              layout: {
+                'icon-image': 'ic_map_policeman',
+                'icon-size': 1
+              },
+              labelLayerId: symbolLabelLayerId
+            },
+            symbolLabelLayerId
+          );
+        } else {
+          _MAP_.getSource(manSearchResultLayerId).setData({
+            type: 'FeatureCollection',
+            features: _features
+          });
+        }
       }
-    });
+    );
   };
 
   _resetInterval = () => {
