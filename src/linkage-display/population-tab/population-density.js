@@ -8,6 +8,7 @@
 
 import React, { Component } from 'react';
 import { TuyunDensity } from 'tuyun-kit';
+import { ChartName } from './chart-info';
 
 export default class PopulationDensity extends Component {
   state = {
@@ -15,7 +16,9 @@ export default class PopulationDensity extends Component {
   };
 
   render() {
-    const { selectedIndex } = this.state;
+    const { chartInfo } = this.props;
+    const _selectIndex =
+      chartInfo.name === ChartName.popDensity ? chartInfo.index : -1;
     return (
       <div className="charts-box">
         <TuyunDensity
@@ -27,15 +30,38 @@ export default class PopulationDensity extends Component {
             { value: 4, label: '流口' },
             { value: 6, label: '重点人口' }
           ]}
-          selectedIndex={selectedIndex}
-          onClick={param =>
-            this.setState({
-              selectedIndex:
-                param.curIndex === selectedIndex ? -1 : param.curIndex
-            })
-          }
+          selectedIndex={_selectIndex}
+          onClick={this._clickDensity}
         />
       </div>
     );
   }
+
+  _clickDensity = densityInfo => {
+    const { onSelect, chartInfo } = this.props;
+    const { curIndex, curCell } = densityInfo;
+    console.log(densityInfo);
+    let _selectInd;
+    if (chartInfo.name === ChartName.popDensity) {
+      _selectInd = curIndex === chartInfo.index ? -1 : curIndex;
+    } else {
+      _selectInd = curIndex;
+    }
+    _selectInd > -1 && this._fetchChartData(); // 获取数据
+    onSelect({ index: _selectInd, name: ChartName.popDensity }); // 像父元素传参
+  };
+
+  _fetchChartData = async firstType => {
+    return;
+    const _bounds = _MAP_.getBounds();
+    const { res, err } = await FetchChartData({
+      firtype: firstType,
+      points: {
+        _sw: { lng: 116.07152456255062, lat: 36.62226357473202 },
+        _ne: { lng: 117.16317543749153, lat: 36.88848218729613 }
+      }
+    });
+    console.log('res', res);
+    // todo 显示到地图上
+  };
 }

@@ -1,13 +1,19 @@
 import React, { Component } from 'react';
 import { TuyunPie } from 'tuyun-kit';
+import { ChartName } from './chart-info';
 
 export default class KeyPersonnel extends Component {
-  state = {
-    selectedIndex: -1
+  static defaultProps = {
+    chartInfo: {
+      name: '',
+      index: -1
+    }
   };
 
   render() {
-    const { selectedIndex } = this.state;
+    const { chartInfo } = this.props;
+    const _selectIndex =
+      chartInfo.name === ChartName.keyPop ? chartInfo.index : -1;
     return (
       <div className="charts-box">
         <TuyunPie
@@ -27,15 +33,25 @@ export default class KeyPersonnel extends Component {
             { value: 310, label: '交警' },
             { value: 234, label: '泽雨' }
           ]}
-          selectedIndex={selectedIndex}
-          onClick={param => {
-            this.setState({
-              selectedIndex:
-                param.curIndex === selectedIndex ? -1 : param.curIndex
-            });
-          }}
+          selectedIndex={_selectIndex}
+          onClick={this._clickPie}
         />
       </div>
     );
   }
+
+  _clickPie = pieInfo => {
+    const { onSelect, chartInfo } = this.props;
+    const { curIndex, curSector } = pieInfo;
+    let _selectInd;
+    if (chartInfo.name === ChartName.keyPop) {
+      _selectInd = curIndex === chartInfo.index ? -1 : curIndex;
+    } else {
+      _selectInd = curIndex;
+    }
+    _selectInd > -1 && this._showDetail(curSector); // 获取数据
+    onSelect({ index: _selectInd, name: ChartName.keyPop }); // 像父元素传参
+  };
+
+  _showDetail = () => {};
 }

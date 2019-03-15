@@ -219,7 +219,7 @@ export default class ChartsPie extends Component {
     let _addedPercentage = 0; // 已经计算的百分比
     const _scLength = SectorColors.length; // 扇区长度
     this._sectorArr = data.map((item, index) => {
-      const _sector = {}; // 扇形
+      const _sector = Object.assign({}, item); // 扇形
       _sector.x = _center.x; // 圆心 x 坐标
       _sector.y = _center.y; // 圆心 y 坐标
       _sector.originRadius = _radius; // 原始半径 和 显示半径
@@ -227,8 +227,6 @@ export default class ChartsPie extends Component {
       _sector.hue = SectorColors[index % _scLength][0]; // 色调
       _sector.saturation = SectorColors[index % _scLength][1]; // 饱和度
       _sector.lightness = SectorColors[index % _scLength][2]; // 亮度
-      _sector.value = item.value; // 值
-      _sector.label = item.label; // 名称
       _sector.percentage = item.value / this._totalData; // 占的百分比
       _sector.startAngle = _addedPercentage * Math.PI * 2; // 起始角
       _sector.endAngle = (_addedPercentage + _sector.percentage) * Math.PI * 2; // 终止角

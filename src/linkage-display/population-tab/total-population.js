@@ -13,6 +13,8 @@ export default class TotalPopulation extends Component {
 
   render() {
     const { chartInfo } = this.props;
+    const _selectIndex =
+      chartInfo.name === ChartName.totalPop ? chartInfo.index : -1;
     return (
       <div className="charts-box">
         <TuyunBar
@@ -55,7 +57,7 @@ export default class TotalPopulation extends Component {
               reqParam: 20
             }
           ]}
-          selectedIndex={chartInfo.index}
+          selectedIndex={_selectIndex}
           onClick={this._clickBar}
         />
       </div>
@@ -76,6 +78,7 @@ export default class TotalPopulation extends Component {
   };
 
   _fetchChartData = async firstType => {
+    return;
     const _bounds = _MAP_.getBounds();
     const { res, err } = await FetchChartData({
       firtype: firstType,
