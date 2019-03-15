@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { TuyunBar } from 'tuyun-kit';
 import { ChartName } from './chart-info';
-import { FetchChartData } from './webapi';
+import { FetchHeatMapData } from './webapi';
 
 export default class TotalPopulation extends Component {
   static defaultProps = {
@@ -78,7 +78,7 @@ export default class TotalPopulation extends Component {
   _fetchChartData = async firstType => {
     return;
     const _bounds = _MAP_.getBounds();
-    const { res, err } = await FetchChartData({
+    const { res, err } = await FetchHeatMapData({
       firtype: firstType,
       points: {
         _sw: { lng: 116.07152456255062, lat: 36.62226357473202 },

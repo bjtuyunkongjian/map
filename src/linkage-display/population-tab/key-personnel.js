@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { TuyunPie } from 'tuyun-kit';
 import { ChartName } from './chart-info';
+import { FetchHeatMapData } from './webapi';
 
 export default class KeyPersonnel extends Component {
   static defaultProps = {
@@ -51,5 +52,17 @@ export default class KeyPersonnel extends Component {
     onSelect({ index: _selectInd, name: ChartName.keyPop }); // 像父元素传参
   };
 
-  _showDetail = () => {};
+  _showDetail = async () => {
+    const param = {};
+    const _bounds = _MAP_.getBounds();
+    const { res, err } = await FetchHeatMapData({
+      firtype: undefined,
+      sectype: 340200000000,
+      points: {
+        _sw: { lng: 116.07152456255062, lat: 36.62226357473202 },
+        _ne: { lng: 117.16317543749153, lat: 36.88848218729613 }
+      }
+    });
+    console.log('res', res);
+  };
 }

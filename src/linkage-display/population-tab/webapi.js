@@ -4,7 +4,7 @@
 import { FetchRequest } from 'tuyun-utils';
 
 // 获取图表信息
-export const FetchChartData = async body => {
+export const FetchHeatMapData = async body => {
   Object.assign(body, { test: 'popDynamic' });
   const { res, err } = await FetchRequest({
     url: 'mapServer/string',
