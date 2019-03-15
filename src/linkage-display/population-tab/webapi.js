@@ -13,3 +13,14 @@ export const FetchChartData = async body => {
   });
   return { res, err };
 };
+
+// 获取图表信息
+export const FetchDensityMap = async body => {
+  Object.assign(body, { test: 'popDensity', firtype: 1 });
+  const { res, err } = await FetchRequest({
+    url: 'mapServer/string',
+    method: 'POST',
+    body
+  });
+  return { res, err };
+};

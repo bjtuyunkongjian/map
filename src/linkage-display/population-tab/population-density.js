@@ -9,10 +9,23 @@
 import React, { Component } from 'react';
 import { TuyunDensity } from 'tuyun-kit';
 import { ChartName } from './chart-info';
+import { FetchDensityMap } from './webapi';
 
 export default class PopulationDensity extends Component {
-  state = {
-    selectedIndex: -1
+  static defaultProps = {
+    chartInfo: {
+      name: '',
+      index: -1
+    }
+  };
+
+  componentWillReceiveProps = nextPorps => {
+    const { chartInfo } = nextPorps;
+    const _selected =
+      chartInfo.name === ChartName.popDensity && chartInfo.index > -1;
+    if (!_selected) {
+      this._hidePoliceStation();
+    }
   };
 
   render() {
@@ -26,9 +39,9 @@ export default class PopulationDensity extends Component {
           title={{ text: '人口密度图' }}
           legend={{ text: '人口总数：65' }}
           data={[
-            { value: 2, label: '总人口' },
-            { value: 4, label: '流口' },
-            { value: 6, label: '重点人口' }
+            { value: 2, label: '总人口', reqParam: 1 },
+            { value: 4, label: '流口', reqParam: 2 },
+            { value: 6, label: '重点人口', reqParam: 3 }
           ]}
           selectedIndex={_selectIndex}
           onClick={this._clickDensity}
@@ -40,28 +53,55 @@ export default class PopulationDensity extends Component {
   _clickDensity = densityInfo => {
     const { onSelect, chartInfo } = this.props;
     const { curIndex, curCell } = densityInfo;
-    console.log(densityInfo);
     let _selectInd;
     if (chartInfo.name === ChartName.popDensity) {
       _selectInd = curIndex === chartInfo.index ? -1 : curIndex;
     } else {
       _selectInd = curIndex;
     }
-    _selectInd > -1 && this._fetchChartData(); // 获取数据
+    if (_selectInd > -1) {
+      this._fetchDensityMap(curCell.reqParam); //
+      //
+    }
+    // _selectInd > -1 ? this._showPoliceStation() : this._hidePoliceStation(); // 获取数据
     onSelect({ index: _selectInd, name: ChartName.popDensity }); // 像父元素传参
   };
 
-  _fetchChartData = async firstType => {
-    return;
-    const _bounds = _MAP_.getBounds();
-    const { res, err } = await FetchChartData({
-      firtype: firstType,
-      points: {
-        _sw: { lng: 116.07152456255062, lat: 36.62226357473202 },
-        _ne: { lng: 117.16317543749153, lat: 36.88848218729613 }
-      }
-    });
-    console.log('res', res);
+  _fetchDensityMap = async secType => {
+    const { res, err } = await FetchDensityMap({ secType });
+    console.log(res);
+    if (err || !res) return; // 保护
     // todo 显示到地图上
+    // this._showPoliceStation();
+  };
+
+  // 设置派出所辖区的颜色 POLICE_STATION_JUR
+  _showPoliceStation = () => {
+    if (_MAP_.getLayer(policeStationId)) {
+      _MAP_.setLayoutProperty(policeStationId, 'visibility', 'visible'); // 设置为可显示
+      _MAP_.setPaintProperty(policeStationId, 'fill-color', [
+        'coalesce',
+        ['get', ['to-string', ['get', 'flow']], ['literal', areaColor]],
+        '#ccc'
+      ]);
+    }
+  };
+
+  _hidePoliceStation = () => {
+    _MAP_.setLayoutProperty(policeStationId, 'visibility', 'none'); // 设置为可显示
   };
 }
+
+const policeStationId = 'POLICE_STATION_JUR'; // 派出所辖区图层名称
+const areaColor = {
+  0: '#006000',
+  1: '#00DB00',
+  2: '#02DF82',
+  3: '#006030',
+  4: '#003E3E',
+  5: '#00E3E3',
+  6: '#0080FF',
+  7: '#000079',
+  8: '#000079',
+  9: '#4A4AFF'
+};

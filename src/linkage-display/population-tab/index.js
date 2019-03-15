@@ -30,7 +30,12 @@ export default class PopulationTab extends Component {
     if (curBar !== TabValue.population) return null;
     return (
       <div className="tab-charts">
-        <TotalPopulation chartInfo={chartInfo} onSelect={this._selectChart} />
+        <TotalPopulation
+          selectedChart={chartInfo.name}
+          selectedIndex={chartInfo.index}
+          chartInfo={chartInfo}
+          onSelect={this._selectChart}
+        />
         <KeyPersonnel chartInfo={chartInfo} onSelect={this._selectChart} />
         <PopulationDensity chartInfo={chartInfo} onSelect={this._selectChart} />
       </div>

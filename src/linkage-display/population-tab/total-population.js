@@ -5,16 +5,14 @@ import { FetchChartData } from './webapi';
 
 export default class TotalPopulation extends Component {
   static defaultProps = {
-    chartInfo: {
-      name: '',
-      index: -1
-    }
+    selectedChart: '',
+    selectedIndex: -1
   };
 
   render() {
-    const { chartInfo } = this.props;
+    const { selectedChart, selectedIndex } = this.props;
     const _selectIndex =
-      chartInfo.name === ChartName.totalPop ? chartInfo.index : -1;
+      selectedChart === ChartName.totalPop ? selectedIndex : -1;
     return (
       <div className="charts-box">
         <TuyunBar
@@ -65,11 +63,11 @@ export default class TotalPopulation extends Component {
   }
 
   _clickBar = barInfo => {
-    const { onSelect, chartInfo } = this.props;
+    const { onSelect, selectedChart, selectedIndex } = this.props;
     const { curIndex, curCell } = barInfo;
     let _selectInd;
-    if (chartInfo.name === ChartName.totalPop) {
-      _selectInd = curIndex === chartInfo.index ? -1 : curIndex;
+    if (selectedChart === ChartName.totalPop) {
+      _selectInd = curIndex === selectedIndex ? -1 : curIndex;
     } else {
       _selectInd = curIndex;
     }
