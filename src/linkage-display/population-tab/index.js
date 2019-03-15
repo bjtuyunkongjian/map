@@ -38,10 +38,13 @@ export default class PopulationTab extends Component {
         <KeyPersonnel
           selectedChart={chartInfo.name}
           selectedIndex={chartInfo.index}
-          chartInfo={chartInfo}
           onSelect={this._selectChart}
         />
-        <PopulationDensity chartInfo={chartInfo} onSelect={this._selectChart} />
+        <PopulationDensity
+          selectedChart={chartInfo.name}
+          selectedIndex={chartInfo.index}
+          onSelect={this._selectChart}
+        />
       </div>
     );
   }

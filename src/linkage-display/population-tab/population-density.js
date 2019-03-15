@@ -13,25 +13,23 @@ import { FetchDensityMap } from './webapi';
 
 export default class PopulationDensity extends Component {
   static defaultProps = {
-    chartInfo: {
-      name: '',
-      index: -1
-    }
+    selectedChart: '',
+    selectedIndex: -1
   };
 
   componentWillReceiveProps = nextPorps => {
-    const { chartInfo } = nextPorps;
+    const { selectedChart, selectedIndex } = nextPorps;
     const _selected =
-      chartInfo.name === ChartName.popDensity && chartInfo.index > -1;
+      selectedChart === ChartName.popDensity && selectedIndex > -1;
     if (!_selected) {
       this._hidePoliceStation();
     }
   };
 
   render() {
-    const { chartInfo } = this.props;
+    const { selectedChart, selectedIndex } = this.props;
     const _selectIndex =
-      chartInfo.name === ChartName.popDensity ? chartInfo.index : -1;
+      selectedChart === ChartName.popDensity ? selectedIndex : -1;
     return (
       <div className="charts-box">
         <TuyunDensity
@@ -51,25 +49,22 @@ export default class PopulationDensity extends Component {
   }
 
   _clickDensity = densityInfo => {
-    const { onSelect, chartInfo } = this.props;
+    const { onSelect, selectedChart, selectedIndex } = this.props;
     const { curIndex, curCell } = densityInfo;
     let _selectInd;
-    if (chartInfo.name === ChartName.popDensity) {
-      _selectInd = curIndex === chartInfo.index ? -1 : curIndex;
+    if (selectedChart === ChartName.popDensity) {
+      _selectInd = curIndex === selectedIndex ? -1 : curIndex;
     } else {
       _selectInd = curIndex;
     }
-    if (_selectInd > -1) {
-      this._fetchDensityMap(curCell.reqParam); //
-      //
-    }
+    _selectInd > -1 && this._fetchDensityMap(curCell.reqParam); //
     // _selectInd > -1 ? this._showPoliceStation() : this._hidePoliceStation(); // 获取数据
     onSelect({ index: _selectInd, name: ChartName.popDensity }); // 像父元素传参
   };
 
   _fetchDensityMap = async secType => {
     const { res, err } = await FetchDensityMap({ secType });
-    console.log(res);
+    // console.log(res);
     if (err || !res) return; // 保护
     // todo 显示到地图上
     // this._showPoliceStation();
