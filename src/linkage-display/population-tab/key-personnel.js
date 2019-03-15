@@ -4,16 +4,14 @@ import { ChartName } from './chart-info';
 
 export default class KeyPersonnel extends Component {
   static defaultProps = {
-    chartInfo: {
-      name: '',
-      index: -1
-    }
+    selectedChart: '',
+    selectedIndex: -1
   };
 
   render() {
-    const { chartInfo } = this.props;
+    const { selectedChart, selectedIndex } = this.props;
     const _selectIndex =
-      chartInfo.name === ChartName.keyPop ? chartInfo.index : -1;
+      selectedChart === ChartName.keyPop ? selectedIndex : -1;
     return (
       <div className="charts-box">
         <TuyunPie
@@ -41,11 +39,11 @@ export default class KeyPersonnel extends Component {
   }
 
   _clickPie = pieInfo => {
-    const { onSelect, chartInfo } = this.props;
+    const { onSelect, selectedChart, selectedIndex } = this.props;
     const { curIndex, curSector } = pieInfo;
     let _selectInd;
-    if (chartInfo.name === ChartName.keyPop) {
-      _selectInd = curIndex === chartInfo.index ? -1 : curIndex;
+    if (selectedChart === ChartName.keyPop) {
+      _selectInd = curIndex === selectedIndex ? -1 : curIndex;
     } else {
       _selectInd = curIndex;
     }
