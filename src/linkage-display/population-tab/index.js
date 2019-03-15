@@ -10,24 +10,29 @@ import React, { Component } from 'react';
 import TotalPopulation from './total-population';
 import KeyPersonnel from './key-personnel';
 import PopulationDensity from './population-density';
+
 import Event, { EventName } from '../event';
 import { DefaultTab, TabValue } from '../constant';
 
 export default class PopulationTab extends Component {
   state = {
-    curBar: DefaultTab
+    curBar: DefaultTab,
+    chartInfo: {
+      name: '',
+      index: -1
+    }
   };
 
   componentDidMount = () => this._init();
 
   render() {
-    const { curBar } = this.state;
+    const { curBar, chartInfo } = this.state;
     if (curBar !== TabValue.population) return null;
     return (
       <div className="tab-charts">
-        <TotalPopulation />
-        <KeyPersonnel />
-        <PopulationDensity />
+        <TotalPopulation chartInfo={chartInfo} onSelect={this._selectChart} />
+        <KeyPersonnel chartInfo={chartInfo} onSelect={this._selectChart} />
+        <PopulationDensity chartInfo={chartInfo} onSelect={this._selectChart} />
       </div>
     );
   }
@@ -38,5 +43,9 @@ export default class PopulationTab extends Component {
       if (nextBar === curBar) return;
       this.setState({ curBar: nextBar });
     });
+  };
+
+  _selectChart = chartInfo => {
+    this.setState({ chartInfo });
   };
 }
