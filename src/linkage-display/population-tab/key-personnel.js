@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { TuyunPie } from 'tuyun-kit';
+import { Event as GlobalEvent, EventName as GloEventName } from 'tuyun-utils';
+
 import { ChartName } from './chart-info';
-import { FetchHeatMapData } from './webapi';
 
 export default class KeyPersonnel extends Component {
   static defaultProps = {
@@ -20,17 +21,17 @@ export default class KeyPersonnel extends Component {
           title={{ text: '重点人员' }}
           legend={{ text: '人口总数：65' }}
           data={[
-            { value: 435, label: '网安' },
-            { value: 310, label: '经侦' },
-            { value: 234, label: '刑警' },
-            { value: 135, label: '户政' },
-            { value: 435, label: '禁毒' },
-            { value: 310, label: '情报' },
-            { value: 234, label: '国保' },
-            { value: 135, label: '反邪教' },
-            { value: 435, label: '反恐' },
-            { value: 310, label: '交警' },
-            { value: 234, label: '泽雨' }
+            { value: 435, label: '网安', name: 'wangan' },
+            { value: 310, label: '经侦', name: 'jingzhen' },
+            { value: 234, label: '刑警', name: 'xingjing' },
+            { value: 135, label: '户政', name: 'huzheng' },
+            { value: 435, label: '禁毒', name: 'jindu' },
+            { value: 310, label: '情报', name: 'qingbao' },
+            { value: 234, label: '国保', name: 'guobao' },
+            { value: 135, label: '反邪教', name: 'fanxiejiao' },
+            { value: 435, label: '反恐', name: 'fankong' },
+            { value: 310, label: '交警', name: 'jiaojing' },
+            { value: 234, label: '泽雨', name: 'zeyu' }
           ]}
           selectedIndex={_selectIndex}
           onClick={this._clickPie}
@@ -48,21 +49,14 @@ export default class KeyPersonnel extends Component {
     } else {
       _selectInd = curIndex;
     }
-    _selectInd > -1 && this._showDetail(curSector); // 获取数据
+    _selectInd > -1 && this._showDetail(curSector.name); // 获取数据
     onSelect({ index: _selectInd, name: ChartName.keyPop }); // 像父元素传参
   };
 
-  _showDetail = async () => {
-    const param = {};
-    const _bounds = _MAP_.getBounds();
-    const { res, err } = await FetchHeatMapData({
-      firtype: undefined,
-      sectype: 340200000000,
-      points: {
-        _sw: { lng: 116.07152456255062, lat: 36.62226357473202 },
-        _ne: { lng: 117.16317543749153, lat: 36.88848218729613 }
-      }
+  _showDetail = name => {
+    GlobalEvent.emit(GloEventName.toggleKeyPopDetail, {
+      visible: true,
+      name: name
     });
-    console.log('res', res);
   };
 }

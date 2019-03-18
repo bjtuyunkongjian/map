@@ -4,13 +4,15 @@
  */
 
 import React, { Component } from 'react';
-import { Event as GlobalEvent } from 'tuyun-utils';
+import { Event as GlobalEvent, EventName as GloEventName } from 'tuyun-utils';
 
 export default class KeyPopDetail extends Component {
   state = {
     visible: true,
     selectedIndex: -1
   };
+
+  componentDidMount = () => this._init();
 
   render() {
     const { visible } = this.state;
@@ -31,6 +33,13 @@ export default class KeyPopDetail extends Component {
       </div>
     );
   }
+
+  _init = () => {
+    GlobalEvent.on(GloEventName.toggleKeyPopDetail, ({ visible, name }) => {
+      console.log(visible, name);
+      this.setState({ visible });
+    });
+  };
 
   _selectMenu = e => {
     e.stopPropagation();
