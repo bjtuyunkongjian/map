@@ -45,7 +45,7 @@ export default class KeyPersonnel extends Component {
     );
   }
 
-  _clickPie = pieInfo => {
+  _clickPie = async pieInfo => {
     const { onSelect, selectedChart, selectedIndex } = this.props;
     const { curIndex, curSector } = pieInfo;
     let _selectInd;

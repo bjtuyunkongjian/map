@@ -32,28 +32,28 @@ export default class TotalPopulation extends Component {
               value: chartData.ckpop || 0,
               startColor: '#aed3fc',
               endColor: '#e6d1fc',
-              reqParam: 11
+              code: 11
             },
             {
               label: '流动',
               value: chartData.lkpop || 0,
               startColor: '#fbdcd4',
               endColor: '#fed9fe',
-              reqParam: 12
+              code: 12
             },
             {
               label: '重点',
               value: chartData.zdpop || 0,
               startColor: '#bbaddc',
               endColor: '#facff0',
-              reqParam: 'Y'
+              code: 'Y'
             },
             {
               label: '境外',
               value: chartData.jwpop || 0,
               startColor: '#aed3fc',
               endColor: '#e6d1fc',
-              reqParam: 20
+              code: 20
             }
           ]}
           selectedIndex={_selectIndex}
@@ -72,7 +72,7 @@ export default class TotalPopulation extends Component {
     } else {
       _selectInd = curIndex;
     }
-    _selectInd > -1 && this._fetchChartData(curCell.reqParam); // 获取数据
+    _selectInd > -1 && this._fetchChartData(curCell.code); // 获取数据
     onSelect({ index: _selectInd, name: ChartName.totalPop }); // 像父元素传参
   };
 

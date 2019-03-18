@@ -3,7 +3,9 @@
  */
 import { FetchRequest } from 'tuyun-utils';
 
-// 获取人口热力图
+/**
+ * 获取人口热力图
+ */
 export const FetchHeatMapData = async body => {
   Object.assign(body, { test: 'popDynamic' });
   const { res, err } = await FetchRequest({
@@ -23,34 +25,6 @@ export const FetchHeatMapData = async body => {
  */
 export const FetchNameplateData = async body => {
   Object.assign(body, { test: 'getNum' });
-  const { res, err } = await FetchRequest({
-    url: 'mapServer/string',
-    method: 'POST',
-    body
-  });
-  return { res, err };
-};
-
-// 人口密度图接
-export const FetchDensityMap = async body => {
-  Object.assign(body, { test: 'popDensity', firtype: 1 });
-  const { res, err } = await FetchRequest({
-    url: 'mapServer/string',
-    method: 'POST',
-    body
-  });
-  return { res, err };
-};
-
-/**
- * 获取右侧统计图数据
- * @param { object } points
- * @param { number } flag - 区分标识 1：人口   2：单位   3：房屋
- * @param { number } mapLevel - 地图级别数
- * @param { object } points - 屏幕区分标识
- */
-export const FetchChartData = async body => {
-  Object.assign(body, { test: 'chartData' });
   const { res, err } = await FetchRequest({
     url: 'mapServer/string',
     method: 'POST',

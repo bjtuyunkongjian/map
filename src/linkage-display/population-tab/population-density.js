@@ -41,9 +41,9 @@ export default class PopulationDensity extends Component {
           title={{ text: '人口密度图' }}
           legend={{ text: '人口总数：65' }}
           data={[
-            { value: totalPopDensity, label: '总人口', reqParam: 1, end: _end },
-            { value: lkpopDensity, label: '流口', reqParam: 2, end: _end },
-            { value: zdpopDensity, label: '重点人口', reqParam: 3, end: _end }
+            { value: totalPopDensity, label: '总人口', code: 1, end: _end },
+            { value: lkpopDensity, label: '流口', code: 2, end: _end },
+            { value: zdpopDensity, label: '重点人口', code: 3, end: _end }
           ]}
           selectedIndex={_selectIndex}
           onClick={this._clickDensity}
@@ -61,7 +61,7 @@ export default class PopulationDensity extends Component {
     } else {
       _selectInd = curIndex;
     }
-    _selectInd > -1 && this._fetchDensityMap(curCell.reqParam); //
+    _selectInd > -1 && this._fetchDensityMap(curCell.code); //
     // _selectInd > -1 ? this._showPoliceStation() : this._hidePoliceStation(); // 获取数据
     onSelect({ index: _selectInd, name: ChartName.popDensity }); // 像父元素传参
   };
