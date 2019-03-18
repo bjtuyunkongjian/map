@@ -6,7 +6,7 @@
 import React, { Component } from 'react';
 import { Event as GlobalEvent, EventName as GloEventName } from 'tuyun-utils';
 
-import { FetchNameplateData, FetchHeatMapData } from './webapi';
+import { FetchNameplateData, FetchHeatMapData, FetchDetailNum } from './webapi';
 
 export default class KeyPopDetail extends Component {
   state = {
@@ -54,6 +54,7 @@ export default class KeyPopDetail extends Component {
   _fetchData = () => {
     const _zoom = _MAP_.getZoom();
     console.log('zoom', _zoom);
+    this._fetchDetailMap();
     if (_zoom >= 16.5) {
       this._fetchNamePlate(); // 大于 16.5 级，用 铭牌 显示
     } else {
@@ -81,6 +82,15 @@ export default class KeyPopDetail extends Component {
       sectype: ''
     });
     console.log('res', res, err);
+  };
+
+  _fetchDetailMap = async () => {
+    const _bounds = _MAP_.getBounds();
+    const { res, err } = await FetchDetailNum({
+      points: _bounds,
+      type: '304000000000' // 人口
+    });
+    console.log(res, err);
   };
 
   _selectMenu = e => {

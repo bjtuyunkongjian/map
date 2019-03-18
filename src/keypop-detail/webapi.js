@@ -32,3 +32,13 @@ export const FetchNameplateData = async body => {
   });
   return { res, err };
 };
+
+export const FetchDetailNum = async body => {
+  Object.assign(body, { test: 'getThirNum' });
+  const { res, err } = await FetchRequest({
+    url: 'mapServer/string',
+    method: 'POST',
+    body
+  });
+  return { res, err };
+};
