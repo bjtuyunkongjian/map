@@ -28,7 +28,7 @@ export default class Prompt extends Component {
     return showPrompt ? (
       <div style={Object.assign({}, promptStyle, _xStyle, _yStyle)}>
         <div>{curData.label}</div>
-        <div>数值：{curData.value || 0}</div>
+        <div>数值：{(curData.value || 0).toFixed(2)}</div>
       </div>
     ) : null;
   }

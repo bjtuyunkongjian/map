@@ -14,7 +14,8 @@ import { FetchDensityMap } from './webapi';
 export default class PopulationDensity extends Component {
   static defaultProps = {
     selectedChart: '',
-    selectedIndex: -1
+    selectedIndex: -1,
+    chartData: {}
   };
 
   componentWillReceiveProps = nextPorps => {
@@ -27,7 +28,11 @@ export default class PopulationDensity extends Component {
   };
 
   render() {
-    const { selectedChart, selectedIndex } = this.props;
+    const { selectedChart, selectedIndex, chartData } = this.props;
+    console.log('chartData', chartData);
+    const { lkpopDensity, totalPopDensity, zdpopDensity } = chartData;
+    const _max = Math.max(lkpopDensity, totalPopDensity, zdpopDensity, 10);
+    const _end = Math.max(Math.floor(_max * 1.05), 10);
     const _selectIndex =
       selectedChart === ChartName.popDensity ? selectedIndex : -1;
     return (
@@ -37,9 +42,9 @@ export default class PopulationDensity extends Component {
           title={{ text: '人口密度图' }}
           legend={{ text: '人口总数：65' }}
           data={[
-            { value: 2, label: '总人口', reqParam: 1 },
-            { value: 4, label: '流口', reqParam: 2 },
-            { value: 6, label: '重点人口', reqParam: 3 }
+            { value: totalPopDensity, label: '总人口', reqParam: 1, end: _end },
+            { value: lkpopDensity, label: '流口', reqParam: 2, end: _end },
+            { value: zdpopDensity, label: '重点人口', reqParam: 3, end: _end }
           ]}
           selectedIndex={_selectIndex}
           onClick={this._clickDensity}
