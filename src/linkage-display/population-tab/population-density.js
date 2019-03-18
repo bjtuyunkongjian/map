@@ -29,7 +29,6 @@ export default class PopulationDensity extends Component {
 
   render() {
     const { selectedChart, selectedIndex, chartData } = this.props;
-    console.log('chartData', chartData);
     const { lkpopDensity, totalPopDensity, zdpopDensity } = chartData;
     const _max = Math.max(lkpopDensity, totalPopDensity, zdpopDensity, 10);
     const _end = Math.max(Math.floor(_max * 1.05), 10);
