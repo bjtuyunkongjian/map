@@ -64,8 +64,9 @@ export default class PopulationTab extends Component {
   }
 
   _init = async () => {
+    const { curBar } = this.state;
     this._dealWithEvent(); // 处理 Event 事件
-    this._fetchChartData(); // 获取图表数据
+    curBar === DefaultTab && this._fetchChartData(); // 获取图表数据
   };
 
   _dealWithEvent = () => {

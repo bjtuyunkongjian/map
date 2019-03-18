@@ -13,7 +13,6 @@ export default class KeyPersonnel extends Component {
 
   render() {
     const { selectedChart, selectedIndex, chartData } = this.props;
-    console.log(chartData);
     const _selectIndex =
       selectedChart === ChartName.keyPop ? selectedIndex : -1;
     return (
@@ -55,14 +54,15 @@ export default class KeyPersonnel extends Component {
     } else {
       _selectInd = curIndex;
     }
-    _selectInd > -1 && this._showDetail(curSector.name); // 获取数据
+    _selectInd > -1 ? this._showDetail(curSector.name) : this._hideDetail(); // 获取数据
     onSelect({ index: _selectInd, name: ChartName.keyPop }); // 像父元素传参
   };
 
   _showDetail = name => {
-    GlobalEvent.emit(GloEventName.toggleKeyPopDetail, {
-      visible: true,
-      name: name
-    });
+    GlobalEvent.emit(GloEventName.toggleKeyPopDetail, { visible: true, name }); // 打开弹窗
+  };
+
+  _hideDetail = () => {
+    GlobalEvent.emit(GloEventName.toggleKeyPopDetail, { visible: false }); // 关闭
   };
 }
