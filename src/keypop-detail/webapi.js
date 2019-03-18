@@ -8,6 +8,7 @@ import { FetchRequest } from 'tuyun-utils';
  */
 export const FetchHeatMapData = async body => {
   Object.assign(body, { test: 'popDynamic' });
+  console.log(JSON.stringify(body));
   const { res, err } = await FetchRequest({
     url: 'mapServer/string',
     method: 'POST',
