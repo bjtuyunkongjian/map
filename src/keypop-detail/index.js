@@ -8,7 +8,7 @@ import { Event as GlobalEvent, EventName as GloEventName } from 'tuyun-utils';
 
 export default class KeyPopDetail extends Component {
   state = {
-    visible: true,
+    visible: false,
     selectedIndex: -1
   };
 

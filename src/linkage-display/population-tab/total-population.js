@@ -6,11 +6,12 @@ import { FetchHeatMapData } from './webapi';
 export default class TotalPopulation extends Component {
   static defaultProps = {
     selectedChart: '',
-    selectedIndex: -1
+    selectedIndex: -1,
+    chartData: {}
   };
 
   render() {
-    const { selectedChart, selectedIndex } = this.props;
+    const { selectedChart, selectedIndex, chartData } = this.props;
     const _selectIndex =
       selectedChart === ChartName.totalPop ? selectedIndex : -1;
     return (
@@ -22,34 +23,34 @@ export default class TotalPopulation extends Component {
           data={[
             {
               label: '总人口',
-              value: 30,
+              value: chartData.totalPop || 0,
               startColor: '#bbaddc',
               endColor: '#facff0'
             },
             {
               label: '常驻',
-              value: 20,
+              value: chartData.ckpop || 0,
               startColor: '#aed3fc',
               endColor: '#e6d1fc',
               reqParam: 11
             },
             {
               label: '流动',
-              value: 15,
+              value: chartData.lkpop || 0,
               startColor: '#fbdcd4',
               endColor: '#fed9fe',
               reqParam: 12
             },
             {
               label: '重点',
-              value: 8,
+              value: chartData.zdpop || 0,
               startColor: '#bbaddc',
               endColor: '#facff0',
               reqParam: 'Y'
             },
             {
               label: '境外',
-              value: 12,
+              value: chartData.jwpop || 0,
               startColor: '#aed3fc',
               endColor: '#e6d1fc',
               reqParam: 20

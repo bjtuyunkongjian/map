@@ -7,11 +7,13 @@ import { ChartName } from './chart-info';
 export default class KeyPersonnel extends Component {
   static defaultProps = {
     selectedChart: '',
-    selectedIndex: -1
+    selectedIndex: -1,
+    chartData: {}
   };
 
   render() {
-    const { selectedChart, selectedIndex } = this.props;
+    const { selectedChart, selectedIndex, chartData } = this.props;
+    console.log(chartData);
     const _selectIndex =
       selectedChart === ChartName.keyPop ? selectedIndex : -1;
     return (
@@ -21,17 +23,21 @@ export default class KeyPersonnel extends Component {
           title={{ text: '重点人员' }}
           legend={{ text: '人口总数：65' }}
           data={[
-            { value: 435, label: '网安', name: 'wangan' },
-            { value: 310, label: '经侦', name: 'jingzhen' },
-            { value: 234, label: '刑警', name: 'xingjing' },
-            { value: 135, label: '户政', name: 'huzheng' },
-            { value: 435, label: '禁毒', name: 'jindu' },
-            { value: 310, label: '情报', name: 'qingbao' },
-            { value: 234, label: '国保', name: 'guobao' },
-            { value: 135, label: '反邪教', name: 'fanxiejiao' },
-            { value: 435, label: '反恐', name: 'fankong' },
-            { value: 310, label: '交警', name: 'jiaojing' },
-            { value: 234, label: '泽雨', name: 'zeyu' }
+            { value: chartData.wangan || 0, label: '网安', name: 'wangan' },
+            { value: chartData.jingzhen || 0, label: '经侦', name: 'jingzhen' },
+            { value: chartData.xingjing || 0, label: '刑警', name: 'xingjing' },
+            { value: chartData.huzhen || 0, label: '户政', name: 'huzheng' },
+            { value: chartData.jindu || 0, label: '禁毒', name: 'jindu' },
+            { value: chartData.qingbao || 0, label: '情报', name: 'qingbao' },
+            { value: chartData.guobao || 0, label: '国保', name: 'guobao' },
+            {
+              value: chartData.fanxiejiao || 0,
+              label: '反邪教',
+              name: 'fanxiejiao'
+            },
+            { value: chartData.fankong || 0, label: '反恐', name: 'fankong' },
+            { value: chartData.jiaojing || 0, label: '交警', name: 'jiaojing' },
+            { value: chartData.zeyu || 0, label: '泽雨', name: 'zeyu' }
           ]}
           selectedIndex={_selectIndex}
           onClick={this._clickPie}

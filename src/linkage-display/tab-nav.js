@@ -30,7 +30,7 @@ export default class TabNav extends Component {
     );
   }
 
-  _init = () => {
+  _init = async () => {
     Event.on(EventName.changeNav, nextBar => {
       const { curBar } = this.state;
       if (nextBar === curBar) return;

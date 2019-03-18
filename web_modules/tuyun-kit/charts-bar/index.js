@@ -78,6 +78,7 @@ export default class CahrtsBar extends Component {
 
   componentWillReceiveProps(nextProps) {
     this._convertProps(nextProps);
+    this._renderCanvas(this._canvasEl); // 重绘
     const { selectedIndex } = this.props;
     if (nextProps.selectedIndex !== selectedIndex) {
       this._renderSelected(nextProps.selectedIndex);
@@ -237,7 +238,7 @@ export default class CahrtsBar extends Component {
 
   _renderChart = () => {
     const { data, dutyRatio, xLabel, selectedIndex } = this.props;
-    const _maxData = Math.ceil(this._computeMaxVal() * 1.05);
+    const _maxData = Math.ceil(this._computeMaxVal() * 1.05) || 1;
     const _cellWidth = this._chartW / data.length; // 每一个单元格的宽度
     // x 轴坐标文字
     const _xLabelH = (xLabel.fontSize / 0.62) * this._ratio; // x 轴文字标注的高度

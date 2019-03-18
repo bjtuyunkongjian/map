@@ -83,7 +83,9 @@ export default class PopulationDensity extends Component {
   };
 
   _hidePoliceStation = () => {
-    _MAP_.setLayoutProperty(policeStationId, 'visibility', 'none'); // 设置为可显示
+    _MAP_.on('load', () => {
+      _MAP_.setLayoutProperty(policeStationId, 'visibility', 'none'); // 设置为可显示
+    });
   };
 }
 
