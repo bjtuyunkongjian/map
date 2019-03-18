@@ -22,21 +22,72 @@ export default class KeyPersonnel extends Component {
           title={{ text: '重点人员' }}
           legend={{ text: '人口总数：65' }}
           data={[
-            { value: chartData.wangan || 0, label: '网安', name: 'wangan' },
-            { value: chartData.jingzhen || 0, label: '经侦', name: 'jingzhen' },
-            { value: chartData.xingjing || 0, label: '刑警', name: 'xingjing' },
-            { value: chartData.huzhen || 0, label: '户政', name: 'huzheng' },
-            { value: chartData.jindu || 0, label: '禁毒', name: 'jindu' },
-            { value: chartData.qingbao || 0, label: '情报', name: 'qingbao' },
-            { value: chartData.guobao || 0, label: '国保', name: 'guobao' },
+            {
+              value: chartData.wangan || 0,
+              label: '网安',
+              name: 'wangan',
+              code: '304000000000'
+            },
+            {
+              value: chartData.jingzhen || 0,
+              label: '经侦',
+              name: 'jingzhen',
+              code: '405000000000'
+            },
+            {
+              value: chartData.xingjing || 0,
+              label: '刑警',
+              name: 'xingjing',
+              code: '203000000000'
+            },
+            {
+              value: chartData.huzhen || 0,
+              label: '户政',
+              name: 'huzheng',
+              code: '102000000000'
+            },
+            {
+              value: chartData.jindu || 0,
+              label: '禁毒',
+              name: 'jindu',
+              code: '501000000000'
+            },
+            {
+              value: chartData.qingbao || 0,
+              label: '情报',
+              name: 'qingbao',
+              code: '001000000000'
+            },
+            {
+              value: chartData.guobao || 0,
+              label: '国保',
+              name: 'guobao',
+              code: '601000000000'
+            },
             {
               value: chartData.fanxiejiao || 0,
               label: '反邪教',
-              name: 'fanxiejiao'
+              name: 'fanxiejiao',
+              code: '701000000000'
             },
-            { value: chartData.fankong || 0, label: '反恐', name: 'fankong' },
-            { value: chartData.jiaojing || 0, label: '交警', name: 'jiaojing' },
-            { value: chartData.zeyu || 0, label: '泽雨', name: 'zeyu' }
+            {
+              value: chartData.fankong || 0,
+              label: '反恐',
+              name: 'fankong',
+              code: '801000000000'
+            },
+            {
+              value: chartData.jiaojing || 0,
+              label: '交警',
+              name: 'jiaojing',
+              code: '901000000000'
+            },
+            {
+              value: chartData.zeyu || 0,
+              label: '泽雨',
+              name: 'zeyu',
+              code: '120800000000'
+            }
           ]}
           selectedIndex={_selectIndex}
           onClick={this._clickPie}
@@ -54,12 +105,18 @@ export default class KeyPersonnel extends Component {
     } else {
       _selectInd = curIndex;
     }
-    _selectInd > -1 ? this._showDetail(curSector.name) : this._hideDetail(); // 获取数据
+    _selectInd > -1
+      ? this._showDetail(curSector.name, curSector.code)
+      : this._hideDetail(); // 获取数据
     onSelect({ index: _selectInd, name: ChartName.keyPop }); // 像父元素传参
   };
 
-  _showDetail = name => {
-    GlobalEvent.emit(GloEventName.toggleKeyPopDetail, { visible: true, name }); // 打开弹窗
+  _showDetail = (name, code) => {
+    GlobalEvent.emit(GloEventName.toggleKeyPopDetail, {
+      visible: true,
+      name,
+      code
+    }); // 打开弹窗
   };
 
   _hideDetail = () => {

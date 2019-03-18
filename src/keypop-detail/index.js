@@ -11,16 +11,17 @@ import { FetchNameplateData, FetchHeatMapData, FetchDetailNum } from './webapi';
 export default class KeyPopDetail extends Component {
   state = {
     visible: false,
-    typeName: '',
+    pName: '',
+    pCode: '',
     selectedIndex: -1
   };
 
   componentDidMount = () => this._init();
 
   render() {
-    const { visible, typeName } = this.state;
+    const { visible, pName } = this.state;
     if (!visible) return null;
-    const _typeArr = detailTypeMap[typeName];
+    const _typeArr = detailTypeMap[pName];
     if (!_typeArr) return null;
     return (
       <div className="keypop-detail">
@@ -40,21 +41,24 @@ export default class KeyPopDetail extends Component {
   }
 
   _init = () => {
-    GlobalEvent.on(GloEventName.toggleKeyPopDetail, ({ visible, name }) => {
-      this.setState({ visible, typeName: name });
-      if (visible) {
-        _MAP_.on('moveend', this._fetchData);
-      } else {
-        _MAP_.off('moveend', this._fetchData);
+    GlobalEvent.on(
+      GloEventName.toggleKeyPopDetail,
+      ({ visible, name, code }) => {
+        this.setState({ visible, pName: name, pCode: code });
+        if (visible) {
+          _MAP_.on('moveend', this._fetchData);
+        } else {
+          _MAP_.off('moveend', this._fetchData);
+        }
       }
-    });
+    );
   };
 
   // 获取数据接口
   _fetchData = () => {
     const _zoom = _MAP_.getZoom();
     console.log('zoom', _zoom);
-    this._fetchDetailMap();
+    this._fetchDetailMap(); // 获取详细数字
     if (_zoom >= 16.5) {
       this._fetchNamePlate(); // 大于 16.5 级，用 铭牌 显示
     } else {
@@ -85,10 +89,11 @@ export default class KeyPopDetail extends Component {
   };
 
   _fetchDetailMap = async () => {
+    const { pCode } = this.state;
     const _bounds = _MAP_.getBounds();
     const { res, err } = await FetchDetailNum({
       points: _bounds,
-      type: '304000000000' // 人口
+      type: pCode
     });
     console.log(res, err);
   };
@@ -100,9 +105,9 @@ export default class KeyPopDetail extends Component {
 
 const detailTypeMap = {
   wangan: [
-    { label: 'A 级', name: 'caseA', code: '340100000000' },
-    { label: 'B 级', name: 'caseB', code: '340200000000' },
-    { label: 'C 级', name: 'caseC', code: '340300000000' }
+    { label: 'A 级', name: 'wanganA', code: '340100000000' },
+    { label: 'B 级', name: 'wanganB', code: '340200000000' },
+    { label: 'C 级', name: 'wanganC', code: '340300000000' }
   ],
   jingzhen: [
     { label: '假币', name: 'jiabi', code: '' },
@@ -127,5 +132,46 @@ const detailTypeMap = {
     { label: '流动重点人员', name: 'ldzdry', code: '' },
     { label: '刑事犯罪嫌疑', name: 'xsfzxy', code: '' },
     { label: '其他刑释人员', name: 'qtxsry', code: '' }
+  ],
+  jindu: [
+    { label: '目标案件嫌疑', name: 'mbajxy', code: '' },
+    { label: '一般案件嫌疑', name: 'ybajxy', code: '' },
+    { label: '其他嫌疑人员', name: 'qtxyry', code: '' }
+  ],
+  qingbao: [
+    { label: '管控对象', name: 'gkdx', code: '' },
+    { label: '关注对象', name: 'gzdx', code: '' },
+    { label: '知悉对象', name: 'zxdx', code: '' },
+    { label: '前科人员', name: 'qkry', code: '' },
+    { label: '其他重点人员', name: 'qtzdry', code: '' },
+    { label: '涉毒人员', name: 'sdry', code: '' },
+    { label: '重点上访人员', name: 'zdsfry', code: '' },
+    { label: '涉恐人员', name: 'skry', code: '' },
+    { label: '涉稳人员', name: 'swry', code: '' },
+    { label: '在逃人员', name: 'ztry', code: '' },
+    { label: '精神病员', name: 'jsby', code: '' }
+  ],
+  fanxiejiao: [
+    { label: '有害气功组织', name: 'yhqgzz', code: '' },
+    { label: '法轮功人员', name: 'flgry', code: '' },
+    { label: '邪教组织人员', name: 'xjzzry', code: '' }
+  ],
+  fankong: [
+    { label: '列控', name: 'liekong', code: '' },
+    { label: '重点人', name: 'zdr', code: '' },
+    { label: '准重点人', name: 'zzdr', code: '' },
+    { label: '基础群体', name: 'jcqt', code: '' }
+  ],
+  jiaojing: [
+    { label: '关注人员', name: 'gzry', code: '' },
+    { label: '管控人员', name: 'gkry', code: '' }
+  ],
+  zeyu: [
+    { label: '持卡人', name: 'ckr', code: '' },
+    { label: '供货人', name: 'ghr', code: '' },
+    { label: '投资人', name: 'tzr', code: '' },
+    { label: '关系人', name: 'gxr', code: '' },
+    { label: '员工', name: 'yg', code: '' },
+    { label: '其他', name: 'qt', code: '' }
   ]
 };
