@@ -17,6 +17,7 @@ import LeftMenu from './left-menu';
 import LinkageDisplay from './linkage-display'; // 联动显示
 // import ElementLibrary from './element-library'; // 图标库
 import KeyPopDetail from './keypop-detail'; // 重点人口详情
+import PopupPopulation from './popup-population'; // 人口
 
 class MapApp extends Component {
   render() {
@@ -39,6 +40,7 @@ class MapApp extends Component {
         {/* <ElementLibrary /> */}
         <BottomNav />
         <FeaturesMenu />
+        <PopupPopulation />
       </div>
     );
   }

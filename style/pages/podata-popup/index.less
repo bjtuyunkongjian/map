@@ -1,12 +1,11 @@
 .podata-popup {
-  position: fixed;
-  z-index: -1;
+  position: absolute;
   background: @bg-gradient-base;
   color: @t-white;
   border-radius: @radius-l;
   padding: 10px;
   width: 270px;
-  transform: translateY(-50%);
+  // transform: translateY(-50%);
   .popup-title {
     font-size: 14px;
     margin-bottom: 10px;
@@ -67,6 +66,14 @@
     background-color: #9acd32;
   }
 
+  .pop-type {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+  }
+
   .popup-explanation {
     display: flex;
     justify-content: flex-end;
@@ -108,15 +115,34 @@
         display: flex;
         align-items: center;
         justify-content: flex-start;
-
-        .pop-type {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 16px;
-          height: 16px;
-        }
       }
     }
   }
+
+  .family-member {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 2px solid white;
+    .member-item {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 3px;
+      cursor: pointer;
+      .pop-name {
+        flex: 1;
+        margin-right: 10px;
+      }
+      &:hover {
+        opacity: 0.8;
+        background-color: @bg-gradient-opacity;
+      }
+      &.selected-member {
+        background-color: @bg-gradient-opacity;
+      }
+    }
+  }
+
+  @import './member-info.less';
 }

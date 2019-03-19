@@ -51,6 +51,11 @@ export default class KeyPopDetail extends Component {
   }
 
   _init = () => {
+    this._dealWithEvent();
+    this._addListener();
+  };
+
+  _dealWithEvent = () => {
     const { toggleKeyPopDetail, hideKeyPopDetail } = GloEventName;
     GlobalEvent.on(toggleKeyPopDetail, async ({ visible, name, code }) => {
       await this.setState({ visible, pName: name, pCode: code });
@@ -63,6 +68,21 @@ export default class KeyPopDetail extends Component {
     });
     GlobalEvent.on(hideKeyPopDetail, ({ hidden }) => {
       this.setState({ hidden });
+    });
+  };
+
+  _addListener = () => {
+    const { showPopupPopulation } = GloEventName;
+
+    _MAP_.on('click', e => {
+      const { lngLat, originalEvent } = e;
+      GlobalEvent.emit(showPopupPopulation, {
+        visible: true,
+        boxLeft: originalEvent.x,
+        boxTop: originalEvent.y,
+        lngLat: lngLat,
+        code: '681382501BD820DBE053B692300A522F'
+      });
     });
   };
 
