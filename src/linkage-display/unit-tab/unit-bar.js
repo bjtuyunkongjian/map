@@ -28,7 +28,6 @@ export default class UnitBar extends Component {
     const { selectedChart, selectedIndex, chartData } = this.props;
     const _selectIndex =
       selectedChart === ChartName.unitBar ? selectedIndex : -1;
-    console.log('chartData', chartData);
     return (
       <div className="charts-box">
         <TuyunBar

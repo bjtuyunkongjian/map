@@ -17,14 +17,20 @@
 import React, { Component } from 'react';
 import { TuyunPie } from 'tuyun-kit';
 
+import { ChartName } from './chart-info';
+
 export default class ProtectionUnit extends Component {
-  state = {
-    selectedIndex: -1
+  static defaultProps = {
+    selectedChart: '',
+    selectedIndex: -1,
+    chartData: {}
   };
 
   render() {
-    const { selectedIndex } = this.state;
-
+    const { selectedChart, selectedIndex, chartData } = this.props;
+    const _selectIndex =
+      selectedChart === ChartName.protectUnit ? selectedIndex : -1;
+    console.log('chartData', chartData);
     return (
       <div className="charts-box">
         <TuyunPie
@@ -32,27 +38,89 @@ export default class ProtectionUnit extends Component {
           title={{ text: '保护单位' }}
           legend={{ text: '人口总数：65' }}
           data={[
-            { value: 435, label: '新闻' },
-            { value: 310, label: '学校' },
-            { value: 234, label: '交通枢纽' },
-            { value: 135, label: '加油站' },
-            { value: 435, label: '国防科研' },
-            { value: 310, label: '党政机关' },
-            { value: 234, label: '电信' },
-            { value: 135, label: '物流' },
-            { value: 435, label: '银行' },
-            { value: 310, label: '能源' },
-            { value: 234, label: '物资储备' }
+            {
+              value: chartData.xinwen || 0,
+              label: '新闻',
+              name: 'xinwen',
+              code: '251'
+            },
+            {
+              value: chartData.jiaoyu || 0,
+              label: '学校',
+              name: 'jiaoyu',
+              code: '259'
+            },
+            {
+              value: chartData.jiaotongshuniu || 0,
+              label: '交通枢纽',
+              name: 'jiaotongshuniu',
+              code: '269'
+            },
+            {
+              value: chartData.jiayouzhan || 0,
+              label: '加油站',
+              name: 'jiayouzhan',
+              code: '268'
+            },
+            {
+              value: chartData.keyan || 0,
+              label: '国防科研',
+              name: 'keyan',
+              code: '252'
+            },
+            {
+              value: chartData.dangzhenjiguan || 0,
+              label: '党政机关',
+              name: 'dangzhenjiguan',
+              code: '271'
+            },
+            {
+              value: chartData.dianxin || 0,
+              label: '电信',
+              name: 'dianxin',
+              code: '253'
+            },
+            {
+              value: chartData.wuliu || 0,
+              label: '物流',
+              name: 'wuliu',
+              code: '254'
+            },
+            {
+              value: chartData.yinhang || 0,
+              label: '银行',
+              name: 'yinhang',
+              code: '255'
+            },
+            {
+              value: chartData.nengyuan || 0,
+              label: '能源',
+              name: 'nengyuan',
+              code: '256'
+            },
+            {
+              value: chartData.wuzichubei || 0,
+              label: '物资储备',
+              name: 'wuzichubei',
+              code: '257'
+            }
           ]}
-          selectedIndex={selectedIndex}
-          onClick={param => {
-            this.setState({
-              selectedIndex:
-                param.curIndex === selectedIndex ? -1 : param.curIndex
-            });
-          }}
+          selectedIndex={_selectIndex}
+          onClick={this._clickBar}
         />
       </div>
     );
   }
+
+  _clickBar = barInfo => {
+    const { onSelect, selectedChart, selectedIndex } = this.props;
+    const { curIndex, curCell } = barInfo;
+    let _selectInd;
+    if (selectedChart === ChartName.protectUnit) {
+      _selectInd = curIndex === selectedIndex ? -1 : curIndex;
+    } else {
+      _selectInd = curIndex;
+    }
+    onSelect({ index: _selectInd, name: ChartName.protectUnit }); // 像父元素传参
+  };
 }

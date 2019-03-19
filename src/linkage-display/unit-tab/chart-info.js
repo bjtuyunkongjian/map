@@ -1,6 +1,6 @@
 const ChartName = {
   unitBar: 'unit-bar',
-  specialUint: 'special-unit',
+  specialUnit: 'special-unit',
   protectUnit: 'protect-unit'
 };
 
