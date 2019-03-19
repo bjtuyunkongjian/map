@@ -61,14 +61,13 @@ export default class HouseOption extends Component {
     Event.emit(EventName.changePoDataChecked, { clickedLabel: optionName });
     GlobalEvent.emit(GloEventName.toggleLinkage, { visible: !isChecked }); // 显示右侧联动数据
     GlobalEvent.emit(GloEventName.toggleLinkageTab, { tabName: 'house' }); // 显示右侧联动数据房屋
-    if (!isChecked) {
-      return TuyunMessage.error('接口数据获取失败！'); // temp
-      _MAP_.flyTo({ zoom: 16 });
-      // _MAP_.on('moveend', this._fetchHouse);
-    } else {
-      this._removeSourceLayer(houseOption.layerId);
-      // _MAP_.off('moveend', this._fetchHouse);
-    }
+    // if (!isChecked) {
+    //   _MAP_.flyTo({ zoom: 16 });
+    //   // _MAP_.on('moveend', this._fetchHouse);
+    // } else {
+    //   this._removeSourceLayer(houseOption.layerId);
+    //   // _MAP_.off('moveend', this._fetchHouse);
+    // }
   };
 
   _fetchHouse = async () => {
