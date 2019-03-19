@@ -10,10 +10,6 @@ import PopOption from './pop-option';
 import UnitOption from './unit-option';
 import HouseOption from './house-option';
 
-import PopMessage from './pop-message'; // 人口信息
-import UnitMessage from './unit-message'; // 单位信息
-import HouseMessage from './house-message'; // 房屋信息
-
 export default class PoliceData extends Component {
   state = {
     expanded: false,
@@ -39,9 +35,6 @@ export default class PoliceData extends Component {
           <UnitOption />
           <HouseOption />
         </ul>
-        <PopMessage />
-        <UnitMessage />
-        <HouseMessage />
       </div>
     );
   }

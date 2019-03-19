@@ -5,6 +5,10 @@
 
 import React, { Component } from 'react';
 import { Event as GlobalEvent, EventName as GloEventName } from 'tuyun-utils';
+import {
+  point as TurfPoint,
+  featureCollection as FeatureCollection
+} from 'turf';
 
 import { FetchNameplateData, FetchHeatMapData, FetchDetailNum } from './webapi';
 import { DetailTypeMap } from './constant';
@@ -23,6 +27,7 @@ export default class KeyPopDetail extends Component {
 
   render() {
     const { visible, pName, detailMap, selectedItem, hidden } = this.state;
+    console.log(selectedItem);
     if (!visible) return null;
     const _typeArr = DetailTypeMap[pName];
     if (!_typeArr || _typeArr.length === 0) return null;
@@ -98,7 +103,22 @@ export default class KeyPopDetail extends Component {
     });
     console.log('_fetchHeatMap', res, err, _reqCode);
     if (!res || err) return;
+    // const _features = res.map(coords => TurfPoint(coords));
+    // const _geoJSONData = {
+    //   type: 'geojson',
+    //   data: FeatureCollection(_features)
+    // };
     // todo 绘制到地图上
+    // _MAP_.addLayer({
+    //   id: item.value,
+    //   type: 'circle',
+    //   source: 'caseSource',
+    //   paint: {
+    //     'circle-color': item.color,
+    //     'circle-radius': 5
+    //   },
+    //   filter: ['==', 'value', item.value]
+    // });
   };
 
   // 获取 详细数据
@@ -114,8 +134,13 @@ export default class KeyPopDetail extends Component {
   };
 
   _selectMenu = async (e, item) => {
+    const { selectedItem } = this.state;
     e.stopPropagation();
-    await this.setState({ selectedItem: item });
+    await this.setState({ selectedItem: selectedItem === item ? {} : item });
     this._fetchData(true);
+  };
+
+  _removeSourceLayer = layerId => {
+    _MAP_.getLayer(layerId) && _MAP_.removeLayer(layerId).removeSource(layerId); // 删除所有 layer 和 source
   };
 }

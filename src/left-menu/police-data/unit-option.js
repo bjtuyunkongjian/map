@@ -46,13 +46,13 @@ export default class UnitOption extends Component {
     Event.emit(EventName.changePoDataChecked, { clickedLabel: optionName });
     GlobalEvent.emit(GloEventName.toggleLinkage, { visible: !isChecked }); // 显示右侧联动数据
     GlobalEvent.emit(GloEventName.toggleLinkageTab, { tabName: 'unit' }); // 显示右侧联动数据单位
-    if (!isChecked) {
-      return TuyunMessage.error('接口数据获取失败！'); // temp
-      this._fetchUnit();
-      _MAP_.on('moveend', this._fetchUnit);
-    } else {
-      _MAP_.off('moveend', this._fetchUnit);
-    }
+    // if (!isChecked) {
+    //   return TuyunMessage.error('接口数据获取失败！'); // temp
+    //   this._fetchUnit();
+    //   _MAP_.on('moveend', this._fetchUnit);
+    // } else {
+    //   _MAP_.off('moveend', this._fetchUnit);
+    // }
   };
 
   _fetchUnit = async () => {

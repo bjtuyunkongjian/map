@@ -5,9 +5,7 @@ import { MdPeopleOutline } from 'react-icons/md';
 import { TiHomeOutline } from 'react-icons/ti';
 import { FaTimes } from 'react-icons/fa';
 
-import HousingStaff from './housing-staff';
-
-import Event, { EventName } from '../event';
+import Event, { EventName } from 'tuyun-utils';
 
 export default class HouseMessage extends Component {
   state = {

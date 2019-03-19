@@ -64,10 +64,10 @@ export default class HouseOption extends Component {
     if (!isChecked) {
       return TuyunMessage.error('接口数据获取失败！'); // temp
       _MAP_.flyTo({ zoom: 16 });
-      _MAP_.on('moveend', this._fetchHouse);
+      // _MAP_.on('moveend', this._fetchHouse);
     } else {
       this._removeSourceLayer(houseOption.layerId);
-      _MAP_.off('moveend', this._fetchHouse);
+      // _MAP_.off('moveend', this._fetchHouse);
     }
   };
 

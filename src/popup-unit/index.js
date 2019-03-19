@@ -4,10 +4,9 @@ import { MdLocationCity } from 'react-icons/md';
 import { MdPeopleOutline } from 'react-icons/md';
 import { TiHomeOutline } from 'react-icons/ti';
 import { FaTimes } from 'react-icons/fa';
+import Event, { EventName } from 'tuyun-utils';
 
 import HousingStaff from './housing-staff';
-
-import Event, { EventName } from '../event';
 
 export default class UnitMessage extends Component {
   state = {

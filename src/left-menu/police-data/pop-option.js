@@ -63,13 +63,12 @@ export default class PopOption extends Component {
     Event.emit(EventName.changePoDataChecked, { clickedLabel: optionName });
     GlobalEvent.emit(GloEventName.toggleLinkage, { visible: !isChecked }); // 显示右侧联动数据
     GlobalEvent.emit(GloEventName.toggleLinkageTab, { tabName: 'population' }); // 显示右侧联动数据人口
-    if (!isChecked) {
-      return TuyunMessage.error('接口数据获取失败！'); // temp
-      this._fetchPopulation();
-      _MAP_.on('moveend', this._fetchPopulation);
-    } else {
-      _MAP_.off('moveend', this._fetchPopulation);
-    }
+    // if (!isChecked) {
+    //   this._fetchPopulation();
+    //   _MAP_.on('moveend', this._fetchPopulation);
+    // } else {
+    //   _MAP_.off('moveend', this._fetchPopulation);
+    // }
   };
 
   _fetchPopulation = async () => {
