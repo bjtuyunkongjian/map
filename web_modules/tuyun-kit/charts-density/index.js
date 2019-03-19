@@ -60,10 +60,16 @@ export default class ChartsDensity extends Component {
 
   componentWillReceiveProps(nextProps) {
     this._convertProps(nextProps);
-    this._renderCanvas(this._canvasEl);
-    const { selectedIndex } = this.props;
-    if (nextProps.selectedIndex !== selectedIndex) {
-      this._renderSelected(nextProps.selectedIndex);
+    // this._renderCanvas(this._canvasEl);
+    // const { selectedIndex } = this.props;
+    // if (nextProps.selectedIndex !== selectedIndex) {
+    //   this._renderSelected(nextProps.selectedIndex);
+    // }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps !== this.props) {
+      this._renderCanvas(this._canvasEl);
     }
   }
 

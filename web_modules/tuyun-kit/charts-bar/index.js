@@ -78,10 +78,15 @@ export default class CahrtsBar extends Component {
 
   componentWillReceiveProps(nextProps) {
     this._convertProps(nextProps);
-    this._renderCanvas(this._canvasEl); // 重绘
-    const { selectedIndex } = this.props;
-    if (nextProps.selectedIndex !== selectedIndex) {
-      this._renderSelected(nextProps.selectedIndex);
+    // const { selectedIndex } = this.props;
+    // if (nextProps.selectedIndex !== selectedIndex) {
+    //   this._renderSelected(nextProps.selectedIndex);
+    // }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps !== this.props) {
+      this._renderCanvas(this._canvasEl);
     }
   }
 

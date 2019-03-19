@@ -70,6 +70,7 @@ export default class PopulationTab extends Component {
   };
 
   _dealWithEvent = () => {
+    this._addListener(); // 添加事件监听
     Event.on(EventName.changeNav, nextBar => {
       const { curBar } = this.state;
       if (nextBar === curBar) return;

@@ -52,6 +52,8 @@ export default class ChartsPie extends Component {
   _chartH = 0;
   _chartBottom = 0;
 
+  _rerender = false;
+
   componentWillMount() {
     this._convertProps(this.props);
   }
@@ -62,10 +64,15 @@ export default class ChartsPie extends Component {
 
   componentWillReceiveProps(nextProps) {
     this._convertProps(nextProps);
-    this._renderCanvas(this._canvasEl);
-    const { selectedIndex } = this.props;
-    if (nextProps.selectedIndex !== selectedIndex) {
-      this._renderSelected(nextProps.selectedIndex);
+    // const { selectedIndex } = this.props;
+    // if (nextProps.selectedIndex !== selectedIndex) {
+    //   this._renderSelected(nextProps.selectedIndex);
+    // }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps !== this.props) {
+      this._renderCanvas(this._canvasEl);
     }
   }
 

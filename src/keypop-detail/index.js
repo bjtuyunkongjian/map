@@ -27,7 +27,6 @@ export default class KeyPopDetail extends Component {
 
   render() {
     const { visible, pName, detailMap, selectedItem, hidden } = this.state;
-    console.log(selectedItem);
     if (!visible) return null;
     const _typeArr = DetailTypeMap[pName];
     if (!_typeArr || _typeArr.length === 0) return null;
@@ -107,7 +106,6 @@ export default class KeyPopDetail extends Component {
       firtype: 1, // 人口
       thirtype: _reqCode
     });
-    console.log('_fetchNamePlate', res, err, _reqCode);
     if (!res || err) return;
     // todo 绘制到地图上
   };
@@ -121,14 +119,13 @@ export default class KeyPopDetail extends Component {
       points: _bounds,
       sectype: _reqCode
     });
-    console.log('_fetchHeatMap', res, err, _reqCode);
     if (!res || err) return;
+    // todo 绘制到地图上
     // const _features = res.map(coords => TurfPoint(coords));
     // const _geoJSONData = {
     //   type: 'geojson',
     //   data: FeatureCollection(_features)
     // };
-    // todo 绘制到地图上
     // _MAP_.addLayer({
     //   id: item.value,
     //   type: 'circle',
