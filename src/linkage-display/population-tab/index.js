@@ -66,16 +66,19 @@ export default class PopulationTab extends Component {
   _init = async () => {
     const { curBar } = this.state;
     this._dealWithEvent(); // 处理 Event 事件
-    curBar === DefaultTab && this._fetchChartData(); // 获取图表数据
+    if (curBar === TabValue.population) {
+      this._fetchChartData(); // 获取图表数据
+      this._addListener(); // 添加事件监听
+    }
   };
 
   _dealWithEvent = () => {
-    this._addListener(); // 添加事件监听
-    Event.on(EventName.changeNav, nextBar => {
+    Event.on(EventName.changeNav, async nextBar => {
       const { curBar } = this.state;
       if (nextBar === curBar) return;
-      this.setState({ curBar: nextBar });
+      await this.setState({ curBar: nextBar });
       if (TabValue.population === nextBar) {
+        this._fetchChartData();
         this._addListener();
       } else {
         this._removeListener();

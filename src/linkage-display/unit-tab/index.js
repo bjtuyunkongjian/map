@@ -7,14 +7,26 @@
  */
 
 import React, { Component } from 'react';
+
+import { FetchChartData } from './webapi';
 import UnitBar from './unit-bar';
 import SpecialUnit from './special-unit';
 import ProtectionUnit from './protection-unit';
+
 import Event, { EventName } from '../event';
 import { DefaultTab, TabValue } from '../constant';
 
 export default class UnitTab extends Component {
-  state = { curBar: DefaultTab };
+  state = {
+    curBar: DefaultTab,
+    chartInfo: {
+      name: '',
+      index: -1
+    },
+    totalPopData: {},
+    popdensityData: {},
+    poppieData: {}
+  };
 
   componentDidMount = () => this._init();
 
@@ -31,10 +43,59 @@ export default class UnitTab extends Component {
   }
 
   _init = () => {
-    Event.on(EventName.changeNav, nextBar => {
+    const { curBar } = this.state;
+    this._dealWithEvent(); // 处理 Event 事件
+    if (curBar === TabValue.unit) {
+      this._addListener(); // 添加事件监听
+      this._fetchChartData(); // 获取图表数据
+    }
+  };
+
+  _dealWithEvent = () => {
+    Event.on(EventName.changeNav, async nextBar => {
       const { curBar } = this.state;
       if (nextBar === curBar) return;
-      this.setState({ curBar: nextBar });
+      await this.setState({ curBar: nextBar });
+      if (TabValue.unit === nextBar) {
+        this._fetchChartData(); // 获取图表数据
+        this._addListener();
+      } else {
+        this._removeListener();
+      }
     });
+  };
+
+  _fetchChartData = async () => {
+    console.log('fetchChartData');
+    const { curBar } = this.state;
+    if (TabValue.unit !== curBar) return;
+    const _bounds = _MAP_.getBounds();
+    // const _zoom = _MAP_.getZoom();
+    const { res, err } = await FetchChartData({
+      points: _bounds,
+      mapLevel: 20,
+      flag: 2
+    });
+    console.log(res);
+    if (!res || err) return; // 保护
+    return;
+    const { popbarData, popdensityData, popieData } = res;
+    this.setState({
+      totalPopData: popbarData || {},
+      popdensityData: popdensityData || {},
+      poppieData: popieData || {}
+    });
+  };
+
+  _addListener = () => {
+    _MAP_.on('moveend', this._fetchChartData);
+  };
+
+  _removeListener = () => {
+    _MAP_.off('moveend', this._fetchChartData);
+  };
+
+  _selectChart = chartInfo => {
+    this.setState({ chartInfo });
   };
 }

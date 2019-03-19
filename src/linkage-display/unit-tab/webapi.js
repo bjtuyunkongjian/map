@@ -3,7 +3,13 @@
  */
 import { FetchRequest } from 'tuyun-utils';
 
-// 一标三实
+/**
+ * 获取右侧统计图数据
+ * @param { object } points
+ * @param { number } flag - 区分标识 1：人口   2：单位   3：房屋
+ * @param { number } mapLevel - 地图级别数
+ * @param { object } points - 屏幕区分标识
+ */
 export const FetchChartData = async body => {
   Object.assign(body, { test: 'chartData' });
   const { res, err } = await FetchRequest({
