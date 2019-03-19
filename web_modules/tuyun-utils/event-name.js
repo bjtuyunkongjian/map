@@ -9,5 +9,6 @@ export default {
   // 左侧菜单
   toggleLeftMenuPoData: 'toggle:leftMenu:poData', // 切换左侧菜单
   // 重点人口详情分类
-  toggleKeyPopDetail: 'toggle:keyPopDetail'
+  toggleKeyPopDetail: 'toggle:keyPopDetail', // 控制是否渲染 重点人口详情 弹框，是否加载对应数据
+  hideKeyPopDetail: 'hide:keyPopDetail' // 当右侧联动数据收进去后，不显示弹框，渲染以及加载数据由 toggleKeyPopDetail 控制
 };

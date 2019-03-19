@@ -11,7 +11,8 @@ import { DetailTypeMap } from './constant';
 
 export default class KeyPopDetail extends Component {
   state = {
-    visible: false,
+    visible: false, // 是否显示
+    hidden: false, // 是否隐藏，右侧菜单栏收进去的时候不显示弹框，但数据还是要加载
     pName: '',
     pCode: '',
     selectedItem: {},
@@ -21,12 +22,12 @@ export default class KeyPopDetail extends Component {
   componentDidMount = () => this._init();
 
   render() {
-    const { visible, pName, detailMap, selectedItem } = this.state;
+    const { visible, pName, detailMap, selectedItem, hidden } = this.state;
     if (!visible) return null;
     const _typeArr = DetailTypeMap[pName];
     if (!_typeArr || _typeArr.length === 0) return null;
     return (
-      <ul className="keypop-detail">
+      <ul className={`keypop-detail ${hidden ? 'hidden' : ''}`}>
         {_typeArr.map((item, index) => {
           const _checked = selectedItem === item;
           return (
@@ -45,7 +46,7 @@ export default class KeyPopDetail extends Component {
   }
 
   _init = () => {
-    const { toggleKeyPopDetail } = GloEventName;
+    const { toggleKeyPopDetail, hideKeyPopDetail } = GloEventName;
     GlobalEvent.on(toggleKeyPopDetail, async ({ visible, name, code }) => {
       await this.setState({ visible, pName: name, pCode: code });
       if (visible) {
@@ -54,6 +55,9 @@ export default class KeyPopDetail extends Component {
       } else {
         _MAP_.off('moveend', this._fetchData);
       }
+    });
+    GlobalEvent.on(hideKeyPopDetail, ({ hidden }) => {
+      this.setState({ hidden });
     });
   };
 
@@ -90,7 +94,6 @@ export default class KeyPopDetail extends Component {
     const _reqCode = selectedItem.code || pCode;
     const { res, err } = await FetchHeatMapData({
       points: _bounds,
-      firtype: 1, // 人口
       sectype: _reqCode
     });
     console.log('_fetchHeatMap', res, err, _reqCode);
