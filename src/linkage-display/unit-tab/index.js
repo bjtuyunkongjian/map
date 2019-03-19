@@ -23,21 +23,42 @@ export default class UnitTab extends Component {
       name: '',
       index: -1
     },
-    totalPopData: {},
-    popdensityData: {},
-    poppieData: {}
+    unitBarData: {},
+    specialUintData: {},
+    protectUnitData: {}
   };
 
   componentDidMount = () => this._init();
 
   render() {
-    const { curBar } = this.state;
+    const {
+      curBar,
+      chartInfo,
+      unitBarData,
+      specialUintData,
+      protectUnitData
+    } = this.state;
     if (curBar !== TabValue.unit) return null;
     return (
       <div className="tab-charts">
-        <UnitBar />
-        <SpecialUnit />
-        <ProtectionUnit />
+        <UnitBar
+          selectedChart={chartInfo.name}
+          selectedIndex={chartInfo.index}
+          onSelect={this._selectChart}
+          chartData={unitBarData}
+        />
+        <SpecialUnit
+          selectedChart={chartInfo.name}
+          selectedIndex={chartInfo.index}
+          onSelect={this._selectChart}
+          chartData={specialUintData}
+        />
+        <ProtectionUnit
+          selectedChart={chartInfo.name}
+          selectedIndex={chartInfo.index}
+          onSelect={this._selectChart}
+          chartData={protectUnitData}
+        />
       </div>
     );
   }
@@ -78,12 +99,11 @@ export default class UnitTab extends Component {
     });
     console.log(res);
     if (!res || err) return; // 保护
-    return;
-    const { popbarData, popdensityData, popieData } = res;
+    const { dwbarData, tedwpieData, baohudwpieData } = res;
     this.setState({
-      totalPopData: popbarData || {},
-      popdensityData: popdensityData || {},
-      poppieData: popieData || {}
+      unitBarData: dwbarData || {},
+      specialUintData: tedwpieData || {},
+      protectUnitData: baohudwpieData || {}
     });
   };
 
