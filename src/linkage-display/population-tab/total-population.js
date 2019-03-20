@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 import { TuyunBar } from 'tuyun-kit';
+import {
+  point as TurfPoint,
+  featureCollection as FeatureCollection
+} from 'turf';
 
 import { ChartName, PopulationLayerId } from './chart-info';
 import { FetchHeatMapData } from './webapi';
@@ -15,7 +19,6 @@ export default class TotalPopulation extends Component {
     const { selectedChart, selectedIndex, chartData } = this.props;
     const _selectIndex =
       selectedChart === ChartName.totalPop ? selectedIndex : -1;
-    console.log('_selectIndex', _selectIndex);
     return (
       <div className="charts-box">
         <TuyunBar
@@ -87,8 +90,29 @@ export default class TotalPopulation extends Component {
         _ne: { lng: 117.16317543749153, lat: 36.88848218729613 }
       }
     });
-    if (!res || err) console.log('total-population');
-    console.log('res', res);
+    if (!res || err) return console.log('total-population 获取数据失败');
     // todo 显示到地图上
+    this._removeSourceLayer(PopulationLayerId); // 删除图层
+    const _features = res.map(item => {
+      const { ZXDHZB, ZXDZZB, RKBM } = item;
+      return TurfPoint([ZXDHZB, ZXDZZB], { code: RKBM });
+    });
+    const _geoJSONData = {
+      type: 'geojson',
+      data: FeatureCollection(_features)
+    };
+    _MAP_.addLayer({
+      id: PopulationLayerId,
+      type: 'circle',
+      source: _geoJSONData,
+      paint: {
+        'circle-color': '#f00',
+        'circle-radius': 6
+      }
+    });
+  };
+
+  _removeSourceLayer = layerId => {
+    _MAP_.getLayer(layerId) && _MAP_.removeLayer(layerId).removeSource(layerId); // 删除所有 layer 和 source
   };
 }

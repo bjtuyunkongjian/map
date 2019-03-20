@@ -122,15 +122,13 @@ export default class KeyPersonnel extends Component {
     GlobalEvent.emit(GloEventName.toggleKeyPopDetail, {
       visible: true,
       name,
-      code,
-      layerId: PopulationLayerId
+      code
     }); // 打开弹窗
   };
 
   _hideDetail = () => {
     GlobalEvent.emit(GloEventName.toggleKeyPopDetail, {
-      visible: false,
-      layerId: PopulationLayerId
+      visible: false
     }); // 关闭
   };
 }

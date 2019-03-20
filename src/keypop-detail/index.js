@@ -20,8 +20,7 @@ export default class KeyPopDetail extends Component {
     pName: '',
     pCode: '',
     selectedItem: {},
-    detailMap: {},
-    layerId: ''
+    detailMap: {}
   };
 
   componentDidMount = () => this._init();
@@ -52,41 +51,21 @@ export default class KeyPopDetail extends Component {
 
   _init = () => {
     this._dealWithEvent();
-    this._addListener();
   };
 
   _dealWithEvent = () => {
     const { toggleKeyPopDetail, hideKeyPopDetail } = GloEventName;
-    GlobalEvent.on(
-      toggleKeyPopDetail,
-      async ({ visible, name, code, layerId }) => {
-        await this.setState({ visible, pName: name, pCode: code, layerId });
-        if (visible) {
-          this._fetchData(); // 获取接口数据
-          _MAP_.on('moveend', this._fetchData);
-        } else {
-          this._removeSourceLayer(layerId); // 删除图层
-          _MAP_.off('moveend', this._fetchData);
-        }
+    GlobalEvent.on(toggleKeyPopDetail, async ({ visible, name, code }) => {
+      await this.setState({ visible, pName: name, pCode: code });
+      if (visible) {
+        this._fetchData(); // 获取接口数据
+        _MAP_.on('moveend', this._fetchData);
+      } else {
+        _MAP_.off('moveend', this._fetchData);
       }
-    );
+    });
     GlobalEvent.on(hideKeyPopDetail, ({ hidden }) => {
       this.setState({ hidden });
-    });
-  };
-
-  _addListener = () => {
-    const { showPopupPopulation } = GloEventName;
-
-    _MAP_.on('click', e => {
-      const { lngLat, originalEvent } = e;
-      GlobalEvent.emit(showPopupPopulation, {
-        visible: true,
-        boxLeft: originalEvent.x,
-        boxTop: originalEvent.y,
-        lngLat: lngLat,
-        code: '681382501BD820DBE053B692300A522F'
-      });
     });
   };
 
@@ -166,3 +145,5 @@ export default class KeyPopDetail extends Component {
     _MAP_.getLayer(layerId) && _MAP_.removeLayer(layerId).removeSource(layerId); // 删除所有 layer 和 source
   };
 }
+
+const PopulationLayerId = 'LK_POPULATION_LAYER'; // 这儿不合理，linkage-display 中 chart-info 中修改这儿也要修改

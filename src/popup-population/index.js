@@ -51,7 +51,7 @@ export default class PopupPopulation extends Component {
         <div className="popup-title">
           <FaPeriscope className="icon-left" />
           <div className="title-text">{buildingName}</div>
-          <FaTimes className="close" onClick={this._clostPopup} />
+          <FaTimes className="close" onClick={this._closePopup} />
         </div>
 
         <ul className="popup-detail">
@@ -119,13 +119,13 @@ export default class PopupPopulation extends Component {
   _init = () => {
     const { showPopupPopulation, closePopupPopulation } = GloEventName;
     GlobalEvent.on(showPopupPopulation, this._showPopup);
-    GlobalEvent.on(closePopupPopulation, this._clostPopup);
+    GlobalEvent.on(closePopupPopulation, this._closePopup);
   };
 
   _reset = () => {
     const { showPopupPopulation, closePopupPopulation } = GloEventName;
     GlobalEvent.removeListener(showPopupPopulation, this._showPopup);
-    GlobalEvent.removeListener(closePopupPopulation, this._clostPopup);
+    GlobalEvent.removeListener(closePopupPopulation, this._closePopup);
   };
 
   _showPopup = async param => {
@@ -141,7 +141,7 @@ export default class PopupPopulation extends Component {
     _MAP_.on('move', this._addListener);
   };
 
-  _clostPopup = () => {
+  _closePopup = () => {
     this.setState({ visible: false });
     _MAP_.off('move', this._addListener);
   };

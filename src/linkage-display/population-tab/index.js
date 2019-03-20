@@ -13,7 +13,7 @@ import TotalPopulation from './total-population';
 import KeyPersonnel from './key-personnel';
 import PopulationDensity from './population-density';
 import { FetchChartData } from './webapi';
-import { PopulationLayerId, ChartName } from './chart-info';
+import { PopulationLayerId } from './chart-info';
 
 import Event, { EventName } from '../event';
 import { DefaultTab, TabValue } from '../constant';
@@ -89,7 +89,9 @@ export default class PopulationTab extends Component {
       } else {
         await this.setState({ curBar: nextBar });
         this._removeListener();
-        this._hideDetail(); // 隐藏房屋详情
+        this._hideDetail(); // 隐藏人口详情
+        this._removeSourceLayer(PopulationLayerId); // 删除图层
+        this._closePopup(); // 隐藏弹框
       }
     });
   };
@@ -115,10 +117,27 @@ export default class PopulationTab extends Component {
 
   _addListener = () => {
     _MAP_.on('moveend', this._fetchChartData);
+    _MAP_.on('click', PopulationLayerId, this._clickChart);
   };
 
   _removeListener = () => {
     _MAP_.off('moveend', this._fetchChartData);
+    _MAP_.off('click', PopulationLayerId, this._clickChart);
+  };
+
+  _clickChart = e => {
+    const _zoom = _MAP_.getZoom();
+    // 大于 16.5 级，可以点击，小于 16.5 级，看点的数量
+    console.log(_zoom);
+    const { showPopupPopulation } = GloEventName;
+    const { lngLat, originalEvent } = e;
+    GlobalEvent.emit(showPopupPopulation, {
+      visible: true,
+      boxLeft: originalEvent.x,
+      boxTop: originalEvent.y,
+      lngLat: lngLat,
+      code: '681382501BD820DBE053B692300A522F'
+    });
   };
 
   _selectChart = chartInfo => {
@@ -129,6 +148,14 @@ export default class PopulationTab extends Component {
     GlobalEvent.emit(GloEventName.toggleKeyPopDetail, {
       visible: false,
       layerId: PopulationLayerId
-    }); // 关闭
+    }); // 关闭详情弹框
+  };
+
+  _closePopup = () => {
+    GlobalEvent.emit(GloEventName.closePopupPopulation);
+  };
+
+  _removeSourceLayer = layerId => {
+    _MAP_.getLayer(layerId) && _MAP_.removeLayer(layerId).removeSource(layerId); // 删除所有 layer 和 source
   };
 }
