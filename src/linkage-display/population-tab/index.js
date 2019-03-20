@@ -125,15 +125,15 @@ export default class PopulationTab extends Component {
 
   _addListener = () => {
     _MAP_.on('moveend', this._fetchChartData);
-    _MAP_.on('click', PopulationLayerId, this._clickChart);
+    _MAP_.on('click', PopulationLayerId, this._clickPopLayer);
   };
 
   _removeListener = () => {
     _MAP_.off('moveend', this._fetchChartData);
-    _MAP_.off('click', PopulationLayerId, this._clickChart);
+    _MAP_.off('click', PopulationLayerId, this._clickPopLayer);
   };
 
-  _clickChart = e => {
+  _clickPopLayer = e => {
     // const _zoom = _MAP_.getZoom();
     // // 大于 16.5 级，可以点击，小于 16.5 级，看点的数量
     // console.log(_zoom);
