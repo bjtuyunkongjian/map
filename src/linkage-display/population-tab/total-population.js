@@ -7,6 +7,12 @@ import {
 
 import { ChartName, PopulationLayerId } from './chart-info';
 import { FetchHeatMapData, FetchNameplateData } from './webapi';
+import {
+  AddPointLayer,
+  AddHeatMapLayer,
+  AddNamePlateLayer,
+  RemoveLayer
+} from './layer-control';
 
 import { DefaultTab, TabValue } from '../constant';
 
@@ -22,14 +28,19 @@ export default class TotalPopulation extends Component {
 
   componentWillReceiveProps = nextProps => {
     const { curBar, selectedChart, selectedIndex } = nextProps;
-    if (curBar !== TabValue.population) {
+    if (
+      curBar !== TabValue.population ||
+      selectedChart !== ChartName.totalPop ||
+      selectedIndex < 0
+    ) {
       // 未选中当前 tab，移除监听事件
+      // 选中当前 tab，未选中当前图表，移除监听事件，删除图层
+      RemoveLayer(_MAP_, PopulationLayerId); // 删除图层
       _MAP_.off('moveend', this._fetchData);
-      this._removeSourceLayer(PopulationLayerId); // 删除图层
-    } else if (selectedChart !== ChartName.totalPop || selectedIndex < 0) {
-      // 选中当前 tab，未选中当前图表，移除监听事件
-      _MAP_.off('moveend', this._fetchData);
-      this._removeSourceLayer(PopulationLayerId); // 删除图层
+    } else {
+      // 选中当前图表，获取数据，添加监听事件
+      this._fetchData();
+      _MAP_.on('moveend', this._fetchData);
     }
   };
 
@@ -105,33 +116,28 @@ export default class TotalPopulation extends Component {
     }
     if (_selectInd > -1) {
       this._curCell = curCell;
-      this._fetchData();
-      _MAP_.on('moveend', this._fetchData);
     }
     onSelect({ index: _selectInd, name: ChartName.totalPop }); // 像父元素传参
   };
 
   _fetchData = () => {
-    console.log('_fetchData');
     const { code, sectype } = this._curCell;
     const _zoom = _MAP_.getZoom();
-    _zoom < 16.5
+    _zoom <= 16.5
       ? this._fetchHeatMapData(code)
       : this._fetchNameplateData(sectype); // 获取数据，小于 16.5 级，获取热力图数据，大于 16.5 级，获取铭牌数据
   };
 
+  // 获取热力图数据
   _fetchHeatMapData = async firtype => {
     const _bounds = _MAP_.getBounds();
     const { res, err } = await FetchHeatMapData({
       firtype: firtype,
-      points: {
-        _sw: { lng: 116.07152456255062, lat: 36.62226357473202 },
-        _ne: { lng: 117.16317543749153, lat: 36.88848218729613 }
-      }
+      points: _bounds
     });
     if (!res || err) return console.log('total-population 获取数据失败');
     // todo 显示到地图上
-    this._removeSourceLayer(PopulationLayerId); // 删除图层
+    RemoveLayer(_MAP_, PopulationLayerId); // 删除图层
     const _features = res.map(item => {
       const { ZXDHZB, ZXDZZB, RKBM } = item;
       return TurfPoint([ZXDHZB, ZXDZZB], { code: RKBM });
@@ -140,49 +146,33 @@ export default class TotalPopulation extends Component {
       type: 'geojson',
       data: FeatureCollection(_features)
     };
-    _MAP_.addLayer({
-      id: PopulationLayerId,
-      type: 'circle',
-      source: _geoJSONData,
-      paint: {
-        'circle-color': '#f00',
-        'circle-radius': 6
-      }
-    });
+    // 点的个数大于 200，显示热力图
+    if (res.length > 200) {
+      AddHeatMapLayer(_MAP_, _geoJSONData);
+    } else {
+      // 点的个数小于 200，显示点位图
+      AddPointLayer(_MAP_, _geoJSONData);
+    }
   };
 
+  // 获取铭牌数据
   _fetchNameplateData = async sectype => {
     const _bounds = _MAP_.getBounds();
     const { res, err } = await FetchNameplateData({
       firtype: 1,
       sectype: sectype,
-      points: {
-        _sw: { lng: 116.07152456255062, lat: 36.62226357473202 },
-        _ne: { lng: 117.16317543749153, lat: 36.88848218729613 }
-      }
+      points: _bounds
     });
     if (!res || err) return console.log('total-population 获取数据失败');
-    this._removeSourceLayer(PopulationLayerId); // 删除图层
+    RemoveLayer(_MAP_, PopulationLayerId); // 删除图层
     const _features = res.map(item => {
-      const { ZXDHZB, ZXDZZB, RKBM } = item;
-      return TurfPoint([ZXDHZB, ZXDZZB], { code: RKBM });
+      const { x, y, num, jzwbm } = item;
+      return TurfPoint([x, y], { code: jzwbm, num });
     });
     const _geoJSONData = {
       type: 'geojson',
       data: FeatureCollection(_features)
     };
-    _MAP_.addLayer({
-      id: PopulationLayerId,
-      type: 'circle',
-      source: _geoJSONData,
-      paint: {
-        'circle-color': '#f00',
-        'circle-radius': 6
-      }
-    });
-  };
-
-  _removeSourceLayer = layerId => {
-    _MAP_.getLayer(layerId) && _MAP_.removeLayer(layerId).removeSource(layerId); // 删除所有 layer 和 source
+    AddNamePlateLayer(_MAP_, _geoJSONData); // 添加铭牌
   };
 }

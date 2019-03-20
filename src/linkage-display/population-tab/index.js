@@ -14,6 +14,7 @@ import KeyPersonnel from './key-personnel';
 import PopulationDensity from './population-density';
 import { FetchChartData } from './webapi';
 import { PopulationLayerId } from './chart-info';
+import { RemoveLayer } from './layer-control';
 
 import Event, { EventName } from '../event';
 import { DefaultTab, TabValue } from '../constant';
@@ -97,7 +98,7 @@ export default class PopulationTab extends Component {
         await this.setState({ curBar: nextBar });
         this._removeListener();
         this._hideDetail(); // 隐藏人口详情
-        this._removeSourceLayer(PopulationLayerId); // 删除图层
+        RemoveLayer(_MAP_, PopulationLayerId); // 删除图层
         this._closePopup(); // 隐藏弹框
       }
     });
@@ -148,7 +149,9 @@ export default class PopulationTab extends Component {
   };
 
   _selectChart = chartInfo => {
+    const { closePopupPopulation } = GloEventName;
     this.setState({ chartInfo });
+    GlobalEvent.emit(closePopupPopulation);
   };
 
   _hideDetail = () => {
@@ -161,9 +164,5 @@ export default class PopulationTab extends Component {
 
   _closePopup = () => {
     GlobalEvent.emit(GloEventName.closePopupPopulation);
-  };
-
-  _removeSourceLayer = layerId => {
-    _MAP_.getLayer(layerId) && _MAP_.removeLayer(layerId).removeSource(layerId); // 删除所有 layer 和 source
   };
 }
