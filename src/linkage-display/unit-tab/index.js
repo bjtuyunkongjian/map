@@ -87,7 +87,6 @@ export default class UnitTab extends Component {
   };
 
   _fetchChartData = async () => {
-    console.log('fetchChartData');
     const { curBar } = this.state;
     if (TabValue.unit !== curBar) return;
     const _bounds = _MAP_.getBounds();
@@ -97,7 +96,6 @@ export default class UnitTab extends Component {
       mapLevel: 20,
       flag: 2
     });
-    console.log(res);
     if (!res || err) return; // 保护
     const { dwbarData, tedwpieData, baohudwpieData } = res;
     this.setState({

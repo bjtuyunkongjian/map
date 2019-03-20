@@ -10,8 +10,13 @@
 
 import React, { Component } from 'react';
 import { TuyunBar } from 'tuyun-kit';
+import {
+  point as TurfPoint,
+  featureCollection as FeatureCollection
+} from 'turf';
 
-import { ChartName } from './chart-info';
+import { ChartName, UnitLayerId } from './chart-info';
+import { FetchUnitData } from './webapi';
 
 export default class UnitBar extends Component {
   state = {
@@ -39,31 +44,36 @@ export default class UnitBar extends Component {
               label: '全部',
               value: chartData.totalDw || 0,
               startColor: '#bbaddc',
-              endColor: '#facff0'
+              endColor: '#facff0',
+              code: null
             },
             {
               label: '普通',
               value: chartData.ptdw || 0,
               startColor: '#aed3fc',
-              endColor: '#e6d1fc'
+              endColor: '#e6d1fc',
+              code: '2'
             },
             {
               label: '特种',
               value: chartData.tzdw || 0,
               startColor: '#fbdcd4',
-              endColor: '#fed9fe'
+              endColor: '#fed9fe',
+              code: '3'
             },
             {
               label: '保护',
               value: chartData.bhdw || 0,
               startColor: '#bbaddc',
-              endColor: '#facff0'
+              endColor: '#facff0',
+              code: '4'
             },
             {
               label: '九小场所',
               value: chartData.jxcs || 0,
               startColor: '#aed3fc',
-              endColor: '#e6d1fc'
+              endColor: '#e6d1fc',
+              code: '5'
             }
           ]}
           selectedIndex={_selectIndex}
@@ -87,16 +97,41 @@ export default class UnitBar extends Component {
   };
 
   _fetchChartData = async firstType => {
-    return;
     const _bounds = _MAP_.getBounds();
-    const { res, err } = await FetchHeatMapData({
+    const { res, err } = await FetchUnitData({
       firtype: firstType,
       points: {
         _sw: { lng: 116.07152456255062, lat: 36.62226357473202 },
         _ne: { lng: 117.16317543749153, lat: 36.88848218729613 }
       }
     });
-    console.log('res', res);
     // todo 显示到地图上
+    if (!res || err) return console.log('unit-bar');
+    this._removeSourceLayer(UnitLayerId);
+    const _features = res.map(item => {
+      const { hzb, zzb, dzbm } = item;
+      return TurfPoint([hzb, zzb], { code: dzbm });
+    });
+    const _geoJSONData = {
+      type: 'geojson',
+      data: FeatureCollection(_features)
+    };
+    if (!_MAP_.getSource(UnitLayerId)) {
+      _MAP_.addLayer({
+        id: UnitLayerId,
+        type: 'circle',
+        source: _geoJSONData,
+        paint: {
+          'circle-color': '#f00',
+          'circle-radius': 6
+        }
+      });
+    } else {
+      _MAP_.getSource(UnitLayerId).setData(_geoJSONData.data); // 重置 data
+    }
+  };
+
+  _removeSourceLayer = layerId => {
+    _MAP_.getLayer(layerId) && _MAP_.removeLayer(layerId).removeSource(layerId); // 删除所有 layer 和 source
   };
 }

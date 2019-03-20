@@ -25,7 +25,6 @@ export default class MemberInfo extends Component {
   };
 
   componentWillReceiveProps = nextProps => {
-    console.log(nextProps);
     const { memberCode } = nextProps;
     memberCode && this._fetchPersonDetail(memberCode);
   };

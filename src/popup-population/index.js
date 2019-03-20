@@ -43,7 +43,6 @@ export default class PopupPopulation extends Component {
       selectedPerson
     } = this.state;
     if (!visible) return null;
-    console.log('selectedPerson', selectedPerson);
     return (
       <div
         style={{ top: boxTop + 10, left: boxLeft + 10 }}
@@ -113,7 +112,6 @@ export default class PopupPopulation extends Component {
         {selectedRoom.personInfoList ? this._createFamilyMember() : null}
 
         <MemberInfo memberCode={selectedPerson.rkbm} name={selectedPerson.xm} />
-        {/* {selectedRoom.personInfoList ?  : null} */}
       </div>
     );
   }
