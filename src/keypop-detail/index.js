@@ -11,7 +11,13 @@ import {
 } from 'turf';
 
 import { FetchNameplateData, FetchHeatMapData, FetchDetailNum } from './webapi';
-import { DetailTypeMap } from './constant';
+import { DetailTypeMap, PopulationLayerId } from './constant';
+import {
+  AddPointLayer,
+  AddHeatMapLayer,
+  AddNamePlateLayer,
+  RemoveLayer
+} from './layer-control';
 
 export default class KeyPopDetail extends Component {
   state = {
@@ -73,7 +79,7 @@ export default class KeyPopDetail extends Component {
   _fetchData = ignoreFetchDetail => {
     const _zoom = _MAP_.getZoom();
     !ignoreFetchDetail && this._fetchDetailMap(); // 获取右下角弹框详细数字
-    if (_zoom >= 16.5) {
+    if (_zoom <= 16.5) {
       this._fetchNamePlate(); // 大于 16.5 级，用 铭牌 显示
     } else {
       this._fetchHeatMap(); // 小于 16.5 级，热力图 和 点位图
@@ -91,7 +97,16 @@ export default class KeyPopDetail extends Component {
       thirtype: _reqCode
     });
     if (!res || err) return;
-    // todo 绘制到地图上
+    RemoveLayer(_MAP_, PopulationLayerId); // 删除图层
+    const _features = res.map(item => {
+      const { x, y, num, jzwbm } = item;
+      return TurfPoint([x, y], { code: jzwbm, num });
+    });
+    const _geoJSONData = {
+      type: 'geojson',
+      data: FeatureCollection(_features)
+    };
+    AddNamePlateLayer(_MAP_, _geoJSONData); // 添加铭牌
   };
 
   // 获取点的数据
@@ -104,22 +119,22 @@ export default class KeyPopDetail extends Component {
       sectype: _reqCode
     });
     if (!res || err) return;
-    // todo 绘制到地图上
-    // const _features = res.map(coords => TurfPoint(coords));
-    // const _geoJSONData = {
-    //   type: 'geojson',
-    //   data: FeatureCollection(_features)
-    // };
-    // _MAP_.addLayer({
-    //   id: item.value,
-    //   type: 'circle',
-    //   source: 'caseSource',
-    //   paint: {
-    //     'circle-color': item.color,
-    //     'circle-radius': 5
-    //   },
-    //   filter: ['==', 'value', item.value]
-    // });
+    RemoveLayer(_MAP_, PopulationLayerId); // 删除图层
+    const _features = res.map(item => {
+      const { ZXDHZB, ZXDZZB, RKBM } = item;
+      return TurfPoint([ZXDHZB, ZXDZZB], { code: RKBM });
+    });
+    const _geoJSONData = {
+      type: 'geojson',
+      data: FeatureCollection(_features)
+    };
+    // 点的个数大于 200，显示热力图
+    if (res.length > 200) {
+      AddHeatMapLayer(_MAP_, _geoJSONData);
+    } else {
+      // 点的个数小于 200，显示点位图
+      AddPointLayer(_MAP_, _geoJSONData);
+    }
   };
 
   // 获取 详细数据
@@ -138,12 +153,6 @@ export default class KeyPopDetail extends Component {
     const { selectedItem } = this.state;
     e.stopPropagation();
     await this.setState({ selectedItem: selectedItem === item ? {} : item });
-    this._fetchData(true);
-  };
-
-  _removeSourceLayer = layerId => {
-    _MAP_.getLayer(layerId) && _MAP_.removeLayer(layerId).removeSource(layerId); // 删除所有 layer 和 source
+    this._fetchData(true); // 不需要重新加载详情个数
   };
 }
-
-const PopulationLayerId = 'LK_POPULATION_LAYER'; // 这儿不合理，linkage-display 中 chart-info 中修改这儿也要修改

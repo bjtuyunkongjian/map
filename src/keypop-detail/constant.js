@@ -94,3 +94,5 @@ export const DetailTypeMap = {
     { label: '其他', name: 'qita', code: '121400000001' }
   ]
 };
+
+export const PopulationLayerId = 'LK_POPULATION_LAYER'; // 这儿不合理，linkage-display 中 chart-info 中修改这儿也要修改
