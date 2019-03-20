@@ -20,7 +20,8 @@ export default class KeyPopDetail extends Component {
     pName: '',
     pCode: '',
     selectedItem: {},
-    detailMap: {}
+    detailMap: {},
+    layerId: ''
   };
 
   componentDidMount = () => this._init();
@@ -56,15 +57,19 @@ export default class KeyPopDetail extends Component {
 
   _dealWithEvent = () => {
     const { toggleKeyPopDetail, hideKeyPopDetail } = GloEventName;
-    GlobalEvent.on(toggleKeyPopDetail, async ({ visible, name, code }) => {
-      await this.setState({ visible, pName: name, pCode: code });
-      if (visible) {
-        this._fetchData(); // 获取接口数据
-        _MAP_.on('moveend', this._fetchData);
-      } else {
-        _MAP_.off('moveend', this._fetchData);
+    GlobalEvent.on(
+      toggleKeyPopDetail,
+      async ({ visible, name, code, layerId }) => {
+        await this.setState({ visible, pName: name, pCode: code, layerId });
+        if (visible) {
+          this._fetchData(); // 获取接口数据
+          _MAP_.on('moveend', this._fetchData);
+        } else {
+          this._removeSourceLayer(layerId); // 删除图层
+          _MAP_.off('moveend', this._fetchData);
+        }
       }
-    });
+    );
     GlobalEvent.on(hideKeyPopDetail, ({ hidden }) => {
       this.setState({ hidden });
     });

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { TuyunBar } from 'tuyun-kit';
-import { ChartName } from './chart-info';
+
+import { ChartName, PopulationLayerId } from './chart-info';
 import { FetchHeatMapData } from './webapi';
 
 export default class TotalPopulation extends Component {
@@ -14,6 +15,7 @@ export default class TotalPopulation extends Component {
     const { selectedChart, selectedIndex, chartData } = this.props;
     const _selectIndex =
       selectedChart === ChartName.totalPop ? selectedIndex : -1;
+    console.log('_selectIndex', _selectIndex);
     return (
       <div className="charts-box">
         <TuyunBar
@@ -77,7 +79,6 @@ export default class TotalPopulation extends Component {
   };
 
   _fetchChartData = async firstType => {
-    return;
     const _bounds = _MAP_.getBounds();
     const { res, err } = await FetchHeatMapData({
       firtype: firstType,
@@ -86,6 +87,7 @@ export default class TotalPopulation extends Component {
         _ne: { lng: 117.16317543749153, lat: 36.88848218729613 }
       }
     });
+    if (!res || err) console.log('total-population');
     console.log('res', res);
     // todo 显示到地图上
   };

@@ -7,11 +7,13 @@
  */
 
 import React, { Component } from 'react';
+import { Event as GlobalEvent, EventName as GloEventName } from 'tuyun-utils';
 
 import TotalPopulation from './total-population';
 import KeyPersonnel from './key-personnel';
 import PopulationDensity from './population-density';
 import { FetchChartData } from './webapi';
+import { PopulationLayerId, ChartName } from './chart-info';
 
 import Event, { EventName } from '../event';
 import { DefaultTab, TabValue } from '../constant';
@@ -76,12 +78,18 @@ export default class PopulationTab extends Component {
     Event.on(EventName.changeNav, async nextBar => {
       const { curBar } = this.state;
       if (nextBar === curBar) return;
-      await this.setState({ curBar: nextBar });
+
       if (TabValue.population === nextBar) {
+        await this.setState({
+          curBar: nextBar,
+          chartInfo: { name: '', index: -1 } // 设置
+        });
         this._fetchChartData();
         this._addListener();
       } else {
+        await this.setState({ curBar: nextBar });
         this._removeListener();
+        this._hideDetail(); // 隐藏房屋详情
       }
     });
   };
@@ -115,5 +123,12 @@ export default class PopulationTab extends Component {
 
   _selectChart = chartInfo => {
     this.setState({ chartInfo });
+  };
+
+  _hideDetail = () => {
+    GlobalEvent.emit(GloEventName.toggleKeyPopDetail, {
+      visible: false,
+      layerId: PopulationLayerId
+    }); // 关闭
   };
 }

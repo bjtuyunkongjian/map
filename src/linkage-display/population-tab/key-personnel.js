@@ -2,13 +2,20 @@ import React, { Component } from 'react';
 import { TuyunPie } from 'tuyun-kit';
 import { Event as GlobalEvent, EventName as GloEventName } from 'tuyun-utils';
 
-import { ChartName } from './chart-info';
+import { ChartName, PopulationLayerId } from './chart-info';
 
 export default class KeyPersonnel extends Component {
   static defaultProps = {
     selectedChart: '',
     selectedIndex: -1,
     chartData: {}
+  };
+
+  componentWillReceiveProps = nextProps => {
+    const { selectedChart: nextSelectedChart } = nextProps;
+    if (ChartName.keyPop !== nextSelectedChart) {
+      this._hideDetail();
+    }
   };
 
   render() {
@@ -115,11 +122,15 @@ export default class KeyPersonnel extends Component {
     GlobalEvent.emit(GloEventName.toggleKeyPopDetail, {
       visible: true,
       name,
-      code
+      code,
+      layerId: PopulationLayerId
     }); // 打开弹窗
   };
 
   _hideDetail = () => {
-    GlobalEvent.emit(GloEventName.toggleKeyPopDetail, { visible: false }); // 关闭
+    GlobalEvent.emit(GloEventName.toggleKeyPopDetail, {
+      visible: false,
+      layerId: PopulationLayerId
+    }); // 关闭
   };
 }
