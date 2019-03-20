@@ -23,17 +23,21 @@ export default class KeyPersonnel extends Component {
 
   render() {
     const { selectedChart, selectedIndex, chartData, curBar } = this.props;
+    if (curBar !== TabValue.population) return null; // 不显示
     const _selectIndex =
       selectedChart === ChartName.keyPop ? selectedIndex : -1;
 
-    if (curBar !== TabValue.population) return null; // 不显示
+    let _total = 0;
+    Object.keys(chartData).map(item => {
+      _total += chartData[item] || 0;
+    });
 
     return (
       <div className="charts-box">
         <TuyunPie
           height={200}
           title={{ text: '重点人员' }}
-          legend={{ text: '人口总数：65' }}
+          legend={{ text: `人员总数：${_total}` }}
           data={[
             {
               value: chartData.wangan || 0,

@@ -55,7 +55,7 @@ export default class TotalPopulation extends Component {
         <TuyunBar
           height={200}
           title={{ text: '人口分布' }}
-          legend={{ text: '人口总数：85' }}
+          legend={{ text: `人口总数：${chartData.totalPop}` }}
           data={[
             {
               label: '总人口',

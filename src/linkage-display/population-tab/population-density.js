@@ -46,11 +46,28 @@ export default class PopulationDensity extends Component {
         <TuyunDensity
           height={200}
           title={{ text: '人口密度图' }}
-          legend={{ text: '人口总数：65' }}
+          legend={{
+            text: `密度`
+          }}
           data={[
-            { value: totalPopDensity, label: '总人口', code: '1', end: _end },
-            { value: lkpopDensity, label: '流口', code: '2', end: _end },
-            { value: zdpopDensity, label: '重点人口', code: '3', end: _end }
+            {
+              value: totalPopDensity || 0,
+              label: '总人口',
+              code: '1',
+              end: _end
+            },
+            {
+              value: lkpopDensity || 0,
+              label: '流动人口',
+              code: '2',
+              end: _end
+            },
+            {
+              value: zdpopDensity || 0,
+              label: '重点人口',
+              code: '3',
+              end: _end
+            }
           ]}
           selectedIndex={_selectIndex}
           onClick={this._clickDensity}
