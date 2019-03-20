@@ -4,11 +4,14 @@ import { Event as GlobalEvent, EventName as GloEventName } from 'tuyun-utils';
 
 import { ChartName, PopulationLayerId } from './chart-info';
 
+import { DefaultTab, TabValue } from '../constant';
+
 export default class KeyPersonnel extends Component {
   static defaultProps = {
     selectedChart: '',
     selectedIndex: -1,
-    chartData: {}
+    chartData: {},
+    curBar: DefaultTab
   };
 
   componentWillReceiveProps = nextProps => {
@@ -19,9 +22,12 @@ export default class KeyPersonnel extends Component {
   };
 
   render() {
-    const { selectedChart, selectedIndex, chartData } = this.props;
+    const { selectedChart, selectedIndex, chartData, curBar } = this.props;
     const _selectIndex =
       selectedChart === ChartName.keyPop ? selectedIndex : -1;
+
+    if (curBar !== TabValue.population) return null; // 不显示
+
     return (
       <div className="charts-box">
         <TuyunPie

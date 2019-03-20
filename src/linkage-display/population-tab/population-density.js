@@ -8,14 +8,18 @@
 
 import React, { Component } from 'react';
 import { TuyunDensity } from 'tuyun-kit';
+
 import { ChartName } from './chart-info';
 import { FetchDensityMap } from './webapi';
+
+import { DefaultTab, TabValue } from '../constant';
 
 export default class PopulationDensity extends Component {
   static defaultProps = {
     selectedChart: '',
     selectedIndex: -1,
-    chartData: {}
+    chartData: {},
+    curBar: DefaultTab
   };
 
   componentWillReceiveProps = nextPorps => {
@@ -28,12 +32,14 @@ export default class PopulationDensity extends Component {
   };
 
   render() {
-    const { selectedChart, selectedIndex, chartData } = this.props;
+    const { selectedChart, selectedIndex, chartData, curBar } = this.props;
     const { lkpopDensity, totalPopDensity, zdpopDensity } = chartData;
     const _max = Math.max(lkpopDensity, totalPopDensity, zdpopDensity, 10);
     const _end = Math.max(Math.floor(_max * 1.05), 10);
     const _selectIndex =
       selectedChart === ChartName.popDensity ? selectedIndex : -1;
+    if (curBar !== TabValue.population) return null;
+
     return (
       <div className="charts-box">
         <TuyunDensity

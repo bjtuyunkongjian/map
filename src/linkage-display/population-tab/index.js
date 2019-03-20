@@ -40,22 +40,24 @@ export default class PopulationTab extends Component {
       popdensityData,
       poppieData
     } = this.state;
-    if (curBar !== TabValue.population) return null;
     return (
       <div className="tab-charts">
         <TotalPopulation
+          curBar={curBar}
           selectedChart={chartInfo.name}
           selectedIndex={chartInfo.index}
           onSelect={this._selectChart}
           chartData={totalPopData}
         />
         <KeyPersonnel
+          curBar={curBar}
           selectedChart={chartInfo.name}
           selectedIndex={chartInfo.index}
           onSelect={this._selectChart}
           chartData={poppieData}
         />
         <PopulationDensity
+          curBar={curBar}
           selectedChart={chartInfo.name}
           selectedIndex={chartInfo.index}
           onSelect={this._selectChart}
@@ -126,9 +128,9 @@ export default class PopulationTab extends Component {
   };
 
   _clickChart = e => {
-    const _zoom = _MAP_.getZoom();
-    // 大于 16.5 级，可以点击，小于 16.5 级，看点的数量
-    console.log(_zoom);
+    // const _zoom = _MAP_.getZoom();
+    // // 大于 16.5 级，可以点击，小于 16.5 级，看点的数量
+    // console.log(_zoom);
     const { showPopupPopulation } = GloEventName;
     const { lngLat, originalEvent } = e;
     GlobalEvent.emit(showPopupPopulation, {
