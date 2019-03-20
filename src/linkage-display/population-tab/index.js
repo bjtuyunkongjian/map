@@ -40,8 +40,13 @@ export default class PopulationTab extends Component {
       popdensityData,
       poppieData
     } = this.state;
+
     return (
-      <div className="tab-charts">
+      <div
+        className={`tab-charts ${
+          curBar !== TabValue.population ? 'hidden' : ''
+        }`}
+      >
         <TotalPopulation
           curBar={curBar}
           selectedChart={chartInfo.name}

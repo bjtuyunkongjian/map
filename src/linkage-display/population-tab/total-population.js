@@ -21,7 +21,16 @@ export default class TotalPopulation extends Component {
   _curCell = {};
 
   componentWillReceiveProps = nextProps => {
-    console.log('nextProps', nextProps);
+    const { curBar, selectedChart, selectedIndex } = nextProps;
+    if (curBar !== TabValue.population) {
+      // 未选中当前 tab，移除监听事件
+      _MAP_.off('moveend', this._fetchData);
+      this._removeSourceLayer(PopulationLayerId); // 删除图层
+    } else if (selectedChart !== ChartName.totalPop || selectedIndex < 0) {
+      // 选中当前 tab，未选中当前图表，移除监听事件
+      _MAP_.off('moveend', this._fetchData);
+      this._removeSourceLayer(PopulationLayerId); // 删除图层
+    }
   };
 
   render() {
@@ -97,6 +106,7 @@ export default class TotalPopulation extends Component {
     if (_selectInd > -1) {
       this._curCell = curCell;
       this._fetchData();
+      _MAP_.on('moveend', this._fetchData);
     }
     onSelect({ index: _selectInd, name: ChartName.totalPop }); // 像父元素传参
   };
