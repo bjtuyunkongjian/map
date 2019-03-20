@@ -152,7 +152,8 @@ export default class PopulationTab extends Component {
   };
 
   _hideDetail = () => {
-    GlobalEvent.emit(GloEventName.toggleKeyPopDetail, {
+    const { toggleKeyPopDetail } = GloEventName;
+    GlobalEvent.emit(toggleKeyPopDetail, {
       visible: false,
       layerId: PopulationLayerId
     }); // 关闭详情弹框
