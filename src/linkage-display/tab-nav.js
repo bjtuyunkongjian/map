@@ -47,8 +47,15 @@ export default class TabNav extends Component {
     }); // 显示右侧联动数据人口
   };
 
-  _changeTab = curBar => {
-    this.setState({ curBar: curBar });
-    Event.emit(EventName.changeNav, curBar);
+  _changeTab = nextBar => {
+    const { curBar } = this.state;
+    if (nextBar === curBar) return;
+    this.setState({ curBar: nextBar });
+    Event.emit(EventName.changeNav, nextBar);
+    this._closePopup();
+  };
+
+  _closePopup = () => {
+    GlobalEvent.emit(GloEventName.closePopupPopulation);
   };
 }

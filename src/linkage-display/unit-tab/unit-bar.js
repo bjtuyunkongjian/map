@@ -17,6 +17,7 @@ import {
 
 import { ChartName, UnitLayerId } from './chart-info';
 import { FetchUnitData } from './webapi';
+import { AddPointLayer, AddNamePlateLayer, RemoveLayer } from './layer-control';
 
 import { DefaultTab, TabValue } from '../constant';
 

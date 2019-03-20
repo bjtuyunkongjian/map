@@ -14,7 +14,6 @@ import KeyPersonnel from './key-personnel';
 import PopulationDensity from './population-density';
 import { FetchChartData } from './webapi';
 import { PopulationLayerId } from './chart-info';
-import { RemoveLayer } from './layer-control';
 
 import Event, { EventName } from '../event';
 import { DefaultTab, TabValue } from '../constant';
@@ -86,20 +85,16 @@ export default class PopulationTab extends Component {
     Event.on(EventName.changeNav, async nextBar => {
       const { curBar } = this.state;
       if (nextBar === curBar) return;
-
+      await this.setState({
+        curBar: nextBar,
+        chartInfo: { name: '', index: -1 }
+      });
       if (TabValue.population === nextBar) {
-        await this.setState({
-          curBar: nextBar,
-          chartInfo: { name: '', index: -1 } // 设置
-        });
         this._fetchChartData();
         this._addListener();
       } else {
-        await this.setState({ curBar: nextBar });
         this._removeListener();
         this._hideDetail(); // 隐藏人口详情
-        RemoveLayer(_MAP_, PopulationLayerId); // 删除图层
-        this._closePopup(); // 隐藏弹框
       }
     });
   };
@@ -160,9 +155,5 @@ export default class PopulationTab extends Component {
       visible: false,
       layerId: PopulationLayerId
     }); // 关闭详情弹框
-  };
-
-  _closePopup = () => {
-    GlobalEvent.emit(GloEventName.closePopupPopulation);
   };
 }

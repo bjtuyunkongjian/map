@@ -78,12 +78,15 @@ export default class UnitTab extends Component {
     Event.on(EventName.changeNav, async nextBar => {
       const { curBar } = this.state;
       if (nextBar === curBar) return;
-      await this.setState({ curBar: nextBar });
+      await this.setState({
+        curBar: nextBar,
+        chartInfo: { name: '', index: -1 }
+      });
       if (TabValue.unit === nextBar) {
         this._fetchChartData(); // 获取图表数据
-        this._addListener();
+        this._addListener(); // 增加监听
       } else {
-        this._removeListener();
+        this._removeListener(); // 移除监听
       }
     });
   };
@@ -92,7 +95,7 @@ export default class UnitTab extends Component {
     const { curBar } = this.state;
     if (TabValue.unit !== curBar) return;
     const _bounds = _MAP_.getBounds();
-    // const _zoom = _MAP_.getZoom();
+    const _zoom = _MAP_.getZoom();
     const { res, err } = await FetchChartData({
       points: _bounds,
       mapLevel: 20,

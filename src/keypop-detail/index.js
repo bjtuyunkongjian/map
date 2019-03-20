@@ -79,7 +79,7 @@ export default class KeyPopDetail extends Component {
   _fetchData = ignoreFetchDetail => {
     const _zoom = _MAP_.getZoom();
     !ignoreFetchDetail && this._fetchDetailMap(); // 获取右下角弹框详细数字
-    if (_zoom <= 16.5) {
+    if (_zoom >= 16.5) {
       this._fetchNamePlate(); // 大于 16.5 级，用 铭牌 显示
     } else {
       this._fetchHeatMap(); // 小于 16.5 级，热力图 和 点位图
