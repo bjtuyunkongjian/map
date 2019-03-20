@@ -20,6 +20,7 @@ const lineNameLabelLayerId = 'symbol-ref';
 
 // const jqLabelLayerId = 'jq-ref';
 const threeLabelLayerId = '3d-ref';
+const fillExtrusionHeight = 16.5; 
 
 // 3d 普通建筑颜色和透明度
 const gresplOpacity = 0.5;
@@ -406,9 +407,9 @@ const style = {
           'interpolate',
           ['linear'],
           ['zoom'],
-          16,
+          fillExtrusionHeight,
           0,
-          16.05,
+          fillExtrusionHeight + 0.55,
           ['*', ['+', ['get', 'H'], 1], 3]
         ],
         'fill-extrusion-base': 0,
@@ -432,9 +433,9 @@ const style = {
           'interpolate',
           ['linear'],
           ['zoom'],
-          16,
+          fillExtrusionHeight,
           0,
-          16.05,
+          fillExtrusionHeight + 0.55,
           ['*', ['+', ['get', 'H'], 1], 3]
         ],
         'fill-extrusion-base': 0,
@@ -458,9 +459,9 @@ const style = {
           'interpolate',
           ['linear'],
           ['zoom'],
-          16,
+          fillExtrusionHeight,
           0,
-          16.05,
+          fillExtrusionHeight + 0.55,
           ['*', ['+', ['get', 'H'], 1], 3]
         ],
         'fill-extrusion-base': 0,

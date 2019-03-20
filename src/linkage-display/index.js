@@ -13,7 +13,7 @@ export default class LinkageDisplay extends Component {
 
   render() {
     const { animate } = this.state;
-    const _slide = animate === 'slide-out' ? 'changed' : '';
+    const _slide = animate === 'slide-in' ? '' : 'changed';
     return (
       <div className={`linkage-display ${animate}`}>
         <div className="tab-box">
@@ -34,7 +34,7 @@ export default class LinkageDisplay extends Component {
   _toggleRightMenu = () => {
     const { animate } = this.state;
     this.setState({
-      animate: animate === 'slide-out' ? 'slide-in' : 'slide-out'
+      animate: animate === 'slide-in' ? 'slide-out' : 'slide-in'
     });
   };
 }

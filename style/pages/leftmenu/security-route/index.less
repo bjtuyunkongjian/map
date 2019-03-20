@@ -1,14 +1,21 @@
-@import '../house-message.less';
-@import '../unit-message.less';
-.data-container {
+.route-container {
+  @import './new-route.less'; // 新建安保路线
+  @import './view-route.less'; // 查看已保存的路线
   width: 100%;
-  @item-height: 31px;
-  @item-count: 3; // 下拉子选项的数量
+  @item-height: 30px;
+  @item-count: 2; // 下拉子选项的数量
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   overflow: hidden;
-  .data-item {
+  &.menu-up {
+    .pull-up(@item-height * @item-count);
+  }
+
+  &.menu-down {
+    .drop-down(@item-height * @item-count);
+  }
+  .route-item {
     width: 90px;
     height: @item-height;
     display: flex;
@@ -17,18 +24,11 @@
     font-size: 12px;
     color: @t-base;
     text-align: center;
-    background: rgba(240, 248, 255, 0.3);
+    background: @bg-gradient-opacity;
     cursor: pointer;
     &.checked {
       background-color: #40df9f;
       color: @t-base;
     }
-  }
-  &.menu-up {
-    .pull-up(@item-height * @item-count);
-  }
-
-  &.menu-down {
-    .drop-down(@item-height * @item-count);
   }
 }

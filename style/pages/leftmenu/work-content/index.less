@@ -1,21 +1,23 @@
-@import '../case-detail.less';
-.case-container {
-  @case-item-height: 30px;
-  @item-count: 5;
+@import './daily-work.less'; // 提示框内容
+
+.work-container {
+  @work-item-height: 30px;
+  @item-count: 8;
   overflow: hidden;
   &.menu-up {
-    .pull-up(@case-item-height * @item-count);
+    .pull-up(@work-item-height * @item-count);
   }
 
   &.menu-down {
-    .drop-down(@case-item-height * @item-count);
+    .drop-down(@work-item-height * @item-count);
   }
-  .case-item {
+  .work-item {
+    width: 100%;
     font-size: 12px;
     color: @t-base;
     text-align: center;
-    height: @case-item-height;
-    background: rgba(240, 248, 255, 0.3);
+    height: @work-item-height;
+    background: @bg-gradient-opacity;
     display: flex;
     cursor: pointer;
     align-items: center;
@@ -29,7 +31,7 @@
       cursor: pointer;
     }
   }
-  .case-sign {
+  .color-sign {
     width: 8px;
     height: 8px;
     padding: 5px;

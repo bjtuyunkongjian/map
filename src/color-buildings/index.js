@@ -6,25 +6,30 @@ export default class ColorBuildings extends Component {
   state = {
     curIndex: -1,
     curType: -1,
-    buildingId: -1
+    buildingId: -1,
+    lngLat: {},
+    left: 0,
+    top: 0,
+    visible: false
   };
 
   _isLoading = false;
   _hoveredStateId = null;
   _curFeature = undefined;
   _features = [];
+  _frameFeatures = []; // 框选
 
   componentDidMount = () => this._init();
 
   render() {
-    const { left, top, curIndex } = this.state;
-    if (!left || !top) return null;
+    const { left, top, curIndex, visible } = this.state;
+    if (!visible) return null;
     return (
       <ul
         style={{
           position: 'absolute',
-          left,
-          top,
+          left: left + 10,
+          top: top + 10,
           backgroundColor: 'white',
           zIndex: 9,
           cursor: 'pointer',
@@ -54,7 +59,6 @@ export default class ColorBuildings extends Component {
             height: 24,
             display: 'flex',
             alignItems: 'center'
-            // justifyContent: 'center',
           }}
         >
           <div
@@ -87,10 +91,10 @@ export default class ColorBuildings extends Component {
 
   _init = () => {
     this._clickBuilding();
-    storage.removeItem('features');
-    const _features = storage.getItem('features_modify');
+    storage.removeItem('features_modify');
+    const _features = storage.getItem('features_190314');
     this._features = JSON.parse(_features) || [];
-    setTimeout(() => {
+    _MAP_.on('load', () => {
       _MAP_.addLayer({
         id: colorLayerId,
         type: 'fill-extrusion',
@@ -116,12 +120,16 @@ export default class ColorBuildings extends Component {
           'fill-extrusion-opacity': 0.7
         }
       });
-    }, 2000);
+    });
   };
 
   _clickBuilding = () => {
-    const _gresplArr = ['GRESPL_1_3D', 'GRESPL_2_3D', 'GRESPL_3_3D'];
-    for (let item of _gresplArr) {
+    // _MAP_.on('contextmenu', e => {
+    //   console.log(e);
+    //   // this._frameFeatures.push()
+    // });
+
+    for (let item of gresplArr) {
       _MAP_.on('contextmenu', item, e => {
         // console.log(
         //   '_MAP_.getLayer(item)',
@@ -131,12 +139,16 @@ export default class ColorBuildings extends Component {
         //   }),
         //   _MAP_.querySourceFeatures('GRESPL_Merge_ID1')
         // );
+        console.log(e.features);
+        _MAP_.on('move', this._moveListener); // 添加事件
         this.setState({
-          left: e.point.x + 10,
-          top: e.point.y + 10,
+          left: e.point.x,
+          top: e.point.y,
           curIndex: -1,
           curType: -1,
-          buildingId: '' + e.features[0].properties.ID
+          buildingId: '' + e.features[0].properties.ID,
+          lngLat: e.lngLat,
+          visible: true
         });
         this._curFeature = {
           type: 'Feature',
@@ -186,11 +198,13 @@ export default class ColorBuildings extends Component {
 
   _cancel = () => {
     this.setState({
-      left: undefined,
-      top: undefined,
+      left: 0,
+      top: 0,
       curIndex: -1,
-      curType: -1
+      curType: -1,
+      visible: false
     });
+    _MAP_.off('move', this._moveListener); // 删除事件
     this._removeCurLayer(); // 删除当前图层
   };
 
@@ -200,6 +214,7 @@ export default class ColorBuildings extends Component {
     const { curType, buildingId } = this.state;
     if (curType === undefined || curType === -1)
       return TuyunMessage.info('请选择类型！请选择类型！请选择类型！');
+
     const _body = {
       test: 'dataCollect',
       type: curType,
@@ -216,10 +231,11 @@ export default class ColorBuildings extends Component {
       ? TuyunMessage.show('保存成功')
       : TuyunMessage.warning('保存失败');
     this.setState({
-      left: undefined,
-      top: undefined,
+      left: 0,
+      top: 0,
       curIndex: -1,
-      curType: -1
+      curType: -1,
+      visible: false
     });
     if (curType === '-1') {
       const _chosenFeatures = this._features.filter(item => {
@@ -232,7 +248,7 @@ export default class ColorBuildings extends Component {
     } else {
       this._features.push(this._curFeature);
     }
-    storage.setItem('features_modify', JSON.stringify(this._features));
+    storage.setItem('features_190314', JSON.stringify(this._features));
     this._removeCurLayer(); // 删除当前图层
   };
 
@@ -272,6 +288,13 @@ export default class ColorBuildings extends Component {
       });
     }
   };
+
+  _moveListener = () => {
+    const { lngLat, visible } = this.state;
+    if (!visible) return;
+    const { x, y } = _MAP_.project(lngLat);
+    this.setState({ left: x, top: y });
+  };
 }
 
 const classifications = [
@@ -286,3 +309,4 @@ const classifications = [
 const colorLayerId = 'COLOR_LAYER_ID';
 const curColorLayerId = 'CURRENT_COLOR_LAYER_ID';
 const storage = window.localStorage;
+const gresplArr = ['GRESPL_1_3D', 'GRESPL_2_3D', 'GRESPL_3_3D'];
