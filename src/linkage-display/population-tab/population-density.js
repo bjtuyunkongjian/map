@@ -4,6 +4,7 @@
  * 1. 总人口
  * 2. 流口
  * 3. 重点人口
+ * 点击右侧的密度条时，地图底图切换为相应的密度图。因为此时只是切换底图，所以地图上叠加显示的数据不变，不论是热力图还是点位图（后与王洁沟通，她认为热力图和密度图视觉上可以一起显示）。
  */
 
 import React, { Component } from 'react';
@@ -47,9 +48,9 @@ export default class PopulationDensity extends Component {
           title={{ text: '人口密度图' }}
           legend={{ text: '人口总数：65' }}
           data={[
-            { value: totalPopDensity, label: '总人口', code: 1, end: _end },
-            { value: lkpopDensity, label: '流口', code: 2, end: _end },
-            { value: zdpopDensity, label: '重点人口', code: 3, end: _end }
+            { value: totalPopDensity, label: '总人口', code: '1', end: _end },
+            { value: lkpopDensity, label: '流口', code: '2', end: _end },
+            { value: zdpopDensity, label: '重点人口', code: '3', end: _end }
           ]}
           selectedIndex={_selectIndex}
           onClick={this._clickDensity}
@@ -68,13 +69,12 @@ export default class PopulationDensity extends Component {
       _selectInd = curIndex;
     }
     _selectInd > -1 && this._fetchDensityMap(curCell.code); //
-    // _selectInd > -1 ? this._showPoliceStation() : this._hidePoliceStation(); // 获取数据
     onSelect({ index: _selectInd, name: ChartName.popDensity }); // 像父元素传参
   };
 
   _fetchDensityMap = async secType => {
-    const { res, err } = await FetchDensityMap({ secType });
-    // console.log(res);
+    const { res, err } = await FetchDensityMap({ firtype: 1, secType });
+    console.log(res);
     if (err || !res) return; // 保护
     // todo 显示到地图上
     // this._showPoliceStation();
@@ -93,9 +93,8 @@ export default class PopulationDensity extends Component {
   };
 
   _hidePoliceStation = () => {
-    _MAP_.on('load', () => {
-      _MAP_.setLayoutProperty(policeStationId, 'visibility', 'none'); // 设置为可显示
-    });
+    _MAP_.getLayer(policeStationId) &&
+      _MAP_.setLayoutProperty(policeStationId, 'visibility', 'none'); // 设置为不显示
   };
 }
 
