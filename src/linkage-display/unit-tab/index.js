@@ -38,22 +38,24 @@ export default class UnitTab extends Component {
       specialUintData,
       protectUnitData
     } = this.state;
-    if (curBar !== TabValue.unit) return null;
     return (
-      <div className="tab-charts">
+      <div className={`tab-charts ${curBar !== TabValue.unit ? 'hidden' : ''}`}>
         <UnitBar
+          curBar={curBar}
           selectedChart={chartInfo.name}
           selectedIndex={chartInfo.index}
           onSelect={this._selectChart}
           chartData={unitBarData}
         />
         <SpecialUnit
+          curBar={curBar}
           selectedChart={chartInfo.name}
           selectedIndex={chartInfo.index}
           onSelect={this._selectChart}
           chartData={specialUintData}
         />
         <ProtectionUnit
+          curBar={curBar}
           selectedChart={chartInfo.name}
           selectedIndex={chartInfo.index}
           onSelect={this._selectChart}

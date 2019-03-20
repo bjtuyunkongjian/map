@@ -19,24 +19,34 @@ import { TuyunPie } from 'tuyun-kit';
 
 import { ChartName } from './chart-info';
 
+import { DefaultTab, TabValue } from '../constant';
+
 export default class ProtectionUnit extends Component {
   static defaultProps = {
     selectedChart: '',
     selectedIndex: -1,
-    chartData: {}
+    chartData: {},
+    curBar: DefaultTab
   };
 
   render() {
-    const { selectedChart, selectedIndex, chartData } = this.props;
+    const { selectedChart, selectedIndex, chartData, curBar } = this.props;
+    if (curBar !== TabValue.unit) return null;
+
     const _selectIndex =
       selectedChart === ChartName.protectUnit ? selectedIndex : -1;
-    console.log('chartData', chartData);
+
+    let _total = 0;
+    Object.keys(chartData).map(item => {
+      _total += chartData[item] || 0;
+    });
+
     return (
       <div className="charts-box">
         <TuyunPie
           height={200}
           title={{ text: '保护单位' }}
-          legend={{ text: '人口总数：65' }}
+          legend={{ text: `总数：${_total}` }}
           data={[
             {
               value: chartData.xinwen || 0,

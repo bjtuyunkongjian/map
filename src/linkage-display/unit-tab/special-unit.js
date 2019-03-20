@@ -24,23 +24,33 @@ import { TuyunPie } from 'tuyun-kit';
 
 import { ChartName } from './chart-info';
 
+import { DefaultTab, TabValue } from '../constant';
+
 export default class SpecialUnit extends Component {
   static defaultProps = {
     selectedChart: '',
     selectedIndex: -1,
-    chartData: {}
+    chartData: {},
+    curBar: DefaultTab
   };
 
   render() {
-    const { selectedChart, selectedIndex, chartData } = this.props;
+    const { selectedChart, selectedIndex, chartData, curBar } = this.props;
+    if (curBar !== TabValue.unit) return null;
+
     const _selectIndex =
       selectedChart === ChartName.specialUnit ? selectedIndex : -1;
+
+    let _total = 0;
+    Object.keys(chartData).map(item => {
+      _total += chartData[item] || 0;
+    });
     return (
       <div className="charts-box">
         <TuyunPie
           height={200}
           title={{ text: '特种单位' }}
-          legend={{ text: '人口总数：65' }}
+          legend={{ text: `总数：${_total}` }}
           data={[
             {
               value: chartData.yule || 0,

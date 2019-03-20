@@ -18,6 +18,8 @@ import {
 import { ChartName, UnitLayerId } from './chart-info';
 import { FetchUnitData } from './webapi';
 
+import { DefaultTab, TabValue } from '../constant';
+
 export default class UnitBar extends Component {
   state = {
     selectedIndex: -1
@@ -26,11 +28,13 @@ export default class UnitBar extends Component {
   static defaultProps = {
     selectedChart: '',
     selectedIndex: -1,
-    chartData: {}
+    chartData: {},
+    curBar: DefaultTab
   };
 
   render() {
-    const { selectedChart, selectedIndex, chartData } = this.props;
+    const { selectedChart, selectedIndex, chartData, curBar } = this.props;
+    if (curBar !== TabValue.unit) return null;
     const _selectIndex =
       selectedChart === ChartName.unitBar ? selectedIndex : -1;
     return (
@@ -38,7 +42,7 @@ export default class UnitBar extends Component {
         <TuyunBar
           height={200}
           title={{ text: '单位' }}
-          legend={{ text: '人口总数：85' }}
+          legend={{ text: `总数：${chartData.totalDw || 0}` }}
           data={[
             {
               label: '全部',
