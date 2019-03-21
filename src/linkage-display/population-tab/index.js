@@ -84,7 +84,7 @@ export default class PopulationTab extends Component {
   _dealWithEvent = () => {
     Event.on(EventName.changeNav, async nextBar => {
       const { curBar } = this.state;
-      if (nextBar === curBar) return;
+      if (nextBar === curBar) return; // 重复点击保护
       await this.setState({
         curBar: nextBar,
         chartInfo: { name: '', index: -1 }
@@ -120,7 +120,7 @@ export default class PopulationTab extends Component {
 
   _addListener = () => {
     _MAP_.on('moveend', this._fetchChartData);
-    _MAP_.on('click', this._clickPopLayer);
+    _MAP_.on('click', PopulationLayerId, this._clickPopLayer);
   };
 
   _removeListener = () => {
