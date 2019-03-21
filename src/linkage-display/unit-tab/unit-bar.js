@@ -68,35 +68,40 @@ export default class UnitBar extends Component {
               value: chartData.totalDw || 0,
               startColor: '#bbaddc',
               endColor: '#facff0',
-              code: null
+              code: null,
+              sectype: '1'
             },
             {
               label: '普通',
               value: chartData.ptdw || 0,
               startColor: '#aed3fc',
               endColor: '#e6d1fc',
-              code: '2'
+              code: '2',
+              sectype: '2'
             },
             {
               label: '特种',
               value: chartData.tzdw || 0,
               startColor: '#fbdcd4',
               endColor: '#fed9fe',
-              code: '3'
+              code: '3',
+              sectype: '3'
             },
             {
               label: '保护',
               value: chartData.bhdw || 0,
               startColor: '#bbaddc',
               endColor: '#facff0',
-              code: '4'
+              code: '4',
+              sectype: '4'
             },
             {
               label: '九小场所',
               value: chartData.jxcs || 0,
               startColor: '#aed3fc',
               endColor: '#e6d1fc',
-              code: '5'
+              code: '5',
+              sectype: '5'
             }
           ]}
           selectedIndex={_selectIndex}
