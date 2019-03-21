@@ -147,11 +147,10 @@ export default class PupupBuilding extends Component {
       item.value = res[item.key] || '暂无';
     });
     this.setState({
-      buildingName: jzwdzmc || '暂无',
-      buildingInfo: '' || '暂无',
-      buildinglocation: jzwdzmc || '暂无',
-      totalRkNum,
-      roomInfoList
+      baseInfo: BaseInfo,
+      affiliationInfo: AffiliationInfo,
+      custodianInfo: CustodianInfo,
+      homeownerInfo: HomeownerInfo
     });
   };
 

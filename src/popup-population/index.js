@@ -2,16 +2,7 @@ import React, { Component } from 'react';
 import { Event as GlobalEvent, EventName as GloEventName } from 'tuyun-utils';
 
 import { FetchPopDetail } from './webapi';
-import {
-  HousingCategory,
-  HousingUseForm,
-  HousingNature,
-  HousingUsage,
-  BaseInfo,
-  AffiliationInfo,
-  CustodianInfo,
-  HomeownerInfo
-} from './constant';
+import { BaseInfo, HouseholdRegInfo, PopCategory } from './constant';
 
 export default class PupupPopulation extends Component {
   state = {
@@ -21,9 +12,7 @@ export default class PupupPopulation extends Component {
     lngLat: [],
     popCode: '',
     baseInfo: BaseInfo,
-    affiliationInfo: AffiliationInfo,
-    custodianInfo: CustodianInfo,
-    homeownerInfo: HomeownerInfo
+    householdRegInfo: HouseholdRegInfo
   };
 
   componentDidMount = () => this._init();
@@ -35,11 +24,9 @@ export default class PupupPopulation extends Component {
       popCode,
       boxTop,
       boxLeft,
+      visible,
       baseInfo,
-      affiliationInfo,
-      custodianInfo,
-      homeownerInfo,
-      visible
+      householdRegInfo
     } = this.state;
     if (!popCode || !visible) return null;
 
@@ -48,7 +35,7 @@ export default class PupupPopulation extends Component {
         className="detail-popup"
         style={{ top: boxTop + 10, left: boxLeft + 10 }}
       >
-        <div className="detail-title">房屋信息</div>
+        <div className="detail-title">人员信息</div>
 
         <div className="info-label">基本信息</div>
         <ul className="detail-box">
@@ -60,29 +47,9 @@ export default class PupupPopulation extends Component {
           ))}
         </ul>
 
-        <div className="info-label">房主信息</div>
+        <div className="info-label">户籍信息</div>
         <ul className="detail-box">
-          {homeownerInfo.map((item, index) => (
-            <li className="info-detail" key={`detail_${index}`}>
-              <div className="detail-label">{item.label}：</div>
-              <div className="detail-value">{item.value}</div>
-            </li>
-          ))}
-        </ul>
-
-        <div className="info-label">托管人信息</div>
-        <ul className="detail-box">
-          {custodianInfo.map((item, index) => (
-            <li className="info-detail" key={`detail_${index}`}>
-              <div className="detail-label">{item.label}：</div>
-              <div className="detail-value">{item.value}</div>
-            </li>
-          ))}
-        </ul>
-
-        <div className="info-label">隶属信息</div>
-        <ul className="detail-box">
-          {affiliationInfo.map((item, index) => (
+          {householdRegInfo.map((item, index) => (
             <li className="info-detail" key={`detail_${index}`}>
               <div className="detail-label">{item.label}：</div>
               <div className="detail-value">{item.value}</div>
@@ -94,15 +61,15 @@ export default class PupupPopulation extends Component {
   }
 
   _init = () => {
-    const { closePopupBuilding, showPopupBuilding } = GloEventName;
-    GlobalEvent.on(showPopupBuilding, this._showPopup);
-    GlobalEvent.on(closePopupBuilding, this._closePopup);
+    const { closePopupPopulation, showPopupPopulation } = GloEventName;
+    GlobalEvent.on(showPopupPopulation, this._showPopup);
+    GlobalEvent.on(closePopupPopulation, this._closePopup);
   };
 
   _reset = () => {
-    const { showPopupBuilding, closePopupBuilding } = GloEventName;
-    GlobalEvent.removeListener(showPopupBuilding, this._showPopup);
-    GlobalEvent.removeListener(closePopupBuilding, this._closePopup);
+    const { showPopupPopulation, closePopupPopulation } = GloEventName;
+    GlobalEvent.removeListener(showPopupPopulation, this._showPopup);
+    GlobalEvent.removeListener(closePopupPopulation, this._closePopup);
   };
 
   _showPopup = async param => {
@@ -129,29 +96,17 @@ export default class PupupPopulation extends Component {
       rkbm: popCode
     });
     if (!res || err) return console.log('获取房屋信息失败');
-    res.fwxz = HousingNature[res.fwxz]; // 房屋性质
-    res.syxs = HousingUseForm[res.syxs]; // 房屋使用形式
-    res.fwlb = HousingCategory[res.fwlb]; // 房屋类别
-    res.fwyt = HousingUsage[res.fwyt]; // 房屋用途
+    res.rklb = PopCategory[res.rklb]; // 人口类别
 
     BaseInfo.map(item => {
       item.value = res[item.key] || '暂无';
     });
-    AffiliationInfo.map(item => {
-      item.value = res[item.key] || '暂无';
-    });
-    CustodianInfo.map(item => {
-      item.value = res[item.key] || '暂无';
-    });
-    HomeownerInfo.map(item => {
+    HouseholdRegInfo.map(item => {
       item.value = res[item.key] || '暂无';
     });
     this.setState({
-      buildingName: jzwdzmc || '暂无',
-      buildingInfo: '' || '暂无',
-      buildinglocation: jzwdzmc || '暂无',
-      totalRkNum,
-      roomInfoList
+      baseInfo: BaseInfo,
+      householdRegInfo: HouseholdRegInfo
     });
   };
 
