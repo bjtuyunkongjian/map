@@ -126,9 +126,9 @@ export default class UnitTab extends Component {
     // const _zoom = _MAP_.getZoom();
     // // 大于 16.5 级，可以点击，小于 16.5 级，看点的数量
     // console.log(_zoom);
-    const { showPopupPopulation } = GloEventName;
+    const { showPopupUnit } = GloEventName;
     const { lngLat, originalEvent } = e;
-    GlobalEvent.emit(showPopupPopulation, {
+    GlobalEvent.emit(showPopupUnit, {
       visible: true,
       boxLeft: originalEvent.x,
       boxTop: originalEvent.y,
@@ -138,6 +138,8 @@ export default class UnitTab extends Component {
   };
 
   _selectChart = chartInfo => {
+    const { closePopupUnit } = GloEventName;
     this.setState({ chartInfo });
+    GlobalEvent.emit(closePopupUnit);
   };
 }

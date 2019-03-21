@@ -151,9 +151,9 @@ export default class UnitBar extends Component {
       _circleRadius = 2;
     }
     const _features = res.map(item => {
-      const { ZXDHZB, ZXDZZB, RKBM } = item;
-      return TurfPoint([ZXDHZB, ZXDZZB], {
-        code: RKBM,
+      const { hzb, zzb, dzbm } = item;
+      return TurfPoint([hzb, zzb], {
+        code: dzbm, // 单位地址编码
         radius: _circleRadius,
         enableClick: _enableClick
       }); // 生成点数据
@@ -175,7 +175,7 @@ export default class UnitBar extends Component {
   _fetchNameplateData = async sectype => {
     const _bounds = _MAP_.getBounds();
     const { res, err } = await FetchNameplateData({
-      firtype: 1,
+      firtype: 2,
       sectype: sectype,
       points: _bounds
     });
