@@ -55,12 +55,27 @@ export default class BuildingPie extends Component {
           data={[
             {
               value: _percentage,
-              label: '出租',
+              label: '自住1',
               type: '2'
             },
             {
-              value: 100 - _percentage,
-              label: '自住',
+              value: _percentage,
+              label: '自住2',
+              type: '1'
+            },
+            {
+              value: _percentage,
+              label: '自住3',
+              type: '1'
+            },
+            {
+              value: _percentage,
+              label: '自住4',
+              type: '1'
+            },
+            {
+              value: 100 - _percentage * 4,
+              label: '出租',
               type: '1'
             }
           ]}

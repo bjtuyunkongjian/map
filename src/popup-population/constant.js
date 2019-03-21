@@ -36,64 +36,42 @@ export const HousingUsage = {
   '90': '其他'
 }; // 房屋用途
 
+// 人口信息
 export const BaseInfo = [
+  {
+    label: '联系电话',
+    value: '',
+    key: 'lxdh'
+  },
+  {
+    label: '出生日期',
+    value: '',
+    key: 'csrq'
+  },
   {
     label: '地址名称',
     value: '',
     key: 'dzmc'
   },
   {
-    label: '性质',
+    label: '户籍地',
     value: '',
-    key: 'fwxz'
+    key: 'hjd'
   },
   {
-    label: '产权证号',
+    label: '身份证号',
     value: '',
-    key: 'fwcqzh'
+    key: 'sfzhm'
   },
   {
-    label: '间数',
+    label: '性别',
     value: '',
-    key: 'fwjs'
+    key: 'xb'
   },
   {
-    label: '使用形式',
+    label: '人口编码',
     value: '',
-    key: 'syxs'
-  },
-  {
-    label: '类别',
-    value: '',
-    key: 'fwlb'
-  },
-  {
-    label: '用途',
-    value: '',
-    key: 'fwyt'
-  },
-  {
-    label: '面积',
-    value: '',
-    key: 'fwmj'
-  }
-]; // 基本信息
-
-export const AffiliationInfo = [
-  {
-    label: '所属市局',
-    value: '',
-    key: 'sssj'
-  },
-  {
-    label: '所属责任区',
-    value: '',
-    key: 'sszrq'
-  },
-  {
-    label: '所属分县局',
-    value: '',
-    key: 'ssfxj'
+    key: 'rkbm'
   },
   {
     label: '所属派出所',
@@ -101,44 +79,33 @@ export const AffiliationInfo = [
     key: 'sspcs'
   },
   {
-    label: '所属单位',
+    label: '户政户籍地',
     value: '',
-    key: 'fwssdw_dwmc'
-  }
-]; // 隶属信息
-
-export const CustodianInfo = [
+    key: 'hz_hjd'
+  },
+  {
+    label: '所属分县局',
+    value: '',
+    key: 'ssfxj'
+  },
+  {
+    label: '所属责任区',
+    value: '',
+    key: 'sszrq'
+  },
   {
     label: '姓名',
     value: '',
-    key: 'tgr_xm'
+    key: 'xm'
   },
   {
-    label: '身份证号',
+    label: '人口类别',
     value: '',
-    key: 'tgr_gmsfzhm'
+    key: 'rklb'
   },
   {
-    label: '联系电话',
+    label: '所属市局',
     value: '',
-    key: 'tgr_lxdh'
+    key: 'sssj'
   }
-]; // 托管人信息
-
-export const HomeownerInfo = [
-  {
-    label: '姓名',
-    value: '',
-    key: 'fz_xm'
-  },
-  {
-    label: '身份证号',
-    value: '',
-    key: 'fz_sfzhm'
-  },
-  {
-    label: '联系电话',
-    value: '',
-    key: 'fz_lxdh'
-  }
-]; // 房主信息
+]; // 基本信息
