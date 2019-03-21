@@ -4,8 +4,8 @@
 import { FetchRequest } from 'tuyun-utils';
 
 // 获取人口热力图
-export const FetchHeatMapData = async body => {
-  Object.assign(body, { test: 'popDynamic' });
+export const FetchBuildingData = async body => {
+  Object.assign(body, { test: 'fwData' });
   const { res, err } = await FetchRequest({
     url: 'mapServer/string',
     method: 'POST',
@@ -23,17 +23,6 @@ export const FetchHeatMapData = async body => {
  */
 export const FetchNameplateData = async body => {
   Object.assign(body, { test: 'getNum' });
-  const { res, err } = await FetchRequest({
-    url: 'mapServer/string',
-    method: 'POST',
-    body
-  });
-  return { res, err };
-};
-
-// 人口密度图接
-export const FetchDensityMap = async body => {
-  Object.assign(body, { test: 'popDensity', firtype: 1 });
   const { res, err } = await FetchRequest({
     url: 'mapServer/string',
     method: 'POST',
