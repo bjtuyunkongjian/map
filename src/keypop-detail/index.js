@@ -120,9 +120,16 @@ export default class KeyPopDetail extends Component {
     });
     if (!res || err) return;
     RemoveLayer(_MAP_, PopulationLayerId); // 删除图层
+    let _enableClick = false;
+    if (res.length < 200) {
+      _enableClick = true;
+    }
     const _features = res.map(item => {
       const { ZXDHZB, ZXDZZB, RKBM } = item;
-      return TurfPoint([ZXDHZB, ZXDZZB], { code: RKBM });
+      return TurfPoint([ZXDHZB, ZXDZZB], {
+        code: RKBM,
+        enableClick: _enableClick
+      });
     });
     const _geoJSONData = {
       type: 'geojson',

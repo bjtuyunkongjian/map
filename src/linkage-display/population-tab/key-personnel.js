@@ -31,6 +31,7 @@ export default class KeyPersonnel extends Component {
     const _selectedChart = selectedChart === ChartName.keyPop;
     this._selectIndex = -1;
     this._pieData = pieData.filter(item => {
+      console.log(item, chartData[item.key]);
       if (chartData[item.key] && chartData[item.key] > 0) {
         item.value = chartData[item.key] || 0;
         return item;
@@ -38,6 +39,8 @@ export default class KeyPersonnel extends Component {
         return false;
       }
     });
+    console.log(chartData, pieData, this._pieData);
+
     this._pieData.map((item, index) => {
       if (_selectedChart && selectedIndex === item.dataIndex) {
         this._selectIndex = index; // 刷新 chartData 数据后，如果之前选中的选项现在还存在，设置 _selectIndex
@@ -56,7 +59,7 @@ export default class KeyPersonnel extends Component {
     Object.keys(chartData).map(item => {
       _total += chartData[item] || 0;
     });
-    console.log(this._selectIndex, this._clickPie, chartData);
+    console.log(this._selectIndex, this._pieData, chartData);
     return (
       <div className="charts-box">
         <TuyunPie

@@ -21,6 +21,5 @@ export const HouseholdRegInfo = [
   { label: '所属市局', value: '', key: 'sssj' },
   { label: '所属责任区', value: '', key: 'sszrq' },
   { label: '所属分县局', value: '', key: 'ssfxj' },
-  { label: '所属派出所', value: '', key: 'sspcs' },
-  { label: '人口编码', value: '', key: 'rkbm' }
+  { label: '所属派出所', value: '', key: 'sspcs' }
 ]; // 户籍信息

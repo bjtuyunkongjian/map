@@ -132,10 +132,9 @@ export default class PopulationTab extends Component {
     const _zoom = _MAP_.getZoom();
     // // 大于 16.5 级，可以点击，小于 16.5 级，看点的数量
     const { lngLat, originalEvent, features } = e;
-    console.log(e, features);
     const { code, enableClick } = features[0].properties;
     if (_zoom > 16.5) {
-      const { showPopupNameplate, showPopupPopulation } = GloEventName;
+      const { showPopupNameplate } = GloEventName;
       GlobalEvent.emit(showPopupNameplate, {
         visible: true,
         boxLeft: originalEvent.x,
@@ -145,6 +144,7 @@ export default class PopulationTab extends Component {
       });
     } else if (enableClick) {
       // todo 判断类型显示人口详情
+      const { showPopupPopulation } = GloEventName;
       GlobalEvent.emit(showPopupPopulation, {
         visible: true,
         boxLeft: originalEvent.x,
