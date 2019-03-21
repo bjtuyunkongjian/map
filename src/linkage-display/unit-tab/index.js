@@ -114,8 +114,7 @@ export default class UnitTab extends Component {
 
   _addListener = () => {
     _MAP_.on('moveend', this._fetchChartData);
-    // _MAP_.on('click', UnitLayerId, this._clickPopLayer);
-    _MAP_.on('click', this._clickPopLayer);
+    _MAP_.on('click', UnitLayerId, this._clickPopLayer);
   };
 
   _removeListener = () => {

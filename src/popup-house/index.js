@@ -1,18 +1,29 @@
 import React, { Component } from 'react';
-import { FaPeriscope } from 'react-icons/fa';
-import { MdLocationCity } from 'react-icons/md';
-import { MdPeopleOutline } from 'react-icons/md';
-import { TiHomeOutline } from 'react-icons/ti';
-import { FaTimes } from 'react-icons/fa';
+import { Event as GlobalEvent, EventName as GloEventName } from 'tuyun-utils';
 
-import Event, { EventName } from 'tuyun-utils';
+import { FetchUnitDetail } from './webapi';
+import {
+  HousingCategory,
+  HousingUseForm,
+  HousingNature,
+  HousingUsage,
+  BaseInfo,
+  AffiliationInfo,
+  CustodianInfo,
+  HomeownerInfo
+} from './constant';
 
-export default class HouseMessage extends Component {
+export default class PupupUnit extends Component {
   state = {
+    boxTop: 0,
+    boxLeft: 0,
     visible: false,
-    boxLeft: '50%',
-    boxTop: '50%',
-    lngLat: {}
+    lngLat: [],
+    unitCode: '',
+    baseInfo: BaseInfo,
+    affiliationInfo: AffiliationInfo,
+    custodianInfo: CustodianInfo,
+    homeownerInfo: HomeownerInfo
   };
 
   componentDidMount = () => this._init();
@@ -20,101 +31,130 @@ export default class HouseMessage extends Component {
   componentWillUnmount = () => this._reset();
 
   render() {
-    const { visible, boxLeft, boxTop } = this.state;
-    if (!visible) return null;
+    const {
+      unitCode,
+      boxTop,
+      boxLeft,
+      baseInfo,
+      affiliationInfo,
+      custodianInfo,
+      homeownerInfo
+    } = this.state;
+    if (!unitCode) return null;
+
     return (
       <div
+        className="detail-popup"
         style={{ top: boxTop + 10, left: boxLeft + 10 }}
-        className="podata-popup"
       >
-        <div className="popup-title">
-          <FaPeriscope className="icon-left" />
-          <div className="title-text">地点 济南市历下区草山岭小区</div>
-          <FaTimes className="close" onClick={this._clostPopup} />
-        </div>
+        <div className="detail-title">房屋信息</div>
 
-        <ul className="popup-detail">
-          <li>
-            <MdLocationCity className="icon-left" />
-            楼栋信息：该楼共1单元 34层
-          </li>
-          <li>
-            <TiHomeOutline className="icon-left" />
-            建筑地址：济南市历下区草山岭小区9栋1单元
-          </li>
-          <li>
-            <MdPeopleOutline className="icon-left" />
-            <div>
-              <div>常住：1220</div>
-              <div>流动：223</div>
-              <div>重点：5</div>
-            </div>
-          </li>
+        <div className="info-label">基本信息</div>
+        <ul className="detail-box">
+          {baseInfo.map((item, index) => (
+            <li className="info-detail" key={`detail_${index}`}>
+              <div className="detail-label">{item.label}：</div>
+              <div className="detail-value">{item.value}</div>
+            </li>
+          ))}
         </ul>
 
-        <ul className="popup-explanation">
-          <li>
-            <div className="resident-pop" />
-            <span>常住</span>
-          </li>
-          <li>
-            <div className="floating-pop" />
-            <span>流动</span>
-          </li>
-          <li>
-            <div className="key-pop" />
-            <span>重点人员</span>
-          </li>
+        <div className="info-label">房主信息</div>
+        <ul className="detail-box">
+          {homeownerInfo.map((item, index) => (
+            <li className="info-detail" key={`detail_${index}`}>
+              <div className="detail-label">{item.label}：</div>
+              <div className="detail-value">{item.value}</div>
+            </li>
+          ))}
         </ul>
 
-        <ul className="popup-list">
-          {[1, 2, 3, 4, 5].map((item, index) => {
-            return (
-              <li
-                className={`list-item ${_selected ? 'selected-item' : ''}`}
-                key={`house_item_${index}`}
-              >
-                <div className="room-code">1-340030000</div>
-                <div className="type-box">
-                  <div className="pop-type resident-pop">1</div>
-                  <div className="pop-type floating-pop">2</div>
-                  <div className="pop-type key-pop">3</div>
-                </div>
-              </li>
-            );
-          })}
+        <div className="info-label">托管人信息</div>
+        <ul className="detail-box">
+          {custodianInfo.map((item, index) => (
+            <li className="info-detail" key={`detail_${index}`}>
+              <div className="detail-label">{item.label}：</div>
+              <div className="detail-value">{item.value}</div>
+            </li>
+          ))}
+        </ul>
+
+        <div className="info-label">隶属信息</div>
+        <ul className="detail-box">
+          {affiliationInfo.map((item, index) => (
+            <li className="info-detail" key={`detail_${index}`}>
+              <div className="detail-label">{item.label}：</div>
+              <div className="detail-value">{item.value}</div>
+            </li>
+          ))}
         </ul>
       </div>
     );
   }
 
   _init = () => {
-    Event.on(EventName.showPoDataHouse, this._dealWithEvent);
-    Event.on(EventName.closePoDataHouse, this._clostPopup);
+    const { showPopupUnit, closePopupUnit } = GloEventName;
+    GlobalEvent.on(showPopupUnit, this._showPopup);
+    GlobalEvent.on(closePopupUnit, this._closePopup);
   };
 
   _reset = () => {
-    Event.removeListener(EventName.showPoDataHouse, this._dealWithEvent);
-    Event.removeListener(EventName.closePoDataHouse, this._clostPopup);
+    const { showPopupUnit, closePopupUnit } = GloEventName;
+    GlobalEvent.removeListener(showPopupUnit, this._showPopup);
+    GlobalEvent.removeListener(closePopupUnit, this._closePopup);
   };
 
-  _dealWithEvent = param => {
-    const { visible, boxLeft, boxTop, lngLat } = param;
-    this.setState({
+  _showPopup = async param => {
+    const { visible, boxLeft, boxTop, lngLat, code } = param;
+    await this.setState({
       visible: visible,
       boxLeft: boxLeft,
       boxTop: boxTop,
-      lngLat: lngLat
+      lngLat: lngLat,
+      unitCode: code
     });
-    _MAP_.on('move', this._moveListener);
+    this._fetchUnitDetail();
+    _MAP_.on('move', this._addListener);
   };
 
-  _clostPopup = () => {
+  _closePopup = () => {
     this.setState({ visible: false });
-    _MAP_.off('move', this._moveListener);
+    _MAP_.off('move', this._addListener);
   };
 
-  _moveListener = () => {
+  _fetchUnitDetail = async () => {
+    const { unitCode } = this.state;
+    const { res, err } = await FetchUnitDetail({
+      jzwbm: unitCode
+    });
+    if (!res || err) return console.log('获取房屋信息失败');
+    res.fwxz = HousingNature[res.fwxz]; // 房屋性质
+    res.syxs = HousingUseForm[res.syxs]; // 房屋使用形式
+    res.fwlb = HousingCategory[res.fwlb]; // 房屋类别
+    res.fwyt = HousingUsage[res.fwyt]; // 房屋用途
+
+    BaseInfo.map(item => {
+      item.value = res[item.key] || '暂无';
+    });
+    AffiliationInfo.map(item => {
+      item.value = res[item.key] || '暂无';
+    });
+    CustodianInfo.map(item => {
+      item.value = res[item.key] || '暂无';
+    });
+    HomeownerInfo.map(item => {
+      item.value = res[item.key] || '暂无';
+    });
+    this.setState({
+      buildingName: jzwdzmc || '暂无',
+      buildingInfo: '' || '暂无',
+      buildinglocation: jzwdzmc || '暂无',
+      totalRkNum,
+      roomInfoList
+    });
+  };
+
+  _addListener = () => {
     const { lngLat, visible } = this.state;
     if (!visible || !lngLat) return;
     const { x, y } = _MAP_.project(lngLat); // {lat, lng} => {x, y}
