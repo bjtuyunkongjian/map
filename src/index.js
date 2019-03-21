@@ -17,7 +17,8 @@ import LeftMenu from './left-menu';
 import LinkageDisplay from './linkage-display'; // 联动显示
 // import ElementLibrary from './element-library'; // 图标库
 import KeyPopDetail from './keypop-detail'; // 重点人口详情
-import PopupNameplate from './popup-nameplate'; // 人口弹框
+import PopupNameplate from './popup-nameplate'; // 铭牌弹框
+import PopupPopulation from './popup-population'; // 人口弹框
 import PopupUnit from './popup-unit'; // 单位弹框
 import PopupBuilding from './popup-building'; // 建筑物弹框
 
@@ -43,6 +44,7 @@ class MapApp extends Component {
         <BottomNav />
         <FeaturesMenu />
         <PopupNameplate />
+        <PopupPopulation />
         <PopupUnit />
         <PopupBuilding />
       </div>
