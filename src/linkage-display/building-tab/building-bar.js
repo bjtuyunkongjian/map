@@ -13,7 +13,7 @@ import {
   featureCollection as FeatureCollection
 } from 'turf';
 
-import { BuildingLayerId } from './chart-info';
+import { ChartName, BuildingLayerId } from './chart-info';
 import { FetchBuildingData } from './webapi';
 import { AddPointLayer, RemoveLayer } from './layer-control';
 
@@ -32,8 +32,8 @@ export default class BuildingPie extends Component {
   componentWillReceiveProps = nextProps => {
     const { curBar, selectedChart, selectedIndex } = nextProps;
     if (
-      curBar !== TabValue.unit ||
-      selectedChart !== ChartName.unitBar ||
+      curBar !== TabValue.building ||
+      selectedChart !== ChartName.buildingBar ||
       selectedIndex < 0
     ) {
       // 未选中当前 tab，移除监听事件
@@ -51,7 +51,7 @@ export default class BuildingPie extends Component {
     const { selectedChart, selectedIndex, chartData, curBar } = this.props;
     if (curBar !== TabValue.building) return null;
     const _selectIndex =
-      selectedChart === ChartName.unitBar ? selectedIndex : -1;
+      selectedChart === ChartName.buildingBar ? selectedIndex : -1;
     return (
       <div className="charts-box">
         <TuyunBar
@@ -93,13 +93,13 @@ export default class BuildingPie extends Component {
     const { curIndex, curCell } = barInfo;
     let _selectInd;
     this._curCell = curCell;
-    if (selectedChart === ChartName.unitBar) {
+    if (selectedChart === ChartName.buildingBar) {
       _selectInd = curIndex === selectedIndex ? -1 : curIndex;
     } else {
       _selectInd = curIndex;
     }
     // _selectInd > -1 && this._fetchData(curCell.code); // 获取数据
-    onSelect({ index: _selectInd, name: ChartName.unitBar }); // 像父元素传参
+    onSelect({ index: _selectInd, name: ChartName.buildingBar }); // 像父元素传参
   };
 
   _fetchData = async () => {
