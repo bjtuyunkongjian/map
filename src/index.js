@@ -19,6 +19,7 @@ import LinkageDisplay from './linkage-display'; // 联动显示
 import KeyPopDetail from './keypop-detail'; // 重点人口详情
 import PopupNameplate from './popup-nameplate'; // 人口弹框
 import PopupUnit from './popup-unit'; // 单位弹框
+import PopupBuilding from './popup-building'; // 建筑物弹框
 
 class MapApp extends Component {
   render() {
@@ -43,6 +44,7 @@ class MapApp extends Component {
         <FeaturesMenu />
         <PopupNameplate />
         <PopupUnit />
+        <PopupBuilding />
       </div>
     );
   }

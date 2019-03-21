@@ -128,7 +128,6 @@ export default class UnitTab extends Component {
     // // 大于 16.5 级，可以点击，小于 16.5 级，看点的数量
     // console.log(_zoom);
     const { showPopupBuilding } = GloEventName;
-    console.log('click', e);
     const { lngLat, originalEvent } = e;
     GlobalEvent.emit(showPopupBuilding, {
       visible: true,

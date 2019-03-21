@@ -64,8 +64,8 @@ export const BusinessInfo = [
   { label: '营业方式', value: '', key: 'jyfs' },
   { label: '经营状态', value: '', key: 'jyzt' },
   { label: '经营面积', value: '', key: 'jymj' },
-  { label: '营业执照号', value: '', key: 'yyzzh' },
-  { label: '营业执照', value: '', key: 'sfyyyzz' }
+  { label: '营业执照', value: '', key: 'sfyyyzz' },
+  { label: '营业执照号', value: '', key: 'yyzzh' }
 ]; // 经营范围
 
 export const LegalRepInfo = [

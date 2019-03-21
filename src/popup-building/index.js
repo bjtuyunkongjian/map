@@ -57,16 +57,6 @@ export default class PupupBuilding extends Component {
           ))}
         </ul>
 
-        <div className="info-label">保卫负责人信息</div>
-        <ul className="detail-box">
-          {defendingPerInfo.map((item, index) => (
-            <li className="info-detail" key={`detail_${index}`}>
-              <div className="detail-label">{item.label}：</div>
-              <div className="detail-value">{item.value}</div>
-            </li>
-          ))}
-        </ul>
-
         <div className="info-label">经营信息</div>
         <ul className="detail-box">
           {businessInfo.map((item, index) => (
@@ -80,6 +70,16 @@ export default class PupupBuilding extends Component {
         <div className="info-label">法定代表人信息</div>
         <ul className="detail-box">
           {legalRepInfo.map((item, index) => (
+            <li className="info-detail" key={`detail_${index}`}>
+              <div className="detail-label">{item.label}：</div>
+              <div className="detail-value">{item.value}</div>
+            </li>
+          ))}
+        </ul>
+
+        <div className="info-label">保卫负责人信息</div>
+        <ul className="detail-box">
+          {defendingPerInfo.map((item, index) => (
             <li className="info-detail" key={`detail_${index}`}>
               <div className="detail-label">{item.label}：</div>
               <div className="detail-value">{item.value}</div>
@@ -104,7 +104,6 @@ export default class PupupBuilding extends Component {
 
   _showPopup = async param => {
     const { visible, boxLeft, boxTop, lngLat, code } = param;
-    console.log(param);
     await this.setState({
       visible: visible,
       boxLeft: boxLeft,
@@ -126,7 +125,7 @@ export default class PupupBuilding extends Component {
     const { res, err } = await FetchBuildingDetail({
       dzbm: buildingCode
     });
-    if (!res || err) return console.log('获取房屋信息失败');
+    if (!res || err) return console.log('popup-building');
     res.sfjxcs = res.sfjxcs ? (res.sfjxcs === 'Y' ? '是' : '否') : '未知'; // 房屋性质
     res.jymj = res.jymj ? res.jymj + '平方米' : '未知'; // 房屋使用形式
     res.zczj = res.zczj ? res.zczj + '万元' : '未知'; // 房屋类别
