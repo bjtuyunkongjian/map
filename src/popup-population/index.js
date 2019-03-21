@@ -95,7 +95,7 @@ export default class PupupPopulation extends Component {
     const { res, err } = await FetchPopDetail({
       rkbm: popCode
     });
-    if (!res || err) return console.log('获取房屋信息失败');
+    if (!res || err) return console.log('获取人口信息失败');
     res.rklb = PopCategory[res.rklb]; // 人口类别
 
     BaseInfo.map(item => {

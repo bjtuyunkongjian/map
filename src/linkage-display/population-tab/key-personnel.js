@@ -56,6 +56,7 @@ export default class KeyPersonnel extends Component {
     Object.keys(chartData).map(item => {
       _total += chartData[item] || 0;
     });
+    console.log(this._selectIndex, this._clickPie, chartData);
     return (
       <div className="charts-box">
         <TuyunPie

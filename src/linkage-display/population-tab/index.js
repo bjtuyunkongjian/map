@@ -106,7 +106,7 @@ export default class PopulationTab extends Component {
     const _zoom = _MAP_.getZoom();
     const { res, err } = await FetchChartData({
       points: _bounds,
-      mapLevel: 20,
+      mapLevel: _zoom,
       flag: 1
     });
     if (!res || err) return; // 保护
@@ -132,18 +132,26 @@ export default class PopulationTab extends Component {
     const _zoom = _MAP_.getZoom();
     // // 大于 16.5 级，可以点击，小于 16.5 级，看点的数量
     const { lngLat, originalEvent, features } = e;
-
+    console.log(e, features);
+    const { code, enableClick } = features[0].properties;
     if (_zoom > 16.5) {
-      const { showPopupNameplate } = GloEventName;
+      const { showPopupNameplate, showPopupPopulation } = GloEventName;
       GlobalEvent.emit(showPopupNameplate, {
         visible: true,
         boxLeft: originalEvent.x,
         boxTop: originalEvent.y,
         lngLat: lngLat,
-        code: '681382501BD820DBE053B692300A522F'
+        code: code
       });
-    } else if (features) {
+    } else if (enableClick) {
       // todo 判断类型显示人口详情
+      GlobalEvent.emit(showPopupPopulation, {
+        visible: true,
+        boxLeft: originalEvent.x,
+        boxTop: originalEvent.y,
+        lngLat: lngLat,
+        code: code
+      });
     }
   };
 
