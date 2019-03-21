@@ -4,8 +4,8 @@
 import { FetchRequest } from 'tuyun-utils';
 
 // 建筑物详情
-export const FetchUnitDetail = async body => {
-  Object.assign(body, { test: 'dwDetail' });
+export const FetchBuildingDetail = async body => {
+  Object.assign(body, { test: 'fwDetail' });
   const { res, err } = await FetchRequest({
     url: 'mapServer/string',
     method: 'POST',
