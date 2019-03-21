@@ -120,16 +120,17 @@ export default class UnitTab extends Component {
 
   _removeListener = () => {
     _MAP_.off('moveend', this._fetchChartData);
-    _MAP_.off('click', UnitLayerId, this._clickPopLayer);
+    _MAP_.off('click', this._clickPopLayer);
+    // _MAP_.off('click', UnitLayerId, this._clickPopLayer);
   };
 
   _clickPopLayer = e => {
     // const _zoom = _MAP_.getZoom();
     // // 大于 16.5 级，可以点击，小于 16.5 级，看点的数量
     // console.log(_zoom);
-    const { showPopupBuilding } = GloEventName;
+    const { showPopupUnit } = GloEventName;
     const { lngLat, originalEvent } = e;
-    GlobalEvent.emit(showPopupBuilding, {
+    GlobalEvent.emit(showPopupUnit, {
       visible: true,
       boxLeft: originalEvent.x,
       boxTop: originalEvent.y,

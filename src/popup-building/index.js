@@ -38,9 +38,10 @@ export default class PupupBuilding extends Component {
       baseInfo,
       affiliationInfo,
       custodianInfo,
-      homeownerInfo
+      homeownerInfo,
+      visible
     } = this.state;
-    if (!buildingCode) return null;
+    if (!buildingCode || !visible) return null;
 
     return (
       <div
@@ -107,7 +108,7 @@ export default class PupupBuilding extends Component {
   _showPopup = async param => {
     const { visible, boxLeft, boxTop, lngLat, code } = param;
     await this.setState({
-      visible: visible,
+      visible,
       boxLeft: boxLeft,
       boxTop: boxTop,
       lngLat: lngLat,
@@ -118,6 +119,7 @@ export default class PupupBuilding extends Component {
   };
 
   _closePopup = () => {
+    console.log('aaaaaaaaaaaaa');
     this.setState({ visible: false });
     _MAP_.off('move', this._addListener);
   };

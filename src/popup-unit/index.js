@@ -36,9 +36,10 @@ export default class PupupUnit extends Component {
       baseInfo,
       defendingPerInfo,
       businessInfo,
-      legalRepInfo
+      legalRepInfo,
+      visible
     } = this.state;
-    if (!unitCode) return null;
+    if (!unitCode || !visible) return null;
 
     return (
       <div
@@ -105,7 +106,7 @@ export default class PupupUnit extends Component {
   _showPopup = async param => {
     const { visible, boxLeft, boxTop, lngLat, code } = param;
     await this.setState({
-      visible: visible,
+      visible,
       boxLeft: boxLeft,
       boxTop: boxTop,
       lngLat: lngLat,

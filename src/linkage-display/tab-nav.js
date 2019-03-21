@@ -57,5 +57,8 @@ export default class TabNav extends Component {
 
   _closePopup = () => {
     GlobalEvent.emit(GloEventName.closePopupNameplate);
+    GlobalEvent.emit(GloEventName.closePopupPopulation);
+    GlobalEvent.emit(GloEventName.closePopupUnit);
+    GlobalEvent.emit(GloEventName.closePopupBuilding);
   };
 }
