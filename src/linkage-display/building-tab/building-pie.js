@@ -7,7 +7,7 @@
  * 4. 空置房屋
  */
 import React, { Component } from 'react';
-import { TuyunBar } from 'tuyun-kit';
+import { TuyunPie } from 'tuyun-kit';
 import {
   point as TurfPoint,
   featureCollection as FeatureCollection
@@ -15,7 +15,7 @@ import {
 
 import { BuildingLayerId } from './chart-info';
 import { FetchBuildingData } from './webapi';
-import { AddPointLayer, RemoveLayer } from './layer-control';
+import { AddPointLayer, AddNamePlateLayer, RemoveLayer } from './layer-control';
 
 import { DefaultTab, TabValue } from '../constant';
 
@@ -45,33 +45,23 @@ export default class BuildingPie extends Component {
     const { curBar } = this.props;
     if (curBar !== TabValue.building) return null;
 
+    const _percentage = 1;
     return (
       <div className="charts-box">
-        <TuyunBar
+        <TuyunPie
           height={200}
           title={{ text: '房屋' }}
           legend={{ text: '人口总数：65' }}
           data={[
             {
-              value: 310,
+              value: _percentage,
               label: '出租',
-              startColor: '#bbaddc',
-              endColor: '#facff0',
               type: '2'
             },
             {
-              value: 234,
+              value: 100 - _percentage,
               label: '自住',
-              startColor: '#bbaddc',
-              endColor: '#facff0',
               type: '1'
-            },
-            {
-              value: 135,
-              label: '空置',
-              startColor: '#bbaddc',
-              endColor: '#facff0',
-              type: '3'
             }
           ]}
           selectedIndex={selectedIndex}
