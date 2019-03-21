@@ -21,8 +21,14 @@
 
 import React, { Component } from 'react';
 import { TuyunPie } from 'tuyun-kit';
+import {
+  point as TurfPoint,
+  featureCollection as FeatureCollection
+} from 'turf';
 
-import { ChartName } from './chart-info';
+import { ChartName, UnitLayerId } from './chart-info';
+import { FetchUnitData, FetchNameplateData } from './webapi';
+import { AddPointLayer, AddNamePlateLayer, RemoveLayer } from './layer-control';
 
 import { DefaultTab, TabValue } from '../constant';
 
@@ -32,6 +38,24 @@ export default class SpecialUnit extends Component {
     selectedIndex: -1,
     chartData: {},
     curBar: DefaultTab
+  };
+
+  componentWillReceiveProps = nextProps => {
+    const { curBar, selectedChart, selectedIndex } = nextProps;
+    if (
+      curBar !== TabValue.unit ||
+      selectedChart !== ChartName.unitBar ||
+      selectedIndex < 0
+    ) {
+      // 未选中当前 tab，移除监听事件
+      // 选中当前 tab，未选中当前图表，移除监听事件，删除图层
+      RemoveLayer(_MAP_, UnitLayerId); // 删除图层
+      _MAP_.off('moveend', this._fetchData);
+    } else {
+      // 选中当前图表，获取数据，添加监听事件
+      this._fetchData();
+      _MAP_.on('moveend', this._fetchData);
+    }
   };
 
   render() {
@@ -158,13 +182,86 @@ export default class SpecialUnit extends Component {
 
   _clickBar = barInfo => {
     const { onSelect, selectedChart, selectedIndex } = this.props;
-    const { curIndex, curCell } = barInfo;
+    const { curIndex, curSector } = barInfo;
     let _selectInd;
+    this._curCell = curSector;
     if (selectedChart === ChartName.specialUnit) {
       _selectInd = curIndex === selectedIndex ? -1 : curIndex;
     } else {
       _selectInd = curIndex;
     }
     onSelect({ index: _selectInd, name: ChartName.specialUnit }); // 像父元素传参
+  };
+
+  _fetchData = () => {
+    const { code, sectype } = this._curCell;
+    const _zoom = _MAP_.getZoom();
+    _zoom <= 16.5 ? this._fetchUnitData(code) : this._fetchNameplateData(code); // 获取数据，小于 16.5 级，获取热力图数据，大于 16.5 级，获取铭牌数据
+  };
+
+  // 获取热力图数据
+  _fetchUnitData = async sectype => {
+    const _bounds = _MAP_.getBounds();
+    const { res, err } = await FetchUnitData({
+      sectype: sectype,
+      points: _bounds
+    });
+    if (!res || err) return console.log('total-population 获取数据失败');
+    // todo 显示到地图上
+    RemoveLayer(_MAP_, UnitLayerId); // 删除图层
+    let _circleRadius,
+      _enableClick = false;
+    // 点的数据量在 1000/1500 以上，以最小的点呈现，肉眼可见
+    // 点的数据量在 200~1000/1500 之间， 以中等的点呈现，不需要点击功能
+    // 点的数据量在 200 以内，现有点的大小，需要有点击功能
+    if (res.length < 200) {
+      _circleRadius = 6;
+      _enableClick = true;
+    } else if (res.length < 1000) {
+      _circleRadius = 4;
+    } else {
+      _circleRadius = 2;
+    }
+    const _features = res.map(item => {
+      const { hzb, zzb, dzbm } = item;
+      return TurfPoint([hzb, zzb], {
+        code: dzbm, // 单位地址编码
+        radius: _circleRadius,
+        enableClick: _enableClick
+      }); // 生成点数据
+    });
+    const _geoJSONData = {
+      type: 'geojson',
+      data: FeatureCollection(_features)
+    };
+    // 点的个数大于 200，显示热力图
+    if (res.length > 200) {
+      AddPointLayer(_MAP_, _geoJSONData);
+    } else {
+      // 点的个数小于 200，显示点位图
+      AddPointLayer(_MAP_, _geoJSONData);
+    }
+  };
+
+  // 获取铭牌数据
+  _fetchNameplateData = async thirtype => {
+    const _bounds = _MAP_.getBounds();
+    const { res, err } = await FetchNameplateData({
+      firtype: 2,
+      thirtype: thirtype,
+      points: _bounds,
+      flag: 1
+    });
+    if (!res || err) return console.log('total-population 获取数据失败');
+    RemoveLayer(_MAP_, UnitLayerId); // 删除图层
+    const _features = res.map(item => {
+      const { x, y, num, jzwbm } = item;
+      return TurfPoint([x, y], { code: jzwbm, num, enableClick: true }); // 支持点击事件
+    });
+    const _geoJSONData = {
+      type: 'geojson',
+      data: FeatureCollection(_features)
+    };
+    AddNamePlateLayer(_MAP_, _geoJSONData); // 添加铭牌
   };
 }

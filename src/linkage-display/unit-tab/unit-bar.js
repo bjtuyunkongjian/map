@@ -33,6 +33,8 @@ export default class UnitBar extends Component {
     curBar: DefaultTab
   };
 
+  _curCell = {};
+
   componentWillReceiveProps = nextProps => {
     const { curBar, selectedChart, selectedIndex } = nextProps;
     if (
@@ -115,12 +117,13 @@ export default class UnitBar extends Component {
     const { onSelect, selectedChart, selectedIndex } = this.props;
     const { curIndex, curCell } = barInfo;
     let _selectInd;
+    this._curCell = curCell;
     if (selectedChart === ChartName.unitBar) {
       _selectInd = curIndex === selectedIndex ? -1 : curIndex;
     } else {
       _selectInd = curIndex;
     }
-    _selectInd > -1 && this._fetchChartData(curCell.code); // 获取数据
+    // _selectInd > -1 && this._fetchData(curCell.code); // 获取数据
     onSelect({ index: _selectInd, name: ChartName.unitBar }); // 像父元素传参
   };
 
