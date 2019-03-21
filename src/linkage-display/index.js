@@ -54,9 +54,7 @@ export default class LinkageDisplay extends Component {
   };
 
   _toggleRightMenu = () => {
-    const { hideKeyPopDetail } = GloEventName;
     const { animate } = this.state;
-
     this.setState({
       animate: animate === 'slide-in' ? 'slide-out' : 'slide-in'
     });

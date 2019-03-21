@@ -138,9 +138,16 @@ export default class TotalPopulation extends Component {
     if (!res || err) return console.log('total-population 获取数据失败');
     // todo 显示到地图上
     RemoveLayer(_MAP_, PopulationLayerId); // 删除图层
+    let _enableClick = false;
+    if (res.length < 200) {
+      _enableClick = true;
+    }
     const _features = res.map(item => {
       const { ZXDHZB, ZXDZZB, RKBM } = item;
-      return TurfPoint([ZXDHZB, ZXDZZB], { code: RKBM });
+      return TurfPoint([ZXDHZB, ZXDZZB], {
+        code: RKBM,
+        enableClick: _enableClick
+      });
     });
     const _geoJSONData = {
       type: 'geojson',
@@ -167,7 +174,7 @@ export default class TotalPopulation extends Component {
     RemoveLayer(_MAP_, PopulationLayerId); // 删除图层
     const _features = res.map(item => {
       const { x, y, num, jzwbm } = item;
-      return TurfPoint([x, y], { code: jzwbm, num });
+      return TurfPoint([x, y], { code: jzwbm, num, enableClick });
     });
     const _geoJSONData = {
       type: 'geojson',
