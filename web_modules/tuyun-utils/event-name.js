@@ -17,5 +17,7 @@ export default {
   showPopupUnit: 'show:unit', // 单位
   closePopupUnit: 'close:unit',
   showPopupHouse: 'show:house', // 房屋
-  closePopupHouse: 'close:house'
+  closePopupHouse: 'close:house',
+  showPopupNameplate: 'show:popupNameplate', // 铭牌
+  closePopupNameplate: 'close:popupNameplate'
 };

@@ -117,15 +117,15 @@ export default class PopupPopulation extends Component {
   }
 
   _init = () => {
-    const { showPopupPopulation, closePopupPopulation } = GloEventName;
-    GlobalEvent.on(showPopupPopulation, this._showPopup);
-    GlobalEvent.on(closePopupPopulation, this._closePopup);
+    const { showPopupNameplate, closePopupNameplate } = GloEventName;
+    GlobalEvent.on(showPopupNameplate, this._showPopup);
+    GlobalEvent.on(closePopupNameplate, this._closePopup);
   };
 
   _reset = () => {
-    const { showPopupPopulation, closePopupPopulation } = GloEventName;
-    GlobalEvent.removeListener(showPopupPopulation, this._showPopup);
-    GlobalEvent.removeListener(closePopupPopulation, this._closePopup);
+    const { showPopupNameplate, closePopupNameplate } = GloEventName;
+    GlobalEvent.removeListener(showPopupNameplate, this._showPopup);
+    GlobalEvent.removeListener(closePopupNameplate, this._closePopup);
   };
 
   _showPopup = async param => {
