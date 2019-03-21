@@ -3,17 +3,15 @@ import { Event as GlobalEvent, EventName as GloEventName } from 'tuyun-utils';
 
 import { FetchUnitDetail } from './webapi';
 import {
-  HousingCategory,
-  HousingUseForm,
-  HousingNature,
-  HousingUsage,
   BaseInfo,
-  AffiliationInfo,
-  CustodianInfo,
-  HomeownerInfo
+  DefendingPerInfo,
+  BusinessInfo,
+  LegalRepInfo,
+  UnitCategory,
+  BusinessStatus
 } from './constant';
 
-export default class PupupUnit extends Component {
+export default class PupupBuilding extends Component {
   state = {
     boxTop: 0,
     boxLeft: 0,
@@ -21,9 +19,9 @@ export default class PupupUnit extends Component {
     lngLat: [],
     unitCode: '',
     baseInfo: BaseInfo,
-    affiliationInfo: AffiliationInfo,
-    custodianInfo: CustodianInfo,
-    homeownerInfo: HomeownerInfo
+    defendingPerInfo: DefendingPerInfo,
+    businessInfo: BusinessInfo,
+    legalRepInfo: LegalRepInfo
   };
 
   componentDidMount = () => this._init();
@@ -36,9 +34,9 @@ export default class PupupUnit extends Component {
       boxTop,
       boxLeft,
       baseInfo,
-      affiliationInfo,
-      custodianInfo,
-      homeownerInfo
+      defendingPerInfo,
+      businessInfo,
+      legalRepInfo
     } = this.state;
     if (!unitCode) return null;
 
@@ -47,7 +45,7 @@ export default class PupupUnit extends Component {
         className="detail-popup"
         style={{ top: boxTop + 10, left: boxLeft + 10 }}
       >
-        <div className="detail-title">单位信息</div>
+        <div className="detail-title">房屋信息</div>
 
         <div className="info-label">基本信息</div>
         <ul className="detail-box">
@@ -59,9 +57,9 @@ export default class PupupUnit extends Component {
           ))}
         </ul>
 
-        <div className="info-label">房主信息</div>
+        <div className="info-label">经营信息</div>
         <ul className="detail-box">
-          {homeownerInfo.map((item, index) => (
+          {businessInfo.map((item, index) => (
             <li className="info-detail" key={`detail_${index}`}>
               <div className="detail-label">{item.label}：</div>
               <div className="detail-value">{item.value}</div>
@@ -69,9 +67,9 @@ export default class PupupUnit extends Component {
           ))}
         </ul>
 
-        <div className="info-label">托管人信息</div>
+        <div className="info-label">法定代表人信息</div>
         <ul className="detail-box">
-          {custodianInfo.map((item, index) => (
+          {legalRepInfo.map((item, index) => (
             <li className="info-detail" key={`detail_${index}`}>
               <div className="detail-label">{item.label}：</div>
               <div className="detail-value">{item.value}</div>
@@ -79,9 +77,9 @@ export default class PupupUnit extends Component {
           ))}
         </ul>
 
-        <div className="info-label">隶属信息</div>
+        <div className="info-label">保卫负责人信息</div>
         <ul className="detail-box">
-          {affiliationInfo.map((item, index) => (
+          {defendingPerInfo.map((item, index) => (
             <li className="info-detail" key={`detail_${index}`}>
               <div className="detail-label">{item.label}：</div>
               <div className="detail-value">{item.value}</div>
@@ -125,32 +123,34 @@ export default class PupupUnit extends Component {
   _fetchUnitDetail = async () => {
     const { unitCode } = this.state;
     const { res, err } = await FetchUnitDetail({
-      jzwbm: unitCode
+      dwdzbm: unitCode
     });
-    if (!res || err) return console.log('获取房屋信息失败');
-    res.fwxz = HousingNature[res.fwxz]; // 房屋性质
-    res.syxs = HousingUseForm[res.syxs]; // 房屋使用形式
-    res.fwlb = HousingCategory[res.fwlb]; // 房屋类别
-    res.fwyt = HousingUsage[res.fwyt]; // 房屋用途
+    if (!res || err) return console.log('popup-building');
+    res.sfjxcs = res.sfjxcs ? (res.sfjxcs === 'Y' ? '是' : '否') : '未知'; // 房屋性质
+    res.jymj = res.jymj ? res.jymj + '平方米' : '未知'; // 房屋使用形式
+    res.zczj = res.zczj ? res.zczj + '万元' : '未知'; // 房屋类别
+    res.dwfl = UnitCategory[res.dwfl];
+    res.sfyyyzz = res.sfyyyzz ? (res.sfyyyzz === 'Y' ? '是' : '否') : '未知';
+    res.jyzt = BusinessStatus[res.jyzt];
 
     BaseInfo.map(item => {
       item.value = res[item.key] || '暂无';
     });
-    AffiliationInfo.map(item => {
+    DefendingPerInfo.map(item => {
       item.value = res[item.key] || '暂无';
     });
-    CustodianInfo.map(item => {
+    BusinessInfo.map(item => {
       item.value = res[item.key] || '暂无';
     });
-    HomeownerInfo.map(item => {
+    LegalRepInfo.map(item => {
       item.value = res[item.key] || '暂无';
     });
+
     this.setState({
-      buildingName: jzwdzmc || '暂无',
-      buildingInfo: '' || '暂无',
-      buildinglocation: jzwdzmc || '暂无',
-      totalRkNum,
-      roomInfoList
+      baseInfo: BaseInfo,
+      defendingPerInfo: DefendingPerInfo,
+      businessInfo: BusinessInfo,
+      legalRepInfo: LegalRepInfo
     });
   };
 

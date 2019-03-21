@@ -3,15 +3,17 @@ import { Event as GlobalEvent, EventName as GloEventName } from 'tuyun-utils';
 
 import { FetchBuildingDetail } from './webapi';
 import {
+  HousingCategory,
+  HousingUseForm,
+  HousingNature,
+  HousingUsage,
   BaseInfo,
-  DefendingPerInfo,
-  BusinessInfo,
-  LegalRepInfo,
-  UnitCategory,
-  BusinessStatus
+  AffiliationInfo,
+  CustodianInfo,
+  HomeownerInfo
 } from './constant';
 
-export default class PupupBuilding extends Component {
+export default class PupupUnit extends Component {
   state = {
     boxTop: 0,
     boxLeft: 0,
@@ -19,9 +21,9 @@ export default class PupupBuilding extends Component {
     lngLat: [],
     buildingCode: '',
     baseInfo: BaseInfo,
-    defendingPerInfo: DefendingPerInfo,
-    businessInfo: BusinessInfo,
-    legalRepInfo: LegalRepInfo
+    affiliationInfo: AffiliationInfo,
+    custodianInfo: CustodianInfo,
+    homeownerInfo: HomeownerInfo
   };
 
   componentDidMount = () => this._init();
@@ -34,9 +36,9 @@ export default class PupupBuilding extends Component {
       boxTop,
       boxLeft,
       baseInfo,
-      defendingPerInfo,
-      businessInfo,
-      legalRepInfo
+      affiliationInfo,
+      custodianInfo,
+      homeownerInfo
     } = this.state;
     if (!buildingCode) return null;
 
@@ -45,7 +47,7 @@ export default class PupupBuilding extends Component {
         className="detail-popup"
         style={{ top: boxTop + 10, left: boxLeft + 10 }}
       >
-        <div className="detail-title">房屋信息</div>
+        <div className="detail-title">单位信息</div>
 
         <div className="info-label">基本信息</div>
         <ul className="detail-box">
@@ -57,9 +59,9 @@ export default class PupupBuilding extends Component {
           ))}
         </ul>
 
-        <div className="info-label">经营信息</div>
+        <div className="info-label">房主信息</div>
         <ul className="detail-box">
-          {businessInfo.map((item, index) => (
+          {homeownerInfo.map((item, index) => (
             <li className="info-detail" key={`detail_${index}`}>
               <div className="detail-label">{item.label}：</div>
               <div className="detail-value">{item.value}</div>
@@ -67,9 +69,9 @@ export default class PupupBuilding extends Component {
           ))}
         </ul>
 
-        <div className="info-label">法定代表人信息</div>
+        <div className="info-label">托管人信息</div>
         <ul className="detail-box">
-          {legalRepInfo.map((item, index) => (
+          {custodianInfo.map((item, index) => (
             <li className="info-detail" key={`detail_${index}`}>
               <div className="detail-label">{item.label}：</div>
               <div className="detail-value">{item.value}</div>
@@ -77,9 +79,9 @@ export default class PupupBuilding extends Component {
           ))}
         </ul>
 
-        <div className="info-label">保卫负责人信息</div>
+        <div className="info-label">隶属信息</div>
         <ul className="detail-box">
-          {defendingPerInfo.map((item, index) => (
+          {affiliationInfo.map((item, index) => (
             <li className="info-detail" key={`detail_${index}`}>
               <div className="detail-label">{item.label}：</div>
               <div className="detail-value">{item.value}</div>
@@ -91,7 +93,7 @@ export default class PupupBuilding extends Component {
   }
 
   _init = () => {
-    const { showPopupBuilding, closePopupBuilding } = GloEventName;
+    const { closePopupBuilding, showPopupBuilding } = GloEventName;
     GlobalEvent.on(showPopupBuilding, this._showPopup);
     GlobalEvent.on(closePopupBuilding, this._closePopup);
   };
@@ -125,32 +127,30 @@ export default class PupupBuilding extends Component {
     const { res, err } = await FetchBuildingDetail({
       dzbm: buildingCode
     });
-    if (!res || err) return console.log('popup-building');
-    res.sfjxcs = res.sfjxcs ? (res.sfjxcs === 'Y' ? '是' : '否') : '未知'; // 房屋性质
-    res.jymj = res.jymj ? res.jymj + '平方米' : '未知'; // 房屋使用形式
-    res.zczj = res.zczj ? res.zczj + '万元' : '未知'; // 房屋类别
-    res.dwfl = UnitCategory[res.dwfl];
-    res.sfyyyzz = res.sfyyyzz ? (res.sfyyyzz === 'Y' ? '是' : '否') : '未知';
-    res.jyzt = BusinessStatus[res.jyzt];
+    if (!res || err) return console.log('获取房屋信息失败');
+    res.fwxz = HousingNature[res.fwxz]; // 房屋性质
+    res.syxs = HousingUseForm[res.syxs]; // 房屋使用形式
+    res.fwlb = HousingCategory[res.fwlb]; // 房屋类别
+    res.fwyt = HousingUsage[res.fwyt]; // 房屋用途
 
     BaseInfo.map(item => {
       item.value = res[item.key] || '暂无';
     });
-    DefendingPerInfo.map(item => {
+    AffiliationInfo.map(item => {
       item.value = res[item.key] || '暂无';
     });
-    BusinessInfo.map(item => {
+    CustodianInfo.map(item => {
       item.value = res[item.key] || '暂无';
     });
-    LegalRepInfo.map(item => {
+    HomeownerInfo.map(item => {
       item.value = res[item.key] || '暂无';
     });
-
     this.setState({
-      baseInfo: BaseInfo,
-      defendingPerInfo: DefendingPerInfo,
-      businessInfo: BusinessInfo,
-      legalRepInfo: LegalRepInfo
+      buildingName: jzwdzmc || '暂无',
+      buildingInfo: '' || '暂无',
+      buildinglocation: jzwdzmc || '暂无',
+      totalRkNum,
+      roomInfoList
     });
   };
 
