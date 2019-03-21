@@ -11,7 +11,7 @@ import {
   BusinessStatus
 } from './constant';
 
-export default class PupupBuilding extends Component {
+export default class PupupUnit extends Component {
   state = {
     boxTop: 0,
     boxLeft: 0,
@@ -45,7 +45,7 @@ export default class PupupBuilding extends Component {
         className="detail-popup"
         style={{ top: boxTop + 10, left: boxLeft + 10 }}
       >
-        <div className="detail-title">房屋信息</div>
+        <div className="detail-title">单位信息</div>
 
         <div className="info-label">基本信息</div>
         <ul className="detail-box">

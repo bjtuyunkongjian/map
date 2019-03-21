@@ -114,14 +114,14 @@ export const CustodianInfo = [
     key: 'tgr_xm'
   },
   {
+    label: '身份证号',
+    value: '',
+    key: 'tgr_gmsfzhm'
+  },
+  {
     label: '联系电话',
     value: '',
     key: 'tgr_lxdh'
-  },
-  {
-    label: '身份证号码',
-    value: '',
-    key: 'tgr_gmsfzhm'
   }
 ]; // 托管人信息
 
@@ -132,7 +132,7 @@ export const HomeownerInfo = [
     key: 'fz_xm'
   },
   {
-    label: '身份证号码',
+    label: '身份证号',
     value: '',
     key: 'fz_sfzhm'
   },
