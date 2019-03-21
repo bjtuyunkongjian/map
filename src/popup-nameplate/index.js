@@ -9,7 +9,7 @@ import { Event as GlobalEvent, EventName as GloEventName } from 'tuyun-utils';
 import MemberInfo from './member-info';
 import { FetchHouseDetail } from './webapi';
 
-export default class PopupPopulation extends Component {
+export default class PopupNameplate extends Component {
   state = {
     visible: false,
     boxLeft: '50%',
