@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Event as GlobalEvent, EventName as GloEventName } from 'tuyun-utils';
 
-import { FetchBuildingDetail } from './webapi';
+import { FetchPopDetail } from './webapi';
 import {
   HousingCategory,
   HousingUseForm,
@@ -13,13 +13,13 @@ import {
   HomeownerInfo
 } from './constant';
 
-export default class PupupBuilding extends Component {
+export default class PupupPopulation extends Component {
   state = {
     boxTop: 0,
     boxLeft: 0,
     visible: false,
     lngLat: [],
-    buildingCode: '',
+    popCode: '',
     baseInfo: BaseInfo,
     affiliationInfo: AffiliationInfo,
     custodianInfo: CustodianInfo,
@@ -32,7 +32,7 @@ export default class PupupBuilding extends Component {
 
   render() {
     const {
-      buildingCode,
+      popCode,
       boxTop,
       boxLeft,
       baseInfo,
@@ -41,7 +41,7 @@ export default class PupupBuilding extends Component {
       homeownerInfo,
       visible
     } = this.state;
-    if (!buildingCode || !visible) return null;
+    if (!popCode || !visible) return null;
 
     return (
       <div
@@ -112,9 +112,9 @@ export default class PupupBuilding extends Component {
       boxLeft: boxLeft,
       boxTop: boxTop,
       lngLat: lngLat,
-      buildingCode: code
+      popCode: code
     });
-    this._fetchBuildingDetail();
+    this._fetchPopDetail();
     _MAP_.on('move', this._addListener);
   };
 
@@ -123,10 +123,10 @@ export default class PupupBuilding extends Component {
     _MAP_.off('move', this._addListener);
   };
 
-  _fetchBuildingDetail = async () => {
-    const { buildingCode } = this.state;
-    const { res, err } = await FetchBuildingDetail({
-      dzbm: buildingCode
+  _fetchPopDetail = async () => {
+    const { popCode } = this.state;
+    const { res, err } = await FetchPopDetail({
+      rkbm: popCode
     });
     if (!res || err) return console.log('获取房屋信息失败');
     res.fwxz = HousingNature[res.fwxz]; // 房屋性质
