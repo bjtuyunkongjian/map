@@ -194,7 +194,7 @@ export default class SpecialUnit extends Component {
   };
 
   _fetchData = () => {
-    const { code, sectype } = this._curCell;
+    const { code } = this._curCell;
     const _zoom = _MAP_.getZoom();
     _zoom <= 16.5 ? this._fetchUnitData(code) : this._fetchNameplateData(code); // 获取数据，小于 16.5 级，获取热力图数据，大于 16.5 级，获取铭牌数据
   };
