@@ -42,11 +42,12 @@ export default class BuildingTab extends Component {
   }
 
   _init = () => {
-    Event.on(EventName.changeNav, nextBar => {
-      const { curBar } = this.state;
-      if (nextBar === curBar) return;
-      this.setState({ curBar: nextBar });
-    });
+    const { curBar } = this.state;
+    this._dealWithEvent(); // 处理 Event 事件
+    if (curBar === TabValue.building) {
+      this._fetchChartData(); // 获取图表数据
+      this._addListener(); // 添加事件监听
+    }
   };
 
   _dealWithEvent = () => {
@@ -73,7 +74,7 @@ export default class BuildingTab extends Component {
     const _zoom = _MAP_.getZoom();
     const { res, err } = await FetchChartData({
       points: _bounds,
-      mapLevel: 20,
+      mapLevel: _zoom,
       flag: 3
     });
     if (!res || err) return; // 保护
