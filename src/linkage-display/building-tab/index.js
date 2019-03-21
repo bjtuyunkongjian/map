@@ -9,7 +9,6 @@ import React, { Component } from 'react';
 import Event, { EventName } from '../event';
 import { DefaultTab, TabValue } from '../constant';
 import BuildingPie from './building-pie';
-import BuildingDensity from './building-density';
 
 export default class BuildingTab extends Component {
   state = { curBar: DefaultTab };
@@ -22,7 +21,6 @@ export default class BuildingTab extends Component {
     return (
       <div className="tab-charts">
         <BuildingPie />
-        <BuildingDensity />
       </div>
     );
   }

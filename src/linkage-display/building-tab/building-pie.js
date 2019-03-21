@@ -7,36 +7,45 @@
  * 4. 空置房屋
  */
 import React, { Component } from 'react';
-import { TuyunPie } from 'tuyun-kit';
+import { TuyunBar } from 'tuyun-kit';
+
+import { BuildingLayerId } from './chart-info';
+
+import { DefaultTab, TabValue } from '../constant';
 
 export default class BuildingPie extends Component {
   state = {
     selectedIndex: -1
   };
 
+  _curCell = {};
+
   render() {
     const { selectedIndex } = this.state;
     return (
       <div className="charts-box">
-        <TuyunPie
+        <TuyunBar
           height={200}
           title={{ text: '房屋' }}
           legend={{ text: '人口总数：65' }}
           data={[
-            { value: 435, label: '房屋总量' },
             { value: 310, label: '出租' },
             { value: 234, label: '自住' },
             { value: 135, label: '空置' }
           ]}
           selectedIndex={selectedIndex}
-          onClick={param => {
-            this.setState({
-              selectedIndex:
-                param.curIndex === selectedIndex ? -1 : param.curIndex
-            });
-          }}
+          onClick={this._clickBar}
         />
       </div>
     );
   }
+
+  _clickBar = barInfo => {
+    const { selectedIndex } = this.state;
+    const { curIndex, curCell } = barInfo; // 解构
+    this._curCell = curCell;
+    this.setState({
+      selectedIndex: curIndex === selectedIndex ? -1 : curIndex
+    });
+  };
 }

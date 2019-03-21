@@ -142,13 +142,13 @@ export default class ProtectionUnit extends Component {
             }
           ]}
           selectedIndex={_selectIndex}
-          onClick={this._clickBar}
+          onClick={this._clickPie}
         />
       </div>
     );
   }
 
-  _clickBar = barInfo => {
+  _clickPie = barInfo => {
     const { onSelect, selectedChart, selectedIndex } = this.props;
     const { curIndex, curSector } = barInfo;
     let _selectInd;
