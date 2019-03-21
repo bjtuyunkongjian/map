@@ -7,11 +7,13 @@
  */
 
 import React, { Component } from 'react';
+import { Event as GlobalEvent, EventName as GloEventName } from 'tuyun-utils';
 
 import { FetchChartData } from './webapi';
 import UnitBar from './unit-bar';
 import SpecialUnit from './special-unit';
 import ProtectionUnit from './protection-unit';
+import { UnitLayerId } from './chart-info';
 
 import Event, { EventName } from '../event';
 import { DefaultTab, TabValue } from '../constant';
@@ -112,10 +114,27 @@ export default class UnitTab extends Component {
 
   _addListener = () => {
     _MAP_.on('moveend', this._fetchChartData);
+    _MAP_.on('click', UnitLayerId, this._clickPopLayer);
   };
 
   _removeListener = () => {
     _MAP_.off('moveend', this._fetchChartData);
+    _MAP_.off('click', UnitLayerId, this._clickPopLayer);
+  };
+
+  _clickPopLayer = e => {
+    // const _zoom = _MAP_.getZoom();
+    // // 大于 16.5 级，可以点击，小于 16.5 级，看点的数量
+    // console.log(_zoom);
+    const { showPopupPopulation } = GloEventName;
+    const { lngLat, originalEvent } = e;
+    GlobalEvent.emit(showPopupPopulation, {
+      visible: true,
+      boxLeft: originalEvent.x,
+      boxTop: originalEvent.y,
+      lngLat: lngLat,
+      code: '681382501BD820DBE053B692300A522F'
+    });
   };
 
   _selectChart = chartInfo => {

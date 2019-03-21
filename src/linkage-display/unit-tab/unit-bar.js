@@ -16,7 +16,7 @@ import {
 } from 'turf';
 
 import { ChartName, UnitLayerId } from './chart-info';
-import { FetchUnitData } from './webapi';
+import { FetchUnitData, FetchNameplateData } from './webapi';
 import { AddPointLayer, AddNamePlateLayer, RemoveLayer } from './layer-control';
 
 import { DefaultTab, TabValue } from '../constant';
@@ -31,6 +31,24 @@ export default class UnitBar extends Component {
     selectedIndex: -1,
     chartData: {},
     curBar: DefaultTab
+  };
+
+  componentWillReceiveProps = nextProps => {
+    const { curBar, selectedChart, selectedIndex } = nextProps;
+    if (
+      curBar !== TabValue.unit ||
+      selectedChart !== ChartName.unitBar ||
+      selectedIndex < 0
+    ) {
+      // 未选中当前 tab，移除监听事件
+      // 选中当前 tab，未选中当前图表，移除监听事件，删除图层
+      RemoveLayer(_MAP_, UnitLayerId); // 删除图层
+      _MAP_.off('moveend', this._fetchData);
+    } else {
+      // 选中当前图表，获取数据，添加监听事件
+      this._fetchData();
+      _MAP_.on('moveend', this._fetchData);
+    }
   };
 
   render() {
@@ -101,42 +119,76 @@ export default class UnitBar extends Component {
     onSelect({ index: _selectInd, name: ChartName.unitBar }); // 像父元素传参
   };
 
-  _fetchChartData = async firstType => {
+  _fetchData = () => {
+    const { code, sectype } = this._curCell;
+    const _zoom = _MAP_.getZoom();
+    _zoom <= 16.5
+      ? this._fetchUnitData(code)
+      : this._fetchNameplateData(sectype); // 获取数据，小于 16.5 级，获取热力图数据，大于 16.5 级，获取铭牌数据
+  };
+
+  // 获取热力图数据
+  _fetchUnitData = async firtype => {
     const _bounds = _MAP_.getBounds();
     const { res, err } = await FetchUnitData({
-      firtype: firstType,
-      points: {
-        _sw: { lng: 116.07152456255062, lat: 36.62226357473202 },
-        _ne: { lng: 117.16317543749153, lat: 36.88848218729613 }
-      }
+      firtype: firtype,
+      points: _bounds
     });
+    if (!res || err) return console.log('total-population 获取数据失败');
     // todo 显示到地图上
-    if (!res || err) return console.log('unit-bar');
-    this._removeSourceLayer(UnitLayerId);
+    RemoveLayer(_MAP_, UnitLayerId); // 删除图层
+    let _circleRadius,
+      _enableClick = false;
+    // 点的数据量在 1000/1500 以上，以最小的点呈现，肉眼可见
+    // 点的数据量在 200~1000/1500 之间， 以中等的点呈现，不需要点击功能
+    // 点的数据量在 200 以内，现有点的大小，需要有点击功能
+    if (res.length < 200) {
+      _circleRadius = 6;
+      _enableClick = true;
+    } else if (res.length < 1000) {
+      _circleRadius = 4;
+    } else {
+      _circleRadius = 2;
+    }
     const _features = res.map(item => {
-      const { hzb, zzb, dzbm } = item;
-      return TurfPoint([hzb, zzb], { code: dzbm });
+      const { ZXDHZB, ZXDZZB, RKBM } = item;
+      return TurfPoint([ZXDHZB, ZXDZZB], {
+        code: RKBM,
+        radius: _circleRadius,
+        enableClick: _enableClick
+      }); // 生成点数据
     });
     const _geoJSONData = {
       type: 'geojson',
       data: FeatureCollection(_features)
     };
-    if (!_MAP_.getSource(UnitLayerId)) {
-      _MAP_.addLayer({
-        id: UnitLayerId,
-        type: 'circle',
-        source: _geoJSONData,
-        paint: {
-          'circle-color': '#f00',
-          'circle-radius': 6
-        }
-      });
+    // 点的个数大于 200，显示热力图
+    if (res.length > 200) {
+      AddPointLayer(_MAP_, _geoJSONData);
     } else {
-      _MAP_.getSource(UnitLayerId).setData(_geoJSONData.data); // 重置 data
+      // 点的个数小于 200，显示点位图
+      AddPointLayer(_MAP_, _geoJSONData);
     }
   };
 
-  _removeSourceLayer = layerId => {
-    _MAP_.getLayer(layerId) && _MAP_.removeLayer(layerId).removeSource(layerId); // 删除所有 layer 和 source
+  // 获取铭牌数据
+  _fetchNameplateData = async sectype => {
+    const _bounds = _MAP_.getBounds();
+    const { res, err } = await FetchNameplateData({
+      firtype: 1,
+      sectype: sectype,
+      points: _bounds
+    });
+    if (!res || err) return console.log('total-population 获取数据失败');
+    RemoveLayer(_MAP_, UnitLayerId); // 删除图层
+    const _features = res.map(item => {
+      const { x, y, num, jzwbm } = item;
+      return TurfPoint([x, y], { code: jzwbm, num, enableClick: true }); // 支持点击事件
+    });
+    const _geoJSONData = {
+      type: 'geojson',
+      data: FeatureCollection(_features)
+    };
+    AddNamePlateLayer(_MAP_, _geoJSONData); // 添加铭牌
   };
 }
