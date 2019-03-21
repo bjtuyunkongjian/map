@@ -20,31 +20,38 @@ import { AddPointLayer, RemoveLayer } from './layer-control';
 import { DefaultTab, TabValue } from '../constant';
 
 export default class BuildingPie extends Component {
-  state = {
-    selectedIndex: -1
-  };
-
   static defaultProps = {
+    selectedChart: '',
+    selectedIndex: -1,
+    chartData: {},
     curBar: DefaultTab
   };
 
   _curCell = {};
 
   componentWillReceiveProps = nextProps => {
-    const { curBar } = nextProps;
-    if (curBar !== TabValue.unit) {
+    const { curBar, selectedChart, selectedIndex } = nextProps;
+    if (
+      curBar !== TabValue.unit ||
+      selectedChart !== ChartName.unitBar ||
+      selectedIndex < 0
+    ) {
       // 未选中当前 tab，移除监听事件
       // 选中当前 tab，未选中当前图表，移除监听事件，删除图层
       RemoveLayer(_MAP_, BuildingLayerId); // 删除图层
       _MAP_.off('moveend', this._fetchData);
+    } else {
+      // 选中当前图表，获取数据，添加监听事件
+      _MAP_.on('moveend', this._fetchData);
+      _MAP_.flyTo({ zoom: 16.5 });
     }
   };
 
   render() {
-    const { selectedIndex } = this.state;
-    const { curBar } = this.props;
+    const { selectedChart, selectedIndex, chartData, curBar } = this.props;
     if (curBar !== TabValue.building) return null;
-
+    const _selectIndex =
+      selectedChart === ChartName.unitBar ? selectedIndex : -1;
     return (
       <div className="charts-box">
         <TuyunBar
@@ -74,7 +81,7 @@ export default class BuildingPie extends Component {
               type: '3'
             }
           ]}
-          selectedIndex={selectedIndex}
+          selectedIndex={_selectIndex}
           onClick={this._clickBar}
         />
       </div>
@@ -82,20 +89,17 @@ export default class BuildingPie extends Component {
   }
 
   _clickBar = barInfo => {
-    const { selectedIndex } = this.state;
-    const { curIndex, curCell } = barInfo; // 解构
+    const { onSelect, selectedChart, selectedIndex } = this.props;
+    const { curIndex, curCell } = barInfo;
+    let _selectInd;
     this._curCell = curCell;
-    const _selected = curIndex === selectedIndex; // 之前是否选中当前的cell
-    this.setState({
-      selectedIndex: _selected ? -1 : curIndex
-    });
-    if (!_selected) {
-      _MAP_.on('moveend', this._fetchData);
-      _MAP_.flyTo({ zoom: 16.5 });
+    if (selectedChart === ChartName.unitBar) {
+      _selectInd = curIndex === selectedIndex ? -1 : curIndex;
     } else {
-      RemoveLayer(_MAP_, BuildingLayerId); // 删除图层
-      _MAP_.off('moveend', this._fetchData);
+      _selectInd = curIndex;
     }
+    // _selectInd > -1 && this._fetchData(curCell.code); // 获取数据
+    onSelect({ index: _selectInd, name: ChartName.unitBar }); // 像父元素传参
   };
 
   _fetchData = async () => {

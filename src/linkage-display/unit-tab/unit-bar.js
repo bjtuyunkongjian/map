@@ -22,10 +22,6 @@ import { AddPointLayer, AddNamePlateLayer, RemoveLayer } from './layer-control';
 import { DefaultTab, TabValue } from '../constant';
 
 export default class UnitBar extends Component {
-  state = {
-    selectedIndex: -1
-  };
-
   static defaultProps = {
     selectedChart: '',
     selectedIndex: -1,
