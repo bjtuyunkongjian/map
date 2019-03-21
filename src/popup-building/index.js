@@ -13,7 +13,7 @@ import {
   HomeownerInfo
 } from './constant';
 
-export default class PupupUnit extends Component {
+export default class PupupBuilding extends Component {
   state = {
     boxTop: 0,
     boxLeft: 0,
@@ -93,15 +93,15 @@ export default class PupupUnit extends Component {
   }
 
   _init = () => {
-    const { showPopupUnit, closePopupUnit } = GloEventName;
-    GlobalEvent.on(showPopupUnit, this._showPopup);
-    GlobalEvent.on(closePopupUnit, this._closePopup);
+    const { showPopupBuilding, closePopupBuilding } = GloEventName;
+    GlobalEvent.on(showPopupBuilding, this._showPopup);
+    GlobalEvent.on(closePopupBuilding, this._closePopup);
   };
 
   _reset = () => {
-    const { showPopupUnit, closePopupUnit } = GloEventName;
-    GlobalEvent.removeListener(showPopupUnit, this._showPopup);
-    GlobalEvent.removeListener(closePopupUnit, this._closePopup);
+    const { showPopupBuilding, closePopupBuilding } = GloEventName;
+    GlobalEvent.removeListener(showPopupBuilding, this._showPopup);
+    GlobalEvent.removeListener(closePopupBuilding, this._closePopup);
   };
 
   _showPopup = async param => {

@@ -132,13 +132,13 @@ export const HomeownerInfo = [
     key: 'fz_xm'
   },
   {
-    label: '身份证号码',
-    value: '',
-    key: 'fz_sfzhm'
-  },
-  {
     label: '联系电话',
     value: '',
     key: 'fz_lxdh'
+  },
+  {
+    label: '身份证号码',
+    value: '',
+    key: 'fz_sfzhm'
   }
 ]; // 房主信息
