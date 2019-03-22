@@ -98,14 +98,16 @@ export default class BuildingTab extends Component {
     // const _zoom = _MAP_.getZoom();
     // // 大于 16.5 级，可以点击，小于 16.5 级，看点的数量
     // console.log(_zoom);
-    const { showPopupUnit } = GloEventName;
-    const { lngLat, originalEvent } = e;
-    GlobalEvent.emit(showPopupUnit, {
+    const { showPopupBuilding } = GloEventName;
+    const { lngLat, originalEvent, features } = e;
+    const { code } = features[0].properties;
+
+    GlobalEvent.emit(showPopupBuilding, {
       visible: true,
       boxLeft: originalEvent.x,
       boxTop: originalEvent.y,
       lngLat: lngLat,
-      code: '681382501BD820DBE053B692300A522F'
+      code: code
     });
   };
 

@@ -123,18 +123,28 @@ export default class UnitTab extends Component {
   };
 
   _clickPopLayer = e => {
-    // const _zoom = _MAP_.getZoom();
-    // // 大于 16.5 级，可以点击，小于 16.5 级，看点的数量
-    // console.log(_zoom);
-    const { showPopupUnit } = GloEventName;
-    const { lngLat, originalEvent } = e;
-    GlobalEvent.emit(showPopupUnit, {
-      visible: true,
-      boxLeft: originalEvent.x,
-      boxTop: originalEvent.y,
-      lngLat: lngLat,
-      code: '681382501BD820DBE053B692300A522F'
-    });
+    const _zoom = _MAP_.getZoom();
+    const { lngLat, originalEvent, features } = e;
+    const { code, enableClick } = features[0].properties;
+    if (_zoom > 16.5) {
+      const { showPopupNameplate } = GloEventName;
+      GlobalEvent.emit(showPopupNameplate, {
+        visible: true,
+        boxLeft: originalEvent.x,
+        boxTop: originalEvent.y,
+        lngLat: lngLat,
+        code: code
+      });
+    } else if (enableClick) {
+      const { showPopupUnit } = GloEventName;
+      GlobalEvent.emit(showPopupUnit, {
+        visible: true,
+        boxLeft: originalEvent.x,
+        boxTop: originalEvent.y,
+        lngLat: lngLat,
+        code: code
+      });
+    }
   };
 
   _selectChart = chartInfo => {
