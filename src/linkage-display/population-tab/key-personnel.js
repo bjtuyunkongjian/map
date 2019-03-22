@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { TuyunPie } from 'tuyun-kit';
 import { Event as GlobalEvent, EventName as GloEventName } from 'tuyun-utils';
 
-import { ChartName, PopulationLayerId } from './chart-info';
+import { ChartName } from './chart-info';
 
 import { DefaultTab, TabValue } from '../constant';
 
@@ -252,7 +252,7 @@ const pieData = [
     code: '050103040105'
   },
   {
-    dataIndex: 11,
+    dataIndex: 18,
     value: 0,
     key: 'xidurenyuan',
     label: '吸毒',

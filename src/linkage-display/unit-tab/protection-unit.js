@@ -41,7 +41,7 @@ export default class ProtectionUnit extends Component {
     const { curBar, selectedChart, selectedIndex } = nextProps;
     if (
       curBar !== TabValue.unit ||
-      selectedChart !== ChartName.unitBar ||
+      selectedChart !== ChartName.protectUnit ||
       selectedIndex < 0
     ) {
       // 未选中当前 tab，移除监听事件
@@ -174,7 +174,7 @@ export default class ProtectionUnit extends Component {
       sectype: sectype,
       points: _bounds
     });
-    if (!res || err) return console.log('total-population 获取数据失败');
+    if (!res || err) return;
     // todo 显示到地图上
     RemoveLayer(_MAP_, UnitLayerId); // 删除图层
     let _circleRadius,
@@ -220,7 +220,7 @@ export default class ProtectionUnit extends Component {
       points: _bounds,
       flag: 2
     });
-    if (!res || err) return console.log('total-population 获取数据失败');
+    if (!res || err) return;
     RemoveLayer(_MAP_, UnitLayerId); // 删除图层
     const _features = res.map(item => {
       const { x, y, num, jzwbm } = item;

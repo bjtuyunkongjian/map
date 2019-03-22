@@ -114,9 +114,7 @@ export default class TotalPopulation extends Component {
     } else {
       _selectInd = curIndex;
     }
-    if (_selectInd > -1) {
-      this._curCell = curCell;
-    }
+    this._curCell = curCell;
     onSelect({ index: _selectInd, name: ChartName.totalPop }); // 像父元素传参
   };
 

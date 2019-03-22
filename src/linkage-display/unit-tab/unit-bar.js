@@ -119,12 +119,11 @@ export default class UnitBar extends Component {
     } else {
       _selectInd = curIndex;
     }
-    // _selectInd > -1 && this._fetchData(curCell.code); // 获取数据
     onSelect({ index: _selectInd, name: ChartName.unitBar }); // 像父元素传参
   };
 
   _fetchData = () => {
-    const { code, sectype } = this._curCell;
+    const { code, sectype } = this._curCell || {};
     const _zoom = _MAP_.getZoom();
     _zoom <= 16.5
       ? this._fetchUnitData(code)
@@ -138,7 +137,7 @@ export default class UnitBar extends Component {
       firtype: firtype,
       points: _bounds
     });
-    if (!res || err) return console.log('total-population 获取数据失败');
+    if (!res || err) return;
     // todo 显示到地图上
     RemoveLayer(_MAP_, UnitLayerId); // 删除图层
     let _circleRadius,
@@ -183,7 +182,7 @@ export default class UnitBar extends Component {
       sectype: sectype,
       points: _bounds
     });
-    if (!res || err) return console.log('total-population 获取数据失败');
+    if (!res || err) return;
     RemoveLayer(_MAP_, UnitLayerId); // 删除图层
     const _features = res.map(item => {
       const { x, y, num, jzwbm } = item;

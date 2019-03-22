@@ -19,7 +19,7 @@ import { AddPointLayer, RemoveLayer } from './layer-control';
 
 import { DefaultTab, TabValue } from '../constant';
 
-export default class BuildingPie extends Component {
+export default class BuildingBar extends Component {
   static defaultProps = {
     selectedChart: '',
     selectedIndex: -1,
