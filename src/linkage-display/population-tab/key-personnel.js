@@ -31,7 +31,6 @@ export default class KeyPersonnel extends Component {
     const _selectedChart = selectedChart === ChartName.keyPop;
     this._selectIndex = -1;
     this._pieData = pieData.filter(item => {
-      console.log(item, chartData[item.key]);
       if (chartData[item.key] && chartData[item.key] > 0) {
         item.value = chartData[item.key] || 0;
         return item;
@@ -39,7 +38,6 @@ export default class KeyPersonnel extends Component {
         return false;
       }
     });
-    console.log(chartData, pieData, this._pieData);
 
     this._pieData.map((item, index) => {
       if (_selectedChart && selectedIndex === item.dataIndex) {
@@ -47,8 +45,12 @@ export default class KeyPersonnel extends Component {
         this._showDetail(item.name, item.code);
       }
     });
+    const { hideKeyPopDetail } = GloEventName;
+
     if (this._selectIndex < 0) {
-      this._hideDetail(); // 如果之前选项不存在了，隐藏子选项
+      GlobalEvent.emit(hideKeyPopDetail, { hidden: true });
+    } else {
+      GlobalEvent.emit(hideKeyPopDetail, { hidden: false });
     }
   };
 
@@ -59,7 +61,6 @@ export default class KeyPersonnel extends Component {
     Object.keys(chartData).map(item => {
       _total += chartData[item] || 0;
     });
-    console.log(this._selectIndex, this._pieData, chartData);
     return (
       <div className="charts-box">
         <TuyunPie
