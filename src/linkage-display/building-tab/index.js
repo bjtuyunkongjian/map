@@ -59,8 +59,9 @@ export default class BuildingTab extends Component {
         chartInfo: { name: '', index: -1 }
       });
       if (TabValue.building === nextBar) {
-        this._fetchChartData(); // 获取图表数据
         this._addListener(); // 增加监听
+        const _zoom = _MAP_.getZoom();
+        _MAP_.flyTo({ zoom: _zoom > 16.5 ? _zoom : 16.5 });
       } else {
         this._removeListener(); // 移除监听
       }

@@ -43,7 +43,8 @@ export default class BuildingPie extends Component {
     } else {
       // 选中当前图表，获取数据，添加监听事件
       _MAP_.on('moveend', this._fetchData);
-      _MAP_.flyTo({ zoom: 16.5 });
+      const _zoom = _MAP_.getZoom();
+      _MAP_.flyTo({ zoom: _zoom > 16.5 ? _zoom : 16.5 });
     }
   };
 
@@ -109,7 +110,7 @@ export default class BuildingPie extends Component {
       points: _bounds,
       type: type
     });
-    if (!res || err) return console.log('building-bar 获取数据失败');
+    if (!res || err) return;
     const _features = res.map(item => {
       const { hzb, zzb, dzbm } = item;
       return TurfPoint([hzb, zzb], {
