@@ -16,29 +16,23 @@ import { FetchDensityMap } from './webapi';
 import { DefaultTab, TabValue } from '../constant';
 
 export default class PopulationDensity extends Component {
+  state = {
+    selectedIndex: -1
+  };
+
   static defaultProps = {
-    selectedChart: '',
-    selectedIndex: -1,
     chartData: {},
     curBar: DefaultTab
   };
 
-  componentWillReceiveProps = nextPorps => {
-    const { selectedChart, selectedIndex } = nextPorps;
-    const _selected =
-      selectedChart === ChartName.popDensity && selectedIndex > -1;
-    if (!_selected) {
-      this._hidePoliceStation();
-    }
-  };
+  componentWillReceiveProps = nextPorps => {};
 
   render() {
-    const { selectedChart, selectedIndex, chartData, curBar } = this.props;
+    const { selectedIndex } = this.state;
+    const { chartData, curBar } = this.props;
     const { lkpopDensity, totalPopDensity, zdpopDensity } = chartData;
     const _max = Math.max(lkpopDensity, totalPopDensity, zdpopDensity, 10);
     const _end = Math.max(Math.floor(_max * 1.05), 10);
-    const _selectIndex =
-      selectedChart === ChartName.popDensity ? selectedIndex : -1;
     if (curBar !== TabValue.population) return null;
 
     return (
@@ -69,7 +63,7 @@ export default class PopulationDensity extends Component {
               end: _end
             }
           ]}
-          selectedIndex={_selectIndex}
+          selectedIndex={selectedIndex}
           onClick={this._clickDensity}
         />
       </div>
@@ -77,16 +71,13 @@ export default class PopulationDensity extends Component {
   }
 
   _clickDensity = densityInfo => {
-    const { onSelect, selectedChart, selectedIndex } = this.props;
+    const { selectedIndex } = this.state;
     const { curIndex, curCell } = densityInfo;
-    let _selectInd;
-    if (selectedChart === ChartName.popDensity) {
-      _selectInd = curIndex === selectedIndex ? -1 : curIndex;
-    } else {
-      _selectInd = curIndex;
-    }
-    _selectInd > -1 && this._fetchDensityMap(curCell.code); //
-    onSelect({ index: _selectInd, name: ChartName.popDensity }); // 像父元素传参
+    const _selectInd = selectedIndex === curIndex ? -1 : curIndex;
+
+    _selectInd > -1
+      ? this._fetchDensityMap(curCell.code)
+      : this._hidePoliceStation(); //
   };
 
   _fetchDensityMap = async secType => {
