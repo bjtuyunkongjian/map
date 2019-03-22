@@ -425,7 +425,7 @@ export default class ChartsPie extends Component {
       this._ctx.fill(sector.sectorPath);
       // 绘制文字
       // this._ctx.fillStyle = _originColor;
-      this._ctx.font = "16px '微软雅黑'";
+      this._ctx.font = `${this._ratio * 8}px '微软雅黑'`; // fontSize * this._ratio
       this._ctx.textAlign = sector.textAlign;
       this._ctx.textBaseline = 'middle';
       this._ctx.fillText(sector.label, ...sector.textStart);

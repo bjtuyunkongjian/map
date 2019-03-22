@@ -193,5 +193,69 @@ const pieData = [
     label: '泽雨',
     name: 'zeyu',
     code: '120800000000'
+  },
+  {
+    dataIndex: 11,
+    value: 0,
+    key: 'daoqie',
+    label: '盗窃',
+    name: 'daoqie',
+    code: '051101050200'
+  },
+  {
+    dataIndex: 12,
+    value: 0,
+    key: 'pohuairanbaoshebei',
+    label: '破坏燃爆设备',
+    name: 'pohuairanbaoshebei',
+    code: '051502020205'
+  },
+  {
+    dataIndex: 13,
+    value: 0,
+    key: 'qiangjie',
+    label: '抢劫',
+    name: 'qiangjie',
+    code: '050102050100'
+  },
+  {
+    dataIndex: 14,
+    value: 0,
+    key: 'guyishanghai',
+    label: '故意伤害',
+    name: 'guyishanghai',
+    code: '051601040103'
+  },
+  {
+    dataIndex: 15,
+    value: 0,
+    key: 'fandu',
+    label: '制毒贩毒',
+    name: 'fandu',
+    code: '040200000000'
+  },
+  {
+    dataIndex: 16,
+    value: 0,
+    key: 'feifajujin',
+    label: '非法拘禁',
+    name: 'feifajujin',
+    code: '051601040109'
+  },
+  {
+    dataIndex: 17,
+    value: 0,
+    key: 'qiangjian',
+    label: '强奸',
+    name: 'qiangjian',
+    code: '050103040105'
+  },
+  {
+    dataIndex: 11,
+    value: 0,
+    key: 'xidurenyuan',
+    label: '吸毒',
+    name: 'xidurenyuan',
+    code: '040100000000'
   }
 ];
