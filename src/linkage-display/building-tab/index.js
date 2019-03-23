@@ -79,9 +79,9 @@ export default class BuildingTab extends Component {
       flag: 3
     });
     if (!res || err) return; // 保护
-    const { dwbarData } = res;
+    const { fwbarData } = res;
     this.setState({
-      buildingBarData: dwbarData || {}
+      buildingBarData: fwbarData || {}
     });
   };
 

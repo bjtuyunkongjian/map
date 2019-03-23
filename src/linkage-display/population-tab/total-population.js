@@ -25,9 +25,20 @@ export default class TotalPopulation extends Component {
   };
 
   _curCell = {};
+  _shouldFetch = true; // 判断是否要请求一下一下数据
 
   componentWillReceiveProps = nextProps => {
+    const { selectedIndex: preSelectedIndex } = this.props;
     const { curBar, selectedChart, selectedIndex } = nextProps;
+    // 如果和选中的柱状图和之前的不一致，需要重置 _shouldFetch
+    if (
+      selectedChart === ChartName.unitBar &&
+      selectedIndex !== preSelectedIndex
+    ) {
+      this._shouldFetch = true;
+    }
+    // 如果选中切换 tab，需要重置 _shouldFetch
+    // 如果切换选中的图表，需要重置 _shouldFetch
     if (
       curBar !== TabValue.population ||
       selectedChart !== ChartName.totalPop ||
@@ -35,11 +46,13 @@ export default class TotalPopulation extends Component {
     ) {
       // 未选中当前 tab，移除监听事件
       // 选中当前 tab，未选中当前图表，移除监听事件，删除图层
+      this._shouldFetch = true;
       RemoveLayer(_MAP_, PopulationLayerId); // 删除图层
       _MAP_.off('moveend', this._fetchData);
     } else {
       // 选中当前图表，获取数据，添加监听事件
-      this._fetchData();
+      this._shouldFetch && this._fetchData();
+      this._shouldFetch = false;
       _MAP_.on('moveend', this._fetchData);
     }
   };

@@ -43,8 +43,8 @@ export default class BuildingBar extends Component {
     } else {
       // 选中当前图表，获取数据，添加监听事件
       _MAP_.on('moveend', this._fetchData);
-      const _zoom = _MAP_.getZoom();
-      _MAP_.flyTo({ zoom: _zoom > 16.5 ? _zoom : 16.5 });
+      // const _zoom = _MAP_.getZoom();
+      // _MAP_.flyTo({ zoom: _zoom > 16.5 ? _zoom : 16.5 });
     }
   };
 
@@ -61,21 +61,21 @@ export default class BuildingBar extends Component {
           legend={{ text: '人口总数：65' }}
           data={[
             {
-              value: 310,
+              value: chartData.czfw,
               label: '出租',
               startColor: '#bbaddc',
               endColor: '#facff0',
               type: '2'
             },
             {
-              value: 234,
+              value: chartData.zzfw,
               label: '自住',
               startColor: '#bbaddc',
               endColor: '#facff0',
               type: '1'
             },
             {
-              value: 135,
+              value: chartData.kzfw,
               label: '空置',
               startColor: '#bbaddc',
               endColor: '#facff0',

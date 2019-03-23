@@ -62,6 +62,8 @@ export default class KeyPopDetail extends Component {
   _dealWithEvent = () => {
     const { toggleKeyPopDetail, hideKeyPopDetail } = GloEventName;
     GlobalEvent.on(toggleKeyPopDetail, async ({ visible, name, code }) => {
+      const { visible: preVisible } = this.state;
+      if (preVisible === visible) return; // 避免重复点击
       await this.setState({ visible, pName: name, pCode: code });
       if (visible) {
         this._fetchData(); // 获取接口数据
