@@ -102,7 +102,7 @@ export default class KeyPopDetail extends Component {
     RemoveLayer(_MAP_, PopulationLayerId); // 删除图层
     const _features = res.map(item => {
       const { x, y, num, jzwbm } = item;
-      return TurfPoint([x, y], { code: jzwbm, num });
+      return TurfPoint([x, y], { code: jzwbm, num, enableClick: true });
     });
     const _geoJSONData = {
       type: 'geojson',

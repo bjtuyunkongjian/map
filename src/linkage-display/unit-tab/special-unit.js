@@ -48,7 +48,7 @@ export default class SpecialUnit extends Component {
     const { curBar, selectedChart, selectedIndex } = nextProps;
     // 如果和选中的扇区和之前的不一致，需要重置 _shouldFetch
     if (
-      selectedChart === ChartName.unitBar &&
+      selectedChart === ChartName.specialUnit &&
       selectedIndex !== preSelectedIndex
     ) {
       this._shouldFetch = true;

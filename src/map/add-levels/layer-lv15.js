@@ -394,7 +394,7 @@ const style = {
     {
       id: 'GRESPL_1_3D',
       source: LevelConfig.addLv15,
-      'source-layer': 'GRESPL_Merge-1',
+      'source-layer': 'GRESPL_Merge_1',
       type: 'fill-extrusion',
       filter: ['!=', 'CLASID', '310200'],
       paint: {
@@ -420,7 +420,7 @@ const style = {
     {
       id: 'GRESPL_2_3D',
       source: LevelConfig.addLv15,
-      'source-layer': 'GRESPL_Merge_ID2',
+      'source-layer': 'GRESPL_Merge_2',
       type: 'fill-extrusion',
       filter: ['!=', 'CLASID', '310200'],
       paint: {
@@ -446,7 +446,7 @@ const style = {
     {
       id: 'GRESPL_3_3D',
       source: LevelConfig.addLv15,
-      'source-layer': 'GRESPL_Merge_ID3',
+      'source-layer': 'GRESPL_Merge_3',
       type: 'fill-extrusion',
       filter: ['!=', 'CLASID', '310200'],
       paint: {

@@ -32,7 +32,7 @@ export default class TotalPopulation extends Component {
     const { curBar, selectedChart, selectedIndex } = nextProps;
     // 如果和选中的柱状图和之前的不一致，需要重置 _shouldFetch
     if (
-      selectedChart === ChartName.unitBar &&
+      selectedChart === ChartName.totalPop &&
       selectedIndex !== preSelectedIndex
     ) {
       this._shouldFetch = true;
@@ -185,7 +185,7 @@ export default class TotalPopulation extends Component {
     RemoveLayer(_MAP_, PopulationLayerId); // 删除图层
     const _features = res.map(item => {
       const { x, y, num, jzwbm } = item;
-      return TurfPoint([x, y], { code: jzwbm, num, enableClick });
+      return TurfPoint([x, y], { code: jzwbm, num, enableClick: true });
     });
     const _geoJSONData = {
       type: 'geojson',
