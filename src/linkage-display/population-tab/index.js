@@ -134,8 +134,8 @@ export default class PopulationTab extends Component {
     const { lngLat, originalEvent, features } = e;
     const { code, enableClick } = features[0].properties;
     if (_zoom > 16.5) {
-      const { showPopupNameplate } = GloEventName;
-      GlobalEvent.emit(showPopupNameplate, {
+      const { showPopupPopNameplate } = GloEventName;
+      GlobalEvent.emit(showPopupPopNameplate, {
         visible: true,
         boxLeft: originalEvent.x,
         boxTop: originalEvent.y,
@@ -156,9 +156,9 @@ export default class PopulationTab extends Component {
   };
 
   _selectChart = chartInfo => {
-    const { closePopupNameplate } = GloEventName;
+    const { closePopupPopNameplate } = GloEventName;
     this.setState({ chartInfo });
-    GlobalEvent.emit(closePopupNameplate);
+    GlobalEvent.emit(closePopupPopNameplate);
   };
 
   _hideDetail = () => {

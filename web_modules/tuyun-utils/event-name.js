@@ -19,5 +19,11 @@ export default {
   showPopupBuilding: 'show:popupBuilding', // 房屋
   closePopupBuilding: 'close:popupBuilding',
   showPopupNameplate: 'show:popupNameplate', // 铭牌
-  closePopupNameplate: 'close:popupNameplate'
+  closePopupNameplate: 'close:popupNameplate',
+  showPopupPopNameplate: 'show:popupPopNameplate', // 人口铭牌
+  closePopupPopNameplate: 'close:popupPopNameplate',
+  showPopupUnitNameplate: 'show:popupPopNameplate', // 单位铭牌
+  closePopupUnitNameplate: 'close:popupPopNameplate',
+  showPopupBuiNameplate: 'show:popupBuiNameplate', // 房屋铭牌
+  closePopupBuiNameplate: 'close:popupbuiNameplate'
 };
