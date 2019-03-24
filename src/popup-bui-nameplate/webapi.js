@@ -3,19 +3,8 @@
  */
 import { FetchRequest } from 'tuyun-utils';
 
-// 人口详情
-export const FetchPersonDetail = async body => {
-  Object.assign(body, { test: 'personDetail' });
-  const { res, err } = await FetchRequest({
-    url: 'mapServer/string',
-    method: 'POST',
-    body
-  });
-  return { res, err };
-};
-
 // 建筑物详情
-export const FetchHouseDetail = async body => {
+export const FetchBuildingDetail = async body => {
   Object.assign(body, { test: 'jzwDetail' });
   const { res, err } = await FetchRequest({
     url: 'mapServer/string',
