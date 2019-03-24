@@ -58,7 +58,6 @@ export default class ProtectionUnit extends Component {
       // 未选中当前 tab，移除监听事件
       // 选中当前 tab，未选中当前图表，移除监听事件，删除图层
       this._shouldFetch = true;
-      RemoveLayer(_MAP_, UnitLayerId); // 删除图层
       _MAP_.off('moveend', this._fetchData);
     } else {
       // 选中当前图表，获取数据，添加监听事件
@@ -184,6 +183,7 @@ export default class ProtectionUnit extends Component {
   _fetchUnitData = async sectype => {
     const _bounds = _MAP_.getBounds();
     const { res, err } = await FetchUnitData({
+      firtype: '4',
       sectype: sectype,
       points: _bounds
     });

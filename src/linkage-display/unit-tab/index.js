@@ -88,6 +88,7 @@ export default class UnitTab extends Component {
         this._fetchChartData(); // 获取图表数据
         this._addListener(); // 增加监听
       } else {
+        RemoveLayer(_MAP_, UnitLayerId); // 删除图层
         this._removeListener(); // 移除监听
       }
     });
@@ -100,7 +101,7 @@ export default class UnitTab extends Component {
     const _zoom = _MAP_.getZoom();
     const { res, err } = await FetchChartData({
       points: _bounds,
-      mapLevel: 20,
+      mapLevel: _zoom,
       flag: 2
     });
     if (!res || err) return; // 保护

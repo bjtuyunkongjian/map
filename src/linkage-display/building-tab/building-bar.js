@@ -63,21 +63,24 @@ export default class BuildingBar extends Component {
               label: '出租',
               startColor: '#bbaddc',
               endColor: '#facff0',
-              type: '2'
+              type: '2',
+              sectype: '3'
             },
             {
               value: chartData.zzfw || 0,
               label: '自住',
               startColor: '#bbaddc',
               endColor: '#facff0',
-              type: '1'
+              type: '1',
+              sectype: '2'
             },
             {
               value: chartData.kzfw || 0,
               label: '空置',
               startColor: '#bbaddc',
               endColor: '#facff0',
-              type: '3'
+              type: '3',
+              sectype: '4'
             }
           ]}
           selectedIndex={_selectIndex}
@@ -103,16 +106,11 @@ export default class BuildingBar extends Component {
 
   _fetchData = async () => {
     const _bounds = _MAP_.getBounds();
+    const { sectype } = this._curCell;
     const { res, err } = await FetchNameplateData({
-      firtype: 1,
+      firtype: 3,
       sectype: sectype,
       points: _bounds
-    });
-    const _bounds = _MAP_.getBounds();
-    const { type } = this._curCell;
-    const { res, err } = await FetchBuildingData({
-      points: _bounds,
-      type: type
     });
     if (!res || err) return;
     const _features = res.map(item => {

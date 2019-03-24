@@ -5,9 +5,9 @@ import { FetchRequest } from 'tuyun-utils';
 
 // 建筑物详情
 export const FetchBuildingDetail = async body => {
-  Object.assign(body, { test: 'jzwDetail' });
+  // Object.assign(body, { test: 'jzwDetail' });
   const { res, err } = await FetchRequest({
-    url: 'mapServer/string',
+    url: 'dataManage/testJzwDetail',
     method: 'POST',
     body
   });

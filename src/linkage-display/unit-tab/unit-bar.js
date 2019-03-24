@@ -35,7 +35,7 @@ export default class UnitBar extends Component {
   componentWillReceiveProps = nextProps => {
     const { selectedIndex: preSelectedIndex } = this.props;
     const { curBar, selectedChart, selectedIndex } = nextProps;
-    // 如果和选中的柱状图和之前的不一致，需要重置 _shouldFetch
+    // 点击柱状图，如果选中的柱状图和之前的不一致，需要重置 _shouldFetch
     if (
       selectedChart === ChartName.unitBar &&
       selectedIndex !== preSelectedIndex
@@ -51,7 +51,6 @@ export default class UnitBar extends Component {
     ) {
       // 未选中当前 tab，移除监听事件
       // 选中当前 tab，未选中当前图表，移除监听事件，删除图层
-      RemoveLayer(_MAP_, UnitLayerId); // 删除图层
       this._shouldFetch = true;
       _MAP_.off('moveend', this._fetchData);
     } else {

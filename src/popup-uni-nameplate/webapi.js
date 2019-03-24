@@ -16,9 +16,9 @@ export const FetchPersonDetail = async body => {
 
 // 建筑物详情
 export const FetchHouseDetail = async body => {
-  Object.assign(body, { test: 'jzwDetail' });
+  // Object.assign(body, { test: 'jzwDetail' });
   const { res, err } = await FetchRequest({
-    url: 'mapServer/string',
+    url: 'dataManage/testJzwDetail',
     method: 'POST',
     body
   });
