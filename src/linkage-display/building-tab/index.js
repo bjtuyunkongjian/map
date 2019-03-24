@@ -99,11 +99,11 @@ export default class BuildingTab extends Component {
     // const _zoom = _MAP_.getZoom();
     // // 大于 16.5 级，可以点击，小于 16.5 级，看点的数量
     // console.log(_zoom);
-    const { showPopupBuilding } = GloEventName;
+    const { showPopupNameplate } = GloEventName;
     const { lngLat, originalEvent, features } = e;
     const { code } = features[0].properties;
 
-    GlobalEvent.emit(showPopupBuilding, {
+    GlobalEvent.emit(showPopupNameplate, {
       visible: true,
       boxLeft: originalEvent.x,
       boxTop: originalEvent.y,
@@ -113,8 +113,8 @@ export default class BuildingTab extends Component {
   };
 
   _selectChart = chartInfo => {
-    const { closePopupUnit } = GloEventName;
+    const { closePopupNameplate } = GloEventName;
     this.setState({ chartInfo });
-    GlobalEvent.emit(closePopupUnit);
+    GlobalEvent.emit(closePopupNameplate);
   };
 }

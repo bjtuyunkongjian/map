@@ -14,8 +14,8 @@ import {
 } from 'turf';
 
 import { ChartName, BuildingLayerId } from './chart-info';
-import { FetchBuildingData } from './webapi';
-import { AddPointLayer, RemoveLayer } from './layer-control';
+import { FetchBuildingData, FetchNameplateData } from './webapi';
+import { AddNamePlateLayer, RemoveLayer } from './layer-control';
 
 import { DefaultTab, TabValue } from '../constant';
 
@@ -103,6 +103,12 @@ export default class BuildingBar extends Component {
 
   _fetchData = async () => {
     const _bounds = _MAP_.getBounds();
+    const { res, err } = await FetchNameplateData({
+      firtype: 1,
+      sectype: sectype,
+      points: _bounds
+    });
+    const _bounds = _MAP_.getBounds();
     const { type } = this._curCell;
     const { res, err } = await FetchBuildingData({
       points: _bounds,
@@ -110,15 +116,13 @@ export default class BuildingBar extends Component {
     });
     if (!res || err) return;
     const _features = res.map(item => {
-      const { hzb, zzb, dzbm } = item;
-      return TurfPoint([hzb, zzb], {
-        code: dzbm // 单位地址编码
-      }); // 生成点数据
+      const { x, y, num, jzwbm } = item;
+      return TurfPoint([x, y], { code: jzwbm, num, enableClick: true });
     });
     const _geoJSONData = {
       type: 'geojson',
       data: FeatureCollection(_features)
     };
-    AddPointLayer(_MAP_, _geoJSONData);
+    AddNamePlateLayer(_MAP_, _geoJSONData); // 添加铭牌
   };
 }
