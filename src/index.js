@@ -17,10 +17,12 @@ import LeftMenu from './left-menu';
 import LinkageDisplay from './linkage-display'; // 联动显示
 // import ElementLibrary from './element-library'; // 图标库
 import KeyPopDetail from './keypop-detail'; // 重点人口详情
-import PopupNameplate from './popup-nameplate'; // 铭牌弹框
 import PopupPopulation from './popup-population'; // 人口弹框
+import PopupPopNameplate from './popup-pop-nameplate'; // 人口铭牌弹框
 import PopupUnit from './popup-unit'; // 单位弹框
+import PopupUniNameplate from './popup-uni-nameplate'; // 单位铭牌弹窗
 import PopupBuilding from './popup-building'; // 建筑物弹框
+import PopupBuiNameplate from './popup-bui-nameplate'; // 建筑物铭牌弹窗
 
 class MapApp extends Component {
   render() {
@@ -43,10 +45,12 @@ class MapApp extends Component {
         {/* <ElementLibrary /> */}
         <BottomNav />
         <FeaturesMenu />
-        <PopupNameplate />
         <PopupPopulation />
+        <PopupPopNameplate />
         <PopupUnit />
+        <PopupUniNameplate />
         <PopupBuilding />
+        <PopupBuiNameplate />
       </div>
     );
   }

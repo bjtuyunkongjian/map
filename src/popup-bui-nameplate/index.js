@@ -9,7 +9,7 @@ import { Event as GlobalEvent, EventName as GloEventName } from 'tuyun-utils';
 import MemberInfo from './member-info';
 import { FetchHouseDetail } from './webapi';
 
-export default class PopupNameplate extends Component {
+export default class PopupBuiNameplate extends Component {
   state = {
     visible: false,
     boxLeft: '50%',
@@ -117,15 +117,15 @@ export default class PopupNameplate extends Component {
   }
 
   _init = () => {
-    const { showPopupUnitNameplate, closePopupUnitNameplate } = GloEventName;
-    GlobalEvent.on(showPopupUnitNameplate, this._showPopup);
-    GlobalEvent.on(closePopupUnitNameplate, this._closePopup);
+    const { showPopupBuiNameplate, closePopupBuiNameplate } = GloEventName;
+    GlobalEvent.on(showPopupBuiNameplate, this._showPopup);
+    GlobalEvent.on(closePopupBuiNameplate, this._closePopup);
   };
 
   _reset = () => {
-    const { showPopupUnitNameplate, closePopupUnitNameplate } = GloEventName;
-    GlobalEvent.removeListener(showPopupUnitNameplate, this._showPopup);
-    GlobalEvent.removeListener(closePopupUnitNameplate, this._closePopup);
+    const { showPopupBuiNameplate, closePopupBuiNameplate } = GloEventName;
+    GlobalEvent.removeListener(showPopupBuiNameplate, this._showPopup);
+    GlobalEvent.removeListener(closePopupBuiNameplate, this._closePopup);
   };
 
   _showPopup = async param => {
