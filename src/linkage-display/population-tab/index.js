@@ -156,9 +156,10 @@ export default class PopulationTab extends Component {
   };
 
   _selectChart = chartInfo => {
-    const { closePopupPopNameplate } = GloEventName;
+    const { closePopupPopNameplate, closePopupPopulation } = GloEventName;
     this.setState({ chartInfo });
     GlobalEvent.emit(closePopupPopNameplate);
+    GlobalEvent.emit(closePopupPopulation);
   };
 
   _hideDetail = () => {

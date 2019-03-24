@@ -127,8 +127,8 @@ export default class UnitTab extends Component {
     const { lngLat, originalEvent, features } = e;
     const { code, enableClick } = features[0].properties;
     if (_zoom > 16.5) {
-      const { showPopupNameplate } = GloEventName;
-      GlobalEvent.emit(showPopupNameplate, {
+      const { showPopupUnitNameplate } = GloEventName;
+      GlobalEvent.emit(showPopupUnitNameplate, {
         visible: true,
         boxLeft: originalEvent.x,
         boxTop: originalEvent.y,
@@ -148,8 +148,9 @@ export default class UnitTab extends Component {
   };
 
   _selectChart = chartInfo => {
-    const { closePopupUnit } = GloEventName;
+    const { closePopupUnitNameplate, closePopupUnit } = GloEventName;
     this.setState({ chartInfo });
+    GlobalEvent.emit(closePopupUnitNameplate);
     GlobalEvent.emit(closePopupUnit);
   };
 }
