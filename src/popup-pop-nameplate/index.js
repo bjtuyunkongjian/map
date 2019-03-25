@@ -1,3 +1,6 @@
+/**
+ * @description 人口面板点击详情
+ */
 import React, { Component } from 'react';
 import { FaPeriscope } from 'react-icons/fa';
 // import { MdLocationCity } from 'react-icons/md';
@@ -25,6 +28,8 @@ export default class PopupPopNameplate extends Component {
     selectedPerson: {}
   };
 
+  _popupEl;
+
   componentDidMount = () => this._init();
 
   componentWillUnmount = () => this._reset();
@@ -39,12 +44,12 @@ export default class PopupPopNameplate extends Component {
       // buildingInfo,
       buildinglocation,
       totalRkNum,
-      roomInfoList,
-      selectedPerson
+      roomInfoList
     } = this.state;
     if (!visible) return null;
     return (
       <div
+        ref={el => (this._popupEl = el)}
         style={{ top: boxTop + 10, left: boxLeft + 10 }}
         className="podata-popup"
       >
@@ -110,8 +115,6 @@ export default class PopupPopNameplate extends Component {
         </ul>
 
         {selectedRoom.personInfoList ? this._createFamilyMember() : null}
-
-        <MemberInfo memberCode={selectedPerson.rkbm} name={selectedPerson.xm} />
       </div>
     );
   }
@@ -223,10 +226,24 @@ export default class PopupPopNameplate extends Component {
   };
 
   _selectPerson = item => {
-    const { selectedPerson } = this.state;
+    const { selectedPerson, boxLeft, boxTop } = this.state;
+    const { closePopupPopulation, showPopupPopulation } = GloEventName;
     if (selectedPerson === item) {
+      GlobalEvent.emit(closePopupPopulation);
       this.setState({ selectedPerson: {} });
     } else {
+      if (!this._popupEl) return;
+      const { width: _popupW } = this._popupEl.getBoundingClientRect();
+      const _boxLeft = boxLeft + Math.floor(_popupW * 1.01);
+      const _boxTop = boxTop;
+      const _lngLat = _MAP_.unporject({ x: _boxLeft, y: _boxTop });
+      GlobalEvent.emit(showPopupPopulation, {
+        visible: true,
+        boxLeft: _boxLeft,
+        boxTop: _boxTop,
+        lngLat: _lngLat,
+        code: item.rkbm
+      });
       this.setState({ selectedPerson: item });
     }
   };
