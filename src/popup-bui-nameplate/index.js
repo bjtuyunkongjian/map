@@ -133,6 +133,7 @@ export default class PopupBuiNameplate extends Component {
   _fetchBuildingDetail = async () => {
     const { code } = this.state;
     const { res, err } = await FetchBuildingDetail({
+      type: '03',
       jzwbm: code
     });
     if (!res || err) return;

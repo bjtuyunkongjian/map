@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Event as GlobalEvent, EventName as GloEventName } from 'tuyun-utils';
+import { FaTimes } from 'react-icons/fa';
 
 import { FetchPopDetail } from './webapi';
 import { BaseInfo, HouseholdRegInfo, PopCategory } from './constant';
@@ -11,8 +12,8 @@ export default class PupupPopulation extends Component {
     visible: false,
     lngLat: [],
     popCode: '',
-    baseInfo: BaseInfo,
-    householdRegInfo: HouseholdRegInfo
+    baseInfo: [],
+    householdRegInfo: []
   };
 
   componentDidMount = () => this._init();
@@ -35,7 +36,10 @@ export default class PupupPopulation extends Component {
         className="detail-popup"
         style={{ top: boxTop + 10, left: boxLeft + 10 }}
       >
-        <div className="detail-title">人员信息</div>
+        <div className="detail-title">
+          人员信息
+          <FaTimes className="close" onClick={this._closePopup} />
+        </div>
 
         <div className="info-label">基本信息</div>
         <ul className="detail-box">
@@ -79,7 +83,9 @@ export default class PupupPopulation extends Component {
       boxLeft: boxLeft,
       boxTop: boxTop,
       lngLat: lngLat,
-      popCode: code
+      popCode: code,
+      baseInfo: [],
+      householdRegInfo: []
     });
     this._fetchPopDetail();
     _MAP_.on('move', this._addListener);

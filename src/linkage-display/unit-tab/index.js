@@ -14,6 +14,7 @@ import UnitBar from './unit-bar';
 import SpecialUnit from './special-unit';
 import ProtectionUnit from './protection-unit';
 import { UnitLayerId } from './chart-info';
+import { RemoveLayer } from './layer-control';
 
 import Event, { EventName } from '../event';
 import { DefaultTab, TabValue } from '../constant';

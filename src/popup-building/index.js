@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Event as GlobalEvent, EventName as GloEventName } from 'tuyun-utils';
+import { FaTimes } from 'react-icons/fa';
 
 import { FetchBuildingDetail } from './webapi';
 import {
@@ -20,10 +21,10 @@ export default class PupupBuilding extends Component {
     visible: false,
     lngLat: [],
     buildingCode: '',
-    baseInfo: BaseInfo,
-    affiliationInfo: AffiliationInfo,
-    custodianInfo: CustodianInfo,
-    homeownerInfo: HomeownerInfo
+    baseInfo: [],
+    affiliationInfo: [],
+    custodianInfo: [],
+    homeownerInfo: []
   };
 
   componentDidMount = () => this._init();
@@ -48,7 +49,10 @@ export default class PupupBuilding extends Component {
         className="detail-popup"
         style={{ top: boxTop + 10, left: boxLeft + 10 }}
       >
-        <div className="detail-title">房屋信息</div>
+        <div className="detail-title">
+          房屋信息
+          <FaTimes className="close" onClick={this._closePopup} />
+        </div>
 
         <div className="info-label">基本信息</div>
         <ul className="detail-box">
@@ -112,7 +116,11 @@ export default class PupupBuilding extends Component {
       boxLeft: boxLeft,
       boxTop: boxTop,
       lngLat: lngLat,
-      buildingCode: code
+      buildingCode: code,
+      baseInfo: [],
+      affiliationInfo: [],
+      custodianInfo: [],
+      homeownerInfo: []
     });
     this._fetchBuildingDetail();
     _MAP_.on('move', this._addListener);

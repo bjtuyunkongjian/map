@@ -37,20 +37,20 @@ export const UnitCategory = {
 }; // 单位类别
 
 export const BaseInfo = [
-  { label: '地址', value: '', key: 'dzmc' },
+  { label: '单位名称', value: '', key: 'dzmc' },
   { label: '三防设施', value: '', key: 'sfss' },
-  { label: '重点单位标识', value: '', key: 'zddwbs' },
+  { label: '重点单位', value: '', key: 'zddwbs' },
   { label: '单位地址', value: '', key: 'dwdz_qhnxxdz' },
-  { label: '是否九小场所', value: '', key: 'sfjxcs' },
+  { label: '九小场所', value: '', key: 'sfjxcs' },
   { label: '安全通道数', value: '', key: 'aqcktds' },
   { label: '注册资金', value: '', key: 'zczj' },
   { label: '联系电话', value: '', key: 'lxdh' },
   { label: '网址', value: '', key: 'wz' },
   { label: '单位类型', value: '', key: 'dwlx' },
   { label: '单位分类', value: '', key: 'dwfl' },
-  { label: '从业人员总数', value: '', key: 'cyryzs' },
+  { label: '从业人数', value: '', key: 'cyryzs' },
   { label: '主管单位', value: '', key: 'zgdw' },
-  { label: '公安机关备案时间', value: '', key: 'gajgbasj' }
+  { label: '备案时间', value: '', key: 'gajgbasj' }
 ]; // 基本信息
 
 export const DefendingPerInfo = [

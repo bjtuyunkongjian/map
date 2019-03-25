@@ -25,6 +25,8 @@ export default class PopupUniNameplate extends Component {
     selectedPerson: {}
   };
 
+  _popupEl;
+
   componentDidMount = () => this._init();
 
   componentWillUnmount = () => this._reset();
@@ -45,6 +47,7 @@ export default class PopupUniNameplate extends Component {
     if (!visible) return null;
     return (
       <div
+        ref={el => (this._popupEl = el)}
         style={{ top: boxTop + 10, left: boxLeft + 10 }}
         className="podata-popup"
       >
@@ -120,6 +123,7 @@ export default class PopupUniNameplate extends Component {
     const { showPopupUnitNameplate, closePopupUnitNameplate } = GloEventName;
     GlobalEvent.on(showPopupUnitNameplate, this._showPopup);
     GlobalEvent.on(closePopupUnitNameplate, this._closePopup);
+    console.log('this._popupEl', this._popupEl);
   };
 
   _reset = () => {
@@ -149,9 +153,10 @@ export default class PopupUniNameplate extends Component {
   _fetchPersionDetail = async () => {
     const { popCode } = this.state;
     const { res, err } = await FetchHouseDetail({
+      type: '02',
       jzwbm: popCode
     });
-    if (!res || err) return console.log('获取房屋信息失败');
+    if (!res || err) return;
     const { jzwdzmc, roomInfoList, totalRkNum } = res;
     this.setState({
       buildingName: jzwdzmc || '暂无',

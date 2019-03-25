@@ -149,6 +149,7 @@ export default class PopupPopNameplate extends Component {
   _fetchPersionDetail = async () => {
     const { popCode } = this.state;
     const { res, err } = await FetchHouseDetail({
+      type: '01',
       jzwbm: popCode
     });
     if (!res || err) return console.log('获取房屋信息失败');
