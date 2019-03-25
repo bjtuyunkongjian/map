@@ -54,9 +54,9 @@ export default class PopupBuiNameplate extends Component {
           <li>
             <MdPeopleOutline className="icon-left" />
             <div>
-              <div>自住：{totalBuildingNum.allczrkNum || 0}</div>
-              <div>出租：{totalBuildingNum.allldrkNum || 0}</div>
-              <div>空置：{totalBuildingNum.allzdryNum || 0}</div>
+              <div>自住：{totalBuildingNum.zzHouseNum || 0}</div>
+              <div>出租：{totalBuildingNum.czHouseNum || 0}</div>
+              <div>空置：{totalBuildingNum.xzHouseNum || 0}</div>
             </div>
           </li>
         </ul>
@@ -137,11 +137,11 @@ export default class PopupBuiNameplate extends Component {
       jzwbm: code
     });
     if (!res || err) return;
-    const { jzwdzmc, houseInfoList, totalBuildingNum } = res;
+    const { jzwdzmc, houseInfoList, houseNumMap } = res;
     this.setState({
       buildingName: jzwdzmc || '暂无',
       buildingLocation: jzwdzmc || '暂无',
-      totalBuildingNum: totalBuildingNum || {},
+      totalBuildingNum: houseNumMap || {},
       buildingInfoList: houseInfoList || []
     });
   };

@@ -9,7 +9,6 @@ import { TiHomeOutline } from 'react-icons/ti';
 import { FaTimes } from 'react-icons/fa';
 import { Event as GlobalEvent, EventName as GloEventName } from 'tuyun-utils';
 
-import MemberInfo from './member-info';
 import { FetchHouseDetail } from './webapi';
 
 export default class PopupPopNameplate extends Component {
@@ -161,8 +160,8 @@ export default class PopupPopNameplate extends Component {
       buildingName: jzwdzmc || '暂无',
       buildingInfo: '' || '暂无',
       buildinglocation: jzwdzmc || '暂无',
-      totalRkNum,
-      roomInfoList
+      totalRkNum: totalRkNum || {},
+      roomInfoList: roomInfoList || []
     });
   };
 

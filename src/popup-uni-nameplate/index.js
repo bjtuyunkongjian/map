@@ -20,8 +20,8 @@ export default class PopupUniNameplate extends Component {
     buildingName: '',
     buildingInfo: '', // 楼栋信息
     buildinglocation: '',
-    totalRkNum: {}, // 常驻、流动、重点人口总数
-    roomInfoList: [],
+    totalCompany: {}, // 常驻、流动、重点人口总数
+    companyInfoList: [],
     selectedPerson: {}
   };
 
@@ -40,8 +40,8 @@ export default class PopupUniNameplate extends Component {
       buildingName,
       // buildingInfo,
       buildinglocation,
-      totalRkNum,
-      roomInfoList,
+      totalCompany,
+      companyInfoList,
       selectedPerson
     } = this.state;
     if (!visible) return null;
@@ -69,9 +69,9 @@ export default class PopupUniNameplate extends Component {
           <li>
             <MdPeopleOutline className="icon-left" />
             <div>
-              <div>常住：{totalRkNum.allczrkNum}</div>
-              <div>流动：{totalRkNum.allldrkNum}</div>
-              <div>重点：{totalRkNum.allzdryNum}</div>
+              <div>常住：{totalCompany.tzComNum}</div>
+              <div>流动：{totalCompany.bhComNum}</div>
+              <div>重点：{totalCompany.totalNum}</div>
             </div>
           </li>
         </ul>
@@ -92,7 +92,7 @@ export default class PopupUniNameplate extends Component {
         </ul>
 
         <ul className="popup-list">
-          {roomInfoList.map((item, index) => {
+          {companyInfoList.map((item, index) => {
             const _selected = selectedRoom === item;
 
             return (
@@ -123,7 +123,6 @@ export default class PopupUniNameplate extends Component {
     const { showPopupUnitNameplate, closePopupUnitNameplate } = GloEventName;
     GlobalEvent.on(showPopupUnitNameplate, this._showPopup);
     GlobalEvent.on(closePopupUnitNameplate, this._closePopup);
-    console.log('this._popupEl', this._popupEl);
   };
 
   _reset = () => {
@@ -157,13 +156,13 @@ export default class PopupUniNameplate extends Component {
       jzwbm: popCode
     });
     if (!res || err) return;
-    const { jzwdzmc, roomInfoList, totalRkNum } = res;
+    const { jzwdzmc, companyInfoList, totalCompany } = res;
     this.setState({
       buildingName: jzwdzmc || '暂无',
       buildingInfo: '' || '暂无',
       buildinglocation: jzwdzmc || '暂无',
-      totalRkNum,
-      roomInfoList
+      totalCompany: totalCompany || {},
+      companyInfoList: companyInfoList || []
     });
   };
 

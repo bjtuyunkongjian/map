@@ -22,8 +22,8 @@ export default {
   closePopupNameplate: 'close:popupNameplate',
   showPopupPopNameplate: 'show:popupPopNameplate', // 人口铭牌
   closePopupPopNameplate: 'close:popupPopNameplate',
-  showPopupUnitNameplate: 'show:popupPopNameplate', // 单位铭牌
-  closePopupUnitNameplate: 'close:popupPopNameplate',
+  showPopupUnitNameplate: 'show:popupUnitNameplate', // 单位铭牌
+  closePopupUnitNameplate: 'close:popupUnitNameplate',
   showPopupBuiNameplate: 'show:popupBuiNameplate', // 房屋铭牌
   closePopupBuiNameplate: 'close:popupbuiNameplate'
 };
