@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { FaPeriscope } from 'react-icons/fa';
-// import { MdLocationCity } from 'react-icons/md';
 import { MdPeopleOutline } from 'react-icons/md';
 import { TiHomeOutline } from 'react-icons/ti';
 import { FaTimes } from 'react-icons/fa';
 import { Event as GlobalEvent, EventName as GloEventName } from 'tuyun-utils';
 
-import MemberInfo from './member-info';
 import { FetchHouseDetail } from './webapi';
 
 export default class PopupUniNameplate extends Component {
@@ -15,14 +13,12 @@ export default class PopupUniNameplate extends Component {
     boxLeft: '50%',
     boxTop: '50%',
     lngLat: {},
-    selectedRoom: {},
+    selectedUnit: {},
     popCode: '',
-    buildingName: '',
-    buildingInfo: '', // 楼栋信息
-    buildinglocation: '',
+    unitName: '',
+    unitLocation: '',
     totalCompany: {}, // 常驻、流动、重点人口总数
-    companyInfoList: [],
-    selectedPerson: {}
+    companyInfoList: []
   };
 
   _popupEl;
@@ -36,13 +32,11 @@ export default class PopupUniNameplate extends Component {
       visible,
       boxLeft,
       boxTop,
-      selectedRoom = {},
-      buildingName,
-      // buildingInfo,
-      buildinglocation,
+      selectedUnit = {},
+      unitName,
+      unitLocation,
       totalCompany,
-      companyInfoList,
-      selectedPerson
+      companyInfoList
     } = this.state;
     if (!visible) return null;
     return (
@@ -53,47 +47,28 @@ export default class PopupUniNameplate extends Component {
       >
         <div className="popup-title">
           <FaPeriscope className="icon-left" />
-          <div className="title-text">{buildingName}</div>
+          <div className="title-text">{unitName}</div>
           <FaTimes className="close" onClick={this._closePopup} />
         </div>
 
         <ul className="popup-detail">
-          {/* <li>
-            <MdLocationCity className="icon-left" />
-            楼栋信息：{buildingInfo}
-          </li> */}
           <li>
             <TiHomeOutline className="icon-left" />
-            建筑地址：{buildinglocation}
+            单位地址：{unitLocation}
           </li>
           <li>
             <MdPeopleOutline className="icon-left" />
             <div>
-              <div>常住：{totalCompany.tzComNum}</div>
-              <div>流动：{totalCompany.bhComNum}</div>
-              <div>重点：{totalCompany.totalNum}</div>
+              <div>总数：{totalCompany.totalNum}</div>
+              <div>特种：{totalCompany.tzComNum}</div>
+              <div>保护：{totalCompany.bhComNum}</div>
             </div>
-          </li>
-        </ul>
-
-        <ul className="popup-explanation">
-          <li>
-            <div className="resident-pop" />
-            <span>常住</span>
-          </li>
-          <li>
-            <div className="floating-pop" />
-            <span>流动</span>
-          </li>
-          <li>
-            <div className="key-pop" />
-            <span>重点</span>
           </li>
         </ul>
 
         <ul className="popup-list">
           {companyInfoList.map((item, index) => {
-            const _selected = selectedRoom === item;
+            const _selected = selectedUnit === item;
 
             return (
               <li
@@ -101,20 +76,11 @@ export default class PopupUniNameplate extends Component {
                 key={`house_item_${index}`}
                 onClick={() => this._selectHouseRoom(item)}
               >
-                <div className="room-code">{item.mlph}</div>
-                <div className="type-box">
-                  <div className="pop-type resident-pop">{item.czrkNum}</div>
-                  <div className="pop-type floating-pop">{item.ldrkNum}</div>
-                  <div className="pop-type key-pop">{item.zdryNum}</div>
-                </div>
+                <div className="room-code">{item.dwmc}</div>
               </li>
             );
           })}
         </ul>
-
-        {selectedRoom.personInfoList ? this._createFamilyMember() : null}
-
-        <MemberInfo memberCode={selectedPerson.rkbm} name={selectedPerson.xm} />
       </div>
     );
   }
@@ -158,9 +124,8 @@ export default class PopupUniNameplate extends Component {
     if (!res || err) return;
     const { jzwdzmc, companyInfoList, totalCompany } = res;
     this.setState({
-      buildingName: jzwdzmc || '暂无',
-      buildingInfo: '' || '暂无',
-      buildinglocation: jzwdzmc || '暂无',
+      unitName: jzwdzmc || '暂无',
+      unitLocation: jzwdzmc || '暂无',
       totalCompany: totalCompany || {},
       companyInfoList: companyInfoList || []
     });
@@ -174,63 +139,25 @@ export default class PopupUniNameplate extends Component {
   };
 
   _selectHouseRoom = option => {
-    const { selectedRoom } = this.state;
-    if (selectedRoom === option) {
-      this.setState({ selectedRoom: {}, selectedPerson: {} });
+    const { selectedUnit, boxLeft, boxTop } = this.state;
+    const { closePopupUnit, showPopupUnit } = GloEventName;
+    if (selectedUnit === option) {
+      GlobalEvent.emit(closePopupUnit);
+      this.setState({ selectedUnit: {} });
     } else {
-      this.setState({ selectedRoom: option, selectedPerson: {} });
-    }
-  };
-
-  _createFamilyMember = () => {
-    const { selectedRoom = {}, selectedPerson = {} } = this.state;
-    const { personInfoList = [] } = selectedRoom;
-    return (
-      <ul className="family-member">
-        {personInfoList.map((item, index) => {
-          const { zdrybz, xm, syrkgllbdm } = item;
-          const _selected = selectedPerson === item;
-          let _personType;
-          if (zdrybz === 'Y') {
-            _personType = 'important';
-          } else if (syrkgllbdm === '2') {
-            _personType = 'resident'; // 常口
-          } else if (syrkgllbdm === '3') {
-            _personType = 'floating'; // 流口
-          } else {
-            _personType = 'resident'; // 常口
-          }
-          return (
-            <li
-              key={`member_${index}`}
-              className={`member-item ${_selected ? 'selected-member' : ''}`}
-              onClick={() => {
-                this._selectPerson(item);
-              }}
-            >
-              <div className="pop-name">{xm}</div>
-              <div className="pop-type resident-pop">
-                {_personType === 'resident' ? 1 : 0}
-              </div>
-              <div className="pop-type floating-pop">
-                {_personType === 'floating' ? 1 : 0}
-              </div>
-              <div className="pop-type key-pop">
-                {_personType === 'important' ? 1 : 0}
-              </div>
-            </li>
-          );
-        })}
-      </ul>
-    );
-  };
-
-  _selectPerson = item => {
-    const { selectedPerson } = this.state;
-    if (selectedPerson === item) {
-      this.setState({ selectedPerson: {} });
-    } else {
-      this.setState({ selectedPerson: item });
+      if (!this._popupEl) return;
+      const { width: _popupW } = this._popupEl.getBoundingClientRect();
+      const _boxLeft = boxLeft + Math.floor(_popupW * 1.01);
+      const _boxTop = boxTop;
+      const _lngLat = _MAP_.unporject({ x: _boxLeft, y: _boxTop });
+      GlobalEvent.emit(showPopupUnit, {
+        visible: true,
+        boxLeft: _boxLeft,
+        boxTop: _boxTop,
+        lngLat: _lngLat,
+        code: item.zagldwbm
+      });
+      this.setState({ selectedUnit: option });
     }
   };
 }

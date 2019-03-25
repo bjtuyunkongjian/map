@@ -179,6 +179,7 @@ export default class PopupPopNameplate extends Component {
     } else {
       this.setState({ selectedRoom: option, selectedPerson: {} });
     }
+    GlobalEvent.emit(closePopupPopulation); // 关闭人口弹框
   };
 
   _createFamilyMember = () => {
