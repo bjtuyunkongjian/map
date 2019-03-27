@@ -1,6 +1,6 @@
 /**
  * @author sl 2019-03-06
- * @name 人口面板
+ * @description 人口面板
  * 1. 人口柱状图
  * 2. 重点人员饼状图
  * 3. 人口密度图
@@ -21,60 +21,27 @@ import { DefaultTab, TabValue } from '../constant';
 export default class PopulationTab extends Component {
   state = {
     curBar: DefaultTab,
-    chartInfo: {
-      name: '',
-      index: -1
-    },
     totalPopData: {},
-    popdensityData: {},
     poppieData: {}
   };
 
   componentDidMount = () => this._init();
 
   render() {
-    const {
-      curBar,
-      chartInfo,
-      totalPopData,
-      popdensityData,
-      poppieData
-    } = this.state;
-
+    const { curBar } = this.state;
+    const _selected = curBar === TabValue.population;
     return (
-      <div
-        className={`tab-charts ${
-          curBar !== TabValue.population ? 'hidden' : ''
-        }`}
-      >
-        <TotalPopulation
-          curBar={curBar}
-          selectedChart={chartInfo.name}
-          selectedIndex={chartInfo.index}
-          onSelect={this._selectChart}
-          chartData={totalPopData}
-        />
-        <KeyPersonnel
-          curBar={curBar}
-          selectedChart={chartInfo.name}
-          selectedIndex={chartInfo.index}
-          onSelect={this._selectChart}
-          chartData={poppieData}
-        />
-        <PopulationDensity
-          curBar={curBar}
-          selectedChart={chartInfo.name}
-          selectedIndex={chartInfo.index}
-          onSelect={this._selectChart}
-          chartData={popdensityData}
-        />
+      <div className={`tab-charts ${_selected ? '' : 'hidden'}`}>
+        <TotalPopulation />
+        <KeyPersonnel />
+        <PopulationDensity />
       </div>
     );
   }
 
   _init = async () => {
     const { curBar } = this.state;
-    this._dealWithEvent(); // 处理 Event 事件
+    this._dealWithEvent(); // 处理切换面板事件
     if (curBar === TabValue.population) {
       this._fetchChartData(); // 获取图表数据
       this._addListener(); // 添加事件监听
@@ -85,10 +52,10 @@ export default class PopulationTab extends Component {
     Event.on(EventName.changeNav, async nextBar => {
       const { curBar } = this.state;
       if (nextBar === curBar) return; // 重复点击保护
-      await this.setState({
-        curBar: nextBar,
-        chartInfo: { name: '', index: -1 }
-      });
+      GlobalEvent.emit(GloEventName.closePopupPopNameplate); // 关闭铭牌弹窗
+      GlobalEvent.emit(GloEventName.closePopupPopulation); // 关闭详情弹窗
+      // 清空图层
+      await this.setState({ curBar: nextBar });
       if (TabValue.population === nextBar) {
         this._fetchChartData();
         this._addListener();
@@ -111,11 +78,13 @@ export default class PopulationTab extends Component {
     });
     if (!res || err) return; // 保护
     const { popbarData, popdensityData, popieData } = res;
-    this.setState({
+    const _param = {
       totalPopData: popbarData || {},
       popdensityData: popdensityData || {},
       poppieData: popieData || {}
-    });
+    };
+    Event.emit(EventName.updatePopChart, _param);
+    this.setState(_param);
   };
 
   _addListener = () => {
@@ -153,13 +122,6 @@ export default class PopulationTab extends Component {
         code: code
       });
     }
-  };
-
-  _selectChart = chartInfo => {
-    const { closePopupPopNameplate, closePopupPopulation } = GloEventName;
-    this.setState({ chartInfo });
-    GlobalEvent.emit(closePopupPopNameplate);
-    GlobalEvent.emit(closePopupPopulation);
   };
 
   _hideDetail = () => {

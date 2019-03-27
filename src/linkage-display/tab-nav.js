@@ -9,9 +9,7 @@ export default class TabNav extends Component {
     curBar: DefaultTab
   };
 
-  componentDidMount() {
-    this._init();
-  }
+  componentDidMount = () => this._init();
 
   render() {
     const { curBar } = this.state;
@@ -52,15 +50,5 @@ export default class TabNav extends Component {
     if (nextBar === curBar) return;
     this.setState({ curBar: nextBar });
     Event.emit(EventName.changeNav, nextBar);
-    this._closePopup();
-  };
-
-  _closePopup = () => {
-    GlobalEvent.emit(GloEventName.closePopupPopNameplate);
-    GlobalEvent.emit(GloEventName.closePopupUnitNameplate);
-    GlobalEvent.emit(GloEventName.closePopupBuiNameplate);
-    GlobalEvent.emit(GloEventName.closePopupPopulation);
-    GlobalEvent.emit(GloEventName.closePopupUnit);
-    GlobalEvent.emit(GloEventName.closePopupBuilding);
   };
 }

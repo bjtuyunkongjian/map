@@ -15,22 +15,19 @@ import FloatDensity from './float-density';
 import KeyDensity from './key-density';
 
 import { DefaultTab, TabValue } from '../constant';
+import Event, { EventName } from '../event';
 
 export default class PopulationDensity extends Component {
   state = {
-    selectedIndex: -1
-  };
-
-  static defaultProps = {
+    selectedIndex: -1,
     chartData: {},
     curBar: DefaultTab
   };
 
-  _totalDensityColor = {};
+  componentDidMount = () => this._init();
 
   render() {
-    const { selectedIndex } = this.state;
-    const { chartData, curBar } = this.props;
+    const { chartData, selectedIndex, curBar } = this.state;
     const { lkpopDensity, totalPopDensity, zdpopDensity } = chartData;
     const _max = Math.max(lkpopDensity, totalPopDensity, zdpopDensity, 10);
     const _end = Math.max(Math.floor(_max * 1.05), 10);
@@ -70,6 +67,21 @@ export default class PopulationDensity extends Component {
       </div>
     );
   }
+
+  _init = () => {
+    this._dealWithEvent();
+  };
+
+  _dealWithEvent = () => {
+    Event.on(EventName.changeNav, nextBar => {
+      const { curBar } = this.state;
+      if (nextBar === curBar) return; // 重复点击保护
+      this.setState({ curBar: nextBar });
+    });
+    Event.on(EventName.updatePopChart, ({ popdensityData }) => {
+      this.setState({ chartData: popdensityData });
+    });
+  };
 
   _clickDensity = densityInfo => {
     const { selectedIndex } = this.state;

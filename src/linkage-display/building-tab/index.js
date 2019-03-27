@@ -53,7 +53,9 @@ export default class BuildingTab extends Component {
   _dealWithEvent = () => {
     Event.on(EventName.changeNav, async nextBar => {
       const { curBar } = this.state;
-      if (nextBar === curBar) return;
+      if (nextBar === curBar) return; // 重复点击保护
+      GlobalEvent.emit(GloEventName.closePopupBuiNameplate); // 关闭铭牌弹窗
+      GlobalEvent.emit(GloEventName.closePopupBuilding); // 关闭详情弹窗
       await this.setState({
         curBar: nextBar,
         chartInfo: { name: '', index: -1 }

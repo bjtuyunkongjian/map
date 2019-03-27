@@ -15,9 +15,10 @@ import {
 } from './layer-control';
 
 import { DefaultTab, TabValue } from '../constant';
+import Event, { EventName } from '../event';
 
 export default class TotalPopulation extends Component {
-  static defaultProps = {
+  state = {
     selectedChart: '',
     selectedIndex: -1,
     chartData: {},
@@ -25,42 +26,11 @@ export default class TotalPopulation extends Component {
   };
 
   _curCell = {};
-  _shouldFetch = true; // 判断是否要请求一下一下数据
 
-  componentWillReceiveProps = nextProps => {
-    const { selectedIndex: preSelectedIndex } = this.props;
-    const { curBar, selectedChart, selectedIndex } = nextProps;
-    // 如果和选中的柱状图和之前的不一致，需要重置 _shouldFetch
-    if (
-      selectedChart === ChartName.totalPop &&
-      selectedIndex !== preSelectedIndex
-    ) {
-      this._shouldFetch = true;
-    }
-    // 如果选中切换 tab，需要重置 _shouldFetch
-    // 如果切换选中的图表，需要重置 _shouldFetch
-    if (
-      curBar !== TabValue.population ||
-      selectedChart !== ChartName.totalPop ||
-      selectedIndex < 0
-    ) {
-      // 未选中当前 tab，移除监听事件
-      // 选中当前 tab，未选中当前图表，移除监听事件，删除图层
-      this._shouldFetch = true;
-      RemoveLayer(_MAP_, PopulationLayerId); // 删除图层
-      _MAP_.off('moveend', this._fetchData);
-    } else {
-      // 选中当前图表，获取数据，添加监听事件
-      this._shouldFetch && this._fetchData();
-      this._shouldFetch = false;
-      _MAP_.on('moveend', this._fetchData);
-    }
-  };
+  componentDidMount = () => this._init();
 
   render() {
-    const { selectedChart, selectedIndex, chartData, curBar } = this.props;
-    const _selectIndex =
-      selectedChart === ChartName.totalPop ? selectedIndex : -1;
+    const { curBar, selectedIndex, chartData } = this.state;
     if (curBar !== TabValue.population) return null;
 
     return (
@@ -111,15 +81,44 @@ export default class TotalPopulation extends Component {
               sectype: 5
             }
           ]}
-          selectedIndex={_selectIndex}
+          selectedIndex={selectedIndex}
           onClick={this._clickBar}
         />
       </div>
     );
   }
 
+  _init = () => {
+    this._dealWithEvent();
+  };
+
+  _dealWithEvent = () => {
+    // 切换 tab
+    Event.on(EventName.changeNav, nextBar => {
+      const { curBar } = this.state;
+      if (nextBar === curBar) return; // 重复点击保护
+      this.setState({ curBar: nextBar });
+    });
+    // 切换图表
+    Event.on(EventName.changePopSelected, param => {
+      const { selectedChart, selectedIndex } = param;
+      if (selectedChart === ChartName.totalPop) {
+        this.setState({ selectedChart, selectedIndex });
+        this._fetchData(); // 选中当前图表，请求对应数据
+        _MAP_.on('moveend', this._fetchData); // 选中当前图表，添加监听事件
+      } else {
+        this.setState({ selectedChart, selectedIndex: -1 });
+        _MAP_.off('moveend', this._fetchData); // 没选中当前图表，移除监听事件
+      }
+    });
+    // 更新图表数据
+    Event.on(EventName.updatePopChart, ({ totalPopData }) => {
+      this.setState({ chartData: totalPopData });
+    });
+  };
+
   _clickBar = barInfo => {
-    const { onSelect, selectedChart, selectedIndex } = this.props;
+    const { selectedChart, selectedIndex } = this.state;
     const { curIndex, curCell } = barInfo;
     let _selectInd;
     if (selectedChart === ChartName.totalPop) {
@@ -127,8 +126,13 @@ export default class TotalPopulation extends Component {
     } else {
       _selectInd = curIndex;
     }
+    RemoveLayer(_MAP_, PopulationLayerId); // 切换图表，先删除当前图层
+    // 发射切换图表事件
+    Event.emit(EventName.changePopSelected, {
+      selectedChart: ChartName.totalPop,
+      selectedIndex: _selectInd
+    });
     this._curCell = curCell;
-    onSelect({ index: _selectInd, name: ChartName.totalPop }); // 像父元素传参
   };
 
   _fetchData = () => {
