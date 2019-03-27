@@ -2,60 +2,25 @@ import React, { Component } from 'react';
 import { TuyunPie } from 'tuyun-kit';
 import { Event as GlobalEvent, EventName as GloEventName } from 'tuyun-utils';
 
-import { ChartName } from './chart-info';
+import { ChartName, PieData } from './chart-info';
 
 import { DefaultTab, TabValue } from '../constant';
+import Event, { EventName } from '../event';
 
 export default class KeyPersonnel extends Component {
-  static defaultProps = {
+  state = {
     selectedChart: '',
-    selectedIndex: -1,
+    selectedDataIndex: -1, // 指的是选中扇形对应的 dataIndex
+    selectedIndex: -1, // 指的是选中扇形对应的 index
     chartData: {},
     curBar: DefaultTab
   };
 
-  _selectIndex = -1;
-  _pieData = [];
+  _curSector = {};
 
-  componentWillReceiveProps = nextProps => {
-    const {
-      selectedChart: nextSelectedChart,
-      chartData,
-      selectedChart,
-      selectedIndex
-    } = nextProps;
-    if (ChartName.keyPop !== nextSelectedChart) {
-      this._hideDetail();
-    }
-    // 强行要写的一个很奇葩的逻辑，扇形上百分比为 0 的扇区，不需要显示该扇区，包括其二级分类
-    const _selectedChart = selectedChart === ChartName.keyPop;
-    this._selectIndex = -1;
-    this._pieData = pieData.filter(item => {
-      if (chartData[item.key] && chartData[item.key] > 0) {
-        item.value = chartData[item.key] || 0;
-        return item;
-      } else {
-        return false;
-      }
-    });
-
-    this._pieData.map((item, index) => {
-      if (_selectedChart && selectedIndex === item.dataIndex) {
-        this._selectIndex = index; // 刷新 chartData 数据后，如果之前选中的选项现在还存在，设置 _selectIndex
-        this._showDetail(item.name, item.code);
-      }
-    });
-    const { hideKeyPopDetail } = GloEventName;
-
-    if (this._selectIndex < 0) {
-      GlobalEvent.emit(hideKeyPopDetail, { hidden: true });
-    } else {
-      GlobalEvent.emit(hideKeyPopDetail, { hidden: false });
-    }
-  };
-
+  componentDidMount = () => this._init();
   render() {
-    const { chartData, curBar } = this.props;
+    const { chartData, curBar, selectedIndex, pieData } = this.state;
     if (curBar !== TabValue.population) return null; // 不显示
     let _total = 0;
     Object.keys(chartData).map(item => {
@@ -67,28 +32,114 @@ export default class KeyPersonnel extends Component {
           height={200}
           title={{ text: '重点人员' }}
           legend={{ text: `人员总数：${_total}` }}
-          data={this._pieData}
-          selectedIndex={this._selectIndex}
+          data={pieData}
+          selectedIndex={selectedIndex}
           onClick={this._clickPie}
         />
       </div>
     );
   }
 
-  _clickPie = async pieInfo => {
-    const { onSelect, selectedChart, selectedIndex } = this.props;
-    const { curSector } = pieInfo;
-    const { dataIndex } = curSector;
-    let _selectInd;
-    if (selectedChart === ChartName.keyPop) {
-      _selectInd = dataIndex === selectedIndex ? -1 : dataIndex;
+  _init = () => {
+    this._dealWithEvent();
+  };
+
+  _dealWithEvent = () => {
+    Event.on(EventName.changeNav, this._onChangeNav); // 切换 tab
+    Event.on(EventName.changePopSelected, this._onChangePopSelected); // 切换图表
+    Event.on(EventName.updatePopChart, this._onUpdatePopChart); // 更新图表数据
+  };
+
+  _onChangeNav = nextBar => {
+    const { curBar } = this.state;
+    if (nextBar === curBar) return; // 重复点击保护
+    this._closeDetail(); // 关闭详情子类
+    this.setState({ curBar: nextBar });
+  };
+
+  _onChangePopSelected = param => {
+    const { chartData } = this.state;
+    const { selectedChart, selectedIndex: selectedDataIndex } = param;
+    if (selectedChart === ChartName.keyPop && selectedDataIndex > -1) {
+      const { selectedIndex } = this._convertPieData({
+        selectedDataIndex,
+        chartData: chartData || {}
+      });
+      this.setState({
+        selectedChart,
+        selectedIndex,
+        selectedDataIndex
+      });
+      this._showDetail(this._curSector.name, this._curSector.code); // 显示详情子类
     } else {
-      _selectInd = dataIndex;
+      this.setState({
+        selectedChart,
+        selectedIndex: -1,
+        selectedDataIndex: -1
+      }); // 没选中你当前图表，设置索引为 -1
+      this._closeDetail(); // 关闭详情子类
     }
-    _selectInd > -1
-      ? this._showDetail(curSector.name, curSector.code)
-      : this._hideDetail(); // 获取数据
-    onSelect({ index: _selectInd, name: ChartName.keyPop }); // 像父元素传参
+  };
+
+  _onUpdatePopChart = ({ poppieData }) => {
+    const { selectedChart, selectedDataIndex } = this.state;
+    const _selectedChart = selectedChart === ChartName.keyPop;
+    const { pieData, selectedIndex } = this._convertPieData({
+      selectedDataIndex,
+      poppieData
+    });
+    // 选中当前图表
+    if (_selectedChart && selectedIndex > -1) {
+      GlobalEvent.emit(GloEventName.hideKeyPopDetail, { hidden: false });
+    } else {
+      GlobalEvent.emit(GloEventName.hideKeyPopDetail, { hidden: true });
+    }
+    this.setState({ chartData: poppieData, pieData, selectedIndex }); // 更新图表数据
+  };
+
+  _convertPieData = ({ selectedDataIndex, chartData }) => {
+    // 生成显示的饼图
+    const _pieData = PieData.filter(item => {
+      if (chartData[item.key] && chartData[item.key] > 0) {
+        item.value = chartData[item.key] || 0;
+        return item;
+      } else {
+        return false;
+      }
+    });
+    // 计算对应的索引
+    let _selectInd = -1;
+    for (let index of _pieData) {
+      const item = _pieData[index];
+      if (selectedDataIndex === item.dataIndex) {
+        _selectInd = index;
+      }
+    }
+    return {
+      pieData: _selectInd,
+      selectedIndex: -1
+    };
+  };
+
+  _clickPie = async pieInfo => {
+    const { selectedChart, selectedDataIndex } = this.state;
+    const { curSector } = pieInfo;
+    const { dataIndex } = curSector; // 当前点击的扇区的 dataIndex
+    this._curSector = curSector;
+    let _dataIndex;
+    if (selectedChart === ChartName.keyPop) {
+      _dataIndex = dataIndex === selectedDataIndex ? -1 : dataIndex;
+    } else {
+      _dataIndex = dataIndex;
+    }
+    RemoveLayer(_MAP_, PopulationLayerId); // 删除当前图层
+    GlobalEvent.emit(GloEventName.closePopupPopNameplate); // 切换图表，先关闭铭牌弹窗
+    GlobalEvent.emit(GloEventName.closePopupPopulation); // 切换图表，先关闭详情弹窗
+    // 发射切换图表事件
+    Event.emit(EventName.changePopSelected, {
+      selectedChart: ChartName.keyPop,
+      selectedIndex: _dataIndex
+    });
   };
 
   _showDetail = (name, code) => {
@@ -99,164 +150,9 @@ export default class KeyPersonnel extends Component {
     }); // 打开弹窗
   };
 
-  _hideDetail = () => {
+  _closeDetail = () => {
     GlobalEvent.emit(GloEventName.toggleKeyPopDetail, {
       visible: false
     }); // 关闭
   };
 }
-
-const pieData = [
-  {
-    dataIndex: 0,
-    value: 0,
-    key: 'wangan',
-    label: '网安',
-    name: 'wangan',
-    code: '304000000000'
-  },
-  {
-    dataIndex: 1,
-    value: 0,
-    key: 'jingzhen',
-    label: '经侦',
-    name: 'jingzhen',
-    code: '405000000000'
-  },
-  {
-    dataIndex: 2,
-    value: 0,
-    key: 'xingjing',
-    label: '刑警',
-    name: 'xingjing',
-    code: '203000000000'
-  },
-  {
-    dataIndex: 3,
-    value: 0,
-    key: 'huzhen',
-    label: '户政',
-    name: 'huzheng',
-    code: '102000000000'
-  },
-  {
-    dataIndex: 4,
-    value: 0,
-    key: 'jindu',
-    label: '禁毒',
-    name: 'jindu',
-    code: '501000000000'
-  },
-  {
-    dataIndex: 5,
-    value: 0,
-    key: 'qingbao',
-    label: '情报',
-    name: 'qingbao',
-    code: '001000000000'
-  },
-  {
-    dataIndex: 6,
-    value: 0,
-    key: 'guobao',
-    label: '国保',
-    name: 'guobao',
-    code: '601000000000'
-  },
-  {
-    dataIndex: 7,
-    value: 0,
-    key: 'fanxiejiao',
-    label: '反邪教',
-    name: 'fanxiejiao',
-    code: '701000000000'
-  },
-  {
-    dataIndex: 8,
-    value: 0,
-    key: 'fankong',
-    label: '反恐',
-    name: 'fankong',
-    code: '801000000000'
-  },
-  {
-    dataIndex: 9,
-    value: 0,
-    key: 'jiaojing',
-    label: '交警',
-    name: 'jiaojing',
-    code: '901000000000'
-  },
-  {
-    dataIndex: 10,
-    value: 0,
-    key: 'zeyu',
-    label: '泽雨',
-    name: 'zeyu',
-    code: '120800000000'
-  },
-  {
-    dataIndex: 11,
-    value: 0,
-    key: 'daoqie',
-    label: '盗窃',
-    name: 'daoqie',
-    code: '051101050200'
-  },
-  {
-    dataIndex: 12,
-    value: 0,
-    key: 'pohuairanbaoshebei',
-    label: '破坏燃爆设备',
-    name: 'pohuairanbaoshebei',
-    code: '051502020205'
-  },
-  {
-    dataIndex: 13,
-    value: 0,
-    key: 'qiangjie',
-    label: '抢劫',
-    name: 'qiangjie',
-    code: '050102050100'
-  },
-  {
-    dataIndex: 14,
-    value: 0,
-    key: 'guyishanghai',
-    label: '故意伤害',
-    name: 'guyishanghai',
-    code: '051601040103'
-  },
-  {
-    dataIndex: 15,
-    value: 0,
-    key: 'fandu',
-    label: '制毒贩毒',
-    name: 'fandu',
-    code: '040200000000'
-  },
-  {
-    dataIndex: 16,
-    value: 0,
-    key: 'feifajujin',
-    label: '非法拘禁',
-    name: 'feifajujin',
-    code: '051601040109'
-  },
-  {
-    dataIndex: 17,
-    value: 0,
-    key: 'qiangjian',
-    label: '强奸',
-    name: 'qiangjian',
-    code: '050103040105'
-  },
-  {
-    dataIndex: 18,
-    value: 0,
-    key: 'xidurenyuan',
-    label: '吸毒',
-    name: 'xidurenyuan',
-    code: '040100000000'
-  }
-];

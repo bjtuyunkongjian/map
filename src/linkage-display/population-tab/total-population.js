@@ -101,7 +101,7 @@ export default class TotalPopulation extends Component {
   _onChangeNav = nextBar => {
     const { curBar } = this.state;
     if (nextBar === curBar) return; // 重复点击保护
-    RemoveLayer(_MAP_, PopulationLayerId); // 切换图表，先删除当前图层
+    _MAP_.off('moveend', this._fetchData); // 移除监听
     this.setState({ curBar: nextBar });
   };
 
@@ -130,6 +130,8 @@ export default class TotalPopulation extends Component {
       _selectInd = curIndex;
     }
     RemoveLayer(_MAP_, PopulationLayerId); // 切换图表，先删除当前图层
+    GlobalEvent.emit(GloEventName.closePopupPopNameplate); // 切换图表，先关闭铭牌弹窗
+    GlobalEvent.emit(GloEventName.closePopupPopulation); // 切换图表，先关闭详情弹窗
     // 发射切换图表事件
     Event.emit(EventName.changePopSelected, {
       selectedChart: ChartName.totalPop,

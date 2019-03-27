@@ -51,6 +51,7 @@ export default class PopulationTab extends Component {
   _onChangeNav = async nextBar => {
     const { curBar } = this.state;
     if (nextBar === curBar) return; // 重复点击保护
+    RemoveLayer(_MAP_, PopulationLayerId); // 切换图表，先删除当前图层
     GlobalEvent.emit(GloEventName.closePopupPopNameplate); // 关闭铭牌弹窗
     GlobalEvent.emit(GloEventName.closePopupPopulation); // 关闭详情弹窗
     await this.setState({ curBar: nextBar });
@@ -75,12 +76,11 @@ export default class PopulationTab extends Component {
     });
     if (!res || err) return; // 保护
     const { popbarData, popdensityData, popieData } = res;
-    const _param = {
+    Event.emit(EventName.updatePopChart, {
       totalPopData: popbarData || {},
       popdensityData: popdensityData || {},
       poppieData: popieData || {}
-    };
-    Event.emit(EventName.updatePopChart, _param);
+    });
   };
 
   _addListener = () => {
