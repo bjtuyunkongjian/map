@@ -14,7 +14,7 @@ import {
 } from 'turf';
 
 import { ChartName, BuildingLayerId } from './chart-info';
-import { FetchBuildingData, FetchNameplateData } from './webapi';
+import { FetchNameplateData } from './webapi';
 import { AddNamePlateLayer, RemoveLayer } from './layer-control';
 
 import { DefaultTab, TabValue } from '../constant';
@@ -100,7 +100,7 @@ export default class BuildingBar extends Component {
     } else {
       _selectInd = curIndex;
     }
-    // _selectInd > -1 && this._fetchData(curCell.code); // 获取数据
+    _selectInd > -1 && this._fetchData(curCell.code); // 获取数据
     onSelect({ index: _selectInd, name: ChartName.buildingBar }); // 像父元素传参
   };
 

@@ -174,6 +174,7 @@ export default class PopupPopNameplate extends Component {
 
   _selectHouseRoom = option => {
     const { selectedRoom } = this.state;
+    const { closePopupPopulation } = GloEventName;
     if (selectedRoom === option) {
       this.setState({ selectedRoom: {}, selectedPerson: {} });
     } else {

@@ -75,7 +75,7 @@ export default class HouseOption extends Component {
     const _zoom = _MAP_.getZoom(); // 当前缩放层级
     if (_zoom < 16) return this._removeSourceLayer(houseOption.layerId); // 地图缩小到 16 级以下，房屋不显示
     const { res, err } = await FetchPopulation({ points: _bounds }); // 发送请求
-    if (err || !IsArray(res)) return console.log('获取一标三识数据出错'); //保护
+    if (err || !IsArray(res)) return console.log('获取一标三实数据出错'); //保护
     const _features = res.map(coords => TurfPoint(coords));
     const _geoJSONData = {
       type: 'geojson',

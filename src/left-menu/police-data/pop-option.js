@@ -75,7 +75,7 @@ export default class PopOption extends Component {
     const _bounds = _MAP_.getBounds(); // 获取屏幕边界范围
     const _zoom = _MAP_.getZoom(); // 当前缩放层级
     const { res, err } = await FetchPopulation({ points: _bounds }); // 发送请求
-    if (err || !IsArray(res)) return console.log('获取一标三识数据出错'); //保护
+    if (err || !IsArray(res)) return console.log('获取一标三实数据出错'); //保护
     const _features = res.map(coords => TurfPoint(coords));
     const _geoJSONData = {
       type: 'geojson',

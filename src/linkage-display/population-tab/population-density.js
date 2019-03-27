@@ -10,8 +10,9 @@
 import React, { Component } from 'react';
 import { TuyunDensity } from 'tuyun-kit';
 
-import { ChartName } from './chart-info';
-import { FetchDensityMap } from './webapi';
+import TotalDensity from './total-density';
+import FloatDensity from './float-density';
+import KeyDensity from './key-density';
 
 import { DefaultTab, TabValue } from '../constant';
 
@@ -25,7 +26,7 @@ export default class PopulationDensity extends Component {
     curBar: DefaultTab
   };
 
-  componentWillReceiveProps = nextPorps => {};
+  _totalDensityColor = {};
 
   render() {
     const { selectedIndex } = this.state;
@@ -74,27 +75,27 @@ export default class PopulationDensity extends Component {
     const { selectedIndex } = this.state;
     const { curIndex, curCell } = densityInfo;
     const _selectInd = selectedIndex === curIndex ? -1 : curIndex;
-
+    this.setState({ selectedIndex: _selectInd });
     _selectInd > -1
-      ? this._fetchDensityMap(curCell.code)
-      : this._hidePoliceStation(); //
-  };
-
-  _fetchDensityMap = async secType => {
-    const { res, err } = await FetchDensityMap({ firtype: 1, secType });
-    console.log(res);
-    if (err || !res) return; // 保护
-    // todo 显示到地图上
-    // this._showPoliceStation();
+      ? this._showPoliceStation(curCell.code)
+      : this._hidePoliceStation();
   };
 
   // 设置派出所辖区的颜色 POLICE_STATION_JUR
-  _showPoliceStation = () => {
+  _showPoliceStation = code => {
+    let _colorMap = {};
+    if (code === '1') {
+      _colorMap = totalDensityColor;
+    } else if (code === '2') {
+      _colorMap = totalDensityColor;
+    } else if (code === '3') {
+      _colorMap = keyDensityColor;
+    }
     if (_MAP_.getLayer(policeStationId)) {
       _MAP_.setLayoutProperty(policeStationId, 'visibility', 'visible'); // 设置为可显示
       _MAP_.setPaintProperty(policeStationId, 'fill-color', [
         'coalesce',
-        ['get', ['to-string', ['get', 'flow']], ['literal', areaColor]],
+        ['get', ['get', 'ID'], ['literal', _colorMap]],
         '#ccc'
       ]);
     }
@@ -107,15 +108,28 @@ export default class PopulationDensity extends Component {
 }
 
 const policeStationId = 'POLICE_STATION_JUR'; // 派出所辖区图层名称
-const areaColor = {
-  0: '#006000',
-  1: '#00DB00',
-  2: '#02DF82',
-  3: '#006030',
-  4: '#003E3E',
-  5: '#00E3E3',
-  6: '#0080FF',
-  7: '#000079',
+
+const densityColor = {
+  1: '#006000',
+  2: '#00DB00',
+  3: '#02DF82',
+  4: '#006030',
+  5: '#003E3E',
+  6: '#00E3E3',
+  7: '#0080FF',
   8: '#000079',
-  9: '#4A4AFF'
+  9: '#000079',
+  10: '#4A4AFF'
 };
+const totalDensityColor = {};
+const floatDensityColor = {};
+const keyDensityColor = {};
+for (let key of Object.keys(TotalDensity)) {
+  totalDensityColor[key] = densityColor[TotalDensity[key]];
+}
+for (let key of Object.keys(FloatDensity)) {
+  floatDensityColor[key] = densityColor[FloatDensity[key]];
+}
+for (let key of Object.keys(KeyDensity)) {
+  keyDensityColor[key] = densityColor[KeyDensity[key]];
+}

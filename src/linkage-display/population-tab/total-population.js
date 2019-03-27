@@ -142,9 +142,11 @@ export default class TotalPopulation extends Component {
   // 获取热力图数据
   _fetchHeatMapData = async firtype => {
     const _bounds = _MAP_.getBounds();
+    const _zoom = _MAP_.getZoom();
     const { res, err } = await FetchHeatMapData({
       firtype: firtype,
-      points: _bounds
+      points: _bounds,
+      levl: _zoom
     });
     if (!res || err) return console.log('total-population 获取数据失败');
     // todo 显示到地图上
