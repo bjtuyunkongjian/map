@@ -19,11 +19,7 @@ import Event, { EventName } from '../event';
 import { DefaultTab, TabValue } from '../constant';
 
 export default class PopulationTab extends Component {
-  state = {
-    curBar: DefaultTab,
-    totalPopData: {},
-    poppieData: {}
-  };
+  state = { curBar: DefaultTab };
 
   componentDidMount = () => this._init();
 
@@ -39,7 +35,7 @@ export default class PopulationTab extends Component {
     );
   }
 
-  _init = async () => {
+  _init = () => {
     const { curBar } = this.state;
     this._dealWithEvent(); // 处理切换面板事件
     if (curBar === TabValue.population) {
@@ -49,21 +45,22 @@ export default class PopulationTab extends Component {
   };
 
   _dealWithEvent = () => {
-    Event.on(EventName.changeNav, async nextBar => {
-      const { curBar } = this.state;
-      if (nextBar === curBar) return; // 重复点击保护
-      GlobalEvent.emit(GloEventName.closePopupPopNameplate); // 关闭铭牌弹窗
-      GlobalEvent.emit(GloEventName.closePopupPopulation); // 关闭详情弹窗
-      // 清空图层
-      await this.setState({ curBar: nextBar });
-      if (TabValue.population === nextBar) {
-        this._fetchChartData();
-        this._addListener();
-      } else {
-        this._removeListener();
-        this._hideDetail(); // 隐藏人口详情
-      }
-    });
+    Event.on(EventName.changeNav, this._onChangeNav);
+  };
+
+  _onChangeNav = async nextBar => {
+    const { curBar } = this.state;
+    if (nextBar === curBar) return; // 重复点击保护
+    GlobalEvent.emit(GloEventName.closePopupPopNameplate); // 关闭铭牌弹窗
+    GlobalEvent.emit(GloEventName.closePopupPopulation); // 关闭详情弹窗
+    await this.setState({ curBar: nextBar });
+    if (TabValue.population === nextBar) {
+      this._fetchChartData(); // 获取图表数据
+      this._addListener(); // 增加监听
+    } else {
+      this._hideDetail(); // 隐藏人口详情
+      this._removeListener(); // 移除监听
+    }
   };
 
   _fetchChartData = async () => {
@@ -84,7 +81,6 @@ export default class PopulationTab extends Component {
       poppieData: popieData || {}
     };
     Event.emit(EventName.updatePopChart, _param);
-    this.setState(_param);
   };
 
   _addListener = () => {

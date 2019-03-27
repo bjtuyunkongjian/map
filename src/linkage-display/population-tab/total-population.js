@@ -93,28 +93,31 @@ export default class TotalPopulation extends Component {
   };
 
   _dealWithEvent = () => {
-    // 切换 tab
-    Event.on(EventName.changeNav, nextBar => {
-      const { curBar } = this.state;
-      if (nextBar === curBar) return; // 重复点击保护
-      this.setState({ curBar: nextBar });
-    });
-    // 切换图表
-    Event.on(EventName.changePopSelected, param => {
-      const { selectedChart, selectedIndex } = param;
-      if (selectedChart === ChartName.totalPop) {
-        this.setState({ selectedChart, selectedIndex });
-        this._fetchData(); // 选中当前图表，请求对应数据
-        _MAP_.on('moveend', this._fetchData); // 选中当前图表，添加监听事件
-      } else {
-        this.setState({ selectedChart, selectedIndex: -1 });
-        _MAP_.off('moveend', this._fetchData); // 没选中当前图表，移除监听事件
-      }
-    });
-    // 更新图表数据
-    Event.on(EventName.updatePopChart, ({ totalPopData }) => {
-      this.setState({ chartData: totalPopData });
-    });
+    Event.on(EventName.changeNav, this._onChangeNav); // 切换 tab
+    Event.on(EventName.changePopSelected, this._onChangePopSelected); // 切换图表
+    Event.on(EventName.updatePopChart, this._onUpdatePopChart); // 更新图表数据
+  };
+
+  _onChangeNav = nextBar => {
+    const { curBar } = this.state;
+    if (nextBar === curBar) return; // 重复点击保护
+    RemoveLayer(_MAP_, PopulationLayerId); // 切换图表，先删除当前图层
+    this.setState({ curBar: nextBar });
+  };
+
+  _onChangePopSelected = ({ selectedChart, selectedIndex }) => {
+    if (selectedChart === ChartName.totalPop && selectedIndex > -1) {
+      this.setState({ selectedChart, selectedIndex });
+      this._fetchData(); // 选中当前图表，请求对应数据
+      _MAP_.on('moveend', this._fetchData); // 选中当前图表，添加监听事件
+    } else {
+      this.setState({ selectedChart, selectedIndex: -1 }); // 没选中你当前图表，设置索引为 -1
+      _MAP_.off('moveend', this._fetchData); // 没选中当前图表，移除监听事件
+    }
+  };
+
+  _onUpdatePopChart = ({ totalPopData }) => {
+    this.setState({ chartData: totalPopData }); // 更新图表数据
   };
 
   _clickBar = barInfo => {
