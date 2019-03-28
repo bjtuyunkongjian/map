@@ -172,6 +172,7 @@ export default class ProtectionUnit extends Component {
     } else {
       _selectInd = curIndex;
     }
+    RemoveLayer(_MAP_, UnitLayerId); // 删除图层
     onSelect({ index: _selectInd, name: ChartName.protectUnit }); // 像父元素传参
   };
 

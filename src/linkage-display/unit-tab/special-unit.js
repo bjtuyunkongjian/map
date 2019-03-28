@@ -206,6 +206,7 @@ export default class SpecialUnit extends Component {
     } else {
       _selectInd = curIndex;
     }
+    RemoveLayer(_MAP_, UnitLayerId); // 删除图层
     onSelect({ index: _selectInd, name: ChartName.specialUnit }); // 像父元素传参
   };
 

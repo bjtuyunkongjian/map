@@ -133,6 +133,7 @@ export default class UnitBar extends Component {
     } else {
       _selectInd = curIndex;
     }
+    RemoveLayer(_MAP_, UnitLayerId); // 删除图层
     onSelect({ index: _selectInd, name: ChartName.unitBar }); // 像父元素传参
   };
 
