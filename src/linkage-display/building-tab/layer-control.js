@@ -13,7 +13,7 @@ const AddPointLayer = (map, source) => {
     id: BuildingLayerId,
     type: 'circle',
     source: source,
-    minzoom: 16.5,
+    minzoom: 16,
     paint: {
       'circle-color': '#f00',
       'circle-radius': 6

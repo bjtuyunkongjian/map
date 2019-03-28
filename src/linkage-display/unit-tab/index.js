@@ -131,7 +131,7 @@ export default class UnitTab extends Component {
     const _zoom = _MAP_.getZoom();
     const { lngLat, originalEvent, features } = e;
     const { code, enableClick } = features[0].properties;
-    if (_zoom > 16.5) {
+    if (_zoom > 16) {
       const { showPopupUnitNameplate } = GloEventName;
       GlobalEvent.emit(showPopupUnitNameplate, {
         visible: true,

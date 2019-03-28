@@ -148,7 +148,7 @@ export default class PopOption extends Component {
 const popOption = {
   value: 'population',
   name: '人口',
-  defaultZoom: 16.5,
+  defaultZoom: 16,
   icon: 'people',
   layerId: 'POLICE_DATA_POPULATION'
 };

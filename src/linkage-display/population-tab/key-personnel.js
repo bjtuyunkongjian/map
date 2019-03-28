@@ -55,7 +55,12 @@ export default class KeyPersonnel extends Component {
     const { curBar } = this.state;
     if (nextBar === curBar) return; // 重复点击保护
     this._closeDetail(); // 关闭详情子类
-    this.setState({ curBar: nextBar });
+    this.setState({
+      curBar: nextBar,
+      selectedChart: '',
+      selectedDataIndex: -1,
+      selectedIndex: -1
+    });
   };
 
   _onChangePopSelected = param => {

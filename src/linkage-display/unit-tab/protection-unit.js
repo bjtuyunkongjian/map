@@ -20,6 +20,7 @@ import {
   point as TurfPoint,
   featureCollection as FeatureCollection
 } from 'turf';
+import { CreateUid } from 'tuyun-utils';
 
 import { ChartName, UnitLayerId } from './chart-info';
 import { FetchUnitData, FetchNameplateData } from './webapi';
@@ -37,6 +38,7 @@ export default class ProtectionUnit extends Component {
 
   _curCell = {};
   _shouldFetch = true; // 判断是否要请求一下一下数据
+  _uuid = -1;
 
   componentWillReceiveProps = nextProps => {
     const { selectedIndex: preSelectedIndex } = this.props;
@@ -176,11 +178,12 @@ export default class ProtectionUnit extends Component {
   _fetchData = () => {
     const { code } = this._curCell;
     const _zoom = _MAP_.getZoom();
-    _zoom <= 16.5 ? this._fetchUnitData(code) : this._fetchNameplateData(code); // 获取数据，小于 16.5 级，获取热力图数据，大于 16.5 级，获取铭牌数据
+    _zoom <= 16 ? this._fetchUnitData(code) : this._fetchNameplateData(code); // 获取数据，小于 16 级，获取热力图数据，大于 16 级，获取铭牌数据
   };
 
   // 获取热力图数据
   _fetchUnitData = async sectype => {
+    const _uuid = (this._uuid = CreateUid());
     const _bounds = _MAP_.getBounds();
     const { res, err } = await FetchUnitData({
       firtype: '4',
@@ -188,6 +191,7 @@ export default class ProtectionUnit extends Component {
       points: _bounds
     });
     if (!res || err) return;
+    if (this._uuid !== _uuid) return; // 不是对应请求了
     // todo 显示到地图上
     RemoveLayer(_MAP_, UnitLayerId); // 删除图层
     let _circleRadius,
@@ -226,6 +230,7 @@ export default class ProtectionUnit extends Component {
 
   // 获取铭牌数据
   _fetchNameplateData = async thirtype => {
+    const _uuid = (this._uuid = CreateUid());
     const _bounds = _MAP_.getBounds();
     const { res, err } = await FetchNameplateData({
       firtype: 2,
@@ -234,10 +239,11 @@ export default class ProtectionUnit extends Component {
       flag: 2
     });
     if (!res || err) return;
+    if (this._uuid !== _uuid) return; // 不是对应请求了
     RemoveLayer(_MAP_, UnitLayerId); // 删除图层
     const _features = res.map(item => {
-      const { x, y, num, zagldwbm } = item;
-      return TurfPoint([x, y], { code: zagldwbm, num, enableClick: true }); // 支持点击事件
+      const { x, y, num, jzwbm } = item;
+      return TurfPoint([x, y], { code: jzwbm, num, enableClick: true }); // 支持点击事件
     });
     const _geoJSONData = {
       type: 'geojson',

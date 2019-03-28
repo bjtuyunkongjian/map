@@ -4,7 +4,11 @@
  */
 
 import React, { Component } from 'react';
-import { Event as GlobalEvent, EventName as GloEventName } from 'tuyun-utils';
+import {
+  Event as GlobalEvent,
+  EventName as GloEventName,
+  CreateUid
+} from 'tuyun-utils';
 import {
   point as TurfPoint,
   featureCollection as FeatureCollection
@@ -28,6 +32,8 @@ export default class KeyPopDetail extends Component {
     selectedItem: {},
     detailMap: {}
   };
+
+  _uuid = -1;
 
   componentDidMount = () => this._init();
 
@@ -79,15 +85,16 @@ export default class KeyPopDetail extends Component {
   _fetchData = ignoreFetchDetail => {
     const _zoom = _MAP_.getZoom();
     !ignoreFetchDetail && this._fetchDetailMap(); // 获取右下角弹框详细数字
-    if (_zoom >= 16.5) {
-      this._fetchNamePlate(); // 大于 16.5 级，用 铭牌 显示
+    if (_zoom >= 16) {
+      this._fetchNamePlate(); // 大于 16 级，用 铭牌 显示
     } else {
-      this._fetchHeatMap(); // 小于 16.5 级，热力图 和 点位图
+      this._fetchHeatMap(); // 小于 16 级，热力图 和 点位图
     }
   };
 
   // 获取铭牌数据
   _fetchNamePlate = async () => {
+    const _uuid = (this._uuid = CreateUid());
     const { selectedItem = {}, pCode } = this.state;
     const _bounds = _MAP_.getBounds();
     const _reqCode = selectedItem.code || pCode;
@@ -97,6 +104,7 @@ export default class KeyPopDetail extends Component {
       thirtype: _reqCode
     });
     if (!res || err) return;
+    if (this._uuid !== _uuid) return; // 不是对应请求了
     RemoveLayer(_MAP_, PopulationLayerId); // 删除图层
     const _features = res.map(item => {
       const { x, y, num, jzwbm } = item;
@@ -111,6 +119,7 @@ export default class KeyPopDetail extends Component {
 
   // 获取点的数据
   _fetchHeatMap = async () => {
+    const _uuid = (this._uuid = CreateUid());
     const { selectedItem = {}, pCode } = this.state;
     const _bounds = _MAP_.getBounds();
     const _reqCode = selectedItem.code || pCode;
@@ -119,6 +128,7 @@ export default class KeyPopDetail extends Component {
       sectype: _reqCode
     });
     if (!res || err) return;
+    if (this._uuid !== _uuid) return; // 不是对应请求了
     RemoveLayer(_MAP_, PopulationLayerId); // 删除图层
     let _enableClick = false;
     if (res.length < 200) {

@@ -4,7 +4,11 @@ import {
   point as TurfPoint,
   featureCollection as FeatureCollection
 } from 'turf';
-import { Event as GlobalEvent, EventName as GloEventName } from 'tuyun-utils';
+import {
+  Event as GlobalEvent,
+  EventName as GloEventName,
+  CreateUid
+} from 'tuyun-utils';
 
 import { ChartName, PopulationLayerId } from './chart-info';
 import { FetchHeatMapData, FetchNameplateData } from './webapi';
@@ -27,6 +31,7 @@ export default class TotalPopulation extends Component {
   };
 
   _curCell = {};
+  _uuid = -1;
 
   componentDidMount = () => this._init();
 
@@ -103,7 +108,7 @@ export default class TotalPopulation extends Component {
     const { curBar } = this.state;
     if (nextBar === curBar) return; // 重复点击保护
     _MAP_.off('moveend', this._fetchData); // 移除监听
-    this.setState({ curBar: nextBar });
+    this.setState({ curBar: nextBar, selectedChart: '', selectedIndex: -1 });
   };
 
   _onChangePopSelected = ({ selectedChart, selectedIndex }) => {
@@ -144,13 +149,14 @@ export default class TotalPopulation extends Component {
   _fetchData = () => {
     const { code, sectype } = this._curCell;
     const _zoom = _MAP_.getZoom();
-    _zoom <= 16.5
+    _zoom <= 16
       ? this._fetchHeatMapData(code)
-      : this._fetchNameplateData(sectype); // 获取数据，小于 16.5 级，获取热力图数据，大于 16.5 级，获取铭牌数据
+      : this._fetchNameplateData(sectype); // 获取数据，小于 16 级，获取热力图数据，大于 16 级，获取铭牌数据
   };
 
   // 获取热力图数据
   _fetchHeatMapData = async firtype => {
+    const _uuid = (this._uuid = CreateUid());
     const _bounds = _MAP_.getBounds();
     const _zoom = _MAP_.getZoom();
     const { res, err } = await FetchHeatMapData({
@@ -159,10 +165,11 @@ export default class TotalPopulation extends Component {
       levl: _zoom
     });
     if (!res || err) return console.log('total-population 获取数据失败');
+    if (this._uuid !== _uuid) return; // 不是对应请求了
     // todo 显示到地图上
     RemoveLayer(_MAP_, PopulationLayerId); // 删除图层
     let _enableClick = false;
-    if (res.length < 200) {
+    if (res.length < 200 && (firtype === 'Y' || firtype === 20)) {
       _enableClick = true;
     }
     const _features = res.map(item => {
@@ -176,17 +183,18 @@ export default class TotalPopulation extends Component {
       type: 'geojson',
       data: FeatureCollection(_features)
     };
-    // 点的个数大于 200，显示热力图
-    if (res.length > 200) {
-      AddHeatMapLayer(_MAP_, _geoJSONData);
+
+    if (_enableClick) {
+      AddPointLayer(_MAP_, _geoJSONData); // 可以点击，显示点位图
     } else {
-      // 点的个数小于 200，显示点位图
-      AddPointLayer(_MAP_, _geoJSONData);
+      AddHeatMapLayer(_MAP_, _geoJSONData); // 不可以点击，显示热力图
     }
   };
 
   // 获取铭牌数据
   _fetchNameplateData = async sectype => {
+    const _uuid = (this._uuid = CreateUid());
+
     const _bounds = _MAP_.getBounds();
     const { res, err } = await FetchNameplateData({
       firtype: 1,
@@ -194,6 +202,7 @@ export default class TotalPopulation extends Component {
       points: _bounds
     });
     if (!res || err) return console.log('total-population 获取数据失败');
+    if (this._uuid !== _uuid) return; // 不是对应请求了
     RemoveLayer(_MAP_, PopulationLayerId); // 删除图层
     const _features = res.map(item => {
       const { x, y, num, jzwbm } = item;

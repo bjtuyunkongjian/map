@@ -63,7 +63,7 @@ export default class BuildingTab extends Component {
       if (TabValue.building === nextBar) {
         this._addListener(); // 增加监听
         const _zoom = _MAP_.getZoom();
-        _MAP_.flyTo({ zoom: _zoom > 16.5 ? _zoom : 16.5 });
+        _MAP_.flyTo({ zoom: _zoom > 16 ? _zoom : 16 });
       } else {
         this._removeListener(); // 移除监听
       }
@@ -99,7 +99,7 @@ export default class BuildingTab extends Component {
 
   _clickBuildingLayer = e => {
     // const _zoom = _MAP_.getZoom();
-    // // 大于 16.5 级，可以点击，小于 16.5 级，看点的数量
+    // // 大于 16 级，可以点击，小于 16 级，看点的数量
     // console.log(_zoom);
     const { showPopupBuiNameplate } = GloEventName;
     const { lngLat, originalEvent, features } = e;

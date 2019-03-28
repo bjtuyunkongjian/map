@@ -96,10 +96,10 @@ export default class PopulationTab extends Component {
 
   _clickPopLayer = e => {
     const _zoom = _MAP_.getZoom();
-    // // 大于 16.5 级，可以点击，小于 16.5 级，看点的数量
+    // // 大于 16 级，可以点击，小于 16 级，看点的数量
     const { lngLat, originalEvent, features } = e;
     const { code, enableClick } = features[0].properties;
-    if (_zoom > 16.5) {
+    if (_zoom > 16) {
       const { showPopupPopNameplate } = GloEventName;
       GlobalEvent.emit(showPopupPopNameplate, {
         visible: true,

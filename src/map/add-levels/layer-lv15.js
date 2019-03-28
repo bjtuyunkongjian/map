@@ -20,7 +20,7 @@ const lineNameLabelLayerId = 'symbol-ref';
 
 // const jqLabelLayerId = 'jq-ref';
 const threeLabelLayerId = '3d-ref';
-const fillExtrusionHeight = 16.5; 
+const fillExtrusionHeight = 16;
 
 // 3d 普通建筑颜色和透明度
 const gresplOpacity = 0.5;

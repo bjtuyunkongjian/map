@@ -96,7 +96,7 @@ export default class BuildingPie extends Component {
     });
     if (!_selected) {
       _MAP_.on('moveend', this._fetchData);
-      _MAP_.flyTo({ zoom: 16.5 });
+      _MAP_.flyTo({ zoom: 16 });
     } else {
       RemoveLayer(_MAP_, BuildingLayerId); // 删除图层
       _MAP_.off('moveend', this._fetchData);
