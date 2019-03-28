@@ -142,7 +142,7 @@ export default class UnitBar extends Component {
       : this._fetchNameplateData(sectype); // 获取数据，小于 16.5 级，获取热力图数据，大于 16.5 级，获取铭牌数据
   };
 
-  // 获取热力图数据
+  // 获取散点数据
   _fetchUnitData = async firtype => {
     const _bounds = _MAP_.getBounds();
     const { res, err } = await FetchUnitData({
@@ -166,9 +166,9 @@ export default class UnitBar extends Component {
       _circleRadius = 2;
     }
     const _features = res.map(item => {
-      const { hzb, zzb, dzbm } = item;
+      const { hzb, zzb, zagldwbm } = item;
       return TurfPoint([hzb, zzb], {
-        code: dzbm, // 单位地址编码
+        code: zagldwbm, // 单位地址编码
         radius: _circleRadius,
         enableClick: _enableClick
       }); // 生成点数据
@@ -197,8 +197,8 @@ export default class UnitBar extends Component {
     if (!res || err) return;
     RemoveLayer(_MAP_, UnitLayerId); // 删除图层
     const _features = res.map(item => {
-      const { x, y, num, jzwbm } = item;
-      return TurfPoint([x, y], { code: jzwbm, num, enableClick: true }); // 支持点击事件
+      const { x, y, num, zagldwbm } = item;
+      return TurfPoint([x, y], { code: zagldwbm, num, enableClick: true }); // 支持点击事件
     });
     const _geoJSONData = {
       type: 'geojson',

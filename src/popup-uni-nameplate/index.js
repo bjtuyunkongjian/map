@@ -104,14 +104,29 @@ export default class PopupUniNameplate extends Component {
       boxLeft: boxLeft,
       boxTop: boxTop,
       lngLat: lngLat,
-      popCode: code
+      popCode: code,
+      selectedUnit: {},
+      unitName: '',
+      unitLocation: '',
+      totalCompany: {}, // 常驻、流动、重点人口总数
+      companyInfoList: []
     });
     this._fetchPersionDetail();
     _MAP_.on('move', this._addListener);
   };
 
   _closePopup = () => {
-    this.setState({ visible: false });
+    this.setState({
+      visible: false,
+      lngLat: {},
+      selectedUnit: {},
+      popCode: '',
+      unitName: '',
+      unitLocation: '',
+      totalCompany: {}, // 常驻、流动、重点人口总数
+      companyInfoList: []
+    });
+    GlobalEvent.emit(GloEventName.closePopupUnit);
     _MAP_.off('move', this._addListener);
   };
 
@@ -149,13 +164,13 @@ export default class PopupUniNameplate extends Component {
       const { width: _popupW } = this._popupEl.getBoundingClientRect();
       const _boxLeft = boxLeft + Math.floor(_popupW * 1.01);
       const _boxTop = boxTop;
-      const _lngLat = _MAP_.unporject({ x: _boxLeft, y: _boxTop });
+      const _lngLat = _MAP_.unproject({ x: _boxLeft, y: _boxTop });
       GlobalEvent.emit(showPopupUnit, {
         visible: true,
         boxLeft: _boxLeft,
         boxTop: _boxTop,
         lngLat: _lngLat,
-        code: item.zagldwbm
+        code: option.zagldwbm
       });
       this.setState({ selectedUnit: option });
     }

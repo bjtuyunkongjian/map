@@ -37,7 +37,7 @@ const AddHeatMapLayer = (map, source) => {
           'red'
         ],
         // Adjust the heatmap radius by zoom level
-        'heatmap-radius': 5,
+        'heatmap-radius': 10,
         // Transition from heatmap to circle layer by zoom level
         'heatmap-opacity': 1
       }

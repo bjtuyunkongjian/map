@@ -79,7 +79,7 @@ export default class PopupBuiNameplate extends Component {
         <ul className="popup-list">
           {buildingInfoList.map((item, index) => {
             return (
-              <li className="list-item" key={`house_item_${index}`}>
+              <li className="list-item no-hover" key={`house_item_${index}`}>
                 <div className="room-code">{item.mlph}</div>
                 <div className="type-box">
                   <div className="pop-type self-occupied">

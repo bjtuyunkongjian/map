@@ -108,7 +108,7 @@ export default class PopulationDensity extends Component {
       _MAP_.setPaintProperty(policeStationId, 'fill-color', [
         'coalesce',
         ['get', ['get', 'ID'], ['literal', _colorMap]],
-        '#ccc'
+        '#fff'
       ]);
     }
   };
@@ -122,16 +122,16 @@ export default class PopulationDensity extends Component {
 const policeStationId = 'POLICE_STATION_JUR'; // 派出所辖区图层名称
 
 const densityColor = {
-  1: '#006000',
-  2: '#00DB00',
-  3: '#02DF82',
-  4: '#006030',
-  5: '#003E3E',
-  6: '#00E3E3',
-  7: '#0080FF',
-  8: '#000079',
-  9: '#000079',
-  10: '#4A4AFF'
+  1: '#EFFFD7',
+  2: '#DEFFAC',
+  3: '#BBFFBB',
+  4: '#93FF93',
+  5: '#96FED1',
+  6: '#4EFEB3',
+  7: '#4DFFFF',
+  8: '#00E3E3',
+  9: '#0080FF',
+  10: '#0066CC'
 };
 const totalDensityColor = {};
 const floatDensityColor = {};

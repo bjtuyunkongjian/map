@@ -137,19 +137,39 @@ export default class PopupPopNameplate extends Component {
       boxLeft: boxLeft,
       boxTop: boxTop,
       lngLat: lngLat,
-      popCode: code
+      popCode: code,
+      selectedRoom: {},
+      buildingName: '',
+      buildingInfo: '', // 楼栋信息
+      buildinglocation: '',
+      totalRkNum: {}, // 常驻、流动、重点人口总数
+      roomInfoList: [],
+      selectedPerson: {}
     });
     this._fetchPersionDetail();
     _MAP_.on('move', this._addListener);
   };
 
   _closePopup = () => {
-    this.setState({ visible: false });
+    this.setState({
+      visible: false,
+      lngLat: {},
+      selectedRoom: {},
+      popCode: '',
+      buildingName: '',
+      buildingInfo: '', // 楼栋信息
+      buildinglocation: '',
+      totalRkNum: {}, // 常驻、流动、重点人口总数
+      roomInfoList: [],
+      selectedPerson: {}
+    });
+    GlobalEvent.emit(GloEventName.closePopupPopulation);
     _MAP_.off('move', this._addListener);
   };
 
   _fetchPersionDetail = async () => {
     const { popCode } = this.state;
+    this.setState({});
     const { res, err } = await FetchHouseDetail({
       type: '01',
       jzwbm: popCode
@@ -194,9 +214,9 @@ export default class PopupPopNameplate extends Component {
           let _personType;
           if (zdrybz === 'Y') {
             _personType = 'important';
-          } else if (syrkgllbdm === '2') {
+          } else if (syrkgllbdm === '11') {
             _personType = 'resident'; // 常口
-          } else if (syrkgllbdm === '3') {
+          } else if (syrkgllbdm === '12') {
             _personType = 'floating'; // 流口
           } else {
             _personType = 'resident'; // 常口
@@ -237,7 +257,7 @@ export default class PopupPopNameplate extends Component {
       const { width: _popupW } = this._popupEl.getBoundingClientRect();
       const _boxLeft = boxLeft + Math.floor(_popupW * 1.01);
       const _boxTop = boxTop;
-      const _lngLat = _MAP_.unporject({ x: _boxLeft, y: _boxTop });
+      const _lngLat = _MAP_.unproject({ x: _boxLeft, y: _boxTop });
       GlobalEvent.emit(showPopupPopulation, {
         visible: true,
         boxLeft: _boxLeft,

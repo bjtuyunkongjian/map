@@ -107,6 +107,8 @@
   .popup-list {
     display: flex;
     flex-wrap: wrap;
+    max-height: 300px;
+    overflow: auto;
     .list-item {
       display: flex;
       flex-direction: column;
@@ -118,6 +120,11 @@
       &:hover {
         opacity: 0.8;
         background-color: @bg-gradient-opacity;
+      }
+      &.no-hover {
+        cursor: auto;
+        opacity: 1;
+        background-color: transparent;
       }
       &.selected-item {
         background-color: @bg-gradient-opacity;
@@ -142,6 +149,8 @@
     margin-top: 10px;
     padding-top: 10px;
     border-top: 2px solid white;
+    max-height: 300px;
+    overflow: auto;
     .member-item {
       width: 100%;
       display: flex;
