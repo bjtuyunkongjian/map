@@ -51,12 +51,16 @@ export default class BuildingBar extends Component {
     if (curBar !== TabValue.building) return null;
     const _selectIndex =
       selectedChart === ChartName.buildingBar ? selectedIndex : -1;
+    let _total = 0;
+    Object.keys(chartData).map(key => {
+      _total += chartData[key] || 0;
+    });
     return (
       <div className="charts-box">
         <TuyunBar
           height={200}
           title={{ text: '房屋' }}
-          legend={{ text: '人口总数：65' }}
+          legend={{ text: `房屋总数：${_total}` }}
           data={[
             {
               value: chartData.czfw || 0,
@@ -113,6 +117,7 @@ export default class BuildingBar extends Component {
       points: _bounds
     });
     if (!res || err) return;
+    RemoveLayer(_MAP_, BuildingLayerId);
     const _features = res.map(item => {
       const { x, y, num, jzwbm } = item;
       return TurfPoint([x, y], { code: jzwbm, num, enableClick: true });

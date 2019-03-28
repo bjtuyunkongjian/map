@@ -3,6 +3,7 @@ import { TuyunPie } from 'tuyun-kit';
 import { Event as GlobalEvent, EventName as GloEventName } from 'tuyun-utils';
 
 import { ChartName, PieData } from './chart-info';
+import { RemoveLayer, PopulationLayerId } from './layer-control';
 
 import { DefaultTab, TabValue } from '../constant';
 import Event, { EventName } from '../event';
@@ -86,7 +87,7 @@ export default class KeyPersonnel extends Component {
     const _selectedChart = selectedChart === ChartName.keyPop;
     const { pieData, selectedIndex } = this._convertPieData({
       selectedDataIndex,
-      poppieData
+      chartData: poppieData || {}
     });
     // 选中当前图表
     if (_selectedChart && selectedIndex > -1) {
@@ -109,15 +110,16 @@ export default class KeyPersonnel extends Component {
     });
     // 计算对应的索引
     let _selectInd = -1;
-    for (let index of _pieData) {
+
+    for (let index = 0; index < _pieData.length; index++) {
       const item = _pieData[index];
       if (selectedDataIndex === item.dataIndex) {
         _selectInd = index;
       }
     }
     return {
-      pieData: _selectInd,
-      selectedIndex: -1
+      pieData: _pieData,
+      selectedIndex: _selectInd
     };
   };
 

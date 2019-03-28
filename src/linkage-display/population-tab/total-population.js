@@ -4,6 +4,7 @@ import {
   point as TurfPoint,
   featureCollection as FeatureCollection
 } from 'turf';
+import { Event as GlobalEvent, EventName as GloEventName } from 'tuyun-utils';
 
 import { ChartName, PopulationLayerId } from './chart-info';
 import { FetchHeatMapData, FetchNameplateData } from './webapi';
@@ -123,6 +124,7 @@ export default class TotalPopulation extends Component {
   _clickBar = barInfo => {
     const { selectedChart, selectedIndex } = this.state;
     const { curIndex, curCell } = barInfo;
+    this._curCell = curCell;
     let _selectInd;
     if (selectedChart === ChartName.totalPop) {
       _selectInd = curIndex === selectedIndex ? -1 : curIndex;
@@ -137,7 +139,6 @@ export default class TotalPopulation extends Component {
       selectedChart: ChartName.totalPop,
       selectedIndex: _selectInd
     });
-    this._curCell = curCell;
   };
 
   _fetchData = () => {

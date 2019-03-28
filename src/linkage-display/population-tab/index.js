@@ -14,6 +14,7 @@ import KeyPersonnel from './key-personnel';
 import PopulationDensity from './population-density';
 import { FetchChartData } from './webapi';
 import { PopulationLayerId } from './chart-info';
+import { RemoveLayer } from './layer-control';
 
 import Event, { EventName } from '../event';
 import { DefaultTab, TabValue } from '../constant';
