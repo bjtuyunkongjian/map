@@ -26,6 +26,7 @@ const AddNamePlateLayer = (map, source) => {
     id: BuildingLayerId,
     type: 'symbol',
     source: source,
+    minzoom: 16,
     layout: {
       'text-field': '{num}',
       'symbol-placement': 'point',

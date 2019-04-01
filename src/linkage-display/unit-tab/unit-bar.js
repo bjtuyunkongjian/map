@@ -193,6 +193,12 @@ export default class UnitBar extends Component {
   _fetchNameplateData = async sectype => {
     const _uuid = (this._uuid = CreateUid());
     const _bounds = _MAP_.getBounds();
+    // const _lngDiff = _bounds._ne.lng - _bounds._sw.lng;
+    // const _latDiff = _bounds._ne.lat - _bounds._sw.lat;
+    // _bounds._sw.lng += _lngDiff * 0.05;
+    // _bounds._ne.lng -= _lngDiff * 0.05;
+    // _bounds._ne.lat += _latDiff * 0.05;
+    // _bounds._sw.lat -= _latDiff * 0.05;
     const { res, err } = await FetchNameplateData({
       firtype: 2,
       sectype: sectype,

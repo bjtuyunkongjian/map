@@ -268,7 +268,7 @@ export default class SpecialUnit extends Component {
     const _uuid = (this._uuid = CreateUid());
     const _bounds = _MAP_.getBounds();
     const { res, err } = await FetchNameplateData({
-      firtype: '3',
+      firtype: '2',
       thirtype: thirtype,
       points: _bounds,
       flag: 1
