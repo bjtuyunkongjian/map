@@ -1,6 +1,6 @@
 /**
  * @author sl
- * @name 重点人员的详细分类
+ * @description 重点人员的详细分类
  */
 
 import React, { Component } from 'react';

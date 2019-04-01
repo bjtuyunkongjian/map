@@ -1,6 +1,6 @@
 /**
  * @author 郝艺红
- * @name 工作内容
+ * @description 工作内容
  */
 
 import React, { Component } from 'react';

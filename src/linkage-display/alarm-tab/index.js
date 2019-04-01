@@ -1,6 +1,6 @@
 /**
  * @author sl 2019-03-07
- * @name 报警面板
+ * @description 报警面板
  */
 import React, { Component } from 'react';
 import Event, { EventName } from '../event';

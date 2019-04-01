@@ -1,6 +1,6 @@
 /**
  * @author 郝艺红
- * @name 一标三实
+ * @description 一标三实
  */
 
 import React, { Component } from 'react';

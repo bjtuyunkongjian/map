@@ -1,6 +1,6 @@
 /**
  * @author sl 2017-03-07
- * @name 报警密度图
+ * @description 报警密度图
  * 1. 刑事案件 criminalLevel
  * 2. 治安案件 orderLevel
  * 3. 群体案件 groupLevel

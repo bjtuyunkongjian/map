@@ -1,6 +1,6 @@
 /**
  * @author sl 2019-03-07
- * @name 案件面板
+ * @description 案件面板
  */
 import React, { Component } from 'react';
 import TotalCase from './total-case';
