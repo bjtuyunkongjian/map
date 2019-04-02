@@ -20,8 +20,8 @@ export default class LinkageDisplay extends Component {
     const { animate: nextAni } = nextState;
     if (curAni !== nextAni) {
       const _hidden = nextAni === 'slide-out'; // 滑出，不显示，隐藏
-      const { hideKeyPopDetail } = GloEventName;
-      GlobalEvent.emit(hideKeyPopDetail, { hidden: _hidden });
+      const { toggleHideKeyPopDetail } = GloEventName;
+      GlobalEvent.emit(toggleHideKeyPopDetail, { hidden: _hidden });
     }
   };
 

@@ -96,9 +96,9 @@ export default class KeyPersonnel extends Component {
     });
     // 选中当前图表
     if (_selectedChart && selectedIndex > -1) {
-      GlobalEvent.emit(GloEventName.hideKeyPopDetail, { hidden: false });
+      GlobalEvent.emit(GloEventName.toggleHideKeyPopDetail, { hidden: false });
     } else {
-      GlobalEvent.emit(GloEventName.hideKeyPopDetail, { hidden: true });
+      GlobalEvent.emit(GloEventName.toggleHideKeyPopDetail, { hidden: true });
     }
     this.setState({ chartData: poppieData, pieData, selectedIndex }); // 更新图表数据
   };

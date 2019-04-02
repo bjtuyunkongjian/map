@@ -66,7 +66,7 @@ export default class KeyPopDetail extends Component {
   };
 
   _dealWithEvent = () => {
-    const { toggleKeyPopDetail, hideKeyPopDetail } = GloEventName;
+    const { toggleKeyPopDetail, toggleHideKeyPopDetail } = GloEventName;
     GlobalEvent.on(toggleKeyPopDetail, async ({ visible, name, code }) => {
       await this.setState({ visible, pName: name, pCode: code });
       if (visible) {
@@ -76,7 +76,7 @@ export default class KeyPopDetail extends Component {
         _MAP_.off('moveend', this._fetchData);
       }
     });
-    GlobalEvent.on(hideKeyPopDetail, ({ hidden }) => {
+    GlobalEvent.on(toggleHideKeyPopDetail, ({ hidden }) => {
       this.setState({ hidden });
     });
   };
