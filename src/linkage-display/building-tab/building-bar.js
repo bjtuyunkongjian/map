@@ -105,6 +105,7 @@ export default class BuildingBar extends Component {
       _selectInd = curIndex;
     }
     _selectInd > -1 && this._fetchData(curCell.code); // 获取数据
+    RemoveLayer(_MAP_, BuildingLayerId); // 删除图层
     onSelect({ index: _selectInd, name: ChartName.buildingBar }); // 像父元素传参
   };
 

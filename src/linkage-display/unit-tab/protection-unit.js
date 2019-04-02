@@ -172,6 +172,7 @@ export default class ProtectionUnit extends Component {
     } else {
       _selectInd = curIndex;
     }
+    RemoveLayer(_MAP_, UnitLayerId); // 删除图层
     onSelect({ index: _selectInd, name: ChartName.protectUnit }); // 像父元素传参
   };
 
@@ -233,7 +234,7 @@ export default class ProtectionUnit extends Component {
     const _uuid = (this._uuid = CreateUid());
     const _bounds = _MAP_.getBounds();
     const { res, err } = await FetchNameplateData({
-      firtype: 2,
+      firtype: '2',
       thirtype: thirtype,
       points: _bounds,
       flag: 2
