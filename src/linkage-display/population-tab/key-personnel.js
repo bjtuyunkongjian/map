@@ -17,6 +17,7 @@ export default class KeyPersonnel extends Component {
     curBar: DefaultTab
   };
 
+  _hiddenKeyPopDetail = false;
   _curSector = {};
 
   componentDidMount = () => this._init();
@@ -46,6 +47,10 @@ export default class KeyPersonnel extends Component {
   };
 
   _dealWithEvent = () => {
+    const { toggleHideKeyPopDetail } = GloEventName;
+    GlobalEvent.on(toggleHideKeyPopDetail, ({ hidden }) => {
+      this._hiddenKeyPopDetail = hidden;
+    });
     Event.on(EventName.changeNav, this._onChangeNav); // 切换 tab
     Event.on(EventName.changePopSelected, this._onChangePopSelected); // 切换图表
     Event.on(EventName.updatePopChart, this._onUpdatePopChart); // 更新图表数据
@@ -96,9 +101,11 @@ export default class KeyPersonnel extends Component {
     });
     // 选中当前图表
     if (_selectedChart && selectedIndex > -1) {
-      GlobalEvent.emit(GloEventName.toggleHideKeyPopDetail, { hidden: false });
+      GlobalEvent.emit(GloEventName.toggleHideKeyPopDetail, {
+        hidden: this._hiddenKeyPopDetail
+      });
     } else {
-      GlobalEvent.emit(GloEventName.toggleHideKeyPopDetail, { hidden: true });
+      GlobalEvent.emit(GloEventName.toggleHideKeyPopDetail, { hidden: true }); // 隐藏二级子菜单
     }
     this.setState({ chartData: poppieData, pieData, selectedIndex }); // 更新图表数据
   };
