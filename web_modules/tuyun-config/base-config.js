@@ -32,4 +32,4 @@ const BuildHost = {
 //   httpTimeOut: 5000
 // };
 
-export default BuildHost;
+export default DevHost;

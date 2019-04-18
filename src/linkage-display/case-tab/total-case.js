@@ -30,13 +30,13 @@ export default class TotalCase extends Component {
               endColor: '#facff0'
             },
             {
-              label: '刑事',
+              label: '治安管理',
               value: 20,
               startColor: '#aed3fc',
               endColor: '#e6d1fc'
             },
             {
-              label: '案前',
+              label: '侵犯财产罪',
               value: 15,
               startColor: '#fbdcd4',
               endColor: '#fed9fe'

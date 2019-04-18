@@ -101,8 +101,8 @@ export default class ViewOptions extends Component {
 }
 
 const options = [
-  { value: 0, name: '标准视图', theme: 'standard' },
-  { value: 1, name: '天地图标准', theme: 'tiandi' },
-  { value: 2, name: '欧标视图', theme: 'european' },
-  { value: 3, name: '夜间视图', theme: 'night' }
+  { value: 0, name: '服务民生', theme: 'standard' },
+  { value: 1, name: '执法监督', theme: 'tiandi' },
+  { value: 2, name: '反恐维稳', theme: 'european' },
+  { value: 3, name: '交通服务', theme: 'night' }
 ];

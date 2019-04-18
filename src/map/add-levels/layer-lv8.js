@@ -1,6 +1,6 @@
 /**
  * @author sl 2019-01-02
- * 八级是没有图标的
+ * tip:八级是没有图标的
  */
 import { LevelConfig, BaseConfig } from 'tuyun-config';
 
