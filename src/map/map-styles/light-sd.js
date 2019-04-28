@@ -36,19 +36,7 @@ const layers = [
     }
   },
   // 面
-  {
-    id: 'GVEGPL', // 记录了绿地
-    type: 'fill',
-    source: LevelConfig.addLv7,
-    'source-layer': 'GVEGPL_Merge',
-    layout: {},
-    paint: {
-      'fill-color': '#b5e9b6',
-      'fill-opacity': 1,
-      'fill-antialias': false
-    },
-    labelLayerId: 'GHYDPL_7L'
-  },
+
   {
     id: 'GHYDPL_7L', // 记录了一些水渠、河沟，水库的面状要素
     type: 'fill',
@@ -86,6 +74,19 @@ const layers = [
       'fill-opacity': 1,
       'fill-antialias': false
     }
+  },
+  {
+    id: 'GVEGPL', // 记录了绿地
+    type: 'fill',
+    source: LevelConfig.addLv7,
+    'source-layer': 'GVEGPL_Merge',
+    layout: {},
+    paint: {
+      'fill-color': '#b5e9b6',
+      'fill-opacity': 1,
+      'fill-antialias': false
+    },
+    labelLayerId: 'GHYDPL_7L'
   },
   // 城市边界
   {

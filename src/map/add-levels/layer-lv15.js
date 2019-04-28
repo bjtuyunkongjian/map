@@ -20,7 +20,7 @@ const lineNameLabelLayerId = 'symbol-ref';
 
 // const jqLabelLayerId = 'jq-ref';
 const threeLabelLayerId = '3d-ref';
-const fillExtrusionHeight = 16.5; 
+const fillExtrusionHeight = 16.5;
 
 // 3d 普通建筑颜色和透明度
 const gresplOpacity = 0.5;
@@ -85,6 +85,7 @@ const style = {
       },
       labelLayerId: lineBgLabelLayerId
     },
+
     {
       id: 'GROALN_other_ZD', // 路网图层（name字段），栈道、内部道路、机耕路、乡村路、小路 + 专用公路、其他公路、村道
       type: 'line',

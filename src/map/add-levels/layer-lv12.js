@@ -22,6 +22,67 @@ const style = {
     }
   },
   layers: [
+    // 12级新增绿地
+    {
+      id: 'new_grass',
+      type: 'fill',
+      source: LevelConfig.addLv12,
+      'source-layer': 'GVEGPL1',
+      paint: {
+        'fill-color': '#b5e9b6',
+        'fill-opacity': 1,
+        'fill-antialias': false
+      },
+      labelLayerId: 'GVEGPL'
+    },
+    {
+      id: 'new_grass1',
+      type: 'fill',
+      source: LevelConfig.addLv12,
+      'source-layer': 'GVEGPL2',
+      paint: {
+        'fill-color': '#b5e9b6',
+        'fill-opacity': 1,
+        'fill-antialias': false
+      },
+      labelLayerId: 'GVEGPL'
+    },
+    {
+      id: 'new_grass2',
+      type: 'fill',
+      source: LevelConfig.addLv12,
+      'source-layer': 'GVEGPL3',
+      paint: {
+        'fill-color': '#b5e9b6',
+        'fill-opacity': 1,
+        'fill-antialias': false
+      },
+      labelLayerId: 'GVEGPL'
+    },
+    {
+      id: 'new_grass3',
+      type: 'fill',
+      source: LevelConfig.addLv12,
+      'source-layer': 'GVEGPL4',
+      paint: {
+        'fill-color': '#b5e9b6',
+        'fill-opacity': 1,
+        'fill-antialias': false
+      },
+      labelLayerId: 'GVEGPL'
+    },
+    {
+      id: 'new_grass4',
+      type: 'fill',
+      source: LevelConfig.addLv12,
+      'source-layer': 'GVEGPL21',
+      paint: {
+        'fill-color': '#b5e9b6',
+        'fill-opacity': 1,
+        'fill-antialias': false
+      },
+      labelLayerId: 'GVEGPL'
+    },
     {
       id: 'POI_LEVEL_12',
       type: 'symbol',
