@@ -1,0 +1,18 @@
+<!--
+    对于那些不确定的，对其他分支或其他功能有影响的改动，在此添加日志
+    最新的日志添加在最上方
+-->
+
+# 2019-05-08
+
+沈良
+
+- 15 级添加操场图层：PLAYGROUND_BG 和 PLAYGROUND
+
+# 2019-04-28
+
+郝艺红
+
+- 13 级添加水系图层：new_River
+
+- 12 级添加绿地图层：new_grass、new_grass1、new_grass2、new_grass3 和 new_grass4
