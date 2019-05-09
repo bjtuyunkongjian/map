@@ -23,20 +23,6 @@ const style = {
     }
   },
   layers: [
-    // 玉叶新增水系
-    {
-      id: 'new_River',
-      type: 'fill',
-      source: LevelConfig.addLv13,
-      'source-layer': 'GHYDPL',
-      paint: {
-        'fill-color': '#b3d8ff',
-        'fill-opacity': 1,
-        'fill-antialias': false
-      },
-      labelLayerId: 'GHYDPL_7L'
-    },
-
     ...ZaDao,
     {
       id: 'SD_JINAN1', // 此图层显示方便玉叶他们找
