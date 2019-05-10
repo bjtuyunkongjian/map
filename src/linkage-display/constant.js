@@ -1,5 +1,5 @@
 // tab 页
-const DefaultTab = 'population';
+const DefaultTab = 'case';
 //
 const TabValue = {
   population: 'population',

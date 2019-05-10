@@ -5,6 +5,7 @@ import TuyunTips from './tips'; // 建议
 import TuyunBar from './charts-bar';
 import TuyunPie from './charts-pie';
 import TuyunDensity from './charts-density';
+import TuyunLine from './charts-line';
 
 export {
   TuyunModal,
@@ -12,5 +13,6 @@ export {
   TuyunTips,
   TuyunBar,
   TuyunPie,
-  TuyunDensity
+  TuyunDensity,
+  TuyunLine
 };
