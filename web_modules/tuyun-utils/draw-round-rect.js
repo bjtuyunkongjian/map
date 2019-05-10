@@ -28,8 +28,8 @@ export default function DrawRoundRect(
 ) {
   const _shortSide = width > height ? height : width; // 短边
   r = r > _shortSide / 2 ? _shortSide / 2 : r; // 圆角矩形最大半径
-  ctx.save();
-  ctx.beginPath();
+  // ctx.save();
+  // ctx.beginPath();
   ctx.moveTo(x + r, y);
   ctx.arcTo(x + width, y, x + width, y + r, r);
   ctx.arcTo(x + width, y + height, x + width - r, y + height, r);
@@ -37,11 +37,13 @@ export default function DrawRoundRect(
   ctx.arcTo(x, y, x + r, y, r);
   if (fill) {
     ctx.fillStyle = fillStyle;
-    ctx.fill();
+    ctx.type = 'fill';
+    // ctx.fill();
   }
   if (stroke) {
     ctx.strokeStyle = strokeStyle;
-    ctx.stroke();
+    ctx.type = 'stroke';
+    // ctx.stroke();
   }
-  ctx.restore();
+  // ctx.restore();
 }

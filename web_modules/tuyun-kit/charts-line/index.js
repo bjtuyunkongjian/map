@@ -58,6 +58,8 @@ export default class ChartsLine extends Component {
   // 总的数据
   _totalData = 1;
   _maxData = 1; // 最大值
+  // 图例
+  _legends = [];
   // 图表属性
   _chartBottom = 0;
 
@@ -134,14 +136,19 @@ export default class ChartsLine extends Component {
     Object.assign(padding, Object.assign({}, Padding, padding));
     Object.assign(title, Object.assign({}, Title, title));
     Object.assign(subTitle, Object.assign({}, SubTitle, subTitle));
-    // 计算最大值
+    // 计算最大值，预处理 series
     let _max = 1;
     for (let i = 0; i < series.length; i++) {
-      const _item = series[i];
+      const _item = Object.assign({}, series[i]);
       const _color = LineColors[i % LineColors.length];
+      _item.label = _item.name;
       _item.color = _color;
+      _item.hue = _color[0]; // 色调
+      _item.saturation = _color[1]; // 饱和度
+      _item.lightness = _color[2]; // 亮度
       const _itemMax = Math.max(..._item.data);
       _max = Math.max(_max, _itemMax);
+      this._legends.push(_item);
     }
     this._maxData = _max || 1; // 生成最大值
   };
@@ -232,17 +239,18 @@ export default class ChartsLine extends Component {
     let _xInc = 0; // X 方向的增量
     let _curY = this._curHeight; // start Y
     let _yInc = this._curHeight; // Y 方向的增量
-    const _fontH = 9;
+    const _fontH = 11;
     const _unitH = _fontH * 1.2; // 每个元素的高度
     const _font = `${_fontH}px '微软雅黑'`;
     this._ctx.save();
     this._ctx.font = _font;
-    for (let item of series) {
-      item.legendW = 30; // 图例宽度
+    for (let item of this._legends) {
+      item.legendW = 20; // 图例宽度
       item.legendH = _fontH; // 图例高度
+      item.legendRadius = 2; // 圆角
       item.legendMR = 1; // 图例右侧 margin 大小， MR： margin right
       item.font = _font; // 字体
-      item.fontW = this._ctx.measureText(item.name).width; // 字体宽度
+      item.fontW = this._ctx.measureText(item.label).width; // 字体宽度
       item.fontMR = 2; // 字体 右侧 margin 大小， MR： margin right
       item.width = item.legendW + item.legendMR + item.fontW + item.fontMR; // 整个的宽度
       item.height = _unitH; // 整个的高度
@@ -296,19 +304,50 @@ export default class ChartsLine extends Component {
       item.selected = item[selectedKey] === selectedValue;
       item.hovered = false;
       console.log(item);
+      item.legend = this._createLegendUnit(item);
     }
+    this._curHeight = _curY + _unitH;
     this._ctx.restore();
+    this._drawLegend();
   };
 
   _createLegendUnit = unit => {
-    const {} = unit;
+    const { x, y, legendW, height, legendH, legendRadius } = unit;
+    const _startY = y + (height - legendH) / 2; // 起始
     const _path2D = new Path2D(); // 路径
-    const _isHighLight = selected || hovered; // 是否高亮
-    const _radius = _isHighLight ? originRadius * 1.08 : originRadius; // 半径
-    CreateRoundRect();
-    _path2D.arc(x, y, _radius, startAngle, endAngle); // 该扇形区间的面积
-    _path2D.lineTo(x, y); // 回到圆心
+    DrawRoundRect(_path2D, {
+      x,
+      y: _startY,
+      width: legendW,
+      height: legendH,
+      r: legendRadius,
+      fill: true
+    });
     return _path2D;
+  };
+
+  _drawLegend = () => {
+    for (let legend of this._legends) {
+      const _isHighLight = legend.selected || legend.hovered; // 是否高亮
+      const _highlightColor = `hsla(${legend.hue}, ${legend.saturation *
+        1.2}%, ${legend.lightness * 1.2}%, 1)`;
+      const _originColor = `hsla(${legend.hue}, ${legend.saturation}%, ${
+        legend.lightness
+      }%, 1)`;
+      const _color = _isHighLight ? _highlightColor : _originColor; // 设置颜色是否高亮
+      this._ctx.save();
+      // 绘制扇形
+      this._ctx.fillStyle = _color;
+      this._ctx.fill(legend.legend);
+      // 绘制文字
+      // 绘制文字
+      this._ctx.font = legend.font; // fontSize
+      this._ctx.textBaseline = 'middle';
+      const _textX = legend.x + legend.legendW + legend.legendMR;
+      const _textY = legend.y + legend.height / 2;
+      this._ctx.fillText(legend.label, _textX, _textY);
+      this._ctx.restore();
+    }
   };
 
   // 绘制饼图
@@ -342,9 +381,6 @@ export default class ChartsLine extends Component {
       _sector.startAngle = _addedPercentage * Math.PI * 2; // 起始角
       _sector.endAngle = (_addedPercentage + _sector.percentage) * Math.PI * 2; // 终止角
       _sector.sectorPath = this._createSectorPath(_sector); // 扇形区域
-      const { indicator, textAlign, textStart } = this._createIndicator(
-        _sector
-      ); // 指示
       _sector.indicator = indicator; // 指示线
       _sector.textAlign = textAlign; // 文字对齐方向
       _sector.textStart = textStart; // 文字起始位置
@@ -470,34 +506,6 @@ export default class ChartsLine extends Component {
     _path2D.arc(x, y, _radius, startAngle, endAngle); // 该扇形区间的面积
     _path2D.lineTo(x, y); // 回到圆心
     return _path2D;
-  };
-
-  _createIndicator = sector => {
-    const { x, y, originRadius, startAngle, endAngle } = sector;
-    const _path2D = new Path2D(); // 新建路径
-    const _midAngle = (startAngle + endAngle) / 2; // 中间角度
-    // 径向指示线
-    const _radialX = originRadius * 1.2 * Math.cos(_midAngle) + x; // 长度是半径的 1.1 倍
-    const _radialY = originRadius * 1.2 * Math.sin(_midAngle) + y; // 长度是半径的 1.1 倍
-    // 横向指示线
-    const _horizontalLen = originRadius * 0.05; // 横向长度
-    let _horizontalX; // 横向 x 轴
-    let _textAlign; // 左对齐还是右对齐
-    if (_midAngle > Math.PI / 2 && _midAngle < (Math.PI / 2) * 3) {
-      _horizontalX = _radialX - _horizontalLen;
-      _textAlign = 'right'; // 在左半圆，文字右对齐
-    } else {
-      _horizontalX = _radialX + _horizontalLen;
-      _textAlign = 'left'; // 在右半圆，文字左对齐
-    }
-    _path2D.moveTo(x, y); // 起点坐标为圆心
-    _path2D.lineTo(_radialX, _radialY); // 径向指示线的位置
-    _path2D.lineTo(_horizontalX, _radialY); // 横向指示线
-    return {
-      indicator: _path2D,
-      textAlign: _textAlign,
-      textStart: [_horizontalX, _radialY]
-    };
   };
 
   _drawSector = () => {
