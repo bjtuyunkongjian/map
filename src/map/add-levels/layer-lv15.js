@@ -19,6 +19,7 @@ const lineBgLabelLayerId_sd = 'line-sd-bg-ref';
 const lineNameLabelLayerId = 'symbol-ref';
 const waterLabelLayerId = 'GHYDPL_7L';
 const grassLabelLayerId = 'GVEGPL';
+const palygroundLayerId = 'playground-ref';
 
 // const jqLabelLayerId = 'jq-ref';
 const threeLabelLayerId = '3d-ref';
@@ -471,32 +472,33 @@ const style = {
       },
       labelLayerId: grassLabelLayerId
     },
-    {
-      id: 'PLAYGROUND_BG',
-      type: 'fill',
-      source: LevelConfig.addLv15,
-      'source-layer': '340401',
-      filter: ['!=', 'NAME', '操场'],
-      paint: {
-        'fill-color': '#e8c1ba',
-        'fill-opacity': 1,
-        'fill-antialias': false
-      },
-      labelLayerId: grassLabelLayerId
-    },
-    {
-      id: 'PLAYGROUND',
-      type: 'fill',
-      source: LevelConfig.addLv15,
-      'source-layer': '340401',
-      filter: ['==', 'NAME', '操场'],
-      paint: {
-        'fill-color': '#8edb98',
-        'fill-opacity': 1,
-        'fill-antialias': false
-      },
-      labelLayerId: grassLabelLayerId
-    },
+    // 操场
+    // {
+    //   id: 'PLAYGROUND_BG',
+    //   type: 'fill',
+    //   source: LevelConfig.addLv15,
+    //   'source-layer': '340401',
+    //   filter: ['!=', 'NAME', '操场'],
+    //   paint: {
+    //     'fill-color': '#e8c1ba',
+    //     'fill-opacity': 1,
+    //     'fill-antialias': false
+    //   },
+    //   labelLayerId: palygroundLayerId
+    // },
+    // {
+    //   id: 'PLAYGROUND',
+    //   type: 'fill',
+    //   source: LevelConfig.addLv15,
+    //   'source-layer': '340401',
+    //   filter: ['==', 'NAME', '操场'],
+    //   paint: {
+    //     'fill-color': '#8edb98',
+    //     'fill-opacity': 1,
+    //     'fill-antialias': false
+    //   },
+    //   labelLayerId: palygroundLayerId
+    // },
 
     /**
      * 3d建筑

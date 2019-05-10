@@ -11,6 +11,7 @@ import Zx from './road-zx';
 import Other from './road-other';
 // import Water from './water';
 // import TileBoundary from './tile-boundary';
+import Playground from './playground';
 
 import { BaseConfig } from 'tuyun-config';
 
@@ -42,7 +43,8 @@ const style = {
     ...Zgd,
     ...XianDao,
     ...RoadShengdao,
-    ...Guodao
+    ...Guodao,
+    ...Playground
   ]
 };
 

@@ -88,6 +88,16 @@ const layers = [
     },
     labelLayerId: 'GHYDPL_7L'
   },
+  {
+    id: 'playground-ref', // 做线的基层使用
+    type: 'fill',
+    source: LevelConfig.addLv7,
+    'source-layer': 'empty',
+    layout: {},
+    paint: {
+      'fill-opacity': 0
+    }
+  },
   // 城市边界
   {
     id: 'GCOUPL', // 城市边界
