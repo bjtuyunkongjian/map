@@ -17,11 +17,8 @@ const lineBgLabelLayerId = 'line-bg-ref';
 const lineLabelLayerId_sd = 'line-sd-ref';
 const lineBgLabelLayerId_sd = 'line-sd-bg-ref';
 const lineNameLabelLayerId = 'symbol-ref';
-const waterLabelLayerId = 'GHYDPL_7L';
-const grassLabelLayerId = 'GVEGPL';
-const palygroundLayerId = 'playground-ref';
+// const palygroundLayerId = 'playground-ref';
 
-// const jqLabelLayerId = 'jq-ref';
 const threeLabelLayerId = '3d-ref';
 const fillExtrusionHeight = 16.5;
 
@@ -396,82 +393,6 @@ const style = {
     /**
      * 面
      */
-
-    // 玉叶新增水系
-    {
-      id: 'new_River',
-      type: 'fill',
-      source: LevelConfig.addLv15,
-      'source-layer': 'GHYDPL',
-      paint: {
-        'fill-color': '#b3d8ff',
-        'fill-opacity': 1,
-        'fill-antialias': false
-      },
-      labelLayerId: waterLabelLayerId
-    },
-
-    // 12级玉叶新增绿地
-    {
-      id: 'new_grass',
-      type: 'fill',
-      source: LevelConfig.addLv15,
-      'source-layer': 'GVEGPL1',
-      paint: {
-        'fill-color': '#b5e9b6',
-        'fill-opacity': 1,
-        'fill-antialias': false
-      },
-      labelLayerId: grassLabelLayerId
-    },
-    {
-      id: 'new_grass1',
-      type: 'fill',
-      source: LevelConfig.addLv15,
-      'source-layer': 'GVEGPL2',
-      paint: {
-        'fill-color': '#b5e9b6',
-        'fill-opacity': 1,
-        'fill-antialias': false
-      },
-      labelLayerId: grassLabelLayerId
-    },
-    {
-      id: 'new_grass2',
-      type: 'fill',
-      source: LevelConfig.addLv15,
-      'source-layer': 'GVEGPL3',
-      paint: {
-        'fill-color': '#b5e9b6',
-        'fill-opacity': 1,
-        'fill-antialias': false
-      },
-      labelLayerId: grassLabelLayerId
-    },
-    {
-      id: 'new_grass3',
-      type: 'fill',
-      source: LevelConfig.addLv15,
-      'source-layer': 'GVEGPL4',
-      paint: {
-        'fill-color': '#b5e9b6',
-        'fill-opacity': 1,
-        'fill-antialias': false
-      },
-      labelLayerId: grassLabelLayerId
-    },
-    {
-      id: 'new_grass4',
-      type: 'fill',
-      source: LevelConfig.addLv15,
-      'source-layer': 'GVEGPL21',
-      paint: {
-        'fill-color': '#b5e9b6',
-        'fill-opacity': 1,
-        'fill-antialias': false
-      },
-      labelLayerId: grassLabelLayerId
-    },
     // 操场
     // {
     //   id: 'PLAYGROUND_BG',
