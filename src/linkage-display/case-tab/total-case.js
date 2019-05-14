@@ -11,14 +11,24 @@ import { TuyunLine } from 'tuyun-kit';
 
 export default class TotalCase extends Component {
   state = {
-    selectedIndex: -1
+    selectedCode: ''
   };
 
   render() {
-    const { selectedIndex } = this.state;
+    const { selectedCode } = this.state;
     return (
       <div className="charts-box">
-        <TuyunLine title={{ text: '案件趋势' }} subTitle={{ text: '副标题' }} />
+        <TuyunLine
+          height={260}
+          title={{ text: '案件趋势' }}
+          subTitle={{ text: '副标题' }}
+          selectedKey="code"
+          selectedValue={selectedCode}
+          onClick={({ curSeries }) => {
+            const { code } = curSeries;
+            this.setState({ selectedCode: code });
+          }}
+        />
       </div>
     );
   }

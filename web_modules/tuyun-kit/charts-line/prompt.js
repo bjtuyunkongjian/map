@@ -23,14 +23,18 @@ export default class Prompt extends Component {
       showPrompt,
       curData
     } = this.props;
+    const { data } = curData;
     const _xStyle = isLeft ? { left: promptLeft } : { right: promptRight };
     const _yStyle = isTop ? { top: promptTop } : { bottom: promptBottom };
     const _style = Object.assign({ width: PromptWidth }, _xStyle, _yStyle);
     return showPrompt ? (
       <div className="CanvasCharts_Prompt" style={_style}>
         <div>{curData.label}</div>
-        <div>数值：{curData.value || 0}</div>
-        <div>占比：{(curData.percentage * 100).toFixed(2) || 0}%</div>
+        {data.map((item, index) => (
+          <div key={`prompt_item_${index}`}>
+            {item.label}：{item.count || 0}
+          </div>
+        ))}
       </div>
     ) : null;
   }
