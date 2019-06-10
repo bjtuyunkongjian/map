@@ -63,13 +63,14 @@ export default class CaseBar extends Component {
   _onUpdateCaseChart = ({ caseDistribution }) => {
     const _chartData = [];
     for (let item of caseDistribution) {
+      const _index = caseDistribution.indexOf(item);
       if (IsEmpty(item)) continue;
       const { code, count, name, hasSecType } = item;
       _chartData.push({
         label: name,
         value: count || 0,
-        startColor: '#bbaddc',
-        endColor: '#facff0',
+        startColor: colorArr[_index].start,
+        endColor: colorArr[_index].end,
         code,
         hasSecType
       });
@@ -94,3 +95,9 @@ export default class CaseBar extends Component {
     GlobalEvent.emit(GloEventName.toggleCaseDetail, _param); // 显示详情
   };
 }
+
+const colorArr = [
+  { start: '#E0C3FC', end: '#8EC5FC' },
+  { start: '#84FAB0', end: '#8FD3F4' },
+  { start: '#D4FC79', end: '#96E6A1' }
+];

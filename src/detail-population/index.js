@@ -11,7 +11,8 @@ import {
   LayerIds,
   AddCircleLayer,
   AddHeatMapLayer,
-  AddNamePlateLayer
+  AddNamePlateLayer,
+  RemoveLayer
 } from 'tuyun-utils';
 import {
   point as TurfPoint,
