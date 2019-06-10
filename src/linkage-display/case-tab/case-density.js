@@ -39,7 +39,14 @@ export default class CaseDensity extends Component {
           height={105}
           title={{ text: '案件密度' }}
           legend={{ text: '全部案件' }}
-          data={[{ value: chartData.totalCaseDensity || 0, label: '全部案件' }]}
+          data={[
+            {
+              value: chartData.totalCaseDensity || 0,
+              label: '全部案件',
+              startColor: '#E0C3FC',
+              endColor: '#8EC5FC'
+            }
+          ]}
           selectedIndex={selectedIndex}
           onClick={this._clickDensity}
         />
