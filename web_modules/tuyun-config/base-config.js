@@ -25,7 +25,7 @@ const LocalBuildHost = {
   geoserverHost: `http://56.3.124.136:8080/`, // geoserver 地址
   geojsonHost: `http://56.3.124.136:3000/`, // 提供geojson的后台
   tileHost: `http://56.3.124.136:12808/`, // 自己提供瓦片数据的后台
-  bffHost: `http://56.8.2.157:12808/`, // bff http://56.8.2.157:12808/ http://56.3.124.137:12808/
+  bffHost: `http://56.3.124.137:12808/`, // bff http://56.8.2.157:12808/ http://56.3.124.137:12808/
   spriteHost: `http://56.3.124.136:12808/`, // 精灵图端口
   imageHost: `http://56.3.124.136:12808/`, // 图片地址
   glyphsHost: `http://56.3.124.136:12808/`, // 字体端口

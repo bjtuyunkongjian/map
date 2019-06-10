@@ -16,6 +16,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 2px 5px 0 10px;
+    margin-top: 5px;
     .all-case-icon {
       margin-right: 3px;
       font-size: 16px;
@@ -23,10 +24,21 @@
     .multiple-btn-arr {
       display: flex;
       align-items: center;
+      border-radius: @radius-l;
+      &.btn-arr-1 {
+        background: linear-gradient(#e0c3fc, #8ec5fc);
+      }
+      &.btn-arr-2 {
+        background: linear-gradient(#84fab0, #8fd3f4);
+      }
+      &.btn-arr-3 {
+        background: linear-gradient(#d4fc79, #96e6a1);
+      }
       .multiple-btn-item {
-        padding: 5px;
+        padding: 2px 5px;
         cursor: pointer;
-        border: 1px solid @color-army-green;
+        margin: 1px;
+        background: white;
         &:nth-of-type(1) {
           border-top-left-radius: @radius-l;
           border-bottom-left-radius: @radius-l;
@@ -34,11 +46,11 @@
         &:nth-last-of-type(1) {
           border-top-right-radius: @radius-l;
           border-bottom-right-radius: @radius-l;
-          border-left: 0;
+          margin-left: 0;
         }
         &.checked {
           color: white;
-          background: @color-army-green;
+          background: transparent;
         }
       }
     }

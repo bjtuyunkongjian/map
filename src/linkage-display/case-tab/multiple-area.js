@@ -59,7 +59,7 @@ export default class MultipleArea extends Component {
         {multipleOpts.map((item, index) => (
           <li className="multiple-option" key={`multiple_opt_${index}`}>
             {item.label}
-            <div className="multiple-btn-arr">
+            <div className={`multiple-btn-arr btn-arr-${index + 1}`}>
               <div
                 className={`multiple-btn-item${
                   checkedOpt === item.value && checkedBtn === staticBtn
