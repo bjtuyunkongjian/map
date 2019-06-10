@@ -62,6 +62,7 @@ export default class CaseBar extends Component {
 
   _onUpdateCaseChart = ({ caseDistribution }) => {
     const _chartData = [];
+    _chartData.sort((x, y) => y.code - x.code); // 按 code 进行排序
     for (let item of caseDistribution) {
       const _index = caseDistribution.indexOf(item);
       if (IsEmpty(item)) continue;
@@ -75,7 +76,6 @@ export default class CaseBar extends Component {
         hasSecType
       });
     }
-    _chartData.sort((x, y) => y.code - x.code); // 按 code 进行排序
     this.setState({ chartData: _chartData });
   };
 
@@ -97,7 +97,7 @@ export default class CaseBar extends Component {
 }
 
 const colorArr = [
-  { start: '#E0C3FC', end: '#8EC5FC' },
-  { start: '#84FAB0', end: '#8FD3F4' },
-  { start: '#D4FC79', end: '#96E6A1' }
+  { end: '#E0C3FC', start: '#8EC5FC' },
+  { end: '#84FAB0', start: '#8FD3F4' },
+  { end: '#D4FC79', start: '#96E6A1' }
 ];
