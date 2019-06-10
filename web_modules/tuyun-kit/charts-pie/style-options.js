@@ -25,27 +25,6 @@ const Legend = {
 const PromptWidth = 100; // 提示信息框的宽度
 const PromptGap = 10; // 提示框距离鼠标的横向距离
 
-/** 
-  function rgbToHsl(r, g, b){
-    r /= 255, g /= 255, b /= 255;
-    var max = Math.max(r, g, b), min = Math.min(r, g, b);
-    var h, s, l = (max + min) / 2;
-
-    if(max == min){
-      h = s = 0; // achromatic
-    }else{
-        var d = max - min;
-        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-        switch(max){
-            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-            case g: h = (b - r) / d + 2; break;
-            case b: h = (r - g) / d + 4; break;
-        }
-        h /= 6;
-    }
-    return [Math.floor(h*360), Math.round(s*100)+"%", Math.round(l*100)+"%"];
-  }
-*/
 const SectorColors = [
   [357, 69, 42], // rgb: [179, 33, 38]
   [206, 29, 20], // rgb: [36, 53, 66]

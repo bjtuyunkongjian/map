@@ -6,7 +6,7 @@
 import React, { Component } from 'react';
 import MenuItems from './menu-items';
 import Event from './event';
-import { Event as GlobalEvent } from 'tuyun-utils';
+import { Event as GlobalEvent, EventName as GloEventName } from 'tuyun-utils';
 
 export default class LineSelect extends Component {
   render() {
@@ -17,10 +17,9 @@ export default class LineSelect extends Component {
     );
   }
 
-
   _selectMenu = e => {
     e.stopPropagation();
-    GlobalEvent.emit('change:FeaturesMenu:visible', false);
+    GlobalEvent.emit(GloEventName.toggleFeMenu, false);
     GlobalEvent.emit('change:ElementLibrary:visible');
   };
 }

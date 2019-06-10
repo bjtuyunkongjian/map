@@ -4,22 +4,15 @@
  */
 
 import mapboxgl from 'mapbox-gl';
-import {
-  AddLevel
-  // FetchRequest
-} from 'tuyun-utils';
+import { AddLevel } from 'tuyun-utils';
 import React, { Component } from 'react';
 
 import BaseStyle from './map-styles/light-sd';
 import AddLevels from './add-levels';
-// import addGeojson from './add-geojson';
-// import gaoguoGDB from './geojson/gaoguoGDB_cx';
-// import { point as TurfPoint } from 'turf';
-// import { TuyunMessage, TuyunTips } from 'tuyun-kit';
+// import CustomLayer from './radar';
+// import BusLayer from './bus';
 
 export default class MapBoxDemo extends Component {
-  // _boundsArr = [[], []];
-
   componentDidMount() {
     this._init();
   }
@@ -51,190 +44,32 @@ export default class MapBoxDemo extends Component {
       maxZoom: 20,
       localIdeographFontFamily: '黑体'
     });
-    // 点击地图在控制台打出经纬度
+    // 点击地图在控制台打出经纬度 15/36.6866/117.05608
     // this.map.on('mouseup', async e => {
-    //   console.log('e.lngLat', e.lngLat);
+    //   const _bounds = _MAP_.getBounds();
+    //   const _xDiff = _bounds._ne.lng - _bounds._sw.lng;
+    //   const _yDiff = _bounds._ne.lat - _bounds._sw.lat;
+    //   console.log(
+    //     'e.lngLat',
+    //     e.lngLat,
+    //     '屏幕范围精度差：',
+    //     _xDiff,
+    //     '屏幕范围纬度差：',
+    //     _yDiff
+    //   );
     // });
-    // this.map.on('mouseup', 'GRESPL_1_3D', e => {
-    //   console.log('e.lngLat', e.features);
-    // });
-    // this.map.on('mouseup', 'GRESPL_2_3D', e => {
-    //   console.log('e.lngLat', e.features);
-    // });
-    // this.map.on('mouseup', 'GRESPL_3_3D', e => {
-    //   console.log('e.lngLat', e.features);
-    // });
-    this.map.on('click', 'POI_LEVEL_15_CAMERA', e => {
-      const num = e.features[0].properties.NUMBER;
-      // console.log(e.features[0].properties);
-      fetch('http://localhost:8000/camera?url=' + num);
-    });
-    // this.map.on('click', '9L_zgd', e => {
-    //   console.log(JSON.stringify(e.features[0].geometry));
-    // });
-    // this.map.on('click', 'gjl', e => {
-    //   console.log(JSON.stringify(e.features[0].geometry));
+    // this.map.on('click', e => {
+    //   console.log(e.lngLat);
+    //   console.log(this.map.queryRenderedFeatures(e.point));
     // });
     this.map
-      .on('load', () => {
-        this.zoom = Math.ceil(this.map.getZoom()); // 设置起初缩放等级
+      .on('style.load', () => {
         this._addSourceFunc(); // 增加图层组
-        // this._loadRoadSource(); // 添加道路图层
-
-        // const _features = [];
-        // let _long = 117.037292;
-        // let _lat = 36.655261;
-        // for (let i = 0; i < 50; i++) {
-        //   let _r = 0;
-        //   _long += (Math.random() - 0.5) / 100;
-        //   _lat += (Math.random() - 0.5) / 100;
-        //   for (let j = 0; j < 1000; j++) {
-        //     const _theta = Math.random() * Math.PI * 2;
-        //     const _dr = 0.0002 * (Math.random() - 0.5);
-        //     _r += _dr;
-        //     const coords = [
-        //       _long + _r * Math.cos(_theta),
-        //       _lat + _r * Math.sin(_theta)
-        //     ];
-        //     _features.push(
-        //       TurfPoint(coords, { count: (Math.random() * 10000).toFixed(0) })
-        //     );
-        //   }
-        // }
-        // const _geoJSONData = {
-        //   type: 'geojson',
-        //   data: {
-        //     type: 'FeatureCollection',
-        //     features: _features
-        //   }
-        // };
-        // _MAP_.addLayer(
-        //   {
-        //     id: 'heat',
-        //     type: 'heatmap',
-        //     source: _geoJSONData,
-        //     paint: {
-        //       'heatmap-color': [
-        //         'interpolate',
-        //         ['linear'],
-        //         ['heatmap-density'],
-        //         0,
-        //         'rgba(33,102,172,0)',
-        //         0.5,
-        //         'green',
-        //         0.8,
-        //         'yellow',
-        //         1,
-        //         'red'
-        //       ],
-        //       // Adjust the heatmap radius by zoom level
-        //       'heatmap-radius': 5,
-        //       // Transition from heatmap to circle layer by zoom level
-        //       'heatmap-opacity': 1
-        //     }
-        //   },
-        //   'line-gd-ref'
-        // );
-        // const _arr = [
-        //   [116.73926568, 36.80091517],
-        //   [116.73925495, 36.80062549],
-        //   [116.74145687, 36.79854256],
-        //   [116.74145687, 36.79835749],
-        //   [116.74046982, 36.79857207],
-        //   [116.73940498, 36.79866058],
-        //   [116.74102504, 36.79968519],
-        //   [116.74101431, 36.79945988],
-        //   [116.74099285, 36.79930968],
-        //   [116.74098749, 36.79914338],
-        //   [116.74094994, 36.79897172],
-        //   [116.74078364, 36.79975492],
-        //   [116.74079973, 36.79954571],
-        //   [116.74073536, 36.79923994],
-        //   [116.74071927, 36.79906828],
-        //   [116.74074072, 36.79893953],
-        //   [116.74059589, 36.79977638],
-        //   [116.74059052, 36.79963154],
-        //   [116.74115915, 36.79611248],
-        //   [116.74114842, 36.79599447],
-        //   [116.74109478, 36.7958228],
-        //   [116.74106795, 36.79565114],
-        //   [116.74131472, 36.79746968],
-        //   [116.74109478, 36.7975126],
-        //   [116.74121816, 36.79726047],
-        //   [116.74118597, 36.79711027],
-        //   [116.73756248, 36.79515376],
-        //   [116.7375142, 36.79482117],
-        //   [116.74280888, 36.80257484],
-        //   [116.74303419, 36.80383548],
-        //   [116.74290544, 36.80344924],
-        //   [116.74280352, 36.80297717],
-        //   [116.74283034, 36.80227443],
-        //   [116.74351162, 36.80513903],
-        //   [116.74336678, 36.80477961],
-        //   [116.74385762, 36.80480644],
-        //   [116.74285716, 36.80225029],
-        //   [116.74286789, 36.80257752],
-        //   [116.743002, 36.8033339],
-        //   [116.74310392, 36.80372014],
-        //   [116.74288398, 36.80286988],
-        //   [116.74054761, 36.79913265],
-        //   [116.74054241, 36.79927098],
-        //   [116.74037326, 36.79974151],
-        //   [116.7488, 36.8037],
-        //   [116.7503, 36.8032],
-        //   [116.7494, 36.8037],
-        //   [116.75, 36.8034],
-        //   [116.7471, 36.8044]
-        // ];
-        // _MAP_.flyTo({ center: _arr[0] });
-        // const _features = _arr.map(item => TurfPoint(item));
-        // const _geoJSONData = {
-        //   type: 'geojson',
-        //   data: {
-        //     type: 'FeatureCollection',
-        //     features: _features
-        //   }
-        // };
-        // _MAP_.addLayer({
-        //   id: 'layerId',
-        //   type: 'symbol',
-        //   source: _geoJSONData,
-        //   layout: {
-        //     'icon-image': 'landmark',
-        //     'icon-size': 1.5
-        //   }
-        // });
+        // this.map.addLayer(CustomLayer).addLayer(BusLayer);
       })
       .on('zoomend', () => {
-        // const _zoom = Math.ceil(this.map.getZoom()); // 当前缩放等级
-        // const _bounds = this.map.getBounds();
-        // if (
-        //   Math.abs(_zoom - this.zoom) >= 1 ||
-        //   this._boundsArr[0][0] > _bounds._sw.lng ||
-        //   this._boundsArr[0][1] < _bounds._ne.lat ||
-        //   this._boundsArr[1][0] < _bounds._ne.lng ||
-        //   this._boundsArr[1][1] > _bounds._sw.lat
-        // ) {
-        //   this.zoom = _zoom;
-        //   // this._loadRoadSource(); // 添加道路图层
-        // }
         this._addSourceFunc();
       });
-    // 拖出浏览器事件
-    // document.addEventListener('mouseup', () => {
-    //   const _bounds = this.map.getBounds();
-    //   if (
-    //     this._boundsArr[0][0] > _bounds._sw.lng ||
-    //     this._boundsArr[0][1] < _bounds._ne.lat ||
-    //     this._boundsArr[1][0] < _bounds._ne.lng ||
-    //     this._boundsArr[1][1] > _bounds._sw.lat
-    //   ) {
-    //     this._loadRoadSource(); // 添加道路图层
-    //   }
-    // });
-
-    // 添加
-    // this.map.addControl(new mapboxgl.NavigationControl(), 'bottom-right');
   };
 
   _addSourceFunc = () => {
@@ -242,46 +77,4 @@ export default class MapBoxDemo extends Component {
       AddLevel(this.map, item);
     }
   };
-
-  // 将国道、省道单独开来，临时处理
-  // async _loadRoadSource() {
-  //   const _zoom = this.map.getZoom();
-  //   const _bounds = this.map.getBounds();
-  //   const _halfLngDiff = (_bounds._ne.lng - _bounds._sw.lng) / 2;
-  //   const _haloLatDiff = (_bounds._ne.lat - _bounds._sw.lat) / 2;
-
-  //   this._boundsArr = [
-  //     [_bounds._sw.lng - _halfLngDiff, _bounds._ne.lat + _haloLatDiff], // 左上角
-  //     [_bounds._ne.lng + _halfLngDiff, _bounds._sw.lat - _haloLatDiff] // 右下角
-  //   ];
-  //   const { res } = await FetchRequest({
-  //     url: 'road',
-  //     method: 'POST',
-  //     body: {
-  //       _bounds: this._boundsArr,
-  //       zoom: _zoom
-  //     }
-  //   });
-
-  //   // if (_zoom < 12) {
-  //   //   res.guodao = gaoguoGDB;
-  //   // }
-  //   this._addRoad(res);
-  // }
-
-  // _addRoad(data) {
-  //   for (let item of addGeojson) {
-  //     if (!this.map.getSource(item.sourceName)) {
-  //       this.map.addSource(item.sourceName, {
-  //         type: 'geojson',
-  //         data: data[item.dataName]
-  //       });
-  //       for (let layer of item.layers) {
-  //         this.map.addLayer(layer, layer.labelLayerId);
-  //       }
-  //     } else {
-  //       this.map.getSource(item.sourceName).setData(data[item.dataName]);
-  //     }
-  //   }
-  // }
 }

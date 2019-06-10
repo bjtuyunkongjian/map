@@ -60,9 +60,16 @@ export default class ChartsDensity extends Component {
 
   componentWillReceiveProps(nextProps) {
     this._convertProps(nextProps);
-    const { selectedIndex } = this.props;
-    if (nextProps.selectedIndex !== selectedIndex) {
-      this._renderSelected(nextProps.selectedIndex);
+    // this._renderCanvas(this._canvasEl);
+    // const { selectedIndex } = this.props;
+    // if (nextProps.selectedIndex !== selectedIndex) {
+    //   this._renderSelected(nextProps.selectedIndex);
+    // }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps !== this.props) {
+      this._renderCanvas(this._canvasEl);
     }
   }
 
@@ -80,13 +87,11 @@ export default class ChartsDensity extends Component {
     const { width, height, padding, backgroundColor } = this.props;
     return (
       <div
+        className="CanvasCharts"
         style={{
-          position: 'relative',
           width,
           height,
-          overflow: 'hidden',
           backgroundColor,
-          cursor: 'pointer',
           paddingLeft: padding.left,
           paddingRight: padding.right,
           paddingTop: padding.top,
@@ -95,7 +100,7 @@ export default class ChartsDensity extends Component {
       >
         <canvas
           ref={_el => (this._canvasEl = _el)}
-          style={{ width: '100%', height: '100%' }}
+          className="CanvasCharts_Canvas"
           height={height}
           onMouseMove={this._onMouseMove}
           onClick={this._onClick}
@@ -172,10 +177,11 @@ export default class ChartsDensity extends Component {
     }
     this._ctx.textBaseline = 'middle';
     if (fontWeight === 'blod') {
-      this._ctx.fillText(text, _textStart, _textMiddle - 0.5);
-      this._ctx.fillText(text, _textStart - 0.5, _textMiddle);
-      this._ctx.fillText(text, _textStart, _textMiddle + 0.5);
-      this._ctx.fillText(text, _textStart + 0.5, _textMiddle);
+      const _expand = this._ratio * 0.25;
+      this._ctx.fillText(text, _textStart, _textMiddle - _expand);
+      this._ctx.fillText(text, _textStart - _expand, _textMiddle);
+      this._ctx.fillText(text, _textStart, _textMiddle + _expand);
+      this._ctx.fillText(text, _textStart + _expand, _textMiddle);
     } else {
       this._ctx.fillText(text, _textStart, _textMiddle);
     }

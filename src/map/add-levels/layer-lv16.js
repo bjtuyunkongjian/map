@@ -7,9 +7,6 @@ import { FontColor } from 'tuyun-utils';
 const visibleLevel = 16;
 const symbolLabelLayerId = 'symbol-ref';
 
-const waterLabelLayerId = 'GHYDPL_7L';
-const grassLabelLayerId = 'GVEGPL';
-
 const style = {
   visibleLevel: visibleLevel,
   source: {
@@ -25,84 +22,6 @@ const style = {
     }
   },
   layers: [
-    // 玉叶新增水系
-    {
-      id: 'new_River',
-      type: 'fill',
-      source: LevelConfig.addLv16,
-      'source-layer': 'GHYDPL',
-      paint: {
-        'fill-color': '#b3d8ff',
-        'fill-opacity': 1,
-        'fill-antialias': false
-      },
-      labelLayerId: waterLabelLayerId
-    },
-
-    // 12级玉叶新增绿地
-    {
-      id: 'new_grass',
-      type: 'fill',
-      source: LevelConfig.addLv16,
-      'source-layer': 'GVEGPL1',
-      paint: {
-        'fill-color': '#b5e9b6',
-        'fill-opacity': 1,
-        'fill-antialias': false
-      },
-      labelLayerId: grassLabelLayerId
-    },
-    {
-      id: 'new_grass1',
-      type: 'fill',
-      source: LevelConfig.addLv16,
-      'source-layer': 'GVEGPL2',
-      paint: {
-        'fill-color': '#b5e9b6',
-        'fill-opacity': 1,
-        'fill-antialias': false
-      },
-      labelLayerId: grassLabelLayerId
-    },
-    {
-      id: 'new_grass2',
-      type: 'fill',
-      source: LevelConfig.addLv16,
-      'source-layer': 'GVEGPL3',
-      paint: {
-        'fill-color': '#b5e9b6',
-        'fill-opacity': 1,
-        'fill-antialias': false
-      },
-      labelLayerId: grassLabelLayerId
-    },
-    {
-      id: 'new_grass3',
-      type: 'fill',
-      source: LevelConfig.addLv16,
-      'source-layer': 'GVEGPL4',
-      paint: {
-        'fill-color': '#b5e9b6',
-        'fill-opacity': 1,
-        'fill-antialias': false
-      },
-      labelLayerId: grassLabelLayerId
-    },
-    {
-      id: 'new_grass4',
-      type: 'fill',
-      source: LevelConfig.addLv16,
-      'source-layer': 'GVEGPL21',
-      paint: {
-        'fill-color': '#b5e9b6',
-        'fill-opacity': 1,
-        'fill-antialias': false
-      },
-      labelLayerId: grassLabelLayerId
-    },
-    /**
-     * 点
-     */
     {
       id: 'POI_LEVEL_16_1108',
       type: 'symbol',

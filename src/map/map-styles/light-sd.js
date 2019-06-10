@@ -15,13 +15,13 @@
 
 import { LevelConfig, BaseConfig } from 'tuyun-config';
 
-const areaColor = {
-  370502: '#412f1f', /// 东营区
-  370503: '#f05b72', //  河口区
-  370505: '#f47920', // 垦利县
-  370522: '#74905d', //  利津县
-  370523: '#6a6da9' // 广饶县
-};
+// const areaColor = {
+//   370502: '#412f1f', /// 东营区
+//   370503: '#f05b72', //  河口区
+//   370505: '#f47920', // 垦利县
+//   370522: '#74905d', //  利津县
+//   370523: '#6a6da9' // 广饶县
+// };
 
 const ditchVisibleLevel = 14; // 沟和渠道显示等级
 const maxzoom = 12;
@@ -30,13 +30,23 @@ const layers = [
   {
     id: 'background', // 背景
     type: 'background',
-    layout: {},
     paint: {
       'background-color': '#f5f5f5'
     }
   },
   // 面
-
+  {
+    id: 'GVEGPL', // 记录了绿地
+    type: 'fill',
+    source: LevelConfig.addLv7,
+    'source-layer': 'GVEGPL_Merge',
+    paint: {
+      'fill-color': '#b5e9b6',
+      'fill-opacity': 1,
+      'fill-antialias': false
+    },
+    labelLayerId: 'GHYDPL_7L'
+  },
   {
     id: 'GHYDPL_7L', // 记录了一些水渠、河沟，水库的面状要素
     type: 'fill',
@@ -68,52 +78,52 @@ const layers = [
       ['!=', 'CLASID', '250100']
     ],
     minzoom: ditchVisibleLevel,
-    layout: {},
     paint: {
       'fill-color': '#b3d8ff',
       'fill-opacity': 1,
       'fill-antialias': false
     }
   },
+
+  // 派出所辖区
   {
-    id: 'GVEGPL', // 记录了绿地
+    id: 'POLICE_STATION_JUR', // 记录了一些水渠、河沟，水库的面状要素
     type: 'fill',
     source: LevelConfig.addLv7,
-    'source-layer': 'GVEGPL_Merge',
-    layout: {},
+    'source-layer': 'FQ_JYGLFQ_PCS_PG1', // py是面
+    filter: [
+      'all',
+      ['!=', 'CLASID', '210200'],
+      ['!=', 'CLASID', '230101'],
+      ['!=', 'CLASID', '240101'],
+      ['!=', 'CLASID', '250100']
+    ],
+    layout: {
+      visibility: 'none'
+    },
     paint: {
-      'fill-color': '#b5e9b6',
+      'fill-color': 'rgba(0, 0, 0, 0)',
       'fill-opacity': 1,
       'fill-antialias': false
-    },
-    labelLayerId: 'GHYDPL_7L'
-  },
-  {
-    id: 'playground-ref', // 做线的基层使用
-    type: 'fill',
-    source: LevelConfig.addLv7,
-    'source-layer': 'empty',
-    layout: {},
-    paint: {
-      'fill-opacity': 0
     }
   },
+
   // 城市边界
-  {
-    id: 'GCOUPL', // 城市边界
-    type: 'fill',
-    source: LevelConfig.addLv7,
-    'source-layer': 'dongyingarea', // py是面
-    paint: {
-      'fill-color': [
-        'get',
-        ['to-string', ['get', 'PAC']],
-        ['literal', areaColor]
-      ],
-      'fill-opacity': 0.5,
-      'fill-antialias': false
-    }
-  },
+  // {
+  //   id: 'GCOUPL', // 城市边界
+  //   type: 'fill',
+  //   source: LevelConfig.addLv7,
+  //   'source-layer': 'GCOUPL', // py是面
+  //   paint: {
+  //     'fill-color': [
+  //       'get',
+  //       ['to-string', ['get', 'PAC']],
+  //       ['literal', areaColor]
+  //     ],
+  //     'fill-opacity': 0.5,
+  //     'fill-antialias': false
+  //   }
+  // },
   // 线
   {
     id: 'GBOULN', // 记录了各个镇的边界，有名字的记录的是省界和岛屿（name不为空）
@@ -173,7 +183,6 @@ const layers = [
     type: 'fill',
     source: LevelConfig.addLv7,
     'source-layer': 'empty',
-    layout: {},
     paint: {
       'fill-opacity': 0
     }
@@ -183,7 +192,6 @@ const layers = [
     type: 'fill',
     source: LevelConfig.addLv7,
     'source-layer': 'empty',
-    layout: {},
     paint: {
       'fill-opacity': 0
     }
@@ -193,7 +201,6 @@ const layers = [
     type: 'fill',
     source: LevelConfig.addLv7,
     'source-layer': 'empty',
-    layout: {},
     paint: {
       'fill-opacity': 0
     }
@@ -203,7 +210,6 @@ const layers = [
     type: 'fill',
     source: LevelConfig.addLv7,
     'source-layer': 'empty',
-    layout: {},
     paint: {
       'fill-opacity': 0
     }
@@ -213,7 +219,6 @@ const layers = [
     type: 'fill',
     source: LevelConfig.addLv7,
     'source-layer': 'empty',
-    layout: {},
     paint: {
       'fill-opacity': 0
     }
@@ -223,7 +228,6 @@ const layers = [
     type: 'fill',
     source: LevelConfig.addLv7,
     'source-layer': 'empty',
-    layout: {},
     paint: {
       'fill-opacity': 0
     }
@@ -233,7 +237,6 @@ const layers = [
     type: 'fill',
     source: LevelConfig.addLv7,
     'source-layer': 'empty',
-    layout: {},
     paint: {
       'fill-opacity': 0
     }
@@ -243,7 +246,6 @@ const layers = [
     type: 'fill',
     source: LevelConfig.addLv7,
     'source-layer': 'empty',
-    layout: {},
     paint: {
       'fill-opacity': 0
     }
@@ -253,7 +255,6 @@ const layers = [
     type: 'fill',
     source: LevelConfig.addLv7,
     'source-layer': 'empty',
-    layout: {},
     paint: {
       'fill-opacity': 0
     }
@@ -264,7 +265,6 @@ const layers = [
     type: 'fill',
     source: LevelConfig.addLv7,
     'source-layer': 'empty',
-    layout: {},
     paint: {
       'fill-opacity': 0
     }
@@ -306,7 +306,6 @@ const layers = [
     type: 'fill',
     source: LevelConfig.addLv7,
     'source-layer': 'POI_LEVEL_7',
-    layout: {},
     paint: {
       'fill-opacity': 0
     }

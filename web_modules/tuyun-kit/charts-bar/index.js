@@ -5,7 +5,6 @@
  */
 import React, { Component } from 'react';
 import { ResolveBlurry } from 'tuyun-utils';
-// import BarPrompt from './bar-prompt';
 import Prompt from './prompt';
 import {
   LabelColor,
@@ -44,6 +43,9 @@ export default class CahrtsBar extends Component {
     dutyRatio: 0.6, // 占空比，每个单元内图像宽度占整个宽度的面积
     // 选中的柱状
     selectedIndex: -1,
+    baseValue: 0, // 如果该项数据不为零，给一个基础值
+    selectedKey: '', // 根据 key/value 来判断选中的选项
+    selectedValue: undefined, // 根据 key/value 来判断选中的选项
     onClick: () => {}
   };
 
@@ -78,9 +80,15 @@ export default class CahrtsBar extends Component {
 
   componentWillReceiveProps(nextProps) {
     this._convertProps(nextProps);
-    const { selectedIndex } = this.props;
-    if (nextProps.selectedIndex !== selectedIndex) {
-      this._renderSelected(nextProps.selectedIndex);
+    // const { selectedIndex } = this.props;
+    // if (nextProps.selectedIndex !== selectedIndex) {
+    //   this._renderSelected(nextProps.selectedIndex);
+    // }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps !== this.props) {
+      this._renderCanvas(this._canvasEl);
     }
   }
 
@@ -98,13 +106,11 @@ export default class CahrtsBar extends Component {
     const { width, height, padding, backgroundColor } = this.props;
     return (
       <div
+        className="CanvasCharts"
         style={{
-          position: 'relative',
           width,
           height,
-          overflow: 'hidden',
           backgroundColor,
-          cursor: 'pointer',
           paddingLeft: padding.left,
           paddingRight: padding.right,
           paddingTop: padding.top,
@@ -113,7 +119,7 @@ export default class CahrtsBar extends Component {
       >
         <canvas
           ref={_el => (this._canvasEl = _el)}
-          style={{ width: '100%', height: '100%' }}
+          className="CanvasCharts_Canvas"
           height={height}
           onMouseMove={this._onMouseMove}
           onMouseLeave={this._onMouseLeave}
@@ -203,10 +209,11 @@ export default class CahrtsBar extends Component {
     }
     this._ctx.textBaseline = 'middle';
     if (fontWeight === 'blod') {
-      this._ctx.fillText(text, _textStart, _textMiddle - 0.5);
-      this._ctx.fillText(text, _textStart - 0.5, _textMiddle);
-      this._ctx.fillText(text, _textStart, _textMiddle + 0.5);
-      this._ctx.fillText(text, _textStart + 0.5, _textMiddle);
+      const _expand = this._ratio * 0.25;
+      this._ctx.fillText(text, _textStart, _textMiddle - _expand);
+      this._ctx.fillText(text, _textStart - _expand, _textMiddle);
+      this._ctx.fillText(text, _textStart, _textMiddle + _expand);
+      this._ctx.fillText(text, _textStart + _expand, _textMiddle);
     } else {
       this._ctx.fillText(text, _textStart, _textMiddle);
     }
@@ -236,9 +243,17 @@ export default class CahrtsBar extends Component {
   };
 
   _renderChart = () => {
-    const { data, dutyRatio, xLabel, selectedIndex } = this.props;
-    const _maxData = Math.ceil(this._computeMaxVal() * 1.05);
-    const _cellWidth = this._chartW / data.length; // 每一个单元格的宽度
+    const {
+      data,
+      dutyRatio,
+      xLabel,
+      selectedIndex,
+      baseValue,
+      selectedKey,
+      selectedValue
+    } = this.props;
+    const _maxData = Math.ceil(this._computeMaxVal() * 1.05) || 1;
+    const _cellWidth = this._chartW / (data.length || 1); // 每一个单元格的宽度
     // x 轴坐标文字
     const _xLabelH = (xLabel.fontSize / 0.62) * this._ratio; // x 轴文字标注的高度
     const _xLabelTop = this._chartBottom - _xLabelH; // x 轴文字标注的顶部纵坐标
@@ -249,7 +264,11 @@ export default class CahrtsBar extends Component {
       const _barCell = Object.assign({}, item);
       _barCell.index = index;
       _barCell.max = _maxData;
-      _barCell.selected = selectedIndex === index; // 是否被选中
+      if (selectedKey) {
+        _barCell.selected = _barCell[selectedKey] === selectedValue; // 是否被选中
+      } else {
+        _barCell.selected = selectedIndex === index; // 是否被选中
+      }
       _barCell.dutyRatio = dutyRatio; // 占空比
       _barCell.xStart = index * _cellWidth; // 每个单元格的起始 x 坐标
       _barCell.xEnd = _barCell.xStart + _cellWidth; // 每个单元格的终止 x 坐标
@@ -261,7 +280,12 @@ export default class CahrtsBar extends Component {
       _barCell.modalRect = this._createModalRect(_barCell); // 矩形遮罩
       // 彩条
       _barCell.barWidth = _cellWidth * dutyRatio; // 每一个彩条的宽度
-      _barCell.barHeight = _equalSize * item.value; // 每一个彩条的高度
+      if (item.value > 0) {
+        const _viewValue = Math.max(baseValue, item.value); // 每个彩条视觉上对应的值
+        _barCell.barHeight = _equalSize * _viewValue; // 每一个彩条的高度
+      } else {
+        _barCell.barHeight = 0; // 每一个彩条的高度
+      }
       _barCell.barX = _barCell.xMiddle - _barCell.barWidth / 2; // 彩条的横坐标
       _barCell.barY = _barBottom - _barCell.barHeight; // 彩条的纵坐标
       _barCell.bar = this._createBar(_barCell); // 彩条
@@ -377,7 +401,7 @@ export default class CahrtsBar extends Component {
 
   _computeMaxVal = () => {
     const { data } = this.props;
-    let _max = data[0].value;
+    let _max = (data[0] && data[0].value) || 1;
     for (let item of data) {
       if (_max < item.value) _max = item.value;
     }
@@ -387,7 +411,7 @@ export default class CahrtsBar extends Component {
   _createModalRect = barCell => {
     const { xStart, yStart, cellWidth, cellHeight } = barCell;
     const _path2D = new Path2D();
-    _path2D.rect(xStart, yStart, cellWidth - 1, cellHeight); // 减 1 像素，避免同时选中两个背景的问题
+    _path2D.rect(xStart, yStart + 1, cellWidth - 1, cellHeight); // 减 1 像素，避免同时选中两个背景的问题
     return _path2D;
   };
 

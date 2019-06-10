@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import { IoMdCheckmark } from 'react-icons/io';
-import { IsArray, Event as GlobalEvent } from 'tuyun-utils';
+import {
+  IsArray,
+  Event as GlobalEvent,
+  EventName as GloEventName
+} from 'tuyun-utils';
 import {
   point as TurfPoint,
   featureCollection as FeatureCollection
@@ -8,6 +11,8 @@ import {
 import { TuyunMessage } from 'tuyun-kit';
 
 import { FetchPopulation } from './webapi';
+
+import Event, { EventName } from '../event';
 
 export default class PopOption extends Component {
   state = {
@@ -21,40 +26,56 @@ export default class PopOption extends Component {
     return (
       <li
         className={`data-item ${isChecked ? 'checked' : ''}`}
-        onClick={e => this._selectPopData()}
+        onClick={this._selectPopData}
       >
-        <div className={`checkbox ${isChecked ? 'checked' : ''}`}>
-          {isChecked ? <IoMdCheckmark /> : null}
-        </div>
         {popOption.name}
       </li>
     );
   }
 
   _init = () => {
+    Event.on(EventName.changePoDataChecked, ({ clickedLabel }) => {
+      const { isChecked } = this.state;
+      let _isChecked;
+      if (isChecked) {
+        _isChecked = false; // 之前选中，当前设置为未选中
+        this._removeSourceLayer(popOption.layerId); // todo 删除之前显示的人口图层
+      } else {
+        _isChecked = optionName === clickedLabel; // 之前未选中，当前根据 clickedLabel 进行判断
+      }
+      this.setState({ isChecked: _isChecked });
+    });
+    // 事件监听
     _MAP_.on('click', popOption.layerId, e => {
       const { lngLat, originalEvent, features } = e;
-      _MAP_.flyTo({ center: [lngLat.lng, lngLat.lat], duration: 500 });
+      // _MAP_.flyTo({ center: [lngLat.lng, lngLat.lat], duration: 500 });
+      Event.emit(EventName.showPoDataPop, {
+        visible: true,
+        boxLeft: originalEvent.x,
+        boxTop: originalEvent.y,
+        lngLat: lngLat
+      });
     });
   };
 
   _selectPopData = () => {
     const { isChecked } = this.state;
-    this.setState({ isChecked: !isChecked });
-    if (!isChecked) {
-      return TuyunMessage.error('接口数据获取失败！'); // temp
-      this._fetchPopulation();
-      _MAP_.on('moveend', this._fetchPopulation);
-    } else {
-      _MAP_.off('moveend', this._fetchPopulation);
-    }
+    Event.emit(EventName.changePoDataChecked, { clickedLabel: optionName });
+    GlobalEvent.emit(GloEventName.toggleLinkage, { visible: !isChecked }); // 显示右侧联动数据
+    GlobalEvent.emit(GloEventName.toggleLinkageTab, { tabName: 'population' }); // 显示右侧联动数据人口
+    // if (!isChecked) {
+    //   this._fetchPopulation();
+    //   _MAP_.on('moveend', this._fetchPopulation);
+    // } else {
+    //   _MAP_.off('moveend', this._fetchPopulation);
+    // }
   };
 
   _fetchPopulation = async () => {
     const _bounds = _MAP_.getBounds(); // 获取屏幕边界范围
     const _zoom = _MAP_.getZoom(); // 当前缩放层级
     const { res, err } = await FetchPopulation({ points: _bounds }); // 发送请求
-    if (err || !IsArray(res)) return console.log('获取一标三识数据出错'); //保护
+    if (err || !IsArray(res)) return console.log('获取一标三实数据出错'); //保护
     const _features = res.map(coords => TurfPoint(coords));
     const _geoJSONData = {
       type: 'geojson',
@@ -127,7 +148,9 @@ export default class PopOption extends Component {
 const popOption = {
   value: 'population',
   name: '人口',
-  defaultZoom: 16.5,
+  defaultZoom: 16,
   icon: 'people',
   layerId: 'POLICE_DATA_POPULATION'
 };
+
+const optionName = 'population';

@@ -16,6 +16,7 @@ import CheckType from './check-type'; // 判断对象类型
 //
 import Max from './max'; // 返回数组或者对象中的最大值
 import CreateUid from './create-uid'; // 产生唯一的 uid
+import FormatDate from './format-date'; // 格式化日期
 
 // canvas 画图相关通用函数
 import DrawRoundRect from './draw-round-rect'; // canvas 绘制圆角矩形
@@ -26,9 +27,25 @@ import {
   FetchRequest, // fetch 请求，调用 bffHost
   UploadRequest // 上传文件请求
 } from './fetch';
-
+// Event, Emitter
 import Emitter from './emit';
 import Event from './event';
+import EventName from './event-name';
+// 颜色转换
+import RgbToHsl from './rgb-to-hsl';
+// 图层
+import RemoveLayer from './remove-layer';
+import LayerIds from './layer-ids';
+import {
+  AddCircleLayer,
+  AddNamePlateLayer,
+  AddPolygonLayer,
+  AddTextLayer,
+  Add3dLayer,
+  AddLineLayer,
+  AddHeatMapLayer
+} from './layer-control';
+import THREE from './three';
 
 export {
   AddLevel,
@@ -48,5 +65,20 @@ export {
   FetchRequest,
   UploadRequest,
   Emitter,
-  Event
+  Event,
+  Event as GlobalEvent,
+  EventName,
+  EventName as GloEventName,
+  FormatDate,
+  RemoveLayer,
+  LayerIds,
+  AddCircleLayer,
+  AddNamePlateLayer,
+  AddPolygonLayer,
+  AddTextLayer,
+  Add3dLayer,
+  AddLineLayer,
+  AddHeatMapLayer,
+  RgbToHsl,
+  THREE
 };

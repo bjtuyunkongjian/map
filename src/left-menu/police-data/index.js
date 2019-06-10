@@ -1,6 +1,6 @@
 /**
  * @author 郝艺红
- * @name 一标三实
+ * @description 一标三实
  */
 
 import React, { Component } from 'react';
@@ -9,9 +9,6 @@ import { IoIosPeople } from 'react-icons/io';
 import PopOption from './pop-option';
 import UnitOption from './unit-option';
 import HouseOption from './house-option';
-
-import HouseMessage from './house-message';
-import UnitMessage from './unit-message';
 
 export default class PoliceData extends Component {
   state = {
@@ -38,8 +35,6 @@ export default class PoliceData extends Component {
           <UnitOption />
           <HouseOption />
         </ul>
-        <HouseMessage />
-        {/* {selectedOpt === 'unit' ? <UnitMessage /> : null} */}
       </div>
     );
   }

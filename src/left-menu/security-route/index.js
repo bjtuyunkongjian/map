@@ -1,6 +1,6 @@
 /**
  * @author sl
- * @name 安保路线
+ * @description 安保路线
  */
 import React, { Component } from 'react';
 import { IoIosCar } from 'react-icons/io';

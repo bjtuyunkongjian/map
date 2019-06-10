@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import { IoMdSearch } from 'react-icons/io';
 import { SearchDevice } from './webapi';
 import Event from './event';
-import { Event as GlobalEvent, IsEmpty } from 'tuyun-utils';
+import {
+  Event as GlobalEvent,
+  EventName as GloEventName,
+  IsEmpty
+} from 'tuyun-utils';
 import { TuyunMessage } from 'tuyun-kit';
 
 export default class SearchBtn extends Component {
@@ -49,7 +53,7 @@ export default class SearchBtn extends Component {
         _manInfo[objectId] = item;
       }
     }
-    GlobalEvent.emit('change:LeftMenu:searchInfo', {
+    GlobalEvent.emit(GloEventName.changeLeMenuSearchInfo, {
       carInfo: _carInfo,
       manInfo: _manInfo
     });

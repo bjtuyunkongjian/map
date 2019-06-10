@@ -17,10 +17,10 @@ const lineBgLabelLayerId = 'line-bg-ref';
 const lineLabelLayerId_sd = 'line-sd-ref';
 const lineBgLabelLayerId_sd = 'line-sd-bg-ref';
 const lineNameLabelLayerId = 'symbol-ref';
-// const palygroundLayerId = 'playground-ref';
 
+// const jqLabelLayerId = 'jq-ref';
 const threeLabelLayerId = '3d-ref';
-const fillExtrusionHeight = 16.5;
+const fillExtrusionHeight = 16;
 
 // 3d 普通建筑颜色和透明度
 const gresplOpacity = 0.5;
@@ -85,7 +85,6 @@ const style = {
       },
       labelLayerId: lineBgLabelLayerId
     },
-
     {
       id: 'GROALN_other_ZD', // 路网图层（name字段），栈道、内部道路、机耕路、乡村路、小路 + 专用公路、其他公路、村道
       type: 'line',
@@ -389,45 +388,13 @@ const style = {
       },
       labelLayerId: symbolLabelLayerId
     },
-
-    /**
-     * 面
-     */
-    // 操场
-    // {
-    //   id: 'PLAYGROUND_BG',
-    //   type: 'fill',
-    //   source: LevelConfig.addLv15,
-    //   'source-layer': '340401',
-    //   filter: ['!=', 'NAME', '操场'],
-    //   paint: {
-    //     'fill-color': '#e8c1ba',
-    //     'fill-opacity': 1,
-    //     'fill-antialias': false
-    //   },
-    //   labelLayerId: palygroundLayerId
-    // },
-    // {
-    //   id: 'PLAYGROUND',
-    //   type: 'fill',
-    //   source: LevelConfig.addLv15,
-    //   'source-layer': '340401',
-    //   filter: ['==', 'NAME', '操场'],
-    //   paint: {
-    //     'fill-color': '#8edb98',
-    //     'fill-opacity': 1,
-    //     'fill-antialias': false
-    //   },
-    //   labelLayerId: palygroundLayerId
-    // },
-
     /**
      * 3d建筑
      * */
     {
       id: 'GRESPL_1_3D',
       source: LevelConfig.addLv15,
-      'source-layer': 'GRESPL_Merge-1',
+      'source-layer': 'GRESPL_Merge_1',
       type: 'fill-extrusion',
       filter: ['!=', 'CLASID', '310200'],
       paint: {
@@ -453,7 +420,7 @@ const style = {
     {
       id: 'GRESPL_2_3D',
       source: LevelConfig.addLv15,
-      'source-layer': 'GRESPL_Merge_ID2',
+      'source-layer': 'GRESPL_Merge_2',
       type: 'fill-extrusion',
       filter: ['!=', 'CLASID', '310200'],
       paint: {
@@ -479,7 +446,7 @@ const style = {
     {
       id: 'GRESPL_3_3D',
       source: LevelConfig.addLv15,
-      'source-layer': 'GRESPL_Merge_ID3',
+      'source-layer': 'GRESPL_Merge_3',
       type: 'fill-extrusion',
       filter: ['!=', 'CLASID', '310200'],
       paint: {

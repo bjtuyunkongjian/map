@@ -1,58 +1,113 @@
 /**
  * @author sl 2019-03-06
- * @name 保护单位饼状图
- * 1. 新闻
- * 2. 学校
- * 3. 交通枢纽
- * 4. 加油站
- * 5. 国防科研
- * 6. 党政机关
- * 7. 电信
- * 8. 物流
- * 9. 银行
- * 10. 能源
- * 11. 物资储备
+ * @description 保护单位饼状图
  */
 
 import React, { Component } from 'react';
 import { TuyunPie } from 'tuyun-kit';
+import { GlobalEvent, GloEventName } from 'tuyun-utils';
+
+import { ChartName } from './chart-info';
+
+import { DefaultTab, TabValue } from '../constant';
+import Event, { EventName } from '../event';
 
 export default class ProtectionUnit extends Component {
   state = {
-    selectedIndex: -1
+    selectedChart: '',
+    selectedValue: '',
+    chartData: [],
+    curBar: DefaultTab
   };
 
+  componentWillMount = () => this._dealWithEvent();
+  componentDidMount = () => this._init();
+
   render() {
-    const { selectedIndex } = this.state;
+    const { selectedChart, chartData, curBar, selectedValue } = this.state;
+    if (curBar !== TabValue.unit) return null;
+    const _selectVal =
+      selectedChart === ChartName.protectUnit ? selectedValue : '';
+    let _total = 0;
+    chartData.map(item => {
+      _total += item.count || 0;
+    });
 
     return (
       <div className="charts-box">
         <TuyunPie
           height={200}
           title={{ text: '保护单位' }}
-          legend={{ text: '人口总数：65' }}
-          data={[
-            { value: 435, label: '新闻' },
-            { value: 310, label: '学校' },
-            { value: 234, label: '交通枢纽' },
-            { value: 135, label: '加油站' },
-            { value: 435, label: '国防科研' },
-            { value: 310, label: '党政机关' },
-            { value: 234, label: '电信' },
-            { value: 135, label: '物流' },
-            { value: 435, label: '银行' },
-            { value: 310, label: '能源' },
-            { value: 234, label: '物资储备' }
-          ]}
-          selectedIndex={selectedIndex}
-          onClick={param => {
-            this.setState({
-              selectedIndex:
-                param.curIndex === selectedIndex ? -1 : param.curIndex
-            });
-          }}
+          legend={{ text: `总数：${_total}` }}
+          data={chartData}
+          selectedKey="code"
+          selectedValue={_selectVal}
+          onClick={this._clickPie}
         />
       </div>
     );
   }
+
+  _init = () => {};
+
+  _dealWithEvent = () => {
+    Event.on(EventName.changeNav, this._onChangeNav); // 切换 tab
+    Event.on(EventName.updateUniChart, this._onUpdateUniChart); // 更新数据
+    Event.on(EventName.changeUniSelected, this._onChangeUniSelected); // 切换选中的图表
+  };
+
+  /**
+   * 切换 tab：
+   * 1. 重置当前选中的 tab
+   * 2. 重置选中的图表
+   */
+  _onChangeNav = nextBar => {
+    const { curBar } = this.state;
+    if (nextBar === curBar) return; // 重复点击保护
+    this.setState({
+      curBar: nextBar,
+      selectedChart: '',
+      selectedValue: '',
+      chartData: []
+    });
+    GlobalEvent.emit(GloEventName.toggleDetailUnit, { visible: false }); // 不显示
+  };
+
+  /**
+   * 更新数据
+   */
+  _onUpdateUniChart = ({ protectUnitData }) => {
+    for (let item of protectUnitData) {
+      item.label = item.name;
+      item.value = item.count;
+      item.hasSecType = !!item.hasThirdType;
+    }
+    this.setState({ chartData: protectUnitData });
+  };
+
+  _onChangeUniSelected = async ({ selectedChart, selectedValue }) => {
+    await this.setState({ selectedChart, selectedValue });
+  };
+
+  _clickPie = barInfo => {
+    const { selectedChart, selectedValue } = this.state;
+    const { curSector } = barInfo;
+    const { code, hasSecType } = curSector;
+    let _selectedVal;
+    if (selectedChart === ChartName.protectUnit) {
+      _selectedVal = selectedValue === code ? '' : code;
+    } else {
+      _selectedVal = code;
+    }
+    GlobalEvent.emit(GloEventName.toggleDetailUnit, {
+      visible: !!_selectedVal,
+      code: _selectedVal,
+      unitType: 'protect',
+      hasSecType
+    }); // 子类
+    Event.emit(EventName.changeUniSelected, {
+      selectedChart: ChartName.protectUnit,
+      selectedValue: _selectedVal
+    });
+  };
 }

@@ -17,7 +17,7 @@
   }
   .tip {
     @tip-width: 160px;
-    @tip-height: 30px;
+    // @tip-height: 30px;
     @before-size: 7px; // 实现1像素的border
     @after-size: 6px;
     @border-color: #9c9c9c;
@@ -25,7 +25,9 @@
     padding: 2px;
     position: absolute;
     left: -(@tip-width / 2);
-    top: -(@tip-height + 15);
+    // top: -(@tip-height + 15);
+    top: -@before-size - 1;
+    transform: translateY(-100%);
     color: @t-gray;
     background-color: white;
     border-radius: @radius-m;
@@ -39,10 +41,11 @@
       position: absolute;
       z-index: -1;
       left: (@tip-width + @before-size) / 2;
-      bottom: -(@before-size * 2);
+      bottom: -(@before-size);
       width: 0;
       height: 0;
       border: solid @before-size;
+      border-bottom: 0;
       border-color: @border-color transparent transparent transparent;
     }
     &::after {
@@ -50,10 +53,11 @@
       display: block;
       position: absolute;
       left: (@tip-width + @before-size) / 2 + 1;
-      bottom: -(@after-size * 2);
+      bottom: -(@after-size);
       width: 0;
       height: 0;
       border: solid @after-size;
+      border-bottom: 0;
       border-color: white transparent transparent transparent;
     }
   }

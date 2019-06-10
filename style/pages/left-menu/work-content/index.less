@@ -1,0 +1,54 @@
+@import './daily-work.less'; // 提示框内容
+
+.work-container {
+  @work-item-height: 30px;
+  @item-count: 8;
+  overflow: hidden;
+  &.menu-up {
+    .pull-up(@work-item-height * @item-count);
+  }
+
+  &.menu-down {
+    .drop-down(@work-item-height * @item-count);
+  }
+  .work-item {
+    width: 100%;
+    font-size: 12px;
+    color: @t-base;
+    text-align: center;
+    height: @work-item-height;
+    background: @bg-gradient-opacity;
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    &:nth-child(1) {
+      justify-content: flex-end;
+      padding-right: 13px;
+    }
+    &.checked {
+      background: rgba(64, 223, 159, 0.5);
+      color: @t-base;
+      cursor: pointer;
+    }
+  }
+  .color-sign {
+    width: 8px;
+    height: 8px;
+    padding: 5px;
+    margin-right: 5px;
+    margin-left: 15px;
+    border-radius: @radius-circle;
+  }
+  .checkbox {
+    width: 15px;
+    height: 15px;
+    margin-left: 3px;
+    border-radius: @radius-s;
+    background-color: @t-white;
+    font-size: 15px;
+    cursor: pointer;
+    &.checked {
+      background-color: @bg-hover;
+    }
+  }
+}

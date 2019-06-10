@@ -1,37 +1,58 @@
 import React, { Component } from 'react';
-import { IoMdCheckmark } from 'react-icons/io';
 import { TuyunMessage } from 'tuyun-kit';
+import {
+  IsArray,
+  Event as GlobalEvent,
+  EventName as GloEventName
+} from 'tuyun-utils';
+
+import Event, { EventName } from '../event';
 
 export default class UnitOption extends Component {
   state = {
     isChecked: false
   };
 
+  componentDidMount = () => this._init();
+
   render() {
     const { isChecked } = this.state;
     return (
       <li
         className={`data-item ${isChecked ? 'checked' : ''}`}
-        onClick={e => this._selectUnitData()}
+        onClick={this._selectUnitData}
       >
-        <div className={`checkbox ${isChecked ? 'checked' : ''}`}>
-          {isChecked ? <IoMdCheckmark /> : null}
-        </div>
         {unitOption.name}
       </li>
     );
   }
 
+  _init = () => {
+    Event.on(EventName.changePoDataChecked, ({ clickedLabel }) => {
+      const { isChecked } = this.state;
+      let _isChecked;
+      if (isChecked) {
+        _isChecked = false; // 之前选中，当前设置为未选中
+        this._removeSourceLayer(unitOption.layerId); // todo 删除之前显示的人口图层
+      } else {
+        _isChecked = optionName === clickedLabel; // 之前未选中，当前根据 clickedLabel 进行判断
+      }
+      this.setState({ isChecked: _isChecked });
+    });
+  };
+
   _selectUnitData = () => {
     const { isChecked } = this.state;
-    this.setState({ isChecked: !isChecked });
-    if (!isChecked) {
-      return TuyunMessage.error('接口数据获取失败！'); // temp
-      this._fetchUnit();
-      _MAP_.on('moveend', this._fetchUnit);
-    } else {
-      _MAP_.off('moveend', this._fetchUnit);
-    }
+    Event.emit(EventName.changePoDataChecked, { clickedLabel: optionName });
+    GlobalEvent.emit(GloEventName.toggleLinkage, { visible: !isChecked }); // 显示右侧联动数据
+    GlobalEvent.emit(GloEventName.toggleLinkageTab, { tabName: 'unit' }); // 显示右侧联动数据单位
+    // if (!isChecked) {
+    //   return TuyunMessage.error('接口数据获取失败！'); // temp
+    //   this._fetchUnit();
+    //   _MAP_.on('moveend', this._fetchUnit);
+    // } else {
+    //   _MAP_.off('moveend', this._fetchUnit);
+    // }
   };
 
   _fetchUnit = async () => {
@@ -55,3 +76,5 @@ const unitOption = {
   icon: 'landmark',
   layerId: 'POLICE_DATA_UNIT'
 };
+
+const optionName = 'unit';

@@ -1,326 +1,450 @@
 /**
  * @author sl204984
  */
+import { BuildingColor } from 'tuyun-utils';
 
 export default [
   {
-    id: 'background',
+    id: 'background', //背景
     type: 'background',
     standard: '#f5f5f5',
-    tiandi: 'rgb(245, 244, 243)',
-    european: 'rgb(239, 233, 225)',
-    night: '#32598C'
+    european: '#f9f5ec', //服务民生
+    serene: '#e7ecf0', //执法监督
+    calm: '#f2f2f2', //反恐维稳
+    serenity: '#f3f8ff', //侦查打击
+    night: '#101114' //交通服务
   },
   {
-    id: 'GRAILN_bg',
+    id: 'GRAILN_bg', //铁路 --无需更改
     type: 'road-bg',
     standard: '#B6B3B7',
-    tiandi: '#B6B3B7',
     european: '#B6B3B7',
+    serene: '#B6B3B7',
+    calm: '#B6B3B7',
+    serenity: '#B6B3B7',
     night: 'rgb(43, 43, 43)'
   },
   {
     id: 'GRAILN',
     type: 'road',
     standard: '#FFFFFF',
-    tiandi: '#FFFFFF',
     european: '#FFFFFF',
+    serene: '#FFFFFF',
+    calm: '#FFFFFF',
+    serenity: '#FFFFFF',
     night: 'rgb(69, 69, 69)'
   },
   {
-    id: 'GROALN_other_ZD_bg',
+    id: 'GROALN_other_ZD_bg', //可能是匝道 ---小匝道
     type: 'road-bg',
     standard: '#d8d8d8',
-    tiandi: '#d8d8d8',
     european: '#d8d8d8',
-    night: 'rgb(43, 43, 43)'
+    serene: '#d8d8d8',
+    calm: '#d8d8d8',
+    serenity: '#d8d8d8',
+    night: '#25262d'
   },
   {
     id: 'GROALN_other_ZD',
     type: 'road',
     standard: '#FFFFFF',
-    tiandi: '#FFFFFF',
     european: '#FFFFFF',
-    night: 'rgb(69, 69, 69)'
+    serene: '#FFFFFF',
+    calm: '#FFFFFF',
+    serenity: '#FFFFFF',
+    night: '#1d4e32'
   },
   {
-    id: 'GROALN_other_CGD_bg',
+    id: 'zd_bg', //匝道 --立交桥！
+    type: 'road-bg',
+    standard: '#fed669',
+    european: '#fed669',
+    serene: '#66cc00',
+    calm: '#074d38',
+    serenity: '#065279',
+    night: '#25262d'
+  },
+  {
+    id: 'zd',
+    type: 'road',
+    standard: '#ffeebb',
+    european: '#ffeebb',
+    serene: '#9eaab4',
+    calm: '#7bcfa6',
+    serenity: '#d2f0f4',
+    night: '#1d4e32'
+  },
+  {
+    id: 'GROALN_other_CGD_bg', // 次干道、县道
     type: 'road-bg',
     standard: '#d8d8d8',
-    tiandi: '#d8d8d8',
     european: '#d8d8d8',
+    serene: '#d8d8d8',
+    calm: '#d8d8d8',
+    serenity: '#d8d8d8',
     night: 'rgb(43, 43, 43)'
   },
   {
     id: 'GROALN_other_CGD',
     type: 'road',
     standard: '#FFFFFF',
-    tiandi: '#FFFFFF',
     european: '#FFFFFF',
+    serene: '#FFFFFF',
+    calm: '#FFFFFF',
+    serenity: '#FFFFFF',
     night: 'rgb(69, 69, 69)'
   },
   {
-    id: 'GROALN_other_ZGD_bg',
+    id: 'GROALN_other_ZGD_bg', //主干道
     type: 'road-bg',
     standard: '#ffae00',
-    tiandi: 'rgb(219, 197, 117)',
-    european: '#FFF',
+    european: '#ffae00',
+    serene: '#5b7c9b',
+    calm: 'rgb(43, 43, 43)',
+    serenity: '#177cb0',
     night: 'rgb(43, 43, 43)'
   },
   {
     id: 'GROALN_other_ZGD',
     type: 'road',
     standard: '#ffeebb',
-    tiandi: 'rgb(254, 242, 159)',
-    european: 'rgb(242, 211, 100)',
+    european: '#ffeebb',
+    serene: '#cdd9e3',
+    calm: 'rgb(69, 69, 69)',
+    serenity: '#fff',
     night: 'rgb(69, 69, 69)'
   },
   {
-    id: 'GROALN_other_KSL_bg',
+    id: 'GROALN_other_KSL_bg', //快速路
     type: 'road-bg',
-    standard: '#ffae00',
-    tiandi: 'rgb(219, 197, 117)',
-    european: '#FFF',
-    night: 'rgb(43, 43, 43)'
+    standard: '#ffeebb',
+    european: '#ffae00',
+    serene: '#ff9900',
+    calm: '#072438',
+    serenity: '#30dff3',
+    night: '#25262d'
   },
   {
     id: 'GROALN_other_KSL',
     type: 'road',
     standard: '#ffeebb',
-    tiandi: 'rgb(254, 242, 159)',
-    european: 'rgb(242, 211, 100)',
-    night: 'rgb(69, 69, 69)'
+    european: '#ffeebb',
+    serene: '#ffffff',
+    calm: '#982728',
+    serenity: '#fff',
+    night: '#1d4e32'
   },
   {
-    id: 'cgd_bg',
+    id: 'cgd_bg', //次干道
     type: 'road-bg',
     standard: '#d8d8d8',
-    tiandi: '#d8d8d8',
     european: '#d8d8d8',
+    serene: '#89d7a3',
+    calm: 'rgb(43, 43, 43)',
+    serenity: '#d2f0f4',
     night: 'rgb(43, 43, 43)'
   },
   {
     id: 'cgd',
     type: 'road',
     standard: '#fff',
-    tiandi: '#fff',
     european: '#fff',
+    serene: '#fff',
+    calm: '#fff',
+    serenity: '#fff',
     night: 'rgb(69, 69, 69)'
   },
   {
-    id: 'gjl_bg',
+    id: 'gjl_bg', //高架路
     type: 'road-bg',
     standard: '#d8d8d8',
-    tiandi: 'rgb(124, 80, 203)',
-    european: '#FFF',
+    european: '#d8d8d8',
+    serene: '#ff9900',
+    calm: '#4c8dae',
+    serenity: '#d8d8d8',
     night: 'rgb(43, 43, 43)'
   },
   {
     id: 'gjl',
     type: 'road',
     standard: '#fed669',
-    tiandi: 'rgb(190, 148, 242)',
-    european: 'rgb(155, 162, 93)',
+    european: '#fed669',
+    serene: '#ffffff',
+    calm: '#d8d8d8',
+    serenity: '#d4f2e7',
     night: 'rgb(69, 69, 69)'
   },
   {
-    id: 'guodao_bg',
+    id: 'guodao_bg', //国道
     type: 'road-bg',
     standard: '#f9bd09',
-    tiandi: 'rgb(124, 80, 203)',
-    european: '#FFF',
-    night: 'rgb(43, 43, 43)'
+    european: '#8ee053',
+    serene: '#66cc00',
+    calm: '#1d4e32',
+    serenity: '#d8d8d8',
+    night: '#1d4e32'
   },
   {
     id: 'guodao',
     type: 'road',
     standard: '#fed669',
-    tiandi: 'rgb(190, 148, 242)',
-    european: 'rgb(155, 162, 93)',
-    night: 'rgb(69, 69, 69)'
+    european: '#ffb528',
+    serene: '#cbd7e3',
+    calm: '#bbcdc5',
+    serenity: '#4c8dae',
+    night: '#60bd03'
   },
   {
-    id: 'ksl_bg',
+    id: 'ksl_bg', //快速路
     type: 'road-bg',
     standard: '#d8d8d8',
-    tiandi: '#d8d8d8',
     european: '#d8d8d8',
+    serene: '#d8d8d8',
+    calm: '#d8d8d8',
+    serenity: '#30dff3',
     night: 'rgb(43, 43, 43)'
   },
   {
     id: 'ksl',
     type: 'road',
     standard: '#fff',
-    tiandi: '#fff',
     european: '#fff',
+    serene: '#fff',
+    calm: '#fff',
+    serenity: '#fff',
     night: 'rgb(69, 69, 69)'
   },
   {
-    id: 'shengdao_bg',
+    id: 'shengdao_bg', //省道
     type: 'road-bg',
     standard: '#ffae00',
-    tiandi: 'rgb(219, 197, 117)',
-    european: '#FFF',
-    night: 'rgb(43, 43, 43)'
+    european: '#7bd025',
+    serene: '#70cc14',
+    calm: '#040d17',
+    serenity: '#177cb0',
+    night: '#22332f'
   },
   {
     id: 'shengdao',
     type: 'road',
     standard: '#ffeebb',
-    tiandi: 'rgb(254, 242, 159)',
-    european: 'rgb(242, 211, 100)',
-    night: 'rgb(69, 69, 69)'
+    european: '#fffcf9',
+    serene: '#ffffff',
+    calm: '#e0eee8',
+    serenity: '#d8d8d8',
+    night: '#6c0'
   },
   {
-    id: 'xd_bg',
+    id: 'xd_bg', //县道--9?
     type: 'road-bg',
     standard: '#d8d8d8',
-    tiandi: '#d8d8d8',
     european: '#d8d8d8',
+    serene: '#7bd02d',
+    calm: 'rgb(43, 43, 43)',
+    serenity: '#177cb0',
     night: 'rgb(43, 43, 43)'
   },
   {
     id: 'xd',
     type: 'road',
     standard: '#fed669',
-    tiandi: '#fed669',
     european: '#fed669',
+    serene: '#ffffff',
+    calm: 'rgb(69, 69, 69)',
+    serenity: '#d8d8d8',
     night: 'rgb(69, 69, 69)'
   },
   {
-    id: 'xiangdao_bg',
+    id: 'xiangdao_bg', //乡道---
     type: 'road-bg',
     standard: '#d8d8d8',
-    tiandi: '#d8d8d8',
     european: '#d8d8d8',
+    serene: '#d8d8d8',
+    calm: '#d8d8d8',
+    serenity: '#d8d8d8',
     night: 'rgb(43, 43, 43)'
   },
   {
     id: 'xiangdao',
     type: 'road',
     standard: '#fff',
-    tiandi: '#fff',
     european: '#fff',
+    serene: '#fff',
+    calm: '#fff',
+    serenity: '#fff',
     night: 'rgb(69, 69, 69)'
   },
+
   {
-    id: 'zd_bg',
-    type: 'road-bg',
-    standard: '#fed669',
-    tiandi: 'rgb(190, 148, 242)',
-    european: 'rgb(155, 162, 93)',
-    night: 'rgb(43, 43, 43)'
-  },
-  {
-    id: 'zd',
-    type: 'road',
-    standard: '#ffeebb',
-    tiandi: 'rgb(254, 242, 159)',
-    european: 'rgb(242, 211, 100)',
-    night: 'rgb(69, 69, 69)'
-  },
-  {
-    id: '9L_zgd_bg',
+    id: '9L_zgd_bg', //9级的主干道
     type: 'road-bg',
     standard: '#ffae00',
-    tiandi: 'rgb(219, 197, 117)',
-    european: '#FFF',
+    european: '#ffae00',
+    serene: '#7bd02d',
+    calm: '#43cee6',
+    serenity: '#177cb0',
     night: 'rgb(43, 43, 43)'
   },
   {
     id: '9L_zgd',
     type: 'road',
     standard: '#ffeebb',
-    tiandi: 'rgb(254, 242, 159)',
-    european: 'rgb(242, 211, 100)',
+    european: '#ffeebb',
+    serene: '#fff',
+    calm: '#e0eee8',
+    serenity: '#d8d8d8',
     night: 'rgb(69, 69, 69)'
   },
   {
-    id: 'zx_bg',
+    id: 'zx_bg', //支线
     type: 'road-bg',
     standard: '#d8d8d8',
-    tiandi: '#d8d8d8',
     european: '#d8d8d8',
+    serene: '#d8d8d8',
+    calm: '#d8d8d8',
+    serenity: '#d8d8d8',
     night: 'rgb(43, 43, 43)'
   },
   {
     id: 'zx',
     type: 'road',
     standard: '#fff',
-    tiandi: '#fff',
     european: '#fff',
+    serene: '#fff',
+    calm: '#d8d8d8',
+    serenity: '#fff',
     night: 'rgb(69, 69, 69)'
   },
   {
-    id: 'GVEGPL',
+    id: 'GVEGPL', //绿地
     type: 'fill',
     standard: '#b5e9b6',
-    tiandi: 'rgb(187, 217, 141)',
-    european: 'rgb(210, 232, 191)',
-    night: '#669999'
+    european: '#bbf5ae',
+    serene: '#bbcdc5 ',
+    calm: '#ccd6d7',
+    serenity: '#c0ebd7',
+    night: '#072438'
   },
   {
-    id: 'GHYDPL_7L',
+    id: 'GHYDPL_7L', //水渠 河流
     type: 'fill',
     standard: '#b3d8ff',
-    tiandi: 'rgb(171, 197, 239)',
-    european: 'rgb(117, 207, 240)',
-    night: '#CCFFFF'
+    european: '#aee1f5',
+    serene: '#B0C4DE',
+    calm: '#778899',
+    serenity: '#90cccb',
+    night: '#192634'
   },
   {
-    id: 'GHYDPL_OTH',
+    id: 'GHYDPL_OTH', //水库 河流的面状要素
     type: 'fill',
     standard: '#b3d8ff',
-    tiandi: 'rgb(171, 197, 239)',
-    european: 'rgb(117, 207, 240)',
-    night: '#CCFFFF'
+    european: '#aee1f5',
+    serene: '#B0C4DE', //#bfd3e4
+    calm: '#778899',
+    serenity: '#90cccb',
+    night: '#192634'
   },
   {
-    id: 'GRESPL_1_3D',
+    id: 'GRESPL_1_3D', //三维建筑
     type: '3d',
-    standard: '#cfcfcf',
-    tiandi: '#d6be99',
-    european: '#CCCC99',
-    night: '#CBE9F3'
+    standard: [
+      'coalesce',
+      ['get', ['to-string', ['get', 'ID']], ['literal', BuildingColor]],
+      'rgb(255, 255, 255)'
+    ],
+    european: [
+      'coalesce',
+      ['get', ['to-string', ['get', 'ID']], ['literal', BuildingColor]],
+      '#f8f4ec'
+    ],
+    serene: [
+      'coalesce',
+      ['get', ['to-string', ['get', 'ID']], ['literal', BuildingColor]],
+      '#eaeff2'
+    ],
+    calm: [
+      'coalesce',
+      ['get', ['to-string', ['get', 'ID']], ['literal', BuildingColor]],
+      '#f7f5f0'
+    ],
+    serenity: [
+      'coalesce',
+      ['get', ['to-string', ['get', 'ID']], ['literal', BuildingColor]],
+      '#e3f9fd'
+    ],
+    night: [
+      'coalesce',
+      ['get', ['to-string', ['get', 'ID']], ['literal', BuildingColor]],
+      '#1b202a'
+    ]
   },
   {
     id: 'GRESPL_2_3D',
     type: '3d',
-    standard: '#cfcfcf',
-    tiandi: '#d6be99',
-    european: '#CCCC99',
-    night: '#CBE9F3'
+    standard: [
+      'coalesce',
+      ['get', ['to-string', ['get', 'ID']], ['literal', BuildingColor]],
+      'rgb(255, 255, 255)'
+    ],
+    european: [
+      'coalesce',
+      ['get', ['to-string', ['get', 'ID']], ['literal', BuildingColor]],
+      '#f8f4ec'
+    ],
+    serene: [
+      'coalesce',
+      ['get', ['to-string', ['get', 'ID']], ['literal', BuildingColor]],
+      '#eaeff2'
+    ],
+    calm: [
+      'coalesce',
+      ['get', ['to-string', ['get', 'ID']], ['literal', BuildingColor]],
+      '#f7f5f0'
+    ],
+    serenity: [
+      'coalesce',
+      ['get', ['to-string', ['get', 'ID']], ['literal', BuildingColor]],
+      '#e3f9fd'
+    ],
+    night: [
+      'coalesce',
+      ['get', ['to-string', ['get', 'ID']], ['literal', BuildingColor]],
+      '#1b202a'
+    ]
   },
   {
     id: 'GRESPL_3_3D',
     type: '3d',
-    standard: '#cfcfcf',
-    tiandi: '#d6be99',
-    european: '#CCCC99',
-    night: '#CBE9F3'
+    standard: [
+      'coalesce',
+      ['get', ['to-string', ['get', 'ID']], ['literal', BuildingColor]],
+      'rgb(255, 255, 255)'
+    ],
+    european: [
+      'coalesce',
+      ['get', ['to-string', ['get', 'ID']], ['literal', BuildingColor]],
+      '#f8f4ec'
+    ],
+    serene: [
+      'coalesce',
+      ['get', ['to-string', ['get', 'ID']], ['literal', BuildingColor]],
+      '#eaeff2'
+    ],
+    calm: [
+      'coalesce',
+      ['get', ['to-string', ['get', 'ID']], ['literal', BuildingColor]],
+      '#f7f5f0'
+    ],
+    serenity: [
+      'coalesce',
+      ['get', ['to-string', ['get', 'ID']], ['literal', BuildingColor]],
+      '#e3f9fd'
+    ],
+    night: [
+      'coalesce',
+      ['get', ['to-string', ['get', 'ID']], ['literal', BuildingColor]],
+      '#1b202a'
+    ]
   }
-  // {
-  //   id: "GRESPL_1_jq",
-  //   type: "fill",
-  //   standard: "#ccc",
-  //   tiandi: "#d7d6cd",
-  //   european: "#ccc",
-  //   night: "#ccc"
-  // },
-  // {
-  //   id: "GRESPL_2_jq",
-  //   type: "fill",
-  //   standard: "#ccc",
-  //   tiandi: "#d7d6cd",
-  //   european: "#ccc",
-  //   night: "#ccc"
-  // },
-  // {
-  //   id: "GRESPL_3_jq",
-  //   type: "fill",
-  //   standard: "#d7d6cd",
-  //   tiandi: "#ccc",
-  //   european: "#ccc",
-  //   night: "#ccc"
-  // }
 ];

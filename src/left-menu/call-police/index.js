@@ -1,6 +1,6 @@
 /**
  * @author 郝艺红
- * @name 摄像头
+ * @description 摄像头
  */
 
 import React, { Component } from 'react';

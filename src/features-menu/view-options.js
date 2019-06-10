@@ -5,9 +5,11 @@
 import React, { Component } from 'react';
 import { IoMdReorder } from 'react-icons/io';
 import { MdCheck } from 'react-icons/md';
+import { GlobalEvent, GloEventName } from 'tuyun-utils';
+
 import ThematicStyles from './thematic-styles';
 import { ChangeLvStyle } from './change-lv-style';
-import Event from './event';
+import Event, { EventName } from './event';
 import MenuItems from './menu-items';
 
 export default class ViewOptions extends Component {
@@ -16,11 +18,9 @@ export default class ViewOptions extends Component {
     selectedOpt: 0
   };
 
-  componentWillMount() {
-    Event.on('change:curMenu', curMenu => {
-      this.setState({ curMenu });
-    });
-  }
+  componentWillMount = () => this._dealWithEvent();
+
+  componentDidMount = () => this._init();
 
   render() {
     const { curMenu, selectedOpt } = this.state;
@@ -50,17 +50,32 @@ export default class ViewOptions extends Component {
     );
   }
 
+  _init = () => {};
+
+  _dealWithEvent = () => {
+    Event.on(EventName.changeCurMenu, curMenu => {
+      this.setState({ curMenu });
+    });
+    GlobalEvent.on(GloEventName.changeMapTemplate, this._changeMapTempalte);
+  };
+
+  _changeMapTempalte = tempalte => {
+    const _index = options.findIndex(item => item.name === tempalte);
+    const _opt = options[_index];
+    this._checkStyle(_index, _opt.theme);
+  };
+
   _selectMenu = e => {
     e.stopPropagation();
     const { curMenu } = this.state;
     Event.emit(
-      'change:curMenu',
+      EventName.changeCurMenu,
       curMenu === MenuItems.viewOptions ? -1 : MenuItems.viewOptions
     );
   };
 
   _checkStyle = (index, theme, e) => {
-    e.stopPropagation();
+    e && e.stopPropagation();
 
     this.setState({ selectedOpt: index });
     for (let item of ThematicStyles) {
@@ -101,8 +116,10 @@ export default class ViewOptions extends Component {
 }
 
 const options = [
-  { value: 0, name: '标准视图', theme: 'standard' },
-  { value: 1, name: '天地图标准', theme: 'tiandi' },
-  { value: 2, name: '欧标视图', theme: 'european' },
-  { value: 3, name: '夜间视图', theme: 'night' }
+  { name: '服务民生', theme: 'standard' },
+  { name: '警务综合', theme: 'european' },
+  { name: '执法监督', theme: 'serene' },
+  { name: '反恐维稳', theme: 'calm' }, // calm
+  { name: '社区民居', theme: 'serenity' }, // serenity
+  { name: '侦察打击', theme: 'night' }
 ];

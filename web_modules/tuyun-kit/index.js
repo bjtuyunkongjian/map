@@ -5,6 +5,10 @@ import TuyunTips from './tips'; // 建议
 import TuyunBar from './charts-bar';
 import TuyunPie from './charts-pie';
 import TuyunDensity from './charts-density';
+import TuyunLine from './charts-line';
+// 日历
+import Calendar from './calendar';
+import DateSelector from './date-selector';
 
 export {
   TuyunModal,
@@ -12,5 +16,8 @@ export {
   TuyunTips,
   TuyunBar,
   TuyunPie,
-  TuyunDensity
+  TuyunDensity,
+  TuyunLine,
+  Calendar,
+  DateSelector
 };

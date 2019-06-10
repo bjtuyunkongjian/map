@@ -9756,7 +9756,7 @@ const BuildingType = {
   '1781632': '1'
 };
 
-const buildingType1 = {
+const BuildingTypeDY = {
   '4121474': '0',
   '4107502': '4',
   '4112499': '0',
@@ -12002,4 +12002,6 @@ const buildingType1 = {
   '4121114': '1'
 };
 
-export default Object.assign(BuildingType, buildingType1);
+const BuildingTypeYY = { '999999999': '0', '999999998': '0' }; // 玉叶手动添加的配置
+
+export default Object.assign(BuildingType, BuildingTypeDY, BuildingTypeYY);

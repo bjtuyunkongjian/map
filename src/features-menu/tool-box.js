@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { IoIosBriefcase } from 'react-icons/io';
 
-import Event from './event';
+import Event, { EventName } from './event';
 import MenuItems from './menu-items';
 
 export default class ToolBox extends Component {
@@ -10,7 +10,7 @@ export default class ToolBox extends Component {
   };
 
   componentWillMount() {
-    Event.on('change:curMenu', curMenu => {
+    Event.on(EventName.changeCurMenu, curMenu => {
       this.setState({ curMenu });
     });
   }
@@ -42,7 +42,7 @@ export default class ToolBox extends Component {
   _selectMenu = () => {
     const { curMenu } = this.state;
     Event.emit(
-      'change:curMenu',
+      EventName.changeCurMenu,
       curMenu === MenuItems.toolbox ? -1 : MenuItems.toolbox
     );
   };

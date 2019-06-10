@@ -8,10 +8,14 @@ export default Event;
 const EventName = {
   showContentModal: 'show:contentModal',
   closeContentModal: 'close:contentModal',
-  // 一标三识
+  // 一标三实
+  changePoDataChecked: 'change:poData:selected',
   showPoDataPop: 'show:poData:pop',
+  closePoDataPop: 'close:poData:pop',
   showPoDataUnit: 'show:poData:unit',
-  showPoDataHouse: 'show:poData:house'
+  closePoDataUnit: 'close:poData:unit',
+  showPoDataHouse: 'show:poData:house',
+  closePoDataHouse: 'close:poData:house'
 };
 
 export { EventName };

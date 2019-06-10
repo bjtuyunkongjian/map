@@ -1,0 +1,36 @@
+.Calendar_Header {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  @btn-width: 16px;
+  padding: 5px 0;
+  border-top: 1px solid @border-color-darker;
+  border-bottom: 1px solid @border-color-base;
+  .Calendar_Btn {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 8px;
+    cursor: pointer;
+    border: 1px solid @border-color-darker;
+    .Del_Btn,
+    .Add_Btn {
+      flex: 0 @btn-width;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      &:hover {
+        background-color: @bg-hover;
+      }
+    }
+    .Calendar_Disabled {
+      color: @t-disabled;
+      cursor: not-allowed;
+      &:hover {
+        background-color: transparent;
+      }
+    }
+  }
+}

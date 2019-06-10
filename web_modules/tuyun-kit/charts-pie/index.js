@@ -30,12 +30,12 @@ export default class ChartsPie extends Component {
     title: Title,
     // 图例，说明
     legend: Legend,
-    // 对应的渐变色
-    xAxisGradient: {},
     // 数据
     data: [],
     // 选中的扇形
     selectedIndex: -1,
+    selectedKey: '', // 根据 key/value 来判断选中的选项
+    selectedValue: undefined, // 根据 key/value 来判断选中的选项
     onClick: () => {}
   };
 
@@ -52,6 +52,8 @@ export default class ChartsPie extends Component {
   _chartH = 0;
   _chartBottom = 0;
 
+  _rerender = false;
+
   componentWillMount() {
     this._convertProps(this.props);
   }
@@ -62,9 +64,15 @@ export default class ChartsPie extends Component {
 
   componentWillReceiveProps(nextProps) {
     this._convertProps(nextProps);
-    const { selectedIndex } = this.props;
-    if (nextProps.selectedIndex !== selectedIndex) {
-      this._renderSelected(nextProps.selectedIndex);
+    // const { selectedIndex } = this.props;
+    // if (nextProps.selectedIndex !== selectedIndex) {
+    //   this._renderSelected(nextProps.selectedIndex);
+    // }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps !== this.props) {
+      this._renderCanvas(this._canvasEl);
     }
   }
 
@@ -82,13 +90,11 @@ export default class ChartsPie extends Component {
     const { width, height, padding, backgroundColor } = this.props;
     return (
       <div
+        className="CanvasCharts"
         style={{
-          position: 'relative',
           width,
           height,
-          overflow: 'hidden',
           backgroundColor,
-          cursor: 'pointer',
           paddingLeft: padding.left,
           paddingRight: padding.right,
           paddingTop: padding.top,
@@ -97,7 +103,7 @@ export default class ChartsPie extends Component {
       >
         <canvas
           ref={_el => (this._canvasEl = _el)}
-          style={{ width: '100%', height: '100%' }}
+          className="CanvasCharts_Canvas"
           height={height}
           onMouseMove={this._onMouseMove}
           onMouseLeave={this._onMouseLeave}
@@ -176,10 +182,11 @@ export default class ChartsPie extends Component {
     }
     this._ctx.textBaseline = 'middle';
     if (fontWeight === 'blod') {
-      this._ctx.fillText(text, _textStart, _textMiddle - 0.5);
-      this._ctx.fillText(text, _textStart - 0.5, _textMiddle);
-      this._ctx.fillText(text, _textStart, _textMiddle + 0.5);
-      this._ctx.fillText(text, _textStart + 0.5, _textMiddle);
+      const _expand = this._ratio * 0.25;
+      this._ctx.fillText(text, _textStart, _textMiddle - _expand);
+      this._ctx.fillText(text, _textStart - _expand, _textMiddle);
+      this._ctx.fillText(text, _textStart, _textMiddle + _expand);
+      this._ctx.fillText(text, _textStart + _expand, _textMiddle);
     } else {
       this._ctx.fillText(text, _textStart, _textMiddle);
     }
@@ -210,7 +217,7 @@ export default class ChartsPie extends Component {
 
   // 绘制饼图
   _renderChart = () => {
-    const { data, selectedIndex } = this.props;
+    const { data, selectedIndex, selectedKey, selectedValue } = this.props;
     const _center = {
       x: this._chartW / 2,
       y: this._chartBottom - this._chartH / 2
@@ -219,16 +226,18 @@ export default class ChartsPie extends Component {
     let _addedPercentage = 0; // 已经计算的百分比
     const _scLength = SectorColors.length; // 扇区长度
     this._sectorArr = data.map((item, index) => {
-      const _sector = {}; // 扇形
+      const _sector = Object.assign({}, item); // 扇形
       _sector.x = _center.x; // 圆心 x 坐标
       _sector.y = _center.y; // 圆心 y 坐标
       _sector.originRadius = _radius; // 原始半径 和 显示半径
-      _sector.selected = selectedIndex === index; // 是否被选中
+      if (selectedKey) {
+        _sector.selected = _sector[selectedKey] === selectedValue; // 是否被选中
+      } else {
+        _sector.selected = selectedIndex === index; // 是否被选中
+      }
       _sector.hue = SectorColors[index % _scLength][0]; // 色调
       _sector.saturation = SectorColors[index % _scLength][1]; // 饱和度
       _sector.lightness = SectorColors[index % _scLength][2]; // 亮度
-      _sector.value = item.value; // 值
-      _sector.label = item.label; // 名称
       _sector.percentage = item.value / this._totalData; // 占的百分比
       _sector.startAngle = _addedPercentage * Math.PI * 2; // 起始角
       _sector.endAngle = (_addedPercentage + _sector.percentage) * Math.PI * 2; // 终止角
@@ -419,7 +428,7 @@ export default class ChartsPie extends Component {
       this._ctx.fill(sector.sectorPath);
       // 绘制文字
       // this._ctx.fillStyle = _originColor;
-      this._ctx.font = "16px '微软雅黑'";
+      this._ctx.font = `${this._ratio * 8}px '微软雅黑'`; // fontSize * this._ratio
       this._ctx.textAlign = sector.textAlign;
       this._ctx.textBaseline = 'middle';
       this._ctx.fillText(sector.label, ...sector.textStart);

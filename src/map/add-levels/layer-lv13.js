@@ -24,17 +24,17 @@ const style = {
   },
   layers: [
     ...ZaDao,
-    {
-      id: 'SD_JINAN1', // 此图层显示方便玉叶他们找
-      source: LevelConfig.addLv13,
-      'source-layer': 'DY',
-      type: 'circle',
-      paint: {
-        'circle-color': '#ff0000',
-        'circle-radius': 20
-      },
-      labelLayerId: symbolLabelLayerId
-    },
+    // {
+    //   id: 'SD_JINAN1', // 此图层显示方便玉叶他们找
+    //   source: LevelConfig.addLv13,
+    //   'source-layer': 'jinan1',
+    //   type: 'circle',
+    //   paint: {
+    //     'circle-color': '#ff0000',
+    //     'circle-radius': 20
+    //   },
+    //   labelLayerId: symbolLabelLayerId
+    // },
     {
       id: 'POI_LEVEL_13',
       type: 'symbol',

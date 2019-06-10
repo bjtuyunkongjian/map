@@ -1,0 +1,110 @@
+.new-route {
+  right: @bottom-nav-width + 20;
+  position: fixed;
+  top: @top-search-top;
+  width: 240px;
+  background: @bg-gradient-base;
+  padding: 10px 15px;
+  border-radius: 5px;
+  z-index: 1;
+  .title {
+    font-size: 15px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 5px;
+  }
+
+  .route-row {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-bottom: 5px;
+    .route-label {
+      flex: 0 65px;
+      color: white;
+    }
+    .input-box {
+      flex: 1;
+      border-bottom: 1px solid @border-color-base;
+      padding-left: 2px;
+      .input {
+        color: white;
+      }
+    }
+  }
+
+  .point-set {
+    color: white;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 10px;
+    .start-btn {
+      cursor: pointer;
+      margin-bottom: 5px;
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+    .end-btn {
+      cursor: pointer;
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+    .disabled {
+      color: @t-disabled;
+      cursor: not-allowed;
+    }
+  }
+
+  .btn-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 10px;
+    .cancel-btn {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 18px;
+      background-color: #fff;
+      margin-right: 20px;
+      border-radius: 3px;
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+    .save-btn {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 18px;
+      background-color: @color-blue;
+      color: white;
+      border-radius: 3px;
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+    .disabled {
+      color: @t-disabled;
+      cursor: not-allowed;
+      background-color: @bg-disabled;
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+  // 放在最下面，覆盖前面的样式
+  .disabled {
+    color: @t-disabled;
+    cursor: not-allowed;
+  }
+}

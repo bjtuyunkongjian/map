@@ -6,7 +6,7 @@
 import React, { Component } from 'react';
 import { IoMdEyeOff, IoMdEye } from 'react-icons/io';
 
-import Event from './event';
+import Event, { EventName } from './event';
 import MenuItems from './menu-items';
 import { ChangeLvStyle } from './change-lv-style';
 import {
@@ -25,7 +25,7 @@ export default class FilterOptions extends Component {
   };
 
   componentWillMount() {
-    Event.on('change:curMenu', curMenu => {
+    Event.on(EventName.changeCurMenu, curMenu => {
       this.setState({ curMenu });
     });
   }
@@ -59,7 +59,7 @@ export default class FilterOptions extends Component {
     e.stopPropagation();
     const { curMenu } = this.state;
     Event.emit(
-      'change:curMenu',
+      EventName.changeCurMenu,
       curMenu === MenuItems.filterOptions ? -1 : MenuItems.filterOptions
     );
   };
