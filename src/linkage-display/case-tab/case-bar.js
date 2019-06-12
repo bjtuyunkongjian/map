@@ -62,7 +62,7 @@ export default class CaseBar extends Component {
 
   _onUpdateCaseChart = ({ caseDistribution }) => {
     const _chartData = [];
-    _chartData.sort((x, y) => y.code - x.code); // 按 code 进行排序
+    caseDistribution.sort((x, y) => y.code - x.code); // 按 code 进行排序
     for (let item of caseDistribution) {
       const _index = caseDistribution.indexOf(item);
       if (IsEmpty(item)) continue;
