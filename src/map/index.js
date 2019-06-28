@@ -4,13 +4,17 @@
  */
 
 import mapboxgl from 'mapbox-gl';
-import { AddLevel } from 'tuyun-utils';
+import { AddLevel, AddCircleLayer } from 'tuyun-utils';
 import React, { Component } from 'react';
 
 import BaseStyle from './map-styles/light-sd';
 import AddLevels from './add-levels';
 // import CustomLayer from './radar';
 // import BusLayer from './bus';
+import {
+  point as TurfPoint,
+  featureCollection as FeatureCollection
+} from 'turf';
 
 export default class MapBoxDemo extends Component {
   componentDidMount() {
@@ -66,6 +70,18 @@ export default class MapBoxDemo extends Component {
       .on('style.load', () => {
         this._addSourceFunc(); // 增加图层组
         // this.map.addLayer(CustomLayer).addLayer(BusLayer);
+        const _features = [
+          // [116.97702466554132, 36.658540337732]
+          // [116.9769213235292, 36.65653286345726]
+          [116.9776721284437, 36.65678250803943]
+        ].map(item => TurfPoint(item));
+        const _geoJSONData = {
+          type: 'geojson',
+          data: FeatureCollection(_features)
+        };
+        AddCircleLayer(_MAP_, _geoJSONData, 'LayerIds.case.point', {
+          color: '#00f'
+        });
       })
       .on('zoomend', () => {
         this._addSourceFunc();
