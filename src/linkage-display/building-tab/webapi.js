@@ -47,3 +47,14 @@ export const FetchChartData = async body => {
   });
   return { res, err };
 };
+
+export const FetchBuildingDensity = async body => {
+  Object.assign(body, { test: 'fwDensity' });
+
+  const { res, err } = await FetchRequest({
+    url: 'mapServer/string',
+    method: 'POST',
+    body
+  });
+  return { res, err };
+};

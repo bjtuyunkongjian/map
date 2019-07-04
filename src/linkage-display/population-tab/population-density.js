@@ -24,6 +24,7 @@ export default class PopulationDensity extends Component {
     curBar: DefaultTab
   };
 
+  componentWillMount = () => this._dealWithEvent();
   componentDidMount = () => this._init();
 
   render() {
@@ -70,9 +71,7 @@ export default class PopulationDensity extends Component {
     );
   }
 
-  _init = () => {
-    this._dealWithEvent();
-  };
+  _init = () => {};
 
   _dealWithEvent = () => {
     Event.on(EventName.changeNav, nextBar => {

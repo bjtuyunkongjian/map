@@ -79,12 +79,22 @@ export default class KeyPersonnel extends Component {
   };
 
   _onUpdatePopChart = ({ poppieData }) => {
+    poppieData.sort((x, y) => x.count - y.count);
     poppieData.map(item => {
       item.label = item.name;
       item.value = item.count;
       item.code = item.type;
     });
-    this.setState({ chartData: poppieData }); // 更新图表数据
+    const _chartData = [];
+    const _dataLen = poppieData.length;
+    for (let i = 0; i < Math.floor(_dataLen / 2); i++) {
+      _chartData.push(poppieData[_dataLen - 1 - i]);
+      _chartData.push(poppieData[i]);
+    }
+    if (!!(_dataLen % 2)) {
+      _chartData.push(poppieData[Math.floor(_dataLen / 2)]);
+    }
+    this.setState({ chartData: _chartData }); // 更新图表数据
   };
 
   _clickPie = async pieInfo => {

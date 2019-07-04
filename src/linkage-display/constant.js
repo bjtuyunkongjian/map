@@ -1,6 +1,4 @@
 // tab 页
-const DefaultTab = 'population';
-//
 const TabValue = {
   population: 'population',
   unit: 'unit',
@@ -8,6 +6,8 @@ const TabValue = {
   case: 'case',
   alarm: 'alarm'
 };
+
+const DefaultTab = TabValue.population;
 
 // 面板列表
 const TabArr = [

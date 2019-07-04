@@ -9,6 +9,7 @@ import React, { Component } from 'react';
 import { GlobalEvent, GloEventName } from 'tuyun-utils';
 
 import BuildingBar from './building-bar';
+import BuildingDensity from './building-density';
 import { FetchChartData } from './webapi';
 import { BuildingLayerId } from './chart-info';
 import { RemoveLayer } from './layer-control';
@@ -21,6 +22,7 @@ export default class BuildingTab extends Component {
     curBar: DefaultTab
   };
 
+  componentWillMount = () => this._dealWithEvent();
   componentDidMount = () => this._init();
 
   render() {
@@ -30,13 +32,13 @@ export default class BuildingTab extends Component {
         className={`tab-charts ${curBar !== TabValue.building ? 'hidden' : ''}`}
       >
         <BuildingBar />
+        <BuildingDensity />
       </div>
     );
   }
 
   _init = () => {
     const { curBar } = this.state;
-    this._dealWithEvent(); // 处理 Event 事件
     if (curBar === TabValue.building) {
       this._fetchChartData(); // 获取图表数据
       this._addListener(); // 添加事件监听
@@ -82,9 +84,10 @@ export default class BuildingTab extends Component {
       flag: 3
     });
     if (!res || err) return; // 保护
-    const { fwbarData } = res;
+    const { fwbarData, fwdensity } = res;
     Event.emit(EventName.updateBuiChart, {
-      buildingBarData: fwbarData || {}
+      buildingBarData: fwbarData || {},
+      buildingDensity: fwdensity || {}
     });
   };
 

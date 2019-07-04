@@ -10,7 +10,7 @@ import AlarmTab from './alarm-tab';
 
 export default class LinkageDisplay extends Component {
   state = {
-    animate: 'slide-in' // slide-in，滑入，显示在屏幕中；slide-out，划出，不显示在屏幕中。是不是有点问题
+    animate: '' // slide-in，滑入，显示在屏幕中；slide-out，划出，不显示在屏幕中。是不是有点问题
   };
 
   componentDidMount = () => this._init();

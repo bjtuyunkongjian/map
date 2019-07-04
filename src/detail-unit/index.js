@@ -80,6 +80,8 @@ export default class DetailUnit extends Component {
     const { unit: unitLayerIds } = LayerIds;
     RemoveLayer(_MAP_, unitLayerIds.point); // 删除图层
     RemoveLayer(_MAP_, unitLayerIds.namePlate); // 删除图层
+    _MAP_.off('click', unitLayerIds.point, this._clickPopLayer);
+    _MAP_.off('click', unitLayerIds.namePlate, this._clickPopLayer);
     // 有子类，需要请求子类数据
     if (visible && hasSecType) {
       this._fetchData();
@@ -94,8 +96,6 @@ export default class DetailUnit extends Component {
     } else if (!visible) {
       _MAP_.off('moveend', this._fetchData);
       _MAP_.off('moveend', this._fetchMapData);
-      _MAP_.off('click', unitLayerIds.point, this._clickPopLayer);
-      _MAP_.off('click', unitLayerIds.namePlate, this._clickPopLayer);
     }
   };
 

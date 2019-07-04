@@ -188,7 +188,7 @@ export default class CaseDetail extends Component {
       type: 'geojson',
       data: FeatureCollection(_features)
     };
-    AddCircleLayer(_MAP_, _geoJSONData, LayerIds.case.point, { color: '#00f' });
+    AddCircleLayer(_MAP_, _geoJSONData, LayerIds.case.point);
   };
 
   _addListener = () => {

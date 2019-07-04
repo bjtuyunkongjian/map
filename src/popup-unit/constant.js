@@ -46,7 +46,7 @@ export const BaseInfo = [
   { label: '注册资金', value: '', key: 'zczj' },
   { label: '联系电话', value: '', key: 'lxdh' },
   { label: '网址', value: '', key: 'wz' },
-  { label: '单位类型', value: '', key: 'dwlx' },
+  // { label: '单位类型', value: '', key: 'dwlx' },
   { label: '单位分类', value: '', key: 'dwfl' },
   { label: '从业人数', value: '', key: 'cyryzs' },
   { label: '主管单位', value: '', key: 'zgdw' },

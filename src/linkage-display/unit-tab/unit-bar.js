@@ -173,6 +173,14 @@ export default class UnitBar extends Component {
       selectedChart: ChartName.unitBar,
       selectedIndex: _selectInd
     });
+    if (_selectInd > -1) {
+      _MAP_.on('click', unitLayerIds.point, this._clickPopLayer);
+      _MAP_.on('click', unitLayerIds.namePlate, this._clickPopLayer);
+    } else {
+      _MAP_.off('click', unitLayerIds.point, this._clickPopLayer);
+      _MAP_.off('click', unitLayerIds.namePlate, this._clickPopLayer);
+    }
+    GlobalEvent.emit(GloEventName.toggleDetailUnit, { visible: false }); // 不显示
   };
 
   _fetchData = () => {
@@ -251,5 +259,30 @@ export default class UnitBar extends Component {
     AddNamePlateLayer(_MAP_, _geoJSONDataName, unitLayerIds.namePlate); // 添加铭牌
     const _geoJSONDataPoint = { type: 'geojson', data: FeatureCollection([]) };
     AddCircleLayer(_MAP_, _geoJSONDataPoint, unitLayerIds.point); // 清空点位
+  };
+
+  _clickPopLayer = e => {
+    const _zoom = _MAP_.getZoom();
+    const { lngLat, originalEvent, features } = e;
+    const { code, enableClick } = features[0].properties;
+    if (_zoom > 16) {
+      const { showPopupUnitNameplate } = GloEventName;
+      GlobalEvent.emit(showPopupUnitNameplate, {
+        visible: true,
+        boxLeft: originalEvent.x,
+        boxTop: originalEvent.y,
+        lngLat: lngLat,
+        code: code
+      });
+    } else if (enableClick) {
+      const { showPopupUnit } = GloEventName;
+      GlobalEvent.emit(showPopupUnit, {
+        visible: true,
+        boxLeft: originalEvent.x,
+        boxTop: originalEvent.y,
+        lngLat: lngLat,
+        code: code
+      });
+    }
   };
 }

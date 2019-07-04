@@ -92,40 +92,9 @@ export default class UnitTab extends Component {
 
   _addListener = () => {
     _MAP_.on('moveend', this._fetchChartData);
-    const { unit: unitLayerIds } = LayerIds;
-    _MAP_.on('click', unitLayerIds.point, this._clickPopLayer);
-    _MAP_.on('click', unitLayerIds.namePlate, this._clickPopLayer);
   };
 
   _removeListener = () => {
     _MAP_.off('moveend', this._fetchChartData);
-    const { unit: unitLayerIds } = LayerIds;
-    _MAP_.off('click', unitLayerIds.point, this._clickPopLayer);
-    _MAP_.off('click', unitLayerIds.namePlate, this._clickPopLayer);
-  };
-
-  _clickPopLayer = e => {
-    const _zoom = _MAP_.getZoom();
-    const { lngLat, originalEvent, features } = e;
-    const { code, enableClick } = features[0].properties;
-    if (_zoom > 16) {
-      const { showPopupUnitNameplate } = GloEventName;
-      GlobalEvent.emit(showPopupUnitNameplate, {
-        visible: true,
-        boxLeft: originalEvent.x,
-        boxTop: originalEvent.y,
-        lngLat: lngLat,
-        code: code
-      });
-    } else if (enableClick) {
-      const { showPopupUnit } = GloEventName;
-      GlobalEvent.emit(showPopupUnit, {
-        visible: true,
-        boxLeft: originalEvent.x,
-        boxTop: originalEvent.y,
-        lngLat: lngLat,
-        code: code
-      });
-    }
   };
 }

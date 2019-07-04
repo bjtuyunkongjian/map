@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import WorkContent from './work-content';
 import PoliceData from './police-data';
-// import Camera from './menu-list/camera';
 import PoliceCase from './police-case';
 import CallPolice from './call-police';
 import PoliceForce from './police-force';
 import SecurityRoute from './security-route';
-import CommonFacility from './public-facility';
+// import CommonFacility from './public-facility';
+import VehicleType from './vehicle-type';
 import ImportantPlace from './important-place';
 export default class LeftMenu extends Component {
   state = {
@@ -25,7 +25,8 @@ export default class LeftMenu extends Component {
           <CallPolice />
           <PoliceForce />
           <SecurityRoute />
-          <CommonFacility />
+          {/* <CommonFacility /> */}
+          <VehicleType />
           <ImportantPlace />
         </div>
         <button className="control" onClick={this._toggleLeftMenu}>

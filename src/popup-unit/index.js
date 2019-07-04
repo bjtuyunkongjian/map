@@ -8,7 +8,7 @@ import {
   DefendingPerInfo,
   BusinessInfo,
   LegalRepInfo,
-  UnitCategory,
+  // UnitCategory,
   BusinessStatus
 } from './constant';
 
@@ -138,10 +138,9 @@ export default class PupupUnit extends Component {
     res.sfjxcs = res.sfjxcs ? (res.sfjxcs === 'Y' ? '是' : '否') : '未知'; // 房屋性质
     res.jymj = res.jymj ? res.jymj + '平方米' : '未知'; // 房屋使用形式
     res.zczj = res.zczj ? res.zczj + '万元' : '未知'; // 房屋类别
-    res.dwfl = UnitCategory[res.dwfl];
+    // res.dwfl = UnitCategory[res.dwfl];
     res.sfyyyzz = res.sfyyyzz ? (res.sfyyyzz === 'Y' ? '是' : '否') : '未知';
     res.jyzt = BusinessStatus[res.jyzt];
-
     BaseInfo.map(item => {
       item.value = res[item.key] || '暂无';
     });

@@ -119,7 +119,7 @@ export default class BuildingBar extends Component {
     const _selectIndex =
       selectedChart === ChartName.buildingBar ? selectedIndex : -1;
     if (_selectIndex > -1) {
-      this._fetchData();
+      // this._fetchData();
       _MAP_.on('moveend', this._fetchData);
     } else {
       _MAP_.off('moveend', this._fetchData);

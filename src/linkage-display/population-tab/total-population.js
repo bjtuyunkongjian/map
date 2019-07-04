@@ -194,10 +194,10 @@ export default class TotalPopulation extends Component {
     const { population: populationLayerIds } = LayerIds;
     if (_enableClick) {
       AddCircleLayer(_MAP_, _geoJSONData, populationLayerIds.point); // 可以点击，显示点位图
-      AddHeatMapLayer(_MAP_, _geoJSONDataEmpty, populationLayerIds.heatmap); // 不可以点击，显示热力图
+      AddHeatMapLayer(_MAP_, _geoJSONDataEmpty, populationLayerIds.heatmap); // 可以点击，不显示热力图
       AddNamePlateLayer(_MAP_, _geoJSONDataEmpty, populationLayerIds.namePlate); // 添加铭牌
     } else {
-      AddCircleLayer(_MAP_, _geoJSONDataEmpty, populationLayerIds.point); // 可以点击，显示点位图
+      AddCircleLayer(_MAP_, _geoJSONDataEmpty, populationLayerIds.point); // 不可以点击，不显示点位图
       AddHeatMapLayer(_MAP_, _geoJSONData, populationLayerIds.heatmap); // 不可以点击，显示热力图
       AddNamePlateLayer(_MAP_, _geoJSONDataEmpty, populationLayerIds.namePlate); // 添加铭牌
     }
