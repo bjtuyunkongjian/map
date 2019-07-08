@@ -18,7 +18,7 @@
 
 ## 配置
 
-1. mapbox 相应配置：https://www.mapbox.com/mapbox-gl-js/
+1. mapbox 相应配置： <https://www.mapbox.com/mapbox-gl-js/>
 2. 使用 gulp 打包生成雪碧图
 
 ## 版本发布记录
