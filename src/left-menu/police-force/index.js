@@ -11,8 +11,8 @@ import {
   IsEmpty,
   IsArray,
   AddLevel,
-  Event as GlobalEvent,
-  EventName as GloEventName
+  GlobalEvent,
+  GloEventName
 } from 'tuyun-utils';
 import { BaseConfig } from 'tuyun-config';
 
@@ -408,7 +408,8 @@ export default class PoliceForce extends Component {
     if (_reqTime > carDelayInterval) {
       _timeout = _reqTime - carDelayInterval; // 请求时间大于 carDelayInterval 延时时间
     }
-    if (err || !IsArray(res)) return; // 保护
+    const { carData } = res;
+    if (err || !IsArray(carData)) return; // 保护
     let _drivenTime; // 行驶时间
     if (!this._enableStart) {
       _drivenTime = policeCarInterval - _reqTime;
@@ -416,7 +417,7 @@ export default class PoliceForce extends Component {
       _drivenTime = policeCarInterval - _timeout;
     }
     this._nextPoliceCar = {}; // 下一秒车子位置
-    for (let carInfo of res) {
+    for (let carInfo of carData) {
       const { roadPoints, flag, objectID, gpsPoints } = carInfo; // 解构
       let _trajectory; // 轨迹
       if (roadPoints.length === 0) {
@@ -425,7 +426,6 @@ export default class PoliceForce extends Component {
       } else {
         _trajectory = roadPoints;
       }
-      // if (flag === '2' || flag === '3') {
       let _objIdArr = IsArray(objectID) ? objectID : [objectID];
       if (this._curPoliceCar[_objIdArr[0]]) {
         const { coords } = this._curPoliceCar[_objIdArr[0]];
@@ -469,7 +469,11 @@ export default class PoliceForce extends Component {
         addedFeatures: _addedFeatures, // 添加的 feature
         addedLineLen: _addedLineLen // 添加道路的长度
       };
-      // }
+      if (this._curPoliceCar[_objIdArr[0]]) {
+        const { prevFeature, rotate } = this._curPoliceCar[_objIdArr[0]];
+        this._nextPoliceCar[_objIdArr[0]].prevFeature = prevFeature;
+        this._nextPoliceCar[_objIdArr[0]].rotate = rotate;
+      }
     }
     this._isLoadingPoliceCar = false; // 结束请求，处理结束
     // 如果请求时间大于 carDelayInterval 延时时间，重绘 =====> 保护
@@ -483,93 +487,48 @@ export default class PoliceForce extends Component {
 
   _drawPoliceCars = () => {
     if (IsEmpty(this._curPoliceCar)) return; // 保护
-    const _headFeatures = [];
-    const _tailFeatures = [];
+    const _features = [];
     Object.keys(this._curPoliceCar).map(key => {
-      // if (key != '29999') return; // 显示固定的 objectid
-      if (!IsEmpty(this._searchCarInfo) && !this._searchCarInfo[key]) return; // 如果搜索车结果不为空并且没有对应的车，返回
-
-      if (objectIdRoadMap[key]) {
-        // 未选中头尾车，返回
-        const { selectedRoutePlan } = this.state;
-        const { roadName } = objectIdRoadMap[key]; // 头尾车
-        const _selected = selectedRoutePlan.filter(
-          item => item.originName === roadName
-        )[0];
-        if (!_selected) return;
-      }
-
       const _policeCarInfo = this._curPoliceCar[key];
       const {
         count,
         features,
         speed,
-        addedFeatures,
-        addedLineLen,
-        objectID
+        objectID,
+        lineLen,
+        prevFeature,
+        rotate,
+        coords
       } = _policeCarInfo;
       // 计算头车信息
-      const _moveDistance = count * carRerenderInterval * speed; // count * carRerenderInterval 是行驶时间，单位毫秒
-      const _headFeature = TurfAlong(features, _moveDistance, units); // 生成头车 feature
-      _headFeature.properties.objectID = objectID[0];
-      _headFeature.properties.img = objectIdRoadMap[key]
-        ? 'ic_map_wheel'
-        : 'ic_map_headcar';
-      _headFeatures.push(_headFeature);
-      _policeCarInfo.count++;
-
-      // 计算时间
-      const _now = new Date();
-      const _timeStamp = _now.getTime();
-      const _year = _now.getFullYear();
-      const _mouth = _now.getMonth();
-      const _date = _now.getDate();
-      const _startTime = new Date(
-        _year,
-        _mouth,
-        _date,
-        ...tailCarFollowingTime.start
-      );
-      const _endTime = new Date(
-        _year,
-        _mouth,
-        _date,
-        ...tailCarFollowingTime.end
-      );
-      if (!objectIdRoadMap[key]) return; // 如果没有id，不需要尾车
-      if (_timeStamp < _startTime || _timeStamp > _endTime) return; // 如果不在该时间段之内，不添加尾车
-      // 计算尾车信息
-      const _hasAddedLine = !(IsEmpty(addedFeatures) || addedLineLen === 0); // 是否有添加的路线
-      for (let i = tailCarCount; i > 0; i--) {
-        let _tailFeature;
-        const _distanceDiff = _moveDistance - i * carDistance; // 距离差值
-        if (_distanceDiff <= 0) {
-          if (_hasAddedLine) {
-            let _len = addedLineLen + _distanceDiff; // 距离差值为负值，定义中间变量，记录离添加道路起点的距离
-            _len = _len > 0 ? _len : 0; // 如果该值为负值，定为 0
-            _tailFeature = TurfAlong(addedFeatures, _len, units); // 尾车 feature
-
-            if (i === tailCarCount) {
-              _tailFeature.properties.objectID = objectID[objectID.length - 1]; //尾车， 添加 objectid
-              _tailFeature.properties.img = 'ic_map_wheel'; // 添加尾车图标
-            } else {
-              _tailFeature.properties.img = 'ic_map_wheel'; // 添加中间车图标
-            }
-            _tailFeatures.push(_tailFeature);
-          }
-        } else {
-          _tailFeature = TurfAlong(features, _distanceDiff, units); // 距离差值为正值，直接计算
-          if (i === tailCarCount) {
-            _tailFeature.properties.objectid = objectID[objectID.length - 1]; // 添加 objectid
-            _tailFeature.properties.img = 'ic_map_wheel'; // 添加尾车图标
-          } else {
-            _tailFeature.properties.img = 'ic_map_wheel'; // 添加中间车图标
-          }
-          _tailFeatures.push(_tailFeature);
-        }
+      if (lineLen > 0) {
+        const _moveDistance = count * carRerenderInterval * speed; // count * carRerenderInterval 是行驶时间，单位毫秒
+        const _feature = TurfAlong(features, _moveDistance, units); // 生成头车 feature
+        const _rotate = prevFeature
+          ? ComputeAngle(
+              prevFeature.geometry.coordinates,
+              _feature.geometry.coordinates
+            )
+          : rotate;
+        _feature.properties = {
+          objectID: objectID[0],
+          img: 'ic_policecar',
+          rotate: _rotate
+        };
+        _features.push(_feature);
+        _policeCarInfo.count++;
+        _policeCarInfo.prevFeature = _feature;
+        _policeCarInfo.rotate = _rotate;
+      } else {
+        const _feature = TurfPoint(coords[0], {
+          objectID: objectID[0],
+          img: 'ic_policecar_light',
+          rotate: rotate
+        });
+        _features.push(_feature);
       }
     });
-    const _features = [..._headFeatures, ..._tailFeatures];
+    // _MAP_.getZoom() >= carVisibleLevel &&
     this._drawIconPoint(_features); // 绘制待点击的点
   };
 
@@ -619,10 +578,12 @@ export default class PoliceForce extends Component {
           },
           layout: {
             'icon-image': ['get', 'img'],
-            'icon-size': 1.3,
             'icon-padding': 0,
-            'icon-allow-overlap': true
+            'icon-allow-overlap': true,
+            'icon-rotate': ['get', 'rotate'],
+            'icon-rotation-alignment': 'map'
           }
+          // minzoom: carVisibleLevel
         }
         // lineNameRef
       );
@@ -668,7 +629,7 @@ const options = [
 
 const policeCarInterval = 10 * 1000; // 警车请求间隔，单位：毫秒
 const carDelayInterval = 5 * 1000; // 警车延时时间，单位：毫秒
-const carRerenderInterval = 20; // 警车移动时间间隔，单位：毫秒 ==========> 一定要可以被 1000 整除！！！！！
+const carRerenderInterval = 50; // 警车移动时间间隔，单位：毫秒 ==========> 一定要可以被 1000 整除！！！！！
 const handheldIntereval = 30 * 1000; // 手持设备请求时间间隔，单位：毫秒
 
 const policeCarRatio = policeCarInterval / carRerenderInterval; // 请求警车数据时间间隔 与 小车动一次时间间隔 的比例
@@ -681,10 +642,10 @@ const carDistance = 20 / 1000; // 两辆车的车距，单位：千米
 const units = 'kilometers'; // 计算单位
 
 const symbolLabelLayerId = 'symbol-ref';
-const lineNameRef = 'line-name-ref';
 
+const carVisibleLevel = 10;
 // 手持设备样式配置
-const visibleLevel = 15;
+const visibleLevel = 10;
 const handheldStyle = {
   visibleLevel: visibleLevel,
   source: {
@@ -714,43 +675,13 @@ const handheldStyle = {
   ]
 };
 
-const objectIdRoadMap = {
-  '37010000000118234': {
-    roadName: '舜耕山庄_1548319270213'
-  },
-  '37010000000118193': {
-    roadName: '颐正大厦_1548325328859'
-  },
-  '37010000000118199': {
-    roadName: '珍珠泉宾馆_1548319062920'
-  },
-  '37010000000061044': {
-    roadName: '蓝海御华_1548325668029'
-  },
-  '37010000000118507': {
-    roadName: '新闻大厦_1548319394926'
-  },
-  '37010000000118609': {
-    roadName: '蓝海大饭店_1548726516459'
-  },
-  '37010000000118586': {
-    roadName: '政协大厦_1548727605809'
-  },
-  '37010000000118602': {
-    roadName: '中豪大酒店_1548727961283'
+const ComputeAngle = (startPt, endPt) => {
+  const _y = endPt[1] - startPt[1];
+  const _x = endPt[0] - startPt[0];
+  const _angle = 90 - (Math.atan(_y / _x) / Math.PI) * 180;
+  if (_x < 0) {
+    return _angle + 180;
+  } else {
+    return _angle;
   }
-}; // [ObjectId] : {roadName: 'xxxxxx'}
-// 37010000000118168 备用
-// 37010000000118507 新闻大厦
-// 蓝海大饭店 20002 37010000000118609
-// 政协大厦 20001 37010000000118586
-// 中豪大酒店 20000 37010000000118602
-// 备用
-// 20003 37010000000118597
-// 20004 37010000000118578
-// 20005 37010000000118614
-
-const tailCarFollowingTime = {
-  start: [6, 0],
-  end: [23, 0]
 };

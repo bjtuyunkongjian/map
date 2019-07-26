@@ -7,7 +7,7 @@ const TabValue = {
   alarm: 'alarm'
 };
 
-const DefaultTab = TabValue.population;
+const DefaultTab = '';
 
 // 面板列表
 const TabArr = [

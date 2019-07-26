@@ -11,12 +11,12 @@ import BuildingColor from './building-color'; // 底图 中部分建筑物的颜
 import IsArray from './is-array'; // 判断是否为数组
 import IsEmpty from './is-empty'; // 判断是否为空
 import IsNullUndefined from './is-null-undefined'; // 判断是 null 或者 undfined
-import RegRgb from './reg-rgb'; // 颜色的rgb值的正则
 import CheckType from './check-type'; // 判断对象类型
 //
 import Max from './max'; // 返回数组或者对象中的最大值
 import CreateUid from './create-uid'; // 产生唯一的 uid
 import FormatDate from './format-date'; // 格式化日期
+import FmtSeconds from './fmt-seconds'; //  格式化秒，@example: FmtSeconds(128) // @return 02:08
 
 // canvas 画图相关通用函数
 import DrawRoundRect from './draw-round-rect'; // canvas 绘制圆角矩形
@@ -43,9 +43,12 @@ import {
   AddTextLayer,
   Add3dLayer,
   AddLineLayer,
-  AddHeatMapLayer
+  AddHeatMapLayer,
+  AddImageLayer
 } from './layer-control';
 import THREE from './three';
+// 全局要使用到的常量
+import GlobalConst from './global-constant';
 
 export {
   AddLevel,
@@ -55,7 +58,6 @@ export {
   IsArray,
   IsEmpty,
   IsNullUndefined,
-  RegRgb,
   CheckType,
   Max,
   CreateUid,
@@ -70,6 +72,7 @@ export {
   EventName,
   EventName as GloEventName,
   FormatDate,
+  FmtSeconds,
   RemoveLayer,
   LayerIds,
   AddCircleLayer,
@@ -79,6 +82,8 @@ export {
   Add3dLayer,
   AddLineLayer,
   AddHeatMapLayer,
+  AddImageLayer,
   RgbToHsl,
-  THREE
+  THREE,
+  GlobalConst
 };

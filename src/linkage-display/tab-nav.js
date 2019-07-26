@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { GlobalEvent, GloEventName } from 'tuyun-utils';
+import { GlobalEvent, GloEventName, GlobalConst } from 'tuyun-utils';
 
 import Event, { EventName } from './event';
-import { DefaultTab, TabValue, TabArr } from './constant';
+import { DefaultTab, TabArr, TabValue } from './constant';
 
 export default class TabNav extends Component {
   state = {
@@ -30,40 +30,56 @@ export default class TabNav extends Component {
     );
   }
 
+  _init = () => {
+    const _tab = TabArr.find(item => item.value === DefaultTab);
+    if (!_tab) return;
+    const { template } = _tab;
+    _MAP_.on('style.load', () => {
+      GlobalEvent.emit(GloEventName.changeMapTemplate, template); // 切换模板
+    });
+  };
+
   _dealWithEvent = async () => {
     Event.on(EventName.changeNav, nextBar => {
       const { curBar } = this.state;
       if (nextBar === curBar) return;
       this.setState({ curBar: nextBar });
     });
-    GlobalEvent.on(GloEventName.toggleLinkageTab, ({ tabName }) => {
-      if (tabName === 'population') {
-        this._changeTab(TabValue.population);
-      } else if (tabName === 'unit') {
-        this._changeTab(TabValue.unit);
-      } else if (tabName === 'house') {
-        this._changeTab(TabValue.building);
-      } else if (tabName === 'case') {
-        this._changeTab(TabValue.case);
-      }
-    }); // 显示右侧联动数据人口
-  };
-
-  _init = () => {
-    const _template = TabArr.filter(item => item.value === DefaultTab)[0]
-      .template;
-    _MAP_.on('style.load', () => {
-      _template !== '服务民生' &&
-        GlobalEvent.emit(GloEventName.changeMapTemplate, _template); // 切换模板
-    });
   };
 
   _changeTab = nextBar => {
     const { curBar } = this.state;
-    const _template = TabArr.filter(item => item.value === nextBar)[0].template;
-    GlobalEvent.emit(GloEventName.changeMapTemplate, _template); // 切换模板
     if (nextBar === curBar) return;
     this.setState({ curBar: nextBar });
-    Event.emit(EventName.changeNav, nextBar);
+    Event.emit(EventName.changeNav, nextBar); // 切换 tab
+    const _tab = TabArr.find(item => item.value === nextBar);
+    if (!_tab) return;
+    this._changeMapTempalte(_tab); // 切换模板
+    this._togglePoliceData(_tab); //  切换一标三实
+  };
+
+  _changeMapTempalte = curTab => {
+    const { changeMapTemplate } = GloEventName;
+    GlobalEvent.emit(changeMapTemplate, curTab.template);
+  };
+
+  _togglePoliceData = curTab => {
+    const { toggleLMPoliceData } = GloEventName;
+    let _selectedOpt = {};
+    // let _expand = false;
+    if (curTab.value === TabValue.population) {
+      _selectedOpt = GlobalConst.policeData.popOption;
+      // _expand = true;
+    } else if (curTab.value === TabValue.unit) {
+      _selectedOpt = GlobalConst.policeData.unitOption;
+      // _expand = true;
+    } else if (curTab.value === TabValue.building) {
+      _selectedOpt = GlobalConst.policeData.buildingOption;
+      // _expand = true;
+    }
+    GlobalEvent.emit(toggleLMPoliceData, {
+      selectedOpt: _selectedOpt,
+      cancelEmit: true
+    });
   };
 }

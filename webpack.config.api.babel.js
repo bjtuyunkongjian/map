@@ -1,12 +1,12 @@
 import Path from 'path';
-import PackageJson from './package.json';
+import Package from './package.json';
 
 export default {
   mode: 'development',
-  entry: __dirname + '/src/map/index.api.js',
+  entry: Path.resolve(__dirname, 'src/map/api.index.js'),
   output: {
-    path: __dirname + '/build-api',
-    filename: `ty-map.${PackageJson.version}.js` // [name].[hash].bundle.js
+    filename: `[name].${Package.version}.js`,
+    path: Path.resolve(__dirname, 'build-api')
   },
   module: {
     rules: [

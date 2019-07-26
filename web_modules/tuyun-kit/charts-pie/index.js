@@ -229,7 +229,7 @@ export default class ChartsPie extends Component {
       const _sector = Object.assign({}, item); // 扇形
       _sector.x = _center.x; // 圆心 x 坐标
       _sector.y = _center.y; // 圆心 y 坐标
-      _sector.originRadius = _radius; // 原始半径 和 显示半径
+      _sector.originRadius = _radius > 0 ? _radius : 0; // 原始半径 和 显示半径
       if (selectedKey) {
         _sector.selected = _sector[selectedKey] === selectedValue; // 是否被选中
       } else {

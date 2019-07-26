@@ -5,16 +5,21 @@
 
 import React, { Component } from 'react';
 import { IoMdBus, IoMdCheckmark } from 'react-icons/io';
+import { GlobalEvent, GloEventName } from 'tuyun-utils';
+
+import { TypeOptions } from './constant';
 
 export default class VehicleType extends Component {
   state = {
     expanded: false,
-    selectedTasks: [],
+    selectedTypes: [],
     animate: 'hidden'
   };
 
+  componentWillMount = () => this._dealWithEvent();
+
   render() {
-    const { selectedTasks, animate, expanded } = this.state;
+    const { selectedTypes, animate, expanded } = this.state;
     const _arrow = expanded ? 'arrow-down' : 'arrow-right';
     return (
       <div className="menu-item content">
@@ -30,8 +35,9 @@ export default class VehicleType extends Component {
           <li className="vehicle-item" onClick={e => this._selectAll(e)}>
             全部显示
           </li>
-          {options.map((item, index) => {
-            const _isChecked = selectedTasks.indexOf(item) > -1;
+          {TypeOptions.map((item, index) => {
+            const _isChecked = selectedTypes.indexOf(item) > -1;
+            const { rgb } = item;
             return (
               <li
                 className={`vehicle-item ${_isChecked ? 'checked' : ''}`}
@@ -43,7 +49,9 @@ export default class VehicleType extends Component {
                 </div>
                 <div
                   className="color-sign"
-                  style={{ backgroundColor: item.color }}
+                  style={{
+                    backgroundColor: `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`
+                  }}
                 />
                 {item.name}
               </li>
@@ -54,54 +62,64 @@ export default class VehicleType extends Component {
     );
   }
 
-  _selectMenu = () => {
-    const { expanded } = this.state;
-    const _animate = !expanded ? 'menu-down' : 'menu-up';
-    this.setState({
-      expanded: !expanded,
-      animate: _animate,
-      selectedTasks: []
-    }); // 修改 state
+  _dealWithEvent = () => {
+    const { changeLMVehicleType } = GloEventName;
+    GlobalEvent.on(changeLMVehicleType, this._onChangeVehicleType);
   };
 
-  _selectAll = e => {
-    e.stopPropagation();
-    const { selectedTasks } = this.state;
-    if (selectedTasks.length === options.length) {
-      this.setState({ selectedTasks: [] });
+  _onChangeVehicleType = async ({ expand, selectedTypes = [] } = {}) => {
+    const { expanded } = this.state;
+    if (expanded !== !!expand) {
+      const _animate = !expanded ? 'menu-down' : 'menu-up';
+      await this.setState({
+        expanded: !!expand,
+        animate: _animate,
+        selectedTypes
+      });
     } else {
-      this.setState({ selectedTasks: [...options] });
+      await this.setState({ selectedTypes });
     }
   };
 
-  _selectWork = (item, e) => {
+  _selectMenu = async () => {
+    const { expanded } = this.state;
+    const _animate = !expanded ? 'menu-down' : 'menu-up';
+    const _tplName = expanded ? '服务民生' : '侦察打击';
+    GlobalEvent.emit(GloEventName.changeMapTemplate, _tplName); // 切换模板
+
+    await this.setState({
+      expanded: !expanded,
+      animate: _animate,
+      selectedTypes: []
+    }); // 修改 state
+    const { toggleLMPoliceData } = GloEventName;
+    this._emitSelectedType();
+    !expanded && GlobalEvent.emit(toggleLMPoliceData, { expand: false }); // 展开时关闭 一标三实
+  };
+
+  _selectAll = async e => {
     e.stopPropagation();
-    const { selectedTasks } = this.state;
-    const _taskInd = selectedTasks.indexOf(item);
+    const { selectedTypes } = this.state;
+    let _selectedTypes =
+      selectedTypes.length === TypeOptions.length ? [] : [...TypeOptions];
+    await this.setState({ selectedTypes: _selectedTypes });
+    this._emitSelectedType();
+  };
+
+  _selectWork = async (item, e) => {
+    e.stopPropagation();
+    const { selectedTypes } = this.state;
+    const _taskInd = selectedTypes.indexOf(item);
     _taskInd > -1
-      ? selectedTasks.splice(_taskInd, 1)
-      : selectedTasks.push(item);
-    this.setState({ selectedTasks });
+      ? selectedTypes.splice(_taskInd, 1)
+      : selectedTypes.push(item);
+    await this.setState({ selectedTypes });
+    this._emitSelectedType();
+  };
+
+  _emitSelectedType = () => {
+    const { selectedTypes } = this.state;
+    const { changeModeVehicle } = GloEventName;
+    GlobalEvent.emit(changeModeVehicle, { vehicleTypes: selectedTypes }); // 修改进度条
   };
 }
-
-const options = [
-  {
-    value: 'within-provincial',
-    name: '省内长途',
-    color: '#EF9DA1',
-    datasum: 'taskNum'
-  },
-  {
-    value: 'cross-provincial',
-    name: '跨省长途',
-    color: '#9B5C8B',
-    datasum: 'cluesNum'
-  },
-  {
-    value: 'dangerous-vehicle',
-    name: '危险车辆',
-    color: '#3886CC',
-    datasum: 'casesNum'
-  }
-];

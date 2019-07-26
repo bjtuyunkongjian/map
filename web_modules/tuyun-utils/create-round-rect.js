@@ -17,6 +17,7 @@ export default function CreateRoundRect({
   const _path2D = new Path2D();
   const _shortSide = Math.min(height, width); // 短边
   const _r = r < 0 || !r ? _shortSide / 2 : Math.min(r, _shortSide / 2); // 圆角矩形最大半径
+  if (_r <= 0) return;
   _path2D.moveTo(x + _r, y);
   // param: x1, y1, x2, y2, radius
   _path2D.arcTo(x, y, x, y + _r, _r); // 左上 1/4 圆

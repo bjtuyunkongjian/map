@@ -9,31 +9,33 @@ import { GlobalEvent, GloEventName } from 'tuyun-utils';
 import ControlBtn from './control-btn';
 import ProgressBar from './progress-bar';
 import TimeProgress from './time-progress';
-import ProgressSettings from './progress-settings';
 
 export default class ProgressVehicle extends Component {
-  state = { caseType: '' };
+  state = { vehicleTypes: [] };
 
   componentWillMount = () => this._dealWithEvent();
 
   render() {
-    const { caseType } = this.state;
+    const { vehicleTypes } = this.state;
     return (
-      <div className={`progress-vehicle ${!caseType ? 'hidden' : ''}`}>
+      <div
+        className={`progress-vehicle ${
+          vehicleTypes.length > 0 ? '' : 'hidden'
+        }`}
+      >
         <ControlBtn />
         <ProgressBar />
         <TimeProgress />
-        <ProgressSettings />
       </div>
     );
   }
 
   _dealWithEvent = () => {
-    const { changeSelectedCaseTendency } = GloEventName;
-    GlobalEvent.on(changeSelectedCaseTendency, this._changeCaseType);
+    const { changeProgressVehicle } = GloEventName;
+    GlobalEvent.on(changeProgressVehicle, this._onChangeVehicleType);
   };
 
-  _changeCaseType = caseType => {
-    this.setState({ caseType });
+  _onChangeVehicleType = ({ vehicleTypes }) => {
+    this.setState({ vehicleTypes });
   };
 }

@@ -6,9 +6,9 @@
   "scripts": {
     "start": "webpack-dev-server --mode development --host 0.0.0.0",
     "build": "rm -rf ./dist/* && webpack --mode production",
-    "clean": "rm -rf ./dist/*",
+    "clean": "rm -rf ./dist/* && rm -rf ./build-api/*",
     "deploy": "node ./bin/shell.js",
-    "build-api": "webpack --config webpack.config.api.babel.js"
+    "build-api": "rm -rf ./build-api/* && webpack --config webpack.config.api.babel.js"
   },
   "keywords": [],
   "author": "",

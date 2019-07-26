@@ -5,9 +5,9 @@ import { FetchRequest } from 'tuyun-utils';
 
 // 建筑物详情
 export const FetchProgressData = async body => {
-  Object.assign(body, { test: 'dynamicCase' });
+  Object.assign(body, { test: 'lkywHF' });
   const { res, err } = await FetchRequest({
-    url: 'mapServer/string',
+    url: 'GPSServer/string',
     method: 'POST',
     body
   });

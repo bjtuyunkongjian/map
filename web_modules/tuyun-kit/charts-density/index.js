@@ -358,8 +358,9 @@ export default class ChartsDensity extends Component {
   _createCircle = cell => {
     const { circleRadius, topMiddle } = cell; // 解构
     const _path2D = new Path2D(); // 新建路径
-    const _center = { x: circleRadius, y: topMiddle }; // 圆心
-    _path2D.arc(_center.x, topMiddle, circleRadius, 0, 2 * Math.PI); // 绘制圆
+    const _radius = circleRadius < 0 ? 0 : circleRadius;
+    const _center = { x: _radius, y: topMiddle }; // 圆心
+    _path2D.arc(_center.x, topMiddle, _radius, 0, 2 * Math.PI); // 绘制圆
     return _path2D;
   };
 

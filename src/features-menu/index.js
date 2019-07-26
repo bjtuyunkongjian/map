@@ -35,7 +35,7 @@ export default class FeaturesMenu extends Component {
   }
 
   _init = () => {
-    GlobalEvent.on(GloEventName.toggleFeMenu, nextVisible => {
+    GlobalEvent.on(GloEventName.toggleFeaturesMenu, nextVisible => {
       if (nextVisible !== undefined) {
         this.setState({ visible: nextVisible });
         !nextVisible && Event.emit(EventName.changeCurMenu, -1); // 下一步不可见，隐藏所有的子菜单

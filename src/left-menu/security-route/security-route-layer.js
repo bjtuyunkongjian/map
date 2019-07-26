@@ -58,7 +58,8 @@ const DrawIconPoint = (map, { id, features, iconImage }) => {
         }
       },
       layout: {
-        'icon-image': iconImage || 'security_route_start'
+        'icon-image': iconImage || 'security_route_start',
+        'icon-anchor': 'bottom'
       }
     });
   } else {

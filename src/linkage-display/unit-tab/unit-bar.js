@@ -110,10 +110,6 @@ export default class UnitBar extends Component {
   };
 
   _dealWithEvent = () => {
-    const { toggleHideDetailPopulation } = GloEventName;
-    GlobalEvent.on(toggleHideDetailPopulation, ({ hidden }) => {
-      this._hiddenKeyPopDetail = hidden;
-    });
     Event.on(EventName.changeNav, this._onChangeNav); // 切换 tab
     Event.on(EventName.updateUniChart, this._onUpdateUniChart); // 更新数据
     Event.on(EventName.changeUniSelected, this._onChangeUniSelected); // 切换选中的图表

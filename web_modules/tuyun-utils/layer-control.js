@@ -9,7 +9,7 @@
  * @param {*} layerId
  */
 const AddCircleLayer = (map, source, layerId, option = {}) => {
-  const { color, labelLayerId, strokeWidth, strokeColor } = option;
+  const { color, labelLayerId, strokeWidth, strokeColor, radius } = option;
   if (!map.getSource(layerId)) {
     map.addLayer(
       {
@@ -18,7 +18,7 @@ const AddCircleLayer = (map, source, layerId, option = {}) => {
         source: source,
         paint: {
           'circle-color': color || '#f00',
-          'circle-radius': ['get', 'radius'],
+          'circle-radius': radius || ['get', 'radius'],
           'circle-stroke-width': strokeWidth || 0,
           'circle-stroke-color': strokeColor || 'rgba(0,0,0,0)'
         }
@@ -74,6 +74,7 @@ const AddTextLayer = (map, source, layerId, option = {}) => {
  * @param {*} layerId
  */
 const AddNamePlateLayer = (map, source, layerId, option = {}) => {
+  const { iconImage } = option;
   if (!map.getSource(layerId)) {
     map.addLayer({
       id: layerId,
@@ -84,7 +85,7 @@ const AddNamePlateLayer = (map, source, layerId, option = {}) => {
         'text-field': '{num}',
         'symbol-placement': 'point',
         'text-size': 10,
-        'icon-image': 'ic_map_gh.9',
+        'icon-image': iconImage || 'ic_map_gh.9',
         'icon-text-fit': 'both',
         'icon-text-fit-padding': [1, 2, 1, 2],
         'text-justify': 'center',
@@ -99,6 +100,47 @@ const AddNamePlateLayer = (map, source, layerId, option = {}) => {
         'text-color': '#FFFFFF'
       }
     });
+  } else {
+    updateSource(map, layerId, source);
+  }
+};
+
+/**
+ * @description 添加图片
+ * @param {*} map
+ * @param {*} source
+ * @param {*} layerId
+ */
+const AddImageLayer = (map, source, layerId, option = {}) => {
+  const {
+    iconImage,
+    iconSize = 1,
+    iconRotate = 0,
+    iconOpacity,
+    labelLayerId
+  } = option;
+
+  if (!_MAP_.getSource(layerId)) {
+    _MAP_.addLayer(
+      {
+        id: layerId,
+        type: 'symbol',
+        source: source,
+        // minzoom: 14,
+        layout: {
+          'icon-image': iconImage || ['get', 'img'],
+          'icon-size': iconSize,
+          'icon-allow-overlap': true,
+          'icon-rotation-alignment': 'map',
+          // 'icon-pitch-alignment': 'viewport',
+          'icon-rotate': iconRotate
+        },
+        paint: {
+          'icon-opacity': iconOpacity || 1
+        }
+      },
+      labelLayerId
+    );
   } else {
     updateSource(map, layerId, source);
   }
@@ -244,5 +286,6 @@ export {
   AddHeatMapLayer,
   AddLineLayer,
   AddPolygonLayer,
-  Add3dLayer
+  Add3dLayer,
+  AddImageLayer
 };

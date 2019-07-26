@@ -10,7 +10,7 @@ import React, { Component } from 'react';
 import BaseStyle from './map-styles/light-sd';
 import AddLevels from './add-levels';
 // import CustomLayer from './radar';
-// import BusLayer from './bus';
+import CustomLayer from './police';
 
 export default class MapBoxDemo extends Component {
   componentDidMount() {
@@ -60,12 +60,12 @@ export default class MapBoxDemo extends Component {
     // });
     // this.map.on('click', e => {
     //   console.log(e.lngLat);
-    //   console.log(this.map.queryRenderedFeatures(e.point));
+    //   // console.log(this.map.queryRenderedFeatures(e.point));
     // });
     this.map
       .on('style.load', () => {
         this._addSourceFunc(); // 增加图层组
-        // this.map.addLayer(CustomLayer).addLayer(BusLayer);
+        this.map.addLayer(CustomLayer);
       })
       .on('zoomend', () => {
         this._addSourceFunc();

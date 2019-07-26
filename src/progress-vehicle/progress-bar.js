@@ -10,21 +10,23 @@ import {
   featureCollection as FeatureCollection
 } from 'turf';
 import {
-  Event as GlobalEvent,
-  EventName as GloEventName,
+  GlobalEvent,
+  GloEventName,
   CreateUid,
-  FormatDate
+  FormatDate,
+  RemoveLayer,
+  LayerIds,
+  AddCircleLayer
 } from 'tuyun-utils';
-import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 
 import Event, { EventName } from './event';
 import { FetchProgressData } from './webapi';
 import {
-  AddHeatMapLayer,
-  RemoveLayer,
-  CaseLayerId,
-  CaseLayerLightId
-} from './layer-control';
+  CreateUnitArr,
+  ConvertDateList,
+  ReqArrLen,
+  DateMilliSecs
+} from './constant';
 
 export default class ProgressBar extends Component {
   state = {
@@ -33,20 +35,21 @@ export default class ProgressBar extends Component {
     showDetailBox: false,
     detailBoxLeft: 0,
     hoverDate: '',
-    caseType: '' // 案件类型 0：刑事 1：行政 2：全部
+    vehicleTypes: [] // 案件类型 0：刑事 1：行政 2：全部
   };
 
   _totalTime = 1; // 总的播放时间
-  _dateInterval = 1; // 划分的时间间隔
-  _dateList = []; // 用来存储天数
-  _dateMap = {}; // 用来存储加载的天数，加载后端的数据
+  _timeList = []; // 用来存储时间
+  _typeDataMap = {}; // 用来存储加载的数据，加载后端的数据 {[type]: {[startTime]: [[lng, lat]]}}
   _intervalHandle; // 定时器函数句柄
-  _fps = 1; // 每秒播放的帧数
+  _fps = 6; // 每秒播放的帧数
   _isLoading = false; // 是否正在加载
   _pauseFrame = -1; // 暂停的那帧
   _uuid = -1; // 动作唯一标识符
   _startMilliSec = 0; // 开始时间
   _endMilliSec = 0; // 结束时间
+  _realInterval = 48 * 1000; // 每帧对应的实际时间间隔，单位毫秒
+  _locationHash = {};
   // 条形元素
   _progressBar;
 
@@ -59,50 +62,30 @@ export default class ProgressBar extends Component {
       curPlayIndex,
       detailBoxLeft,
       hoverDate,
-      caseType,
-      isPlay
+      vehicleTypes
     } = this.state;
-    if (!caseType) return null;
-    const _percent = (curPlayIndex / (this._dateList.length || 1)) * 100;
-    const _curDate = this._dateList[curPlayIndex];
+    if (vehicleTypes.length <= 0) return null;
+    const _percent = (curPlayIndex / (this._timeList.length || 1)) * 100;
     return (
       <div
         className="progress-bar"
         ref={el => (this._progressBar = el)}
         onMouseMove={this._onMouseMove}
         onMouseLeave={this._onMouseLeave}
-        onClick={this._onClick}
+        onClick={this._selectFrame}
       >
         <div className="total-time">
           <div className="expired-time" style={{ width: _percent + '%' }} />
-        </div>
-
-        <div
-          className="detail-box"
-          style={{ left: _percent + '%' }}
-          onClick={e => e.stopPropagation()}
-          onMouseMove={e => e.stopPropagation()}
-        >
-          <div className="detail-inner">
-            {!isPlay ? (
-              <MdKeyboardArrowLeft onClick={this._goToPrevFrame} />
-            ) : null}
-            <div className="detail-text">{_curDate}</div>
-            {!isPlay ? (
-              <MdKeyboardArrowRight onClick={this._goToNextFrame} />
-            ) : null}
-          </div>
         </div>
 
         {showDetailBox ? (
           <div
             className="detail-box"
             style={{ left: detailBoxLeft + 'px' }}
-            // onClick={e => e.stopPropagation()}
             onMouseMove={e => e.stopPropagation()}
           >
             <div className="detail-inner">
-              <div className="detail-text">{hoverDate}</div>
+              <div className="detail-text">{hoverDate || '无'}</div>
             </div>
           </div>
         ) : null}
@@ -112,64 +95,67 @@ export default class ProgressBar extends Component {
 
   _init = () => {
     _MAP_.on('moveend', this._dealWithMoveEnd); // 移动结束后重新加载
+    this._onChangeFps({ fps: this._fps }); // 12 帧每秒
   };
 
   _dealWithEvent = () => {
-    const { changeSelectedCaseTendency, changeCaseDate } = GloEventName;
-    GlobalEvent.on(changeCaseDate, this._changeCaseDate);
-    GlobalEvent.on(changeSelectedCaseTendency, this._changeCaseType);
     Event.on(EventName.togglePlay, this._togglePlay);
-    Event.on(EventName.changeSettingsSpeed, this._onChangeFps);
+    const { changeProgressVehicle } = GloEventName;
+    GlobalEvent.on(changeProgressVehicle, this._changeVehicleType);
   };
 
-  _changeCaseDate = async param => {
+  _changeVehicleType = async ({ vehicleTypes }) => {
     // 重新开始播放
-    Event.emit(EventName.togglePlay, false);
-    await this.setState({ curPlayIndex: 0 });
-    RemoveLayer(_MAP_, CaseLayerId);
-    RemoveLayer(_MAP_, CaseLayerLightId);
-    const {
-      endYear,
-      endMonth,
-      endDate,
-      startYear,
-      startMonth,
-      startDate
-    } = param;
-    this._endMilliSec = new Date(endYear, endMonth, endDate).getTime();
-    this._startMilliSec = new Date(startYear, startMonth, startDate).getTime();
-    const _totalDays =
-      (this._endMilliSec - this._startMilliSec) / dateMilliSecs;
-    const _totalLen = Math.ceil(_totalDays / this._dateInterval);
-    this._dateList = [];
+    Event.emit(EventName.togglePlay, false); // 设置播放状态为停止播放
+    await this.setState({ vehicleTypes, curPlayIndex: 0 }); // 设置当前播放帧为第0帧
+    RemoveLayer(_MAP_, LayerIds.vehicleTypes.point); // 删除图层
+    // 重新生成 _typeDataMap
+    this._createDateMap();
+    if (!vehicleTypes.length) return (this._uuid = -1); // 如果没有 vehicleTypes，通过改变 uuid 来中断请求
+    this._changeTime(); // 设置时间
+    this._locationHash = window.location.hash;
+  };
+
+  _createDateMap = () => {
+    const { vehicleTypes } = this.state;
+    this._typeDataMap = {}; // 清空 DataMap
+    for (let item of vehicleTypes) {
+      const { rgb } = item;
+      this._typeDataMap[item.type] = {
+        rgb: `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`,
+        rgb1: `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 0.8)`,
+        rgb2: `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 0.6)`,
+        rgb3: `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 0.4)`,
+        rgb4: `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 0.2)`
+      };
+    }
+  };
+
+  _changeTime = () => {
+    this._endMilliSec = new Date().getTime();
+    this._startMilliSec = new Date(this._endMilliSec - DateMilliSecs).getTime();
+    const _totalLen = Math.ceil(
+      (this._endMilliSec - this._startMilliSec) / this._realInterval
+    );
+    this._timeList = [];
     for (let i = 0; i <= _totalLen; i++) {
-      const _startDate = i * this._dateInterval + startDate;
-      const _date = new Date(startYear, startMonth, _startDate);
-      if (_date.getTime() > this._endMilliSec) {
-        this._dateList.push(new Date(endYear, endMonth, endDate), fmtType);
+      const _time = i * this._realInterval + this._startMilliSec;
+      if (_time > this._endMilliSec) {
+        this._timeList.push(FormatDate(this._endMilliSec));
       } else {
-        this._dateList.push(FormatDate(_date, fmtType));
+        this._timeList.push(FormatDate(_time));
       }
     }
-    this._totalTime = this._dateList.length / this._fps; // 总共需要花的时间长度
+    this._totalTime = (this._timeList.length - 1) / this._fps; // 总共需要花的时间长度
     Event.emit(EventName.changeTotalTime, this._totalTime);
-    this._dateMap = {}; // 清空 _dateMap
+    Event.emit(EventName.changeExpiredTime, 0);
     this._fetchProgressData(); // 显示进度条就开始加载数据
-  };
-
-  _changeCaseType = async caseType => {
-    // 重新开始播放
-    Event.emit(EventName.togglePlay, false);
-    await this.setState({ caseType, curPlayIndex: 0 });
-    RemoveLayer(_MAP_, CaseLayerId);
-    RemoveLayer(_MAP_, CaseLayerLightId);
-    this._fetchProgressData();
   };
 
   _togglePlay = isPlay => {
     if (isPlay) {
       const { curPlayIndex } = this.state;
-      if (curPlayIndex >= this._dateList.length - 1) {
+      if (curPlayIndex >= this._timeList.length - 1) {
         this.setState({ isPlay, curPlayIndex: 0 });
       } else {
         this.setState({ isPlay });
@@ -187,7 +173,7 @@ export default class ProgressBar extends Component {
   _onChangeFps = ({ fps }) => {
     const { isPlay } = this.state;
     this._fps = fps;
-    this._totalTime = this._dateList.length / this._fps; // 总共需要花的时间长度
+    this._totalTime = this._timeList.length / this._fps; // 总共需要花的时间长度
     if (isPlay) {
       clearInterval(this._intervalHandle);
       this._intervalHandle = setInterval(
@@ -199,7 +185,10 @@ export default class ProgressBar extends Component {
   };
 
   _dealWithMoveEnd = () => {
-    this._dateMap = {}; // 清空已加载的数据
+    const _locationHash = window.location.hash;
+    if (this._locationHash === _locationHash) return;
+    this._locationHash = _locationHash;
+    this._createDateMap(); // 清空已加载的数据
     const { isPlay, curPlayIndex } = this.state;
     this._fetchProgressData(); // 重新加载数据
     if (!isPlay && curPlayIndex !== 0) {
@@ -211,13 +200,13 @@ export default class ProgressBar extends Component {
     const { curPlayIndex } = this.state;
     if (!this._renderFrame()) return; // 如果当前无可渲染数据，返回
     const _nextPlayIndex = curPlayIndex + 1;
-    if (_nextPlayIndex >= this._dateList.length) {
+    if (_nextPlayIndex >= this._timeList.length) {
       Event.emit(EventName.togglePlay, false);
-      this.setState({ curPlayIndex: this._dateList.length });
+      this.setState({ curPlayIndex: this._timeList.length });
       Event.emit(EventName.changeExpiredTime, this._totalTime);
     } else {
       this.setState({ curPlayIndex: _nextPlayIndex });
-      const _expiredPercentage = _nextPlayIndex / this._dateList.length;
+      const _expiredPercentage = _nextPlayIndex / this._timeList.length;
       const _expiredTime = this._totalTime * _expiredPercentage;
       Event.emit(EventName.changeExpiredTime, _expiredTime);
     }
@@ -225,47 +214,49 @@ export default class ProgressBar extends Component {
 
   _renderFrame = () => {
     const { curPlayIndex } = this.state;
-    const _curDate = this._dateList[curPlayIndex];
-    if (!_curDate) return false; // 如果超出范围，直接返回
-    const _curArr = this._dateMap[_curDate];
-    if (!_curArr) {
-      // TODO 清空定时器，显示 loading组件，加载数据
-      clearInterval(this._intervalHandle); // 清空定时器
-      this._pauseFrame = _curDate; // 暂停帧
-      this._isLoading = true; // 当前为加载状态
-      GlobalEvent.emit(GloEventName.showGlobalLoading);
-      return false;
-    } else {
-      // TODO 渲染对应图层
-      const _features = _curArr.map(item => {
-        return TurfPoint([item.x, item.y]); // 生成点数据
-      });
-      const _geoJSONData = {
-        type: 'geojson',
-        data: FeatureCollection(_features)
-      };
-      AddHeatMapLayer(_MAP_, _geoJSONData);
-      // 渲染前一帧数据
-      // const _zoom = _MAP_.getZoom();
-      // _zoom >= 10 &&
-      this._renderPrevFrame(); // 层级大于 10 时渲染前一帧数据
+    const _curTime = this._timeList[curPlayIndex];
+    const _prevTime = [];
+    for (let i = 0; i < 4; i++) {
+      _prevTime.push(this._timeList[curPlayIndex - i - 1]);
     }
-    return true;
-  };
-
-  _renderPrevFrame = () => {
-    const { curPlayIndex } = this.state;
-    const _preDate = this._dateList[curPlayIndex - 1];
-    const _preArr = this._dateMap[_preDate];
-    if (!_preArr) return; // 没有前一帧数据，返回
-    const _features = _preArr.map(item => {
-      return TurfPoint([item.x, item.y]); // 生成点数据
-    });
+    if (!_curTime) return false; // 如果超出范围，直接返回
+    const _mapKeys = Object.keys(this._typeDataMap);
+    const _features = [];
+    for (let key of _mapKeys) {
+      const _dataMap = this._typeDataMap[key];
+      const _curArr = _dataMap[_curTime];
+      if (!_curArr) {
+        clearInterval(this._intervalHandle); // 清空定时器
+        this._pauseFrame = _curTime; // 暂停帧
+        this._isLoading = true; // 当前为加载状态
+        GlobalEvent.emit(GloEventName.showGlobalLoading); // 显示 loading组件
+        return false;
+      } else {
+        for (let coord of _curArr) {
+          _features.push(TurfPoint(coord, { color: _dataMap.rgb })); // 设置 features
+        }
+        // 前面的帧
+        _prevTime.map((time, index) => {
+          if (!time) return;
+          const _prevArr = _dataMap[time];
+          if (_prevArr) {
+            for (let coord of _prevArr) {
+              _features.push(
+                TurfPoint(coord, { color: _dataMap[`rgb${index + 1}`] })
+              ); // 设置 features
+            }
+          }
+        });
+      }
+    }
     const _geoJSONData = {
       type: 'geojson',
       data: FeatureCollection(_features)
     };
-    AddHeatMapLayer(_MAP_, _geoJSONData, true);
+    const { vehicleTypes } = LayerIds;
+    const _opt = { radius: 3, color: ['get', 'color'] };
+    AddCircleLayer(_MAP_, _geoJSONData, vehicleTypes.point, _opt); // 渲染对应图层
+    return true;
   };
 
   _onMouseMove = e => {
@@ -273,90 +264,77 @@ export default class ProgressBar extends Component {
     const { left, width } = this._progressBar.getBoundingClientRect();
     const _detailBoxLeft = e.clientX - left;
     const _curIndex = Math.round(
-      (_detailBoxLeft / width) * this._dateList.length
+      (_detailBoxLeft / width) * this._timeList.length
     );
     this.setState({
       showDetailBox: true,
       detailBoxLeft: _detailBoxLeft,
-      hoverDate: this._dateList[_curIndex]
+      hoverDate: this._timeList[_curIndex]
     });
   };
 
   _onMouseLeave = () => {
-    this.setState({ showDetailBox: false });
+    this.setState({ showDetailBox: false, hoverDate: '' });
   };
 
-  _onClick = async e => {
+  _selectFrame = async e => {
     e.stopPropagation();
     const { detailBoxLeft, isPlay } = this.state;
     const { width } = this._progressBar.getBoundingClientRect();
-    const _curIndex = (detailBoxLeft / width) * this._dateList.length;
+    const _curIndex = (detailBoxLeft / width) * this._timeList.length;
     await this.setState({ curPlayIndex: Math.round(_curIndex) });
     if (!isPlay) {
       this._renderFrame();
     }
   };
 
-  _goToPrevFrame = async e => {
-    e.stopPropagation();
-    const { curPlayIndex, isPlay } = this.state;
-    if (!isPlay) {
-      const _nextPlayIndex =
-        curPlayIndex - 1 < 0 ? this._dateList.length - 1 : curPlayIndex - 1;
-      await this.setState({ curPlayIndex: _nextPlayIndex });
-      this._renderFrame();
-    }
-  };
-
-  _goToNextFrame = async e => {
-    e.stopPropagation();
-    const { curPlayIndex, isPlay } = this.state;
-    if (!isPlay) {
-      const _nextPlayIndex =
-        curPlayIndex + 1 > this._dateList.length - 1 ? 0 : curPlayIndex + 1;
-      await this.setState({ curPlayIndex: _nextPlayIndex });
-      this._renderFrame();
-    }
-  };
-
   _fetchProgressData = async () => {
-    const { caseType } = this.state;
-    if (!caseType) return;
+    const { vehicleTypes } = this.state;
+    if (vehicleTypes.length <= 0) return;
     const _uuid = (this._uuid = CreateUid());
-    const _zoom = _MAP_.getZoom();
     const _bounds = _MAP_.getBounds();
-    const _unitDateArr = [];
-    const _unitCount = Math.ceil(this._dateList.length / reqArrLen); // 不满一次算一次
-    for (let i = 0; i < _unitCount; i++) {
-      const _start = i * reqArrLen;
-      const _end = Math.min(_start + reqArrLen, this._dateList.length); // 取最小值
-      const _unitDate = this._dateList.slice(_start, _end);
-      _unitDateArr.push(_unitDate);
-    }
+    const _unitArr = CreateUnitArr(this._timeList, ReqArrLen);
+    const _type = vehicleTypes.map(item => item.type + '');
     // 循环请求
-    for (let item of _unitDateArr) {
-      const _dateArr = this._convertDateList(item);
+    for (let item of _unitArr) {
+      const _dateArr = ConvertDateList(
+        item,
+        this._realInterval,
+        this._endMilliSec
+      );
       const { res, err } = await FetchProgressData({
         points: _bounds,
         dates: _dateArr,
-        caseType: caseType,
-        level: _zoom
+        type: _type,
+        uuid: _uuid
       });
-
       if (!res || err) continue;
       if (_uuid !== this._uuid) return; // 如果重新请求，终止之前的请求
-      Object.assign(this._dateMap, res);
+      const _mapKeys = Object.keys(this._typeDataMap);
+      for (let key of _mapKeys) {
+        Object.assign(this._typeDataMap[key], res[key]);
+        if (Object.keys(res[key]).length < 24)
+          console.log(
+            JSON.stringify({
+              points: _bounds,
+              dates: _dateArr,
+              type: _type
+            })
+          );
+      }
       if (this._isLoading) {
-        if (!this._dateMap[this._pauseFrame]) {
+        const _isEmpty = _mapKeys.find(
+          key => !this._typeDataMap[key][this._pauseFrame]
+        );
+        if (_isEmpty) {
           // 不存在当前帧的数据，更改加载顺序
-          const _curLoadInd = _unitDateArr.indexOf(item);
-          const _swapCount = this._computeSwapParam(_unitDateArr, _curLoadInd);
+          const _curLoadInd = _unitArr.indexOf(item);
+          const _swapCount = this._computeSwapParam(_unitArr, _curLoadInd);
           if (!_swapCount) continue; // 不存在交换参数或者交换参数为 0，结束本次循环
-          const _temp = _unitDateArr.splice(_curLoadInd + 1, _swapCount);
-          _unitDateArr.push(..._temp);
+          const _temp = _unitArr.splice(_curLoadInd + 1, _swapCount);
+          _unitArr.push(..._temp);
         } else {
-          // 存在当前帧的数据，取消加载，继续播放
-          this._continueRendering();
+          this._continueRendering(); // 存在当前帧的数据，取消加载，继续播放
         }
       }
     }
@@ -390,26 +368,4 @@ export default class ProgressBar extends Component {
       this._renderFrame(); // 如果暂停状态，播放该帧
     }
   };
-
-  _convertDateList = (dateList = []) => {
-    const _dateArr = [];
-    for (let i = 0; i < dateList.length; i++) {
-      const _start = dateList[i];
-      const _startMilliSec = new Date(_start).getTime();
-      const _endMilliSec = Math.min(
-        _startMilliSec + 86400000 * this._dateInterval,
-        this._endMilliSec
-      );
-      const _endDate = new Date(_endMilliSec); // 86400000 是一天的毫秒数
-      const _end = FormatDate(_endDate, fmtType);
-      if (_start !== _end) {
-        _dateArr.push({ start: _start, end: _end });
-      }
-    }
-    return _dateArr;
-  };
 }
-
-const reqArrLen = 30; // 每次请求的分段数量
-const dateMilliSecs = 24 * 3600 * 1000; // 一天的毫秒数
-const fmtType = 'xxxx-xx-xx';

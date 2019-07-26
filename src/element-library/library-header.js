@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { IoIosClose, IoIosResize, IoMdMenu } from 'react-icons/io';
-import { Event as GlobalEvent } from 'tuyun-utils';
+import { GlobalEvent } from 'tuyun-utils';
 import Event from './event';
 
 export default class LibraryHeader extends Component {

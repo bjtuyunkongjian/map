@@ -1,0 +1,38 @@
+.mode-options {
+  @tri-width: 5px;
+  position: absolute;
+  top: 0;
+  right: @circle-radius + @tri-width + 2;
+  background: white;
+  border-radius: @radius-s;
+  box-shadow: @box-shadow-sm;
+  &:before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: @circle-radius / 2;
+    right: -@tri-width;
+    width: 0;
+    height: 0;
+    border: @tri-width solid white;
+    border-right-width: 0;
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+    transform: translateY(-50%);
+  }
+  .opt-item {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    cursor: pointer;
+    height: 30px;
+    width: 80px;
+    padding: 0 5px;
+    &:hover {
+      color: @color-army-green;
+    }
+    &.selected {
+      color: @color-army-green;
+    }
+  }
+}

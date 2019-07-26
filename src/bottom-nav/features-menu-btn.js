@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { IoMdMenu } from 'react-icons/io';
-import { Event as GlobalEvent, EventName as GloEventName } from 'tuyun-utils';
+import { GlobalEvent, GloEventName } from 'tuyun-utils';
 
 export default class FeaturesMenuBtn extends Component {
   render() {
@@ -12,6 +12,6 @@ export default class FeaturesMenuBtn extends Component {
   }
 
   _toggleFeaturesMenu = () => {
-    GlobalEvent.emit(GloEventName.toggleFeMenu);
+    GlobalEvent.emit(GloEventName.toggleFeaturesMenu);
   };
 }

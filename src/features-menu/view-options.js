@@ -18,8 +18,9 @@ export default class ViewOptions extends Component {
     selectedOpt: 0
   };
 
-  componentWillMount = () => this._dealWithEvent();
+  _prevIndex = 0; // 当前状态
 
+  componentWillMount = () => this._dealWithEvent();
   componentDidMount = () => this._init();
 
   render() {
@@ -56,11 +57,14 @@ export default class ViewOptions extends Component {
     Event.on(EventName.changeCurMenu, curMenu => {
       this.setState({ curMenu });
     });
-    GlobalEvent.on(GloEventName.changeMapTemplate, this._changeMapTempalte);
+    GlobalEvent.on(GloEventName.changeMapTemplate, this._changeMapTemplate);
   };
 
-  _changeMapTempalte = tempalte => {
-    const _index = options.findIndex(item => item.name === tempalte);
+  _changeMapTemplate = tempalte => {
+    let _index = options.findIndex(item => item.name === tempalte);
+    _index = _index < 0 ? 0 : _index;
+    if (_index === this._prevIndex) return; // 重复渲染保护
+    this._prevIndex = _index;
     const _opt = options[_index];
     this._checkStyle(_index, _opt.theme);
   };

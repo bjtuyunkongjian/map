@@ -1,16 +1,5 @@
 import React, { Component } from 'react';
-import {
-  IsArray,
-  Event as GlobalEvent,
-  EventName as GloEventName
-} from 'tuyun-utils';
-import {
-  point as TurfPoint,
-  featureCollection as FeatureCollection
-} from 'turf';
-import { TuyunMessage } from 'tuyun-kit';
-
-import { FetchPopulation } from './webapi';
+import { GlobalEvent, GloEventName, GlobalConst } from 'tuyun-utils';
 
 import Event, { EventName } from '../event';
 
@@ -19,7 +8,7 @@ export default class PopOption extends Component {
     isChecked: false
   };
 
-  componentDidMount = () => this._init();
+  componentWillMount = () => this._dealWithEvent();
 
   render() {
     const { isChecked } = this.state;
@@ -33,124 +22,27 @@ export default class PopOption extends Component {
     );
   }
 
-  _init = () => {
-    Event.on(EventName.changePoDataChecked, ({ clickedLabel }) => {
+  _dealWithEvent = () => {
+    Event.on(EventName.changePoDataChecked, ({ selectedOpt }) => {
       const { isChecked } = this.state;
       let _isChecked;
       if (isChecked) {
         _isChecked = false; // 之前选中，当前设置为未选中
-        this._removeSourceLayer(popOption.layerId); // todo 删除之前显示的人口图层
       } else {
-        _isChecked = optionName === clickedLabel; // 之前未选中，当前根据 clickedLabel 进行判断
+        _isChecked = popOption === selectedOpt; // 之前未选中，当前根据 selectedOpt 进行判断
       }
       this.setState({ isChecked: _isChecked });
-    });
-    // 事件监听
-    _MAP_.on('click', popOption.layerId, e => {
-      const { lngLat, originalEvent, features } = e;
-      // _MAP_.flyTo({ center: [lngLat.lng, lngLat.lat], duration: 500 });
-      Event.emit(EventName.showPoDataPop, {
-        visible: true,
-        boxLeft: originalEvent.x,
-        boxTop: originalEvent.y,
-        lngLat: lngLat
-      });
     });
   };
 
   _selectPopData = () => {
     const { isChecked } = this.state;
-    Event.emit(EventName.changePoDataChecked, { clickedLabel: optionName });
-    GlobalEvent.emit(GloEventName.toggleLinkage, { visible: !isChecked }); // 显示右侧联动数据
-    GlobalEvent.emit(GloEventName.toggleLinkageTab, { tabName: 'population' }); // 显示右侧联动数据人口
-    // if (!isChecked) {
-    //   this._fetchPopulation();
-    //   _MAP_.on('moveend', this._fetchPopulation);
-    // } else {
-    //   _MAP_.off('moveend', this._fetchPopulation);
-    // }
-  };
-
-  _fetchPopulation = async () => {
-    const _bounds = _MAP_.getBounds(); // 获取屏幕边界范围
-    const _zoom = _MAP_.getZoom(); // 当前缩放层级
-    const { res, err } = await FetchPopulation({ points: _bounds }); // 发送请求
-    if (err || !IsArray(res)) return console.log('获取一标三实数据出错'); //保护
-    const _features = res.map(coords => TurfPoint(coords));
-    const _geoJSONData = {
-      type: 'geojson',
-      data: FeatureCollection(_features)
-    };
-    this._removeSourceLayer(popOption.layerId);
-    // 小于 17.5 级：多于 200 个点，以热力图形式呈现，在建筑物底下；
-    if (_zoom < 17.5 && res.length > 200) {
-      _MAP_.addLayer(
-        {
-          id: popOption.layerId,
-          type: 'heatmap',
-          source: _geoJSONData,
-          paint: {
-            'heatmap-color': [
-              'interpolate',
-              ['linear'],
-              ['heatmap-density'],
-              0,
-              'rgba(33,102,172,0)',
-              0.5,
-              'green',
-              0.8,
-              'yellow',
-              1,
-              'red'
-            ],
-            // Adjust the heatmap radius by zoom level
-            'heatmap-radius': 10,
-            // Transition from heatmap to circle layer by zoom level
-            'heatmap-opacity': 1
-          }
-        },
-        'line-gd-ref'
-      );
-    } else if (_zoom < 17.5 && res.length <= 200) {
-      // 小于 17.5 级：少于 200 个点，以点图形式呈现，在 3d 建筑物之上，可点击；
-      _MAP_.addLayer({
-        id: popOption.layerId,
-        type: 'circle',
-        source: _geoJSONData,
-        // minzoom: 12,
-        paint: {
-          'circle-radius': 4,
-          'circle-color': 'blue',
-          'circle-blur': 0
-        }
-      });
-    } else if (_zoom >= 17.5) {
-      // 大于 17.5 级：点图，铭牌形式，在 3d 建筑物上面，自动避让，优先级最高；
-      _MAP_.addLayer({
-        id: popOption.layerId,
-        type: 'circle',
-        source: _geoJSONData,
-        // minzoom: 12,
-        paint: {
-          'circle-radius': 4,
-          'circle-color': 'blue',
-          'circle-blur': 0
-        }
-      });
-    }
-  };
-
-  _removeSourceLayer = layerId => {
-    _MAP_.getLayer(layerId) && _MAP_.removeLayer(layerId).removeSource(layerId); // 删除所有 layer 和 source
+    Event.emit(EventName.changePoDataChecked, { selectedOpt: popOption });
+    GlobalEvent.emit(GloEventName.toggleLinkage, {
+      visible: !isChecked,
+      tabName: 'population'
+    }); // 显示右侧联动数据
   };
 }
 
-const popOption = {
-  value: 'population',
-  name: '人口',
-  defaultZoom: 16,
-  icon: 'people',
-  layerId: 'POLICE_DATA_POPULATION'
-};
-
-const optionName = 'population';
+const { popOption } = GlobalConst.policeData;

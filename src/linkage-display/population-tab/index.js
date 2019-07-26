@@ -21,6 +21,7 @@ export default class PopulationTab extends Component {
   state = { curBar: DefaultTab };
 
   componentDidMount = () => this._init();
+  componentWillMount = () => this._dealWithEvent();
 
   render() {
     const { curBar } = this.state;
@@ -36,7 +37,6 @@ export default class PopulationTab extends Component {
 
   _init = () => {
     const { curBar } = this.state;
-    this._dealWithEvent(); // 处理切换面板事件
     if (curBar === TabValue.population) {
       this._fetchChartData(); // 获取图表数据
       this._addListener(); // 添加事件监听
@@ -87,7 +87,6 @@ export default class PopulationTab extends Component {
 
   _addListener = () => {
     const { population: populationLayerIds } = LayerIds;
-
     _MAP_.on('moveend', this._fetchChartData);
     _MAP_.on('click', populationLayerIds.point, this._clickPopLayer);
     _MAP_.on('click', populationLayerIds.namePlate, this._clickPopLayer);

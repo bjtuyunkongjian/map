@@ -23,7 +23,7 @@ export default class PoliceCar extends Component {
   _lineRingFeatures = []; // 环形路
   _toSelectFeatures = []; // 待选择的点
 
-  componentDidMount = () => this._init();
+  componentWillMount = () => this._dealWithEvent();
 
   render() {
     const { curMenu, selectedOpt, animate } = this.state;
@@ -59,8 +59,8 @@ export default class PoliceCar extends Component {
     );
   }
 
-  _init = () => {
-    Event.on('change:curMenu', this._dealWithEvent); // 选择当前菜单
+  _dealWithEvent = () => {
+    Event.on('change:curMenu', this._onChangeCurMenu); // 选择当前菜单
   };
 
   // 发送菜单改变事件
@@ -72,7 +72,7 @@ export default class PoliceCar extends Component {
     );
   };
 
-  _dealWithEvent = nextMenu => {
+  _onChangeCurMenu = nextMenu => {
     const { curMenu } = this.state;
     if (curMenu === nextMenu) return; // 重复点击不做任何操作
     let _animate;

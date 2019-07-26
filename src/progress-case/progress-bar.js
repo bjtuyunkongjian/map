@@ -1,7 +1,6 @@
 /**
  * @author sl204984
  * @description 进度条显示部分
- * 设计缺陷：没有设计加载数组，导选中点击进度条中间位置或者进度条在中间位置拖动地图加载等待时间较长
  */
 
 import React, { Component } from 'react';
@@ -9,12 +8,7 @@ import {
   point as TurfPoint,
   featureCollection as FeatureCollection
 } from 'turf';
-import {
-  Event as GlobalEvent,
-  EventName as GloEventName,
-  CreateUid,
-  FormatDate
-} from 'tuyun-utils';
+import { GlobalEvent, GloEventName, CreateUid, FormatDate } from 'tuyun-utils';
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 
 import Event, { EventName } from './event';
@@ -146,7 +140,9 @@ export default class ProgressBar extends Component {
       const _startDate = i * this._dateInterval + startDate;
       const _date = new Date(startYear, startMonth, _startDate);
       if (_date.getTime() > this._endMilliSec) {
-        this._dateList.push(new Date(endYear, endMonth, endDate), fmtType);
+        this._dateList.push(
+          FormatDate(new Date(endYear, endMonth, endDate), fmtType)
+        );
       } else {
         this._dateList.push(FormatDate(_date, fmtType));
       }

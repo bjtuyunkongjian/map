@@ -13,7 +13,8 @@ export default class Calendar extends Component {
     pickedMonth: '',
     pickedDate: '',
     curYear: today.getFullYear(),
-    curMonth: today.getMonth()
+    curMonth: today.getMonth(),
+    curDate: today.getDate()
   };
 
   static defaultProps = {
@@ -72,7 +73,7 @@ export default class Calendar extends Component {
         _maxDateArr[0],
         _maxDateArr[1] - 1
       ).getTime();
-      _addClsName += _curMilliSec < _maxMilliSec ? '' : ' Calendar_Disabled';
+      _addClsName += _curMilliSec <= _maxMilliSec ? '' : ' Calendar_Disabled';
     }
     if (minDate) {
       const _minDateArr = minDate.split('-');
@@ -80,7 +81,7 @@ export default class Calendar extends Component {
         _minDateArr[0],
         _minDateArr[1] - 1
       ).getTime();
-      _delClsName += _curMilliSec > _minMilliSec ? '' : ' Calendar_Disabled';
+      _delClsName += _curMilliSec >= _minMilliSec ? '' : ' Calendar_Disabled';
     }
     const _dateArr = CreateDateArr(curYear, curMonth);
     return (
@@ -174,7 +175,7 @@ export default class Calendar extends Component {
     const _selectedMilliSec = date.getTime();
     const _maxMilliSec = new Date(maxDate).getTime();
     const _minMilliSec = new Date(minDate).getTime();
-    if (_selectedMilliSec > _maxMilliSec || _selectedMilliSec <= _minMilliSec)
+    if (_selectedMilliSec > _maxMilliSec || _selectedMilliSec < _minMilliSec)
       return;
     const { curYear, curMonth } = this.state;
     const _nextMonthMilliSec = new Date(curYear, curMonth + 1, 1);
@@ -224,17 +225,16 @@ export default class Calendar extends Component {
     const _curDate = new Date(curYear, curMonth);
     const _nextDate = new Date(curYear - 1, curMonth);
     const _minDate = new Date(_minDateArr[0], _minDateArr[1] - 1);
-    if (_curDate.getTime() === _minDate.getTime()) return;
+    if (_curDate.getTime() === _minDate.getTime()) return; // 当前已是最小日期，返回
     if (_nextDate.getTime() < _minDate.getTime()) {
       this.setState({
         curYear: _minDate.getFullYear(),
         curMonth: _minDate.getMonth()
-      });
+      }); // 减少一年后的日期小于最小日期，设置为最小日期
     } else {
       this.setState({
-        curYear: _nextDate.getFullYear(),
-        curMonth: _nextDate.getMonth()
-      });
+        curYear: _nextDate.getFullYear()
+      }); // 减少一年后的日期大于最小日期，设置为减少一年后的年份
     }
   };
 
@@ -246,17 +246,16 @@ export default class Calendar extends Component {
     const _curDate = new Date(curYear, curMonth);
     const _nextDate = new Date(curYear + 1, curMonth);
     const _maxDate = new Date(_maxDateArr[0], _maxDateArr[1] - 1);
-    if (_curDate.getTime() === _maxDate.getTime()) return;
+    if (_curDate.getTime() === _maxDate.getTime()) return; // 当前已是最大日期，返回
     if (_nextDate.getTime() > _maxDate.getTime()) {
       this.setState({
         curYear: _maxDate.getFullYear(),
         curMonth: _maxDate.getMonth()
-      });
+      }); // 如果增加一年后的日期，大于最大日期，设置为最大日期
     } else {
       this.setState({
-        curYear: _nextDate.getFullYear(),
-        curMonth: _nextDate.getMonth()
-      });
+        curYear: _nextDate.getFullYear()
+      }); // 增加一年后的日期小于最大日期，设置为增加一年后的年份
     }
   };
 
@@ -264,23 +263,55 @@ export default class Calendar extends Component {
     const { curYear, curMonth } = this.state;
     const { minDate } = this.props;
     const _nextDate = new Date(curYear, curMonth - 1);
-    console.log('minDate', minDate);
-    if (_nextDate.getTime() < new Date(minDate).getTime()) return;
-    this.setState({
-      curYear: _nextDate.getFullYear(),
-      curMonth: _nextDate.getMonth()
-    });
+    if (!minDate) {
+      return this.setState({
+        curYear: _nextDate.getFullYear(),
+        curMonth: _nextDate.getMonth()
+      }); // 如果没有最小日期，直接返回
+    }
+    const _minDateArr = minDate.split('-');
+    const _curDate = new Date(curYear, curMonth);
+    const _minDate = new Date(_minDateArr[0], _minDateArr[1] - 1);
+    if (_curDate.getTime() === _minDate.getTime()) return; // 当前已是最小日期
+    if (_nextDate.getTime() < new Date(minDate).getTime()) {
+      this.setState({
+        curYear: _minDate.getFullYear(),
+        curMonth: _minDate.getMonth()
+      }); // 减少一个月的日期小于最小日期
+    } else {
+      this.setState({
+        curYear: _nextDate.getFullYear(),
+        curMonth: _nextDate.getMonth()
+      }); // 减少一个月后的日期大于最小日期
+    }
   };
 
   _addMonth = () => {
     const { curYear, curMonth } = this.state;
     const { maxDate } = this.props;
     const _nextDate = new Date(curYear, curMonth + 1);
-    if (_nextDate.getTime() > new Date(maxDate).getTime()) return;
-    this.setState({
-      curYear: _nextDate.getFullYear(),
-      curMonth: _nextDate.getMonth()
-    });
+    if (!maxDate) {
+      return this.setState({
+        curYear: _nextDate.getFullYear(),
+        curMonth: _nextDate.getMonth()
+      });
+    } // 如果没有最大日期，直接返回
+    const _maxDateArr = maxDate.split('-');
+    const _curDate = new Date(curYear, curMonth);
+    const _maxDate = new Date(_maxDateArr[0], _maxDateArr[1] - 1);
+    if (_curDate.getTime() === _maxDate.getTime()) return; // 当前已是最大日期
+
+    if (_nextDate.getTime() > new Date(maxDate).getTime()) {
+      this.setState({
+        curYear: _minDate.getFullYear(),
+        curMonth: _minDate.getMonth()
+      }); // 增加一个月的日期大于最大日期
+    } else {
+      this.setState({
+        curYear: _nextDate.getFullYear(),
+        curMonth: _nextDate.getMonth()
+      }); // 增加一个月后的日期小于最大日期
+    }
   };
 
   _cancel = () => {

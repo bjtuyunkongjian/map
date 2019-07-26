@@ -4,16 +4,15 @@
  */
 
 import React, { Component } from 'react';
-import { GlobalEvent, GloEventName } from 'tuyun-utils';
+import { GlobalEvent, GloEventName, FmtSeconds } from 'tuyun-utils';
 
 import Event, { EventName } from './event';
-import FmtSeconds from './fmt-seconds'; // 格式化秒
 
 export default class TimeProgress extends Component {
   state = {
     totalTime: '00:00',
     expiredTime: '00:00',
-    caseType: ''
+    vehicleTypes: []
   };
 
   componentWillMount = () => this._dealWithEvent();
@@ -21,8 +20,8 @@ export default class TimeProgress extends Component {
   componentDidMount = () => this._init();
 
   render() {
-    const { totalTime, expiredTime, caseType } = this.state;
-    if (!caseType) return null;
+    const { totalTime, expiredTime, vehicleTypes } = this.state;
+    if (vehicleTypes.length <= 0) return null;
     return (
       <div className="time-progress">
         <span>{expiredTime}</span>/<span>{totalTime}</span>
@@ -33,8 +32,10 @@ export default class TimeProgress extends Component {
   _init = () => {};
 
   _dealWithEvent = () => {
-    const { changeSelectedCaseTendency } = GloEventName;
-    GlobalEvent.on(changeSelectedCaseTendency, this._changeCaseType);
+    const { changeProgressVehicle } = GloEventName;
+
+    GlobalEvent.on(changeProgressVehicle, this._changeVehicleType);
+
     Event.on(EventName.changeTotalTime, totalTime => {
       const _fmtTotalTime = FmtSeconds(totalTime);
       this.setState({ totalTime: _fmtTotalTime });
@@ -45,7 +46,7 @@ export default class TimeProgress extends Component {
     });
   };
 
-  _changeCaseType = caseType => {
-    this.setState({ caseType });
+  _changeVehicleType = ({ vehicleTypes }) => {
+    this.setState({ vehicleTypes });
   };
 }

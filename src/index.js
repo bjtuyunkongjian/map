@@ -28,7 +28,8 @@ import GlobalLoading from './global-loading'; // 全局搜索
 import CaseDetail from './case-detail'; // 案件详情
 import PopupCase from './popup-case'; // 案件详情弹框
 import DetailUnit from './detail-unit'; // 重点单位
-import ProgressVehicle from './progress-vehicle'; // 两客一危车辆
+import ModeVehicle from './mode-vehicle'; // 两客一危车辆，模式选择
+import ProgressVehicle from './progress-vehicle'; // 两客一危车辆，24小时回放进度条
 
 class MapApp extends Component {
   render() {
@@ -62,6 +63,7 @@ class MapApp extends Component {
         <CaseDetail />
         <PopupCase />
         <DetailUnit />
+        <ModeVehicle />
         <ProgressVehicle />
       </div>
     );

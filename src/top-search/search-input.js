@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import Event from './event';
-import {
-  Event as GlobalEvent,
-  EventName as GloEventName,
-  IsEmpty
-} from 'tuyun-utils';
+import { GlobalEvent, GloEventName, IsEmpty } from 'tuyun-utils';
 import { TuyunMessage } from 'tuyun-kit';
 import { SearchDevice } from './webapi';
 import { MdHighlightOff } from 'react-icons/md';

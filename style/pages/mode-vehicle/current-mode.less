@@ -1,0 +1,24 @@
+.current-mode {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: @circle-radius;
+  height: @circle-radius;
+  border-radius: 50%;
+  background-color: @color-army-green;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  opacity: 0.5;
+  cursor: pointer;
+  &:hover {
+    opacity: 1;
+    border: 2px solid @border-color-base;
+  }
+  &.selected {
+    opacity: 1;
+    box-shadow: @box-shadow-sm;
+    border: 2px solid @border-color-base;
+  }
+}

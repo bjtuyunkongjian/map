@@ -12,15 +12,15 @@ import Event, { EventName } from './event';
 export default class ControlBtn extends Component {
   state = {
     isPlay: false,
-    caseType: ''
+    vehicleTypes: []
   };
 
   componentWillMount = () => this._dealWithEvent();
   componentDidMount = () => this._init();
 
   render() {
-    const { isPlay, caseType } = this.state;
-    if (!caseType) return null;
+    const { isPlay, vehicleTypes } = this.state;
+    if (vehicleTypes.length <= 0) return null;
     return (
       <div className="control-btn">
         {isPlay ? (
@@ -33,8 +33,8 @@ export default class ControlBtn extends Component {
   }
 
   _dealWithEvent = () => {
-    const { changeSelectedCaseTendency } = GloEventName;
-    GlobalEvent.on(changeSelectedCaseTendency, this._changeCaseType);
+    const { changeProgressVehicle } = GloEventName;
+    GlobalEvent.on(changeProgressVehicle, this._changeCaseType);
     Event.on(EventName.togglePlay, isPlay => {
       this.setState({ isPlay: isPlay });
     });
@@ -42,8 +42,8 @@ export default class ControlBtn extends Component {
 
   _init = () => {};
 
-  _changeCaseType = caseType => {
-    this.setState({ caseType });
+  _changeCaseType = ({ vehicleTypes }) => {
+    this.setState({ vehicleTypes });
   };
 
   _togglePlay = e => {

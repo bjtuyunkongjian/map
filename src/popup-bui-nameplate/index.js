@@ -3,7 +3,7 @@ import { FaPeriscope } from 'react-icons/fa';
 import { MdPeopleOutline } from 'react-icons/md';
 import { TiHomeOutline } from 'react-icons/ti';
 import { FaTimes } from 'react-icons/fa';
-import { Event as GlobalEvent, EventName as GloEventName } from 'tuyun-utils';
+import { GlobalEvent, GloEventName } from 'tuyun-utils';
 
 import { FetchBuildingDetail } from './webapi';
 

@@ -2,7 +2,7 @@
  * density map
  *  */
 import React, { Component } from 'react';
-import { Event as GlobalEvent } from 'tuyun-utils';
+import { GlobalEvent } from 'tuyun-utils';
 import { BaseConfig } from 'tuyun-config';
 import MenuItems from './menu-items';
 import Event from './event';

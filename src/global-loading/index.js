@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Event as GlobalEvent, EventName as GloEventName } from 'tuyun-utils';
+import { GlobalEvent, GloEventName } from 'tuyun-utils';
 
 export default class GlobalLoading extends Component {
   state = {

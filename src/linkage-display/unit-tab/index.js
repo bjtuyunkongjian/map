@@ -22,6 +22,7 @@ export default class UnitTab extends Component {
 
   componentDidMount = () => this._init();
   componentWillMount = () => this._dealWithEvent();
+  componentWillUnmount = () => this._removeListener();
 
   render() {
     const { curBar } = this.state;
@@ -44,6 +45,10 @@ export default class UnitTab extends Component {
 
   _dealWithEvent = () => {
     Event.on(EventName.changeNav, this._onChangeNav);
+  };
+
+  _removeListener = () => {
+    // Event.removeListener
   };
 
   /**

@@ -2,11 +2,7 @@ import React, { Component } from 'react';
 import { IoMdSearch } from 'react-icons/io';
 import { SearchDevice } from './webapi';
 import Event from './event';
-import {
-  Event as GlobalEvent,
-  EventName as GloEventName,
-  IsEmpty
-} from 'tuyun-utils';
+import { GlobalEvent, GloEventName, IsEmpty } from 'tuyun-utils';
 import { TuyunMessage } from 'tuyun-kit';
 
 export default class SearchBtn extends Component {
