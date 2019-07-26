@@ -313,7 +313,7 @@ export default class ProgressBar extends Component {
       const _mapKeys = Object.keys(this._typeDataMap);
       for (let key of _mapKeys) {
         Object.assign(this._typeDataMap[key], res[key]);
-        if (Object.keys(res[key]).length < 24)
+        if (Object.keys(res[key]).length < ReqArrLen)
           console.log(
             JSON.stringify({
               points: _bounds,
