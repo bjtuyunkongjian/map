@@ -132,6 +132,10 @@ export default class ProgressBar extends Component {
   };
 
   _changeTime = () => {
+    // this._endMilliSec = new Date('2019-07-18 12:00:00').getTime();
+    // this._startMilliSec = new Date(
+    //   this._endMilliSec - 2 * 3600 * 1000
+    // ).getTime();
     this._endMilliSec = new Date().getTime();
     this._startMilliSec = new Date(this._endMilliSec - DateMilliSecs).getTime();
     const _totalLen = Math.ceil(
@@ -216,7 +220,10 @@ export default class ProgressBar extends Component {
     const { curPlayIndex } = this.state;
     const _curTime = this._timeList[curPlayIndex];
     const _prevTime = [];
-    for (let i = 0; i < 4; i++) {
+    const _tailCounts = 4;
+    const _maxR = 2;
+    const _minR = 1;
+    for (let i = 0; i < _tailCounts; i++) {
       _prevTime.push(this._timeList[curPlayIndex - i - 1]);
     }
     if (!_curTime) return false; // 如果超出范围，直接返回
@@ -232,18 +239,47 @@ export default class ProgressBar extends Component {
         GlobalEvent.emit(GloEventName.showGlobalLoading); // 显示 loading组件
         return false;
       } else {
+        const _posFeature = {
+          radius: _maxR,
+          color: _dataMap.rgb,
+          strokeWidth: 0
+        }; // 正向的 feature
+        const _negFeature = {
+          radius: _maxR,
+          color: 'rgb(255,255,255)',
+          strokeWidth: 1,
+          strokeColor: _dataMap.rgb
+        }; // 反向的 feature
         for (let coord of _curArr) {
-          _features.push(TurfPoint(coord, { color: _dataMap.rgb })); // 设置 features
+          if (coord[2] === 1) {
+            _features.push(TurfPoint(coord, _posFeature)); // 设置 features
+          } else {
+            _features.push(TurfPoint(coord, _negFeature)); // 设置 features
+          }
         }
         // 前面的帧
         _prevTime.map((time, index) => {
           if (!time) return;
           const _prevArr = _dataMap[time];
+          const _radius = _maxR - ((_maxR - _minR) / _tailCounts) * (index + 1);
+          const _posFeature = {
+            radius: _radius,
+            color: _dataMap[`rgb${index + 1}`],
+            strokeWidth: 0
+          }; // 正向的 feature
+          const _negFeature = {
+            radius: _radius,
+            color: `rgba(255,255,255,${0.8 - 0.2 * index})`,
+            strokeWidth: 1,
+            strokeColor: _dataMap[`rgb${index + 1}`]
+          }; // 反向的 feature
           if (_prevArr) {
             for (let coord of _prevArr) {
-              _features.push(
-                TurfPoint(coord, { color: _dataMap[`rgb${index + 1}`] })
-              ); // 设置 features
+              if (coord[2] === 1) {
+                _features.push(TurfPoint(coord, _posFeature)); // 设置 features
+              } else {
+                _features.push(TurfPoint(coord, _negFeature)); // 设置 features
+              }
             }
           }
         });
@@ -254,7 +290,12 @@ export default class ProgressBar extends Component {
       data: FeatureCollection(_features)
     };
     const { vehicleTypes } = LayerIds;
-    const _opt = { radius: 3, color: ['get', 'color'] };
+    const _opt = {
+      radius: ['get', 'radius'],
+      color: ['get', 'color'],
+      strokeWidth: ['get', 'strokeWidth'],
+      strokeColor: ['get', 'strokeColor']
+    };
     AddCircleLayer(_MAP_, _geoJSONData, vehicleTypes.point, _opt); // 渲染对应图层
     return true;
   };
