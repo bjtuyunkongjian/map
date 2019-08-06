@@ -118,7 +118,8 @@ const AddImageLayer = (map, source, layerId, option = {}) => {
     iconRotate = 0,
     iconOpacity,
     labelLayerId,
-    allowOverlap = false
+    allowOverlap = false,
+    iconOffset = [0, 0]
   } = option;
 
   if (!_MAP_.getSource(layerId)) {
@@ -134,7 +135,8 @@ const AddImageLayer = (map, source, layerId, option = {}) => {
           'icon-allow-overlap': allowOverlap,
           'icon-rotation-alignment': 'map',
           // 'icon-pitch-alignment': 'viewport',
-          'icon-rotate': iconRotate
+          'icon-rotate': iconRotate,
+          'icon-offset': iconOffset
         },
         paint: {
           'icon-opacity': iconOpacity || 1
