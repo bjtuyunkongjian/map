@@ -241,7 +241,8 @@ export default class VehicleAnimation {
     AddImageLayer(this.map, _geoJSONData, this.vehicleLayer, {
       iconImage: 'ic_map_policecar',
       iconRotate: ['get', 'rotate'],
-      iconOpacity: ['get', 'opacity']
+      iconOpacity: ['get', 'opacity'],
+      allowOverlap: true
     });
   };
 
