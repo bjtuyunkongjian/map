@@ -16,7 +16,8 @@ import {
   FormatDate,
   RemoveLayer,
   LayerIds,
-  AddCircleLayer
+  // AddCircleLayer,
+  AddImageLayer
 } from 'tuyun-utils';
 
 import Event, { EventName } from './event';
@@ -120,8 +121,9 @@ export default class ProgressBar extends Component {
     const { vehicleTypes } = this.state;
     this._typeDataMap = {}; // 清空 DataMap
     for (let item of vehicleTypes) {
-      const { rgb } = item;
+      const { rgb, rgbHex } = item;
       this._typeDataMap[item.type] = {
+        rgbHex,
         rgb: `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`,
         rgb1: `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 0.8)`,
         rgb2: `rgba(${rgb[0]}, ${rgb[1]}, ${rgb[2]}, 0.6)`,
@@ -132,15 +134,16 @@ export default class ProgressBar extends Component {
   };
 
   _changeTime = () => {
-    // this._endMilliSec = new Date('2019-07-18 12:00:00').getTime();
+    this._endMilliSec = new Date().getTime();
+    this._startMilliSec = new Date(this._endMilliSec - DateMilliSecs).getTime();
+    // this._endMilliSec = new Date('2019-07-18 12:30:00').getTime();
     // this._startMilliSec = new Date(
     //   this._endMilliSec - 2 * 3600 * 1000
     // ).getTime();
-    this._endMilliSec = new Date().getTime();
-    this._startMilliSec = new Date(this._endMilliSec - DateMilliSecs).getTime();
     const _totalLen = Math.ceil(
       (this._endMilliSec - this._startMilliSec) / this._realInterval
     );
+
     this._timeList = [];
     for (let i = 0; i <= _totalLen; i++) {
       const _time = i * this._realInterval + this._startMilliSec;
@@ -219,13 +222,13 @@ export default class ProgressBar extends Component {
   _renderFrame = () => {
     const { curPlayIndex } = this.state;
     const _curTime = this._timeList[curPlayIndex];
-    const _prevTime = [];
-    const _tailCounts = 4;
-    const _maxR = 2;
-    const _minR = 1;
-    for (let i = 0; i < _tailCounts; i++) {
-      _prevTime.push(this._timeList[curPlayIndex - i - 1]);
-    }
+    // const _prevTime = [];
+    // const _tailCounts = 4;
+    // const _maxR = 2;
+    // const _minR = 1;
+    // for (let i = 0; i < _tailCounts; i++) {
+    //   _prevTime.push(this._timeList[curPlayIndex - i - 1]);
+    // }
     if (!_curTime) return false; // 如果超出范围，直接返回
     const _mapKeys = Object.keys(this._typeDataMap);
     const _features = [];
@@ -239,50 +242,69 @@ export default class ProgressBar extends Component {
         GlobalEvent.emit(GloEventName.showGlobalLoading); // 显示 loading组件
         return false;
       } else {
-        const _posFeature = {
-          radius: _maxR,
-          color: _dataMap.rgb,
-          strokeWidth: 0
-        }; // 正向的 feature
-        const _negFeature = {
-          radius: _maxR,
-          color: 'rgb(255,255,255)',
-          strokeWidth: 1,
-          strokeColor: _dataMap.rgb
-        }; // 反向的 feature
         for (let coord of _curArr) {
-          if (coord[2] === 1) {
-            _features.push(TurfPoint(coord, _posFeature)); // 设置 features
+          // if (coord[3] !== 0) console.log(coord);
+          if (coord[2] === 0) {
+            const _feature = {
+              img: 'ic_map_dot_' + _dataMap.rgbHex,
+              rotate: 0,
+              offset: [0, 0]
+            };
+            _features.push(TurfPoint(coord, _feature)); // 设置 features
           } else {
-            _features.push(TurfPoint(coord, _negFeature)); // 设置 features
+            // console.log('coord[3]', coord[3]);
+            const _feature = {
+              img: 'ic_map_arrow_' + _dataMap.rgbHex,
+              rotate: -coord[3],
+              offset: [coord[4] * 10, coord[5] * 10]
+            };
+            _features.push(TurfPoint(coord, _feature)); // 设置 features
           }
         }
-        // 前面的帧
-        _prevTime.map((time, index) => {
-          if (!time) return;
-          const _prevArr = _dataMap[time];
-          const _radius = _maxR - ((_maxR - _minR) / _tailCounts) * (index + 1);
-          const _posFeature = {
-            radius: _radius,
-            color: _dataMap[`rgb${index + 1}`],
-            strokeWidth: 0
-          }; // 正向的 feature
-          const _negFeature = {
-            radius: _radius,
-            color: `rgba(255,255,255,${0.8 - 0.2 * index})`,
-            strokeWidth: 1,
-            strokeColor: _dataMap[`rgb${index + 1}`]
-          }; // 反向的 feature
-          if (_prevArr) {
-            for (let coord of _prevArr) {
-              if (coord[2] === 1) {
-                _features.push(TurfPoint(coord, _posFeature)); // 设置 features
-              } else {
-                _features.push(TurfPoint(coord, _negFeature)); // 设置 features
-              }
-            }
-          }
-        });
+        // const _posFeature = {
+        //   radius: _maxR,
+        //   color: _dataMap.rgb,
+        //   strokeWidth: 0
+        // }; // 正向的 feature
+        // const _negFeature = {
+        //   radius: _maxR,
+        //   color: 'rgb(255,255,255)',
+        //   strokeWidth: 1,
+        //   strokeColor: _dataMap.rgb
+        // }; // 反向的 feature
+        // for (let coord of _curArr) {
+        //   if (coord[2] === 1) {
+        //     _features.push(TurfPoint(coord, _posFeature)); // 设置 features
+        //   } else {
+        //     _features.push(TurfPoint(coord, _negFeature)); // 设置 features
+        //   }
+        // }
+        // // 前面的帧
+        // _prevTime.map((time, index) => {
+        //   if (!time) return;
+        //   const _prevArr = _dataMap[time];
+        //   const _radius = _maxR - ((_maxR - _minR) / _tailCounts) * (index + 1);
+        //   const _posFeature = {
+        //     radius: _radius,
+        //     color: _dataMap[`rgb${index + 1}`],
+        //     strokeWidth: 0
+        //   }; // 正向的 feature
+        //   const _negFeature = {
+        //     radius: _radius,
+        //     color: `rgba(255,255,255,${0.8 - 0.2 * index})`,
+        //     strokeWidth: 1,
+        //     strokeColor: _dataMap[`rgb${index + 1}`]
+        //   }; // 反向的 feature
+        //   if (_prevArr) {
+        //     for (let coord of _prevArr) {
+        //       if (coord[2] === 1) {
+        //         _features.push(TurfPoint(coord, _posFeature)); // 设置 features
+        //       } else {
+        //         _features.push(TurfPoint(coord, _negFeature)); // 设置 features
+        //       }
+        //     }
+        //   }
+        // });
       }
     }
     const _geoJSONData = {
@@ -290,13 +312,21 @@ export default class ProgressBar extends Component {
       data: FeatureCollection(_features)
     };
     const { vehicleTypes } = LayerIds;
+    // const _opt = {
+    //   radius: ['get', 'radius'],
+    //   color: ['get', 'color'],
+    //   strokeWidth: ['get', 'strokeWidth'],
+    //   strokeColor: ['get', 'strokeColor']
+    // };
+    // AddCircleLayer(_MAP_, _geoJSONData, vehicleTypes.point, _opt); // 渲染对应图层
     const _opt = {
-      radius: ['get', 'radius'],
-      color: ['get', 'color'],
-      strokeWidth: ['get', 'strokeWidth'],
-      strokeColor: ['get', 'strokeColor']
+      iconImage: ['get', 'img'],
+      iconRotate: ['get', 'rotate'],
+      iconSize: 1,
+      allowOverlap: true,
+      iconOffset: ['get', 'offset']
     };
-    AddCircleLayer(_MAP_, _geoJSONData, vehicleTypes.point, _opt); // 渲染对应图层
+    AddImageLayer(_MAP_, _geoJSONData, vehicleTypes.point, _opt);
     return true;
   };
 
@@ -354,12 +384,14 @@ export default class ProgressBar extends Component {
       const _mapKeys = Object.keys(this._typeDataMap);
       for (let key of _mapKeys) {
         Object.assign(this._typeDataMap[key], res[key]);
-        if (Object.keys(res[key]).length < ReqArrLen)
+        if (Object.keys(res[key]).length < _dateArr.length)
           console.log(
             JSON.stringify({
               points: _bounds,
               dates: _dateArr,
-              type: _type
+              type: _type,
+              uuid: _uuid,
+              test: 'lkywHF'
             })
           );
       }
