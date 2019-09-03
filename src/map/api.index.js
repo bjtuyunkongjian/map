@@ -7,6 +7,7 @@ const mapArr = [];
 
 class TyMap {
   constructor(container, options = { hash: true }) {
+    const { hash } = options;
     const map = new mapboxgl.Map({
       hash: hash || true,
       container: container,
