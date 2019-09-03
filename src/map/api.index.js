@@ -26,6 +26,4 @@ class TyMap {
   }
 }
 
-console.log(mapArr);
-
 window.__TyMap__ = TyMap;
