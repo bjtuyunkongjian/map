@@ -5,7 +5,7 @@ export default {
   mode: 'development',
   entry: Path.resolve(__dirname, 'src/map/api.index.js'),
   output: {
-    filename: `[name].${Package.version}.js`,
+    filename: `ty-map.${Package.version}.js`,
     path: Path.resolve(__dirname, 'build-api')
   },
   module: {
