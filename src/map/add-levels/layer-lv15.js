@@ -8,7 +8,7 @@
  * 妈耶 800+行，不忍直视 =_= !
  */
 import { LevelConfig, BaseConfig } from 'tuyun-config';
-import { FontColor, BuildingColor } from 'tuyun-utils';
+import { FontColor, BuildingColor } from 'tuyun-utils/index.base.js';
 
 const visibleLevel = 15;
 const symbolLabelLayerId = 'symbol-ref';
@@ -33,9 +33,7 @@ const style = {
       type: 'vector',
       scheme: 'tms',
       tiles: [
-        `${
-          BaseConfig.geoserverHost
-        }geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_15L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`
+        `${BaseConfig.geoserverHost}geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_15L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`
       ],
       minzoom: visibleLevel
     }

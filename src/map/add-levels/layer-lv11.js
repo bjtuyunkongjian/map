@@ -3,7 +3,7 @@
  * 11级，包括公园，医院
  */
 import { LevelConfig, BaseConfig } from 'tuyun-config';
-import { FontColor } from 'tuyun-utils';
+import { FontColor } from 'tuyun-utils/index.base.js';
 
 const visibleLevel = 11;
 const symbolLabelLayerId = 'symbol-ref';
@@ -15,9 +15,7 @@ const style = {
       type: 'vector',
       scheme: 'tms',
       tiles: [
-        `${
-          BaseConfig.geoserverHost
-        }geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_11L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`
+        `${BaseConfig.geoserverHost}geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_11L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`
       ],
       minzoom: visibleLevel
     }

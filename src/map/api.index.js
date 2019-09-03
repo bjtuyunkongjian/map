@@ -2,7 +2,7 @@ import mapboxgl from 'mapbox-gl';
 
 import BaseStyle from './map-styles/light-sd';
 import AddLevels from './add-levels';
-// import { AddLevel } from 'tuyun-utils';
+import { AddLevel } from 'tuyun-utils/index.base.js';
 
 const mapArr = [];
 

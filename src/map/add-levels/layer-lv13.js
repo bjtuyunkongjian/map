@@ -2,7 +2,7 @@
  * @author sl 2019-01-02
  */
 import { LevelConfig, BaseConfig } from 'tuyun-config';
-import { FontColor } from 'tuyun-utils';
+import { FontColor } from 'tuyun-utils/index.base.js';
 import ZaDao from './road-zadao';
 
 const visibleLevel = 13;
@@ -15,9 +15,7 @@ const style = {
       type: 'vector',
       scheme: 'tms',
       tiles: [
-        `${
-          BaseConfig.geoserverHost
-        }geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_13L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`
+        `${BaseConfig.geoserverHost}geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_13L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`
       ],
       minzoom: visibleLevel
     }
