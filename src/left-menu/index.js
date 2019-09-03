@@ -15,7 +15,7 @@ export default class LeftMenu extends Component {
 
   render() {
     const { animate } = this.state;
-    const _slide = animate === 'menu-slide-out' ? 'changed' : '';
+    const _slide = animate === 'menu-slide-in' ? '' : 'changed';
     return (
       <div className={`left-menu ${animate}`}>
         <div className="menu-box">
@@ -39,7 +39,7 @@ export default class LeftMenu extends Component {
   _toggleLeftMenu = () => {
     const { animate } = this.state;
     this.setState({
-      animate: animate === 'menu-slide-out' ? 'menu-slide-in' : 'menu-slide-out'
+      animate: animate === 'menu-slide-in' ? 'menu-slide-out' : 'menu-slide-in'
     });
   };
 }
