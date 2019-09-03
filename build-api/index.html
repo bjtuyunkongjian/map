@@ -10,22 +10,16 @@
     <div id="app" style="width: 100%; height: 100%;"></div>
     <script src="./ty-map.1.1.0.js"></script>
     <script>
-      const tyMap = new __TyMap__(document.getElementById('app'));
-      // console.log('tyMap', tyMap);
-      // const { addCircleLayer, point, featureCollection } = tyMap;
+      const tyMap = new TyMap(document.getElementById('app'));
+      // tyMap.setMaxBounds([
+      //   [117.04023142816038, 35.78984454855521],
 
-      // const _features = [
-      //   point([117.1844, 36.584], {
-      //     code: 'aaaa', // 单位地址编码
-      //     radius: 10
-      //   })
-      // ];
-
-      // const _geoJSONData = {
-      //   type: 'geojson',
-      //   data: featureCollection(_features)
-      // };
-      // addCircleLayer(_geoJSONData, 'LayerIds.case.point');
+      //   [119.24189547791264, 36.73030425442248]
+      // ])
+      // [[-73.9876, 40.7661], [-73.9397, 40.8002]]
+      console.log(tyMap.querySourceFeatures());
+      // queryRenderedFeatures
+      console.log(tyMap.queryRenderedFeatures());
     </script>
   </body>
 </html>
