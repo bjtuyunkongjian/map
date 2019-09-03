@@ -3,7 +3,7 @@
  * 11级，包括公园，医院
  */
 import { LevelConfig, BaseConfig } from 'tuyun-config';
-import { FontColor } from 'tuyun-utils/index.base.js';
+import { FontColor } from 'tuyun-utils';
 
 const visibleLevel = 11;
 const symbolLabelLayerId = 'symbol-ref';

@@ -2,7 +2,7 @@
  16级 内容有：区级政府，POI详情,小区，小学，加油加气站，电器超市，百货商场，农贸市场等共11部分
 */
 import { LevelConfig, BaseConfig } from 'tuyun-config';
-import { FontColor } from 'tuyun-utils/index.base.js';
+import { FontColor } from 'tuyun-utils';
 
 const visibleLevel = 16;
 const symbolLabelLayerId = 'symbol-ref';

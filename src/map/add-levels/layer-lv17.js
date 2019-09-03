@@ -1,5 +1,5 @@
 import { LevelConfig, BaseConfig } from 'tuyun-config';
-import { FontColor } from 'tuyun-utils/index.base.js';
+import { FontColor } from 'tuyun-utils';
 
 const visibleLevel = 17;
 const symbolLabelLayerId = 'symbol-ref';

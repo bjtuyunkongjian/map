@@ -1,7 +1,7 @@
 //19级图层
 
 import { LevelConfig, BaseConfig } from 'tuyun-config';
-import { FontColor } from 'tuyun-utils/index.base.js';
+import { FontColor } from 'tuyun-utils';
 
 const visibleLevel = 19;
 const symbolLabelLayerId = 'symbol-ref';

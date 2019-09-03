@@ -8,7 +8,7 @@
  * 妈耶 800+行，不忍直视 =_= !
  */
 import { LevelConfig, BaseConfig } from 'tuyun-config';
-import { FontColor, BuildingColor } from 'tuyun-utils/index.base.js';
+import { FontColor, BuildingColor } from 'tuyun-utils';
 
 const visibleLevel = 15;
 const symbolLabelLayerId = 'symbol-ref';

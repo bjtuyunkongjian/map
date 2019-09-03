@@ -2,7 +2,7 @@
  * @author sl 2019-01-02
  */
 import { LevelConfig, BaseConfig } from 'tuyun-config';
-import { FontColor } from 'tuyun-utils/index.base.js';
+import { FontColor } from 'tuyun-utils';
 
 const visibleLevel = 9;
 const symbolLabelLayerId = 'symbol-ref';
