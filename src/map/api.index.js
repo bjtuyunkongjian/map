@@ -99,6 +99,9 @@ class TyMap {
   polygon3d = TurfPolygon;
   multiPolygon3d = MultiPolygon;
   featureCollection = FeatureCollection;
+
+  // 回调
+  onResize = callback => mapArr[this.mapIndex].on('resize', callback);
 }
 
 window.TyMap = TyMap;

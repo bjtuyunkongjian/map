@@ -715,7 +715,31 @@ console.log(tyMap.multiPolygon3d([[[[111, 111], [112, 112], [113, 113], [114, 11
 
 ### 地图监听事件
 
-### 1. 调整地图大小。在调整地图大小后触发对应回调。
+### 1. onResize(callback)
+
+调整地图大小。在调整地图大小后触发对应回调。
+
+```markdown
+**输入参数**
+latlngArrArrArr: 经纬度数组，[
+  [[[lng111, lat111], [lng112, lat112], [lng113, lat113], [lng114, lat114]]],
+  [[[lng211, lat211], [lng212, lat212], [lng213, lat213], [lng214, lat214]]]
+]
+prop: 对应的属性，如 { name: 'HYH建筑', height: 50 }
+
+**返回结果**
+多个三维建筑对应的 geojson 格式数据。
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+tyMap.onResize(() => {
+  // todo
+})
+```
+
 ### 2. 鼠标按下事件。在地图上按下鼠标时触发对应回调。
 ### 3. 鼠标释放事件。在地图上释放鼠标时触发对应回调。
 ### 4. 鼠标移入事件。在鼠标移入地图时触发对应回调。
