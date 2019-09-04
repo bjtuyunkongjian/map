@@ -389,7 +389,7 @@ options：配置项，包括以下几个属性：
  - radius：点的半径
 
 **返回结果**
-undefined
+null
 ```
 
 举例：
