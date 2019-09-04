@@ -206,7 +206,7 @@ class TyMap {
 
   // 图层事件回调
   onLayerMousedown = (layerId, callback) =>
-    mapArr[this.mapIndex].on('mouseDown', layerId, callback);
+    mapArr[this.mapIndex].on('mousedown', layerId, callback);
 
   onLayerMouseUp = (layerId, callback) =>
     mapArr[this.mapIndex].on('mouseup', layerId, callback);
