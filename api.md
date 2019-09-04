@@ -1154,46 +1154,284 @@ console.log(tyMap.multiPolygon3d([[[[111, 111], [112, 112], [113, 113], [114, 11
 
 ### 地图监听事件
 
-### 1. onResize(callback)
+### 1. onResize()
 
 调整地图容器大小。在调整地图容器大小后触发对应回调。
 
 ```markdown
-**输入参数**
-lnglatArrArrArr: 经纬度数组，[
-  [[[lng111, lat111], [lng112, lat112], [lng113, lat113], [lng114, lat114]]],
-  [[[lng211, lat211], [lng212, lat212], [lng213, lat213], [lng214, lat214]]]
-]
-prop: 对应的属性，如 { name: 'HYH建筑', height: 50 }
+**传入参数**
+回调函数callback()
 
-**返回结果**
-多个三维建筑对应的 geojson 格式数据。
 ```
 
 举例：
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
-tyMap.onResize(() => {
+tyMap.onMouseDown(() => {
   // todo
 })
 ```
 
-### 2. 鼠标按下事件。在地图上按下鼠标时触发对应回调。
-### 3. 鼠标释放事件。在地图上释放鼠标时触发对应回调。
-### 4. 鼠标移入事件。在鼠标移入地图时触发对应回调。
-### 5. 鼠标移出事件。在鼠标移出地图时触发对应回调。
-### 6. 鼠标移动事件。在地图中移动鼠标时触发对应回调。
-### 7. 鼠标点击事件。在地图上点击鼠标时触发对应回调。
-### 8. 鼠标双击事件。在地图上双击鼠标时触发对应回调。
-### 9. 鼠标右键点击事件。在地图上右键鼠标时触发对应回调。
-### 10. 地图拖拽事件。在地图上移动鼠标滚轮时触发对应回调。
-### 11. 地图缩放事件。在地图上移动鼠标滚轮时触发对应回调。
-### 12. 地图旋转事件。在地图上移动鼠标滚轮时触发对应回调。
-### 13. 地图倾斜事件。在地图上移动鼠标滚轮时触发对应回调。
-### 14. 地图移动事件。在拖拽、缩放、旋转、倾斜时触发对应回调。
-### 15. 地图移动结束事件。在拖拽、缩放、旋转、倾斜动作结束触发对应回调。
-### 16. 地图首次渲染完成事件。在下载所有必要资源并且第一次视觉上完成地图渲染后立即触发。
+### 2. onMouseDown()
+
+鼠标按下事件。在地图上按下鼠标时触发对应回调。
+
+```markdown
+**传入参数**
+回调函数callback()
+
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+tyMap.onMouseDown(() => {
+// todo
+})
+
+```
+
+### 3. onMouseUp()
+
+```markdown
+鼠标释放事件。在地图上释放鼠标时触发对应回调。
+**传入参数**
+回调函数callback()
+
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+tyMap.onMouseUp(() => {
+  // todo
+})
+
+```
+
+### 4. onMouseOver()
+
+```markdown
+鼠标移入事件。在鼠标移入地图时触发对应回调。
+**传入参数**
+回调函数callback()
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+tyMap.onMouseOver(() => {
+  // todo
+})
+```
+
+### 5. onMouseOut()
+
+```markdown
+鼠标移出事件。在鼠标移出地图时触发对应回调。
+**传入参数**
+回调函数callback()
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+tyMap.onMouseOut(() => {
+  // todo
+})
+```
+
+### 6.onMouseMove()
+
+```markdown
+鼠标移动事件。在地图中移动鼠标时触发对应回调。
+**传入参数**
+回调函数callback()
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+tyMap.onMouseMove(() => {
+  // todo
+})
+```
+
+### 7.onClick()
+
+```markdown
+鼠标点击事件。在地图上点击鼠标时触发对应回调。
+**传入参数**
+回调函数callback()
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+tyMap.onClick(() => {
+  // todo
+})
+```
+
+### 8.onDbClick()
+
+```markdown
+鼠标双击事件。在地图上双击鼠标时触发对应回调。
+**传入参数**
+回调函数callback()
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+tyMap.onDblClick(() => {
+  // todo
+})
+```
+
+### 9. onContextMenu()
+
+```markdown
+鼠标右键点击事件。在地图上右键鼠标时触发对应回调。
+**传入参数**
+回调函数callback()
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+tyMap.onContextMenu(() => {
+  // todo
+})
+```
+
+### 10. onDrag()
+
+```markdown
+地图拖拽事件。在拖拽地图时触发对应回调。
+**传入参数**
+回调函数callback()
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+tyMap.onDrag(() => {
+  // todo
+})
+```
+
+### 11. onZoom()
+
+```markdown
+地图缩放事件。在地图上移动鼠标滚轮时触发对应回调。
+**传入参数**
+回调函数callback()
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+tyMap.onZoom(() => {
+  // todo
+})
+```
+
+### 12. onRotate()
+
+```markdown
+地图旋转事件。在地图上移动鼠标滚轮时触发对应回调。
+**传入参数**
+回调函数callback()
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+tyMap.onRotate(() => {
+  // todo
+})
+```
+
+### 13. onPitch()
+
+```markdown
+地图倾斜事件。在地图上移动鼠标滚轮时触发对应回调。
+**传入参数**
+回调函数callback()
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+tyMap.onPitch(() => {
+  // todo
+})
+```
+
+### 14. onMove()
+
+```markdown
+地图移动事件。在拖拽、缩放、旋转、倾斜时触发对应回调。
+**传入参数**
+回调函数callback()
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+tyMap.onMove(() => {
+  // todo
+})
+```
+
+### 15. onMoveEnd()
+
+```markdown
+地图移动结束事件。在拖拽、缩放、旋转、倾斜动作结束触发对应回调。
+**传入参数**
+回调函数callback()
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+tyMap.onMoveEnd(() => {
+  // todo
+})
+```
+
+### 16. onLoad()
+
+```markdown
+地图首次渲染完成事件。在下载所有必要资源并且第一次视觉上完成地图渲染后立即触发。
+**传入参数**
+回调函数callback()
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+tyMap.onLoad(() => {
+  // todo
+})
+```
 
 ### 图层监听事件
 
