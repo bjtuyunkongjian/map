@@ -11,15 +11,14 @@
     <script src="./ty-map.1.1.0.js"></script>
     <script>
       const tyMap = new TyMap(document.getElementById('app'));
-      // tyMap.setMaxBounds([
-      //   [117.04023142816038, 35.78984454855521],
-
-      //   [119.24189547791264, 36.73030425442248]
-      // ])
-      // [[-73.9876, 40.7661], [-73.9397, 40.8002]]
-      console.log(tyMap.querySourceFeatures());
-      // queryRenderedFeatures
-      console.log(tyMap.queryRenderedFeatures());
+      console.log(tyMap.project([114.4650585, 37.9397454]));
+      console.log(
+        JSON.stringify(
+          tyMap.point([114.4650585, 37.9397454], { radius: 3 }),
+          null,
+          2
+        )
+      );
     </script>
   </body>
 </html>

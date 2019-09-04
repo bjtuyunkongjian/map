@@ -139,9 +139,25 @@ new TyMap(container, {key: '你的对应的key', pitch: 30});
 
 重新调整地图容器大小。当地图容器的大小发生改变或者隐藏地图容器，通过调用此方法来使地图显示范围和容器的大小一致。
 
+```markdown
+**输入参数**
+null
+
+**返回结果**
+null
+```
+
 ### 2. getBounds()
 
 获取地图的地理边界。结果是包含可见区域的最小边界。
+
+```markdown
+**输入参数**
+null
+
+**返回结果**
+包含可见区域的最小边界
+```
 
 举例：
 
@@ -150,8 +166,8 @@ const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的ke
 console.log(tyMap.getBounds());
 // 返回：
 // {
-//   _ne: {lng: 123.14425781246035, lat: 38.37168970146746},
-//   _sw: {lng: 113.91574218746871, lat: 34.438502997233144}
+//   _ne: {lng: 123.144257, lat: 38.371689},
+//   _sw: {lng: 113.915742, lat: 34.438502}
 // }
 // _ne: north east
 // _sw: south west
@@ -160,6 +176,18 @@ console.log(tyMap.getBounds());
 ### 3. setMaxBounds(bounds?)
 
 设置或清除地图的地理边界。平移和缩放操作受限于这些范围内。其中 bounds 是可选参数。
+
+```markdown
+**输入参数**
+bounds：可选参数，为一个二维数组：
+  [
+    [lngMax, latMax],
+    [lngMin, latMin]
+  ]，为空时代表清除地理边界。
+
+**返回结果**
+null
+```
 
 举例：
 
@@ -178,6 +206,14 @@ tyMap.setMaxBounds([
 
 获取地图约束的最大地理范围，如果没有设置，则返回null。和 setMaxBounds 相对应。
 
+```markdown
+**输入参数**
+null
+
+**返回结果**
+地图约束的最大地理范围或者null
+```
+
 举例：
 
 ```javascript
@@ -188,6 +224,14 @@ tyMap.getMaxBounds(); // 返回：null
 ### 5. setMinZoom(zoomLevel?)
 
 设置或清除地图的最小缩放级别。如果地图的当前缩放级别低于新的最小值，则地图将缩放到新的最小值。
+
+```markdown
+**输入参数**
+zoomLevel：可选参数，为空时代表清除最小缩放级别；不为空时代表设置最小缩放级别。
+
+**返回结果**
+null
+```
 
 举例：
 
@@ -200,6 +244,14 @@ tyMap.setMinZoom(10);
 
 获取地图的最小允许缩放级别。
 
+```markdown
+**输入参数**
+null
+
+**返回结果**
+设置的最小缩放级别或者null
+```
+
 举例：
 
 ```javascript
@@ -210,6 +262,14 @@ tyMap.getMinZoom(); // 返回：7
 ### 7. setMaxZoom(zoomLevel?)
 
 设置或清除地图的最大缩放级别。如果地图的当前缩放级别高于新的最大值，则地图将缩放到新的最大值。
+
+```markdown
+**输入参数**
+zoomLevel：可选参数，为空时代表清除最大缩放级别；不为空时代表设置最大缩放级别。
+
+**返回结果**
+null
+```
 
 举例：
 
@@ -222,6 +282,14 @@ tyMap.setMaxZoom(20);
 
 获取地图的最大允许缩放级别。
 
+```markdown
+**输入参数**
+null
+
+**返回结果**
+设置的最大缩放级别或者null
+```
+
 举例：
 
 ```javascript
@@ -232,6 +300,14 @@ tyMap.getMaxZoom(); // 返回：20
 ### 9. isZooming()
 
 判断地图是否正在进行缩放操作。返回 true 或者 false。
+
+```markdown
+**输入参数**
+null
+
+**返回结果**
+布尔值
+```
 
 举例：
 
@@ -244,6 +320,14 @@ tyMap.isZooming(); // 返回 true 或者 false
 
 判断地图是否正在进行旋转操作。
 
+```markdown
+**输入参数**
+null
+
+**返回结果**
+布尔值
+```
+
 举例：
 
 ```javascript
@@ -254,6 +338,14 @@ tyMap.isRotating(); // 返回 true 或者 false
 ### 11. isMoving()
 
 判断地图是否在移动（包括拖拽、旋转、缩放、倾斜等动作）。
+
+```markdown
+**输入参数**
+null
+
+**返回结果**
+布尔值
+```
 
 举例：
 
@@ -266,6 +358,14 @@ tyMap.isMoving(); // 返回 true 或者 false
 
 获取当前屏幕渲染的图层内容。
 
+```markdown
+**输入参数**
+layerId，对应图层的 id 号
+
+**返回结果**
+该 id 图层对应当前屏幕渲染的内容
+```
+
 举例：
 
 ```javascript
@@ -273,8 +373,45 @@ const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的ke
 tyMap.getLayer('layerIdxxx'); // 返回 对应的信息
 ```
 
-### 13. 添加点图层。根据相应数据结构在地图上添加对应点的图层。
+### 13. addCircleLayer(source, layerId, options)
+
+添加点图层。根据相应数据结构在地图上添加对应点的图层。
+
+```markdown
+**输入参数**
+source：geojson 格式的数据
+layerId：所需渲染图层的 id，所有 id 不能重复
+options：配置项，包括以下几个属性：
+ - color：点的颜色，默认为红色，色值为 #RRGGBB/rgb(R,G,B)/rgba(R,G,B,ALPHA)
+ - labelLayerId：该图层在 labelLayerId 之上，默认为空代表添加到所有图层之上
+ - strokeWidth：描边的宽度
+ - strokeColor：描边的颜色
+ - radius：点的半径
+
+**返回结果**
+undefined
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const latlngArr = [[lng1, lat1], [lng2, lat2], ...];
+const geometry = latlngArr.map(item => tyMap.point(item, { radius: 3 }));
+const geojsonData = {
+  type: 'geojson',
+  data: tyMap.featureCollection(geometry)
+};
+tyMap.addCircleLayer(geojsonData, 'pointLayerId', {
+  color: 'rgba(0,0,0,0)',
+  strokeWidth: ['get', 'radius'],
+  strokeColor: '#4169E1',
+  labelLayerId
+});
+```
+
 ### 14. 添加线图层。根据相应数据结构在地图上添加对应线的图层。
+
 ### 15. 添加面图层。根据相应数据结构在地图上添加对应点的图层。
 ### 16. 添加三维建筑图层。根据相应数据结构在地图上添加三维建筑图层。
 ### 17. 设置添加的图层对应的过滤条件。
@@ -303,7 +440,7 @@ tyMap.getLayer('layerIdxxx'); // 返回 对应的信息
 
 地图容器的像素坐标对应到指定的地理坐标位置。返回一个经纬度坐标。
 
-```md
+```markdown
 **输入参数**
 要取消投影的像素坐标数组。
 
@@ -314,20 +451,211 @@ tyMap.getLayer('layerIdxxx'); // 返回 对应的信息
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'));
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
 console.log(tyMap.unproject([100, 100]));
 // 返回：{lng: 114.46505859371695, lat: 37.93974548507774}
 ```
 
-### 2. 地理坐标位置对应到指定的地图容器的像素坐标。返回一个像素坐标
-### 3. 生成单点对应的 geojson 格式数据。
-### 4. 生成多点对应的 geojson 格式数据。
-### 5. 生成单线对应的 geojson 格式数据。
-### 6. 生成多线对应的 geojson 格式数据。
-### 7. 生成单面对应的 geojson 格式数据。
-### 8. 生成多面对应的 geojson 格式数据。
-### 9. 生成单个三维建筑对应的 geojson 格式数据。
-### 10. 生成多个三维建筑对应的 geojson 格式数据。
+### 2. project(latlng)
+
+地理坐标位置对应到指定的地图容器的像素坐标。返回一个像素坐标
+
+```markdown
+**输入参数**
+对应于点的经纬度。
+
+**返回结果**
+要取消投影的像素坐标数组。
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+console.log(tyMap.project([114.4650585, 37.9397454]));
+// 返回：{x: -6792.88034417781, y: -4185.204987593001}
+```
+
+### 3. point(latlng, prop)
+
+生成单点对应的 geojson 格式数据。
+
+```markdown
+**输入参数**
+latlng: 经纬度数组，[lng, lat]
+prop: 对应的属性，如 { radius: 3 }
+
+**返回结果**
+单点对应的 geojson 格式数据。
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+console.log(tyMap.point([114.4650585, 37.9397454], { radius: 3 }));
+// 返回：
+// {
+//   "type": "Feature",
+//   "properties": {
+//     "radius": 3
+//   },
+//   "geometry": {
+//     "type": "Point",
+//     "coordinates": [
+//       114.4650585,
+//       37.9397454
+//     ]
+//   }
+// }
+```
+
+### 4. multiPoint(latlngArr, prop)
+
+生成多点对应的 geojson 格式数据。
+
+```markdown
+**输入参数**
+latlngArr: 经纬度数组，[[lng1, lat1], [lng2, lat2]]
+prop: 对应的属性，如 { radius: 3 }
+
+**返回结果**
+多点对应的 geojson 格式数据。
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+console.log(tyMap.multiPoint([[114.4650585, 37.9397454], [114.5650585, 37.8397454]], { radius: 3 }));
+```
+
+### 5. lineString(latlngArr, prop)
+
+生成单线对应的 geojson 格式数据。
+
+```markdown
+**输入参数**
+latlngArr: 经纬度数组，[[lng1, lat1], [lng2, lat2]]
+prop: 对应的属性，如 { name: 'HYH路' }
+
+**返回结果**
+单线对应的 geojson 格式数据。
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+console.log(tyMap.lineString([[1,1], [2,2], [3,3]], { name: 'HYH路' }));
+```
+
+### 6. multiLineString(latlngArrArr, prop)
+
+生成多线对应的 geojson 格式数据。
+
+```markdown
+**输入参数**
+latlngArrArr: 经纬度数组，[[[lng11, lat11], [lng12, lat12]], [[lng21, lat21], [lng22, lat22]]]
+prop: 对应的属性，如 { name: 'HYH路' }
+
+**返回结果**
+多线对应的 geojson 格式数据。
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+console.log(tyMap.multiLineString([[[11,11], [12,12], [13,13]], [[21,21], [22,22], [23,23]]], { name: 'HYH路' }));
+```
+
+### 7. polygon(latlngArrArr, prop)
+
+生成单面对应的 geojson 格式数据。
+
+```markdown
+**输入参数**
+latlngArrArr: 经纬度数组，[[[lng11, lat11], [lng12, lat12], [lng13, lat13], [lng14, lat14]]]
+prop: 对应的属性，如 { name: 'HYH区' }
+
+**返回结果**
+单面对应的 geojson 格式数据。
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+console.log(tyMap.polygon([[[11, 11], [12, 12], [13, 13], [14, 14]]], { name: 'HYH区' }));
+```
+
+### 8. multiPolygon(latlngArrArrArr, prop)
+
+生成多面对应的 geojson 格式数据。
+
+```markdown
+**输入参数**
+latlngArrArrArr: 经纬度数组，[
+  [[[lng111, lat111], [lng112, lat112], [lng113, lat113], [lng114, lat114]]],
+  [[[lng211, lat211], [lng212, lat212], [lng213, lat213], [lng214, lat214]]]
+]
+prop: 对应的属性，如 { name: 'HYH区' }
+
+**返回结果**
+多面对应的 geojson 格式数据。
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+console.log(tyMap.multiPolygon([[[[111, 111], [112, 112], [113, 113], [114, 114]]]], { name: 'HYH区' }));
+```
+
+### 9. polygon3d(latlngArrArr, prop)
+
+生成单个三维建筑对应的 geojson 格式数据。
+
+```markdown
+**输入参数**
+latlngArrArr: 经纬度数组，[[[lng11, lat11], [lng12, lat12], [lng13, lat13], [lng14, lat14]]]
+prop: 对应的属性，如 { name: 'HYH建筑', height: 80 }
+
+**返回结果**
+单个三维建筑对应的 geojson 格式数据。
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+console.log(tyMap.polygon3d([[[11, 11], [12, 12], [13, 13], [14, 14]]], { name: 'HYH区' }));
+```
+
+### 10. multiPolygon3d(latlngArrArrArr, prop)
+
+生成多个三维建筑对应的 geojson 格式数据。
+
+```markdown
+**输入参数**
+latlngArrArrArr: 经纬度数组，[
+  [[[lng111, lat111], [lng112, lat112], [lng113, lat113], [lng114, lat114]]],
+  [[[lng211, lat211], [lng212, lat212], [lng213, lat213], [lng214, lat214]]]
+]
+prop: 对应的属性，如 { name: 'HYH建筑', height: 50 }
+
+**返回结果**
+多个三维建筑对应的 geojson 格式数据。
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+console.log(tyMap.multiPolygon3d([[[[111, 111], [112, 112], [113, 113], [114, 114]]]], { name: 'HYH区' }));
+```
+
 ### 11. 生成随机的 geojson 格式的点。
 ### 12. 生成随机的 geojson 格式的线。
 ### 13. 生成随机的 geojson 格式的面。

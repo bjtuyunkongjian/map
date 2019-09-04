@@ -2,7 +2,27 @@ import mapboxgl from 'mapbox-gl';
 
 import BaseStyle from './map-styles/light-sd';
 import AddLevels from './add-levels';
-import { AddLevel } from 'tuyun-utils/index.base.js';
+import {
+  AddLevel,
+  AddCircleLayer,
+  AddNamePlateLayer,
+  AddPolygonLayer,
+  AddTextLayer,
+  Add3dLayer,
+  AddLineLayer,
+  AddHeatMapLayer,
+  AddImageLayer
+} from 'tuyun-utils';
+
+import {
+  point as TurfPoint,
+  multiPoint as MultiPoint,
+  polygon as TurfPolygon,
+  multiPolygon as MultiPolygon,
+  lineString as LineString,
+  multiLineString as MultiLineString,
+  featureCollection as FeatureCollection
+} from 'turf';
 
 const mapArr = [];
 
@@ -60,8 +80,22 @@ class TyMap {
 
   getLayer = layerId => mapArr[this.mapIndex].getLayer(layerId);
 
+  addCircleLayer = (source, layerId, option = {}) =>
+    AddCircleLayer(mapArr[this.mapIndex], source, layerId, option);
+
   // 辅助计算
   unproject = point => mapArr[this.mapIndex].unproject(point);
+  project = latlng => mapArr[this.mapIndex].project(latlng);
+
+  point = TurfPoint;
+  multiPoint = MultiPoint;
+  lineString = LineString;
+  multiLineString = MultiLineString;
+  polygon = TurfPolygon;
+  multiPolygon = MultiPolygon;
+  polygon3d = TurfPolygon;
+  multiPolygon3d = MultiPolygon;
+  featureCollection = FeatureCollection;
 }
 
 window.TyMap = TyMap;
