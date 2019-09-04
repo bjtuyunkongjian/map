@@ -11,7 +11,9 @@
     <script src="./ty-map.1.1.0.js"></script>
     <script>
       const tyMap = new TyMap(document.getElementById('app'));
-      console.log(tyMap.project([114.4650585, 37.9397454]));
+      tyMap.onResize(() => {
+        console.log('AAA');
+      });
     </script>
   </body>
 </html>
