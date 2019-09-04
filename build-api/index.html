@@ -11,9 +11,7 @@
     <script src="./ty-map.1.1.0.js"></script>
     <script>
       const tyMap = new TyMap(document.getElementById('app'));
-      tyMap.onResize(() => {
-        console.log(111);
-      });
+      console.log(tyMap.getCenter());
     </script>
   </body>
 </html>

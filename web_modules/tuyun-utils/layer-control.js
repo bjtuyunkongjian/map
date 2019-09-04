@@ -34,31 +34,35 @@ const AddCircleLayer = (map, source, layerId, option = {}) => {
 };
 
 const AddTextLayer = (map, source, layerId, option = {}) => {
+  const { textColor, textHaloWith, textHaloColor, labelLayerId } = option;
   if (!map.getSource(layerId)) {
-    map.addLayer({
-      id: layerId,
-      type: 'symbol',
-      source: source,
-      layout: {
-        'text-field': '{text}',
-        'symbol-placement': 'point',
-        'text-size': 14,
-        'icon-text-fit': 'both',
-        'icon-text-fit-padding': [2, 4, 2, 4],
-        'text-justify': 'center',
-        'text-font': ['黑体'],
-        'text-pitch-alignment': 'viewport',
-        'text-rotation-alignment': 'viewport',
-        'icon-rotation-alignment': 'viewport',
-        'text-anchor': 'center',
-        'text-keep-upright': false
+    map.addLayer(
+      {
+        id: layerId,
+        type: 'symbol',
+        source: source,
+        layout: {
+          'text-field': '{text}',
+          'symbol-placement': 'point',
+          'text-size': 14,
+          'icon-text-fit': 'both',
+          'icon-text-fit-padding': [2, 4, 2, 4],
+          'text-justify': 'center',
+          'text-font': ['黑体'],
+          'text-pitch-alignment': 'viewport',
+          'text-rotation-alignment': 'viewport',
+          'icon-rotation-alignment': 'viewport',
+          'text-anchor': 'center',
+          'text-keep-upright': false
+        },
+        paint: {
+          'text-color': textColor || 'rgba(65, 65, 65, 0.9)',
+          'text-halo-width': textHaloWith || 2,
+          'text-halo-color': textHaloColor || 'rgba(255, 255, 255, 1)'
+        }
       },
-      paint: {
-        'text-color': 'rgba(65, 65, 65, 0.9)',
-        'text-halo-width': 2,
-        'text-halo-color': 'rgba(255, 255, 255, 1)'
-      }
-    });
+      labelLayerId
+    );
   } else {
     map.getSource(layerId).setData({
       type: 'FeatureCollection',

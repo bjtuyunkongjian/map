@@ -5,13 +5,11 @@ import AddLevels from './add-levels';
 import {
   AddLevel,
   AddCircleLayer,
-  AddNamePlateLayer,
   AddPolygonLayer,
   AddTextLayer,
   Add3dLayer,
   AddLineLayer,
-  AddHeatMapLayer,
-  AddImageLayer
+  RemoveLayer
 } from 'tuyun-utils';
 
 import {
@@ -62,13 +60,19 @@ class TyMap {
 
   getBounds = () => mapArr[this.mapIndex].getBounds();
 
-  setMaxBounds = bounds => mapArr[this.mapIndex].setMaxBounds(bounds);
+  setMaxBounds = bounds => {
+    mapArr[this.mapIndex].setMaxBounds(bounds); // 不提供返回值
+  };
   getMaxBounds = () => mapArr[this.mapIndex].getMaxBounds();
 
-  setMinZoom = zoomLevel => mapArr[this.mapIndex].setMinZoom(zoomLevel);
+  setMinZoom = zoomLevel => {
+    mapArr[this.mapIndex].setMinZoom(zoomLevel); // 不提供返回值
+  };
   getMinZoom = () => mapArr[this.mapIndex].getMinZoom();
 
-  setMaxZoom = () => mapArr[this.mapIndex].setMaxZoom(zoomLevel);
+  setMaxZoom = () => {
+    mapArr[this.mapIndex].setMaxZoom(zoomLevel);
+  };
   getMaxZoom = () => mapArr[this.mapIndex].getMaxZoom();
 
   isZooming = () => mapArr[this.mapIndex].isZooming();
@@ -88,6 +92,70 @@ class TyMap {
 
   addPolygonLayer = (source, layerId, option = {}) =>
     AddPolygonLayer(mapArr[this.mapIndex], source, layerId, option);
+
+  add3dLayer = (source, layerId, option = {}) =>
+    Add3dLayer(mapArr[this.mapIndex], source, layerId, option);
+
+  addTextLayer = (source, layerId, option = {}) =>
+    AddTextLayer(mapArr[this.mapIndex], source, layerId, option);
+
+  setFilter = (layerId, filterExpress) => {
+    mapArr[this.mapIndex].setFilter(layerId, filterExpress);
+  };
+
+  removeLayer = layerId => RemoveLayer(mapArr[this.mapIndex], layerId);
+
+  setCenter = center => {
+    mapArr[this.mapIndex].setCenter(center);
+  };
+  getCenter = () => mapArr[this.mapIndex].getCenter();
+
+  setZoom = zoomLevel => {
+    mapArr[this.mapIndex].setZoom(zoomLevel);
+  };
+  getZoom = () => {
+    mapArr[this.mapIndex].getZoom();
+  };
+
+  setBearing = bearing => {
+    mapArr[this.mapIndex].setBearing(bearing);
+  };
+  getBearing = () => {
+    mapArr[this.mapIndex].getBearing();
+  };
+
+  setPitch = pitch => {
+    mapArr[this.mapIndex].setPitch(pitch);
+  };
+  getPitch = () => {
+    mapArr[this.mapIndex].getPitch();
+  };
+
+  jumpTo = (options = {}) => {
+    mapArr[this.mapIndex].jumpTo(options);
+  };
+
+  zoomIn = () => {
+    mapArr[this.mapIndex].zoomIn();
+  };
+  zoomOut = () => {
+    mapArr[this.mapIndex].zoomOut();
+  };
+  zoomTo = zoomLevel => {
+    mapArr[this.mapIndex].zoomOut(zoomLevel);
+  };
+
+  rotateTo = bearing => {
+    mapArr[this.mapIndex].rotateTo(bearing);
+  };
+
+  panTo = latlng => {
+    mapArr[this.mapIndex].panTo(latlng);
+  };
+
+  flyTo = options => {
+    mapArr[this.mapIndex].flyTo(options);
+  };
 
   // 辅助计算
   unproject = point => mapArr[this.mapIndex].unproject(point);
