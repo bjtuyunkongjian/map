@@ -244,23 +244,62 @@ class TyMap {
 
   polygonDiff = PolygonDiff;
 
-  // 回调
+  // 地图事件回调
   onResize = callback => mapArr[this.mapIndex].on('resize', callback);
-  onMouseDown = callback => mapArr[this.mapIndex].on('mousedown', callback);
-  onMouseUp = callback => mapArr[this.mapIndex].on('mouseup', callback);
-  onMouseOver = callback => mapArr[this.mapIndex].on('mouseover', callback);
-  onMouseOut = callback => mapArr[this.mapIndex].on('mouseout', callback);
-  onMouseMove = callback => mapArr[this.mapIndex].on('mousemove', callback);
-  onClick = callback => mapArr[this.mapIndex].on('click', callback);
-  onDblClick = callback => mapArr[this.mapIndex].on('dblclick', callback);
-  onContextMenu = callback => mapArr[this.mapIndex].on('contextmenu', callback);
-  onDrag = callback => mapArr[this.mapIndex].on('drag', callback);
-  onZoom = callback => mapArr[this.mapIndex].on('zoom', callback);
-  onRotate = callback => mapArr[this.mapIndex].on('rotate', callback);
-  onPitch = callback => mapArr[this.mapIndex].on('pitch', callback);
-  onMove = callback => mapArr[this.mapIndex].on('move', callback);
-  onMoveEnd = callback => mapArr[this.mapIndex].on('moveend', callback);
-  onLoad = callback => mapArr[this.mapIndex].on('load', callback);
-}
 
+  onMouseDown = callback => mapArr[this.mapIndex].on('mousedown', callback);
+
+  onMouseUp = callback => mapArr[this.mapIndex].on('mouseup', callback);
+
+  onMouseOver = callback => mapArr[this.mapIndex].on('mouseover', callback);
+
+  onMouseOut = callback => mapArr[this.mapIndex].on('mouseout', callback);
+
+  onMouseMove = callback => mapArr[this.mapIndex].on('mousemove', callback);
+
+  onClick = callback => mapArr[this.mapIndex].on('click', callback);
+
+  onDblClick = callback => mapArr[this.mapIndex].on('dblclick', callback);
+
+  onContextMenu = callback => mapArr[this.mapIndex].on('contextmenu', callback);
+
+  onDrag = callback => mapArr[this.mapIndex].on('drag', callback);
+
+  onZoom = callback => mapArr[this.mapIndex].on('zoom', callback);
+
+  onRotate = callback => mapArr[this.mapIndex].on('rotate', callback);
+
+  onPitch = callback => mapArr[this.mapIndex].on('pitch', callback);
+
+  onMove = callback => mapArr[this.mapIndex].on('move', callback);
+
+  onMoveEnd = callback => mapArr[this.mapIndex].on('moveend', callback);
+
+  onLoad = callback => mapArr[this.mapIndex].on('load', callback);
+
+  // 图层事件回调
+  onLayerMousedown = (layerId, callback) =>
+    mapArr[this.mapIndex].on('mousedown', layerId, callback);
+
+  onLayerMouseUp = (layerId, callback) =>
+    mapArr[this.mapIndex].on('mouseup', layerId, callback);
+
+  onLayerMouseOver = (layerId, callback) =>
+    mapArr[this.mapIndex].on('mouseover', layerId, callback);
+
+  onLayerMouseOut = (layerId, callback) =>
+    mapArr[this.mapIndex].on('mouseout', layerId, callback);
+
+  onLayerMouseMove = (layerId, callback) =>
+    mapArr[this.mapIndex].on('mousemove', layerId, callback);
+
+  onLayerClick = (layerId, callback) =>
+    mapArr[this.mapIndex].on('click', layerId, callback);
+
+  onLayerDblClick = (layerId, callback) =>
+    mapArr[this.mapIndex].on('dblclick', layerId, callback);
+
+  onLayerContextMenu = (layerId, callback) =>
+    mapArr[this.mapIndex].on('contextmenu', layerId, callback);
+}
 window.TyMap = TyMap;

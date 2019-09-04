@@ -1628,8 +1628,10 @@ tyMap.onMouseUp(() => {
 
 ### 4. onMouseOver()
 
-```markdown
 鼠标移入事件。在鼠标移入地图时触发对应回调。
+
+```markdown
+
 **传入参数**
 回调函数callback()
 ```
@@ -1645,8 +1647,10 @@ tyMap.onMouseOver(() => {
 
 ### 5. onMouseOut()
 
-```markdown
 鼠标移出事件。在鼠标移出地图时触发对应回调。
+
+```markdown
+
 **传入参数**
 回调函数callback()
 ```
@@ -1662,8 +1666,10 @@ tyMap.onMouseOut(() => {
 
 ### 6.onMouseMove()
 
-```markdown
 鼠标移动事件。在地图中移动鼠标时触发对应回调。
+
+```markdown
+
 **传入参数**
 回调函数callback()
 ```
@@ -1679,8 +1685,10 @@ tyMap.onMouseMove(() => {
 
 ### 7.onClick()
 
-```markdown
 鼠标点击事件。在地图上点击鼠标时触发对应回调。
+
+```markdown
+
 **传入参数**
 回调函数callback()
 ```
@@ -1696,8 +1704,10 @@ tyMap.onClick(() => {
 
 ### 8.onDbClick()
 
-```markdown
 鼠标双击事件。在地图上双击鼠标时触发对应回调。
+
+```markdown
+
 **传入参数**
 回调函数callback()
 ```
@@ -1713,8 +1723,10 @@ tyMap.onDblClick(() => {
 
 ### 9. onContextMenu()
 
-```markdown
 鼠标右键点击事件。在地图上右键鼠标时触发对应回调。
+
+```markdown
+
 **传入参数**
 回调函数callback()
 ```
@@ -1730,8 +1742,10 @@ tyMap.onContextMenu(() => {
 
 ### 10. onDrag()
 
-```markdown
 地图拖拽事件。在拖拽地图时触发对应回调。
+
+```markdown
+
 **传入参数**
 回调函数callback()
 ```
@@ -1747,8 +1761,10 @@ tyMap.onDrag(() => {
 
 ### 11. onZoom()
 
-```markdown
 地图缩放事件。在地图上移动鼠标滚轮时触发对应回调。
+
+```markdown
+
 **传入参数**
 回调函数callback()
 ```
@@ -1764,8 +1780,10 @@ tyMap.onZoom(() => {
 
 ### 12. onRotate()
 
-```markdown
 地图旋转事件。在地图上移动鼠标滚轮时触发对应回调。
+
+```markdown
+
 **传入参数**
 回调函数callback()
 ```
@@ -1781,8 +1799,10 @@ tyMap.onRotate(() => {
 
 ### 13. onPitch()
 
-```markdown
 地图倾斜事件。在地图上移动鼠标滚轮时触发对应回调。
+
+```markdown
+
 **传入参数**
 回调函数callback()
 ```
@@ -1798,8 +1818,10 @@ tyMap.onPitch(() => {
 
 ### 14. onMove()
 
-```markdown
 地图移动事件。在拖拽、缩放、旋转、倾斜时触发对应回调。
+
+```markdown
+
 **传入参数**
 回调函数callback()
 ```
@@ -1815,8 +1837,10 @@ tyMap.onMove(() => {
 
 ### 15. onMoveEnd()
 
-```markdown
 地图移动结束事件。在拖拽、缩放、旋转、倾斜动作结束触发对应回调。
+
+```markdown
+
 **传入参数**
 回调函数callback()
 ```
@@ -1832,8 +1856,10 @@ tyMap.onMoveEnd(() => {
 
 ### 16. onLoad()
 
-```markdown
 地图首次渲染完成事件。在下载所有必要资源并且第一次视觉上完成地图渲染后立即触发。
+
+```markdown
+
 **传入参数**
 回调函数callback()
 ```
@@ -1849,11 +1875,155 @@ tyMap.onLoad(() => {
 
 ### 图层监听事件
 
-### 1. 鼠标按下事件。在图层对应的点、线、面上按下鼠标时触发对应回调。
-### 2. 鼠标释放事件。在图层对应的点、线、面上释放鼠标时触发对应回调。
-### 3. 鼠标移入事件。在鼠标移入图层对应的点、线、面时触发对应回调。
-### 4. 鼠标移出事件。在鼠标移出图层对应的点、线、面时触发对应回调。
-### 5. 鼠标移动事件。在图层对应的点、线、面上移动鼠标时触发对应回调。
-### 6. 鼠标点击事件。在图层对应的点、线、面上点击鼠标时触发对应回调。
-### 7. 鼠标双击事件。在图层对应的点、线、面上双击鼠标时触发对应回调。
-### 8. 鼠标右键点击事件。在图层对应的点、线、面上右键鼠标时触发对应回调。
+### 1.onLayerMousedown()
+
+鼠标按下事件。在图层对应的点、线、面上按下鼠标时触发对应回调。
+
+```markdown
+
+**传入参数**
+图层id,回调函数callback()
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+tyMap.onLayerMousedown('layerId', () => {
+  // todo
+})
+```
+
+### 2.onLayerMouseUp()
+
+鼠标释放事件。在图层对应的点、线、面上释放鼠标时触发对应回调。
+
+```markdown
+
+**传入参数**
+图层id,回调函数callback()
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+tyMap.onLayerMouseUp('layerId', () => {
+  // todo
+})
+```
+
+### 3. onLayerMouseOver()
+
+鼠标移入事件。在鼠标移入图层对应的点、线、面时触发对应回调。
+
+```markdown
+
+**传入参数**
+图层id,回调函数callback()
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+tyMap.onLayerMouseOver('layerId', () => {
+  // todo
+})
+```
+
+### 4. onLayerMouseOut()
+
+鼠标移出事件。在鼠标移出图层对应的点、线、面时触发对应回调。
+
+```markdown
+
+**传入参数**
+图层id,回调函数callback()
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+tyMap.onLayerMouseOut('layerId', () => {
+  // todo
+})
+```
+
+### 5. onLayerMouseMove()
+
+鼠标移动事件。在图层对应的点、线、面上移动鼠标时触发对应回调。
+
+```markdown
+
+**传入参数**
+图层id,回调函数callback()
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+tyMap.onLayerMouseMove('layerId', () => {
+  // todo
+})
+```
+
+### 6. onLayerClick()
+
+鼠标点击事件。在图层对应的点、线、面上点击鼠标时触发对应回调。
+
+```markdown
+
+**传入参数**
+图层id,回调函数callback()
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+tyMap.onLayerClick('layerId', () => {
+  // todo
+})
+
+```
+
+### 7. onLayerDblClick()
+
+鼠标双击事件。在图层对应的点、线、面上双击鼠标时触发对应回调。
+
+```markdown
+
+**传入参数**
+图层id,回调函数callback()
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+tyMap.onLayerDblClick('layerId', () => {
+  // todo
+})
+```
+
+### 8. onLayerContextMenu()
+
+鼠标右键点击事件。在图层对应的点、线、面上右键鼠标时触发对应回调。
+
+```markdown
+
+**传入参数**
+图层id,回调函数callback()
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+tyMap.onLayerContextMenu('layerId', () => {
+  // todo
+})
+```
