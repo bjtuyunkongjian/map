@@ -103,7 +103,7 @@ class TyMap {
   multiPolygon3d = MultiPolygon;
   featureCollection = FeatureCollection;
 
-  // 回调
+  // 地图事件回调
   onResize = callback => mapArr[this.mapIndex].on('resize', callback);
   onMouseDown = callback => mapArr[this.mapIndex].on('mousedown', callback);
   onMouseUp = callback => mapArr[this.mapIndex].on('mouseup', callback);
@@ -120,6 +120,8 @@ class TyMap {
   onMove = callback => mapArr[this.mapIndex].on('move', callback);
   onMoveEnd = callback => mapArr[this.mapIndex].on('moveend', callback);
   onLoad = callback => mapArr[this.mapIndex].on('load', callback);
+
+  // 图层事件回调
 }
 
 window.TyMap = TyMap;
