@@ -36,8 +36,7 @@ import {
   convex as Convex,
   intersect as PolygonIntersect,
   union as PolygonUnion,
-  difference as PolygonDiff,
-  lineToPolygon as LineToPolygon
+  difference as PolygonDiff
 } from '@turf/turf';
 
 const mapArr = [];
