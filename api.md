@@ -381,7 +381,7 @@ tyMap.getLayer('layerIdxxx'); // 返回 对应的信息
 **输入参数**
 source：geojson 格式的数据
 layerId：所需渲染图层的 id，所有 id 不能重复
-options：配置项，包括以下几个属性：
+options：配置项，默认为空，包括以下几个属性：
  - color：点的颜色，默认为红色，色值为 #RRGGBB/rgb(R,G,B)/rgba(R,G,B,ALPHA)
  - labelLayerId：该图层在 labelLayerId 之上，默认为空代表添加到所有图层之上
  - strokeWidth：描边的宽度
@@ -406,11 +406,43 @@ tyMap.addCircleLayer(geojsonData, 'pointLayerId', {
   color: 'rgba(0,0,0,0)',
   strokeWidth: ['get', 'radius'],
   strokeColor: '#4169E1',
-  labelLayerId
+  labelLayerId: 'which id'
 });
 ```
 
-### 14. 添加线图层。根据相应数据结构在地图上添加对应线的图层。
+### 14. addLineLayer(source, layerId, option)
+
+添加线图层。根据相应数据结构在地图上添加对应线的图层。
+
+```markdown
+**输入参数**
+source：geojson 格式的数据
+layerId：所需渲染图层的 id，所有 id 不能重复
+options：配置项，默认为空，包括以下几个属性：
+ - labelLayerId：该图层在 labelLayerId 之上，默认为空代表添加到所有图层之上
+ - width：线的宽度，默认为 1
+ - color：线的颜色，默认为红色，色值为 #RRGGBB/rgb(R,G,B)/rgba(R,G,B,ALPHA)
+ - dasharray：是否是虚线，实线用 \[1\] 表示，虚线用\[realRercentage, imaginaryRercentage\]，默认为实线
+
+**返回结果**
+null
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const lineArr = [[[lng11, lat11], [lng12, lat12], ...], [[lng21, lat21], [lng22, lat22], ...]];
+const geometry = lineArr.map(item => tyMap.point(item, { radius: 3 }));
+const geojsonData = {
+  type: 'geojson',
+  data: tyMap.featureCollection(geometry)
+};
+tyMap.addCircleLayer(geojsonData, 'pointLayerId', {
+  color: 'rgba(0,0,0,0)',
+  labelLayerId: 'which id'
+});
+```
 
 ### 15. 添加面图层。根据相应数据结构在地图上添加对应点的图层。
 ### 16. 添加三维建筑图层。根据相应数据结构在地图上添加三维建筑图层。

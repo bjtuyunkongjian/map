@@ -83,6 +83,9 @@ class TyMap {
   addCircleLayer = (source, layerId, option = {}) =>
     AddCircleLayer(mapArr[this.mapIndex], source, layerId, option);
 
+  addLineLayer = (source, layerId, option = {}) =>
+    AddLineLayer(mapArr[this.mapIndex], source, layerId, option);
+
   // 辅助计算
   unproject = point => mapArr[this.mapIndex].unproject(point);
   project = latlng => mapArr[this.mapIndex].project(latlng);
