@@ -410,7 +410,7 @@ tyMap.addCircleLayer(geojsonData, 'pointLayerId', {
 });
 ```
 
-### 14. addLineLayer(source, layerId, option)
+### 14. addLineLayer(source, layerId, options)
 
 添加线图层。根据相应数据结构在地图上添加对应线的图层。
 
@@ -444,7 +444,7 @@ tyMap.addCircleLayer(geojsonData, 'lineLayerId', {
 });
 ```
 
-### 15. addPolygonLayer(source, layerId, option)
+### 15. addPolygonLayer(source, layerId, options)
 
 添加面图层。根据相应数据结构在地图上添加对应点的图层。
 
@@ -475,7 +475,7 @@ tyMap.addCircleLayer(geojsonData, 'polygonLayerId', {
 });
 ```
 
-### 16. add3dLayer(source, layerId, option)
+### 16. add3dLayer(source, layerId, options)
 
 添加三维建筑图层。根据相应数据结构在地图上添加三维建筑图层。
 
@@ -506,7 +506,7 @@ tyMap.addCircleLayer(geojsonData, 'polygon3dLayerId', {
 });
 ```
 
-### 17. addTextLayer(source, layerId, option)
+### 17. addTextLayer(source, layerId, options)
 
 添加文字图层。根据相应数据结构在地图上添加文字图层。**生成 geojson 格式的点的时候请务必带上 text 属性！**
 
@@ -1127,28 +1127,442 @@ const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的ke
 console.log(tyMap.multiPolygon3d([[[[111, 111], [112, 112], [113, 113], [114, 114]]]], { name: 'HYH区' }));
 ```
 
-### 11. 生成随机的 geojson 格式的点。
-### 12. 生成随机的 geojson 格式的线。
-### 13. 生成随机的 geojson 格式的面。
-### 14. 生成多点、多线、多面对应的集合。
-### 15. 计算 geojson 格式两点的中心位置。
-### 16. 计算 geojson 格式两点之间的距离。
-### 17. 计算 geojson 格式的线的距离。
-### 18. 计算 geojson 格式的面的面积。
-### 19. 通过最大和最小经纬度生成对应矩形面的 geojson 数据。
-### 20. 计算多个 geojson 格式的点数据的中心位置。
-### 21. 计算某个点到某条线的最短距离。
-### 22. 计算某条线上离某个点最近的那个点。
-### 23. 计算某条线上距离为 x 的点的坐标。
-### 24. 判断某个点是否在某个面上。
-### 25. 计算给定点并给定半径的圆形多边形。
-### 26. 计算给定点、给定半径给定起始角和终止角对应的扇形。
-### 27. 根据多个点生成 geojson 格式的凸多边形。
-### 28. 求两个面的交集。
-### 29. 求两个面的并集。
-### 30. 求第一个面和第二个面的差集。
-### 31. 通过线生成对应的面。
-### 32. 通过面生成对应的线。
+### 11. randomPoint(count, boundingBox)
+
+生成随机的 geojson 格式的点。
+
+```markdown
+**输入参数**
+count: 数量
+boundingBox: 可选参数，边界范围 [minLng, minLat, maxLng, maxLat]，可为空，默认为 [-180, -90, 180, 90]
+
+**返回结果**
+随机的 geojson 格式的点。
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+console.log(tyMap.randomPoint(10, [-180, -90, 180, 90]));
+```
+
+### 12. randomLineString(count, options)
+
+生成随机的 geojson 格式的线。
+
+```markdown
+**输入参数**
+count: 数量
+options: 可选参数，对象包含以下这些：
+- boundingBox: 边界范围，[minLng, minLat, maxLng, maxLat]，可为空，默认为 [-180, -90, 180, 90]
+- verticesNum: 线上顶点的数量，默认为 10
+- maxRotation: 从上一个线段转动的最大弧度数，默认为 π / 8
+
+**返回结果**
+随机的 geojson 格式的线。
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+console.log(tyMap.randomLineString(10, {boundingBox: [-180, -90, 180, 90]}));
+```
+
+### 13. randomPolygon = (count, options)
+
+生成随机的 geojson 格式的面。
+
+```markdown
+**输入参数**
+count: 数量
+options: 可选参数，对象包含以下这些：
+- boundingBox: 边界范围，[minLng, minLat, maxLng, maxLat]，可为空，默认为 [-180, -90, 180, 90]
+- verticesNum: 线上顶点的数量，默认为 10
+- maxRadialLen: 顶点可以到达多边形中心的最大数纬度或经度，默认为 10
+
+**返回结果**
+随机的 geojson 格式的面。
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+console.log(tyMap.randomPolygon(10, {boundingBox: [-180, -90, 180, 90]}));
+```
+
+### 14. featureCollection(geometryArr)
+
+由多个单点、单线、单面生成多点、多线、多面对应的集合。
+
+```markdown
+**输入参数**
+geometryArr: 相同类型(点、线、面)的 geometry
+
+**返回结果**
+geojson 格式的对应的集合。
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const pt1 = tyMap.point([1, 1], {text: 'pt1'});
+const pt2 = tyMap.point([2, 2], {text: 'pt2'});
+const pt3 = tyMap.point([3, 3], {text: 'pt3'});
+const collection = tyMap.featureCollection([pt1, pt2, pt3]);
+console.log(collection);
+```
+
+### 15. midPoint(point1, point2)
+
+计算 geojson 格式的两个点的中点。
+
+```markdown
+**输入参数**
+point1: geojson 格式的点
+point2: geojson 格式的点
+
+**返回结果**
+geojson 格式的对应的点
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const pt1 = tyMap.point([1, 1]);
+const pt2 = tyMap.point([2, 2]);
+const center = tyMap.midPoint(pt1, pt2);
+console.log(center);
+```
+
+### 16. pointDistance(from, to, units = 'kilometers')
+
+计算 geojson 格式两点之间的距离。
+
+```markdown
+**输入参数**
+from: 起始点，geojson 格式
+to: 终止点，geojson 格式
+units?: 单位，可选值为 英里(miles)/千米(kilometers)，默认为 千米。可选参数
+
+**返回结果**
+两点之间的距离，单位为 units
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const from = tyMap.point([1, 1]);
+const to = tyMap.point([2, 2]);
+const distance = tyMap.pointDistance(from, to);
+```
+
+### 17. lineLength(lineString, units)
+
+计算 geojson 格式的线的长度。
+
+```markdown
+**输入参数**
+lineString: geojson 格式的线，必须为单线
+units?: 单位，可选值为 英里(miles)/千米(kilometers)，默认为 千米。可选参数
+
+**返回结果**
+线的长度，单位为 units
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const from = tyMap.lineString([[11, 32], [13, 22], [13, 25], [15, 34]]);
+const length = tyMap.lineLength(line);
+```
+
+### 18. polygonArea(polygon)
+
+计算 geojson 格式的面的面积。
+
+```markdown
+**输入参数**
+lineString: geojson 格式的面，必须为单面
+
+**返回结果**
+面积，单位：平方米
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const from = tyMap.lineString([[[11, 32], [13, 22], [13, 25], [15, 34]]]);
+const length = tyMap.polygonArea(line);
+```
+
+### 19. pointCenter(ptCollection)
+
+计算 geojson 格式的多个点形成的重心。
+
+```markdown
+**输入参数**
+ptCollection: 点的集合
+
+**返回结果**
+geojson 格式的对应的点
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const pt1 = tyMap.point([1, 1]);
+const pt2 = tyMap.point([2, 2]);
+const pt3 = tyMap.point([3, 3]);
+const collection = tyMap.featureCollection([pt1, pt2, pt3]);
+const center = tyMap.pointCenter(collection);
+```
+
+### 20. point2LineDistance(point, lineString, units)
+
+计算某个点到某条线的最短距离。
+
+```markdown
+**输入参数**
+point: geojson 格式的点
+lineString: geojson 格式的线，单线
+units?: 单位，可选值为 英里(miles)/千米(kilometers)，默认为 千米。可选参数
+
+**返回结果**
+geojson 格式的对应的点
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const pt = tyMap.point([1, 3]);
+const lineString = tyMap.lineString([[1, 1],[3, 3]]);
+const distance = tyMap.point2LineDistance(pt, lineString);
+```
+
+### 21. nearestPointOnLine(lines, point)
+
+计算某条线上离某个点最近的那个点。
+
+```markdown
+**输入参数**
+lines: geojson 格式的线，可以为 lineString 、 multiLineString 或者仅包含 lineString 和 multiLineString 的 featureCollection
+point: geojson 格式的点
+
+**返回结果**
+线上的最近的点，geojson 格式。其中属性对象包含且不仅包含以下三个值：
+- index: 在第 n 条线段部分找到最近点
+- dist: 该点与最近点之间的距离，单位为 千米
+- location: 沿着线的起始位置和最近点之间的距离，单位为 千米
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const pt = tyMap.point([1, 3]);
+const lineString1 = tyMap.lineString([[1, 1],[3, 3]]);
+const nearestPt = tyMap.nearestPointOnLine(line, pt);
+```
+
+### 22. alongLine(lineString, distance, units)
+
+计算某条线上距离起始点为 distance 的点的坐标。
+
+```markdown
+**输入参数**
+lineString: geojson 格式的线，单线
+distance: 数值
+units?: 单位，可选值为 英里(miles)/千米(kilometers)，默认为 千米。可选参数
+
+**返回结果**
+geojson 格式的对应的点
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const lineString = tyMap.lineString([[1, 1],[3, 3]]);
+const distance = tyMap.alongLine(lineString, 200);
+```
+
+### 23. pointInPolygon(point, polygons)
+
+判断某个点是否在某个面上。
+
+```markdown
+**输入参数**
+point: geojson 格式的点
+polygons: 可以是单面(polygon)、多面(multiPolygon)或者是仅包含 polygon 和 multiPolygon 的 featureCollection
+
+**返回结果**
+true 或 false
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const point = tyMap.point([2, 2]);
+const poly = tyMap.polygon([[1, 1],[1, 3],[3, 3], [3, 1], [1, 1]]);
+const distance = tyMap.pointInPolygon(point, poly);
+```
+
+### 24. sector(center, radius, startAng, endAng, options)
+
+计算给定点、给定半径给定起始角和终止角对应的扇形。
+
+```markdown
+**输入参数**
+center: [lng, lat]
+radius: 半径
+startAng: 起始角
+endAng: 终止角
+options?: 配置项，可选。包括以下几项：
+- units: 单位，可选值为 英里(miles)/千米(kilometers)，默认为 千米
+- steps: 由多少个线段组成，默认为 64
+- properties: 和面类似的属性
+
+**返回结果**
+geojson 格式的对应的面
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const center = tyMap.point([1, 1]);
+const radius = 5;
+const startAng = 25;
+const endAng = 45;
+const sector = tyMap.sector(center, radius, startAng, endAng);
+
+```
+
+### 25. convex(collection)
+
+根据多个点生成 geojson 格式的凸多边形。
+
+```markdown
+**输入参数**
+collection: 由 point 组成的 featureCollection
+
+**返回结果**
+geojson 格式的对应的面
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const collection = tyMap.featureCollection([
+  tyMap.point([1, 4]),
+  tyMap.point([2, 4]),
+  tyMap.point([5, 7]),
+  tyMap.point([5, 4]),
+  tyMap.point([3, 0])
+]);
+const convPoly = tyMap.convex(collection);
+```
+
+### 26. polygonIntersect(poly1, poly2)
+
+求两个面的交集。
+
+```markdown
+**输入参数**
+poly1: polygon，单面
+poly2: polygon，单面
+
+**返回结果**
+geojson 格式的对应的 point/multiPoint/lineString/multiLineString/polygon/multiPolygon 或者为 null。
+null就代表两个面没有任何交集。
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const poly1 = tyMap.polygon([[
+  [122.801742, 45.48565],
+  [122.801742, 45.60491],
+  [122.584762, 45.60491],
+  [122.584762, 45.48565],
+  [122.801742, 45.48565]
+]]);
+
+const poly2 = tyMap.polygon([[
+  [122.520217, 45.535693],
+  [122.64038, 45.553967],
+  [122.720031, 45.526554],
+  [122.669906, 45.507309],
+  [122.723464, 45.446643],
+  [122.487258, 45.477466],
+  [122.520217, 45.535693]
+]]);
+const intersectPoly = tyMap.polygonIntersect(poly1, poly2);
+```
+
+### 27. polygonUnion(poly1, poly2, poly3, ...)
+
+求多个面的并集。
+
+```markdown
+**输入参数**
+poly1: polygon 或者 multiPolygon
+poly2: polygon 或者 multiPolygon
+poly3: polygon 或者 multiPolygon
+...
+
+**返回结果**
+geojson 格式的对应的 polygon/multiPolygon。
+```
+
+### 28. polygonDiff(poly1, poly2)
+
+求第一个面和第二个面的差集。
+
+```markdown
+**输入参数**
+poly1: polygon 或者 multiPolygon
+poly2: polygon 或者 multiPolygon
+poly3: polygon 或者 multiPolygon
+...
+
+**返回结果**
+geojson 格式的对应的 polygon/multiPolygon。
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const poly1 = tyMap.polygon([[
+  [128, -26],
+  [141, -26],
+  [141, -21],
+  [128, -21],
+  [128, -26]
+]]);
+const poly1 = tyMap.polygon([[
+  [126, -28],
+  [140, -28],
+  [140, -20],
+  [126, -20],
+  [126, -28]
+]]);
+const polyDiff = turf.polygonDiff(poly1, poly2);
+```
 
 ## 监听事件
 

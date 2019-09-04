@@ -19,8 +19,26 @@ import {
   multiPolygon as MultiPolygon,
   lineString as LineString,
   multiLineString as MultiLineString,
-  featureCollection as FeatureCollection
-} from 'turf';
+  featureCollection as FeatureCollection,
+  randomPoint as RandomPoint,
+  randomLineString as RandomLineString,
+  randomPolygon as RandomPolygon,
+  center as PointCenter,
+  distance as PointDistance,
+  length as LineLength,
+  area as PolygonArea,
+  midpoint as MidPoint,
+  pointToLineDistance as Point2LineDistance,
+  nearestPointOnLine as NearestPointOnLine,
+  along as AlongLine,
+  booleanPointInPolygon as PointInPolygon,
+  sector as Sector,
+  convex as Convex,
+  intersect as PolygonIntersect,
+  union as PolygonUnion,
+  difference as PolygonDiff,
+  lineToPolygon as LineToPolygon
+} from '@turf/turf';
 
 const mapArr = [];
 
@@ -84,20 +102,20 @@ class TyMap {
 
   getLayer = layerId => mapArr[this.mapIndex].getLayer(layerId);
 
-  addCircleLayer = (source, layerId, option = {}) =>
-    AddCircleLayer(mapArr[this.mapIndex], source, layerId, option);
+  addCircleLayer = (source, layerId, options = {}) =>
+    AddCircleLayer(mapArr[this.mapIndex], source, layerId, options);
 
-  addLineLayer = (source, layerId, option = {}) =>
-    AddLineLayer(mapArr[this.mapIndex], source, layerId, option);
+  addLineLayer = (source, layerId, options = {}) =>
+    AddLineLayer(mapArr[this.mapIndex], source, layerId, options);
 
-  addPolygonLayer = (source, layerId, option = {}) =>
-    AddPolygonLayer(mapArr[this.mapIndex], source, layerId, option);
+  addPolygonLayer = (source, layerId, options = {}) =>
+    AddPolygonLayer(mapArr[this.mapIndex], source, layerId, options);
 
-  add3dLayer = (source, layerId, option = {}) =>
-    Add3dLayer(mapArr[this.mapIndex], source, layerId, option);
+  add3dLayer = (source, layerId, options = {}) =>
+    Add3dLayer(mapArr[this.mapIndex], source, layerId, options);
 
-  addTextLayer = (source, layerId, option = {}) =>
-    AddTextLayer(mapArr[this.mapIndex], source, layerId, option);
+  addTextLayer = (source, layerId, options = {}) =>
+    AddTextLayer(mapArr[this.mapIndex], source, layerId, options);
 
   setFilter = (layerId, filterExpress) => {
     mapArr[this.mapIndex].setFilter(layerId, filterExpress);
@@ -149,8 +167,8 @@ class TyMap {
     mapArr[this.mapIndex].rotateTo(bearing);
   };
 
-  panTo = latlng => {
-    mapArr[this.mapIndex].panTo(latlng);
+  panTo = lnglat => {
+    mapArr[this.mapIndex].panTo(lnglat);
   };
 
   flyTo = options => {
@@ -159,7 +177,7 @@ class TyMap {
 
   // 辅助计算
   unproject = point => mapArr[this.mapIndex].unproject(point);
-  project = latlng => mapArr[this.mapIndex].project(latlng);
+  project = lnglat => mapArr[this.mapIndex].project(lnglat);
 
   point = TurfPoint;
   multiPoint = MultiPoint;
@@ -170,6 +188,61 @@ class TyMap {
   polygon3d = TurfPolygon;
   multiPolygon3d = MultiPolygon;
   featureCollection = FeatureCollection;
+
+  randomPoint = (count, boundingBox) =>
+    RandomPoint(count, { bbox: boundingBox });
+
+  randomLineString = (count, options = {}) => {
+    const { boundingBox, verticesNum, maxLength, maxRotation } = options;
+    RandomLineString(count, {
+      num_vertices: verticesNum,
+      max_length: maxLength,
+      max_rotation: maxRotation,
+      bbox: boundingBox
+    });
+  };
+
+  midPoint = MidPoint;
+
+  randomPolygon = (count, options = {}) => {
+    const { verticesNum, maxRadialLen, boundingBox } = options;
+    RandomPolygon(count, {
+      num_vertices: verticesNum,
+      max_radial_length: maxRadialLen,
+      bbox: boundingBox
+    });
+  };
+
+  pointCenter = PointCenter;
+
+  pointDistance = (from, to, units = 'kilometers') =>
+    PointDistance(from, to, { units });
+
+  lineLength = (lineString, units = 'kilometers') =>
+    LineLength(lineString, { units });
+
+  polygonArea = PolygonArea;
+
+  point2LineDistance = (pt, line, units = 'kilometers') =>
+    Point2LineDistance((pt, line, { units }));
+
+  nearestPointOnLine = (lines, point) =>
+    NearestPointOnLine(lines, point, { units: 'kilometers' });
+
+  alongLine = (lineString, distance, units = 'kilometers') =>
+    AlongLine(lineString, distance, { units });
+
+  pointInPolygon = PointInPolygon;
+
+  sector = Sector;
+
+  convex = Convex;
+
+  polygonIntersect = PolygonIntersect;
+
+  polygonUnion = PolygonUnion;
+
+  polygonDiff = PolygonDiff;
 
   // 回调
   onResize = callback => mapArr[this.mapIndex].on('resize', callback);
