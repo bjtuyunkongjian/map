@@ -105,6 +105,21 @@ class TyMap {
 
   // 回调
   onResize = callback => mapArr[this.mapIndex].on('resize', callback);
+  onMouseDown = callback => mapArr[this.mapIndex].on('mousedown', callback);
+  onMouseUp = callback => mapArr[this.mapIndex].on('mouseup', callback);
+  onMouseOver = callback => mapArr[this.mapIndex].on('mouseover', callback);
+  onMouseOut = callback => mapArr[this.mapIndex].on('mouseout', callback);
+  onMouseMove = callback => mapArr[this.mapIndex].on('mousemove', callback);
+  onClick = callback => mapArr[this.mapIndex].on('click', callback);
+  onDblClick = callback => mapArr[this.mapIndex].on('dblclick', callback);
+  onContextMenu = callback => mapArr[this.mapIndex].on('contextmenu', callback);
+  onDrag = callback => mapArr[this.mapIndex].on('drag', callback);
+  onZoom = callback => mapArr[this.mapIndex].on('zoom', callback);
+  onRotate = callback => mapArr[this.mapIndex].on('rotate', callback);
+  onPitch = callback => mapArr[this.mapIndex].on('pitch', callback);
+  onMove = callback => mapArr[this.mapIndex].on('move', callback);
+  onMoveEnd = callback => mapArr[this.mapIndex].on('moveend', callback);
+  onLoad = callback => mapArr[this.mapIndex].on('load', callback);
 }
 
 window.TyMap = TyMap;
