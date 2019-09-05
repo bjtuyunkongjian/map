@@ -41,9 +41,6 @@ import {
   difference as PolygonDiff
 } from '@turf/turf';
 
-window.LevelStyles = LevelStyles;
-window.BaseStyle = BaseStyle;
-
 const mapArr = [];
 
 class TyMap {
@@ -65,7 +62,7 @@ class TyMap {
       console.log('可能是盗用了他人的 key？');
       return Object.create({});
     }
-    const map = new mapboxgl.Map({
+    const tyMap = new mapboxgl.Map({
       style: BaseStyle,
       container: container,
       hash,
@@ -78,15 +75,15 @@ class TyMap {
       localIdeographFontFamily: '黑体'
     });
 
-    this.mapIndex = mapArr.length;
-    mapArr.push(map);
-  }
+    tyMap
+      .on('style.load', () => {
+        addSource(tyMap); // 增加图层组
+      })
+      .on('zoomend', () => addSource(tyMap));
 
-  _addSource = () => {
-    for (let item of LevelStyles) {
-      AddLevel(this.map, item);
-    }
-  };
+    this.mapIndex = mapArr.length;
+    mapArr.push(tyMap);
+  }
 
   resize = () => mapArr[this.mapIndex].resize();
 
@@ -316,7 +313,14 @@ class TyMap {
   onLayerContextMenu = (layerId, callback) =>
     mapArr[this.mapIndex].on('contextmenu', layerId, callback);
 }
+
 window.TyMap = TyMap;
+
+const addSource = tyMap => {
+  for (let item of LevelStyles) {
+    AddLevel(tyMap, item);
+  }
+};
 
 const transformStyle = userKey => {
   if (!userKey) return -1; // 没有 userKey
@@ -368,7 +372,7 @@ const transformUrl = (style, userKey, encMap) => {
       sources[key].tiles[0] = preUrl + `&l=${level}&type=geo&x={x}&y={y}&z={z}`;
     } else if (url.indexOf('originMapServer/string') > -1) {
       // 赋值
-      sources[key].tiles[0] = preUrl + 'type=ori&x={x}&y={y}&z={z}';
+      sources[key].tiles[0] = preUrl + '&type=ori&x={x}&y={y}&z={z}';
     } else {
       continue;
     }
