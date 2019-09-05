@@ -68,7 +68,7 @@ class TyMap {
     mapArr.push(map);
   }
 
-  _addSourceFunc = () => {
+  _addSource = () => {
     for (let item of AddLevels) {
       AddLevel(this.map, item);
     }
