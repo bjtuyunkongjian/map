@@ -342,7 +342,7 @@ const layers = [
 
 export default {
   version: 8,
-  name: 'Mapbox',
+  name: 'ty-map',
   metadata: {},
   sources: {
     [LevelConfig.addLv7]: {
