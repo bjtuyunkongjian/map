@@ -361,7 +361,7 @@ const transformStyle = userKey => {
 };
 
 const transformUrl = (style, userKey, encMap) => {
-  let preUrl = `${BaseConfig.apiHost}get-tiles/prod?key=${userKey}&${encMap.key}=${encMap.value}`;
+  let preUrl = `${BaseConfig.apiHost}get-tiles/dev?key=${userKey}&${encMap.key}=${encMap.value}`;
   const sources = style.sources || style.source;
   for (let key of Object.keys(sources)) {
     if (!sources[key]) continue;
