@@ -29,4 +29,5 @@ yarn-error.log
 yarn-debug.log
 npm-debug.log
 /build-api/
+api.html
 api.pdf

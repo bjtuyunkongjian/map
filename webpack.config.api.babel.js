@@ -3,9 +3,9 @@ import Package from './package.json';
 
 export default {
   mode: 'development',
-  entry: Path.resolve(__dirname, 'src/map/api.index.js'),
+  entry: Path.resolve(__dirname, 'src/map/api.index.production.js'),
   output: {
-    filename: `ty-map.${Package.version}.js`,
+    filename: `ty-map-production.${Package.version}.js`,
     path: Path.resolve(__dirname, 'build-api')
   },
   module: {
