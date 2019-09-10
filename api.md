@@ -4,6 +4,8 @@
 
 该地图的底层使用的webgl实现，请务必使用支持webgl的浏览器进行开发和测试。推荐使用 google chrome 浏览器，60 以上的版本。急速浏览器尽量使用73以上的版本。由于windows xp系统对webgl的支持很不友好，所以 windows 平台请使用 windows 7 以上的进行开发。
 
+<!-- 查看 pdf 版本接口文档：[点此下载](/api.pdf) -->
+
 ## 简单实例
 
 通过以下实例即可实现一个基础的地图功能。
@@ -19,7 +21,7 @@
   </head>
   <body style="width: 100%; height: 100%;">
     <div id="app" style="width: 100%; height: 100%;"></div>
-    <script src="http://ip:host/dir/ty-map.1.1.0.js"></script>
+    <script src="http://ip:host/dir/ty-map.2.4.12.js"></script>
     <script>
       const container = document.getElementById('app');
       const tyMap = new TyMap(container, {key: '你的对应的key'});
@@ -28,7 +30,7 @@
 </html>
 ```
 
-其中 TyMap 是 ty-map.1.1.0.js 中导出的唯一一个类。由于是 script 标签的形式引入，TyMap 也是一个全局对象。
+其中 TyMap 是 ty-map.2.4.12.js 中导出的唯一一个类。由于是 script 标签的形式引入，TyMap 也是一个全局对象。
 
 ## 需求
 
@@ -54,16 +56,16 @@
 
 ```html
 <!-- 地图引入文件 -->
-<script src="http://47.110.135.245:3000/third-party-api/ty-map-development.1.1.0.js"></script>
-<script src="http://47.110.135.245:3000/third-party-api/ty-map-production.1.1.0.js"></script>
+<script src="http://47.110.135.245:3000/third-party-api/ty-map-development.2.4.12.js"></script>
+<script src="http://47.110.135.245:3000/third-party-api/ty-map-production.2.4.12.js"></script>
 ```
 
 ### 下载第三方接口的 js 代码
 
-您可以从 <http://47.110.135.245:3000/third-party-api/ty-map-development.1.1.0.js> 上下载图云空间第三方接口的对应版本到本地。其中 1.1.0 为版本号。然后通过
+您可以从 <http://47.110.135.245:3000/third-party-api/ty-map-development.2.4.12.js> 上下载图云空间第三方接口的对应版本到本地。其中 2.4.12 为版本号。然后通过
 
 ```html
-<script src="dirname/ty-map-development.1.1.0.js"></script>
+<script src="dirname/ty-map-development.2.4.12.js"></script>
 ```
 
 的方式调用。
@@ -75,7 +77,7 @@
 通过 script 标签的方式将代码引入，
 
 ```html
-<script src="http://47.110.135.245:3000/third-party-api/ty-map-development.1.1.0.js"></script>
+<script src="http://47.110.135.245:3000/third-party-api/ty-map-development.2.4.12.js"></script>
 ```
 
 然后创建一个面积不为零的容器，比如创建一个 id 为 app 的 div 容器：
@@ -94,7 +96,7 @@
 </script>
 ```
 
-在 div#app 容器中就能看到山东省的地图了。
+在 div#app 容器中就能看到某个省份的地图了。
 
 ### 2. 地图的倾斜、旋转、移动、缩放
 
