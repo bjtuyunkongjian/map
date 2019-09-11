@@ -1,10 +1,12 @@
-# 图云空间web端对外接口
+# 图云空间 web 端对外接口
 
 该文档为图云空间第三方开发接口文档。开发前请仔细阅读该文档，特殊情况会在文档中有所说明。对应的 api 名称、参数名称以及返回内容借鉴了多个地理信息可视化平台的 api，并遵守相应的地理信息编码命名规范。
 
-该地图的底层使用的webgl实现，请务必使用支持webgl的浏览器进行开发和测试。推荐使用 google chrome 浏览器，60 以上的版本。急速浏览器尽量使用73以上的版本。由于windows xp系统对webgl的支持很不友好，所以 windows 平台请使用 windows 7 以上的进行开发。
+该地图的底层使用的 webgl 实现，请务必使用支持 webgl 的浏览器进行开发和测试。推荐使用 google chrome 浏览器，60 以上的版本。急速浏览器尽量使用 73 以上的版本。由于 windows xp 系统对 webgl 的支持很不友好，所以 windows 平台请使用 windows 7 以上的进行开发。
 
-查看 pdf 版本接口文档：[点此下载](/api.pdf)
+查看 pdf 版本（当前最高版本: 2.4.12）接口文档：[点此下载](http://47.110.135.245:8080/docs/api.pdf)
+
+注: **由于底层服务的改动，之前 1.x.x 版本对应的 js 包已不再维护，6 月 1 日之前注册的 key 继续沿用，6 月 1 日之后注册的 key 不再支持 1.x.x 版本。如有问题请与相关技术人员联系。**
 
 ## 简单实例
 
@@ -21,10 +23,10 @@
   </head>
   <body style="width: 100%; height: 100%;">
     <div id="app" style="width: 100%; height: 100%;"></div>
-    <script src="http://ip:host/dir/ty-map.2.4.12.js"></script>
+    <script src="http://ip:host/dir/ty-map-development.2.4.12.js"></script>
     <script>
       const container = document.getElementById('app');
-      const tyMap = new TyMap(container, {key: '你的对应的key'});
+      const tyMap = new TyMap(container, { key: '你的对应的key' });
     </script>
   </body>
 </html>
@@ -34,7 +36,7 @@
 
 ## 需求
 
-需要第三方提供对应的ip和域名，我们在设置白名单时要使用。ip和域名是**用户使用地图时所在服务器**的ip和域名。
+需要第三方提供对应的 ip 和域名，我们在设置白名单时要使用。ip 和域名是**用户使用地图时所在服务器**的 ip 和域名。
 
 ## 第三方如何调用
 
@@ -43,10 +45,10 @@
 |        类别         | 开发版(development) | 生产版(production) |
 | :-----------------: | :-----------------: | :----------------: |
 | 静态地图配额(次/日) |        5000         |      3000000       |
-|   是否需要验证key   |         是          |         是         |
+|  是否需要验证 key   |         是          |         是         |
 | 是否需要验证服务器  |         否          |         是         |
 
-验证服务器是指会对第三方调用的服务器进行验证，为了防止他人盗用key之后进行二次开发，导致配额不足无法访问服务器等异常的情况。关于开发版和生产版两个版本，除了配额，以及开发版有图云空间的水印以外，其他功能完全一致。如果不是直接在服务器上进行开发，建议开发期间使用开发版进行开发，开发结束打包到服务器使用生产版。
+验证服务器是指会对第三方调用的服务器进行验证，为了防止他人盗用 key 之后进行二次开发，导致配额不足无法访问服务器等异常的情况。关于开发版和生产版两个版本，除了配额，以及开发版有图云空间的水印以外，其他功能完全一致。如果不是申请使用自己的服务器后台转接数据或者直接在服务器上进行开发，建议开发期间使用开发版进行开发，开发结束打包到服务器使用生产版。
 
 本公司其他项目组还有坐标转换、地理编码以及路线规划等功能，如有需求可与相关人员联系。
 
@@ -70,6 +72,10 @@
 
 的方式调用。
 
+### 使用自己的服务器后台
+
+您可以申请使用自己的服务器后台，本公司会为您生成对应的 cdn，您也可以下载到本地进行开发。由于该方式只支持 production 版本，需用户提供对应的 ip 和域名。如使用此方法开发，请务必做好相应的安全策略。
+
 ## 基本功能
 
 ### 1. 地图调用功能，显示某省的详细地图
@@ -91,7 +97,7 @@
 ```html
 <script>
   const container = document.getElementById('app');
-  const tyMap = new TyMap(container, {key: '你的对应的key'});
+  const tyMap = new TyMap(container, { key: '你的对应的key' });
   console.log(tyMap); // 可以在控制台打印出 TyMap 的实例化对象看一下。
 </script>
 ```
@@ -110,7 +116,7 @@
 
 ```javascript
 const container = document.getElementById('app');
-new TyMap(container, {key: '你的对应的key', center: [117.0856, 36.6754]});
+new TyMap(container, { key: '你的对应的key', center: [117.0856, 36.6754] });
 ```
 
 ### 4. 设置起始旋转角
@@ -121,7 +127,7 @@ new TyMap(container, {key: '你的对应的key', center: [117.0856, 36.6754]});
 
 ```javascript
 const container = document.getElementById('app');
-new TyMap(container, {key: '你的对应的key', bearing: 180});
+new TyMap(container, { key: '你的对应的key', bearing: 180 });
 ```
 
 ### 5. 设置起始倾斜角
@@ -132,7 +138,7 @@ new TyMap(container, {key: '你的对应的key', bearing: 180});
 
 ```javascript
 const container = document.getElementById('app');
-new TyMap(container, {key: '你的对应的key', pitch: 30});
+new TyMap(container, { key: '你的对应的key', pitch: 30 });
 ```
 
 ## 设置和获取地图基本信息
@@ -164,7 +170,9 @@ null
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 console.log(tyMap.getBounds());
 // 返回：
 // {
@@ -182,10 +190,10 @@ console.log(tyMap.getBounds());
 ```markdown
 **输入参数**
 bounds?：可选参数，为空时代表清除地理边界。bounds 是 undefined 或者是一个二维数组：
-  [
-    [lngMax, latMax],
-    [lngMin, latMin]
-  ]
+[
+[lngMax, latMax],
+[lngMin, latMin]
+]
 
 **返回结果**
 null
@@ -194,7 +202,9 @@ null
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 tyMap.setMaxBounds(); // 清除边界
 tyMap.setMaxBounds([
   [117.04023142816038, 36.78984454855521],
@@ -206,7 +216,7 @@ tyMap.setMaxBounds([
 
 ### 4. getMaxBounds()
 
-获取地图约束的最大地理范围，如果没有设置，则返回null。和 setMaxBounds 相对应。
+获取地图约束的最大地理范围，如果没有设置，则返回 null。和 setMaxBounds 相对应。
 
 ```markdown
 **输入参数**
@@ -219,7 +229,9 @@ null
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 tyMap.getMaxBounds(); // 返回：null
 ```
 
@@ -238,7 +250,9 @@ null
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 tyMap.setMinZoom(10);
 ```
 
@@ -251,13 +265,15 @@ tyMap.setMinZoom(10);
 null
 
 **返回结果**
-设置的最小缩放级别或者null
+设置的最小缩放级别或者 null
 ```
 
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 tyMap.getMinZoom(); // 返回：7
 ```
 
@@ -276,7 +292,9 @@ null
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 tyMap.setMaxZoom(20);
 ```
 
@@ -289,13 +307,15 @@ tyMap.setMaxZoom(20);
 null
 
 **返回结果**
-设置的最大缩放级别或者null
+设置的最大缩放级别或者 null
 ```
 
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 tyMap.getMaxZoom(); // 返回：20
 ```
 
@@ -314,7 +334,9 @@ null
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 tyMap.isZooming(); // 返回 true 或者 false
 ```
 
@@ -333,7 +355,9 @@ null
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 tyMap.isRotating(); // 返回 true 或者 false
 ```
 
@@ -352,7 +376,9 @@ null
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 tyMap.isMoving(); // 返回 true 或者 false
 ```
 
@@ -371,7 +397,9 @@ layerId，对应图层的 id 号
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 tyMap.getLayer('layerIdxxx'); // 返回 对应的信息
 ```
 
@@ -384,11 +412,12 @@ tyMap.getLayer('layerIdxxx'); // 返回 对应的信息
 source: geojson 格式的数据
 layerId: 所需渲染图层的 id，所有图层的 id 不能重复
 options?: 配置项，默认为空，包括以下几个属性：
- - color?: 点的颜色，默认为红色，色值为 #RRGGBB/rgb(R,G,B)/rgba(R,G,B,ALPHA)
- - labelLayerId?: 该图层在 labelLayerId 之上，默认为空代表添加到所有图层之上
- - strokeWidth?: 描边的宽度
- - strokeColor?: 描边的颜色
- - radius?: 点的半径
+
+- color?: 点的颜色，默认为红色，色值为 #RRGGBB/rgb(R,G,B)/rgba(R,G,B,ALPHA)
+- labelLayerId?: 该图层在 labelLayerId 之上，默认为空代表添加到所有图层之上
+- strokeWidth?: 描边的宽度
+- strokeColor?: 描边的颜色
+- radius?: 点的半径
 
 **返回结果**
 null
@@ -421,10 +450,11 @@ tyMap.addCircleLayer(geojsonData, 'pointLayerId', {
 source: geojson 格式的数据
 layerId: 所需渲染图层的 id，所有图层的 id 不能重复
 options?: 配置项，默认为空，包括以下几个属性：
- - labelLayerId?: 该图层在 labelLayerId 之上，默认为空代表添加到所有图层之上
- - width?: 线的宽度，默认为 1
- - color?: 线的颜色，默认为红色，色值为 #RRGGBB/rgb(R,G,B)/rgba(R,G,B,ALPHA)
- - dasharray?: 是否是虚线，实线用 [1] 表示，虚线用[realRercentage, imaginaryRercentage]，默认为实线
+
+- labelLayerId?: 该图层在 labelLayerId 之上，默认为空代表添加到所有图层之上
+- width?: 线的宽度，默认为 1
+- color?: 线的颜色，默认为红色，色值为 #RRGGBB/rgb(R,G,B)/rgba(R,G,B,ALPHA)
+- dasharray?: 是否是虚线，实线用 [1] 表示，虚线用[realRercentage, imaginaryRercentage]，默认为实线
 
 **返回结果**
 null
@@ -455,8 +485,9 @@ tyMap.addCircleLayer(geojsonData, 'lineLayerId', {
 source: geojson 格式的数据
 layerId: 所需渲染图层的 id，所有图层的 id 不能重复
 options?: 配置项，默认为空，包括以下几个属性：
- - labelLayerId?: 该图层在 labelLayerId 之上，默认为空代表添加到所有图层之上
- - color?: 面的颜色，默认为红色，色值为 #RRGGBB/rgb(R,G,B)/rgba(R,G,B,ALPHA)
+
+- labelLayerId?: 该图层在 labelLayerId 之上，默认为空代表添加到所有图层之上
+- color?: 面的颜色，默认为红色，色值为 #RRGGBB/rgb(R,G,B)/rgba(R,G,B,ALPHA)
 
 **返回结果**
 null
@@ -486,8 +517,9 @@ tyMap.addCircleLayer(geojsonData, 'polygonLayerId', {
 source: geojson 格式的数据
 layerId: 所需渲染图层的 id，所有图层的 id 不能重复
 options?: 配置项，默认为空，包括以下几个属性：
- - labelLayerId: 该图层在 labelLayerId 之上，默认为空代表添加到所有图层之上
- - color: 线的颜色，默认为红色，色值为 #RRGGBB/rgb(R,G,B)/rgba(R,G,B,ALPHA)
+
+- labelLayerId: 该图层在 labelLayerId 之上，默认为空代表添加到所有图层之上
+- color: 线的颜色，默认为红色，色值为 #RRGGBB/rgb(R,G,B)/rgba(R,G,B,ALPHA)
 
 **返回结果**
 null
@@ -517,10 +549,11 @@ tyMap.addCircleLayer(geojsonData, 'polygon3dLayerId', {
 source: geojson 格式的数据
 layerId: 所需渲染图层的 id，所有图层的 id 不能重复
 options?: 配置项，默认为空，包括以下几个属性：
- - textColor?: 文字的颜色，默认为深灰色，色值为 #RRGGBB/rgb(R,G,B)/rgba(R,G,B,ALPHA)
- - labelLayerId?: 该图层在 labelLayerId 之上，默认为空代表添加到所有图层之上
- - textHaloWith?: 描边的宽度，默认是 2 像素
- - textHaloColor?: 描边的颜色，默认为白色
+
+- textColor?: 文字的颜色，默认为深灰色，色值为 #RRGGBB/rgb(R,G,B)/rgba(R,G,B,ALPHA)
+- labelLayerId?: 该图层在 labelLayerId 之上，默认为空代表添加到所有图层之上
+- textHaloWith?: 描边的宽度，默认是 2 像素
+- textHaloColor?: 描边的颜色，默认为白色
 
 **返回结果**
 null
@@ -549,6 +582,7 @@ tyMap.addCircleLayer(geojsonData, 'textLayerId', {
 **输入参数**
 layerId: 已经渲染的图层 id
 filterExpress: 过滤条件表达式有两种：
+
 - ["==", key, val] prop[key] === val
 - ["!=", key, val] prop[key] !== val
 
@@ -559,7 +593,9 @@ null
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 tyMap.setFilter('toFilterLayer', ['==', 'type', 'HYH']); // toFilterLayer 过滤只剩下 type 为 HYH 的数据
 ```
 
@@ -578,7 +614,9 @@ null
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 tyMap.removeLayer('toRemoveLayer'); // 删除 toRemoveLayer 图层
 ```
 
@@ -597,7 +635,9 @@ null
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 tyMap.setCenter([116.98462, 36.64932]);
 ```
 
@@ -615,7 +655,9 @@ tyMap.setCenter([116.98462, 36.64932]);
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 tyMap.getCenter();
 // 返回：{lng: 116.98462, lat: 36.64932}
 ```
@@ -635,7 +677,9 @@ null
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 tyMap.setZoom(15);
 ```
 
@@ -654,7 +698,9 @@ null
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 tyMap.getZoom();
 // 返回：11.21
 ```
@@ -674,7 +720,9 @@ null
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 tyMap.setBearing(180);
 ```
 
@@ -693,7 +741,9 @@ null
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 tyMap.getBearing();
 // 返回：0
 ```
@@ -713,7 +763,9 @@ null
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 tyMap.setPitch(30);
 ```
 
@@ -732,7 +784,9 @@ null
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 tyMap.getPitch();
 // 返回：0
 ```
@@ -744,6 +798,7 @@ tyMap.getPitch();
 ```markdown
 **输入参数**
 options: 对象，至少包括一项以下属性：
+
 - center: 中心，[lng, lat]
 - zoom: 缩放等级，数字
 - bearing: 旋转角度，数字
@@ -756,7 +811,9 @@ null
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 tyMap.jumpTo({
   center: [117.0856, 36.6754],
   zoom: 12,
@@ -780,7 +837,9 @@ null
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 tyMap.zoomIn();
 ```
 
@@ -799,7 +858,9 @@ null
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 tyMap.zoomOut();
 ```
 
@@ -818,7 +879,9 @@ null
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 tyMap.zoomTo(12);
 ```
 
@@ -837,7 +900,9 @@ null
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 tyMap.rotateTo(120);
 ```
 
@@ -856,7 +921,9 @@ null
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 tyMap.panTo([117.0856, 36.6754]);
 ```
 
@@ -867,6 +934,7 @@ tyMap.panTo([117.0856, 36.6754]);
 ```markdown
 **输入参数**
 options：对象，至少包括一项以下内容：
+
 - center: 中心，[lng, lat]
 - zoom: 缩放等级
 - bearing: 旋转角度
@@ -879,7 +947,9 @@ null
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 tyMap.flyTo({
   center: [117.0856, 36.6754],
   zoom: 12,
@@ -903,7 +973,9 @@ null
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 tyMap.stopAni();
 ```
 
@@ -924,7 +996,9 @@ tyMap.stopAni();
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 console.log(tyMap.unproject([100, 100]));
 // 返回：{lng: 114.46505859371695, lat: 37.93974548507774}
 ```
@@ -944,7 +1018,9 @@ console.log(tyMap.unproject([100, 100]));
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 console.log(tyMap.project([114.4650585, 37.9397454]));
 // 返回：{x: -6792.88034417781, y: -4185.204987593001}
 ```
@@ -965,7 +1041,9 @@ prop?: 对应的属性，如 { radius: 3 }
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 console.log(tyMap.point([114.4650585, 37.9397454], { radius: 3 }));
 // 返回：
 // {
@@ -999,8 +1077,14 @@ prop?: 对应的属性，如 { radius: 3 }
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
-console.log(tyMap.multiPoint([[114.4650585, 37.9397454], [114.5650585, 37.8397454]], { radius: 3 }));
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
+console.log(
+  tyMap.multiPoint([[114.4650585, 37.9397454], [114.5650585, 37.8397454]], {
+    radius: 3
+  })
+);
 ```
 
 ### 5. lineString(lnglatArr, prop?)
@@ -1010,7 +1094,7 @@ console.log(tyMap.multiPoint([[114.4650585, 37.9397454], [114.5650585, 37.839745
 ```markdown
 **输入参数**
 lnglatArr: 经纬度数组，[[lng1, lat1], [lng2, lat2]]
-prop?: 对应的属性，如 { name: 'HYH路' }
+prop?: 对应的属性，如 { name: 'HYH 路' }
 
 **返回结果**
 单线对应的 geojson 格式数据。
@@ -1019,8 +1103,10 @@ prop?: 对应的属性，如 { name: 'HYH路' }
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
-console.log(tyMap.lineString([[1,1], [2,2], [3,3]], { name: 'HYH路' }));
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
+console.log(tyMap.lineString([[1, 1], [2, 2], [3, 3]], { name: 'HYH路' }));
 ```
 
 ### 6. multiLineString(lnglatArrArr, prop?)
@@ -1030,7 +1116,7 @@ console.log(tyMap.lineString([[1,1], [2,2], [3,3]], { name: 'HYH路' }));
 ```markdown
 **输入参数**
 lnglatArrArr: 经纬度数组，[[[lng11, lat11], [lng12, lat12]], [[lng21, lat21], [lng22, lat22]]]
-prop?: 对应的属性，如 { name: 'HYH路' }
+prop?: 对应的属性，如 { name: 'HYH 路' }
 
 **返回结果**
 多线对应的 geojson 格式数据。
@@ -1039,8 +1125,15 @@ prop?: 对应的属性，如 { name: 'HYH路' }
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
-console.log(tyMap.multiLineString([[[11,11], [12,12], [13,13]], [[21,21], [22,22], [23,23]]], { name: 'HYH路' }));
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
+console.log(
+  tyMap.multiLineString(
+    [[[11, 11], [12, 12], [13, 13]], [[21, 21], [22, 22], [23, 23]]],
+    { name: 'HYH路' }
+  )
+);
 ```
 
 ### 7. polygon(lnglatArrArr, prop?)
@@ -1050,7 +1143,7 @@ console.log(tyMap.multiLineString([[[11,11], [12,12], [13,13]], [[21,21], [22,22
 ```markdown
 **输入参数**
 lnglatArrArr: 经纬度数组，[[[lng11, lat11], [lng12, lat12], [lng13, lat13], [lng14, lat14]]]
-prop?: 对应的属性，如 { name: 'HYH区' }
+prop?: 对应的属性，如 { name: 'HYH 区' }
 
 **返回结果**
 单面对应的 geojson 格式数据。
@@ -1059,8 +1152,12 @@ prop?: 对应的属性，如 { name: 'HYH区' }
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
-console.log(tyMap.polygon([[[11, 11], [12, 12], [13, 13], [14, 14]]], { name: 'HYH区' }));
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
+console.log(
+  tyMap.polygon([[[11, 11], [12, 12], [13, 13], [14, 14]]], { name: 'HYH区' })
+);
 ```
 
 ### 8. multiPolygon(lnglatArrArrArr, prop?)
@@ -1070,10 +1167,10 @@ console.log(tyMap.polygon([[[11, 11], [12, 12], [13, 13], [14, 14]]], { name: 'H
 ```markdown
 **输入参数**
 lnglatArrArrArr: 经纬度数组，[
-  [[[lng111, lat111], [lng112, lat112], [lng113, lat113], [lng114, lat114]]],
-  [[[lng211, lat211], [lng212, lat212], [lng213, lat213], [lng214, lat214]]]
+[[[lng111, lat111], [lng112, lat112], [lng113, lat113], [lng114, lat114]]],
+[[[lng211, lat211], [lng212, lat212], [lng213, lat213], [lng214, lat214]]]
 ]
-prop?: 对应的属性，如 { name: 'HYH区' }
+prop?: 对应的属性，如 { name: 'HYH 区' }
 
 **返回结果**
 多面对应的 geojson 格式数据。
@@ -1082,8 +1179,14 @@ prop?: 对应的属性，如 { name: 'HYH区' }
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
-console.log(tyMap.multiPolygon([[[[111, 111], [112, 112], [113, 113], [114, 114]]]], { name: 'HYH区' }));
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
+console.log(
+  tyMap.multiPolygon([[[[111, 111], [112, 112], [113, 113], [114, 114]]]], {
+    name: 'HYH区'
+  })
+);
 ```
 
 ### 9. polygon3d(lnglatArrArr, prop?)
@@ -1093,7 +1196,7 @@ console.log(tyMap.multiPolygon([[[[111, 111], [112, 112], [113, 113], [114, 114]
 ```markdown
 **输入参数**
 lnglatArrArr: 经纬度数组，[[[lng11, lat11], [lng12, lat12], [lng13, lat13], [lng14, lat14]]]
-prop?: 对应的属性，如 { name: 'HYH建筑', height: 80 }
+prop?: 对应的属性，如 { name: 'HYH 建筑', height: 80 }
 
 **返回结果**
 单个三维建筑对应的 geojson 格式数据。
@@ -1102,8 +1205,14 @@ prop?: 对应的属性，如 { name: 'HYH建筑', height: 80 }
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
-console.log(tyMap.polygon3d([[[11, 11], [12, 12], [13, 13], [14, 14]]], { name: 'HYH建筑' }));
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
+console.log(
+  tyMap.polygon3d([[[11, 11], [12, 12], [13, 13], [14, 14]]], {
+    name: 'HYH建筑'
+  })
+);
 ```
 
 ### 10. multiPolygon3d(lnglatArrArrArr, prop?)
@@ -1113,10 +1222,10 @@ console.log(tyMap.polygon3d([[[11, 11], [12, 12], [13, 13], [14, 14]]], { name: 
 ```markdown
 **输入参数**
 lnglatArrArrArr: 经纬度数组，[
-  [[[lng111, lat111], [lng112, lat112], [lng113, lat113], [lng114, lat114]]],
-  [[[lng211, lat211], [lng212, lat212], [lng213, lat213], [lng214, lat214]]]
+[[[lng111, lat111], [lng112, lat112], [lng113, lat113], [lng114, lat114]]],
+[[[lng211, lat211], [lng212, lat212], [lng213, lat213], [lng214, lat214]]]
 ]
-prop?: 对应的属性，如 { name: 'HYH建筑', height: 50 }
+prop?: 对应的属性，如 { name: 'HYH 建筑', height: 50 }
 
 **返回结果**
 多个三维建筑对应的 geojson 格式数据。
@@ -1125,8 +1234,14 @@ prop?: 对应的属性，如 { name: 'HYH建筑', height: 50 }
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
-console.log(tyMap.multiPolygon3d([[[[111, 111], [112, 112], [113, 113], [114, 114]]]], { name: 'HYH区' }));
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
+console.log(
+  tyMap.multiPolygon3d([[[[111, 111], [112, 112], [113, 113], [114, 114]]]], {
+    name: 'HYH区'
+  })
+);
 ```
 
 ### 11. randomPoint(count, boundingBox?)
@@ -1145,7 +1260,9 @@ boundingBox?: 可选参数，边界范围 [minLng, minLat, maxLng, maxLat]，可
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 console.log(tyMap.randomPoint(10, [-180, -90, 180, 90]));
 ```
 
@@ -1157,6 +1274,7 @@ console.log(tyMap.randomPoint(10, [-180, -90, 180, 90]));
 **输入参数**
 count: 数量
 options?: 可选参数，对象包含以下这些：
+
 - boundingBox?: 边界范围，[minLng, minLat, maxLng, maxLat]，可为空，默认为 [-180, -90, 180, 90]
 - verticesNum?: 线上顶点的数量，默认为 10
 - maxRotation?: 从上一个线段转动的最大弧度数，默认为 π / 8
@@ -1168,8 +1286,10 @@ options?: 可选参数，对象包含以下这些：
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
-console.log(tyMap.randomLineString(10, {boundingBox: [-180, -90, 180, 90]}));
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
+console.log(tyMap.randomLineString(10, { boundingBox: [-180, -90, 180, 90] }));
 ```
 
 ### 13. randomPolygon = (count, options?)
@@ -1180,6 +1300,7 @@ console.log(tyMap.randomLineString(10, {boundingBox: [-180, -90, 180, 90]}));
 **输入参数**
 count: 数量
 options?: 可选参数，对象包含以下这些：
+
 - boundingBox?: 边界范围，[minLng, minLat, maxLng, maxLat]，可为空，默认为 [-180, -90, 180, 90]
 - verticesNum?: 线上顶点的数量，默认为 10
 - maxRadialLen?: 顶点可以到达多边形中心的最大数纬度或经度，默认为 10
@@ -1191,8 +1312,10 @@ options?: 可选参数，对象包含以下这些：
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
-console.log(tyMap.randomPolygon(10, {boundingBox: [-180, -90, 180, 90]}));
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
+console.log(tyMap.randomPolygon(10, { boundingBox: [-180, -90, 180, 90] }));
 ```
 
 ### 14. featureCollection(geometryArr)
@@ -1210,10 +1333,12 @@ geojson 格式的对应的集合。
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
-const pt1 = tyMap.point([1, 1], {text: 'pt1'});
-const pt2 = tyMap.point([2, 2], {text: 'pt2'});
-const pt3 = tyMap.point([3, 3], {text: 'pt3'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
+const pt1 = tyMap.point([1, 1], { text: 'pt1' });
+const pt2 = tyMap.point([2, 2], { text: 'pt2' });
+const pt3 = tyMap.point([3, 3], { text: 'pt3' });
 const collection = tyMap.featureCollection([pt1, pt2, pt3]);
 console.log(collection);
 ```
@@ -1234,7 +1359,9 @@ geojson 格式的对应的点
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 const pt1 = tyMap.point([1, 1]);
 const pt2 = tyMap.point([2, 2]);
 const center = tyMap.midPoint(pt1, pt2);
@@ -1258,7 +1385,9 @@ units?: 单位，可选值为 英里(miles)/千米(kilometers)，默认为 千�
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 const from = tyMap.point([1, 1]);
 const to = tyMap.point([2, 2]);
 const distance = tyMap.pointDistance(from, to);
@@ -1280,7 +1409,9 @@ units?: 单位，可选值为 英里(miles)/千米(kilometers)，默认为 千�
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 const from = tyMap.lineString([[11, 32], [13, 22], [13, 25], [15, 34]]);
 const length = tyMap.lineLength(line);
 ```
@@ -1300,7 +1431,9 @@ lineString: geojson 格式的面，必须为单面
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 const from = tyMap.lineString([[[11, 32], [13, 22], [13, 25], [15, 34]]]);
 const length = tyMap.polygonArea(line);
 ```
@@ -1320,7 +1453,9 @@ geojson 格式的对应的点
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 const pt1 = tyMap.point([1, 1]);
 const pt2 = tyMap.point([2, 2]);
 const pt3 = tyMap.point([3, 3]);
@@ -1345,9 +1480,11 @@ geojson 格式的对应的点
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 const pt = tyMap.point([1, 3]);
-const lineString = tyMap.lineString([[1, 1],[3, 3]]);
+const lineString = tyMap.lineString([[1, 1], [3, 3]]);
 const distance = tyMap.point2LineDistance(pt, lineString);
 ```
 
@@ -1362,6 +1499,7 @@ point: geojson 格式的点
 
 **返回结果**
 线上的最近的点，geojson 格式。其中属性对象包含且不仅包含以下三个值：
+
 - index: 在第 n 条线段部分找到最近点
 - dist: 该点与最近点之间的距离，单位为 千米
 - location: 沿着线的起始位置和最近点之间的距离，单位为 千米
@@ -1370,9 +1508,11 @@ point: geojson 格式的点
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 const pt = tyMap.point([1, 3]);
-const lineString1 = tyMap.lineString([[1, 1],[3, 3]]);
+const lineString1 = tyMap.lineString([[1, 1], [3, 3]]);
 const nearestPt = tyMap.nearestPointOnLine(line, pt);
 ```
 
@@ -1393,8 +1533,10 @@ geojson 格式的对应的点
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
-const lineString = tyMap.lineString([[1, 1],[3, 3]]);
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
+const lineString = tyMap.lineString([[1, 1], [3, 3]]);
 const distance = tyMap.alongLine(lineString, 200);
 ```
 
@@ -1414,9 +1556,11 @@ true 或 false
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 const point = tyMap.point([2, 2]);
-const poly = tyMap.polygon([[1, 1],[1, 3],[3, 3], [3, 1], [1, 1]]);
+const poly = tyMap.polygon([[1, 1], [1, 3], [3, 3], [3, 1], [1, 1]]);
 const distance = tyMap.pointInPolygon(point, poly);
 ```
 
@@ -1431,6 +1575,7 @@ radius: 半径
 startAng: 起始角
 endAng: 终止角
 options?: 配置项，可选。包括以下几项：
+
 - units?: 单位，可选值为 英里(miles)/千米(kilometers)，默认为 千米
 - steps?: 由多少个线段组成，默认为 64
 - properties?: 和面类似的属性
@@ -1442,13 +1587,14 @@ geojson 格式的对应的面
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 const center = tyMap.point([1, 1]);
 const radius = 5;
 const startAng = 25;
 const endAng = 45;
 const sector = tyMap.sector(center, radius, startAng, endAng);
-
 ```
 
 ### 25. convex(collection)
@@ -1466,7 +1612,9 @@ geojson 格式的对应的面
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 const collection = tyMap.featureCollection([
   tyMap.point([1, 4]),
   tyMap.point([2, 4]),
@@ -1488,30 +1636,36 @@ poly2: polygon，单面
 
 **返回结果**
 geojson 格式的对应的 point/multiPoint/lineString/multiLineString/polygon/multiPolygon 或者为 null。
-null就代表两个面没有任何交集。
+null 就代表两个面没有任何交集。
 ```
 
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
-const poly1 = tyMap.polygon([[
-  [122.801742, 45.48565],
-  [122.801742, 45.60491],
-  [122.584762, 45.60491],
-  [122.584762, 45.48565],
-  [122.801742, 45.48565]
-]]);
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
+const poly1 = tyMap.polygon([
+  [
+    [122.801742, 45.48565],
+    [122.801742, 45.60491],
+    [122.584762, 45.60491],
+    [122.584762, 45.48565],
+    [122.801742, 45.48565]
+  ]
+]);
 
-const poly2 = tyMap.polygon([[
-  [122.520217, 45.535693],
-  [122.64038, 45.553967],
-  [122.720031, 45.526554],
-  [122.669906, 45.507309],
-  [122.723464, 45.446643],
-  [122.487258, 45.477466],
-  [122.520217, 45.535693]
-]]);
+const poly2 = tyMap.polygon([
+  [
+    [122.520217, 45.535693],
+    [122.64038, 45.553967],
+    [122.720031, 45.526554],
+    [122.669906, 45.507309],
+    [122.723464, 45.446643],
+    [122.487258, 45.477466],
+    [122.520217, 45.535693]
+  ]
+]);
 const intersectPoly = tyMap.polygonIntersect(poly1, poly2);
 ```
 
@@ -1548,21 +1702,15 @@ geojson 格式的对应的 polygon/multiPolygon。
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
-const poly1 = tyMap.polygon([[
-  [128, -26],
-  [141, -26],
-  [141, -21],
-  [128, -21],
-  [128, -26]
-]]);
-const poly1 = tyMap.polygon([[
-  [126, -28],
-  [140, -28],
-  [140, -20],
-  [126, -20],
-  [126, -28]
-]]);
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
+const poly1 = tyMap.polygon([
+  [[128, -26], [141, -26], [141, -21], [128, -21], [128, -26]]
+]);
+const poly1 = tyMap.polygon([
+  [[126, -28], [140, -28], [140, -20], [126, -20], [126, -28]]
+]);
 const polyDiff = turf.polygonDiff(poly1, poly2);
 ```
 
@@ -1572,212 +1720,242 @@ const polyDiff = turf.polygonDiff(poly1, poly2);
 
 ### 1. onResize(callback)
 
-调整地图容器大小。在调整地图容器大小后触发对应回调。callback为回调函数。
+调整地图容器大小。在调整地图容器大小后触发对应回调。callback 为回调函数。
 
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 tyMap.onMouseDown(() => {
   // todo
-})
+});
 ```
 
 ### 2. onMouseDown(callback)
 
-鼠标按下事件。在地图上按下鼠标时触发对应回调。callback为回调函数。
+鼠标按下事件。在地图上按下鼠标时触发对应回调。callback 为回调函数。
 
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 tyMap.onMouseDown(() => {
   // todo
-})
-
+});
 ```
 
 ### 3. onMouseUp(callback)
 
-鼠标释放事件。在地图上释放鼠标时触发对应回调。callback为回调函数。
+鼠标释放事件。在地图上释放鼠标时触发对应回调。callback 为回调函数。
 
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 tyMap.onMouseUp(() => {
   // todo
-})
-
+});
 ```
 
 ### 4. onMouseOver(callback)
 
-鼠标移入事件。在鼠标移入地图时触发对应回调。callback为回调函数。
+鼠标移入事件。在鼠标移入地图时触发对应回调。callback 为回调函数。
 
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 tyMap.onMouseOver(() => {
   // todo
-})
+});
 ```
 
 ### 5. onMouseOut(callback)
 
-鼠标移出事件。在鼠标移出地图时触发对应回调。callback为回调函数。
+鼠标移出事件。在鼠标移出地图时触发对应回调。callback 为回调函数。
 
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 tyMap.onMouseOut(() => {
   // todo
-})
+});
 ```
 
 ### 6.onMouseMove(callback)
 
-鼠标移动事件。在地图中移动鼠标时触发对应回调。callback为回调函数。
+鼠标移动事件。在地图中移动鼠标时触发对应回调。callback 为回调函数。
 
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 tyMap.onMouseMove(() => {
   // todo
-})
+});
 ```
 
 ### 7.onClick(callback)
 
-鼠标点击事件。在地图上点击鼠标时触发对应回调。callback为回调函数。
+鼠标点击事件。在地图上点击鼠标时触发对应回调。callback 为回调函数。
 
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 tyMap.onClick(() => {
   // todo
-})
+});
 ```
 
 ### 8.onDbClick(callback)
 
-鼠标双击事件。在地图上双击鼠标时触发对应回调。callback为回调函数。
+鼠标双击事件。在地图上双击鼠标时触发对应回调。callback 为回调函数。
 
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 tyMap.onDblClick(() => {
   // todo
-})
+});
 ```
 
 ### 9. onContextMenu(callback)
 
-鼠标右键点击事件。在地图上右键鼠标时触发对应回调。callback为回调函数。
+鼠标右键点击事件。在地图上右键鼠标时触发对应回调。callback 为回调函数。
 
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 tyMap.onContextMenu(() => {
   // todo
-})
+});
 ```
 
 ### 10. onDrag(callback)
 
-地图拖拽事件。在拖拽地图时触发对应回调。callback为回调函数。
+地图拖拽事件。在拖拽地图时触发对应回调。callback 为回调函数。
 
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 tyMap.onDrag(() => {
   // todo
-})
+});
 ```
 
 ### 11. onZoom(callback)
 
-地图缩放事件。在地图上移动鼠标滚轮时触发对应回调。callback为回调函数。
+地图缩放事件。在地图上移动鼠标滚轮时触发对应回调。callback 为回调函数。
 
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 tyMap.onZoom(() => {
   // todo
-})
+});
 ```
 
 ### 12. onRotate(callback)
 
-地图旋转事件。在地图上移动鼠标滚轮时触发对应回调。callback为回调函数。
+地图旋转事件。在地图上移动鼠标滚轮时触发对应回调。callback 为回调函数。
 
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 tyMap.onRotate(() => {
   // todo
-})
+});
 ```
 
 ### 13. onPitch(callback)
 
-地图倾斜事件。在地图上移动鼠标滚轮时触发对应回调。callback为回调函数。
+地图倾斜事件。在地图上移动鼠标滚轮时触发对应回调。callback 为回调函数。
 
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 tyMap.onPitch(() => {
   // todo
-})
+});
 ```
 
 ### 14. onMove(callback)
 
-地图移动事件。在拖拽、缩放、旋转、倾斜时触发对应回调。callback为回调函数。
+地图移动事件。在拖拽、缩放、旋转、倾斜时触发对应回调。callback 为回调函数。
 
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 tyMap.onMove(() => {
   // todo
-})
+});
 ```
 
 ### 15. onMoveEnd(callback)
 
-地图移动结束事件。在拖拽、缩放、旋转、倾斜动作结束触发对应回调。callback为回调函数。
+地图移动结束事件。在拖拽、缩放、旋转、倾斜动作结束触发对应回调。callback 为回调函数。
 
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 tyMap.onMoveEnd(() => {
   // todo
-})
+});
 ```
 
 ### 16. onLoad(callback)
 
-地图首次渲染完成事件。在下载所有必要资源并且第一次视觉上完成地图渲染后立即触发。callback为回调函数。
+地图首次渲染完成事件。在下载所有必要资源并且第一次视觉上完成地图渲染后立即触发。callback 为回调函数。
 
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 tyMap.onLoad(() => {
   // todo
-})
+});
 ```
 
 ### 图层监听事件
@@ -1795,10 +1973,12 @@ callback: 回调函数
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 tyMap.onLayerMousedown('layerId', () => {
   // todo
-})
+});
 ```
 
 ### 2.onLayerMouseUp(layerId, callback)
@@ -1814,10 +1994,12 @@ callback: 回调函数
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 tyMap.onLayerMouseUp('layerId', () => {
   // todo
-})
+});
 ```
 
 ### 3. onLayerMouseOver(layerId, callback)
@@ -1833,10 +2015,12 @@ callback: 回调函数
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 tyMap.onLayerMouseOver('layerId', () => {
   // todo
-})
+});
 ```
 
 ### 4. onLayerMouseOut(layerId, callback)
@@ -1852,10 +2036,12 @@ callback: 回调函数
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 tyMap.onLayerMouseOut('layerId', () => {
   // todo
-})
+});
 ```
 
 ### 5. onLayerMouseMove(layerId, callback)
@@ -1871,10 +2057,12 @@ callback: 回调函数
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 tyMap.onLayerMouseMove('layerId', () => {
   // todo
-})
+});
 ```
 
 ### 6. onLayerClick(layerId, callback)
@@ -1890,11 +2078,12 @@ callback: 回调函数
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 tyMap.onLayerClick('layerId', () => {
   // todo
-})
-
+});
 ```
 
 ### 7. onLayerDblClick(layerId, callback)
@@ -1910,10 +2099,12 @@ callback: 回调函数
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 tyMap.onLayerDblClick('layerId', () => {
   // todo
-})
+});
 ```
 
 ### 8. onLayerContextMenu(layerId, callback)
@@ -1929,8 +2120,10 @@ callback: 回调函数
 举例：
 
 ```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
 tyMap.onLayerContextMenu('layerId', () => {
   // todo
-})
+});
 ```
