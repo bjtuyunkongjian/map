@@ -58,10 +58,6 @@ class TyMap {
       console.log('key 忘写了吧？');
       return Object.create({});
     }
-    if (transAns === 0) {
-      console.log('可能是盗用了他人的 key？');
-      return Object.create({});
-    }
     const tyMap = new mapboxgl.Map({
       style: BaseStyle,
       container: container,

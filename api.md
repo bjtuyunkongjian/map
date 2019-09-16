@@ -427,17 +427,40 @@ null
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
-const lnglatArr = [[lng1, lat1], [lng2, lat2], ...];
-const geometry = lnglatArr.map(item => tyMap.point(item, { radius: 3 }));
-const geojsonData = {
-  type: 'geojson',
-  data: tyMap.featureCollection(geometry)
-};
-tyMap.addCircleLayer(geojsonData, 'pointLayerId', {
-  color: 'rgba(0,0,0,0)',
-  strokeWidth: ['get', 'radius'],
-  strokeColor: '#4169E1',
-  labelLayerId: 'which id'
+function addLayer() {
+  const lnglatArr = [[lng1, lat1], [lng2, lat2], ...];
+  const geometry = lnglatArr.map(item => tyMap.point(item, { radius: 3 }));
+  const geojsonData = {
+    type: 'geojson',
+    data: tyMap.featureCollection(geometry)
+  };
+  tyMap.addCircleLayer(geojsonData, 'pointLayerId', {
+    color: 'rgba(0,0,0,0)',
+    strokeWidth: ['get', 'radius'],
+    strokeColor: '#4169E1',
+    labelLayerId: 'which id'
+  });
+}
+tyMap.onClick(addLayer);
+```
+
+添加图层对应的方法应该在地图初始化完成后调用。如果是在初始化同时添加图层，请使用 onLoad 方法。如下所示：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+tyMap.onLoad(() => {
+  const lnglatArr = [[lng1, lat1], [lng2, lat2], ...];
+  const geometry = lnglatArr.map(item => tyMap.point(item, { radius: 3 }));
+  const geojsonData = {
+    type: 'geojson',
+    data: tyMap.featureCollection(geometry)
+  };
+  tyMap.addCircleLayer(geojsonData, 'pointLayerId', {
+    color: 'rgba(0,0,0,0)',
+    strokeWidth: ['get', 'radius'],
+    strokeColor: '#4169E1',
+    labelLayerId: 'which id'
+  });
 });
 ```
 
@@ -464,17 +487,21 @@ null
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
-const lineArr = [[[lng11, lat11], [lng12, lat12], ...], [[lng21, lat21], [lng22, lat22], ...]];
-const geometry = lineArr.map(item => tyMap.lineString(item));
-const geojsonData = {
-  type: 'geojson',
-  data: tyMap.featureCollection(geometry)
-};
-tyMap.addCircleLayer(geojsonData, 'lineLayerId', {
-  color: 'rgba(0,0,0,0)',
-  labelLayerId: 'which id'
+tyMap.onClick(() => {
+  const lineArr = [[[lng11, lat11], [lng12, lat12], ...], [[lng21, lat21], [lng22, lat22], ...]];
+  const geometry = lineArr.map(item => tyMap.lineString(item));
+  const geojsonData = {
+    type: 'geojson',
+    data: tyMap.featureCollection(geometry)
+  };
+  tyMap.addLineLayer(geojsonData, 'lineLayerId', {
+    color: 'rgba(0,0,0,0)',
+    labelLayerId: 'which id'
+  });
 });
 ```
+
+添加图层对应的方法应该在地图初始化完成后调用。详情参考 [添加点图层](#13-addcirclelayersource-layerid-options)
 
 ### 15. addPolygonLayer(source, layerId, options?)
 
@@ -497,16 +524,20 @@ null
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
-const polygonArr = [[[[lng11, lat11], [lng12, lat12], [lng13, lat13], ...]]];
-const geometry = polygonArr.map(item => tyMap.polygon(item));
-const geojsonData = {
-  type: 'geojson',
-  data: tyMap.featureCollection(geometry)
-};
-tyMap.addCircleLayer(geojsonData, 'polygonLayerId', {
-  labelLayerId: 'which id'
+tyMap.onClick(() => {
+  const polygonArr = [[[[lng11, lat11], [lng12, lat12], [lng13, lat13], ...]]];
+  const geometry = polygonArr.map(item => tyMap.polygon(item));
+  const geojsonData = {
+    type: 'geojson',
+    data: tyMap.featureCollection(geometry)
+  };
+  tyMap.addPolygonLayer(geojsonData, 'polygonLayerId', {
+    labelLayerId: 'which id'
+  });
 });
 ```
+
+添加图层对应的方法应该在地图初始化完成后调用。详情参考 [添加点图层](#13-addcirclelayersource-layerid-options)
 
 ### 16. add3dLayer(source, layerId, options?)
 
@@ -529,16 +560,20 @@ null
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
-const polygon3dArr = [[[[lng11, lat11], [lng12, lat12], [lng13, lat13], ...]]];
-const geometry = polygon3dArr.map(item => tyMap.polygon3d(item));
-const geojsonData = {
-  type: 'geojson',
-  data: tyMap.featureCollection(geometry)
-};
-tyMap.addCircleLayer(geojsonData, 'polygon3dLayerId', {
-  labelLayerId: 'which id'
+tyMap.onClick(() => {
+  const polygon3dArr = [[[[lng11, lat11], [lng12, lat12], [lng13, lat13], ...]]];
+  const geometry = polygon3dArr.map(item => tyMap.polygon3d(item));
+  const geojsonData = {
+    type: 'geojson',
+    data: tyMap.featureCollection(geometry)
+  };
+  tyMap.add3dLayer(geojsonData, 'polygon3dLayerId', {
+    labelLayerId: 'which id'
+  });
 });
 ```
+
+添加图层对应的方法应该在地图初始化完成后调用。详情参考 [添加点图层](#13-addcirclelayersource-layerid-options)
 
 ### 17. addTextLayer(source, layerId, options?)
 
@@ -559,18 +594,22 @@ options?: 配置项，默认为空，包括以下几个属性：
 null
 ```
 
+添加图层对应的方法应该在地图初始化完成后调用。详情参考 [添加点图层](#13-addcirclelayersource-layerid-options)
+
 举例：
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
-const lnglatArr = [{coord: [lng1, lat1], text: 'text1'}, {coord: [lng2, lat2], text: 'text2'}, ...];
-const geometry = lnglatArr.map(item => tyMap.point(item.coord, { text: item.text }));
-const geojsonData = {
-  type: 'geojson',
-  data: tyMap.featureCollection(geometry)
-};
-tyMap.addCircleLayer(geojsonData, 'textLayerId', {
-  textColor: 'rgba(0,0,0,0)',
+tyMap.onClick(() => {
+  const lnglatArr = [{coord: [lng1, lat1], text: 'text1'}, {coord: [lng2, lat2], text: 'text2'}, ...];
+  const geometry = lnglatArr.map(item => tyMap.point(item.coord, { text: item.text }));
+  const geojsonData = {
+    type: 'geojson',
+    data: tyMap.featureCollection(geometry)
+  };
+  tyMap.addTextLayer(geojsonData, 'textLayerId', {
+    textColor: 'rgba(0,0,0,0)',
+  });
 });
 ```
 
