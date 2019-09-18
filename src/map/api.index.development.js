@@ -252,62 +252,270 @@ class TyMap {
   polygonDiff = PolygonDiff;
 
   // 地图事件回调
-  onResize = callback => mapArr[this.mapIndex].on('resize', callback);
+  onResize = callback =>
+    mapArr[this.mapIndex].on('resize', ev => {
+      callback({
+        features: ev.features,
+        lngLat: ev.lngLat,
+        originalEv: ev.originalEvent,
+        point: ev.point,
+        type: ev.type
+      });
+    });
 
-  onMouseDown = callback => mapArr[this.mapIndex].on('mousedown', callback);
+  onMouseDown = callback =>
+    mapArr[this.mapIndex].on('mousedown', ev => {
+      callback({
+        features: ev.features,
+        lngLat: ev.lngLat,
+        originalEv: ev.originalEvent,
+        point: ev.point,
+        type: ev.type
+      });
+    });
 
-  onMouseUp = callback => mapArr[this.mapIndex].on('mouseup', callback);
+  onMouseUp = callback =>
+    mapArr[this.mapIndex].on('mouseup', ev => {
+      callback({
+        features: ev.features,
+        lngLat: ev.lngLat,
+        originalEv: ev.originalEvent,
+        point: ev.point,
+        type: ev.type
+      });
+    });
 
-  onMouseOver = callback => mapArr[this.mapIndex].on('mouseover', callback);
+  onMouseOver = callback =>
+    mapArr[this.mapIndex].on('mouseover', ev => {
+      callback({
+        features: ev.features,
+        lngLat: ev.lngLat,
+        originalEv: ev.originalEvent,
+        point: ev.point,
+        type: ev.type
+      });
+    });
 
-  onMouseOut = callback => mapArr[this.mapIndex].on('mouseout', callback);
+  onMouseOut = callback =>
+    mapArr[this.mapIndex].on('mouseout', ev => {
+      callback({
+        features: ev.features,
+        lngLat: ev.lngLat,
+        originalEv: ev.originalEvent,
+        point: ev.point,
+        type: ev.type
+      });
+    });
 
-  onMouseMove = callback => mapArr[this.mapIndex].on('mousemove', callback);
+  onMouseMove = callback =>
+    mapArr[this.mapIndex].on('mousemove', ev => {
+      callback({
+        features: ev.features,
+        lngLat: ev.lngLat,
+        originalEv: ev.originalEvent,
+        point: ev.point,
+        type: ev.type
+      });
+    });
 
-  onClick = callback => mapArr[this.mapIndex].on('click', callback);
+  onClick = callback =>
+    mapArr[this.mapIndex].on('click', ev => {
+      callback({
+        features: ev.features,
+        lngLat: ev.lngLat,
+        originalEv: ev.originalEvent,
+        point: ev.point,
+        type: ev.type
+      });
+    });
 
-  onDblClick = callback => mapArr[this.mapIndex].on('dblclick', callback);
+  onDblClick = callback =>
+    mapArr[this.mapIndex].on('dblclick', ev => {
+      callback({
+        features: ev.features,
+        lngLat: ev.lngLat,
+        originalEv: ev.originalEvent,
+        point: ev.point,
+        type: ev.type
+      });
+    });
 
-  onContextMenu = callback => mapArr[this.mapIndex].on('contextmenu', callback);
+  onContextMenu = callback =>
+    mapArr[this.mapIndex].on('contextmenu', ev => {
+      callback({
+        features: ev.features,
+        lngLat: ev.lngLat,
+        originalEv: ev.originalEvent,
+        point: ev.point,
+        type: ev.type
+      });
+    });
 
-  onDrag = callback => mapArr[this.mapIndex].on('drag', callback);
+  onDrag = callback =>
+    mapArr[this.mapIndex].on('drag', ev => {
+      callback({
+        features: ev.features,
+        lngLat: ev.lngLat,
+        originalEv: ev.originalEvent,
+        point: ev.point,
+        type: ev.type
+      });
+    });
 
-  onZoom = callback => mapArr[this.mapIndex].on('zoom', callback);
+  onZoom = callback =>
+    mapArr[this.mapIndex].on('zoom', ev => {
+      callback({
+        features: ev.features,
+        lngLat: ev.lngLat,
+        originalEv: ev.originalEvent,
+        point: ev.point,
+        type: ev.type
+      });
+    });
 
-  onRotate = callback => mapArr[this.mapIndex].on('rotate', callback);
+  onRotate = callback =>
+    mapArr[this.mapIndex].on('rotate', ev => {
+      callback({
+        features: ev.features,
+        lngLat: ev.lngLat,
+        originalEv: ev.originalEvent,
+        point: ev.point,
+        type: ev.type
+      });
+    });
 
-  onPitch = callback => mapArr[this.mapIndex].on('pitch', callback);
+  onPitch = callback =>
+    mapArr[this.mapIndex].on('pitch', ev => {
+      callback({
+        features: ev.features,
+        lngLat: ev.lngLat,
+        originalEv: ev.originalEvent,
+        point: ev.point,
+        type: ev.type
+      });
+    });
 
-  onMove = callback => mapArr[this.mapIndex].on('move', callback);
+  onMove = callback =>
+    mapArr[this.mapIndex].on('move', ev => {
+      callback({
+        features: ev.features,
+        lngLat: ev.lngLat,
+        originalEv: ev.originalEvent,
+        point: ev.point,
+        type: ev.type
+      });
+    });
 
-  onMoveEnd = callback => mapArr[this.mapIndex].on('moveend', callback);
+  onMoveEnd = callback =>
+    mapArr[this.mapIndex].on('moveend', ev => {
+      callback({
+        features: ev.features,
+        lngLat: ev.lngLat,
+        originalEv: ev.originalEvent,
+        point: ev.point,
+        type: ev.type
+      });
+    });
 
-  onLoad = callback => mapArr[this.mapIndex].on('load', callback);
+  onLoad = callback =>
+    mapArr[this.mapIndex].on('load', ev => {
+      callback({
+        features: ev.features,
+        lngLat: ev.lngLat,
+        originalEv: ev.originalEvent,
+        point: ev.point,
+        type: ev.type
+      });
+    });
 
   // 图层事件回调
   onLayerMousedown = (layerId, callback) =>
-    mapArr[this.mapIndex].on('mousedown', layerId, callback);
+    mapArr[this.mapIndex].on('mousedown', layerId, ev => {
+      callback({
+        features: ev.features,
+        lngLat: ev.lngLat,
+        originalEv: ev.originalEvent,
+        point: ev.point,
+        type: ev.type
+      });
+    });
 
   onLayerMouseUp = (layerId, callback) =>
-    mapArr[this.mapIndex].on('mouseup', layerId, callback);
+    mapArr[this.mapIndex].on('mouseup', layerId, ev => {
+      callback({
+        features: ev.features,
+        lngLat: ev.lngLat,
+        originalEv: ev.originalEvent,
+        point: ev.point,
+        type: ev.type
+      });
+    });
 
   onLayerMouseOver = (layerId, callback) =>
-    mapArr[this.mapIndex].on('mouseover', layerId, callback);
+    mapArr[this.mapIndex].on('mouseover', layerId, ev => {
+      callback({
+        features: ev.features,
+        lngLat: ev.lngLat,
+        originalEv: ev.originalEvent,
+        point: ev.point,
+        type: ev.type
+      });
+    });
 
   onLayerMouseOut = (layerId, callback) =>
-    mapArr[this.mapIndex].on('mouseout', layerId, callback);
+    mapArr[this.mapIndex].on('mouseout', layerId, ev => {
+      callback({
+        features: ev.features,
+        lngLat: ev.lngLat,
+        originalEv: ev.originalEvent,
+        point: ev.point,
+        type: ev.type
+      });
+    });
 
   onLayerMouseMove = (layerId, callback) =>
-    mapArr[this.mapIndex].on('mousemove', layerId, callback);
+    mapArr[this.mapIndex].on('mousemove', layerId, ev => {
+      callback({
+        features: ev.features,
+        lngLat: ev.lngLat,
+        originalEv: ev.originalEvent,
+        point: ev.point,
+        type: ev.type
+      });
+    });
 
   onLayerClick = (layerId, callback) =>
-    mapArr[this.mapIndex].on('click', layerId, callback);
+    mapArr[this.mapIndex].on('click', layerId, ev => {
+      callback({
+        features: ev.features,
+        lngLat: ev.lngLat,
+        originalEv: ev.originalEvent,
+        point: ev.point,
+        type: ev.type
+      });
+    });
 
   onLayerDblClick = (layerId, callback) =>
-    mapArr[this.mapIndex].on('dblclick', layerId, callback);
+    mapArr[this.mapIndex].on('dblclick', layerId, ev => {
+      callback({
+        features: ev.features,
+        lngLat: ev.lngLat,
+        originalEv: ev.originalEvent,
+        point: ev.point,
+        type: ev.type
+      });
+    });
 
   onLayerContextMenu = (layerId, callback) =>
-    mapArr[this.mapIndex].on('contextmenu', layerId, callback);
+    mapArr[this.mapIndex].on('contextmenu', layerId, ev => {
+      callback({
+        features: ev.features,
+        lngLat: ev.lngLat,
+        originalEv: ev.originalEvent,
+        point: ev.point,
+        type: ev.type
+      });
+    });
 }
 
 window.TyMap = TyMap;
