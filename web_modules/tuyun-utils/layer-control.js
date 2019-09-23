@@ -126,8 +126,8 @@ const AddImageLayer = (map, source, layerId, option = {}) => {
     iconOffset = [0, 0]
   } = option;
 
-  if (!_MAP_.getSource(layerId)) {
-    _MAP_.addLayer(
+  if (!map.getSource(layerId)) {
+    map.addLayer(
       {
         id: layerId,
         type: 'symbol',
@@ -151,6 +151,51 @@ const AddImageLayer = (map, source, layerId, option = {}) => {
   } else {
     updateSource(map, layerId, source);
   }
+};
+
+/**
+ * @description 添加图片
+ * @param {*} map
+ * @param {*} source
+ * @param {*} layerId
+ */
+const AddLoadedImageLayer = (map, source, layerId, imgUrl, option = {}) => {
+  map.loadImage(imgUrl, (error, image) => {
+    if (error) throw error;
+    map.addImage(imgUrl, image);
+    const {
+      iconImage,
+      iconSize = 1,
+      iconRotate = 0,
+      iconOpacity,
+      labelLayerId,
+      iconOffset = [0, 0]
+    } = option;
+    if (!map.getSource(layerId)) {
+      map.addLayer(
+        {
+          id: layerId,
+          type: 'symbol',
+          source: source,
+          // minzoom: 14,
+          layout: {
+            'icon-image': iconImage || ['get', 'img'],
+            'icon-size': iconSize,
+            'icon-rotation-alignment': 'map',
+            // 'icon-pitch-alignment': 'viewport',
+            'icon-rotate': iconRotate,
+            'icon-offset': iconOffset
+          },
+          paint: {
+            'icon-opacity': iconOpacity || 1
+          }
+        },
+        labelLayerId
+      );
+    } else {
+      updateSource(map, layerId, source);
+    }
+  });
 };
 
 /**
