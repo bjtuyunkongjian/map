@@ -10,7 +10,7 @@ import {
   RemoveLayer
 } from 'tuyun-utils';
 
-import DateSelect from './date-select';
+// import DateSelect from './date-select';
 import MultipleArea from './multiple-area';
 import CaseBar from './case-bar';
 import CaseLine from './case-line';
@@ -47,7 +47,7 @@ export default class CaseTab extends Component {
     const { curBar } = this.state;
     return (
       <div className={`tab-charts ${curBar !== TabValue.case ? 'hidden' : ''}`}>
-        <DateSelect />
+        {/* <DateSelect /> */}
         <CaseBar />
         <MultipleArea />
         <CaseLine />
