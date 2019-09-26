@@ -7,7 +7,6 @@ import {
 import { AddCircleLayer, AddHeatMapLayer, RemoveLayer } from 'tuyun-utils';
 import { FetchGeoRes } from './webapi';
 import { GoRadioTower } from 'react-icons/go';
-import { AddHeatMapLayer, RemoveLayer } from 'tuyun-utils';
 export default class LeftMenu extends Component {
   state = {
     animate: '',
