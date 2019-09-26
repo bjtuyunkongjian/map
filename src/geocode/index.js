@@ -7,7 +7,7 @@ import {
 import { AddCircleLayer } from 'tuyun-utils';
 import { FetchGeoRes } from './webapi';
 import { GoRadioTower } from 'react-icons/go';
-
+import { AddHeatMapLayer, RemoveLayer } from 'tuyun-utils';
 export default class LeftMenu extends Component {
   state = {
     animate: '',
@@ -28,9 +28,10 @@ export default class LeftMenu extends Component {
                 className={`menu-item ${
                   selectedVal === item.value ? 'selected' : ''
                 }`}
+                key={`munu_item_${index}`}
                 onClick={() => this._addPoints(item)}
               >
-                <div className="item-label" key={`munu_item_${index}`}>
+                <div className="item-label">
                   <GoRadioTower />
                   <span>{item.label}</span>
                   <div className="arrow-box">
@@ -51,6 +52,7 @@ export default class LeftMenu extends Component {
 
   _addPoints = async item => {
     this.setState({ selectedVal: item.value });
+    const _zoom = _MAP_.getZoom();
     const { err, res } = await FetchGeoRes({ type: item.value });
     if (err || !res) return;
     const _features = res.map(item => {
@@ -61,9 +63,15 @@ export default class LeftMenu extends Component {
       type: 'geojson',
       data: FeatureCollection(_features)
     };
-    AddCircleLayer(_MAP_, _geoJSONData, layerId, {
-      color: '#000'
-    }); // 可以点击，显示点位图
+    if (_zoom >= 10) {
+      RemoveLayer(_MAP_, layerId);
+      AddCircleLayer(_MAP_, _geoJSONData, layerId, {
+        color: '#000'
+      }); // 可以点击，显示点位图
+    } else {
+      console.log('aaaa');
+      AddHeatMapLayer(_MAP_, _geoJSONData, layerId);
+    }
   };
 
   _toggleLeftMenu = () => {
