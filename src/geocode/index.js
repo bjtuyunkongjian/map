@@ -4,20 +4,65 @@ import {
   featureCollection as FeatureCollection
 } from 'turf';
 
-import { AddCircleLayer } from 'tuyun-utils';
+import { AddCircleLayer, AddHeatMapLayer, RemoveLayer } from 'tuyun-utils';
 import { FetchGeoRes } from './webapi';
 import { GoRadioTower } from 'react-icons/go';
 import { AddHeatMapLayer, RemoveLayer } from 'tuyun-utils';
 export default class LeftMenu extends Component {
   state = {
     animate: '',
-    selectedVal: ''
+    selectedVal: '',
+    showInfo: null,
+    move: false
   };
 
-  componentDidMount = () => {};
+  componentDidMount = () => {
+    _MAP_.on('zoomend', () => {
+      const { selectedVal } = this.state;
+      if (!selectedVal) return;
+      let data;
+      if (jqCompare.value === selectedVal) {
+      } else {
+        data = menuItem.find(item => item.value === selectedVal).data;
+      }
+      if (!data) return;
+      const _level = _MAP_.getZoom();
+      if (_level >= 11) {
+        AddCircleLayer(_MAP_, data, layerId, {
+          color: '#000'
+        }); // 可以点击，显示点位图
+        AddHeatMapLayer(_MAP_, geoJSONEmpty, layerIdHeat);
+      } else {
+        AddCircleLayer(_MAP_, geoJSONEmpty, layerId, {
+          color: '#000'
+        }); // 可以点击，显示点位图
+        AddHeatMapLayer(_MAP_, data, layerIdHeat);
+      }
+    });
+
+    _MAP_.on('move', () => this.setState({ move: false }));
+
+    // 点击非对比点
+    _MAP_.on('click', layerId, e => {
+      this.setState({ showInfo: e.features[0].properties });
+    });
+    // 点击对比点
+    _MAP_.on('click', layerIdCompare, e => {
+      const { id } = e.features[0].properties;
+      const { data: geojson } = jqCompare;
+      if (!geojson) return;
+      const { features } = geojson.data;
+      for (let item of features) {
+        item.properties.radius = item.properties.id === id ? 10 : 5;
+      }
+      AddCircleLayer(_MAP_, geojson, layerIdCompare, {
+        color: ['get', 'color']
+      }); // 可以点击，显示点位图
+    });
+  };
 
   render() {
-    const { animate, selectedVal } = this.state;
+    const { animate, selectedVal, showInfo } = this.state;
     const _slide = animate === 'menu-slide-in' ? '' : 'changed';
     return (
       <div className={`left-menu ${animate}`}>
@@ -41,37 +86,129 @@ export default class LeftMenu extends Component {
               </div>
             );
           })}
+          <div
+            className={`menu-item ${
+              selectedVal === jqCompare.value ? 'selected' : ''
+            }`}
+            onClick={() => this._addCompareLayer(jqCompare)}
+          >
+            <div className="item-label">
+              <GoRadioTower />
+              <span>{jqCompare.label}</span>
+              <div className="arrow-box">
+                <span className="arrow arrow-right" />
+              </div>
+            </div>
+          </div>
         </div>
 
         <button className="control" onClick={this._toggleLeftMenu}>
           <span className={`aspect-left ${_slide}`} />
         </button>
+
+        {showInfo && this._createShowInfo()}
       </div>
     );
   }
 
   _addPoints = async item => {
+<<<<<<< HEAD
     this.setState({ selectedVal: item.value });
     const _zoom = _MAP_.getZoom();
+=======
+    RemoveLayer(_MAP_, layerIdCompare);
+    this.setState({ selectedVal: item.value, showInfo: null });
+>>>>>>> 363e036c6d2021ccb5edb6c3f158f9f299893a5f
     const { err, res } = await FetchGeoRes({ type: item.value });
     if (err || !res) return;
-    const _features = res.map(item => {
-      const { oLat, oLng } = item;
-      return TurfPoint([parseFloat(oLng), parseFloat(oLat)], { radius: 2 });
+    const _features = res.map(resItem => {
+      const { oLat, oLng, iName } = resItem;
+      const lng = parseFloat(oLng);
+      const lat = parseFloat(oLat);
+      return TurfPoint([lng, lat], { radius: 5, name: iName, lat, lng });
     });
     const _geoJSONData = {
       type: 'geojson',
       data: FeatureCollection(_features)
     };
-    if (_zoom >= 10) {
-      RemoveLayer(_MAP_, layerId);
+    const _level = _MAP_.getZoom();
+    item.data = _geoJSONData;
+    if (_level >= 11) {
       AddCircleLayer(_MAP_, _geoJSONData, layerId, {
         color: '#000'
       }); // 可以点击，显示点位图
     } else {
-      console.log('aaaa');
-      AddHeatMapLayer(_MAP_, _geoJSONData, layerId);
+      AddHeatMapLayer(_MAP_, _geoJSONData, layerIdHeat);
     }
+  };
+
+  _addCompareLayer = async item => {
+    RemoveLayer(_MAP_, layerId);
+    RemoveLayer(_MAP_, layerIdHeat);
+    this.setState({ selectedVal: item.value, showInfo: null });
+    const { err, res } = await FetchGeoRes({ type: item.value });
+
+    if (err || !res) return;
+    const _features = [];
+    for (let resItem of res) {
+      const { oLat, oLng, iLat, iLng, id } = resItem;
+      const _oLng = parseFloat(oLng);
+      const _oLat = parseFloat(oLat);
+      const _iLng = parseFloat(iLng);
+      const _iLat = parseFloat(iLat);
+      _features.push(
+        TurfPoint([_iLng, _iLat], { radius: 5, id, color: '#F00' })
+      );
+      _features.push(
+        TurfPoint([_oLng, _oLat], { radius: 5, id, color: '#0F0' })
+      );
+    }
+    const _geoJSONData = {
+      type: 'geojson',
+      data: FeatureCollection(_features)
+    };
+    item.data = _geoJSONData;
+    AddCircleLayer(_MAP_, _geoJSONData, layerIdCompare, {
+      color: ['get', 'color']
+    }); // 可以点击，显示点位图
+  };
+
+  _createShowInfo = () => {
+    const { showInfo } = this.state;
+    const { lng, lat, name } = showInfo;
+    const { x, y } = _MAP_.project([lng, lat]);
+    return (
+      <div
+        style={{
+          position: 'absolute',
+          top: y,
+          left: x + 5,
+          width: 255,
+          background: 'white',
+          padding: '10px 15px',
+          borderRadius: 5,
+          borderTopLeftRadius: 0,
+          boxShadow: '5px 5px 5px grey'
+        }}
+      >
+        <div>地址： {name}</div>
+        <div style={{ marginTop: 5 }}>经度： {lng}</div>
+        <div style={{ marginTop: 5 }}>纬度： {lat}</div>
+        <div
+          style={{
+            marginTop: 5,
+            padding: 5,
+            borderRadius: 2,
+            border: '1px solid lightgray',
+            textAlign: 'center',
+            cursor: 'pointer'
+          }}
+          onClick={() => this.setState({ showInfo: null })}
+        >
+          关闭
+        </div>
+      </div>
+    );
   };
 
   _toggleLeftMenu = () => {
@@ -82,7 +219,14 @@ export default class LeftMenu extends Component {
   };
 }
 
-const layerId = 'point' + Math.random();
+const geoJSONEmpty = {
+  type: 'geojson',
+  data: FeatureCollection([])
+};
+
+const layerId = 'point-' + Math.random();
+const layerIdCompare = 'point-compare-' + Math.random();
+const layerIdHeat = 'point-heat-' + Math.random();
 
 const menuItem = [
   {
@@ -114,3 +258,8 @@ const menuItem = [
     value: 'ranqi'
   }
 ];
+
+const jqCompare = {
+  label: '警情对比',
+  value: 'jq-compare'
+};
