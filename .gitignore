@@ -31,3 +31,4 @@ npm-debug.log
 /build-api/
 api.html
 api.pdf
+*.zip

@@ -408,7 +408,7 @@ export default class PoliceForce extends Component {
     if (_reqTime > carDelayInterval) {
       _timeout = _reqTime - carDelayInterval; // 请求时间大于 carDelayInterval 延时时间
     }
-    const { carData } = res;
+    const carData = res;
     // console.log(JSON.stringify(carData));
     if (err || !IsArray(carData)) return; // 保护
     let _drivenTime; // 行驶时间
