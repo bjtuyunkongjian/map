@@ -409,6 +409,7 @@ export default class PoliceForce extends Component {
       _timeout = _reqTime - carDelayInterval; // 请求时间大于 carDelayInterval 延时时间
     }
     const { carData } = res;
+    // console.log(JSON.stringify(carData));
     if (err || !IsArray(carData)) return; // 保护
     let _drivenTime; // 行驶时间
     if (!this._enableStart) {
@@ -417,8 +418,10 @@ export default class PoliceForce extends Component {
       _drivenTime = policeCarInterval - _timeout;
     }
     this._nextPoliceCar = {}; // 下一秒车子位置
+
     for (let carInfo of carData) {
       const { roadPoints, flag, objectID, gpsPoints } = carInfo; // 解构
+      if (carObjIdFilterArr.indexOf(objectID) === -1) continue;
       let _trajectory; // 轨迹
       if (roadPoints.length === 0) {
         _trajectory = gpsPoints;
@@ -427,6 +430,7 @@ export default class PoliceForce extends Component {
         _trajectory = roadPoints;
       }
       let _objIdArr = IsArray(objectID) ? objectID : [objectID];
+
       if (this._curPoliceCar[_objIdArr[0]]) {
         const { coords } = this._curPoliceCar[_objIdArr[0]];
         if (coords && coords.length > 0) {
@@ -653,9 +657,7 @@ const handheldStyle = {
       type: 'vector',
       scheme: 'tms',
       tiles: [
-        `${
-          BaseConfig.bffHost
-        }GPSServer/string?test=locationHandHeld&type=tms&zoom={z}&row={x}&column={y}`
+        `${BaseConfig.bffHost}GPSServer/string?test=locationHandHeld&type=tms&zoom={z}&row={x}&column={y}`
       ],
       minzoom: visibleLevel
     }
@@ -685,3 +687,9 @@ const ComputeAngle = (startPt, endPt) => {
     return _angle;
   }
 };
+
+const carObjIdFilterArr = [
+  '37010000000014463',
+  '37010000000019244',
+  '37010000000019429'
+];
