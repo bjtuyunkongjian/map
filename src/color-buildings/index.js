@@ -111,10 +111,10 @@ export default class ColorBuildings extends Component {
             'interpolate',
             ['linear'],
             ['zoom'],
-            16,
+            13,
             0,
-            16.05,
-            ['*', ['+', ['get', 'H'], 1], 3.1]
+            13.05,
+            ['*', ['+', ['get', 'FLOOR'], 1], 3.1]
           ],
           'fill-extrusion-base': 0,
           'fill-extrusion-opacity': 0.7
@@ -139,7 +139,7 @@ export default class ColorBuildings extends Component {
         //   }),
         //   _MAP_.querySourceFeatures('GRESPL_Merge_ID1')
         // );
-        console.log(e.features);
+        // console.log(e.features);
         _MAP_.on('move', this._moveListener); // 添加事件
         this.setState({
           left: e.point.x,
@@ -172,10 +172,10 @@ export default class ColorBuildings extends Component {
                 'interpolate',
                 ['linear'],
                 ['zoom'],
-                16,
+                13,
                 0,
-                16.05,
-                ['*', ['+', ['get', 'H'], 1], 3.1]
+                13.05,
+                ['*', ['+', ['get', 'FLOOR'], 1], 3.1]
               ],
               'fill-extrusion-base': 0,
               'fill-extrusion-opacity': 0.7
@@ -272,10 +272,10 @@ export default class ColorBuildings extends Component {
             'interpolate',
             ['linear'],
             ['zoom'],
-            16,
+            13,
             0,
-            16.05,
-            ['*', ['+', ['get', 'H'], 1], 3.1]
+            13.05,
+            ['*', ['+', ['get', 'FLOOR'], 1], 3.1]
           ],
           'fill-extrusion-base': 0,
           'fill-extrusion-opacity': 0.7
@@ -309,4 +309,4 @@ const classifications = [
 const colorLayerId = 'COLOR_LAYER_ID';
 const curColorLayerId = 'CURRENT_COLOR_LAYER_ID';
 const storage = window.localStorage;
-const gresplArr = ['GRESPL_1_3D', 'GRESPL_2_3D', 'GRESPL_3_3D'];
+const gresplArr = ['RES_PY', 'RES_PY1'];

@@ -36,13 +36,13 @@ const layers = [
   },
   // 面
   {
-    id: 'GVEGPL', // 记录了绿地
+    id: 'XJS_JGQ', // 记录了绿地
     type: 'fill',
     source: LevelConfig.addLv7,
-    'source-layer': 'GVEGPL_Merge',
+    'source-layer': 'XJS_JGQ',
     paint: {
-      'fill-color': '#b5e9b6',
-      'fill-opacity': 1,
+      'fill-color': '#333333',
+      'fill-opacity': 0.2,
       'fill-antialias': false
     },
     labelLayerId: 'GHYDPL_7L'
@@ -349,7 +349,7 @@ export default {
       type: 'vector',
       scheme: 'tms',
       tiles: [
-        `${BaseConfig.geoserverHost}geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_7L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`
+        `${BaseConfig.geoserverHost}geoserver/gwc/service/tms/1.0.0/HZWorkSpace%3A7L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`
       ]
     }
   },
