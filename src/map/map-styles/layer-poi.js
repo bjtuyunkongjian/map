@@ -2,7 +2,6 @@
  * 7级图层配置
  */
 import { LevelConfig } from 'tuyun-config';
-import { KindMap } from './constant';
 
 export default [
   {
@@ -85,7 +84,6 @@ export default [
   {
     id: 'POI_XZ', //乡镇
     type: 'symbol',
-    kind: KindMap.poi,
     source: LevelConfig.addLv7,
     'source-layer': 'XZ_HZ',
     layout: {

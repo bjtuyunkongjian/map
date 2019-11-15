@@ -2,12 +2,10 @@
  * 7级图层配置
  */
 import { LevelConfig } from 'tuyun-config';
-import { KindMap } from './constant';
 
 export default [
   {
     id: 'HUAPU', // 绿地的面状要素
-    kind: KindMap.grass,
     type: 'fill',
     source: LevelConfig.addLv7,
     'source-layer': 'HuaPu',
