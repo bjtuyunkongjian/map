@@ -16,6 +16,7 @@
 import { LevelConfig, BaseConfig } from 'tuyun-config';
 import LayerBackground from './layer-background';
 import LayerCounty from './layer-county';
+import LayerBoundary from './layer-boundary';
 import LayerRiver from './layer-river';
 import LayerGrass from './layer-grass';
 import LayerRoad from './layer-road';
@@ -25,6 +26,7 @@ import LayerPoi from './layer-poi';
 const layers = [
   ...LayerBackground,
   ...LayerCounty,
+  ...LayerBoundary,
   ...LayerRiver,
   ...LayerGrass,
   ...LayerRoad,
