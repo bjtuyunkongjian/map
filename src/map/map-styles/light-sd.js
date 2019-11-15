@@ -16,6 +16,7 @@
 import { LevelConfig, BaseConfig } from 'tuyun-config';
 import Layer7 from './layer7';
 import Layer8 from './layer8';
+import Layer9 from './layer9';
 // const areaColor = {
 //   370502: '#412f1f', /// 东营区
 //   370503: '#f05b72', //  河口区
@@ -24,7 +25,7 @@ import Layer8 from './layer8';
 //   370523: '#6a6da9' // 广饶县
 // };
 
-const layers = [...Layer7, ...Layer8];
+const layers = [...Layer7, ...Layer8, ...Layer9];
 
 export default {
   version: 8,
@@ -35,7 +36,7 @@ export default {
       type: 'vector',
       scheme: 'tms',
       tiles: [
-        `${BaseConfig.geoserverHost}geoserver/gwc/service/tms/1.0.0/HZWorkSpace%3A7L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`
+        `${BaseConfig.geoserverHost}geoserver/gwc/service/tms/1.0.0/HZWorkSpace%3A9L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`
       ]
     }
   },
