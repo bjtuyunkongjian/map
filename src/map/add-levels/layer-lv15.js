@@ -9,7 +9,6 @@
  */
 import { LevelConfig, BaseConfig } from 'tuyun-config';
 import { BuildingColor } from 'tuyun-utils';
-console.log(BuildingColor);
 
 const visibleLevel = 13;
 

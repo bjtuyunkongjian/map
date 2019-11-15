@@ -39,6 +39,7 @@ const style = {
         'text-field': '{NAME}',
         visibility: 'visible',
         'symbol-placement': 'point',
+        'icon-allow-overlap': true,
         'text-size': 12,
         'icon-text-fit': 'both',
         'icon-text-fit-padding': [2, 4, 2, 4],
@@ -68,6 +69,7 @@ const style = {
         'symbol-placement': 'point',
         'text-size': 12,
         'icon-text-fit': 'both',
+        'icon-allow-overlap': true,
         'icon-text-fit-padding': [2, 4, 2, 4],
         'text-justify': 'center',
         'text-font': ['黑体'],
@@ -85,10 +87,10 @@ const style = {
       labelLayerId: symbolLabelLayerId
     },
     {
-      id: 'JYWH_XX',
+      id: 'JYWH_HZ',
       type: 'symbol',
       source: LevelConfig.addLv8,
-      'source-layer': 'JYWH_XX',
+      'source-layer': 'JYWH_HZ',
       layout: {
         'text-field': '{Name}',
         visibility: 'visible',
@@ -97,6 +99,7 @@ const style = {
         'icon-text-fit': 'both',
         'icon-text-fit-padding': [2, 4, 2, 4],
         'text-justify': 'center',
+        'icon-allow-overlap': true,
         'text-font': ['黑体'],
         'text-pitch-alignment': 'viewport',
         'text-rotation-alignment': 'viewport',
@@ -121,6 +124,7 @@ const style = {
         visibility: 'visible',
         'symbol-placement': 'point',
         'text-size': 12,
+        'icon-allow-overlap': true,
         'icon-text-fit': 'both',
         'icon-text-fit-padding': [2, 4, 2, 4],
         'text-justify': 'center',
@@ -150,6 +154,7 @@ const style = {
         'text-size': 12,
         'icon-text-fit': 'both',
         'icon-text-fit-padding': [2, 4, 2, 4],
+        'icon-allow-overlap': true,
         'text-justify': 'center',
         'text-font': ['黑体'],
         'text-pitch-alignment': 'viewport',
@@ -167,10 +172,10 @@ const style = {
     },
     // HZWorkSpace:WSSB_YY
     {
-      id: 'WSSB_YY',
+      id: 'WSSB_HZ',
       type: 'symbol',
       source: LevelConfig.addLv8,
-      'source-layer': 'WSSB_YY',
+      'source-layer': 'WSSB_HZ',
       layout: {
         'text-field': '{Name}',
         visibility: 'visible',
@@ -178,6 +183,7 @@ const style = {
         'text-size': 12,
         'icon-text-fit': 'both',
         'icon-text-fit-padding': [2, 4, 2, 4],
+        'icon-allow-overlap': true,
         'text-justify': 'center',
         'text-font': ['黑体'],
         'text-pitch-alignment': 'viewport',
