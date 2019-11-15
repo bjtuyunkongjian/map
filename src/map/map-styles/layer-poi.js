@@ -704,6 +704,481 @@ const PoiLayer = [
       'text-halo-width': 2,
       'text-halo-color': 'rgba(255, 255, 255, 1)'
     }
+  },
+  {
+    id: 'LV16_CANY', //16级餐饮
+    type: 'symbol',
+    source: LevelConfig.addLv7,
+    'source-layer': 'CANY16',
+    layout: {
+      'text-field': '{Name}',
+      'symbol-placement': 'point',
+      'text-size': 14,
+      'icon-text-fit': 'both',
+      'icon-text-fit-padding': [2, 4, 2, 4],
+      'text-justify': 'center',
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'text-rotation-alignment': 'viewport',
+      'icon-rotation-alignment': 'viewport',
+      'text-anchor': 'center',
+      'text-keep-upright': false
+    },
+    paint: {
+      'text-color': 'rgba(65, 65, 65, 0.9)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    }
+  },
+  {
+    id: 'LV16_GGSS', //16级公共设施
+    type: 'symbol',
+    source: LevelConfig.addLv7,
+    'source-layer': 'GGSS16',
+    layout: {
+      'text-field': '{Name}',
+      'symbol-placement': 'point',
+      'text-size': 14,
+      'icon-text-fit': 'both',
+      'icon-text-fit-padding': [2, 4, 2, 4],
+      'text-justify': 'center',
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'text-rotation-alignment': 'viewport',
+      'icon-rotation-alignment': 'viewport',
+      'text-anchor': 'center',
+      'text-keep-upright': false
+    },
+    paint: {
+      'text-color': 'rgba(65, 65, 65, 0.9)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    }
+  },
+  {
+    id: 'LV16_GSQY', //16级公司企业
+    type: 'symbol',
+    source: LevelConfig.addLv7,
+    'source-layer': 'GSQY16',
+    layout: {
+      'text-field': '{Name}',
+      'symbol-placement': 'point',
+      'text-size': 14,
+      'icon-text-fit': 'both',
+      'icon-text-fit-padding': [2, 4, 2, 4],
+      'text-justify': 'center',
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'text-rotation-alignment': 'viewport',
+      'icon-rotation-alignment': 'viewport',
+      'text-anchor': 'center',
+      'text-keep-upright': false
+    },
+    paint: {
+      'text-color': 'rgba(65, 65, 65, 0.9)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    }
+  },
+  {
+    id: 'LV16_JRBX', //16级金融保险
+    type: 'symbol',
+    source: LevelConfig.addLv7,
+    'source-layer': 'JRBX16',
+    layout: {
+      'text-field': '{Name}',
+      'symbol-placement': 'point',
+      'text-size': 14,
+      'icon-text-fit': 'both',
+      'icon-text-fit-padding': [2, 4, 2, 4],
+      'text-justify': 'center',
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'text-rotation-alignment': 'viewport',
+      'icon-rotation-alignment': 'viewport',
+      'text-anchor': 'center',
+      'text-keep-upright': false
+    },
+    paint: {
+      'text-color': 'rgba(65, 65, 65, 0.9)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    }
+  },
+  {
+    id: 'LV16_JMFW', //16级居民服务
+    type: 'symbol',
+    source: LevelConfig.addLv7,
+    'source-layer': 'JMFW16',
+    layout: {
+      'text-field': '{Name}',
+      'symbol-placement': 'point',
+      'text-size': 14,
+      'icon-text-fit': 'both',
+      'icon-text-fit-padding': [2, 4, 2, 4],
+      'text-justify': 'center',
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'text-rotation-alignment': 'viewport',
+      'icon-rotation-alignment': 'viewport',
+      'text-anchor': 'center',
+      'text-keep-upright': false
+    },
+    paint: {
+      'text-color': 'rgba(65, 65, 65, 0.9)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    }
+  },
+  {
+    id: 'LV16_SYSSJFW', //16级商业设施及服务
+    type: 'symbol',
+    source: LevelConfig.addLv7,
+    'source-layer': 'SYSSJFW16',
+    layout: {
+      'text-field': '{Name}',
+      'symbol-placement': 'point',
+      'text-size': 14,
+      'icon-text-fit': 'both',
+      'icon-text-fit-padding': [2, 4, 2, 4],
+      'text-justify': 'center',
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'text-rotation-alignment': 'viewport',
+      'icon-rotation-alignment': 'viewport',
+      'text-anchor': 'center',
+      'text-keep-upright': false
+    },
+    paint: {
+      'text-color': 'rgba(65, 65, 65, 0.9)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    }
+  },
+  {
+    id: 'LV16_YTYSCC', //16级交通运输仓储
+    type: 'symbol',
+    source: LevelConfig.addLv7,
+    'source-layer': 'YTYSCC16',
+    layout: {
+      'text-field': '{Name}',
+      'symbol-placement': 'point',
+      'text-size': 14,
+      'icon-text-fit': 'both',
+      'icon-text-fit-padding': [2, 4, 2, 4],
+      'text-justify': 'center',
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'text-rotation-alignment': 'viewport',
+      'icon-rotation-alignment': 'viewport',
+      'text-anchor': 'center',
+      'text-keep-upright': false
+    },
+    paint: {
+      'text-color': 'rgba(65, 65, 65, 0.9)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    }
+  },
+  {
+    id: 'LV17_CANY', //17级餐饮
+    type: 'symbol',
+    source: LevelConfig.addLv7,
+    'source-layer': 'CANY17',
+    layout: {
+      'text-field': '{Name}',
+      'symbol-placement': 'point',
+      'text-size': 14,
+      'icon-text-fit': 'both',
+      'icon-text-fit-padding': [2, 4, 2, 4],
+      'text-justify': 'center',
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'text-rotation-alignment': 'viewport',
+      'icon-rotation-alignment': 'viewport',
+      'text-anchor': 'center',
+      'text-keep-upright': false
+    },
+    paint: {
+      'text-color': 'rgba(65, 65, 65, 0.9)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    }
+  },
+  {
+    id: 'LV17_GSQY', //17级公司企业
+    type: 'symbol',
+    source: LevelConfig.addLv7,
+    'source-layer': 'GSQY17',
+    layout: {
+      'text-field': '{Name}',
+      'symbol-placement': 'point',
+      'text-size': 14,
+      'icon-text-fit': 'both',
+      'icon-text-fit-padding': [2, 4, 2, 4],
+      'text-justify': 'center',
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'text-rotation-alignment': 'viewport',
+      'icon-rotation-alignment': 'viewport',
+      'text-anchor': 'center',
+      'text-keep-upright': false
+    },
+    paint: {
+      'text-color': 'rgba(65, 65, 65, 0.9)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    }
+  },
+  {
+    id: 'LV17_JMFW', //17级居民服务
+    type: 'symbol',
+    source: LevelConfig.addLv7,
+    'source-layer': 'JMFW17',
+    layout: {
+      'text-field': '{Name}',
+      'symbol-placement': 'point',
+      'text-size': 14,
+      'icon-text-fit': 'both',
+      'icon-text-fit-padding': [2, 4, 2, 4],
+      'text-justify': 'center',
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'text-rotation-alignment': 'viewport',
+      'icon-rotation-alignment': 'viewport',
+      'text-anchor': 'center',
+      'text-keep-upright': false
+    },
+    paint: {
+      'text-color': 'rgba(65, 65, 65, 0.9)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    }
+  },
+  {
+    id: 'LV17_JRBX', //17级金融保险
+    type: 'symbol',
+    source: LevelConfig.addLv7,
+    'source-layer': 'JRBX17',
+    layout: {
+      'text-field': '{Name}',
+      'symbol-placement': 'point',
+      'text-size': 14,
+      'icon-text-fit': 'both',
+      'icon-text-fit-padding': [2, 4, 2, 4],
+      'text-justify': 'center',
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'text-rotation-alignment': 'viewport',
+      'icon-rotation-alignment': 'viewport',
+      'text-anchor': 'center',
+      'text-keep-upright': false
+    },
+    paint: {
+      'text-color': 'rgba(65, 65, 65, 0.9)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    }
+  },
+  {
+    id: 'LV17_NLMYY', //17级农林牧渔业
+    type: 'symbol',
+    source: LevelConfig.addLv7,
+    'source-layer': 'NLMYY17',
+    layout: {
+      'text-field': '{Name}',
+      'symbol-placement': 'point',
+      'text-size': 14,
+      'icon-text-fit': 'both',
+      'icon-text-fit-padding': [2, 4, 2, 4],
+      'text-justify': 'center',
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'text-rotation-alignment': 'viewport',
+      'icon-rotation-alignment': 'viewport',
+      'text-anchor': 'center',
+      'text-keep-upright': false
+    },
+    paint: {
+      'text-color': 'rgba(65, 65, 65, 0.9)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    }
+  },
+  {
+    id: 'LV17_PFLS', //17级批发零售
+    type: 'symbol',
+    source: LevelConfig.addLv7,
+    'source-layer': 'PFLS17',
+    layout: {
+      'text-field': '{Name}',
+      'symbol-placement': 'point',
+      'text-size': 14,
+      'icon-text-fit': 'both',
+      'icon-text-fit-padding': [2, 4, 2, 4],
+      'text-justify': 'center',
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'text-rotation-alignment': 'viewport',
+      'icon-rotation-alignment': 'viewport',
+      'text-anchor': 'center',
+      'text-keep-upright': false
+    },
+    paint: {
+      'text-color': 'rgba(65, 65, 65, 0.9)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    }
+  },
+  {
+    id: 'LV17_YDXX', //17级运动休闲
+    type: 'symbol',
+    source: LevelConfig.addLv7,
+    'source-layer': 'YDXX17',
+    layout: {
+      'text-field': '{Name}',
+      'symbol-placement': 'point',
+      'text-size': 14,
+      'icon-text-fit': 'both',
+      'icon-text-fit-padding': [2, 4, 2, 4],
+      'text-justify': 'center',
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'text-rotation-alignment': 'viewport',
+      'icon-rotation-alignment': 'viewport',
+      'text-anchor': 'center',
+      'text-keep-upright': false
+    },
+    paint: {
+      'text-color': 'rgba(65, 65, 65, 0.9)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    }
+  },
+  {
+    id: 'LV18_CANY', //18级餐饮
+    type: 'symbol',
+    source: LevelConfig.addLv7,
+    'source-layer': 'CANY18',
+    layout: {
+      'text-field': '{Name}',
+      'symbol-placement': 'point',
+      'text-size': 14,
+      'icon-text-fit': 'both',
+      'icon-text-fit-padding': [2, 4, 2, 4],
+      'text-justify': 'center',
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'text-rotation-alignment': 'viewport',
+      'icon-rotation-alignment': 'viewport',
+      'text-anchor': 'center',
+      'text-keep-upright': false
+    },
+    paint: {
+      'text-color': 'rgba(65, 65, 65, 0.9)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    }
+  },
+  {
+    id: 'LV18_GSQY', //18级公司企业
+    type: 'symbol',
+    source: LevelConfig.addLv7,
+    'source-layer': 'GSQY18',
+    layout: {
+      'text-field': '{Name}',
+      'symbol-placement': 'point',
+      'text-size': 14,
+      'icon-text-fit': 'both',
+      'icon-text-fit-padding': [2, 4, 2, 4],
+      'text-justify': 'center',
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'text-rotation-alignment': 'viewport',
+      'icon-rotation-alignment': 'viewport',
+      'text-anchor': 'center',
+      'text-keep-upright': false
+    },
+    paint: {
+      'text-color': 'rgba(65, 65, 65, 0.9)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    }
+  },
+  {
+    id: 'LV18_PFLS', //18级批发零售
+    type: 'symbol',
+    source: LevelConfig.addLv7,
+    'source-layer': 'PFLS18',
+    layout: {
+      'text-field': '{Name}',
+      'symbol-placement': 'point',
+      'text-size': 14,
+      'icon-text-fit': 'both',
+      'icon-text-fit-padding': [2, 4, 2, 4],
+      'text-justify': 'center',
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'text-rotation-alignment': 'viewport',
+      'icon-rotation-alignment': 'viewport',
+      'text-anchor': 'center',
+      'text-keep-upright': false
+    },
+    paint: {
+      'text-color': 'rgba(65, 65, 65, 0.9)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    }
+  },
+  {
+    id: 'LV18_ZS', //18级住宿，旅馆
+    type: 'symbol',
+    source: LevelConfig.addLv7,
+    'source-layer': 'ZS18',
+    layout: {
+      'text-field': '{Name}',
+      'symbol-placement': 'point',
+      'text-size': 14,
+      'icon-text-fit': 'both',
+      'icon-text-fit-padding': [2, 4, 2, 4],
+      'text-justify': 'center',
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'text-rotation-alignment': 'viewport',
+      'icon-rotation-alignment': 'viewport',
+      'text-anchor': 'center',
+      'text-keep-upright': false
+    },
+    paint: {
+      'text-color': 'rgba(65, 65, 65, 0.9)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    }
+  },
+  {
+    id: 'LV18_QCXSJFW', //18级汽车销售及服务
+    type: 'symbol',
+    source: LevelConfig.addLv7,
+    'source-layer': 'QCXSJFW18',
+    layout: {
+      'text-field': '{Name}',
+      'symbol-placement': 'point',
+      'text-size': 14,
+      'icon-text-fit': 'both',
+      'icon-text-fit-padding': [2, 4, 2, 4],
+      'text-justify': 'center',
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'text-rotation-alignment': 'viewport',
+      'icon-rotation-alignment': 'viewport',
+      'text-anchor': 'center',
+      'text-keep-upright': false
+    },
+    paint: {
+      'text-color': 'rgba(65, 65, 65, 0.9)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    }
   }
 ];
 
