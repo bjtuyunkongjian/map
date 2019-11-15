@@ -8,7 +8,6 @@ export default [
     'source-layer': 'LXD8',
     layout: {
       'text-field': '{Name}',
-      visibility: 'visible',
       'symbol-placement': 'point',
       'text-size': 14,
       'icon-text-fit': 'both',
@@ -34,7 +33,6 @@ export default [
     'source-layer': 'XZ_HZ',
     layout: {
       'text-field': '{Name}',
-      visibility: 'visible',
       'symbol-placement': 'point',
       'text-size': 14,
       'icon-text-fit': 'both',

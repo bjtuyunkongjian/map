@@ -34,8 +34,7 @@ export default [
       'fill-color': '#b5e9b6',
       'fill-opacity': 1,
       'fill-antialias': false
-    },
-    labelLayerId: 'GHYDPL_7L'
+    }
   },
 
   // 线
