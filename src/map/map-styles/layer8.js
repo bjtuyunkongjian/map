@@ -1,10 +1,11 @@
 import { LevelConfig } from 'tuyun-config';
+import { KindMap } from './constant';
 
 export default [
   {
     id: 'POI_LYJD', //旅游景点
     type: 'symbol',
-    kind: 'poi',
+    kind: KindMap.poi,
     source: LevelConfig.addLv7,
     'source-layer': 'LXD8',
     layout: {
@@ -30,7 +31,7 @@ export default [
   {
     id: 'POI_XZ', //乡镇
     type: 'symbol',
-    kind: 'poi',
+    kind: KindMap.poi,
     source: LevelConfig.addLv7,
     'source-layer': 'XZ_HZ',
     layout: {

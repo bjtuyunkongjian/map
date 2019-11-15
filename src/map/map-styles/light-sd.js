@@ -16,13 +16,6 @@
 import { LevelConfig, BaseConfig } from 'tuyun-config';
 import Layer7 from './layer7';
 import Layer8 from './layer8';
-// const areaColor = {
-//   370502: '#412f1f', /// 东营区
-//   370503: '#f05b72', //  河口区
-//   370505: '#f47920', // 垦利县
-//   370522: '#74905d', //  利津县
-//   370523: '#6a6da9' // 广饶县
-// };
 
 const layers = [...Layer7, ...Layer8];
 
