@@ -20,6 +20,7 @@ import LayerRiver from './layer-river';
 import LayerGrass from './layer-grass';
 import LayerRoad from './layer-road';
 import LayerBuilding from './layer-building';
+import LayerPoi from './layer-poi';
 
 const layers = [
   ...LayerBackground,
@@ -27,7 +28,8 @@ const layers = [
   ...LayerRiver,
   ...LayerGrass,
   ...LayerRoad,
-  ...LayerBuilding
+  ...LayerBuilding,
+  ...LayerPoi
 ];
 
 export default {
@@ -39,7 +41,7 @@ export default {
       type: 'vector',
       scheme: 'tms',
       tiles: [
-        `${BaseConfig.geoserverHost}geoserver/gwc/service/tms/1.0.0/HZWorkSpace%3A9L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`
+        `${BaseConfig.geoserverHost}geoserver/gwc/service/tms/1.0.0/HZWorkSpace%3A7L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`
       ]
     }
   },

@@ -5,14 +5,6 @@ import { LevelConfig } from 'tuyun-config';
 
 export default [
   {
-    id: 'background', // 背景
-    type: 'background',
-    paint: {
-      'background-color': '#f5f5f5'
-    }
-  },
-  // 面
-  {
     id: 'HAIYU', // 记录海域，河流的面状要素
     type: 'fill',
     source: LevelConfig.addLv7,

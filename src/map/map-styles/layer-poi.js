@@ -3,7 +3,7 @@
  */
 import { LevelConfig } from 'tuyun-config';
 
-export default [
+const PoiLayer = [
   {
     id: 'QX_7L', //区，县的POI
     type: 'symbol',
@@ -26,32 +26,6 @@ export default [
     },
     paint: {
       'text-color': 'rgba(65, 65, 65, 0.9)',
-      'text-halo-width': 2,
-      'text-halo-color': 'rgba(255, 255, 255, 1)'
-    }
-  },
-  {
-    id: 'DJS', // 地级市
-    type: 'symbol',
-    source: LevelConfig.addLv7,
-    'source-layer': 'DJS_HZ',
-    layout: {
-      'text-field': '{Name}',
-      visibility: 'visible',
-      'symbol-placement': 'point',
-      'text-size': 16,
-      'text-padding': 4,
-      'icon-image': 'ic_map_{KIND}',
-      'text-justify': 'left',
-      'text-anchor': 'left',
-      'text-offset': [0.5, 0],
-      'text-font': ['黑体'],
-      'text-pitch-alignment': 'viewport',
-      'text-rotation-alignment': 'viewport',
-      'icon-rotation-alignment': 'viewport'
-    },
-    paint: {
-      'text-color': 'rgba(65, 65, 65, 1)', // ['get', ['get', 'KIND'], ['literal', FontColor]]
       'text-halo-width': 2,
       'text-halo-color': 'rgba(255, 255, 255, 1)'
     }
@@ -109,7 +83,6 @@ export default [
   {
     id: 'POI_CZ', //车站
     type: 'symbol',
-    kind: 'poi',
     source: LevelConfig.addLv7,
     'source-layer': 'CZ9',
     layout: {
@@ -135,7 +108,6 @@ export default [
   {
     id: 'POI_DZJG', //党政机关
     type: 'symbol',
-    kind: 'poi',
     source: LevelConfig.addLv7,
     'source-layer': 'DZJG9',
     layout: {
@@ -161,7 +133,6 @@ export default [
   {
     id: 'POI_GX', //高校
     type: 'symbol',
-    kind: 'poi',
     source: LevelConfig.addLv7,
     'source-layer': 'GX9',
     layout: {
@@ -187,7 +158,6 @@ export default [
   {
     id: 'POI_GY', //公园
     type: 'symbol',
-    kind: 'poi',
     source: LevelConfig.addLv7,
     'source-layer': 'GY9',
     layout: {
@@ -213,7 +183,6 @@ export default [
   {
     id: 'POI_LXD9', //旅游景点
     type: 'symbol',
-    kind: 'poi',
     source: LevelConfig.addLv7,
     'source-layer': 'LXD9',
     layout: {
@@ -237,3 +206,32 @@ export default [
     }
   }
 ];
+
+PoiLayer.push({
+  id: 'DJS', // 地级市
+  type: 'symbol',
+  source: LevelConfig.addLv7,
+  'source-layer': 'DJS_HZ',
+  layout: {
+    'text-field': '{Name}',
+    visibility: 'visible',
+    'symbol-placement': 'point',
+    'text-size': 16,
+    'text-padding': 4,
+    'icon-image': 'ic_map_{KIND}',
+    'text-justify': 'left',
+    'text-anchor': 'left',
+    'text-offset': [0.5, 0],
+    'text-font': ['黑体'],
+    'text-pitch-alignment': 'viewport',
+    'text-rotation-alignment': 'viewport',
+    'icon-rotation-alignment': 'viewport'
+  },
+  paint: {
+    'text-color': 'rgba(65, 65, 65, 1)', // ['get', ['get', 'KIND'], ['literal', FontColor]]
+    'text-halo-width': 2,
+    'text-halo-color': 'rgba(255, 255, 255, 1)'
+  }
+});
+
+export default PoiLayer;
