@@ -7,7 +7,7 @@ import ReactDom from 'react-dom';
 
 import '../style/index.less';
 import MapDemo from './map';
-import ColorBuilding from './color-buildings';
+// import ColorBuilding from './color-buildings';
 
 class MapApp extends Component {
   render() {
@@ -21,7 +21,7 @@ class MapApp extends Component {
     return (
       <div className="map-app">
         <MapDemo />
-        <ColorBuilding />
+        {/* <ColorBuilding /> */}
       </div>
     );
   }

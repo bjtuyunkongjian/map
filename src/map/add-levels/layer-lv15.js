@@ -8,7 +8,8 @@
  * 妈耶 800+行，不忍直视 =_= !
  */
 import { LevelConfig, BaseConfig } from 'tuyun-config';
-// import { BuildingColor } from 'tuyun-utils';
+import { BuildingColor } from 'tuyun-utils';
+console.log(BuildingColor);
 
 const visibleLevel = 13;
 
@@ -41,9 +42,12 @@ const style = {
       source: LevelConfig.addLv15,
       'source-layer': 'RES_PY',
       type: 'fill-extrusion',
-      filter: ['!=', 'CLASID', '310200'],
       paint: {
-        'fill-extrusion-color': gresplColor,
+        'fill-extrusion-color': [
+          'coalesce',
+          ['get', ['to-string', ['get', 'ID']], ['literal', BuildingColor]],
+          gresplColor
+        ],
         'fill-extrusion-height': [
           'interpolate',
           ['linear'],
@@ -63,9 +67,12 @@ const style = {
       source: LevelConfig.addLv15,
       'source-layer': 'RES_PY1',
       type: 'fill-extrusion',
-      filter: ['!=', 'CLASID', '310200'],
       paint: {
-        'fill-extrusion-color': gresplColor,
+        'fill-extrusion-color': [
+          'coalesce',
+          ['get', ['to-string', ['get', 'ID']], ['literal', BuildingColor]],
+          gresplColor
+        ],
         'fill-extrusion-height': [
           'interpolate',
           ['linear'],
