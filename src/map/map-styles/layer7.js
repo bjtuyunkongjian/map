@@ -2,7 +2,8 @@
  * 7级图层配置
  */
 import { LevelConfig } from 'tuyun-config';
-const maxzoom = 12;
+import { KindMap } from './constant';
+
 export default [
   {
     id: 'background', // 背景
@@ -15,7 +16,7 @@ export default [
   {
     id: 'HAIYU', // 记录海域，河流的面状要素
     type: 'fill',
-    kind: 'river',
+    kind: KindMap.river,
     source: LevelConfig.addLv7,
     'source-layer': 'HaiYu', // py是面
     paint: {
@@ -26,7 +27,7 @@ export default [
   },
   {
     id: 'HUAPU', // 绿地的面状要素
-    kind: 'grass',
+    kind: KindMap.grass,
     type: 'fill',
     source: LevelConfig.addLv7,
     'source-layer': 'HuaPu',
@@ -41,7 +42,7 @@ export default [
   {
     id: 'QXXJ', // 区,县,县城边界
     type: 'line',
-    kind: 'boundary',
+    kind: KindMap.boundary,
     source: LevelConfig.addLv7,
     'source-layer': 'QXXJ_HZ', // LN，line的简写
     layout: {
@@ -58,7 +59,7 @@ export default [
   {
     id: 'QX_7L', //区，县的POI
     type: 'symbol',
-    kind: 'poi',
+    kind: KindMap.poi,
     source: LevelConfig.addLv7,
     'source-layer': 'QX_HZ',
     layout: {
@@ -85,10 +86,9 @@ export default [
   {
     id: 'DJS', // 地级市
     type: 'symbol',
-    kind: 'poi',
+    kind: KindMap.poi,
     source: LevelConfig.addLv7,
     'source-layer': 'DJS_HZ',
-    maxzoom: maxzoom,
     layout: {
       'text-field': '{Name}',
       visibility: 'visible',
