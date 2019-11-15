@@ -354,6 +354,356 @@ const PoiLayer = [
       'text-halo-width': 2,
       'text-halo-color': 'rgba(255, 255, 255, 1)'
     }
+  },
+  {
+    id: 'LAYER12_QIAO', //12级桥
+    type: 'symbol',
+    source: LevelConfig.addLv7,
+    'source-layer': 'Qiao12',
+    layout: {
+      'text-field': '{Name}',
+      'symbol-placement': 'point',
+      'text-size': 14,
+      'icon-text-fit': 'both',
+      'icon-text-fit-padding': [2, 4, 2, 4],
+      'text-justify': 'center',
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'text-rotation-alignment': 'viewport',
+      'icon-rotation-alignment': 'viewport',
+      'text-anchor': 'center',
+      'text-keep-upright': false
+    },
+    paint: {
+      'text-color': 'rgba(65, 65, 65, 0.9)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    }
+  },
+  {
+    id: 'LAYER12_YY', //12级医院
+    type: 'symbol',
+    source: LevelConfig.addLv7,
+    'source-layer': 'YY12',
+    layout: {
+      'text-field': '{Name}',
+      'symbol-placement': 'point',
+      'text-size': 14,
+      'icon-text-fit': 'both',
+      'icon-text-fit-padding': [2, 4, 2, 4],
+      'text-justify': 'center',
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'text-rotation-alignment': 'viewport',
+      'icon-rotation-alignment': 'viewport',
+      'text-anchor': 'center',
+      'text-keep-upright': false
+    },
+    paint: {
+      'text-color': 'rgba(65, 65, 65, 0.9)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    }
+  },
+  {
+    id: 'LAYER12_ZXX', //12级中小学
+    type: 'symbol',
+    source: LevelConfig.addLv7,
+    'source-layer': 'ZXX12',
+    layout: {
+      'text-field': '{Name}',
+      'symbol-placement': 'point',
+      'text-size': 14,
+      'icon-text-fit': 'both',
+      'icon-text-fit-padding': [2, 4, 2, 4],
+      'text-justify': 'center',
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'text-rotation-alignment': 'viewport',
+      'icon-rotation-alignment': 'viewport',
+      'text-anchor': 'center',
+      'text-keep-upright': false
+    },
+    paint: {
+      'text-color': 'rgba(65, 65, 65, 0.9)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    }
+  },
+  {
+    id: 'LAYER13_QIAO', //13级桥
+    type: 'symbol',
+    source: LevelConfig.addLv7,
+    'source-layer': 'Qiao13',
+    layout: {
+      'text-field': '{Name}',
+      'symbol-placement': 'point',
+      'text-size': 14,
+      'icon-text-fit': 'both',
+      'icon-text-fit-padding': [2, 4, 2, 4],
+      'text-justify': 'center',
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'text-rotation-alignment': 'viewport',
+      'icon-rotation-alignment': 'viewport',
+      'text-anchor': 'center',
+      'text-keep-upright': false
+    },
+    paint: {
+      'text-color': 'rgba(65, 65, 65, 0.9)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    }
+  },
+  {
+    id: 'LAYER13_YY', //13级医院
+    type: 'symbol',
+    source: LevelConfig.addLv7,
+    'source-layer': 'YY12',
+    layout: {
+      'text-field': '{Name}',
+      'symbol-placement': 'point',
+      'text-size': 14,
+      'icon-text-fit': 'both',
+      'icon-text-fit-padding': [2, 4, 2, 4],
+      'text-justify': 'center',
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'text-rotation-alignment': 'viewport',
+      'icon-rotation-alignment': 'viewport',
+      'text-anchor': 'center',
+      'text-keep-upright': false
+    },
+    paint: {
+      'text-color': 'rgba(65, 65, 65, 0.9)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    }
+  },
+  {
+    id: 'LAYER13_COMMERCE', //13级商业社区及服务
+    type: 'symbol',
+    source: LevelConfig.addLv7,
+    'source-layer': 'SYSSJFW13',
+    layout: {
+      'text-field': '{Name}',
+      'symbol-placement': 'point',
+      'text-size': 14,
+      'icon-text-fit': 'both',
+      'icon-text-fit-padding': [2, 4, 2, 4],
+      'text-justify': 'center',
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'text-rotation-alignment': 'viewport',
+      'icon-rotation-alignment': 'viewport',
+      'text-anchor': 'center',
+      'text-keep-upright': false
+    },
+    paint: {
+      'text-color': 'rgba(65, 65, 65, 0.9)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    }
+  },
+  {
+    id: 'LAYER14_DZJG', //14级党政机关
+    type: 'symbol',
+    source: LevelConfig.addLv7,
+    'source-layer': 'DZJG14',
+    layout: {
+      'text-field': '{Name}',
+      'symbol-placement': 'point',
+      'text-size': 14,
+      'icon-text-fit': 'both',
+      'icon-text-fit-padding': [2, 4, 2, 4],
+      'text-justify': 'center',
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'text-rotation-alignment': 'viewport',
+      'icon-rotation-alignment': 'viewport',
+      'text-anchor': 'center',
+      'text-keep-upright': false
+    },
+    paint: {
+      'text-color': 'rgba(65, 65, 65, 0.9)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    }
+  },
+  {
+    id: 'LAYER14_ZXX', //14级中小学
+    type: 'symbol',
+    source: LevelConfig.addLv7,
+    'source-layer': 'ZXX14',
+    layout: {
+      'text-field': '{Name}',
+      'symbol-placement': 'point',
+      'text-size': 14,
+      'icon-text-fit': 'both',
+      'icon-text-fit-padding': [2, 4, 2, 4],
+      'text-justify': 'center',
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'text-rotation-alignment': 'viewport',
+      'icon-rotation-alignment': 'viewport',
+      'text-anchor': 'center',
+      'text-keep-upright': false
+    },
+    paint: {
+      'text-color': 'rgba(65, 65, 65, 0.9)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    }
+  },
+  {
+    id: 'LAYER15_CUN', //15级村
+    type: 'symbol',
+    source: LevelConfig.addLv7,
+    'source-layer': 'CUN15',
+    layout: {
+      'text-field': '{Name}',
+      'symbol-placement': 'point',
+      'text-size': 14,
+      'icon-text-fit': 'both',
+      'icon-text-fit-padding': [2, 4, 2, 4],
+      'text-justify': 'center',
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'text-rotation-alignment': 'viewport',
+      'icon-rotation-alignment': 'viewport',
+      'text-anchor': 'center',
+      'text-keep-upright': false
+    },
+    paint: {
+      'text-color': 'rgba(65, 65, 65, 0.9)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    }
+  },
+  {
+    id: 'LAYER15_JYWH', //15级教育文化
+    type: 'symbol',
+    source: LevelConfig.addLv7,
+    'source-layer': 'JYWH15',
+    layout: {
+      'text-field': '{Name}',
+      'symbol-placement': 'point',
+      'text-size': 14,
+      'icon-text-fit': 'both',
+      'icon-text-fit-padding': [2, 4, 2, 4],
+      'text-justify': 'center',
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'text-rotation-alignment': 'viewport',
+      'icon-rotation-alignment': 'viewport',
+      'text-anchor': 'center',
+      'text-keep-upright': false
+    },
+    paint: {
+      'text-color': 'rgba(65, 65, 65, 0.9)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    }
+  },
+  {
+    id: 'LAYER15_KJJJSFW', //15级科技及技术服务
+    type: 'symbol',
+    source: LevelConfig.addLv7,
+    'source-layer': 'KJJJSFW15',
+    layout: {
+      'text-field': '{Name}',
+      'symbol-placement': 'point',
+      'text-size': 14,
+      'icon-text-fit': 'both',
+      'icon-text-fit-padding': [2, 4, 2, 4],
+      'text-justify': 'center',
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'text-rotation-alignment': 'viewport',
+      'icon-rotation-alignment': 'viewport',
+      'text-anchor': 'center',
+      'text-keep-upright': false
+    },
+    paint: {
+      'text-color': 'rgba(65, 65, 65, 0.9)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    }
+  },
+  {
+    id: 'LAYER15_LXD', //15级旅游景点
+    type: 'symbol',
+    source: LevelConfig.addLv7,
+    'source-layer': 'LXD15',
+    layout: {
+      'text-field': '{Name}',
+      'symbol-placement': 'point',
+      'text-size': 14,
+      'icon-text-fit': 'both',
+      'icon-text-fit-padding': [2, 4, 2, 4],
+      'text-justify': 'center',
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'text-rotation-alignment': 'viewport',
+      'icon-rotation-alignment': 'viewport',
+      'text-anchor': 'center',
+      'text-keep-upright': false
+    },
+    paint: {
+      'text-color': 'rgba(65, 65, 65, 0.9)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    }
+  },
+  {
+    id: 'LAYER15_SYSSJFW', //15级商业社区及服务
+    type: 'symbol',
+    source: LevelConfig.addLv7,
+    'source-layer': 'SYSSJFW15',
+    layout: {
+      'text-field': '{Name}',
+      'symbol-placement': 'point',
+      'text-size': 14,
+      'icon-text-fit': 'both',
+      'icon-text-fit-padding': [2, 4, 2, 4],
+      'text-justify': 'center',
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'text-rotation-alignment': 'viewport',
+      'icon-rotation-alignment': 'viewport',
+      'text-anchor': 'center',
+      'text-keep-upright': false
+    },
+    paint: {
+      'text-color': 'rgba(65, 65, 65, 0.9)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    }
+  },
+  {
+    id: 'LAYER15_WSSB', //15级卫生社保
+    type: 'symbol',
+    source: LevelConfig.addLv7,
+    'source-layer': 'WSSB15',
+    layout: {
+      'text-field': '{Name}',
+      'symbol-placement': 'point',
+      'text-size': 14,
+      'icon-text-fit': 'both',
+      'icon-text-fit-padding': [2, 4, 2, 4],
+      'text-justify': 'center',
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'text-rotation-alignment': 'viewport',
+      'icon-rotation-alignment': 'viewport',
+      'text-anchor': 'center',
+      'text-keep-upright': false
+    },
+    paint: {
+      'text-color': 'rgba(65, 65, 65, 0.9)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    }
   }
 ];
 

@@ -14,5 +14,16 @@ export default [
       'fill-opacity': 1,
       'fill-antialias': false
     }
+  },
+  {
+    id: 'GRASS_LV15', // 15级绿地
+    type: 'fill',
+    source: LevelConfig.addLv7,
+    'source-layer': 'Lvdi',
+    paint: {
+      'fill-color': '#b5e9b6',
+      'fill-opacity': 1,
+      'fill-antialias': false
+    }
   }
 ];
