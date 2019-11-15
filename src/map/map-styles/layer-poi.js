@@ -204,6 +204,106 @@ const PoiLayer = [
       'text-halo-width': 2,
       'text-halo-color': 'rgba(255, 255, 255, 1)'
     }
+  },
+  {
+    id: 'LAYER10_DZJG', //10级党政机关
+    type: 'symbol',
+    source: LevelConfig.addLv7,
+    'source-layer': 'DZJG10',
+    layout: {
+      'text-field': '{Name}',
+      'symbol-placement': 'point',
+      'text-size': 14,
+      'icon-text-fit': 'both',
+      'icon-text-fit-padding': [2, 4, 2, 4],
+      'text-justify': 'center',
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'text-rotation-alignment': 'viewport',
+      'icon-rotation-alignment': 'viewport',
+      'text-anchor': 'center',
+      'text-keep-upright': false
+    },
+    paint: {
+      'text-color': 'rgba(65, 65, 65, 0.9)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    }
+  },
+  {
+    id: 'LAYER10_GX', //10级高校
+    type: 'symbol',
+    source: LevelConfig.addLv7,
+    'source-layer': 'GX10',
+    layout: {
+      'text-field': '{Name}',
+      'symbol-placement': 'point',
+      'text-size': 14,
+      'icon-text-fit': 'both',
+      'icon-text-fit-padding': [2, 4, 2, 4],
+      'text-justify': 'center',
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'text-rotation-alignment': 'viewport',
+      'icon-rotation-alignment': 'viewport',
+      'text-anchor': 'center',
+      'text-keep-upright': false
+    },
+    paint: {
+      'text-color': 'rgba(65, 65, 65, 0.9)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    }
+  },
+  {
+    id: 'LAYER10_GY', //10级公园
+    type: 'symbol',
+    source: LevelConfig.addLv7,
+    'source-layer': 'GY10',
+    layout: {
+      'text-field': '{Name}',
+      'symbol-placement': 'point',
+      'text-size': 14,
+      'icon-text-fit': 'both',
+      'icon-text-fit-padding': [2, 4, 2, 4],
+      'text-justify': 'center',
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'text-rotation-alignment': 'viewport',
+      'icon-rotation-alignment': 'viewport',
+      'text-anchor': 'center',
+      'text-keep-upright': false
+    },
+    paint: {
+      'text-color': 'rgba(65, 65, 65, 0.9)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    }
+  },
+  {
+    id: 'LAYER10_LXD', //10级旅游景点
+    type: 'symbol',
+    source: LevelConfig.addLv7,
+    'source-layer': 'LXD10',
+    layout: {
+      'text-field': '{Name}',
+      'symbol-placement': 'point',
+      'text-size': 14,
+      'icon-text-fit': 'both',
+      'icon-text-fit-padding': [2, 4, 2, 4],
+      'text-justify': 'center',
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'text-rotation-alignment': 'viewport',
+      'icon-rotation-alignment': 'viewport',
+      'text-anchor': 'center',
+      'text-keep-upright': false
+    },
+    paint: {
+      'text-color': 'rgba(65, 65, 65, 0.9)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    }
   }
 ];
 
