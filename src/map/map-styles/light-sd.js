@@ -14,10 +14,21 @@
  */
 
 import { LevelConfig, BaseConfig } from 'tuyun-config';
-import Layer7 from './layer7';
-import Layer8 from './layer8';
+import LayerBackground from './layer-background';
+import LayerCounty from './layer-county';
+import LayerRiver from './layer-river';
+import LayerGrass from './layer-grass';
+import LayerRoad from './layer-road';
+import LayerBuilding from './layer-building';
 
-const layers = [...Layer7, ...Layer8, ...Layer9];
+const layers = [
+  ...LayerBackground,
+  ...LayerCounty,
+  ...LayerRiver,
+  ...LayerGrass,
+  ...LayerRoad,
+  ...LayerBuilding
+];
 
 export default {
   version: 8,

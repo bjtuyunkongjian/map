@@ -11,13 +11,9 @@ import BaseStyle from './map-styles/light-sd';
 import AddLevels from './add-levels';
 
 export default class MapBoxDemo extends Component {
-  componentDidMount() {
-    this._init();
-  }
+  componentDidMount = () => this._init();
 
-  componentWillUnmount() {
-    this.map.remove();
-  }
+  componentWillUnmount = () => this.map.remove();
 
   render() {
     return (
