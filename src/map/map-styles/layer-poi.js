@@ -3,10 +3,38 @@
  */
 import { LevelConfig } from 'tuyun-config';
 
+const townArr = [
+  {
+    id: 'POI_XZ',
+    type: 'symbol',
+    source: LevelConfig.addLv7,
+    'source-layer': 'XZ_HZ',
+    layout: {
+      'text-field': '{Name}',
+      visibility: 'visible',
+      'symbol-placement': 'point',
+      'text-size': 11,
+      'text-padding': 4,
+      'icon-image': 'ic_map_{KIND}',
+      'text-justify': 'left',
+      'text-anchor': 'left',
+      'text-offset': [0.8, 0],
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'text-rotation-alignment': 'viewport',
+      'icon-rotation-alignment': 'viewport'
+    },
+    paint: {
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    }
+  }
+];
+
 const iconArr = [
   { id: 'QX_7L', src: 'QX_HZ' },
   { id: 'POI_LYJD', src: 'LXD8' },
-  { id: 'POI_XZ', src: 'XZ_HZ' },
+  // { id: 'POI_XZ', src: 'XZ_HZ' },
   { id: 'POI_CZ', src: 'CZ9' },
   { id: 'POI_DZJG', src: 'DZJG9' },
   { id: 'POI_GX', src: 'GX9' },
@@ -55,6 +83,10 @@ const iconArr = [
 
 const PoiLayer = [];
 
+for (let item of townArr) {
+  PoiLayer.push(item);
+}
+
 for (let item of iconArr) {
   PoiLayer.push({
     id: item.id, //区，县的POI
@@ -65,7 +97,7 @@ for (let item of iconArr) {
       'text-field': '{Name}',
       visibility: 'visible',
       'symbol-placement': 'point',
-      'text-size': 14,
+      'text-size': 12,
       'icon-text-fit': 'both',
       'icon-text-fit-padding': [2, 4, 2, 4],
       'text-justify': 'center',
@@ -110,7 +142,5 @@ PoiLayer.push({
     'text-halo-color': 'rgba(255, 255, 255, 1)'
   }
 });
-
-console.log(PoiLayer);
 
 export default PoiLayer;

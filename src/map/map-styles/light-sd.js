@@ -43,7 +43,10 @@ export default {
       type: 'vector',
       scheme: 'tms',
       tiles: [
-        `${BaseConfig.geoserverHost}get-geo/dev?type=geo&x={x}&y={y}&z={z}`
+        // geoserver/gwc/service/tms/1.0.0/HZWorkSpace%3A$7L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf
+        // `${BaseConfig.geoserverHost}geoserver/gwc/service/tms/1.0.0/HZWorkSpace%3A8L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`
+        `${BaseConfig.geoserverHost}get-geo/dev?type=geo&x={x}&y={y}&z={z}`,
+        `${BaseConfig.tileHost}originMapServer/string?test=200&type=tms&zoom={z}&row={x}&column={y}`
       ]
     }
   },
