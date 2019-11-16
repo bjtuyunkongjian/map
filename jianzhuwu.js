@@ -11,14 +11,16 @@ function readFunc(err, data) {
     if (!item.startsWith('#')) {
       const [key, value] = item.split('=');
       if (
-        value !== '0' &&
-        value !== '1' &&
-        value !== '2' &&
-        value !== '3' &&
-        value !== '4'
-      )
-        continue;
-      BuildingType[key] = value;
+        value === '0' ||
+        value === '1' ||
+        value === '2' ||
+        value === '3' ||
+        value === '4'
+      ) {
+        BuildingType[key] = value;
+      } else if (value === '-1') {
+        delete BuildingType[key];
+      }
     }
   }
 
