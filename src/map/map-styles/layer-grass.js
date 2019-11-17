@@ -8,7 +8,7 @@ export default [
     id: 'HUAPU', // 绿地的面状要素
     type: 'fill',
     source: LevelConfig.addLv7,
-    'source-layer': 'HuaPu',
+    'source-layer': 'VEG_PY',
     paint: {
       'fill-color': '#b5e9b6',
       'fill-opacity': 1,
