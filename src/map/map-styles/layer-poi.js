@@ -780,9 +780,9 @@ const PoiLayer = [
   ...marketArr,
   ...sportsArr,
   ...scienceArr,
+  ...RdNameArr,
 
-  ...cityLayer,
-  ...RdNameArr
+  ...cityLayer
 ];
 
 export default PoiLayer;
