@@ -65,7 +65,7 @@ const CustomLayer = {
     this.renderer.autoClear = false;
   },
   render: function(_, matrix) {
-    if (this.map.getZoom() < 7) return;
+    if (this.map.getZoom() < 15) return;
     var rotationX = new Matrix4().makeRotationAxis(
       new Vector3(1, 0, 0),
       modelTransform.rotateX
