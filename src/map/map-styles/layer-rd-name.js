@@ -343,6 +343,7 @@ const shengdao = [
     type: 'symbol',
     source: LevelConfig.addLv7,
     'source-layer': 'SD',
+    filter: ['!=', 'ROADCODE', ''],
     layout: {
       'text-field': '{ROADCODE}',
       visibility: 'visible',
@@ -371,6 +372,7 @@ const guodao = [
     type: 'symbol',
     source: LevelConfig.addLv7,
     'source-layer': 'GD',
+    filter: ['!=', 'ROADCODE', ''],
     layout: {
       'text-field': '{ROADCODE}',
       visibility: 'visible',

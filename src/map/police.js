@@ -4,7 +4,7 @@ import { THREE } from 'tuyun-utils';
 
 const {
   GLTFLoader,
-  Camera,
+  OrthographicCamera,
   Scene,
   DirectionalLight,
   WebGLRenderer,
@@ -13,43 +13,38 @@ const {
 } = THREE;
 
 // parameters to ensure the model is georeferenced correctly on the map
-var modelOrigin = [117.03147871, 36.67556967]; // 中心点
-var modelAltitude = 21; // 高度，海拔
-var modelRotate = [Math.PI / 2, Math.PI / 2, 0]; // 旋转角度
-var modelScale = 2e-8; // 缩放比例
+const modelRotate = [0, 0, 0]; // 旋转角度
+const modelScale = 1; // 缩放比例
 
-// transformation parameters to position, rotate and scale the 3D model onto the map
-var modelTransform = {
-  translateX: mapboxgl.MercatorCoordinate.fromLngLat(modelOrigin, modelAltitude)
-    .x,
-  translateY: mapboxgl.MercatorCoordinate.fromLngLat(modelOrigin, modelAltitude)
-    .y,
-  translateZ: mapboxgl.MercatorCoordinate.fromLngLat(modelOrigin, modelAltitude)
-    .z,
-  rotateX: modelRotate[0],
-  rotateY: modelRotate[1],
-  rotateZ: modelRotate[2],
-  scale: modelScale
-};
+class CustomLayer {
+  constructor({ center, id, height }) {
+    this.id = id;
+    this.type = 'custom';
+    this.renderingMode = '3d';
+    this.modelTransform = {
+      translateX: mapboxgl.MercatorCoordinate.fromLngLat(center, height).x,
+      translateY: mapboxgl.MercatorCoordinate.fromLngLat(center, height).y,
+      translateZ: mapboxgl.MercatorCoordinate.fromLngLat(center, height).z,
+      rotateX: modelRotate[0],
+      rotateY: modelRotate[1],
+      rotateZ: modelRotate[2],
+      scale: modelScale
+    };
+  }
 
-// configuration of the custom layer for a 3D model per the CustomLayerInterface
-const CustomLayer = {
-  id: '3d-model-policeman-obj',
-  type: 'custom',
-  renderingMode: '3d',
-  onAdd: function(map, gl) {
-    this.camera = new Camera();
+  onAdd(map, gl) {
+    this.camera = new OrthographicCamera();
     this.scene = new Scene();
 
     var directionalLight = new DirectionalLight(0xffffff, 0.4);
     directionalLight.position.set(0, 70, 100).normalize();
     this.scene.add(directionalLight);
-
     // use the three.js GLTF loader to add the 3D model to the three.js scene
     var loader = new GLTFLoader();
     loader.load(
-      'http://47.110.135.245:12808/static/policeman/file.gltf',
+      'http://localhost:8080/static/jeep.gltf',
       function(gltf) {
+        console.log(gltf);
         this.scene.add(gltf.scene);
       }.bind(this)
     );
@@ -63,34 +58,35 @@ const CustomLayer = {
     });
 
     this.renderer.autoClear = false;
-  },
-  render: function(_, matrix) {
-    if (this.map.getZoom() < 17) return;
+  }
+
+  render(_, matrix) {
+    if (this.map.getZoom() < 7) return;
     var rotationX = new Matrix4().makeRotationAxis(
       new Vector3(1, 0, 0),
-      modelTransform.rotateX
+      this.modelTransform.rotateX
     );
     var rotationY = new Matrix4().makeRotationAxis(
       new Vector3(0, 1, 0),
-      modelTransform.rotateY
+      this.modelTransform.rotateY
     );
     var rotationZ = new Matrix4().makeRotationAxis(
       new Vector3(0, 0, 1),
-      modelTransform.rotateZ
+      this.modelTransform.rotateZ
     );
 
     var m = new Matrix4().fromArray(matrix);
     var l = new Matrix4()
       .makeTranslation(
-        modelTransform.translateX,
-        modelTransform.translateY,
-        modelTransform.translateZ
+        this.modelTransform.translateX,
+        this.modelTransform.translateY,
+        this.modelTransform.translateZ
       )
       .scale(
         new Vector3(
-          modelTransform.scale,
-          -modelTransform.scale,
-          modelTransform.scale
+          this.modelTransform.scale,
+          -this.modelTransform.scale,
+          this.modelTransform.scale
         )
       )
       .multiply(rotationX)
@@ -103,6 +99,6 @@ const CustomLayer = {
     this.renderer.render(this.scene, this.camera);
     this.map.triggerRepaint();
   }
-};
+}
 
 export default CustomLayer;

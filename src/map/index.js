@@ -4,11 +4,10 @@
  */
 
 import mapboxgl from 'mapbox-gl';
-import { AddLevel } from 'tuyun-utils';
 import React, { Component } from 'react';
 
 import BaseStyle from './map-styles/light-sd';
-import AddLevels from './add-levels';
+import ZjjdLayer from './jiudian';
 
 export default class MapBoxDemo extends Component {
   componentDidMount = () => this._init();
@@ -30,26 +29,17 @@ export default class MapBoxDemo extends Component {
       container: this._mapContainer,
       style: BaseStyle,
       showTileBoundaries: true,
-      center: [119.0856, 29.6754],
-      zoom: 11,
-      // pitch: 60,
+      center: [120.208615, 30.245062],
+      zoom: 17,
+      pitch: 60,
       // bearing: -13.6,
       minZoom: 8,
       maxZoom: 20,
       localIdeographFontFamily: '黑体'
     });
-    // this.map
-    //   .on('style.load', () => {
-    //     this._addSourceFunc(); // 增加图层组
-    //   })
-    //   .on('zoomend', () => {
-    //     this._addSourceFunc();
-    //   });
-  };
-
-  _addSourceFunc = () => {
-    for (let item of AddLevels) {
-      AddLevel(this.map, item);
-    }
+    this.map.on('style.load', () => {
+      // 30.2449/120.209
+      this.map.addLayer(ZjjdLayer, '15_HOUSE');
+    });
   };
 }

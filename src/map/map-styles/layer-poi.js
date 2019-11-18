@@ -61,6 +61,7 @@ const districtArr = [{ id: 'QX_7L', src: 'QX_HZ' }].map(item => {
   };
 });
 
+// 旅游景点
 const travelArr = [
   { id: 'LXD8', src: 'LXD8' },
   { id: 'LXD9', src: 'LXD9' },
@@ -104,6 +105,7 @@ const travelArr = [
   };
 });
 
+// 车站
 const stationArr = [
   { id: 'POI_CZ', src: 'CZ9' },
   { id: 'POI_CZ_1', src: 'CZ16-1' },
@@ -139,7 +141,7 @@ const stationArr = [
   };
 });
 
-// 190201: 'rgb(207, 62, 62)'
+// 警察局 190201: 'rgb(207, 62, 62)'
 const policeStationArr = [
   { id: 'DZJG11-1', src: 'DZJG11-1' },
   { id: 'DZJG14-1', src: 'DZJG14-1' }
@@ -258,7 +260,7 @@ const schoolArr = [
 });
 
 // 180304: 'rgb(56, 136, 49)',
-const gardenArr = [
+const parkArr = [
   { id: 'POI_GY', src: 'GY9-1' },
   { id: 'LAYER10_GY', src: 'GY10-1' },
   { id: 'GY10-2', src: 'GY10-2' },
@@ -296,6 +298,7 @@ const gardenArr = [
   };
 });
 
+// 医院
 const hospitalArr = [
   { id: 'LAYER12_YY', src: 'YY12' },
   { id: 'LAYER13_YY', src: 'YY12' },
@@ -369,7 +372,7 @@ const bridgeArr = [
   };
 });
 
-// 200105: 'rgb(126, 79, 175)',
+// 商业设施及服务 200105: 'rgb(126, 79, 175)',
 const facilityArr = [
   { id: 'LAYER13_COMMERCE', src: 'SYSSJFW13' },
   { id: 'LV16_SYSSJFW', src: 'SYSSJFW16' },
@@ -728,6 +731,36 @@ const scienceArr = [{ id: 'KJJJSFW15', src: 'KJJJSFW15' }].map(item => {
   };
 });
 
+// 230100: 'rgb(89, 125, 155)'
+const trafficLayer = [
+  {
+    id: 'traffic',
+    type: 'symbol',
+    source: LevelConfig.addLv7,
+    'source-layer': 'JTYSCC16',
+    layout: {
+      'text-field': '{Name}',
+      visibility: 'visible',
+      'symbol-placement': 'point',
+      'text-size': 11,
+      'text-padding': 4,
+      'icon-image': 'ic_map_230100',
+      'text-justify': 'left',
+      'text-anchor': 'left',
+      'text-offset': [0.8, 0],
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'text-rotation-alignment': 'viewport',
+      'icon-rotation-alignment': 'viewport'
+    },
+    paint: {
+      'text-color': 'rgb(89, 125, 155)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    }
+  }
+];
+
 const cityLayer = [
   {
     id: 'DJS', // 地级市
@@ -766,7 +799,7 @@ const PoiLayer = [
   ...policeStationArr,
   ...governmentArr,
   ...schoolArr,
-  ...gardenArr,
+  ...parkArr,
   ...hospitalArr,
   ...bridgeArr,
   ...facilityArr,
@@ -781,6 +814,7 @@ const PoiLayer = [
   ...sportsArr,
   ...scienceArr,
   ...RdNameArr,
+  ...trafficLayer,
   ...cityLayer
 ];
 
