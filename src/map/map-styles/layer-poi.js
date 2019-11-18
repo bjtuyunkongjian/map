@@ -781,7 +781,6 @@ const PoiLayer = [
   ...sportsArr,
   ...scienceArr,
   ...RdNameArr,
-
   ...cityLayer
 ];
 

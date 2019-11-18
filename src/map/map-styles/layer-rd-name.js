@@ -35,7 +35,7 @@ const zadao = [
       'text-field': {
         stops: [
           [7, ''],
-          [13, '{NAME}']
+          [13, '{FNAME}']
         ]
       },
       visibility: 'visible',
@@ -65,7 +65,7 @@ const zhixian = [
       'text-field': {
         stops: [
           [7, ''],
-          [15, '{NAME}']
+          [15, '{FNAME}']
         ]
       },
       visibility: 'visible',
@@ -105,7 +105,7 @@ const cigandao = [
       'text-field': {
         stops: [
           [7, ''],
-          [14, '{NAME}']
+          [14, '{FNAME}']
         ]
       },
       visibility: 'visible',
@@ -146,7 +146,7 @@ const xiangdao = [
       'text-field': {
         stops: [
           [7, ''],
-          [15, '{NAME}']
+          [15, '{FNAME}']
         ]
       },
       visibility: 'visible',
@@ -186,7 +186,7 @@ const kuaisulu = [
       'text-field': {
         stops: [
           [7, ''],
-          [13, '{NAME}']
+          [13, '{FNAME}']
         ]
       },
       visibility: 'visible',
@@ -228,7 +228,7 @@ const zhugandao = [
       'text-field': {
         stops: [
           [7, ''],
-          [13, '{NAME}']
+          [13, '{FNAME}']
         ]
       },
       visibility: 'visible',
@@ -260,7 +260,7 @@ const zhugandao = [
   }
 ];
 
-const xiaodao = [
+const xiandao = [
   {
     id: 'xiandao_name', // xiandao
     type: 'symbol',
@@ -270,7 +270,7 @@ const xiaodao = [
       'text-field': {
         stops: [
           [7, ''],
-          [13, '{NAME}']
+          [13, '{FNAME}']
         ]
       },
       visibility: 'visible',
@@ -309,12 +309,7 @@ const shengdao = [
     source: LevelConfig.addLv7,
     'source-layer': 'SD',
     layout: {
-      'text-field': {
-        stops: [
-          [7, ''],
-          [13, '{NAME}']
-        ]
-      },
+      'text-field': '{FNAME}',
       visibility: 'visible',
       'symbol-placement': 'line',
       'text-font': ['黑体'],
@@ -342,14 +337,14 @@ const shengdao = [
       'text-halo-color': 'rgba(255, 255, 255, 1)'
     }
   },
+
   {
     id: 'shengdao_icon', // 省道图标
     type: 'symbol',
     source: LevelConfig.addLv7,
     'source-layer': 'SD',
-    filter: ['!=', 'ENTIID', ''],
     layout: {
-      'text-field': '{ENTIID}',
+      'text-field': '{ROADCODE}',
       visibility: 'visible',
       'symbol-placement': 'line',
       'text-size': 10,
@@ -372,17 +367,37 @@ const shengdao = [
 
 const guodao = [
   {
+    id: 'guodao_icon', // 国道图标
+    type: 'symbol',
+    source: LevelConfig.addLv7,
+    'source-layer': 'GD',
+    layout: {
+      'text-field': '{ROADCODE}',
+      visibility: 'visible',
+      'symbol-placement': 'line',
+      'text-size': 10,
+      'icon-image': 'ic_map_gh.9',
+      'icon-text-fit': 'both',
+      'icon-text-fit-padding': [1, 2, 1, 2],
+      'text-justify': 'center',
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'text-rotation-alignment': 'viewport',
+      'icon-rotation-alignment': 'viewport',
+      'text-anchor': 'center',
+      'text-keep-upright': false
+    },
+    paint: {
+      'text-color': '#FFFFFF'
+    }
+  },
+  {
     id: 'guodao_name', // 国道名称
     type: 'symbol',
     source: LevelConfig.addLv7,
     'source-layer': 'GD',
     layout: {
-      'text-field': {
-        stops: [
-          [7, ''],
-          [12, '{NAME}']
-        ]
-      },
+      'text-field': '{FNAME}',
       visibility: 'visible',
       'symbol-placement': 'line',
       'text-font': ['黑体'],
@@ -409,31 +424,6 @@ const guodao = [
       'text-halo-width': 2,
       'text-halo-color': 'rgba(255, 255, 255, 1)'
     }
-  },
-  {
-    id: 'guodao_icon', // 国道图标
-    type: 'symbol',
-    source: LevelConfig.addLv7,
-    'source-layer': 'gaoguoGDB',
-    layout: {
-      'text-field': '{NAME}',
-      visibility: 'visible',
-      'symbol-placement': 'line',
-      'text-size': 10,
-      'icon-image': 'ic_map_gh.9',
-      'icon-text-fit': 'both',
-      'icon-text-fit-padding': [1, 2, 1, 2],
-      'text-justify': 'center',
-      'text-font': ['黑体'],
-      'text-pitch-alignment': 'viewport',
-      'text-rotation-alignment': 'viewport',
-      'icon-rotation-alignment': 'viewport',
-      'text-anchor': 'center',
-      'text-keep-upright': false
-    },
-    paint: {
-      'text-color': '#FFFFFF'
-    }
   }
 ];
 
@@ -448,7 +438,7 @@ const gaosu = [
       'text-field': {
         stops: [
           [7, ''],
-          [13, '{NAME}']
+          [13, '{FNAME}']
         ]
       },
       visibility: 'visible',
@@ -477,8 +467,8 @@ export default [
   ...xiangdao,
   ...kuaisulu,
   ...zhugandao,
-  ...xiaodao,
-  ...shengdao,
+  ...xiandao,
   ...gaosu,
+  ...shengdao,
   ...guodao
 ];
