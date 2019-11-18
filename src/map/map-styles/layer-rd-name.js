@@ -1,11 +1,11 @@
 import { LevelConfig } from 'tuyun-config';
 
-const xiaoLname = [
+const xiaolu = [
   {
     id: 'xiaolu-name',
     type: 'symbol',
     source: LevelConfig.addLv7,
-    'source-layer': 'XiaoL', // LN，line的简写
+    'source-layer': 'XiaoL',
     layout: {
       'text-field': '{FNAME}',
       visibility: 'visible',
@@ -25,7 +25,284 @@ const xiaoLname = [
   }
 ];
 
-const sdName = [
+const zadao = [
+  {
+    id: 'zd_name',
+    type: 'symbol',
+    source: LevelConfig.addLv7,
+    'source-layer': 'ZD',
+    layout: {
+      'text-field': {
+        stops: [
+          [7, ''],
+          [13, '{NAME}']
+        ]
+      },
+      visibility: 'visible',
+      'symbol-placement': 'line',
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'symbol-spacing': 500,
+      'text-rotation-alignment': 'map',
+      'text-size': 10,
+      'icon-rotation-alignment': 'viewport'
+    },
+    paint: {
+      'text-color': 'rgba(65, 65, 65, 0.9)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    }
+  }
+];
+
+const zhixian = [
+  {
+    id: 'zhixian_name',
+    type: 'symbol',
+    source: LevelConfig.addLv7,
+    'source-layer': 'ZX',
+    layout: {
+      'text-field': {
+        stops: [
+          [7, ''],
+          [15, '{NAME}']
+        ]
+      },
+      visibility: 'visible',
+      'symbol-placement': 'line',
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'symbol-spacing': 500,
+      'text-rotation-alignment': 'map',
+      'text-size': {
+        base: 10,
+        stops: [
+          [15, 10],
+          [16, 10],
+          [17, 11],
+          [18, 11],
+          [19, 12],
+          [20, 12]
+        ]
+      },
+      'icon-rotation-alignment': 'viewport'
+    },
+    paint: {
+      'text-color': 'rgba(65, 65, 65, 0.8)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    }
+  }
+];
+
+const cigandao = [
+  {
+    id: 'cgd_name', // 次干道
+    type: 'symbol',
+    source: LevelConfig.addLv7,
+    'source-layer': 'CGD',
+    layout: {
+      'text-field': {
+        stops: [
+          [7, ''],
+          [14, '{NAME}']
+        ]
+      },
+      visibility: 'visible',
+      'symbol-placement': 'line',
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'symbol-spacing': 500,
+      'text-rotation-alignment': 'map',
+      'text-size': {
+        base: 0,
+        stops: [
+          [14, 10],
+          [15, 10],
+          [16, 11],
+          [17, 11],
+          [18, 12],
+          [19, 12],
+          [20, 12]
+        ]
+      },
+      'icon-rotation-alignment': 'viewport'
+    },
+    paint: {
+      'text-color': 'rgba(65, 65, 65, 0.9)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    }
+  }
+];
+
+const xiangdao = [
+  {
+    id: 'xiangdao_name',
+    type: 'symbol',
+    source: LevelConfig.addLv7,
+    'source-layer': 'XiangD',
+    layout: {
+      'text-field': {
+        stops: [
+          [7, ''],
+          [15, '{NAME}']
+        ]
+      },
+      visibility: 'visible',
+      'symbol-placement': 'line',
+      'text-font': ['黑体'],
+      'symbol-spacing': 500,
+      'text-pitch-alignment': 'viewport',
+      'text-rotation-alignment': 'map',
+      'text-size': {
+        base: 10,
+        stops: [
+          [15, 10],
+          [16, 10],
+          [17, 11],
+          [18, 11],
+          [19, 12],
+          [20, 12]
+        ]
+      },
+      'icon-rotation-alignment': 'viewport'
+    },
+    paint: {
+      'text-color': 'rgba(65, 65, 65, 0.9)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    }
+  }
+];
+
+const kuaisulu = [
+  {
+    id: 'ksl_name', // 快速路名称
+    type: 'symbol',
+    source: LevelConfig.addLv7,
+    'source-layer': 'KSL-GJ',
+    layout: {
+      'text-field': {
+        stops: [
+          [7, ''],
+          [13, '{NAME}']
+        ]
+      },
+      visibility: 'visible',
+      'symbol-placement': 'line',
+      'text-font': ['黑体'],
+      'symbol-spacing': 500,
+      'text-pitch-alignment': 'viewport',
+      'text-rotation-alignment': 'map',
+      'text-size': {
+        base: 0,
+        stops: [
+          [13, 10],
+          [14, 10],
+          [15, 11],
+          [16, 11],
+          [17, 12],
+          [18, 12],
+          [19, 12],
+          [20, 12]
+        ]
+      },
+      'icon-rotation-alignment': 'viewport'
+    },
+    paint: {
+      'text-color': 'rgba(65, 65, 65, 0.9)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    }
+  }
+];
+
+const zhugandao = [
+  {
+    id: 'zgd_name', // 主干道名称
+    type: 'symbol',
+    source: LevelConfig.addLv7,
+    'source-layer': 'ZGD',
+    layout: {
+      'text-field': {
+        stops: [
+          [7, ''],
+          [13, '{NAME}']
+        ]
+      },
+      visibility: 'visible',
+      'symbol-placement': 'line',
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'symbol-spacing': 500,
+      'text-rotation-alignment': 'map',
+      'text-size': {
+        base: 10,
+        stops: [
+          [13, 10],
+          [14, 10],
+          [15, 12],
+          [16, 12],
+          [17, 12],
+          [18, 14],
+          [19, 14],
+          [20, 14]
+        ]
+      },
+      'icon-rotation-alignment': 'viewport'
+    },
+    paint: {
+      'text-color': 'rgba(65, 65, 65, 0.9)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    }
+  }
+];
+
+const xiaodao = [
+  {
+    id: 'xiandao_name', // xiandao
+    type: 'symbol',
+    source: LevelConfig.addLv7,
+    'source-layer': 'XianD',
+    layout: {
+      'text-field': {
+        stops: [
+          [7, ''],
+          [13, '{NAME}']
+        ]
+      },
+      visibility: 'visible',
+      'symbol-placement': 'line',
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'symbol-spacing': 500,
+      'text-rotation-alignment': 'map',
+      'text-size': {
+        base: 10,
+        stops: [
+          [13, 10],
+          [14, 10],
+          [15, 11],
+          [16, 11],
+          [17, 12],
+          [18, 12],
+          [19, 12],
+          [20, 12]
+        ]
+      },
+      'icon-rotation-alignment': 'viewport'
+    },
+    paint: {
+      'text-color': 'rgba(65, 65, 65, 0.9)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    }
+  }
+];
+
+const shengdao = [
   {
     id: 'shengdao_name', // 省道名称
     type: 'symbol',
@@ -93,7 +370,7 @@ const sdName = [
   }
 ];
 
-const gdName = [
+const guodao = [
   {
     id: 'guodao_name', // 国道名称
     type: 'symbol',
@@ -160,7 +437,7 @@ const gdName = [
   }
 ];
 
-const gsName = [
+const gaosu = [
   {
     id: 'gaosu_name',
     type: 'symbol',
@@ -192,4 +469,16 @@ const gsName = [
   }
 ]; // 高速
 
-export default [...xiaoLname, ...sdName, ...gsName, ...gdName];
+export default [
+  ...xiaolu,
+  ...zadao,
+  ...zhixian,
+  ...cigandao,
+  ...xiangdao,
+  ...kuaisulu,
+  ...zhugandao,
+  ...xiaodao,
+  ...shengdao,
+  ...gaosu,
+  ...guodao
+];
