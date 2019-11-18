@@ -7,7 +7,7 @@ export default [
     source: LevelConfig.addLv7,
     'source-layer': 'CC',
     paint: {
-      'fill-color': '#b5e9b6',
+      'fill-color': 'rgb(227,180,176)',
       'fill-opacity': 1,
       'fill-antialias': false
     }

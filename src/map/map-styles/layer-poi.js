@@ -1,7 +1,5 @@
-/**
- * 7级图层配置
- */
 import { LevelConfig } from 'tuyun-config';
+import RdNameArr from './layer-rd-name';
 
 const townArr = [
   { id: 'POI_XZ', src: 'XZ_HZ' },
@@ -109,7 +107,6 @@ const travelArr = [
 const stationArr = [
   { id: 'POI_CZ', src: 'CZ9' },
   { id: 'POI_CZ_1', src: 'CZ16-1' },
-  { id: 'LV16_YTYSCC', src: 'CZ16-2' },
   { id: 'CZ16-2', src: 'CZ16-2' },
   { id: 'CZ-16-2-1', src: 'CZ-16-2-1' },
   { id: 'CZ-16-2-2', src: 'CZ-16-2-2' }
@@ -784,7 +781,8 @@ const PoiLayer = [
   ...sportsArr,
   ...scienceArr,
 
-  ...cityLayer
+  ...cityLayer,
+  ...RdNameArr
 ];
 
 export default PoiLayer;

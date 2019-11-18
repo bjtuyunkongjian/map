@@ -767,45 +767,6 @@ const roadGuodao = [
       },
       'line-color': '#fed669'
     }
-  },
-  {
-    id: 'guodao_name', // 国道名称
-    type: 'symbol',
-    source: LevelConfig.addLv7,
-    'source-layer': 'GD',
-    layout: {
-      'text-field': {
-        stops: [
-          [7, ''],
-          [12, '{NAME}']
-        ]
-      },
-      visibility: 'visible',
-      'symbol-placement': 'line',
-      'text-font': ['黑体'],
-      'text-pitch-alignment': 'viewport',
-      'symbol-spacing': 500,
-      'text-rotation-alignment': 'map',
-      'text-size': {
-        base: 0,
-        stops: [
-          [13, 10],
-          [14, 12],
-          [15, 12],
-          [16, 13],
-          [17, 13],
-          [18, 15],
-          [19, 15],
-          [20, 15]
-        ]
-      },
-      'icon-rotation-alignment': 'viewport'
-    },
-    paint: {
-      'text-color': 'rgba(65, 65, 65, 1)',
-      'text-halo-width': 2,
-      'text-halo-color': 'rgba(255, 255, 255, 1)'
-    }
   }
 ];
 
