@@ -15,6 +15,7 @@
 
 import { LevelConfig, BaseConfig } from 'tuyun-config';
 import LayerBackground from './layer-background';
+import LayerPlayground from './layer-playground';
 import LayerCounty from './layer-county';
 import LayerBoundary from './layer-boundary';
 import LayerRiver from './layer-river';
@@ -29,6 +30,7 @@ const layers = [
   ...LayerBoundary,
   ...LayerRiver,
   ...LayerGrass,
+  ...LayerPlayground,
   ...LayerRoad,
   ...LayerBuilding,
   ...LayerPoi
@@ -45,8 +47,8 @@ export default {
       tiles: [
         // geoserver/gwc/service/tms/1.0.0/HZWorkSpace%3A$7L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf
         // `${BaseConfig.geoserverHost}geoserver/gwc/service/tms/1.0.0/HZWorkSpace%3A8L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`
-        // `${BaseConfig.geoserverHost}get-geo/dev?type=geo&x={x}&y={y}&z={z}`
-        `${BaseConfig.tileHost}originMapServer/string?test=200&type=tms&zoom={z}&row={x}&column={y}`
+        `${BaseConfig.geoserverHost}get-geo/dev?type=geo&x={x}&y={y}&z={z}`
+        // `${BaseConfig.tileHost}originMapServer/string?test=200&type=tms&zoom={z}&row={x}&column={y}`
       ]
     }
   },

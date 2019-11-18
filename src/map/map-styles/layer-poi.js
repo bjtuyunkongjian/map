@@ -142,11 +142,44 @@ const stationArr = [
   };
 });
 
+// 190201: 'rgb(207, 62, 62)'
+const policeStationArr = [
+  { id: 'DZJG11-1', src: 'DZJG11-1' },
+  { id: 'DZJG14-1', src: 'DZJG14-1' }
+].map(item => {
+  return {
+    id: item.id,
+    type: 'symbol',
+    source: LevelConfig.addLv7,
+    'source-layer': item.src,
+    layout: {
+      'text-field': '{NAME}',
+      visibility: 'visible',
+      'symbol-placement': 'point',
+      'text-size': 11,
+      'text-padding': 4,
+      'icon-image': 'ic_map_190201',
+      'text-justify': 'left',
+      'text-anchor': 'left',
+      'text-offset': [0.8, 0],
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'text-rotation-alignment': 'viewport',
+      'icon-rotation-alignment': 'viewport'
+    },
+    paint: {
+      'text-color': 'rgb(207, 62, 62)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    }
+  };
+});
+
 const governmentArr = [
   { id: 'POI_DZJG', src: 'DZJG9' },
   { id: 'LAYER10_DZJG', src: 'DZJG10' },
-  { id: 'LAYER11_DZJG', src: 'DZJG11' },
-  { id: 'LAYER14_DZJG', src: 'DZJG14' }
+  { id: 'DZJG11-2', src: 'DZJG11-2' },
+  { id: 'DZJG14-2', src: 'DZJG14-2' }
 ].map(item => {
   return {
     id: item.id,
@@ -733,6 +766,7 @@ const PoiLayer = [
   ...districtArr,
   ...travelArr,
   ...stationArr,
+  ...policeStationArr,
   ...governmentArr,
   ...schoolArr,
   ...gardenArr,
