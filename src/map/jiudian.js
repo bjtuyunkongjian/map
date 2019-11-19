@@ -48,8 +48,9 @@ const CustomLayer = {
     // use the three.js GLTF loader to add the 3D model to the three.js scene
     var loader = new GLTFLoader();
     loader.load(
-      './static/hangzhou-1.gltf',
+      'http://47.110.135.245:12808/static/hz-a.gltf',
       function(gltf) {
+        // console.log(gltf);
         this.scene.add(gltf.scene);
       }.bind(this)
     );

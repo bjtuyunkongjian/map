@@ -16,10 +16,10 @@ export default [
     }
   },
   {
-    id: 'GRASS_LV15', // 15级绿地
+    id: 'VEG_PY_5', // 绿地的面状要素
     type: 'fill',
     source: LevelConfig.addLv7,
-    'source-layer': 'Lvdi',
+    'source-layer': 'VEG_PY_5',
     paint: {
       'fill-color': '#b5e9b6',
       'fill-opacity': 1,
