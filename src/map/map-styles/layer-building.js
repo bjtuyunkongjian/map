@@ -1,4 +1,5 @@
 import { LevelConfig } from 'tuyun-config';
+import { BuildingColor } from 'tuyun-utils';
 
 // 3d 普通建筑颜色和透明度
 const gresplOpacity = 0.8;
@@ -12,7 +13,11 @@ export default [
     'source-layer': 'RES_PY',
     type: 'fill-extrusion',
     paint: {
-      'fill-extrusion-color': gresplColor,
+      'fill-extrusion-color': [
+        'coalesce',
+        ['get', ['to-string', ['get', 'ID']], ['literal', BuildingColor]],
+        gresplColor
+      ],
       'fill-extrusion-height': [
         'interpolate',
         ['linear'],
@@ -32,7 +37,11 @@ export default [
     'source-layer': 'RES_PY1',
     type: 'fill-extrusion',
     paint: {
-      'fill-extrusion-color': gresplColor,
+      'fill-extrusion-color': [
+        'coalesce',
+        ['get', ['to-string', ['get', 'ID']], ['literal', BuildingColor]],
+        gresplColor
+      ],
       'fill-extrusion-height': [
         'interpolate',
         ['linear'],

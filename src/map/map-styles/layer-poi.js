@@ -820,7 +820,7 @@ const cityLayer = [
   }
 ];
 
-const PoiLayer = [
+export default [
   ...townArr,
   ...districtArr,
   ...travelArr,
@@ -847,5 +847,3 @@ const PoiLayer = [
   ...ditie,
   ...cityLayer
 ];
-
-export default PoiLayer;
