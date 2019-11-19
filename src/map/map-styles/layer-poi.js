@@ -761,7 +761,7 @@ const trafficLayer = [
   }
 ];
 
-const ditie = [
+const subway = [
   {
     id: 'ditiezhan_name',
     type: 'symbol',
@@ -844,6 +844,6 @@ export default [
   ...scienceArr,
   ...RdNameArr,
   ...trafficLayer,
-  ...ditie,
+  ...subway,
   ...cityLayer
 ];
