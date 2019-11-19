@@ -32,6 +32,44 @@ const tielu = [
   }
 ];
 
+const ditieMap = {
+  '地铁２号线（在建中）': '#fd9a34',
+  '地铁４号线（在建中）': '#98b737',
+  地铁１号线: '#fd2d2d',
+  '地铁６号线（在建中）': '#004dbb',
+  地铁１号线: '#fd2d2d',
+  地铁４号线: '#98b737',
+  地铁２号线: '#fd9a34'
+};
+
+const ditie = [
+  {
+    id: 'ditie', // 15级小路主色
+    type: 'line',
+    source: LevelConfig.addLv7,
+    'source-layer': 'TL_HZ',
+    layout: {
+      'line-cap': 'round',
+      'line-join': 'round'
+    },
+    paint: {
+      'line-width': {
+        base: 2,
+        stops: [
+          [15, 2],
+          [16, 7],
+          [17, 11],
+          [18, 15],
+          [19, 16],
+          [20, 14]
+        ]
+      },
+      'line-color': ['get', ['get', 'Name'], ['literal', ditieMap]]
+      // 'line-color': '#fd2d2d'
+    }
+  }
+];
+
 const xiaolu = [
   {
     id: 'LV15_XL_bg', // 15级小路背景
@@ -790,5 +828,6 @@ export default [
   ...xiandao,
   ...shengdao,
   ...guodao,
-  ...gaosu
+  ...gaosu,
+  ...ditie
 ];

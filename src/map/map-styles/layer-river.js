@@ -15,6 +15,18 @@ export default [
       'fill-antialias': false
     }
   },
+
+  {
+    id: 'xihu', // 沟渠
+    type: 'fill',
+    source: LevelConfig.addLv7,
+    'source-layer': 'XH',
+    paint: {
+      'fill-color': '#b3d8ff',
+      'fill-opacity': 1,
+      'fill-antialias': false
+    }
+  },
   {
     id: 'GQ_LV15', // 沟渠
     type: 'fill',

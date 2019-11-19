@@ -1,7 +1,7 @@
 import { LevelConfig } from 'tuyun-config';
 
 // 3d 普通建筑颜色和透明度
-const gresplOpacity = 0.5;
+const gresplOpacity = 0.8;
 const gresplColor = 'rgb(255, 255, 255)';
 const fillExtrusionHeight = 16;
 

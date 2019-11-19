@@ -761,6 +761,35 @@ const trafficLayer = [
   }
 ];
 
+const ditie = [
+  {
+    id: 'ditiezhan_name',
+    type: 'symbol',
+    source: LevelConfig.addLv7,
+    'source-layer': 'DTZ',
+    layout: {
+      'text-field': '{Name}',
+      visibility: 'visible',
+      'symbol-placement': 'point',
+      'text-size': 11,
+      'text-padding': 4,
+      'icon-image': 'ic_map_230108',
+      'text-justify': 'left',
+      'text-anchor': 'left',
+      'text-offset': [0.8, 0],
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'text-rotation-alignment': 'viewport',
+      'icon-rotation-alignment': 'viewport'
+    },
+    paint: {
+      'text-color': 'rgb(89, 125, 155)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)'
+    }
+  }
+];
+
 const cityLayer = [
   {
     id: 'DJS', // 地级市
@@ -774,7 +803,7 @@ const cityLayer = [
       'symbol-placement': 'point',
       'text-size': 16,
       'text-padding': 4,
-      'icon-image': 'ic_map_{KIND}',
+      'icon-image': 'ic_map_ic_map_190108',
       'text-justify': 'left',
       'text-anchor': 'left',
       'text-offset': [0.5, 0],
@@ -815,6 +844,7 @@ const PoiLayer = [
   ...scienceArr,
   ...RdNameArr,
   ...trafficLayer,
+  ...ditie,
   ...cityLayer
 ];
 
