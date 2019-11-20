@@ -1,11 +1,9 @@
 import mapboxgl from 'mapbox-gl';
 
 import BaseStyle from './map-styles/light-sd';
-import LevelStyles from './add-levels';
 import { BaseConfig } from 'tuyun-config';
 
 import {
-  AddLevel,
   AddCircleLayer,
   AddPolygonLayer,
   AddTextLayer,
@@ -41,25 +39,29 @@ import {
   difference as PolygonDiff
 } from '@turf/turf';
 
+import ZjjdLayer from './jiudian';
+
 const mapArr = [];
 
 class TyMap {
   constructor(container, options = {}) {
     const {
       hash = true,
-      center = [117.0856, 36.6754],
+      center = [120.208615, 30.245062],
       zoom = 11,
-      pitch = 0,
-      bearing = 0,
-      key = ''
+      pitch = 60,
+      bearing = -13.6,
+      key = '',
+      maxZoom = 20,
+      minZoom = 8
     } = options;
     const transAns = transformStyle(key);
     if (transAns === -1) {
-      console.log('key 忘写了吧？');
+      console.log('没有识别到 key');
       return Object.create({});
     }
     if (transAns === 0) {
-      console.log('可能是盗用了他人的 key？');
+      console.log('key 不对');
       return Object.create({});
     }
     const tyMap = new mapboxgl.Map({
@@ -70,17 +72,13 @@ class TyMap {
       zoom,
       pitch,
       bearing,
-      minZoom: 7,
-      maxZoom: 20,
+      minZoom,
+      maxZoom,
       localIdeographFontFamily: '黑体'
     });
-
-    tyMap
-      .on('style.load', () => {
-        addSource(tyMap); // 增加图层组
-      })
-      .on('zoomend', () => addSource(tyMap));
-
+    tyMap.on('style.load', () => {
+      tyMap.addLayer(ZjjdLayer, '15_HOUSE');
+    });
     this.mapIndex = mapArr.length;
     mapArr.push(tyMap);
   }
@@ -524,12 +522,6 @@ class TyMap {
 
 window.TyMap = TyMap;
 
-const addSource = tyMap => {
-  for (let item of LevelStyles) {
-    AddLevel(tyMap, item);
-  }
-};
-
 const transformStyle = userKey => {
   if (!userKey) return -1; // 没有 userKey
   const { hostname } = window.location;
@@ -563,9 +555,6 @@ const transformStyle = userKey => {
     encMap.value = encArr.join('');
   }
   transformUrl(BaseStyle, userKey, encMap);
-  for (let item of LevelStyles) {
-    transformUrl(item, userKey, encMap);
-  }
 };
 
 const transformUrl = (style, userKey, encMap) => {

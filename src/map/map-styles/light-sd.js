@@ -45,7 +45,7 @@ export default {
       type: 'vector',
       scheme: 'tms',
       tiles: [
-        `${BaseConfig.geoserverHost}get-geo/dev?type=geo&x={x}&y={y}&z={z}`
+        `${BaseConfig.geoserverHost}get-geo/combine?type=geo&x={x}&y={y}&z={z}`
       ]
     }
   },

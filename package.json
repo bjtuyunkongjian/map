@@ -8,7 +8,7 @@
     "build": "rm -rf ./dist/* && webpack --mode production",
     "clean": "rm -rf ./dist/* && rm -rf ./build-api/*",
     "deploy": "node ./bin/shell.js",
-    "build-api": "rm -rf ./build-api/ty-map* && webpack --config webpack.config.api.prod.babel.js --mode production  && webpack --config webpack.config.api.dev.babel.js --mode production"
+    "build-api": "node ./bin/build-api.js"
   },
   "keywords": [],
   "author": "",

@@ -11,7 +11,7 @@
 
 // 192.168.251.46
 const BuildApiHost = {
-  geoserverHost: `http://47.110.135.245:8081/`, // geoserver 地址 阿里云： 116.62.186.152 10.49.6.62:8080
+  geoserverHost: `http://localhost:8081/`, // geoserver 地址 阿里云： 116.62.186.152 10.49.6.62:8080
   originServer: `http://47.110.135.245:8999/`, // orginServer 地址 阿里云： 116.62.186.152 10.49.6.62:8080
   geojsonHost: `http://${window.location.hostname}:3000/`, // 提供geojson的后台
   tileHost: `http://47.110.135.245:8999/`, // 自己提供瓦片数据的后台 47.110.135.245
@@ -19,7 +19,7 @@ const BuildApiHost = {
   spriteHost: `http://47.110.135.245:12808/`, // 精灵图端口
   imageHost: `http://47.110.135.245:12808/`, // 图片地址
   glyphsHost: `http://47.110.135.245:12808/`, // 字体端口
-  apiHost: 'http://47.110.135.245:8080/', // api development 环境对应的 ip
+  apiHost: 'http://localhost:8081/', // api development 环境对应的 ip
   httpTimeOut: 5000
 };
 
