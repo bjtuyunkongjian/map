@@ -54,7 +54,7 @@ class TyMap {
     const {
       hash = true,
       center = [120.208615, 30.245062],
-      zoom = 11,
+      zoom = 17,
       pitch = 60,
       bearing = -13.6,
       key = '',
