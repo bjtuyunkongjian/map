@@ -30,7 +30,6 @@ export default class JurisdictionData extends Component {
   _onClick = async () => {
     const { selected: curSelect } = this.state;
     const _selected = !curSelect;
-    console.log(_selected);
     await this.setState({ selected: _selected });
     const { showJurisdictionData } = GloEventName;
     GlobalEvent.emit(showJurisdictionData, { visible: _selected }); // 点击出现右侧比对碰撞弹框

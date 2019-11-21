@@ -49,8 +49,8 @@ export default class JurisdictionTab extends Component {
   };
 
   _onJurisdictionView = async ({ visible }) => {
-    GlobalEvent.emit(GloEventName.closeTabView); // 出现比对碰撞，人口/单位/房屋/案件/警情弹框消失
-    GlobalEvent.emit(GloEventName.closeJurisdictionData); // 出现比对碰撞，关闭辖区数据
+    GlobalEvent.emit(GloEventName.closeTabView); // 出现辖区数据，人口/单位/房屋/案件/警情弹框消失
+    GlobalEvent.emit(GloEventName.closeCompareTab); // 出现辖区数据，关闭比对碰撞
     GlobalEvent.emit(GloEventName.changeLMVehicleType); // 关闭辖区数据
     const { visible: curVisible } = this.state;
     if (visible === curVisible) return; //重复点击保护
