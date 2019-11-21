@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { GlobalEvent, GloEventName } from 'tuyun-utils';
 import { FaTimes } from 'react-icons/fa';
 
-import { FetchPopDetail } from './webapi';
+import { GetDetail } from './webapi';
 import { BaseInfo, HouseholdRegInfo, PopCategory } from './constant';
 
 export default class PupupPopulation extends Component {
@@ -98,9 +98,9 @@ export default class PupupPopulation extends Component {
 
   _fetchPopDetail = async () => {
     const { popCode } = this.state;
-    const { res, err } = await FetchPopDetail({
-      rkbm: popCode
-    });
+    // localhost:12808/mapServer/population/detail?rkbm=681FC89405770A87E053B592300AFB7D
+    const _param = `rkbm=${popCode}`;
+    const { res, err } = await GetDetail(_param);
     if (!res || err) return console.log('获取人口信息失败');
     res.rklb = PopCategory[res.rklb]; // 人口类别
 

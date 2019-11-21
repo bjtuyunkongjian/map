@@ -21,7 +21,7 @@ import {
 } from 'tuyun-utils';
 
 import Event, { EventName } from './event';
-import { FetchProgressData } from './webapi';
+import { PostCarHistory } from './webapi';
 import {
   CreateUnitArr,
   ConvertDateList,
@@ -252,7 +252,6 @@ export default class ProgressBar extends Component {
             };
             _features.push(TurfPoint(coord, _feature)); // 设置 features
           } else {
-            // console.log('coord[3]', coord[3]);
             const _feature = {
               img: 'ic_map_arrow_' + _dataMap.rgbHex,
               rotate: -coord[3],
@@ -261,50 +260,6 @@ export default class ProgressBar extends Component {
             _features.push(TurfPoint(coord, _feature)); // 设置 features
           }
         }
-        // const _posFeature = {
-        //   radius: _maxR,
-        //   color: _dataMap.rgb,
-        //   strokeWidth: 0
-        // }; // 正向的 feature
-        // const _negFeature = {
-        //   radius: _maxR,
-        //   color: 'rgb(255,255,255)',
-        //   strokeWidth: 1,
-        //   strokeColor: _dataMap.rgb
-        // }; // 反向的 feature
-        // for (let coord of _curArr) {
-        //   if (coord[2] === 1) {
-        //     _features.push(TurfPoint(coord, _posFeature)); // 设置 features
-        //   } else {
-        //     _features.push(TurfPoint(coord, _negFeature)); // 设置 features
-        //   }
-        // }
-        // // 前面的帧
-        // _prevTime.map((time, index) => {
-        //   if (!time) return;
-        //   const _prevArr = _dataMap[time];
-        //   const _radius = _maxR - ((_maxR - _minR) / _tailCounts) * (index + 1);
-        //   const _posFeature = {
-        //     radius: _radius,
-        //     color: _dataMap[`rgb${index + 1}`],
-        //     strokeWidth: 0
-        //   }; // 正向的 feature
-        //   const _negFeature = {
-        //     radius: _radius,
-        //     color: `rgba(255,255,255,${0.8 - 0.2 * index})`,
-        //     strokeWidth: 1,
-        //     strokeColor: _dataMap[`rgb${index + 1}`]
-        //   }; // 反向的 feature
-        //   if (_prevArr) {
-        //     for (let coord of _prevArr) {
-        //       if (coord[2] === 1) {
-        //         _features.push(TurfPoint(coord, _posFeature)); // 设置 features
-        //       } else {
-        //         _features.push(TurfPoint(coord, _negFeature)); // 设置 features
-        //       }
-        //     }
-        //   }
-        // });
       }
     }
     const _geoJSONData = {
@@ -312,13 +267,6 @@ export default class ProgressBar extends Component {
       data: FeatureCollection(_features)
     };
     const { vehicleTypes } = LayerIds;
-    // const _opt = {
-    //   radius: ['get', 'radius'],
-    //   color: ['get', 'color'],
-    //   strokeWidth: ['get', 'strokeWidth'],
-    //   strokeColor: ['get', 'strokeColor']
-    // };
-    // AddCircleLayer(_MAP_, _geoJSONData, vehicleTypes.point, _opt); // 渲染对应图层
     const _opt = {
       iconImage: ['get', 'img'],
       iconRotate: ['get', 'rotate'],
@@ -366,6 +314,7 @@ export default class ProgressBar extends Component {
     const _bounds = _MAP_.getBounds();
     const _unitArr = CreateUnitArr(this._timeList, ReqArrLen);
     const _type = vehicleTypes.map(item => item.type + '');
+
     // 循环请求
     for (let item of _unitArr) {
       const _dateArr = ConvertDateList(
@@ -373,27 +322,25 @@ export default class ProgressBar extends Component {
         this._realInterval,
         this._endMilliSec
       );
-      const { res, err } = await FetchProgressData({
+      const _body = {
         points: _bounds,
+        maxX: _bounds._ne.lng,
+        minX: _bounds._sw.lng,
+        maxY: _bounds._ne.lat,
+        minX: _bounds._sw.lat,
         dates: _dateArr,
         type: _type,
         uuid: _uuid
-      });
+      };
+      const { res, err } = await PostCarHistory(_body);
       if (!res || err) continue;
       if (_uuid !== this._uuid) return; // 如果重新请求，终止之前的请求
       const _mapKeys = Object.keys(this._typeDataMap);
       for (let key of _mapKeys) {
         Object.assign(this._typeDataMap[key], res[key]);
-        if (Object.keys(res[key]).length < _dateArr.length)
-          console.log(
-            JSON.stringify({
-              points: _bounds,
-              dates: _dateArr,
-              type: _type,
-              uuid: _uuid,
-              test: 'lkywHF'
-            })
-          );
+        if (Object.keys(res[key]).length < _dateArr.length) {
+          console.log(JSON.stringify(_body)); // 如果没有返回对应的数据就会在这儿打出来
+        }
       }
       if (this._isLoading) {
         const _isEmpty = _mapKeys.find(

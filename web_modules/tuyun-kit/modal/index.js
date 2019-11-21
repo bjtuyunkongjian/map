@@ -4,7 +4,7 @@ import { MdClear } from 'react-icons/md';
 
 export default class TuyunModal extends Component {
   static defaultProps = {
-    title: '标题',
+    title: '辖区选择',
     visible: false,
     onOk: () => {},
     onCancel: () => {}

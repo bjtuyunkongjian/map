@@ -3,13 +3,14 @@
  */
 import { FetchRequest } from 'tuyun-utils';
 
-// 建筑物详情
-export const FetchCaseDetail = async body => {
-  Object.assign(body, { test: 'caseDetail' });
+/**
+ * 点击出现案件详情
+ * http://56.8.2.241:12808/mapServer/case/detail? ajbh=
+ */
+export const GetCaseDetail = async param => {
   const { res, err } = await FetchRequest({
-    url: 'mapServer/string',
-    method: 'POST',
-    body
+    url: 'mapServer/case/detail?' + param,
+    method: 'GET'
   });
   return { res, err };
 };

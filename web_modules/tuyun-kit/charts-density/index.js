@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ResolveBlurry, CreateRoundRect } from 'tuyun-utils';
+import { ResolveBlurry, CreateRoundRect, DensityColor } from 'tuyun-utils';
 import {
   Padding,
   Title,
@@ -49,6 +49,7 @@ export default class ChartsDensity extends Component {
   _chartH = 0;
   _chartTop = 0;
   _chartBottom = 0;
+  _densityColorArr = Object.keys(DensityColor).map(key => DensityColor[key]); // 密度颜色
 
   componentWillMount() {
     this._convertProps(this.props);
@@ -368,12 +369,14 @@ export default class ChartsDensity extends Component {
     const { width, centerTop, centerBottom, barPercentage } = cell; // 解构
     const _totalH = (centerBottom - centerTop) * barPercentage;
     const _spaceH = _totalH / 3; // 空白部分的高度，占整个圆角矩形彩条高度的三分之一
-    const _path2D = CreateRoundRect({
-      x: 0,
-      y: centerTop + _spaceH,
-      width,
-      height: _totalH - _spaceH
-    });
+    // const _path2D = CreateRoundRect({
+    //   x: 0,
+    //   y: centerTop + _spaceH,
+    //   width,
+    //   height: _totalH - _spaceH
+    // });
+    const _path2D = new Path2D();
+    _path2D.rect(0, centerTop + _spaceH, width, _totalH - _spaceH);
     return _path2D;
   };
 
@@ -387,8 +390,10 @@ export default class ChartsDensity extends Component {
       end = 10,
       barPercentage
     } = cell; // 解构
+    const _step = 1 / this._densityColorArr.length;
     const _triHeight = (centerBottom - centerTop) * (1 - barPercentage); // 正三角形的高
-    const _triTopX = (value / (end - start)) * width; // 正三角形上顶点的横坐标
+    const _curStep = Math.floor((end - start) / end / _step); // 计算当前色阶
+    const _triTopX = ((value / _curStep) * (1 - _step) + _step / 2) * width; // 正三角形上顶点的横坐标
     const _path2D = new Path2D();
     _path2D.moveTo(_triTopX, centerBottom - _triHeight); // 正三角形上顶点
     _path2D.lineTo(_triTopX - _triHeight / Math.sqrt(3), centerBottom); // 正三角形左下角顶点
@@ -400,13 +405,9 @@ export default class ChartsDensity extends Component {
     this._ctx.clearRect(0, this._chartTop, this._chartW, this._chartH); // 清空绘图区
     for (let densityCell of this._densityArr) {
       const {
-        circleRadius,
-        circle,
         topMiddle,
         start = 0,
-        startColor = gradStartColor,
         end = 10,
-        endColor = gradEndColor,
         labelFontSize,
         label,
         bottomMiddle,
@@ -419,14 +420,6 @@ export default class ChartsDensity extends Component {
       } = densityCell; // 解构
       this._ctx.save();
       // 开始绘制
-      // 绘制圆形
-      const _yTop = topMiddle - circleRadius,
-        _yBottom = topMiddle + circleRadius;
-      const _circleGrad = this._ctx.createLinearGradient(0, _yTop, 0, _yBottom); // 渐变色
-      _circleGrad.addColorStop(0, startColor); // 渐变起始色
-      _circleGrad.addColorStop(1, endColor); // 渐变终止色
-      this._ctx.fillStyle = _circleGrad;
-      this._ctx.fill(circle);
       // 绘制右上角文字
       this._ctx.fillStyle = LabelColor;
       this._ctx.font = `${labelFontSize}px '微软雅黑'`;
@@ -435,8 +428,12 @@ export default class ChartsDensity extends Component {
       this._ctx.fillText(label, this._chartW, topMiddle);
       // 绘制圆角矩形
       const _barGrad = this._ctx.createLinearGradient(0, 0, this._chartW, 0); // 生成渐变色
-      _barGrad.addColorStop(0, startColor); // 渐变起始色
-      _barGrad.addColorStop(1, endColor); // 渐变终止色
+      const _step = 1 / this._densityColorArr.length;
+      for (const color of this._densityColorArr) {
+        const _ind = this._densityColorArr.indexOf(color);
+        _barGrad.addColorStop(_ind * _step, color); // 渐变起始色
+        _barGrad.addColorStop((1 + _ind) * _step, color); // 渐变终止色
+      }
       this._ctx.fillStyle = _barGrad;
       this._ctx.fill(bar); // 条形
       // 绘制小三角形
@@ -463,6 +460,3 @@ export default class ChartsDensity extends Component {
     }
   };
 }
-
-const gradStartColor = '#FF00FF';
-const gradEndColor = '#00FFFF';

@@ -45,7 +45,6 @@ const CustomLayer = {
   renderingMode: '3d',
   minzoom: 15,
   onAdd: function(map, gl) {
-    console.log('onAdd');
     // const aspect = window.innerWidth / window.innerHeight;
     // const frustumSize = 1000;
     // this.camera = new PerspectiveCamera(45, aspect, 0.25, 1000);
@@ -119,10 +118,6 @@ const CustomLayer = {
           this.scene.children,
           true
         );
-
-        console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
-
-        console.log('object', intersects, this.scene);
       },
       false
     );

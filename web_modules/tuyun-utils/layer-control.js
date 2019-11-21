@@ -2,6 +2,26 @@
 // 点的数据量在 200~1000/1500 之间， 以中等的点呈现，不需要点击功能
 // 点的数据量在 200 以内，现有点的大小，需要有点击功能
 
+// 用来监听鼠标事件的
+const layerListenerMap = {};
+
+const pointerCursor = mapCanvas => {
+  mapCanvas.style.cursor = 'pointer';
+};
+
+const defaultCursor = mapCanvas => {
+  mapCanvas.style.cursor = '';
+};
+
+const addPointerListener = (map, layerId) => {
+  const _mapCanvas = map.getCanvas();
+  if (!layerListenerMap[layerId]) layerListenerMap[layerId] = {};
+  layerListenerMap[layerId].mouseenter = () => pointerCursor(_mapCanvas);
+  layerListenerMap[layerId].mouseleave = () => defaultCursor(_mapCanvas);
+  map.on('mouseenter', layerId, layerListenerMap[layerId].mouseenter);
+  map.on('mouseleave', layerId, layerListenerMap[layerId].mouseleave);
+};
+
 /**
  * @description 添加点位图层
  * @param {*} map
@@ -9,7 +29,14 @@
  * @param {*} layerId
  */
 const AddCircleLayer = (map, source, layerId, option = {}) => {
-  const { color, labelLayerId, strokeWidth, strokeColor, radius } = option;
+  const {
+    color,
+    labelLayerId,
+    strokeWidth,
+    strokeColor,
+    radius,
+    disablePointer = false
+  } = option;
   if (!map.getSource(layerId)) {
     map.addLayer(
       {
@@ -25,11 +52,9 @@ const AddCircleLayer = (map, source, layerId, option = {}) => {
       },
       labelLayerId
     );
+    !disablePointer && addPointerListener(map, layerId); // 添加监听
   } else {
-    map.getSource(layerId).setData({
-      type: 'FeatureCollection',
-      features: source.data.features
-    });
+    updateSource(map, layerId, source);
   }
 };
 
@@ -64,10 +89,7 @@ const AddTextLayer = (map, source, layerId, option = {}) => {
       labelLayerId
     );
   } else {
-    map.getSource(layerId).setData({
-      type: 'FeatureCollection',
-      features: source.data.features
-    });
+    updateSource(map, layerId, source);
   }
 };
 
@@ -78,7 +100,7 @@ const AddTextLayer = (map, source, layerId, option = {}) => {
  * @param {*} layerId
  */
 const AddNamePlateLayer = (map, source, layerId, option = {}) => {
-  const { iconImage } = option;
+  const { iconImage, disablePointer } = option;
   if (!map.getSource(layerId)) {
     map.addLayer({
       id: layerId,
@@ -104,6 +126,7 @@ const AddNamePlateLayer = (map, source, layerId, option = {}) => {
         'text-color': '#FFFFFF'
       }
     });
+    !disablePointer && addPointerListener(map, layerId); // 添加监听
   } else {
     updateSource(map, layerId, source);
   }
@@ -122,8 +145,11 @@ const AddImageLayer = (map, source, layerId, option = {}) => {
     iconRotate = 0,
     iconOpacity,
     labelLayerId,
-    allowOverlap = false,
-    iconOffset = [0, 0]
+    allowOverlap = true,
+    iconOffset = [0, 0],
+    disablePointer,
+    pitchAlignment = 'map',
+    rotationAlignment = 'map'
   } = option;
 
   if (!map.getSource(layerId)) {
@@ -137,8 +163,8 @@ const AddImageLayer = (map, source, layerId, option = {}) => {
           'icon-image': iconImage || ['get', 'img'],
           'icon-size': iconSize,
           'icon-allow-overlap': allowOverlap,
-          'icon-rotation-alignment': 'map',
-          // 'icon-pitch-alignment': 'viewport',
+          'icon-rotation-alignment': rotationAlignment,
+          'icon-pitch-alignment': pitchAlignment,
           'icon-rotate': iconRotate,
           'icon-offset': iconOffset
         },
@@ -148,6 +174,7 @@ const AddImageLayer = (map, source, layerId, option = {}) => {
       },
       labelLayerId
     );
+    !disablePointer && addPointerListener(map, layerId); // 添加监听
   } else {
     updateSource(map, layerId, source);
   }
@@ -309,10 +336,7 @@ const Add3dLayer = (map, source, layerId, option = {}) => {
       labelLayerId
     );
   } else {
-    map.getSource(layerId).setData({
-      type: 'FeatureCollection',
-      features: source.data.features
-    });
+    updateSource(map, layerId, source);
   }
 };
 
@@ -331,6 +355,16 @@ const updateSource = (map, layerId, source) => {
   }
 };
 
+const RemoveLayer = (map, layerId) => {
+  map.getLayer(layerId) && map.removeLayer(layerId).removeSource(layerId); // 删除所有 layer 和 source
+  if (layerListenerMap[layerId]) {
+    for (let evName of Object.keys(layerListenerMap[layerId])) {
+      map.off(evName, layerListenerMap[layerId][evName]);
+    }
+    layerListenerMap[layerId] = undefined;
+  }
+};
+
 export {
   AddCircleLayer,
   AddTextLayer,
@@ -339,5 +373,6 @@ export {
   AddLineLayer,
   AddPolygonLayer,
   Add3dLayer,
-  AddImageLayer
+  AddImageLayer,
+  RemoveLayer
 };

@@ -3,7 +3,7 @@
   position: fixed;
   top: @top-search-top;
   width: 260px;
-  background: @bg-gradient-base;
+  background: @theme-bg-color;
   padding: 10px 15px;
   border-radius: 5px;
   z-index: 1;
@@ -20,11 +20,7 @@
       display: flex;
       align-items: center;
       color: white;
-      cursor: pointer;
       margin-top: 5px;
-      &:hover {
-        opacity: 0.8;
-      }
       .checkbox {
         width: 15px;
         height: 15px;
@@ -38,18 +34,30 @@
         &.checked {
           background-color: @bg-hover;
         }
+        cursor: pointer;
+        &:hover {
+          opacity: 0.8;
+        }
       }
       .table-name {
-        flex: 0 60%;
-        display: block;
+        flex: 0 80%;
+        display: flex;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+        cursor: pointer;
+        &:hover {
+          opacity: 0.8;
+        }
       }
-      .table-date {
-        flex: 0 40%;
+      .table-btn {
+        flex: 0 20%;
         display: flex;
         justify-content: flex-end;
+        cursor: pointer;
+        &:hover {
+          opacity: 0.8;
+        }
       }
     }
   }

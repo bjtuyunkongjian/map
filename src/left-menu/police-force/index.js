@@ -16,7 +16,7 @@ import {
 } from 'tuyun-utils';
 import { BaseConfig } from 'tuyun-config';
 
-import { FetchLocationCar, QueryDetail, FetchAllRoutes } from './webapi';
+import { GetPoliceCar, GetPoliceDetail, FetchAllRoutes } from './webapi';
 import Dialog from './dialog';
 import SecurityRoute from './security-route';
 
@@ -47,20 +47,9 @@ export default class PoliceForce extends Component {
   _searchCarInfo = {}; // 搜索结果
   _searchManInfo = {}; // 搜索结果
 
+  componentWillMount = () => this._dealWithEvent();
+
   componentDidMount = () => this._init();
-  componentWillUpdate = () => {
-    const { selectedTasks } = this.state;
-    const _selectedPoliceMan = !!selectedTasks.filter(
-      item => item.value === 'policeman'
-    )[0];
-    const _selectedPoliceCar = !!selectedTasks.filter(
-      item => item.value === 'policecar'
-    )[0];
-    GlobalEvent.emit(
-      'change:TopSearch:disable',
-      !_selectedPoliceMan || !_selectedPoliceCar
-    );
-  };
 
   render() {
     const {
@@ -74,16 +63,17 @@ export default class PoliceForce extends Component {
       routeList
     } = this.state;
     const _selected = curMenu === MenuItems.policeForce;
+    const _labelCls = `item-label${_selected ? ' selected' : ''}`;
     const _arrow = _selected ? 'arrow-down' : 'arrow-right';
     const _showRoute = !!selectedTasks.filter(
       item => item.value === 'securityRoute'
     )[0];
     return (
       <div className="menu-item content">
-        <div className="item-label" onClick={this._selectMenu}>
+        <div className={_labelCls} onClick={this._selectMenu}>
           <TiUser />
-          <span>警力</span>
-          <div className={`arrow-box ${_selected ? 'changed' : ''}`}>
+          <div className="label-text">警力</div>
+          <div className="arrow-box">
             <span className={`arrow ${_arrow}`} />
           </div>
         </div>
@@ -91,16 +81,17 @@ export default class PoliceForce extends Component {
         <ul className={`police-force ${animate}`}>
           {options.map((item, index) => {
             const _isChecked = selectedTasks.indexOf(item) > -1;
+
             return (
               <li
-                className={`work-item ${_isChecked ? 'checked' : ''}`}
+                className={`item-cell ${_isChecked ? 'checked' : ''}`}
                 key={`work_option_${index}`}
                 onClick={e => this._selectMenuItem(item, e)}
               >
                 <div className={`checkbox ${_isChecked ? 'checked' : ''}`}>
                   {_isChecked ? <IoMdCheckmark /> : null}
                 </div>
-                {item.name}
+                <div className="cell-label-text">{item.name}</div>
               </li>
             );
           })}
@@ -127,11 +118,16 @@ export default class PoliceForce extends Component {
     );
   }
 
+  _dealWithEvent = () => {
+    GlobalEvent.on(GloEventName.showPoliceForce, this._init);
+  };
+
   _init = () => {
     _MAP_.on('click', handheldLayerId, async e => {
       const { objectID } = e.features[0].properties;
       if (!objectID) return;
-      const { res, err } = await QueryDetail({ objectid: objectID });
+      const _param = `objectId=${objectID}`;
+      const { res, err } = await GetPoliceDetail(_param);
       if (err || !res) return;
       const { devicetypebig_name, name, policetypebig_name } = res;
       const _deviceType = `设备名称：${devicetypebig_name || '暂无'}`;
@@ -147,7 +143,8 @@ export default class PoliceForce extends Component {
     _MAP_.on('click', policecarLayerId, async e => {
       const { objectID } = e.features[0].properties;
       if (!objectID) return;
-      const { res, err } = await QueryDetail({ objectid: objectID });
+      const _param = `objectId=${objectID}`;
+      const { res, err } = await GetPoliceDetail(_param);
       if (err || !res) return;
       const { devicetypebig_name, name, policetypebig_name } = res;
       const _deviceType = `设备名称：${devicetypebig_name || '暂无'}`;
@@ -163,7 +160,8 @@ export default class PoliceForce extends Component {
     _MAP_.on('click', manSearchResultLayerId, async e => {
       const { objectID } = e.features[0].properties;
       if (!objectID) return;
-      const { res, err } = await QueryDetail({ objectid: objectID });
+      const _param = `objectId=${objectID}`;
+      const { res, err } = await GetPoliceDetail(_param);
       if (err || !res) return;
       const { devicetypebig_name, name, policetypebig_name } = res;
       const _deviceType = `设备名称：${devicetypebig_name || '暂无'}`;
@@ -173,7 +171,7 @@ export default class PoliceForce extends Component {
         showDialog: true,
         dialogTitle: '警车信息',
         dialogInfo: [_deviceType, _carNum, _policeType]
-      }); // 点击警车事件
+      }); // 点击搜索结果事件
     });
 
     Event.on('change:curMenu', async nextMenu => {
@@ -195,55 +193,6 @@ export default class PoliceForce extends Component {
         this._removeHandheldLayer(); // 删除手持设备图层
       }
     }); // 选择当前菜单
-
-    GlobalEvent.on(
-      GloEventName.changeLeMenuSearchInfo,
-      ({ carInfo, manInfo }) => {
-        if (!IsEmpty(manInfo) || !IsEmpty(carInfo))
-          _MAP_.flyTo({ zoom: 10, center: [116.932, 36.656] });
-        this._searchCarInfo = carInfo;
-        this._searchManInfo = manInfo;
-        if (IsEmpty(manInfo)) {
-          this._removeSearchManLayer(); // 删除对应图层
-          _MAP_.getLayer(handheldLayerId) &&
-            _MAP_.setLayoutProperty(handheldLayerId, 'visibility', 'visible');
-          return;
-        }
-        // 搜索没有警员信息
-        const _features = Object.keys(manInfo).map(key => {
-          const { objectId, latitude, longitude } = manInfo[key];
-          return TurfPoint([longitude, latitude], { objectID: objectId });
-        });
-        _MAP_.getLayer(handheldLayerId) &&
-          _MAP_.setLayoutProperty(handheldLayerId, 'visibility', 'none');
-        if (!_MAP_.getSource(manSearchResultLayerId)) {
-          _MAP_.addLayer(
-            {
-              id: manSearchResultLayerId,
-              type: 'symbol',
-              source: {
-                type: 'geojson',
-                data: {
-                  type: 'FeatureCollection',
-                  features: _features
-                }
-              },
-              layout: {
-                'icon-image': 'ic_map_policeman',
-                'icon-size': 1
-              },
-              labelLayerId: symbolLabelLayerId
-            },
-            symbolLabelLayerId
-          );
-        } else {
-          _MAP_.getSource(manSearchResultLayerId).setData({
-            type: 'FeatureCollection',
-            features: _features
-          });
-        }
-      }
-    );
   };
 
   _resetInterval = () => {
@@ -361,7 +310,7 @@ export default class PoliceForce extends Component {
     )[0]; // 选中警员
     const _selectedPolicecar = selectedTasks.filter(
       item => item.value === 'policecar'
-    )[0]; // 选中警员
+    )[0]; // 选中警车
     _selectedPolicecar && this._drawPoliceCars(); // 选中警车，每过 carRerenderInterval 毫秒重绘警车
     this._intervalMod = this._intervalMod + 1; // 递增
     if (this._intervalMod % policeCarRatio === 0) {
@@ -397,10 +346,9 @@ export default class PoliceForce extends Component {
   };
 
   _fetchPoliceCar = async () => {
-    const _param = {}; // 请求参数
     const _startTime = new Date().getTime(); // 开始请求的时间
     this._isLoadingPoliceCar = true; // 开始请求
-    const { res, err } = await FetchLocationCar(_param); // 向后台请求数据
+    const { res, err } = await GetPoliceCar(); // 向后台请求数据
     if (!res || err) return; // 保护
     const _endTime = new Date().getTime(); // 结束请求时间
     const _reqTime = _endTime - _startTime; // 请求时间
@@ -408,7 +356,8 @@ export default class PoliceForce extends Component {
     if (_reqTime > carDelayInterval) {
       _timeout = _reqTime - carDelayInterval; // 请求时间大于 carDelayInterval 延时时间
     }
-    const { carData } = res;
+    const carData = res;
+    // const { carData } = res;
     if (err || !IsArray(carData)) return; // 保护
     let _drivenTime; // 行驶时间
     if (!this._enableStart) {
@@ -643,9 +592,10 @@ const units = 'kilometers'; // 计算单位
 
 const symbolLabelLayerId = 'symbol-ref';
 
-const carVisibleLevel = 10;
-// 手持设备样式配置
+// const carVisibleLevel = 10;
+
 const visibleLevel = 10;
+// 手持设备样式配置
 const handheldStyle = {
   visibleLevel: visibleLevel,
   source: {
@@ -653,9 +603,8 @@ const handheldStyle = {
       type: 'vector',
       scheme: 'tms',
       tiles: [
-        `${
-          BaseConfig.bffHost
-        }GPSServer/string?test=locationHandHeld&type=tms&zoom={z}&row={x}&column={y}`
+        // GPSServer/police?zoom=10&row=11&column=8&type=tms
+        `${BaseConfig.bffHost}GPSServer/police?type=tms&zoom={z}&row={x}&column={y}`
       ],
       minzoom: visibleLevel
     }

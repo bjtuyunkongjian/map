@@ -69,7 +69,6 @@ export default class DateSelector extends Component {
   }
 
   _onSelect = ({ pickedYear, pickedMonth, pickedDate }) => {
-    console.log({ pickedYear, pickedMonth, pickedDate });
     this.setState({ pickedYear, pickedMonth, pickedDate });
   };
 

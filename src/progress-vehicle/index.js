@@ -11,16 +11,16 @@ import ProgressBar from './progress-bar';
 import TimeProgress from './time-progress';
 
 export default class ProgressVehicle extends Component {
-  state = { vehicleTypes: [] };
+  state = { vehicleTypes: [], showUi: true };
 
   componentWillMount = () => this._dealWithEvent();
 
   render() {
-    const { vehicleTypes } = this.state;
+    const { vehicleTypes, showUi } = this.state;
     return (
       <div
         className={`progress-vehicle ${
-          vehicleTypes.length > 0 ? '' : 'hidden'
+          vehicleTypes.length > 0 && showUi ? '' : 'hidden'
         }`}
       >
         <ControlBtn />
@@ -31,8 +31,11 @@ export default class ProgressVehicle extends Component {
   }
 
   _dealWithEvent = () => {
-    const { changeProgressVehicle } = GloEventName;
+    const { changeProgressVehicle, toggleAllUi } = GloEventName;
     GlobalEvent.on(changeProgressVehicle, this._onChangeVehicleType);
+    GlobalEvent.on(toggleAllUi, ({ visible }) => {
+      this.setState({ showUi: visible });
+    });
   };
 
   _onChangeVehicleType = ({ vehicleTypes }) => {

@@ -414,7 +414,7 @@ export default class ChartsPie extends Component {
     for (let sector of this._sectorArr) {
       const _isHighLight = sector.selected || sector.hovered; // 是否高亮
       const _highlightColor = `hsla(${sector.hue}, ${sector.saturation *
-        1.2}%, ${sector.lightness * 1.2}%, 1)`;
+        1.2}%, ${sector.lightness / 1.2}%, 1)`;
       const _originColor = `hsla(${sector.hue}, ${sector.saturation}%, ${
         sector.lightness
       }%, 1)`;

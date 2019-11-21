@@ -14,6 +14,7 @@ import { DefaultOpt } from './constant';
 
 export default class ModeVehicle extends Component {
   state = {
+    showUi: true,
     vehicleTypes: []
   };
 
@@ -24,8 +25,8 @@ export default class ModeVehicle extends Component {
   componentWillMount = () => this._dealWithEvent();
 
   render() {
-    const { vehicleTypes } = this.state;
-    if (!vehicleTypes.length) return null;
+    const { vehicleTypes, showUi } = this.state;
+    if (!vehicleTypes || !vehicleTypes.length || !showUi) return null;
     return (
       <div className="mode-vehicle">
         <CurrentMode />
@@ -35,9 +36,12 @@ export default class ModeVehicle extends Component {
   }
 
   _dealWithEvent = () => {
-    const { changeModeVehicle } = GloEventName;
-    GlobalEvent.on(changeModeVehicle, this._onchangeModeVehicle);
     Event.on(EventName.changeMode, this._onChangeMode);
+    const { changeModeVehicle, toggleAllUi } = GloEventName;
+    GlobalEvent.on(changeModeVehicle, this._onchangeModeVehicle);
+    GlobalEvent.on(toggleAllUi, ({ visible }) => {
+      this.setState({ showUi: visible });
+    });
   };
 
   _onchangeModeVehicle = async ({ vehicleTypes }) => {

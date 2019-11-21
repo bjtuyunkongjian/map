@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { GlobalEvent, GloEventName } from 'tuyun-utils';
 import { FaTimes } from 'react-icons/fa';
 
-import { FetchUnitDetail } from './webapi';
+import { GetDetail } from './webapi';
 import {
   BaseInfo,
   DefendingPerInfo,
@@ -131,9 +131,9 @@ export default class PupupUnit extends Component {
 
   _fetchUnitDetail = async () => {
     const { unitCode } = this.state;
-    const { res, err } = await FetchUnitDetail({
-      zagldwbm: unitCode
-    });
+    // zagldwbm=56D775F3-395F-4184-E050-310A48086102
+    const _param = `zagldwbm=${unitCode}`;
+    const { res, err } = await GetDetail(_param);
     if (!res || err) return console.log('popup-building');
     res.sfjxcs = res.sfjxcs ? (res.sfjxcs === 'Y' ? '是' : '否') : '未知'; // 房屋性质
     res.jymj = res.jymj ? res.jymj + '平方米' : '未知'; // 房屋使用形式

@@ -483,5 +483,5 @@ export default class CahrtsBar extends Component {
   };
 }
 
-const gradStartColor = '#FF00FF';
-const gradEndColor = '#00FFFF';
+const gradStartColor = '#4d7dae';
+const gradEndColor = '#4d7dae';

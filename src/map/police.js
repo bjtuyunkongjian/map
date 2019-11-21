@@ -13,8 +13,8 @@ const {
 } = THREE;
 
 // parameters to ensure the model is georeferenced correctly on the map
-const modelRotate = [0, 0, 0]; // 旋转角度
-const modelScale = 1; // 缩放比例
+const modelRotate = [Math.PI / 2, Math.PI / 2, 0]; // 旋转角度
+const modelScale = 2e-8; // 缩放比例
 
 class CustomLayer {
   constructor({ center, id, height }) {
@@ -39,12 +39,12 @@ class CustomLayer {
     var directionalLight = new DirectionalLight(0xffffff, 0.4);
     directionalLight.position.set(0, 70, 100).normalize();
     this.scene.add(directionalLight);
+
     // use the three.js GLTF loader to add the 3D model to the three.js scene
     var loader = new GLTFLoader();
     loader.load(
-      'http://localhost:8080/static/jeep.gltf',
+      'http://56.3.124.136:12808/static/policeman/file.gltf',
       function(gltf) {
-        console.log(gltf);
         this.scene.add(gltf.scene);
       }.bind(this)
     );
@@ -61,7 +61,7 @@ class CustomLayer {
   }
 
   render(_, matrix) {
-    if (this.map.getZoom() < 7) return;
+    if (this.map.getZoom() < 17) return;
     var rotationX = new Matrix4().makeRotationAxis(
       new Vector3(1, 0, 0),
       this.modelTransform.rotateX

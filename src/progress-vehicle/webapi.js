@@ -1,10 +1,12 @@
-/**
- * 这部分js用于和后台进行数据交互
- */
 import { FetchRequest } from 'tuyun-utils';
 
-// 建筑物详情
-export const FetchProgressData = async body => {
+/**
+ * 取两客一危车辆的回放信息
+ * GPSServer/twoOneCarHistory
+ * GPSServer/twoOneCurrentCar?
+ * type=1&minX=114&maxX=121&minY=34&maxY=37
+ */
+export const PostCarHistory = async body => {
   Object.assign(body, { test: 'lkywHF' });
   const { res, err } = await FetchRequest({
     url: 'GPSServer/string',

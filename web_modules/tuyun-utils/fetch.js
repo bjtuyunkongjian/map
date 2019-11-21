@@ -7,7 +7,12 @@
 import { BaseConfig as CONFIG } from 'tuyun-config';
 import { TuyunMessage } from 'tuyun-kit';
 
-export const FetchRequest = async function({ url, method = 'GET', body = {} }) {
+export const FetchRequest = async function({
+  host = CONFIG.bffHost,
+  url,
+  method = 'GET',
+  body = {}
+}) {
   const _request = {
     method: method || 'GET',
     headers: {
@@ -29,7 +34,7 @@ export const FetchRequest = async function({ url, method = 'GET', body = {} }) {
       });
     }, CONFIG.httpTimeOut * 1000);
     try {
-      const _response = await fetch(CONFIG.bffHost + url, _request);
+      const _response = await fetch(host + url, _request);
 
       clearTimeout(_timeoutId); // 获取到了数据，清除定时器
       // 判断状态码
@@ -74,7 +79,11 @@ export const FetchRequest = async function({ url, method = 'GET', body = {} }) {
  * @param {JSON} [uploadFile={}] body的请求参数，默认为空
  * @return {res: xxx, err: xxx}
  */
-export const UploadRequest = async function({ url, uploadFile = {} }) {
+export const UploadRequest = async function({
+  host = CONFIG.bffHost,
+  url,
+  uploadFile = {}
+}) {
   const _request = {
     method: 'POST'
     // headers: {
@@ -115,7 +124,7 @@ export const UploadRequest = async function({ url, uploadFile = {} }) {
     // 请求 http://192.168.8.111:8080/mapServer/fileUpload
     // url mapServer/fileUpload
     try {
-      const _response = await fetch(CONFIG.bffHost + url, _request);
+      const _response = await fetch(host + url, _request);
 
       clearTimeout(_timeoutId); // 获取到了数据，清除定时器
       // 判断状态码

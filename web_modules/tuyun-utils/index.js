@@ -34,7 +34,6 @@ import EventName from './event-name';
 // 颜色转换
 import RgbToHsl from './rgb-to-hsl';
 // 图层
-import RemoveLayer from './remove-layer';
 import LayerIds from './layer-ids';
 import {
   AddCircleLayer,
@@ -44,11 +43,13 @@ import {
   Add3dLayer,
   AddLineLayer,
   AddHeatMapLayer,
-  AddImageLayer
+  AddImageLayer,
+  RemoveLayer
 } from './layer-control';
 import THREE from './three';
 // 全局要使用到的常量
 import GlobalConst from './global-constant';
+import DensityColor from './density-color';
 
 export {
   AddLevel,
@@ -85,5 +86,6 @@ export {
   AddImageLayer,
   RgbToHsl,
   THREE,
-  GlobalConst
+  GlobalConst,
+  DensityColor
 };

@@ -1,0 +1,40 @@
+.compare-date {
+  @height: 32px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 5px;
+  width: 100%;
+  position: relative;
+  height: @height;
+  margin-top: 5px;
+  .selected-date {
+    flex: 1;
+    display: flex;
+    border: 1px solid @border-color-darker;
+    border-radius: @radius-s;
+    padding-left: 5px;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    color: @t-gray;
+    .icon-case {
+      width: 20px;
+      height: 20px;
+      background-color: @border-color-darker;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: @t-base;
+    }
+  }
+  .case-calendar {
+    position: absolute;
+    top: @height;
+    left: 0;
+    width: 100%;
+    z-index: 1;
+    background-color: white;
+  }
+}

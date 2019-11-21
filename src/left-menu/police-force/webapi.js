@@ -4,22 +4,27 @@
  */
 import { FetchRequest } from 'tuyun-utils';
 
-export const FetchLocationCar = async body => {
-  Object.assign(body, { test: 'locationCar' });
+/**
+ * 获取警车实时位置
+ * GPSServer/policeCurrentCar
+ */
+export const GetPoliceCar = async () => {
   const { res, err } = await FetchRequest({
-    url: 'GPSServer/string',
-    method: 'POST',
-    body: body
+    url: 'GPSServer/policeCurrentCar',
+    method: 'GET'
   });
   return { res, err };
 };
 
-export const QueryDetail = async body => {
-  Object.assign(body, { test: 'queryDetail' });
+/**
+ * 2.获取警用设备的详情
+ * /GPSServer/policeDetail?
+ * objectId=37130000000000004
+ */
+export const GetPoliceDetail = async param => {
   const { res, err } = await FetchRequest({
-    url: 'GPSServer/string',
-    method: 'POST',
-    body: body
+    url: 'GPSServer/policeDetail?' + param,
+    method: 'GET'
   });
   return { res, err };
 };

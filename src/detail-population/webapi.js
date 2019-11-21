@@ -4,14 +4,13 @@
 import { FetchRequest } from 'tuyun-utils';
 
 /**
- * 获取人口热力图
+ * 获取人口分布数据
+ * http://host:port/mapServer/population/distribution?minX=&maxX=&minY=&maxY=&type=&level=
  */
-export const FetchHeatMapData = async body => {
-  Object.assign(body, { test: 'popDynamic' });
+export const GetDistribution = async param => {
   const { res, err } = await FetchRequest({
-    url: 'mapServer/string',
-    method: 'POST',
-    body
+    url: 'mapServer/population/distribution?' + param,
+    method: 'GET'
   });
   return { res, err };
 };
@@ -33,12 +32,15 @@ export const FetchNameplateData = async body => {
   return { res, err };
 };
 
-export const FetchDetailNum = async body => {
-  Object.assign(body, { test: 'getThirNum' });
+/**
+ * 查询某一类重点人员所有子类的数量
+ * /mapServer/population/subImportantCount?minX=120&maxX=121&minY=36.4&maxY=
+ * @param {*} body
+ */
+export const GetSubKeyNum = async param => {
   const { res, err } = await FetchRequest({
-    url: 'mapServer/string',
-    method: 'POST',
-    body
+    url: 'mapServer/population/subImportantCount?' + param,
+    method: 'GET'
   });
   return { res, err };
 };

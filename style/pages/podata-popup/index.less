@@ -1,6 +1,6 @@
 .podata-popup {
   position: absolute;
-  background: @bg-gradient-base;
+  background: @theme-bg-color;
   color: @t-white;
   border-radius: @radius-l;
   padding: 10px;
@@ -120,7 +120,7 @@
       width: 25%;
       &:hover {
         opacity: 0.8;
-        background-color: @bg-gradient-opacity;
+        background-color: @bg-opacity;
       }
       &.no-hover {
         cursor: auto;
@@ -128,7 +128,7 @@
         background-color: transparent;
       }
       &.selected-item {
-        background-color: @bg-gradient-opacity;
+        background-color: @bg-opacity;
       }
 
       .room-code {
@@ -165,10 +165,10 @@
       }
       &:hover {
         opacity: 0.8;
-        background-color: @bg-gradient-opacity;
+        background-color: @bg-opacity;
       }
       &.selected-member {
-        background-color: @bg-gradient-opacity;
+        background-color: @bg-opacity;
       }
     }
   }

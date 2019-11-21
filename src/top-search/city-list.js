@@ -1,22 +1,20 @@
 import React, { Component } from 'react';
 import { IoIosClose } from 'react-icons/io';
-import Event from './event';
-import DropDown from './drop-down';
+import Event, { EventName } from './event';
+import { DropDown } from './constant';
 
 export default class CityList extends Component {
   state = {
     curDropDown: '',
-    cityName: '济南市'
+    curCity: {}
   };
 
   _curZoom = 0;
 
-  componentWillMount() {
-    this._init();
-  }
+  componentWillMount = () => this._init();
 
   render() {
-    const { curDropDown, cityName } = this.state;
+    const { curDropDown, curCity } = this.state;
     return (
       <div
         className={`city-list ${
@@ -32,17 +30,15 @@ export default class CityList extends Component {
           />
         </div>
         <div className="list-body">
-          <div className="cur-city">当前城市：{cityName}</div>
+          {/* <div className="cur-city">当前城市：{curCity.name}</div> */}
           <div className="select-city">
             <div className="select-city-label">选择城市：</div>
             <ul className="cities">
               {cityList.map((item, index) => (
                 <li
-                  className="city-item"
+                  className={`city-item${curCity === item ? ' selected' : ''}`}
                   key={`city_list_${index}`}
-                  onClick={() => {
-                    this._selectCity(item);
-                  }}
+                  onClick={() => this._selectCity(item)}
                 >
                   {item.name}
                 </li>
@@ -55,22 +51,22 @@ export default class CityList extends Component {
   }
 
   _init = () => {
-    Event.on('change:dropDown', dropDown => {
-      this.setState({ curDropDown: dropDown });
+    Event.on(EventName.changeDropDown, dropDown => {
+      this.setState({ curDropDown: dropDown, curCity: {} });
     });
-    Event.on('change:cityName', cityName => {
-      this.setState({ cityName });
+    Event.on(EventName.changeCityName, curCity => {
+      this.setState({ curCity });
     });
   };
 
   _closeCityList = () => {
-    Event.emit('change:dropDown', '');
+    Event.emit(EventName.changeDropDown, '');
   };
 
   _selectCity = async cityInfo => {
-    const { cityName } = this.state;
+    const { curCity } = this.state;
     this._curZoom = _MAP_.getZoom();
-    cityName !== cityInfo.name && Event.emit('change:cityName', cityInfo.name);
+    curCity !== cityInfo && Event.emit(EventName.changeCityName, cityInfo);
     _MAP_.flyTo({ center: cityInfo.center, zoom: 10 });
   };
 }

@@ -729,24 +729,6 @@ export default class ChartsLine extends Component {
     _redrawMask && this._drawChart();
   };
 
-  _createSectorPath = sector => {
-    const {
-      x,
-      y,
-      originRadius,
-      startAngle,
-      endAngle,
-      selected,
-      hovered
-    } = sector;
-    const _path2D = new Path2D(); // 路径
-    const _isHighLight = selected || hovered; // 是否高亮
-    const _radius = _isHighLight ? originRadius * 1.08 : originRadius; // 半径
-    _path2D.arc(x, y, _radius, startAngle, endAngle); // 该扇形区间的面积
-    _path2D.lineTo(x, y); // 回到圆心
-    return _path2D;
-  };
-
   _onClick = () => {
     const { onClick } = this.props;
     const {
@@ -797,7 +779,7 @@ export default class ChartsLine extends Component {
   };
 
   _createHighLight = (hue, saturation, lightness) =>
-    `hsla(${hue}, ${saturation * 12}%, ${lightness * 1.2}%, 1)`;
+    `hsla(${hue}, ${saturation * 12}%, ${lightness / 1.2}%, 1)`;
 }
 
 const goldenRatio = 0.62; // 黄金分割率

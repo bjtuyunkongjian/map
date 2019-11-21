@@ -1,29 +1,30 @@
 import React, { Component } from 'react';
-import Event from './event';
-import { GlobalEvent, GloEventName, IsEmpty } from 'tuyun-utils';
-import { TuyunMessage } from 'tuyun-kit';
-import { SearchDevice } from './webapi';
 import { MdHighlightOff } from 'react-icons/md';
+
+import Event, { EventName } from './event';
+import { SearchValue } from './constant';
 
 export default class SearchInput extends Component {
   state = {
-    disabled: true,
-    inputVal: ''
+    inputVal: '',
+    curNav: {},
+    curType: {}
   };
 
+  componentWillMount = () => this._dealWithEvent();
   componentDidMount = () => this._init();
 
   render() {
-    const { disabled, inputVal } = this.state;
+    const { inputVal, curNav, curType } = this.state;
     const _isHidden = inputVal ? '' : 'hidden';
+    if (curNav.value === SearchValue.polygon) return null;
     return (
       <div className="search-input-box">
         <input
           type="text"
-          placeholder="图云搜索"
+          placeholder={curType.placeholder || '图云搜索'}
           className="search-input"
           value={inputVal}
-          disabled={disabled}
           onChange={this._onChange}
           onKeyUp={this._onKeyUp}
         />
@@ -34,58 +35,33 @@ export default class SearchInput extends Component {
     );
   }
 
-  _init = () => {
-    GlobalEvent.on('change:TopSearch:disable', disabled => {
-      this.setState({ disabled });
-      if (disabled) {
-        this.setState({ inputVal: '' });
-        GlobalEvent.emit(GloEventName.changeLeMenuSearchInfo, {
-          carInfo: {},
-          manInfo: {}
-        }); // 清空
-      }
+  _init = () => {};
+
+  _dealWithEvent = () => {
+    Event.on(EventName.changeSearchNav, nextNav => {
+      const { curNav } = this.state;
+      if (nextNav === curNav) return;
+      this.setState({ curNav: nextNav });
+    });
+    Event.on(EventName.changeSearchType, nextType => {
+      this.setState({ curType: nextType });
     });
   };
 
   _onChange = e => {
     this.setState({ inputVal: e.target.value });
     if (!e.target.value) {
-      GlobalEvent.emit(GloEventName.changeLeMenuSearchInfo, {
-        carInfo: {},
-        manInfo: {}
-      }); // 清空
     }
-    Event.emit('change:inputVal', e.target.value);
+    Event.emit(EventName.changeInputVal, e.target.value);
   };
 
   _clearInput = () => {
     this.setState({ inputVal: '' });
+    Event.emit(EventName.changeInputVal, '');
   };
 
   _onKeyUp = async e => {
     if (e.keyCode !== 13) return;
-    const { inputVal } = this.state;
-    let _inputVal = inputVal.replace(/\s/g, '');
-    _inputVal = inputVal.replace(/，/g, ',');
-    if (!_inputVal) return TuyunMessage.show('请输入想要查找内容');
-    const _devices = _inputVal.split(',');
-    const _param = { devices: _devices };
-    const { res, err } = await SearchDevice(_param);
-    if (!res || err) return;
-    if (IsEmpty(res)) return TuyunMessage.show('查询设备编号均为空');
-    const _carInfo = {};
-    const _manInfo = {};
-    for (let item of res) {
-      const { objectId, deviceType } = item;
-      if (deviceType === '0') {
-        _carInfo[objectId] = item;
-      } else if (deviceType === '1') {
-        _manInfo[objectId] = item;
-      }
-    }
-    GlobalEvent.emit(GloEventName.changeLeMenuSearchInfo, {
-      carInfo: _carInfo,
-      manInfo: _manInfo
-    });
+    Event.emit(EventName.clickSearchBtn);
   };
 }
