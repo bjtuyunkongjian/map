@@ -148,7 +148,7 @@ export default class SelectArea extends Component {
 
   _storageTreeData = (leaf, index) => {
     const { toSelectArea } = this.state;
-    toSelectArea[index] = leaf;
+    toSelectArea[index] = Object.assign({ type: 'jurisdiction' }, leaf);
     this.setState({ toSelectArea });
   };
 
