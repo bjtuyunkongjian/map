@@ -47,7 +47,7 @@ const ditie = [
     id: 'ditie', // 15级小路主色
     type: 'line',
     source: LevelConfig.addLv7,
-    'source-layer': 'TL_HZ',
+    'source-layer': 'DT',
     layout: {
       'line-cap': 'round',
       'line-join': 'round'
