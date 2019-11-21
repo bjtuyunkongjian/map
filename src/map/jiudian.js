@@ -1,6 +1,7 @@
 import mapboxgl from 'mapbox-gl';
 
 import { THREE } from 'tuyun-utils';
+import { BaseConfig } from 'tuyun-config';
 
 const {
   GLTFLoader,
@@ -48,9 +49,8 @@ const CustomLayer = {
     // use the three.js GLTF loader to add the 3D model to the three.js scene
     var loader = new GLTFLoader();
     loader.load(
-      'http://47.110.135.245:12808/static/hz-a.gltf',
+      `${BaseConfig.imageHost}models/hz-a.gltf`,
       function(gltf) {
-        // console.log(gltf);
         this.scene.add(gltf.scene);
       }.bind(this)
     );
