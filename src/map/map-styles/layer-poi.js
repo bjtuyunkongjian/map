@@ -1,5 +1,4 @@
 import { LevelConfig } from 'tuyun-config';
-import RdNameArr from './layer-rd-name';
 
 const townArr = [
   { id: 'POI_XZ', src: 'XZ_HZ' },
@@ -842,7 +841,6 @@ export default [
   ...marketArr,
   ...sportsArr,
   ...scienceArr,
-  ...RdNameArr,
   ...trafficLayer,
   ...subway,
   ...cityLayer

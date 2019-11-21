@@ -23,6 +23,7 @@ import LayerGrass from './layer-grass';
 import LayerRoad from './layer-road';
 import LayerBuilding from './layer-building';
 import LayerPoi from './layer-poi';
+import LayerRdName from './layer-rd-name';
 
 const layers = [
   ...LayerBackground,
@@ -32,6 +33,7 @@ const layers = [
   ...LayerGrass,
   ...LayerPlayground,
   ...LayerRoad,
+  ...LayerRdName,
   ...LayerBuilding,
   ...LayerPoi
 ];
