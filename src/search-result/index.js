@@ -5,7 +5,8 @@ import { FaTimes } from 'react-icons/fa';
 import IdCard from './id-card';
 import CarNumber from './car-number';
 import PlaceName from './place-name';
-
+import PoliceNum from './police';
+import PoliceCar from './police-car';
 export default class SerachResult extends Component {
   state = {
     visible: false,
@@ -28,6 +29,10 @@ export default class SerachResult extends Component {
       _detailEl = <CarNumber detailInfo={detailInfo} />;
     } else if (type === searchType.basePlaceName) {
       _detailEl = <PlaceName detailInfo={detailInfo} />;
+    } else if (type === searchType.policeNum) {
+      _detailEl = <PoliceNum detailInfo={detailInfo} />;
+    } else if (type === searchType.policeCar) {
+      _detailEl = <PoliceCar detailInfo={detailInfo} />;
     }
     return (
       <div
@@ -47,9 +52,17 @@ export default class SerachResult extends Component {
     GlobalEvent.on(GloEventName.showSearchResult, async data => {
       const { visible, detailInfo, type } = data;
       // 关闭弹窗
+      console.log('type:', type);
       if (!visible) {
         this._closePopup();
       } else if (!detailInfo || !type) {
+        const { detailInfo } = this.state;
+        const { x, y } = detailInfo;
+        const { x: boxLeft, y: boxTop } = _MAP_.project({ lng: x, lat: y });
+        this.setState({ visible, boxLeft, boxTop });
+        _MAP_.on('move', this._onMove);
+      } else if (type === 'base:policeCar') {
+        console.log(data);
         const { detailInfo } = this.state;
         const { x, y } = detailInfo;
         const { x: boxLeft, y: boxTop } = _MAP_.project({ lng: x, lat: y });

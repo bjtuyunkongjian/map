@@ -3,7 +3,7 @@
  */
 import { FetchRequest } from 'tuyun-utils';
 
-// 民警工作日常
+//
 export const FetchVehicleData = async body => {
   Object.assign(body, { test: 'locationCar' });
   const { res, err } = await FetchRequest({

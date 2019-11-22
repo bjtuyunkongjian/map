@@ -95,7 +95,6 @@ const drawEndVertex = function() {
       }
     }); // 分发最终图形信息
   } else {
-    console.log('polygonIndex', polygonIndex);
     Event.emit(EventName.createFinalGeo, { index: polygonIndex }); // 分发最终图形信息
     RemoveGeometries(polygonIndex);
   }

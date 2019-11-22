@@ -160,7 +160,6 @@ export default class SelectArea extends Component {
       firstArea = selectedArea[0],
       secArea = selectedArea[1]
     ] = toSelectArea;
-    console.log('selectArea', toSelectArea);
     if (firstArea === selectedArea[0] && secArea === selectedArea[1]) {
       this.setState({ showModel: false });
       Event.emit(EventName.drawPrevGeo); // 绘制原来的图层

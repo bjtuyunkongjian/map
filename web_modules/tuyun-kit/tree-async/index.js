@@ -54,16 +54,18 @@ export default class TuyunTree extends Component {
     const createTreeEl = (arrData, isChildren) => {
       const _elArr = [];
       for (let item of arrData) {
-        console.log('item', item.isValid);
         // 标签
-        const _isValid = item === selectedVal;
+        console.log('isVal', item);
+        const _isVail = item.isValid;
         const _selected = item === selectedVal;
         const _preSelected = item === preSelectedVal;
         const _hidden = isChildren && !item[visibleKey];
         const _clsName = `ReactTree__LeafLabel${_hidden ? ' hidden' : ' show'}`;
+        const _textColor = _isVail === false ? 'LabelText_Selcect' : '';
+        console.log('_isVail', _textColor);
         const _elItem = _hidden ? null : (
           <ul key={`el_tree_label_${item[valueKey]}`} className={_clsName}>
-            <li className="ReactTree__LabelIcon">
+            <li className={`ReactTree__LabelIcon`}>
               {item[hasChildKey] || !IsEmpty(item[childKey]) ? (
                 item[childVisibleKey] ? (
                   <IoIosArrowDown onClick={() => this._hideChildEl(item)} />
@@ -81,7 +83,7 @@ export default class TuyunTree extends Component {
             <li
               className={`ReactTree__LabelText${
                 _selected ? ' ReactTree__Selected' : ''
-              }`}
+              } ${_textColor}`}
               onClick={() => this._selectNode(item)}
             >
               {item[labelKey]}

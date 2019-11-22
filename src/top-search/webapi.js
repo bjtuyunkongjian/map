@@ -4,16 +4,6 @@
 
 import { FetchRequest } from 'tuyun-utils';
 
-export const SearchDevice = async body => {
-  Object.assign(body, { test: 'searchDevice' });
-  const { res, err } = await FetchRequest({
-    url: 'GPSServer/string',
-    method: 'POST',
-    body
-  });
-  return { res, err };
-};
-
 /**
  * 基础搜索：
  * 1.身份证搜索

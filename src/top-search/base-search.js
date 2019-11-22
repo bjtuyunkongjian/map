@@ -203,6 +203,7 @@ export default class BaseSearch extends Component {
     const _uuid = (this._uuid = CreateUid());
     const { res, err } = await GetPoliceResult(_param);
     if (IsEmpty(res) || err) return TuyunMessage.info('未查询到对应信息');
+    console.log('res', res);
     if (this._uuid !== _uuid) return;
     const { x, y, objectId } = res;
     GlobalEvent.emit(GloEventName.showSearchResult, {
@@ -226,9 +227,24 @@ export default class BaseSearch extends Component {
     const _param = `objectId=${this._inputVal}`;
     const _uuid = (this._uuid = CreateUid());
     const { res, err } = await GetPoliceCarResult(_param);
+    console.log('res', res);
+    const { 0: x, 1: y } = res.gpsPoints[0];
     if (IsEmpty(res) || err) return TuyunMessage.info('未查询到对应信息');
     if (this._uuid !== _uuid) return;
-    const { objectID } = res;
+    // GlobalEvent.emit(GloEventName.showSearchResult, {
+    //   visible: true,
+    //   type: searchType.policeCar,
+    //   detailInfo: res
+    // });
+    const _features = [TurfPoint([x, y])];
+    const _geoJSONDataPoint = {
+      type: 'geojson',
+      data: FeatureCollection(_features)
+    };
+    const { searchResult } = LayerIds;
+    AddImageLayer(_MAP_, _geoJSONDataPoint, searchResult.point, {
+      iconImage: 'ic_map_policecar'
+    });
   };
 
   // 单位名称查找

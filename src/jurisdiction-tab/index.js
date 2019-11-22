@@ -54,7 +54,6 @@ export default class JurisdictionTab extends Component {
     GlobalEvent.emit(GloEventName.changeLMVehicleType); // 关闭辖区数据
     const { visible: curVisible } = this.state;
     if (visible === curVisible) return; //重复点击保护
-
     if (visible) {
       await this.setState({ visible: visible, animate: 'slide-in' });
     } else {

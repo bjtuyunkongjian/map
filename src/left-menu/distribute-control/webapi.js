@@ -47,10 +47,15 @@ export const GetIcafePosition = async (param, rgbHex, rgbHex2) => {
   const _features = [];
   const _features2 = [];
   for (let item of res) {
-    const { x, y, yycsdm } = item;
-    _features.push(TurfPoint([x, y], { code: yycsdm, color: `#${rgbHex}` }));
-    _features2.push(TurfPoint([x, y], { code: yycsdm, color: `#${rgbHex2}` }));
+    const { x, y, yycsdm, hasKey } = item;
+    _features.push(
+      TurfPoint([x, y], { code: yycsdm, color: `#${rgbHex}`, _has: hasKey })
+    );
+    _features2.push(
+      TurfPoint([x, y], { code: yycsdm, color: `#${rgbHex2}`, _has: hasKey })
+    );
   }
+  const _hasList = res.map(item => item.hasKey);
   const _geo = {
     type: 'geojson',
     data: FeatureCollection(_features)
@@ -59,7 +64,7 @@ export const GetIcafePosition = async (param, rgbHex, rgbHex2) => {
     type: 'geojson',
     data: FeatureCollection(_features2)
   };
-  return { res: { geo: _geo, geo2: _geo2 }, err };
+  return { res: { geo: _geo, geo2: _geo2, _hasList }, err };
 };
 
 /**
@@ -71,7 +76,6 @@ export const GetHotelPosition = async (param, rgbHex, rgbHex2) => {
     url: 'mapServer/hotel/screenPoint?' + param,
     method: 'GET'
   });
-
   if (!res || err) return { err };
   const _features = [];
   const _features2 = [];

@@ -106,7 +106,6 @@ export default class CompareCharts extends Component {
           code: _area.value
         });
       }
-      // 就是这里 再选择别的辖区以后_area就没有 type了
       // 请求
       let res, err;
       if (_area.type === 'jurisdiction') {
@@ -195,7 +194,6 @@ export default class CompareCharts extends Component {
         }
       );
     }
-    // this._getCount();
   };
 
   _onChangeSelectedBar = val => {

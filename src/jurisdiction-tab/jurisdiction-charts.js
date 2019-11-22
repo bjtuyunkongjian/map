@@ -61,6 +61,7 @@ export default class JurisdictionCharts extends Component {
   _onToggleVisible = ({ visible } = {}) => {
     this._visible = visible;
     if (visible) this._getCount();
+    RemoveLayer(_MAP_, LayerIds.jurisdiction.area);
   };
 
   _onChangeArea = ({ area }) => {
@@ -178,6 +179,7 @@ export default class JurisdictionCharts extends Component {
 
   _clickPoint = e => {
     // visible, boxLeft, boxTop, lngLat, code
+
     const { code } = e.features[0].properties;
     const { coordinates: lngLat } = e.features[0].geometry;
     const { x, y } = _MAP_.project(lngLat);

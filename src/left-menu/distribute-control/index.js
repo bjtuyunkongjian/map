@@ -144,6 +144,7 @@ export default class DistributeControl extends Component {
       const { res, err } = await GetIcafePosition(_param, rgbHex, rgbHex2);
       if (!res || err) return;
       const { geo, geo2 } = res;
+      console.log('geo', geo);
       const { icafe } = LayerIds;
       let _odd = false;
       clearInterval(this._icafeIntervalId);
@@ -151,6 +152,7 @@ export default class DistributeControl extends Component {
       AddCircleLayer(_MAP_, geo, icafe.point, _opt);
       this._icafeIntervalId = setInterval(() => {
         _odd = !_odd;
+
         if (_odd) {
           AddCircleLayer(_MAP_, geo2, icafe.point);
         } else {
@@ -235,14 +237,25 @@ export default class DistributeControl extends Component {
   };
 
   _clickIcafe = e => {
+    const _isPopup = e.features[0].properties._has;
     const { x, y } = _MAP_.project(e.lngLat);
-    const { showIcafe } = GloEventName;
-    GlobalEvent.emit(showIcafe, {
-      visible: true,
-      boxLeft: x,
-      boxTop: y,
-      lngLat: e.lngLat,
-      code: e.features[0].properties.code
-    });
+    if (_isPopup === true) {
+      GlobalEvent.emit(GloEventName.showPopupPopulation, {
+        visible: true,
+        boxLeft: x,
+        boxTop: y,
+        lngLat: e.lngLat,
+        code: e.features[0].properties.code
+      });
+    } else if (_isPopup === false) {
+      const { showIcafe } = GloEventName;
+      GlobalEvent.emit(showIcafe, {
+        visible: true,
+        boxLeft: x,
+        boxTop: y,
+        lngLat: e.lngLat,
+        code: e.features[0].properties.code
+      });
+    }
   };
 }
