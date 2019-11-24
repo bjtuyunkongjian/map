@@ -1,0 +1,30 @@
+.list-popup {
+  border-radius: @radius-l;
+  overflow: hidden;
+  width: 280px;
+  background-color: white;
+  position: absolute;
+  left: 101%;
+  top: 0;
+  color: @t-base;
+  padding-bottom: 10px;
+  box-shadow: @box-shadow-mini;
+  .list-title {
+    background-color: @color-dark-blue;
+    color: @t-white;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .close {
+    font-weight: 800;
+    cursor: pointer;
+    .icon-right;
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+  .list-content {
+  }
+}

@@ -28,7 +28,7 @@ import ProgressCase from './progress-case'; // 案件进度条
 import GlobalLoading from './global-loading'; // 全局搜索
 import DetailCase from './detail-case'; // 案件详情
 import DetailPosituation from './detail-posituation'; //警情详情
-import SerachResult from './search-result'; //
+import SerachResult from './popup-search'; //搜索结果弹框
 import PopupCase from './popup-case'; // 案件详情弹框
 import PopupCamera from './popup-camera'; //摄像头详情
 import DetailUnit from './detail-unit'; // 重点单位

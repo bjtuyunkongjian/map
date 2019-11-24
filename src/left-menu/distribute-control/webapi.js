@@ -18,9 +18,17 @@ export const GetBayonetPosition = async (param, rgbHex, rgbHex2) => {
   const _features = [];
   const _features2 = [];
   for (let item of res) {
-    const { x, y, id } = item;
-    _features.push(TurfPoint([x, y], { code: id, color: `#${rgbHex}` }));
-    _features2.push(TurfPoint([x, y], { code: id, color: `#${rgbHex2}` }));
+    const { x, y, id, hasKey } = item;
+    _features.push(
+      TurfPoint([x, y], { code: id, color: `#${rgbHex}`, has: hasKey })
+    );
+    _features2.push(
+      TurfPoint([x, y], {
+        code: id,
+        color: hasKey ? `#${rgbHex2}` : `#${rgbHex}`,
+        has: hasKey
+      })
+    );
   }
   const _geo = {
     type: 'geojson',
@@ -49,10 +57,14 @@ export const GetIcafePosition = async (param, rgbHex, rgbHex2) => {
   for (let item of res) {
     const { x, y, yycsdm, hasKey } = item;
     _features.push(
-      TurfPoint([x, y], { code: yycsdm, color: `#${rgbHex}`, _has: hasKey })
+      TurfPoint([x, y], { code: yycsdm, color: `#${rgbHex}`, has: hasKey })
     );
     _features2.push(
-      TurfPoint([x, y], { code: yycsdm, color: `#${rgbHex2}`, _has: hasKey })
+      TurfPoint([x, y], {
+        code: yycsdm,
+        color: hasKey ? `#${rgbHex2}` : `#${rgbHex}`,
+        has: hasKey
+      })
     );
   }
   const _hasList = res.map(item => item.hasKey);
@@ -80,9 +92,17 @@ export const GetHotelPosition = async (param, rgbHex, rgbHex2) => {
   const _features = [];
   const _features2 = [];
   for (let item of res) {
-    const { x, y, code } = item;
-    _features.push(TurfPoint([x, y], { code: code, color: `#${rgbHex}` }));
-    _features2.push(TurfPoint([x, y], { code: code, color: `#${rgbHex2}` }));
+    const { x, y, code, hasKey } = item;
+    _features.push(
+      TurfPoint([x, y], { code: code, color: `#${rgbHex}`, has: hasKey })
+    );
+    _features2.push(
+      TurfPoint([x, y], {
+        code: code,
+        color: hasKey ? `#${rgbHex2}` : `#${rgbHex}`,
+        has: hasKey
+      })
+    );
   }
   const _geo = {
     type: 'geojson',

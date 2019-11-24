@@ -213,41 +213,57 @@ export default class DistributeControl extends Component {
   };
 
   _clickBayonet = e => {
+    const _isControl = e.features[0].properties.has;
     const { x, y } = _MAP_.project(e.lngLat);
-    const { showPopupBayonet } = GloEventName;
-    GlobalEvent.emit(showPopupBayonet, {
-      visible: true,
-      boxLeft: x,
-      boxTop: y,
-      lngLat: e.lngLat,
-      code: e.features[0].properties.code
-    });
-  };
-
-  _clickHotel = e => {
-    const { x, y } = _MAP_.project(e.lngLat);
-    const { showHotel } = GloEventName;
-    GlobalEvent.emit(showHotel, {
-      visible: true,
-      boxLeft: x,
-      boxTop: y,
-      lngLat: e.lngLat,
-      code: e.features[0].properties.code
-    });
-  };
-
-  _clickIcafe = e => {
-    const _isPopup = e.features[0].properties._has;
-    const { x, y } = _MAP_.project(e.lngLat);
-    if (_isPopup === true) {
-      GlobalEvent.emit(GloEventName.showPopupPopulation, {
+    if (!_isControl) {
+      const { showPopupBayonet } = GloEventName;
+      GlobalEvent.emit(showPopupBayonet, {
+        visible: true,
+        boxLeft: x,
+        boxTop: y,
+        lngLat: e.lngLat,
+        code: e.features[0].properties.code,
+        type: 'bayonet'
+      });
+    } else {
+      GlobalEvent.emit(GloEventName.showControlPop, {
         visible: true,
         boxLeft: x,
         boxTop: y,
         lngLat: e.lngLat,
         code: e.features[0].properties.code
       });
-    } else if (_isPopup === false) {
+    }
+  };
+
+  _clickHotel = e => {
+    const _isControl = e.features[0].properties.has;
+    const { x, y } = _MAP_.project(e.lngLat);
+    if (!_isControl) {
+      const { showHotel } = GloEventName;
+      GlobalEvent.emit(showHotel, {
+        visible: true,
+        boxLeft: x,
+        boxTop: y,
+        lngLat: e.lngLat,
+        code: e.features[0].properties.code
+      });
+    } else {
+      GlobalEvent.emit(GloEventName.showControlPop, {
+        visible: true,
+        boxLeft: x,
+        boxTop: y,
+        lngLat: e.lngLat,
+        code: e.features[0].properties.code,
+        type: 'hotel'
+      });
+    }
+  };
+
+  _clickIcafe = e => {
+    const _isControl = e.features[0].properties.has;
+    const { x, y } = _MAP_.project(e.lngLat);
+    if (!_isControl) {
       const { showIcafe } = GloEventName;
       GlobalEvent.emit(showIcafe, {
         visible: true,
@@ -255,6 +271,15 @@ export default class DistributeControl extends Component {
         boxTop: y,
         lngLat: e.lngLat,
         code: e.features[0].properties.code
+      });
+    } else {
+      GlobalEvent.emit(GloEventName.showControlPop, {
+        visible: true,
+        boxLeft: x,
+        boxTop: y,
+        lngLat: e.lngLat,
+        code: e.features[0].properties.code,
+        type: 'icafe'
       });
     }
   };

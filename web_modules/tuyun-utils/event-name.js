@@ -56,14 +56,14 @@ export default {
   // 数据叠加/交叉研判
   showCrossTab: 'show:crossTab',
   closeCrossTab: 'close:crossTab',
-  // 卡口弹窗
-  showPopupBayonet: 'show:popupBayonet',
+  // 布控显示对应事件
+  showPopupBayonet: 'show:popupBayonet', //卡口
   closePopupBayonet: 'close:popupBayonet',
-  //宾馆弹窗
-  showHotel: 'show:popupHotel',
+  showControlPop: 'show:controlPop', //显示布控的重点人员
+  showHotel: 'show:popupHotel', //宾馆弹窗
   closeHotel: 'close:popupHotel',
-  //网吧弹窗
-  showIcafe: 'show:popupIcafe',
+
+  showIcafe: 'show:popupIcafe', //网吧弹窗
   closeIcafe: 'close:popupIcafe',
   // 辖区数据
   showJurisdictionData: 'show:juridisctionData',
