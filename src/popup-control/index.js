@@ -24,9 +24,9 @@ export default class ControlDetail extends Component {
     if (type === 'bayonet') {
       _listEl = <ControlBayonet code={code} />;
     } else if (type === 'icafe') {
-      _listEl = <ControlIcafe detailInfo={detailInfo} />;
+      _listEl = <ControlIcafe code={code} />;
     } else if (type === 'hotel') {
-      _listEl = <ControlHotel detailInfo={detailInfo} />;
+      _listEl = <ControlHotel code={code} />;
     }
     return (
       <div
@@ -38,7 +38,7 @@ export default class ControlDetail extends Component {
           <FaTimes className="close" onClick={this._closePopup} />
         </div>
         <div className="list-content">
-          <ul></ul>
+          <ul>{_listEl}</ul>
         </div>
       </div>
     );
