@@ -43,12 +43,6 @@ import ZjjdLayer from './jiudian';
 
 const mapArr = [];
 
-// center: [120.208615, 30.245062],
-//       zoom: 17,
-//       pitch: 60,
-//       // bearing: -13.6,
-//       minZoom: 8,
-//       maxZoom: 20,
 class TyMap {
   constructor(container, options = {}) {
     const {
