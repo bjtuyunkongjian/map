@@ -9,7 +9,9 @@ import {
   AddTextLayer,
   Add3dLayer,
   AddLineLayer,
-  RemoveLayer
+  RemoveLayer,
+  AddImageLayer,
+  AddLoadedImageLayer
 } from 'tuyun-utils';
 
 import {
@@ -122,11 +124,19 @@ class TyMap {
   addTextLayer = (source, layerId, options = {}) =>
     AddTextLayer(mapArr[this.mapIndex], source, layerId, options);
 
+  addSpriteLayer = (source, layerId, options = {}) =>
+    AddImageLayer(mapArr[this.mapIndex], source, layerId, options);
+
+  // AddLoadedImageLayer
+  // map, source, layerId, option = {}
+  addImageLayer = (source, layerId, options = {}) =>
+    AddLoadedImageLayer(mapArr[this.mapIndex], source, layerId, options);
+
+  removeLayer = layerId => RemoveLayer(mapArr[this.mapIndex], layerId);
+
   setFilter = (layerId, filterExpress) => {
     mapArr[this.mapIndex].setFilter(layerId, filterExpress);
   };
-
-  removeLayer = layerId => RemoveLayer(mapArr[this.mapIndex], layerId);
 
   setCenter = center => {
     mapArr[this.mapIndex].setCenter(center);
