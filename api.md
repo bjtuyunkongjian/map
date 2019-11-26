@@ -414,7 +414,7 @@ layerId: 所需渲染图层的 id，所有图层的 id 不能重复
 options?: 配置项，默认为空，包括以下几个属性：
 
 - color?: 点的颜色，默认为红色，色值为 #RRGGBB/rgb(R,G,B)/rgba(R,G,B,ALPHA)
-- labelLayerId?: 该图层在 labelLayerId 之上，默认为空代表添加到所有图层之上
+- labelLayerId?: 该图层在 labelLayerId 之下，默认为空代表添加到所有图层之上
 - strokeWidth?: 描边的宽度
 - strokeColor?: 描边的颜色
 - radius?: 点的半径
@@ -474,7 +474,7 @@ source: geojson 格式的数据
 layerId: 所需渲染图层的 id，所有图层的 id 不能重复
 options?: 配置项，默认为空，包括以下几个属性：
 
-- labelLayerId?: 该图层在 labelLayerId 之上，默认为空代表添加到所有图层之上
+- labelLayerId?: 该图层在 labelLayerId 之下，默认为空代表添加到所有图层之上
 - width?: 线的宽度，默认为 1
 - color?: 线的颜色，默认为红色，色值为 #RRGGBB/rgb(R,G,B)/rgba(R,G,B,ALPHA)
 - dasharray?: 是否是虚线，实线用 [1] 表示，虚线用[realRercentage, imaginaryRercentage]，默认为实线
@@ -513,7 +513,7 @@ source: geojson 格式的数据
 layerId: 所需渲染图层的 id，所有图层的 id 不能重复
 options?: 配置项，默认为空，包括以下几个属性：
 
-- labelLayerId?: 该图层在 labelLayerId 之上，默认为空代表添加到所有图层之上
+- labelLayerId?: 该图层在 labelLayerId 之下，默认为空代表添加到所有图层之上
 - color?: 面的颜色，默认为红色，色值为 #RRGGBB/rgb(R,G,B)/rgba(R,G,B,ALPHA)
 
 **返回结果**
@@ -549,7 +549,7 @@ source: geojson 格式的数据
 layerId: 所需渲染图层的 id，所有图层的 id 不能重复
 options?: 配置项，默认为空，包括以下几个属性：
 
-- labelLayerId: 该图层在 labelLayerId 之上，默认为空代表添加到所有图层之上
+- labelLayerId: 该图层在 labelLayerId 之下，默认为空代表添加到所有图层之上
 - color: 线的颜色，默认为红色，色值为 #RRGGBB/rgb(R,G,B)/rgba(R,G,B,ALPHA)
 
 **返回结果**
@@ -586,7 +586,7 @@ layerId: 所需渲染图层的 id，所有图层的 id 不能重复
 options?: 配置项，默认为空，包括以下几个属性：
 
 - textColor?: 文字的颜色，默认为深灰色，色值为 #RRGGBB/rgb(R,G,B)/rgba(R,G,B,ALPHA)
-- labelLayerId?: 该图层在 labelLayerId 之上，默认为空代表添加到所有图层之上
+- labelLayerId?: 该图层在 labelLayerId 之下，默认为空代表添加到所有图层之上
 - textHaloWith?: 描边的宽度，默认是 2 像素
 - textHaloColor?: 描边的颜色，默认为白色
 
@@ -613,7 +613,138 @@ tyMap.onClick(() => {
 });
 ```
 
-### 18. setFilter(layerId, filterExpress)
+### 18. addHeatMapLayer(source, layerId, options?)
+
+添加点图层。根据相应数据结构在地图上添加对应点的图层。
+
+```markdown
+**输入参数**
+source: geojson 格式的数据
+layerId: 所需渲染图层的 id，所有图层的 id 不能重复
+options?: 配置项，默认为空，包括以下几个属性：
+
+- color?: 点的颜色，默认为红色，色值为 #RRGGBB/rgb(R,G,B)/rgba(R,G,B,ALPHA)
+- labelLayerId?: 该图层在 labelLayerId 之下，默认为空代表添加到所有图层之上
+- strokeWidth?: 描边的宽度
+- strokeColor?: 描边的颜色
+- radius?: 点的半径
+
+**返回结果**
+null
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+function addLayer() {
+  const lnglatArr = [[lng1, lat1], [lng2, lat2], ...];
+  const geometry = lnglatArr.map(item => tyMap.point(item, { radius: 3 }));
+  const geojsonData = {
+    type: 'geojson',
+    data: tyMap.featureCollection(geometry)
+  };
+  tyMap.addCircleLayer(geojsonData, 'pointLayerId', {
+    color: 'rgba(0,0,0,0)',
+    strokeWidth: ['get', 'radius'],
+    strokeColor: '#4169E1',
+    labelLayerId: 'which id'
+  });
+}
+tyMap.onClick(addLayer);
+```
+
+添加图层对应的方法应该在地图初始化完成后调用。如果是在初始化同时添加图层，请使用 onLoad 方法。如下所示：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+tyMap.onLoad(() => {
+  const lnglatArr = [[lng1, lat1], [lng2, lat2], ...];
+  const geometry = lnglatArr.map(item => tyMap.point(item, { radius: 3 }));
+  const geojsonData = {
+    type: 'geojson',
+    data: tyMap.featureCollection(geometry)
+  };
+  tyMap.addCircleLayer(geojsonData, 'pointLayerId', {
+    color: 'rgba(0,0,0,0)',
+    strokeWidth: ['get', 'radius'],
+    strokeColor: '#4169E1',
+    labelLayerId: 'which id'
+  });
+});
+```
+
+### 19. addImageLayer(source, layerId, options?)
+
+添加图片图层。根据相应数据结构在地图上添加对应图片的图层。
+
+```markdown
+**输入参数**
+source: geojson 格式的数据
+layerId: 所需渲染图层的 id，所有图层的 id 不能重复
+options?: 配置项，默认为空，包括以下几个属性：
+
+- imgUrl: 必传参数，添加图片对应的图片的地址
+- imgName?: 为添加的图片重命名，前后不能重名，重名引擎会认为该图片资源已经加载而不进行再次添加，所以**重名不会报错**。
+- size?: 图片缩放尺寸，默认为 1
+- rotate?: 图片和文字旋转角度，默认为 0
+- opacity?: 图片和文字的透明度，默认为 1
+- labelLayerId?: 该图层在 labelLayerId 之下，默认为空代表添加到所有图层之上
+- rotationAlign?: 设置图片和文字旋转角度基于什么旋转。可选值为 map/viewport。当选择 map 时，会根据地图来旋转。当选择 viewport 时，会根据显示器屏幕来旋转。默认为 viewport。
+- pitchAlign?: 设置图片和文字倾斜角度基于什么倾斜。可选值为 map/viewport。当选择 map 时，会根据地图来倾斜。当选择 viewport 时，会根据显示器屏幕来倾斜。默认为 viewport。
+- placement?: 标签沿什么放置。可选值为 point/line/line-center。当选择 point 时，按点的经纬度来放置。当选择 line 时，沿线或者面，放于起始位置。当选择 line-center 时，放在线、面、多线、多面的中心位置。默认为 point。
+- disableAvoid?: 禁用点与点之间的避让。默认点与点之间是会产生避让的，前面添加的点与后面添加的点发生冲突时，前面添加的点不显示。默认为 false。
+- textFit?: 图片是否适应文字。可选值为 none/width/height/both。当设置为 none 时，图片与文字是平级关系，图片在前，文字在后，否则文字在图片的上层。当设置为 width 时，图片根据文字的宽度等比例缩放。当设置为 height 时，图片根据文字的高度等比例缩放。当设置为 both 时，图片的高度和宽度和文字的高宽相对应。默认为 none。
+- textFitPaddng?: 图片与文字之间的 padding。默认为 [0, 0, 0, 0]。
+- hotAreaWidth?: 热区的宽度。此选项使得图片更方便点击，但不会与影响点与点之间的额避让关系。默认为 2。
+- anchor?: 图片和文字相对经纬度的位置。可选值为 center/left/right/top/bottom/top-left/top-right/bottom-left/bottom-right。默认为 center。
+- text?: 文字。默认为 ''。
+- fontSize?: 文字大小。默认为 16。
+- textWrapWidth?: 文字换行宽度。单位是根据中文文字大小来计算的。英文和数字文字大小可能为中文文字大小的二分之一，也可能其他值。比如设置 10，则最多十个标准中文文字一行。默认值为 8.
+
+**返回结果**
+null
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+function addLayer() {
+  const lnglatArr = [[lng1, lat1], [lng2, lat2], ...];
+  const geometry = lnglatArr.map(item => tyMap.point(item, { radius: 3 }));
+  const geojsonData = {
+    type: 'geojson',
+    data: tyMap.featureCollection(geometry)
+  };
+  tyMap.addCircleLayer(geojsonData, 'pointLayerId', {
+    imgUrl: `http://tuyunkongjian.com/test.png`
+  });
+}
+tyMap.onClick(addLayer);
+```
+
+添加图层对应的方法应该在地图初始化完成后调用。如果是在初始化同时添加图层，请使用 onLoad 方法。如下所示：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
+tyMap.onLoad(() => {
+  const lnglatArr = [[lng1, lat1], [lng2, lat2], ...];
+  const geometry = lnglatArr.map(item => tyMap.point(item, { radius: 3 }));
+  const geojsonData = {
+    type: 'geojson',
+    data: tyMap.featureCollection(geometry)
+  };
+  tyMap.addCircleLayer(geojsonData, 'pointLayerId', {
+    color: 'rgba(0,0,0,0)',
+    strokeWidth: ['get', 'radius'],
+    strokeColor: '#4169E1',
+    labelLayerId: 'which id'
+  });
+});
+```
+
+### 20. setFilter(layerId, filterExpress)
 
 设置添加的图层对应的过滤条件。
 
@@ -638,7 +769,7 @@ const tyMap = new TyMap(document.getElementById('app'), {
 tyMap.setFilter('toFilterLayer', ['==', 'type', 'HYH']); // toFilterLayer 过滤只剩下 type 为 HYH 的数据
 ```
 
-### 19. removeLayer(layerId)
+### 21. removeLayer(layerId)
 
 删除图层。根据 layerId 删除点、线、面、三维建筑对应的图层。
 
@@ -659,7 +790,7 @@ const tyMap = new TyMap(document.getElementById('app'), {
 tyMap.removeLayer('toRemoveLayer'); // 删除 toRemoveLayer 图层
 ```
 
-### 20. setCenter(center)
+### 22. setCenter(center)
 
 设置地图的地理中心点。
 
@@ -680,7 +811,7 @@ const tyMap = new TyMap(document.getElementById('app'), {
 tyMap.setCenter([116.98462, 36.64932]);
 ```
 
-### 21. getCenter()
+### 23. getCenter()
 
 获取地图的地理中心点。
 
@@ -701,7 +832,7 @@ tyMap.getCenter();
 // 返回：{lng: 116.98462, lat: 36.64932}
 ```
 
-### 22. setZoom(zoomLevel)
+### 24. setZoom(zoomLevel)
 
 设置地图的缩放等级。
 
@@ -722,7 +853,7 @@ const tyMap = new TyMap(document.getElementById('app'), {
 tyMap.setZoom(15);
 ```
 
-### 23. getZoom()
+### 25. getZoom()
 
 获取地图的缩放等级。
 
@@ -744,7 +875,7 @@ tyMap.getZoom();
 // 返回：11.21
 ```
 
-### 24. setBearing(bearing)
+### 26. setBearing(bearing)
 
 设置地图的旋转角度。
 
@@ -765,7 +896,7 @@ const tyMap = new TyMap(document.getElementById('app'), {
 tyMap.setBearing(180);
 ```
 
-### 25. getBearing()
+### 27. getBearing()
 
 获取地图的旋转角度。
 
@@ -787,7 +918,7 @@ tyMap.getBearing();
 // 返回：0
 ```
 
-### 26. setPitch(pitch)
+### 28. setPitch(pitch)
 
 设置地图的倾斜角。
 
@@ -808,7 +939,7 @@ const tyMap = new TyMap(document.getElementById('app'), {
 tyMap.setPitch(30);
 ```
 
-### 27. getPitch()
+### 29. getPitch()
 
 获取地图的倾斜角。
 
@@ -830,7 +961,7 @@ tyMap.getPitch();
 // 返回：0
 ```
 
-### 28. jumpTo(options)
+### 30. jumpTo(options)
 
 不使用动画过渡，按指定大小更改地图的中心(center)/缩放等级(zoom)/旋转角度(bearing)/倾斜角(pitch)。
 
@@ -861,7 +992,7 @@ tyMap.jumpTo({
 });
 ```
 
-### 29. zoomIn()
+### 31. zoomIn()
 
 使用动画过渡将地图的缩放级别提高 1。
 
@@ -882,7 +1013,7 @@ const tyMap = new TyMap(document.getElementById('app'), {
 tyMap.zoomIn();
 ```
 
-### 30. zoomOut()
+### 32. zoomOut()
 
 使用动画过渡将地图的缩放级别减小 1。
 
@@ -903,7 +1034,7 @@ const tyMap = new TyMap(document.getElementById('app'), {
 tyMap.zoomOut();
 ```
 
-### 31. zoomTo(zoomLevel)
+### 33. zoomTo(zoomLevel)
 
 使用动画过渡将地图缩放到指定的缩放级别。
 
@@ -924,7 +1055,7 @@ const tyMap = new TyMap(document.getElementById('app'), {
 tyMap.zoomTo(12);
 ```
 
-### 32. rotateTo(bearing)
+### 34. rotateTo(bearing)
 
 使用动画过渡将地图旋转到指定的方位。
 
@@ -945,7 +1076,7 @@ const tyMap = new TyMap(document.getElementById('app'), {
 tyMap.rotateTo(120);
 ```
 
-### 33. panTo(lnglat)
+### 35. panTo(lnglat)
 
 使用动画过渡将地图平移到指定位置。
 
@@ -966,7 +1097,7 @@ const tyMap = new TyMap(document.getElementById('app'), {
 tyMap.panTo([117.0856, 36.6754]);
 ```
 
-### 34. flyTo()
+### 36. flyTo()
 
 使用动画过渡，按指定大小更改地图的中心(center)/缩放等级(zoom)/旋转角度(bearing)/倾斜角(pitch)。
 
@@ -997,7 +1128,7 @@ tyMap.flyTo({
 });
 ```
 
-### 35. stopAni()
+### 37. stopAni()
 
 中断过渡动画。过渡动画正在发生时可以使用此方法中断。
 
@@ -1120,9 +1251,15 @@ const tyMap = new TyMap(document.getElementById('app'), {
   key: '你的对应的key'
 });
 console.log(
-  tyMap.multiPoint([[114.4650585, 37.9397454], [114.5650585, 37.8397454]], {
-    radius: 3
-  })
+  tyMap.multiPoint(
+    [
+      [114.4650585, 37.9397454],
+      [114.5650585, 37.8397454]
+    ],
+    {
+      radius: 3
+    }
+  )
 );
 ```
 
@@ -1145,7 +1282,16 @@ prop?: 对应的属性，如 { name: 'HYH 路' }
 const tyMap = new TyMap(document.getElementById('app'), {
   key: '你的对应的key'
 });
-console.log(tyMap.lineString([[1, 1], [2, 2], [3, 3]], { name: 'HYH路' }));
+console.log(
+  tyMap.lineString(
+    [
+      [1, 1],
+      [2, 2],
+      [3, 3]
+    ],
+    { name: 'HYH路' }
+  )
+);
 ```
 
 ### 6. multiLineString(lnglatArrArr, prop?)
@@ -1169,7 +1315,18 @@ const tyMap = new TyMap(document.getElementById('app'), {
 });
 console.log(
   tyMap.multiLineString(
-    [[[11, 11], [12, 12], [13, 13]], [[21, 21], [22, 22], [23, 23]]],
+    [
+      [
+        [11, 11],
+        [12, 12],
+        [13, 13]
+      ],
+      [
+        [21, 21],
+        [22, 22],
+        [23, 23]
+      ]
+    ],
     { name: 'HYH路' }
   )
 );
@@ -1195,7 +1352,17 @@ const tyMap = new TyMap(document.getElementById('app'), {
   key: '你的对应的key'
 });
 console.log(
-  tyMap.polygon([[[11, 11], [12, 12], [13, 13], [14, 14]]], { name: 'HYH区' })
+  tyMap.polygon(
+    [
+      [
+        [11, 11],
+        [12, 12],
+        [13, 13],
+        [14, 14]
+      ]
+    ],
+    { name: 'HYH区' }
+  )
 );
 ```
 
@@ -1222,9 +1389,21 @@ const tyMap = new TyMap(document.getElementById('app'), {
   key: '你的对应的key'
 });
 console.log(
-  tyMap.multiPolygon([[[[111, 111], [112, 112], [113, 113], [114, 114]]]], {
-    name: 'HYH区'
-  })
+  tyMap.multiPolygon(
+    [
+      [
+        [
+          [111, 111],
+          [112, 112],
+          [113, 113],
+          [114, 114]
+        ]
+      ]
+    ],
+    {
+      name: 'HYH区'
+    }
+  )
 );
 ```
 
@@ -1248,9 +1427,19 @@ const tyMap = new TyMap(document.getElementById('app'), {
   key: '你的对应的key'
 });
 console.log(
-  tyMap.polygon3d([[[11, 11], [12, 12], [13, 13], [14, 14]]], {
-    name: 'HYH建筑'
-  })
+  tyMap.polygon3d(
+    [
+      [
+        [11, 11],
+        [12, 12],
+        [13, 13],
+        [14, 14]
+      ]
+    ],
+    {
+      name: 'HYH建筑'
+    }
+  )
 );
 ```
 
@@ -1277,9 +1466,21 @@ const tyMap = new TyMap(document.getElementById('app'), {
   key: '你的对应的key'
 });
 console.log(
-  tyMap.multiPolygon3d([[[[111, 111], [112, 112], [113, 113], [114, 114]]]], {
-    name: 'HYH区'
-  })
+  tyMap.multiPolygon3d(
+    [
+      [
+        [
+          [111, 111],
+          [112, 112],
+          [113, 113],
+          [114, 114]
+        ]
+      ]
+    ],
+    {
+      name: 'HYH区'
+    }
+  )
 );
 ```
 
@@ -1451,7 +1652,12 @@ units?: 单位，可选值为 英里(miles)/千米(kilometers)，默认为 千�
 const tyMap = new TyMap(document.getElementById('app'), {
   key: '你的对应的key'
 });
-const from = tyMap.lineString([[11, 32], [13, 22], [13, 25], [15, 34]]);
+const from = tyMap.lineString([
+  [11, 32],
+  [13, 22],
+  [13, 25],
+  [15, 34]
+]);
 const length = tyMap.lineLength(line);
 ```
 
@@ -1473,7 +1679,14 @@ lineString: geojson 格式的面，必须为单面
 const tyMap = new TyMap(document.getElementById('app'), {
   key: '你的对应的key'
 });
-const from = tyMap.lineString([[[11, 32], [13, 22], [13, 25], [15, 34]]]);
+const from = tyMap.lineString([
+  [
+    [11, 32],
+    [13, 22],
+    [13, 25],
+    [15, 34]
+  ]
+]);
 const length = tyMap.polygonArea(line);
 ```
 
@@ -1523,7 +1736,10 @@ const tyMap = new TyMap(document.getElementById('app'), {
   key: '你的对应的key'
 });
 const pt = tyMap.point([1, 3]);
-const lineString = tyMap.lineString([[1, 1], [3, 3]]);
+const lineString = tyMap.lineString([
+  [1, 1],
+  [3, 3]
+]);
 const distance = tyMap.point2LineDistance(pt, lineString);
 ```
 
@@ -1551,7 +1767,10 @@ const tyMap = new TyMap(document.getElementById('app'), {
   key: '你的对应的key'
 });
 const pt = tyMap.point([1, 3]);
-const lineString1 = tyMap.lineString([[1, 1], [3, 3]]);
+const lineString1 = tyMap.lineString([
+  [1, 1],
+  [3, 3]
+]);
 const nearestPt = tyMap.nearestPointOnLine(line, pt);
 ```
 
@@ -1575,7 +1794,10 @@ geojson 格式的对应的点
 const tyMap = new TyMap(document.getElementById('app'), {
   key: '你的对应的key'
 });
-const lineString = tyMap.lineString([[1, 1], [3, 3]]);
+const lineString = tyMap.lineString([
+  [1, 1],
+  [3, 3]
+]);
 const distance = tyMap.alongLine(lineString, 200);
 ```
 
@@ -1599,7 +1821,13 @@ const tyMap = new TyMap(document.getElementById('app'), {
   key: '你的对应的key'
 });
 const point = tyMap.point([2, 2]);
-const poly = tyMap.polygon([[1, 1], [1, 3], [3, 3], [3, 1], [1, 1]]);
+const poly = tyMap.polygon([
+  [1, 1],
+  [1, 3],
+  [3, 3],
+  [3, 1],
+  [1, 1]
+]);
 const distance = tyMap.pointInPolygon(point, poly);
 ```
 
@@ -1745,10 +1973,22 @@ const tyMap = new TyMap(document.getElementById('app'), {
   key: '你的对应的key'
 });
 const poly1 = tyMap.polygon([
-  [[128, -26], [141, -26], [141, -21], [128, -21], [128, -26]]
+  [
+    [128, -26],
+    [141, -26],
+    [141, -21],
+    [128, -21],
+    [128, -26]
+  ]
 ]);
 const poly1 = tyMap.polygon([
-  [[126, -28], [140, -28], [140, -20], [126, -20], [126, -28]]
+  [
+    [126, -28],
+    [140, -28],
+    [140, -20],
+    [126, -20],
+    [126, -28]
+  ]
 ]);
 const polyDiff = turf.polygonDiff(poly1, poly2);
 ```
