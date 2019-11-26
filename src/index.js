@@ -6,7 +6,7 @@ import React, { Component } from 'react';
 import ReactDom from 'react-dom';
 
 import '../style/index.less';
-import MapDemo from './map';
+import MapDemo from './map-hz';
 
 class MapApp extends Component {
   render() {
