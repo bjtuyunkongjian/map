@@ -44,7 +44,8 @@ import {
   Add3dLayer,
   AddLineLayer,
   AddHeatMapLayer,
-  AddImageLayer
+  AddImageLayer,
+  AddLoadedImageLayer
 } from './layer-control';
 import THREE from './three';
 // 全局要使用到的常量
@@ -83,6 +84,7 @@ export {
   AddLineLayer,
   AddHeatMapLayer,
   AddImageLayer,
+  AddLoadedImageLayer,
   RgbToHsl,
   THREE,
   GlobalConst

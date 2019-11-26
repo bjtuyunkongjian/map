@@ -159,30 +159,36 @@ const AddImageLayer = (map, source, layerId, option = {}) => {
  * @param {*} source
  * @param {*} layerId
  */
-const AddLoadedImageLayer = (map, source, layerId, imgUrl, option = {}) => {
+const AddLoadedImageLayer = (map, source, layerId, option = {}) => {
+  const { imgUrl, imgName } = option;
+  if (!imgUrl) throw new Error('请输入 imgUrl, tyMap.addImageLayer');
   map.loadImage(imgUrl, (error, image) => {
     if (error) throw error;
-    map.addImage(imgUrl, image);
+    const _imgId = imgName || imgUrl;
+    if (!map.hasImage(_imgId)) map.addImage(_imgId, image);
     const {
-      iconImage,
       iconSize = 1,
       iconRotate = 0,
       iconOpacity,
       labelLayerId,
-      iconOffset = [0, 0]
+      iconOffset = [0, 0],
+      minzoom = 0,
+      rotationAlign = 'viewport',
+      pitchAlign = 'viewport'
     } = option;
+
     if (!map.getSource(layerId)) {
       map.addLayer(
         {
           id: layerId,
           type: 'symbol',
           source: source,
-          // minzoom: 14,
+          minzoom: minzoom,
           layout: {
-            'icon-image': iconImage || ['get', 'img'],
+            'icon-image': _imgId,
             'icon-size': iconSize,
-            'icon-rotation-alignment': 'map',
-            // 'icon-pitch-alignment': 'viewport',
+            'icon-rotation-alignment': rotationAlign,
+            'icon-pitch-alignment': pitchAlign,
             'icon-rotate': iconRotate,
             'icon-offset': iconOffset
           },
@@ -204,7 +210,12 @@ const AddLoadedImageLayer = (map, source, layerId, imgUrl, option = {}) => {
  * @param {*} source
  * @param {*} layerId
  */
-const AddHeatMapLayer = (map, source, layerId) => {
+const AddHeatMapLayer = (map, source, layerId, option = {}) => {
+  const {
+    colorArr = [0, 'rgba(33,102,172,0)', 0.5, 'green', 0.8, 'yellow', 1, 'red'],
+    radius = 10,
+    opacity = 1
+  } = option;
   if (!map.getSource(layerId)) {
     map.addLayer(
       {
@@ -216,19 +227,12 @@ const AddHeatMapLayer = (map, source, layerId) => {
             'interpolate',
             ['linear'],
             ['heatmap-density'],
-            0,
-            'rgba(33,102,172,0)',
-            0.5,
-            'green',
-            0.8,
-            'yellow',
-            1,
-            'red'
+            ...colorArr
           ],
           // Adjust the heatmap radius by zoom level
-          'heatmap-radius': 10,
+          'heatmap-radius': radius,
           // Transition from heatmap to circle layer by zoom level
-          'heatmap-opacity': 1
+          'heatmap-opacity': opacity
         }
       },
       'line-gd-ref'
@@ -339,5 +343,6 @@ export {
   AddLineLayer,
   AddPolygonLayer,
   Add3dLayer,
-  AddImageLayer
+  AddImageLayer,
+  AddLoadedImageLayer
 };
