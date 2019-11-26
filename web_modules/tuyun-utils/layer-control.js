@@ -167,14 +167,24 @@ const AddLoadedImageLayer = (map, source, layerId, option = {}) => {
     const _imgId = imgName || imgUrl;
     if (!map.hasImage(_imgId)) map.addImage(_imgId, image);
     const {
-      iconSize = 1,
-      iconRotate = 0,
-      iconOpacity,
+      size = 1,
+      rotate = 0,
+      opacity = 1,
       labelLayerId,
-      iconOffset = [0, 0],
+      offset = [0, 0],
       minzoom = 0,
       rotationAlign = 'viewport',
-      pitchAlign = 'viewport'
+      pitchAlign = 'viewport',
+      avoidEdges = false,
+      placement = 'point',
+      disableAvoid = false,
+      textFit = 'none',
+      textFitPaddng = [0, 0, 0, 0],
+      padding = 2,
+      anchor = 'center',
+      text = '',
+      fontSize = 16,
+      textWrapWidth = 8
     } = option;
 
     if (!map.getSource(layerId)) {
@@ -186,14 +196,28 @@ const AddLoadedImageLayer = (map, source, layerId, option = {}) => {
           minzoom: minzoom,
           layout: {
             'icon-image': _imgId,
-            'icon-size': iconSize,
+            'icon-size': size,
             'icon-rotation-alignment': rotationAlign,
             'icon-pitch-alignment': pitchAlign,
-            'icon-rotate': iconRotate,
-            'icon-offset': iconOffset
+            'icon-rotate': rotate,
+            'icon-offset': offset,
+            'symbol-avoid-edges': avoidEdges,
+            'symbol-placement': placement,
+            'icon-allow-overlap': disableAvoid,
+            'icon-text-fit': textFit,
+            'icon-text-fit-padding': textFitPaddng,
+            'icon-padding': padding,
+            'icon-anchor': anchor,
+            'text-pitch-alignment': pitchAlign,
+            'text-rotation-alignment': rotationAlign,
+            'text-field': text,
+            'text-size': fontSize,
+            'text-max-width': textWrapWidth,
+            'text-anchor': anchor,
+            'text-rotate': rotate
           },
           paint: {
-            'icon-opacity': iconOpacity || 1
+            'icon-opacity': opacity
           }
         },
         labelLayerId

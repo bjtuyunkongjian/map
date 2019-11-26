@@ -4,9 +4,11 @@ const fs = require('fs');
 const shell = require('shelljs');
 const path = require('path');
 
+const city = 'hz';
+
 function main() {
   const { code } = shell.exec(
-    `rm -rf ./build-api/ty-map* && webpack --config webpack.config.api.prod.babel.js --mode production  && webpack --config webpack.config.api.dev.babel.js --mode production`
+    `rm -rf ./build-api-${city}/ty-map* && webpack --config webpack.config.api.prod.${city}.babel.js --mode production  && webpack --config webpack.config.api.dev.${city}.babel.js --mode production`
   );
 
   if (code !== 0) {
