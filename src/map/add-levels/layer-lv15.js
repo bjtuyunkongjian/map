@@ -177,7 +177,14 @@ const style = {
       paint: {
         'line-width': {
           base: 2,
-          stops: [[15, 5], [16, 7], [17, 11], [18, 15], [19, 16], [20, 14]]
+          stops: [
+            [15, 5],
+            [16, 7],
+            [17, 11],
+            [18, 15],
+            [19, 16],
+            [20, 14]
+          ]
         },
         'line-color': '#FFFFFF'
       },
@@ -223,7 +230,14 @@ const style = {
       paint: {
         'line-width': {
           base: 2,
-          stops: [[15, 5], [16, 8], [17, 11], [18, 14], [19, 14], [20, 14]]
+          stops: [
+            [15, 5],
+            [16, 8],
+            [17, 11],
+            [18, 14],
+            [19, 14],
+            [20, 14]
+          ]
         },
         'line-color': '#ffeebb'
       },
@@ -269,7 +283,14 @@ const style = {
       paint: {
         'line-width': {
           base: 2,
-          stops: [[15, 7], [16, 7], [17, 9], [18, 11], [19, 11], [20, 19]]
+          stops: [
+            [15, 7],
+            [16, 7],
+            [17, 9],
+            [18, 11],
+            [19, 11],
+            [20, 19]
+          ]
         },
         'line-color': '#ffeebb'
       },
@@ -392,7 +413,7 @@ const style = {
     {
       id: 'GRESPL_1_3D',
       source: LevelConfig.addLv15,
-      'source-layer': 'GRESPL_Merge-1',
+      'source-layer': 'GRESPL_Merge_1',
       type: 'fill-extrusion',
       filter: ['!=', 'CLASID', '310200'],
       paint: {
@@ -418,7 +439,7 @@ const style = {
     {
       id: 'GRESPL_2_3D',
       source: LevelConfig.addLv15,
-      'source-layer': 'GRESPL_Merge_ID2',
+      'source-layer': 'GRESPL_Merge_2',
       type: 'fill-extrusion',
       filter: ['!=', 'CLASID', '310200'],
       paint: {
@@ -444,7 +465,7 @@ const style = {
     {
       id: 'GRESPL_3_3D',
       source: LevelConfig.addLv15,
-      'source-layer': 'GRESPL_Merge_ID3',
+      'source-layer': 'GRESPL_Merge_3',
       type: 'fill-extrusion',
       filter: ['!=', 'CLASID', '310200'],
       paint: {
