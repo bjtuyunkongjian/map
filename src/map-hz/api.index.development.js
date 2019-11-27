@@ -59,7 +59,7 @@ class TyMap {
     } = options;
     const transAns = transformStyle(key);
     if (transAns === -1) {
-      console.log('没有识别到 key');
+      console.error(new Error('没有识别到 key'));
       return Object.create({});
     }
     const tyMap = new mapboxgl.Map({

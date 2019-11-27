@@ -55,11 +55,11 @@ class TyMap {
     } = options;
     const transAns = transformStyle(key);
     if (transAns === -1) {
-      console.log('key 忘写了吧？');
+      console.error(new Error('没有识别到 key'));
       return Object.create({});
     }
     if (transAns === 0) {
-      console.log('可能是盗用了他人的 key？');
+      console.error(new Error('key 不对'));
       return Object.create({});
     }
     const tyMap = new mapboxgl.Map({
