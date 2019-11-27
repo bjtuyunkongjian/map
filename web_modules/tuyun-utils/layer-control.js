@@ -260,7 +260,7 @@ const AddHeatMapLayer = (map, source, layerId, option = {}) => {
           'heatmap-opacity': opacity
         }
       },
-      labelLayerId || 'line-gd-ref'
+      labelLayerId
     );
   } else {
     updateSource(map, layerId, source);
@@ -288,7 +288,7 @@ const AddLineLayer = (map, source, layerId, option = {}) => {
           'line-dasharray': dasharray || [1]
         }
       },
-      labelLayerId || 'line-gd-ref'
+      labelLayerId
     );
   } else {
     updateSource(map, layerId, source);
@@ -313,7 +313,7 @@ const AddPolygonLayer = (map, source, layerId, option = {}) => {
           'fill-color': color || '#f00'
         }
       },
-      labelLayerId || 'line-gd-ref'
+      labelLayerId
     );
   } else {
     updateSource(map, layerId, source);

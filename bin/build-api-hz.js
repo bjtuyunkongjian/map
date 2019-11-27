@@ -24,7 +24,7 @@ function main() {
   for (let item of ['development', 'production']) {
     const filepath = path.resolve(
       __dirname,
-      `../build-api/ty-map-${item}.${version}.js`
+      `../build-api-${city}/ty-map-${item}.${version}.js`
     );
     fs.readFile(filepath, (err, data) => readFunc(err, data, filepath));
   }
