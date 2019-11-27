@@ -1,5 +1,17 @@
 import { LevelConfig } from 'tuyun-config';
 
+const rdNameRef = [
+  {
+    id: 'road-name-ref', // 做线的基层使用，铁路
+    type: 'fill',
+    source: LevelConfig.addLv7,
+    'source-layer': 'empty',
+    paint: {
+      'fill-opacity': 0
+    }
+  }
+];
+
 const xiaolu = [
   {
     id: 'xiaolu-name',
@@ -462,6 +474,7 @@ const gaosu = [
 ]; // 高速
 
 export default [
+  ...rdNameRef,
   ...xiaolu,
   ...zadao,
   ...zhixian,

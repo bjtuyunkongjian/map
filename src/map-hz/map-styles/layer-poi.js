@@ -1,5 +1,17 @@
 import { LevelConfig } from 'tuyun-config';
 
+const poiRef = [
+  {
+    id: 'poi-ref', // 做线的基层使用，铁路
+    type: 'fill',
+    source: LevelConfig.addLv7,
+    'source-layer': 'empty',
+    paint: {
+      'fill-opacity': 0
+    }
+  }
+];
+
 const townArr = [
   { id: 'POI_XZ', src: 'XZ_HZ' },
   { id: 'LAYER15_CUN', src: 'CUN15' }
@@ -820,6 +832,7 @@ const cityLayer = [
 ];
 
 export default [
+  ...poiRef,
   ...townArr,
   ...districtArr,
   ...travelArr,

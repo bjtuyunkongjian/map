@@ -5,6 +5,15 @@ import { LevelConfig } from 'tuyun-config';
 
 export default [
   {
+    id: 'water-ref', // 做线的基层使用，铁路
+    type: 'fill',
+    source: LevelConfig.addLv7,
+    'source-layer': 'empty',
+    paint: {
+      'fill-opacity': 0
+    }
+  },
+  {
     id: 'HAIYU', // 记录海域，河流的面状要素
     type: 'fill',
     source: LevelConfig.addLv7,

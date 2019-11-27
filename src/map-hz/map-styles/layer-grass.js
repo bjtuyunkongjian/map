@@ -5,6 +5,15 @@ import { LevelConfig } from 'tuyun-config';
 
 export default [
   {
+    id: 'grass-ref', // 做线的基层使用，铁路
+    type: 'fill',
+    source: LevelConfig.addLv7,
+    'source-layer': 'empty',
+    paint: {
+      'fill-opacity': 0
+    }
+  },
+  {
     id: 'HUAPU', // 绿地的面状要素
     type: 'fill',
     source: LevelConfig.addLv7,

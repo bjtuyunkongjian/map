@@ -414,7 +414,7 @@ layerId: 所需渲染图层的 id，所有图层的 id 不能重复
 options?: 配置项，默认为空，包括以下几个属性：
 
 - color?: 点的颜色，默认为红色，色值为 #RRGGBB/rgb(R,G,B)/rgba(R,G,B,ALPHA)
-- labelLayerId?: 该图层在 labelLayerId 之下，默认为空代表添加到所有图层之上
+- labelLayerId?: 该图层在 labelLayerId 之下，默认为空代表添加到所有图层之上。提供可用的参考图层有 water-ref，grass-ref，road-ref，road-name-ref，building-ref，poi-ref，分别代表水系，绿地，道路，道路名称，建筑物，兴趣点的底部图层。
 - strokeWidth?: 描边的宽度
 - strokeColor?: 描边的颜色
 - radius?: 点的半径
@@ -474,7 +474,7 @@ source: geojson 格式的数据
 layerId: 所需渲染图层的 id，所有图层的 id 不能重复
 options?: 配置项，默认为空，包括以下几个属性：
 
-- labelLayerId?: 该图层在 labelLayerId 之下，默认为空代表添加到所有图层之上
+- labelLayerId?: 该图层在 labelLayerId 之下，默认为空代表添加到所有图层之上。提供可用的参考图层有 water-ref，grass-ref，road-ref，road-name-ref，building-ref，poi-ref，分别代表水系，绿地，道路，道路名称，建筑物，兴趣点的底部图层。
 - width?: 线的宽度，默认为 1
 - color?: 线的颜色，默认为红色，色值为 #RRGGBB/rgb(R,G,B)/rgba(R,G,B,ALPHA)
 - dasharray?: 是否是虚线，实线用 [1] 表示，虚线用[realRercentage, imaginaryRercentage]，默认为实线
@@ -513,7 +513,7 @@ source: geojson 格式的数据
 layerId: 所需渲染图层的 id，所有图层的 id 不能重复
 options?: 配置项，默认为空，包括以下几个属性：
 
-- labelLayerId?: 该图层在 labelLayerId 之下，默认为空代表添加到所有图层之上
+- labelLayerId?: 该图层在 labelLayerId 之下，默认为空代表添加到所有图层之上。提供可用的参考图层有 water-ref，grass-ref，road-ref，road-name-ref，building-ref，poi-ref，分别代表水系，绿地，道路，道路名称，建筑物，兴趣点的底部图层。
 - color?: 面的颜色，默认为红色，色值为 #RRGGBB/rgb(R,G,B)/rgba(R,G,B,ALPHA)
 
 **返回结果**
@@ -549,7 +549,7 @@ source: geojson 格式的数据
 layerId: 所需渲染图层的 id，所有图层的 id 不能重复
 options?: 配置项，默认为空，包括以下几个属性：
 
-- labelLayerId: 该图层在 labelLayerId 之下，默认为空代表添加到所有图层之上
+- labelLayerId: 该图层在 labelLayerId 之下，默认为空代表添加到所有图层之上。提供可用的参考图层有 water-ref，grass-ref，road-ref，road-name-ref，building-ref，poi-ref，分别代表水系，绿地，道路，道路名称，建筑物，兴趣点的底部图层。
 - color: 线的颜色，默认为红色，色值为 #RRGGBB/rgb(R,G,B)/rgba(R,G,B,ALPHA)
 
 **返回结果**
@@ -586,7 +586,7 @@ layerId: 所需渲染图层的 id，所有图层的 id 不能重复
 options?: 配置项，默认为空，包括以下几个属性：
 
 - textColor?: 文字的颜色，默认为深灰色，色值为 #RRGGBB/rgb(R,G,B)/rgba(R,G,B,ALPHA)
-- labelLayerId?: 该图层在 labelLayerId 之下，默认为空代表添加到所有图层之上
+- labelLayerId?: 该图层在 labelLayerId 之下，默认为空代表添加到所有图层之上。提供可用的参考图层有 water-ref，grass-ref，road-ref，road-name-ref，building-ref，poi-ref，分别代表水系，绿地，道路，道路名称，建筑物，兴趣点的底部图层。
 - textHaloWith?: 描边的宽度，默认是 2 像素
 - textHaloColor?: 描边的颜色，默认为白色
 
@@ -624,7 +624,7 @@ layerId: 所需渲染图层的 id，所有图层的 id 不能重复
 options?: 配置项，默认为空，包括以下几个属性：
 
 - colorArr?: 点的颜色数组。数组中数值与色值间隔，默认为 [0, 'rgba(33,102,172,0)', 0.5, 'green', 0.8, 'yellow', 1, 'red']。数值取值范围为 0 到 1，色值为 #RRGGBB/rgb(R,G,B)/rgba(R,G,B,ALPHA)。
-- labelLayerId?: 该图层在 labelLayerId 之下，默认为空添加在建筑物之下。
+- labelLayerId?: 该图层在 labelLayerId 之下，默认为空代表添加到所有图层之上。提供可用的参考图层有 water-ref，grass-ref，road-ref，road-name-ref，building-ref，poi-ref，分别代表水系，绿地，道路，道路名称，建筑物，兴趣点的底部图层。
 - radius?: 热力图圆的半径，默认为 10。
 - opacity?: 透明度。默认为 1。
 
@@ -688,7 +688,7 @@ options?: 配置项，默认为空，包括以下几个属性：
 - size?: 图片缩放尺寸，默认为 1
 - rotate?: 图片和文字旋转角度，默认为 0
 - opacity?: 图片和文字的透明度，默认为 1
-- labelLayerId?: 该图层在 labelLayerId 之下，默认为空代表添加到所有图层之上
+- labelLayerId?: 该图层在 labelLayerId 之下，默认为空代表添加到所有图层之上。提供可用的参考图层有 water-ref，grass-ref，road-ref，road-name-ref，building-ref，poi-ref，分别代表水系，绿地，道路，道路名称，建筑物，兴趣点的底部图层。
 - rotationAlign?: 设置图片和文字旋转角度基于什么旋转。可选值为 map/viewport。当选择 map 时，会根据地图来旋转。当选择 viewport 时，会根据显示器屏幕来旋转。默认为 viewport。
 - pitchAlign?: 设置图片和文字倾斜角度基于什么倾斜。可选值为 map/viewport。当选择 map 时，会根据地图来倾斜。当选择 viewport 时，会根据显示器屏幕来倾斜。默认为 viewport。
 - placement?: 标签沿什么放置。可选值为 point/line/line-center。当选择 point 时，按点的经纬度来放置。当选择 line 时，沿线或者面，放于起始位置。当选择 line-center 时，放在线、面、多线、多面的中心位置。默认为 point。

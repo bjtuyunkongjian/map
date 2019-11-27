@@ -8,10 +8,13 @@ const fillExtrusionHeight = 16;
 
 export default [
   {
-    id: 'building-ref',
+    id: 'building-ref', // 建筑物基层
+    type: 'fill',
     source: LevelConfig.addLv7,
     'source-layer': 'empty',
-    type: 'fill-extrusion'
+    paint: {
+      'fill-opacity': 0
+    }
   },
   {
     id: '15_HOUSE', //15级房屋
