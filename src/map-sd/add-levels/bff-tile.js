@@ -12,7 +12,7 @@ import Other from './road-other';
 // import Water from './water';
 // import TileBoundary from './tile-boundary';
 
-import { BaseConfig } from 'tuyun-config';
+import Config from '../config';
 
 const visibleLevel = 7;
 
@@ -23,9 +23,7 @@ const style = {
       type: 'vector',
       scheme: 'tms',
       tiles: [
-        `${
-          BaseConfig.tileHost
-        }originMapServer/string?test=200&type=tms&zoom={z}&row={x}&column={y}`
+        `${Config.tileHost}originMapServer/string?test=200&type=tms&zoom={z}&row={x}&column={y}`
       ]
     }
   },

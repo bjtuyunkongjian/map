@@ -9,8 +9,6 @@ import React, { Component } from 'react';
 
 import BaseStyle from './map-styles/light-sd';
 import AddLevels from './add-levels';
-// import CustomLayer from './radar';
-// import CustomLayer from './police';
 
 export default class MapBoxDemo extends Component {
   componentDidMount() {

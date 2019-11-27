@@ -2,7 +2,7 @@ import mapboxgl from 'mapbox-gl';
 
 import BaseStyle from './map-styles/light-sd';
 import LevelStyles from './add-levels';
-import { BaseConfig } from 'tuyun-config';
+import Config from './config';
 
 import {
   AddLevel,
@@ -565,7 +565,7 @@ const transformStyle = userKey => {
 };
 
 const transformUrl = (style, userKey, encMap) => {
-  let preUrl = `${BaseConfig.apiHost}get-tiles/dev?key=${userKey}&${encMap.key}=${encMap.value}`;
+  let preUrl = `${Config.apiHost}get-tiles/dev?key=${userKey}&${encMap.key}=${encMap.value}`;
   const sources = style.sources || style.source;
   for (let key of Object.keys(sources)) {
     if (!sources[key]) continue;

@@ -13,7 +13,8 @@
  * 面在最底层，其次是线，其次是点；居民区在绿地上面，绿地在水系面上面
  */
 
-import { LevelConfig, BaseConfig } from 'tuyun-config';
+import { LevelConfig } from 'tuyun-config';
+import Config from '../config';
 
 // const areaColor = {
 //   370502: '#412f1f', /// 东营区
@@ -349,12 +350,12 @@ export default {
       type: 'vector',
       scheme: 'tms',
       tiles: [
-        `${BaseConfig.geoserverHost}geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_7L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`
+        `${Config.geoserverHost}geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_7L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`
       ]
     }
   },
-  sprite: `${BaseConfig.spriteHost}sprite/sprite`,
-  glyphs: `${BaseConfig.glyphsHost}font/{fontstack}/{range}.pbf`, // http://localhost:3000/static/fonts
+  sprite: `${Config.spriteHost}sprite/sprite`,
+  glyphs: `${Config.glyphsHost}font/{fontstack}/{range}.pbf`, // http://localhost:3000/static/fonts
   visibility: 'public',
   layers
 };

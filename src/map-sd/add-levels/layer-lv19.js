@@ -1,7 +1,8 @@
 //19级图层
 
-import { LevelConfig, BaseConfig } from 'tuyun-config';
+import { LevelConfig } from 'tuyun-config';
 import { FontColor } from 'tuyun-utils';
+import Config from '../config';
 
 const visibleLevel = 19;
 const symbolLabelLayerId = 'symbol-ref';
@@ -13,7 +14,7 @@ const style = {
       type: 'vector',
       scheme: 'tms',
       tiles: [
-        `${BaseConfig.geoserverHost}geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_19L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`
+        `${Config.geoserverHost}geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_19L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`
       ],
       minzoom: visibleLevel
     }
