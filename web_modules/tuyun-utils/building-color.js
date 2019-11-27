@@ -1,4 +1,4 @@
-import BuildingType from './building-type';
+import BuildingType from './building-type-hz';
 
 // const classifications = [
 //   { name: '党政机关、电台', type: '0' },
