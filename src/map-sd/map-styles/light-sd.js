@@ -37,19 +37,7 @@ const layers = [
   },
   // 面
   {
-    id: 'GVEGPL', // 记录了绿地
-    type: 'fill',
-    source: LevelConfig.addLv7,
-    'source-layer': 'GVEGPL_Merge',
-    paint: {
-      'fill-color': '#b5e9b6',
-      'fill-opacity': 1,
-      'fill-antialias': false
-    },
-    labelLayerId: 'GHYDPL_7L'
-  },
-  {
-    id: 'GHYDPL_7L', // 记录了一些水渠、河沟，水库的面状要素
+    id: 'water-ref', // 记录了一些水渠、河沟，水库的面状要素
     type: 'fill',
     source: LevelConfig.addLv7,
     'source-layer': 'GHYDPL_Merge', // py是面
@@ -81,6 +69,17 @@ const layers = [
     minzoom: ditchVisibleLevel,
     paint: {
       'fill-color': '#b3d8ff',
+      'fill-opacity': 1,
+      'fill-antialias': false
+    }
+  },
+  {
+    id: 'grass-ref', // 记录了绿地
+    type: 'fill',
+    source: LevelConfig.addLv7,
+    'source-layer': 'GVEGPL_Merge',
+    paint: {
+      'fill-color': '#b5e9b6',
       'fill-opacity': 1,
       'fill-antialias': false
     }
