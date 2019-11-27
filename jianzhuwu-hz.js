@@ -6,7 +6,7 @@ function readFunc(err, data) {
   if (err) {
     return console.error(err);
   }
-  const BuildingType = {};
+  const buiType = {};
   for (let item of data.toString().split('\n')) {
     if (!item.startsWith('#')) {
       const [key, value] = item.split('=');
@@ -17,17 +17,17 @@ function readFunc(err, data) {
         value === '3' ||
         value === '4'
       ) {
-        if (playgroundIds.indexOf(key) === -1) BuildingType[key] = value;
+        if (playgroundIds.indexOf(key) === -1) buiType[key] = value;
       } else if (value === '-1') {
-        delete BuildingType[key];
+        delete buiType[key];
       }
     }
   }
-  console.log(Object.keys(BuildingType).length);
+  console.log(Object.keys(buiType).length);
 
   fs.writeFile(
     './web_modules/tuyun-utils/building-type.js',
-    'export default ' + JSON.stringify(BuildingType),
+    'export default ' + JSON.stringify(buiType),
     writeFunc
   );
 }

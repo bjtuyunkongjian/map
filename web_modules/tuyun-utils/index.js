@@ -5,7 +5,6 @@
 // mapbox 用到的通用函数
 import AddLevel from './add-level'; // 添加图层
 import FontColor from './font-color'; // 底图 中精灵图对应的字体颜色
-import BuildingType from './building-type'; // 底图 中部分建筑物的类型
 import BuildingColor from './building-color'; // 底图 中部分建筑物的颜色
 // 判断函数
 import IsArray from './is-array'; // 判断是否为数组
@@ -54,7 +53,6 @@ import GlobalConst from './global-constant';
 export {
   AddLevel,
   FontColor,
-  BuildingType,
   BuildingColor,
   IsArray,
   IsEmpty,
