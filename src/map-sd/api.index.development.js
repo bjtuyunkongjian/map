@@ -11,6 +11,8 @@ import {
   AddTextLayer,
   Add3dLayer,
   AddLineLayer,
+  AddHeatMapLayer,
+  AddLoadedImageLayer,
   RemoveLayer
 } from 'tuyun-utils';
 
@@ -123,6 +125,12 @@ class TyMap {
 
   addTextLayer = (source, layerId, options = {}) =>
     AddTextLayer(mapArr[this.mapIndex], source, layerId, options);
+
+  addImageLayer = (source, layerId, options = {}) =>
+    AddLoadedImageLayer(mapArr[this.mapIndex], source, layerId, options);
+
+  addHeatMapLayer = (source, layerId, options = {}) =>
+    AddHeatMapLayer(mapArr[this.mapIndex], source, layerId, options);
 
   setFilter = (layerId, filterExpress) => {
     mapArr[this.mapIndex].setFilter(layerId, filterExpress);
