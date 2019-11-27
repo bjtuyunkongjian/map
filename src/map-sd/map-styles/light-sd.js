@@ -124,6 +124,8 @@ const layers = [
   //     'fill-antialias': false
   //   }
   // },
+
+  //////////////////////////////////////////////////////////////////////////////
   // 线
   {
     id: 'GBOULN', // 记录了各个镇的边界，有名字的记录的是省界和岛屿（name不为空）
@@ -178,6 +180,15 @@ const layers = [
     }
   },
 
+  {
+    id: 'road-ref', // 最下面的线
+    type: 'fill',
+    source: LevelConfig.addLv7,
+    'source-layer': 'empty',
+    paint: {
+      'fill-opacity': 0
+    }
+  },
   {
     id: 'line-grailn-ref', // 做线的基层使用，铁路
     type: 'fill',
@@ -250,6 +261,16 @@ const layers = [
       'fill-opacity': 0
     }
   },
+
+  {
+    id: 'road-name-ref', // 做线名称的基层使用
+    type: 'fill',
+    source: LevelConfig.addLv7,
+    'source-layer': 'empty',
+    paint: {
+      'fill-opacity': 0
+    }
+  },
   {
     id: 'line-name-ref', // 做线名称的基层使用
     type: 'fill',
@@ -261,7 +282,7 @@ const layers = [
   },
   /////////////////////////////
   {
-    id: '3d-ref', // 做三维建筑的基层使用
+    id: 'building-ref', // 做三维建筑的基层使用
     type: 'fill',
     source: LevelConfig.addLv7,
     'source-layer': 'empty',
@@ -274,7 +295,7 @@ const layers = [
   // 点
 
   {
-    id: 'GHYDPL_7L_NAME',
+    id: 'poi-ref',
     type: 'symbol',
     source: LevelConfig.addLv7,
     'source-layer': 'GHYDPL_Merge',

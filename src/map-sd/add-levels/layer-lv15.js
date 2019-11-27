@@ -22,7 +22,7 @@ const lineBgLabelLayerId_sd = 'line-sd-bg-ref';
 const lineNameLabelLayerId = 'symbol-ref';
 
 // const jqLabelLayerId = 'jq-ref';
-const threeLabelLayerId = '3d-ref';
+const threeLabelLayerId = 'building-ref';
 const fillExtrusionHeight = 16;
 
 // 3d 普通建筑颜色和透明度
