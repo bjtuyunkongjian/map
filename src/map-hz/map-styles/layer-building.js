@@ -8,6 +8,12 @@ const fillExtrusionHeight = 16;
 
 export default [
   {
+    id: 'building-ref',
+    source: LevelConfig.addLv7,
+    'source-layer': 'empty',
+    type: 'fill-extrusion'
+  },
+  {
     id: '15_HOUSE', //15级房屋
     source: LevelConfig.addLv7,
     'source-layer': 'RES_PY',

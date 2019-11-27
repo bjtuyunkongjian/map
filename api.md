@@ -4,7 +4,7 @@
 
 该地图的底层使用的 webgl 实现，请务必使用支持 webgl 的浏览器进行开发和测试。推荐使用 google chrome 浏览器，60 以上的版本。急速浏览器尽量使用 73 以上的版本。由于 windows xp 系统对 webgl 的支持很不友好，所以 windows 平台请使用 windows 7 以上的进行开发。
 
-查看 pdf 版本（当前最高版本: 2.4.14）接口文档：[点此下载](http://47.110.135.245:8080/docs/api.pdf)
+查看 pdf 版本（当前最高版本: 2.4.15）接口文档：[点此下载](http://47.110.135.245:8080/docs/api.pdf)
 
 注: **由于底层服务的改动，之前 1.x.x 版本对应的 js 包已不再维护，2019 年 3 月 12 日之前注册的 key 继续沿用，2019 年 3 月 12 日之后注册的 key 不再支持 1.x.x 版本。如有问题请与相关技术人员联系。**
 
@@ -23,7 +23,7 @@
   </head>
   <body style="width: 100%; height: 100%;">
     <div id="app" style="width: 100%; height: 100%;"></div>
-    <script src="http://ip:host/dir/ty-map-development.2.4.14.js"></script>
+    <script src="http://ip:host/dir/ty-map-development.2.4.15.js"></script>
     <script>
       const container = document.getElementById('app');
       const tyMap = new TyMap(container, { key: '你的对应的key' });
@@ -32,7 +32,7 @@
 </html>
 ```
 
-其中 TyMap 是 ty-map.2.4.14.js 中导出的唯一一个类。由于是 script 标签的形式引入，TyMap 也是一个全局对象。
+其中 TyMap 是 ty-map.2.4.15.js 中导出的唯一一个类。由于是 script 标签的形式引入，TyMap 也是一个全局对象。
 
 ## 需求
 
@@ -58,16 +58,16 @@
 
 ```html
 <!-- 地图引入文件 -->
-<script src="http://47.110.135.245:8080/third-party-api/ty-map-development.2.4.14.js"></script>
-<script src="http://47.110.135.245:8080/third-party-api/ty-map-production.2.4.14.js"></script>
+<script src="http://47.110.135.245:8080/third-party-api/ty-map-development.2.4.15.js"></script>
+<script src="http://47.110.135.245:8080/third-party-api/ty-map-production.2.4.15.js"></script>
 ```
 
 ### 下载第三方接口的 js 代码
 
-您可以从 <http://47.110.135.245:8080/third-party-api/ty-map-development.2.4.14.js> 或者 <http://47.110.135.245:8080/third-party-api/ty-map-production.2.4.14.js> 上下载图云空间第三方接口的对应版本到本地。其中 2.4.14 为版本号。然后通过
+您可以从 <http://47.110.135.245:8080/third-party-api/ty-map-development.2.4.15.js> 或者 <http://47.110.135.245:8080/third-party-api/ty-map-production.2.4.15.js> 上下载图云空间第三方接口的对应版本到本地。其中 2.4.15 为版本号。然后通过
 
 ```html
-<script src="dirname/ty-map-development.2.4.14.js"></script>
+<script src="dirname/ty-map-development.2.4.15.js"></script>
 ```
 
 的方式调用。
@@ -83,7 +83,7 @@
 通过 script 标签的方式将代码引入，
 
 ```html
-<script src="http://47.110.135.245:8080/third-party-api/ty-map-development.2.4.14.js"></script>
+<script src="http://47.110.135.245:8080/third-party-api/ty-map-development.2.4.15.js"></script>
 ```
 
 然后创建一个面积不为零的容器，比如创建一个 id 为 app 的 div 容器：
@@ -619,15 +619,14 @@ tyMap.onClick(() => {
 
 ```markdown
 **输入参数**
-source: geojson 格式的数据
+source: 点集合的 geojson 格式的数据
 layerId: 所需渲染图层的 id，所有图层的 id 不能重复
 options?: 配置项，默认为空，包括以下几个属性：
 
-- color?: 点的颜色，默认为红色，色值为 #RRGGBB/rgb(R,G,B)/rgba(R,G,B,ALPHA)
-- labelLayerId?: 该图层在 labelLayerId 之下，默认为空代表添加到所有图层之上
-- strokeWidth?: 描边的宽度
-- strokeColor?: 描边的颜色
-- radius?: 点的半径
+- colorArr?: 点的颜色数组。数组中数值与色值间隔，默认为 [0, 'rgba(33,102,172,0)', 0.5, 'green', 0.8, 'yellow', 1, 'red']。数值取值范围为 0 到 1，色值为 #RRGGBB/rgb(R,G,B)/rgba(R,G,B,ALPHA)。
+- labelLayerId?: 该图层在 labelLayerId 之下，默认为空添加在建筑物之下。
+- radius?: 热力图圆的半径，默认为 10。
+- opacity?: 透明度。默认为 1。
 
 **返回结果**
 null
@@ -722,26 +721,6 @@ function addLayer() {
   });
 }
 tyMap.onClick(addLayer);
-```
-
-添加图层对应的方法应该在地图初始化完成后调用。如果是在初始化同时添加图层，请使用 onLoad 方法。如下所示：
-
-```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
-tyMap.onLoad(() => {
-  const lnglatArr = [[lng1, lat1], [lng2, lat2], ...];
-  const geometry = lnglatArr.map(item => tyMap.point(item, { radius: 3 }));
-  const geojsonData = {
-    type: 'geojson',
-    data: tyMap.featureCollection(geometry)
-  };
-  tyMap.addCircleLayer(geojsonData, 'pointLayerId', {
-    color: 'rgba(0,0,0,0)',
-    strokeWidth: ['get', 'radius'],
-    strokeColor: '#4169E1',
-    labelLayerId: 'which id'
-  });
-});
 ```
 
 ### 20. setFilter(layerId, filterExpress)

@@ -238,7 +238,8 @@ const AddHeatMapLayer = (map, source, layerId, option = {}) => {
   const {
     colorArr = [0, 'rgba(33,102,172,0)', 0.5, 'green', 0.8, 'yellow', 1, 'red'],
     radius = 10,
-    opacity = 1
+    opacity = 1,
+    labelLayerId
   } = option;
   if (!map.getSource(layerId)) {
     map.addLayer(
@@ -259,7 +260,7 @@ const AddHeatMapLayer = (map, source, layerId, option = {}) => {
           'heatmap-opacity': opacity
         }
       },
-      'line-gd-ref'
+      labelLayerId || 'line-gd-ref'
     );
   } else {
     updateSource(map, layerId, source);
@@ -287,7 +288,7 @@ const AddLineLayer = (map, source, layerId, option = {}) => {
           'line-dasharray': dasharray || [1]
         }
       },
-      labelLayerId
+      labelLayerId || 'line-gd-ref'
     );
   } else {
     updateSource(map, layerId, source);
@@ -312,7 +313,7 @@ const AddPolygonLayer = (map, source, layerId, option = {}) => {
           'fill-color': color || '#f00'
         }
       },
-      labelLayerId
+      labelLayerId || 'line-gd-ref'
     );
   } else {
     updateSource(map, layerId, source);
