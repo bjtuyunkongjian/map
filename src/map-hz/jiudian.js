@@ -1,7 +1,7 @@
 import mapboxgl from 'mapbox-gl';
 
 import { THREE } from 'tuyun-utils';
-import { BaseConfig } from 'tuyun-config';
+import BaseConfig from './base-config';
 
 const {
   GLTFLoader,

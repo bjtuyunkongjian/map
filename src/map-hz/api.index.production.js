@@ -1,7 +1,7 @@
 import mapboxgl from 'mapbox-gl';
 
 import BaseStyle from './map-styles/light-sd';
-import { BaseConfig } from 'tuyun-config';
+import BaseConfig from './base-config';
 
 import {
   AddCircleLayer,

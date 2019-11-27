@@ -11,17 +11,14 @@ import BuildingColor from './building-color'; // 底图 中部分建筑物的颜
 import RemoveLayer from './remove-layer';
 import {
   AddCircleLayer,
-  AddNamePlateLayer,
   AddPolygonLayer,
   AddTextLayer,
   Add3dLayer,
   AddLineLayer,
   AddHeatMapLayer,
-  AddImageLayer,
   AddLoadedImageLayer
 } from './layer-control';
 import THREE from './three';
-// 全局要使用到的常量
 
 export {
   AddLevel,
@@ -29,13 +26,11 @@ export {
   BuildingColor,
   RemoveLayer,
   AddCircleLayer,
-  AddNamePlateLayer,
   AddPolygonLayer,
   AddTextLayer,
   Add3dLayer,
   AddLineLayer,
   AddHeatMapLayer,
-  AddImageLayer,
   AddLoadedImageLayer,
   THREE
 };

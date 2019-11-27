@@ -13,7 +13,9 @@
  * 面在最底层，其次是线，其次是点；居民区在绿地上面，绿地在水系面上面
  */
 
-import { LevelConfig, BaseConfig } from 'tuyun-config';
+import { LevelConfig } from 'tuyun-config';
+
+import BaseConfig from '../base-config';
 import LayerBackground from './layer-background';
 import LayerPlayground from './layer-playground';
 import LayerCounty from './layer-county';
