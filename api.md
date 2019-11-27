@@ -644,34 +644,13 @@ function addLayer() {
     data: tyMap.featureCollection(geometry)
   };
   tyMap.addCircleLayer(geojsonData, 'pointLayerId', {
-    color: 'rgba(0,0,0,0)',
-    strokeWidth: ['get', 'radius'],
-    strokeColor: '#4169E1',
     labelLayerId: 'which id'
   });
 }
 tyMap.onClick(addLayer);
 ```
 
-添加图层对应的方法应该在地图初始化完成后调用。如果是在初始化同时添加图层，请使用 onLoad 方法。如下所示：
-
-```javascript
-const tyMap = new TyMap(document.getElementById('app'), {key: '你的对应的key'});
-tyMap.onLoad(() => {
-  const lnglatArr = [[lng1, lat1], [lng2, lat2], ...];
-  const geometry = lnglatArr.map(item => tyMap.point(item, { radius: 3 }));
-  const geojsonData = {
-    type: 'geojson',
-    data: tyMap.featureCollection(geometry)
-  };
-  tyMap.addCircleLayer(geojsonData, 'pointLayerId', {
-    color: 'rgba(0,0,0,0)',
-    strokeWidth: ['get', 'radius'],
-    strokeColor: '#4169E1',
-    labelLayerId: 'which id'
-  });
-});
-```
+添加图层对应的方法应该在地图初始化完成后调用。详情参考 [添加点图层](#13-addcirclelayersource-layerid-options)
 
 ### 19. addImageLayer(source, layerId, options?)
 
@@ -695,7 +674,7 @@ options?: 配置项，默认为空，包括以下几个属性：
 - disableAvoid?: 禁用点与点之间的避让。默认点与点之间是会产生避让的，前面添加的点与后面添加的点发生冲突时，前面添加的点不显示。默认为 false。
 - textFit?: 图片是否适应文字。可选值为 none/width/height/both。当设置为 none 时，图片与文字是平级关系，图片在前，文字在后，否则文字在图片的上层。当设置为 width 时，图片根据文字的宽度等比例缩放。当设置为 height 时，图片根据文字的高度等比例缩放。当设置为 both 时，图片的高度和宽度和文字的高宽相对应。默认为 none。
 - textFitPaddng?: 图片与文字之间的 padding。默认为 [0, 0, 0, 0]。
-- hotAreaWidth?: 热区的宽度。此选项使得图片更方便点击，但不会与影响点与点之间的额避让关系。默认为 2。
+- hotAreaWidth?: 热区的宽度。此选项使得图片更方便点击，但不会与影响点与点之间的避让关系。默认为 2。
 - anchor?: 图片和文字相对经纬度的位置。可选值为 center/left/right/top/bottom/top-left/top-right/bottom-left/bottom-right。默认为 center。
 - text?: 文字。默认为 ''。
 - fontSize?: 文字大小。默认为 16。
@@ -716,12 +695,14 @@ function addLayer() {
     type: 'geojson',
     data: tyMap.featureCollection(geometry)
   };
-  tyMap.addCircleLayer(geojsonData, 'pointLayerId', {
+  tyMap.addImageLayer(geojsonData, 'pointLayerId', {
     imgUrl: `http://tuyunkongjian.com/test.png`
   });
 }
 tyMap.onClick(addLayer);
 ```
+
+添加图层对应的方法应该在地图初始化完成后调用。详情参考 [添加点图层](#13-addcirclelayersource-layerid-options)
 
 ### 20. setFilter(layerId, filterExpress)
 

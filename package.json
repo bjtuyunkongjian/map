@@ -8,7 +8,8 @@
     "build": "rm -rf ./dist/* && webpack --mode production",
     "clean": "rm -rf ./dist/* && rm -rf ./build-api/*",
     "deploy": "node ./bin/shell.js",
-    "build-api-hz": "node ./bin/build-api-hz.js"
+    "build-api-hz": "node ./bin/build-api-hz.js",
+    "build-api-sd": "node ./bin/build-api-sd.js"
   },
   "keywords": [],
   "author": "",

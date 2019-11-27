@@ -1,12 +1,14 @@
 import Path from 'path';
 import Package from './package.json';
 
+const city = 'sd';
+
 export default {
   mode: 'development',
-  entry: Path.resolve(__dirname, 'src/map/api.index.production.js'),
+  entry: Path.resolve(__dirname, `src/map-${city}/api.index.production.js`),
   output: {
     filename: `ty-map-production.${Package.version}.js`,
-    path: Path.resolve(__dirname, 'build-api')
+    path: Path.resolve(__dirname, `build-api-${city}`)
   },
   module: {
     rules: [
