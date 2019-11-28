@@ -1,4 +1,5 @@
 import { MapSource } from '../constant';
+import { Layout } from './common';
 
 const XiaoLu = [
   {
@@ -6,10 +7,7 @@ const XiaoLu = [
     type: 'line',
     source: MapSource,
     'source-layer': 'XiaoL',
-    layout: {
-      'line-cap': 'round',
-      'line-join': 'round'
-    },
+    layout: Layout,
     paint: {
       'line-width': {
         base: 2,
@@ -30,10 +28,7 @@ const XiaoLu = [
     type: 'line',
     source: MapSource,
     'source-layer': 'XiaoL',
-    layout: {
-      'line-cap': 'round',
-      'line-join': 'round'
-    },
+    layout: Layout,
     paint: {
       'line-width': {
         base: 2,

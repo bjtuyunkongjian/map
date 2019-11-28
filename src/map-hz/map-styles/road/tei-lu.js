@@ -1,4 +1,5 @@
 import { MapSource } from '../constant';
+import { Layout } from './common';
 
 const TieLu = [
   {
@@ -6,10 +7,7 @@ const TieLu = [
     type: 'line',
     source: MapSource,
     'source-layer': 'TRA_LRR_LN', // LN，line的简写
-    layout: {
-      'line-cap': 'round',
-      'line-join': 'round'
-    },
+    layout: Layout,
     paint: {
       'line-color': '#B6B3B7',
       'line-width': 2.4
@@ -20,10 +18,7 @@ const TieLu = [
     type: 'line',
     source: MapSource,
     'source-layer': 'TRA_LRR_LN', // LN，line的简写
-    layout: {
-      'line-cap': 'round',
-      'line-join': 'round'
-    },
+    layout: Layout,
     paint: {
       'line-color': '#FFFFFF',
       'line-dasharray': [5, 5],

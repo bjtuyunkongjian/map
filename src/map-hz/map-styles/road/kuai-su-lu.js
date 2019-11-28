@@ -1,4 +1,5 @@
 import { MapSource } from '../constant';
+import { Layout } from './common';
 
 const KuaiSuLu = [
   {
@@ -6,10 +7,7 @@ const KuaiSuLu = [
     type: 'line',
     source: MapSource,
     'source-layer': 'KSL-GJ',
-    layout: {
-      'line-join': 'round',
-      'line-cap': 'round'
-    },
+    layout: Layout,
     paint: {
       'line-width': {
         base: 2,
@@ -40,10 +38,7 @@ const KuaiSuLu = [
     type: 'line',
     source: MapSource,
     'source-layer': 'KSL-GJ',
-    layout: {
-      'line-cap': 'round',
-      'line-join': 'round'
-    },
+    layout: Layout,
     paint: {
       'line-width': {
         base: 2,

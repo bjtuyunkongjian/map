@@ -1,4 +1,5 @@
 import { MapSource } from '../constant';
+import { Layout } from './common';
 
 const XiangDao = [
   {
@@ -6,10 +7,7 @@ const XiangDao = [
     type: 'line',
     source: MapSource,
     'source-layer': 'XiangD',
-    layout: {
-      'line-join': 'round',
-      'line-cap': 'round'
-    },
+    layout: Layout,
     paint: {
       'line-width': {
         base: 2,
@@ -40,10 +38,7 @@ const XiangDao = [
     type: 'line',
     source: MapSource,
     'source-layer': 'XiangD',
-    layout: {
-      'line-cap': 'round',
-      'line-join': 'round'
-    },
+    layout: Layout,
     paint: {
       'line-width': {
         base: 2,

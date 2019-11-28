@@ -1,4 +1,5 @@
 import { MapSource } from '../constant';
+import { Layout } from './common';
 
 const ZhuGanDao = [
   {
@@ -6,10 +7,7 @@ const ZhuGanDao = [
     type: 'line',
     source: MapSource,
     'source-layer': 'ZGD',
-    layout: {
-      'line-join': 'round',
-      'line-cap': 'round'
-    },
+    layout: Layout,
     paint: {
       'line-width': {
         base: 2,
@@ -40,10 +38,7 @@ const ZhuGanDao = [
     type: 'line',
     source: MapSource,
     'source-layer': 'ZGD',
-    layout: {
-      'line-cap': 'round',
-      'line-join': 'round'
-    },
+    layout: Layout,
     paint: {
       'line-width': {
         base: 2,

@@ -1,4 +1,5 @@
 import { MapSource } from '../constant';
+import { Layout } from './common';
 
 const ditieMap = {
   '地铁２号线（在建中）': '#fd9a34',
@@ -16,10 +17,7 @@ const DiTie = [
     type: 'line',
     source: MapSource,
     'source-layer': 'DT',
-    layout: {
-      'line-cap': 'round',
-      'line-join': 'round'
-    },
+    layout: Layout,
     paint: {
       'line-width': {
         base: 2,

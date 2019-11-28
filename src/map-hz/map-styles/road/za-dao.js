@@ -1,4 +1,5 @@
 import { MapSource } from '../constant';
+import { Layout } from './common';
 
 const ZaDao = [
   {
@@ -6,10 +7,7 @@ const ZaDao = [
     type: 'line',
     source: MapSource,
     'source-layer': 'ZD',
-    layout: {
-      'line-join': 'round',
-      'line-cap': 'round'
-    },
+    layout: Layout,
     paint: {
       'line-width': {
         base: 2,
@@ -40,10 +38,7 @@ const ZaDao = [
     type: 'line',
     source: MapSource,
     'source-layer': 'ZD',
-    layout: {
-      'line-cap': 'round',
-      'line-join': 'round'
-    },
+    layout: Layout,
     paint: {
       'line-width': {
         base: 2,

@@ -1,4 +1,5 @@
 import { MapSource } from '../constant';
+import { Layout } from './common';
 
 const ZhiXian = [
   {
@@ -6,10 +7,7 @@ const ZhiXian = [
     type: 'line',
     source: MapSource,
     'source-layer': 'ZX',
-    layout: {
-      'line-join': 'round',
-      'line-cap': 'round'
-    },
+    layout: Layout,
     paint: {
       'line-width': {
         base: 2,
@@ -34,10 +32,7 @@ const ZhiXian = [
     source: MapSource,
     'source-layer': 'ZX',
 
-    layout: {
-      'line-cap': 'round',
-      'line-join': 'round'
-    },
+    layout: Layout,
     paint: {
       'line-width': {
         base: 2,

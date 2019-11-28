@@ -1,4 +1,5 @@
 import { MapSource } from '../constant';
+import { Layout } from './common';
 
 const GaoSu = [
   {
@@ -6,10 +7,7 @@ const GaoSu = [
     type: 'line',
     source: MapSource,
     'source-layer': 'GS',
-    layout: {
-      'line-join': 'round',
-      'line-cap': 'round'
-    },
+    layout: Layout,
     paint: {
       'line-width': {
         base: 2,
@@ -40,10 +38,7 @@ const GaoSu = [
     type: 'line',
     source: MapSource,
     'source-layer': 'GS',
-    layout: {
-      'line-cap': 'round',
-      'line-join': 'round'
-    },
+    layout: Layout,
     paint: {
       'line-width': {
         base: 2,
