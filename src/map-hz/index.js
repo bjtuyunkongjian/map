@@ -6,7 +6,7 @@
 import mapboxgl from 'mapbox-gl';
 import React, { Component } from 'react';
 
-import BaseStyle from './map-styles/light-sd';
+import BaseStyle from './map-styles';
 import ZjjdLayer from './jiudian';
 
 export default class MapBoxDemo extends Component {

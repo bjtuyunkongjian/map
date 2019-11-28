@@ -1,6 +1,6 @@
 import mapboxgl from 'mapbox-gl';
 
-import BaseStyle from './map-styles/light-sd';
+import BaseStyle from './map-styles';
 import BaseConfig from './base-config';
 
 import {
