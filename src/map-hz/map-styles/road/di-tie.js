@@ -1,4 +1,4 @@
-import { LevelConfig } from 'tuyun-config';
+import { MapSource } from '../constant';
 
 const ditieMap = {
   '地铁２号线（在建中）': '#fd9a34',
@@ -14,7 +14,7 @@ const DiTie = [
   {
     id: 'ditie', // 15级小路主色
     type: 'line',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'DT',
     layout: {
       'line-cap': 'round',

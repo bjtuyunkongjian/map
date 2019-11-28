@@ -1,10 +1,10 @@
-import { LevelConfig } from 'tuyun-config';
+import { MapSource } from '../constant';
 
 const GaoSu = [
   {
     id: 'gjl_bg',
     type: 'line',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'GS',
     layout: {
       'line-join': 'round',
@@ -38,7 +38,7 @@ const GaoSu = [
   {
     id: 'gjl',
     type: 'line',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'GS',
     layout: {
       'line-cap': 'round',

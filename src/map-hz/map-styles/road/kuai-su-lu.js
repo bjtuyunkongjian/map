@@ -1,10 +1,10 @@
-import { LevelConfig } from 'tuyun-config';
+import { MapSource } from '../constant';
 
 const KuaiSuLu = [
   {
     id: 'ksl_bg', //快速路的背景
     type: 'line',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'KSL-GJ',
     layout: {
       'line-join': 'round',
@@ -38,7 +38,7 @@ const KuaiSuLu = [
   {
     id: 'ksl',
     type: 'line',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'KSL-GJ',
     layout: {
       'line-cap': 'round',

@@ -1,10 +1,10 @@
-import { LevelConfig } from 'tuyun-config';
+import { MapSource } from '../constant';
 
 const ZhuGanDao = [
   {
     id: '9L_zgd_bg', // 主干道背景
     type: 'line',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'ZGD',
     layout: {
       'line-join': 'round',
@@ -38,7 +38,7 @@ const ZhuGanDao = [
   {
     id: '9L_zgd', // 路网图层（name字段），主干道
     type: 'line',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'ZGD',
     layout: {
       'line-cap': 'round',

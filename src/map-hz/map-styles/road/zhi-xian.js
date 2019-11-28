@@ -1,10 +1,10 @@
-import { LevelConfig } from 'tuyun-config';
+import { MapSource } from '../constant';
 
 const ZhiXian = [
   {
     id: 'zx_bg',
     type: 'line',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'ZX',
     layout: {
       'line-join': 'round',
@@ -31,7 +31,7 @@ const ZhiXian = [
   {
     id: 'zx', // 路网图层（name字段），县道
     type: 'line',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'ZX',
 
     layout: {

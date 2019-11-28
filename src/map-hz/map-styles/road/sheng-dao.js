@@ -1,10 +1,10 @@
-import { LevelConfig } from 'tuyun-config';
+import { MapSource } from '../constant';
 
 const ShengDao = [
   {
     id: 'shengdao_bg', // 省道背景
     type: 'line',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'SD',
     layout: {
       'line-join': 'round',
@@ -37,7 +37,7 @@ const ShengDao = [
   {
     id: 'shengdao', // 路网图层（name字段），省道
     type: 'line',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'SD',
     layout: {
       'line-cap': 'round',

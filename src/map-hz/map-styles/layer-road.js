@@ -1,10 +1,10 @@
-import { LevelConfig } from 'tuyun-config';
+import { MapSource } from './constant';
 
 const tielu = [
   {
     id: 'road-ref', // 做线的基层使用，铁路
     type: 'fill',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'empty',
     paint: {
       'fill-opacity': 0
@@ -13,7 +13,7 @@ const tielu = [
   {
     id: 'tielu_bg', // 记录了铁路，底层颜色灰色
     type: 'line',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'TRA_LRR_LN', // LN，line的简写
     layout: {
       'line-cap': 'round',
@@ -27,7 +27,7 @@ const tielu = [
   {
     id: 'tielu', // 记录了铁路，间隔白色
     type: 'line',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'TRA_LRR_LN', // LN，line的简写
     layout: {
       'line-cap': 'round',
@@ -55,7 +55,7 @@ const ditie = [
   {
     id: 'ditie', // 15级小路主色
     type: 'line',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'DT',
     layout: {
       'line-cap': 'round',
@@ -83,7 +83,7 @@ const xiaolu = [
   {
     id: 'LV15_XL_bg', // 15级小路背景
     type: 'line',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'XiaoL',
     layout: {
       'line-cap': 'round',
@@ -107,7 +107,7 @@ const xiaolu = [
   {
     id: 'LV15_XL', // 15级小路主色
     type: 'line',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'XiaoL',
     layout: {
       'line-cap': 'round',
@@ -134,7 +134,7 @@ const zadao = [
   {
     id: 'zd_bg', //匝道背景
     type: 'line',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'ZD',
     layout: {
       'line-join': 'round',
@@ -168,7 +168,7 @@ const zadao = [
   {
     id: 'zd', // 路网图层（name字段），匝道/立交
     type: 'line',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'ZD',
     layout: {
       'line-cap': 'round',
@@ -205,7 +205,7 @@ const zhixian = [
   {
     id: 'zx_bg',
     type: 'line',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'ZX',
     layout: {
       'line-join': 'round',
@@ -232,7 +232,7 @@ const zhixian = [
   {
     id: 'zx', // 路网图层（name字段），县道
     type: 'line',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'ZX',
 
     layout: {
@@ -263,7 +263,7 @@ const cigandao = [
   {
     id: 'cgd_bg',
     type: 'line',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'CGD',
     layout: {
       'line-join': 'round',
@@ -297,7 +297,7 @@ const cigandao = [
   {
     id: 'cgd',
     type: 'line',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'CGD',
     layout: {
       'line-cap': 'round',
@@ -334,7 +334,7 @@ const xiangdao = [
   {
     id: 'xiangdao_bg', //乡道
     type: 'line',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'XiangD',
     layout: {
       'line-join': 'round',
@@ -368,7 +368,7 @@ const xiangdao = [
   {
     id: 'xiangdao',
     type: 'line',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'XiangD',
     layout: {
       'line-cap': 'round',
@@ -405,7 +405,7 @@ const kuaisulu = [
   {
     id: 'ksl_bg', //快速路的背景
     type: 'line',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'KSL-GJ',
     layout: {
       'line-join': 'round',
@@ -439,7 +439,7 @@ const kuaisulu = [
   {
     id: 'ksl',
     type: 'line',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'KSL-GJ',
     layout: {
       'line-cap': 'round',
@@ -476,7 +476,7 @@ const zhugandao = [
   {
     id: '9L_zgd_bg', // 主干道背景
     type: 'line',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'ZGD',
     layout: {
       'line-join': 'round',
@@ -510,7 +510,7 @@ const zhugandao = [
   {
     id: '9L_zgd', // 路网图层（name字段），主干道
     type: 'line',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'ZGD',
     layout: {
       'line-cap': 'round',
@@ -547,7 +547,7 @@ const xiandao = [
   {
     id: 'xd_bg', // 县道背景
     type: 'line',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'XianD',
     layout: {
       'line-join': 'round',
@@ -581,7 +581,7 @@ const xiandao = [
   {
     id: 'xd', // 路网图层（name字段），县道
     type: 'line',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'XianD',
     layout: {
       'line-cap': 'round',
@@ -618,7 +618,7 @@ const shengdao = [
   {
     id: 'shengdao_bg', // 省道背景
     type: 'line',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'SD',
     layout: {
       'line-join': 'round',
@@ -651,7 +651,7 @@ const shengdao = [
   {
     id: 'shengdao', // 路网图层（name字段），省道
     type: 'line',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'SD',
     layout: {
       'line-cap': 'round',
@@ -687,7 +687,7 @@ const guodao = [
   {
     id: 'guodao_bg', // 国道背景
     type: 'line',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'GD',
     layout: {
       'line-join': 'round',
@@ -721,7 +721,7 @@ const guodao = [
   {
     id: 'guodao', // 路网图层（name字段），国道
     type: 'line',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'GD',
     layout: {
       'line-cap': 'round',
@@ -758,7 +758,7 @@ const gaosu = [
   {
     id: 'gjl_bg',
     type: 'line',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'GS',
     layout: {
       'line-join': 'round',
@@ -792,7 +792,7 @@ const gaosu = [
   {
     id: 'gjl',
     type: 'line',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'GS',
     layout: {
       'line-cap': 'round',

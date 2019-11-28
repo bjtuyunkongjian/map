@@ -1,10 +1,10 @@
-import { LevelConfig } from 'tuyun-config';
+import { MapSource } from '../constant';
 
 const RoadRef = [
   {
     id: 'road-ref', // 做线的基层使用，铁路
     type: 'fill',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'empty',
     paint: {
       'fill-opacity': 0

@@ -5,7 +5,7 @@
  * 水系 -> 绿地 -> 道路 -> 道路名称 -> 建筑物 -> POI
  */
 
-import { LevelConfig } from 'tuyun-config';
+import { MapSource } from './constant';
 
 import BaseConfig from '../base-config';
 import LayerBackground from './layer-background';
@@ -37,7 +37,7 @@ export default {
   name: 'ty-map',
   metadata: {},
   sources: {
-    [LevelConfig.addLv7]: {
+    [MapSource]: {
       type: 'vector',
       scheme: 'tms',
       tiles: [

@@ -1,10 +1,10 @@
-import { LevelConfig } from 'tuyun-config';
+import { MapSource } from '../constant';
 
 const XianDao = [
   {
     id: 'xd_bg', // 县道背景
     type: 'line',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'XianD',
     layout: {
       'line-join': 'round',
@@ -38,7 +38,7 @@ const XianDao = [
   {
     id: 'xd', // 路网图层（name字段），县道
     type: 'line',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'XianD',
     layout: {
       'line-cap': 'round',

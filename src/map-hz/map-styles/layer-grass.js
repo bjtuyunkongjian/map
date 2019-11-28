@@ -1,13 +1,13 @@
 /**
  * 7级图层配置
  */
-import { LevelConfig } from 'tuyun-config';
+import { MapSource } from './constant';
 
 export default [
   {
     id: 'grass-ref', // 做线的基层使用，铁路
     type: 'fill',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'empty',
     paint: {
       'fill-opacity': 0
@@ -16,7 +16,7 @@ export default [
   {
     id: 'HUAPU', // 绿地的面状要素
     type: 'fill',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'VEG_PY',
     paint: {
       'fill-color': '#b5e9b6',
@@ -27,7 +27,7 @@ export default [
   {
     id: 'VEG_PY_5', // 绿地的面状要素
     type: 'fill',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'VEG_PY_5',
     paint: {
       'fill-color': '#b5e9b6',

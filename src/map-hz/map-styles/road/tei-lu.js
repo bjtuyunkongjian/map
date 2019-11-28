@@ -1,10 +1,10 @@
-import { LevelConfig } from 'tuyun-config';
+import { MapSource } from '../constant';
 
 const TieLu = [
   {
     id: 'tielu_bg', // 记录了铁路，底层颜色灰色
     type: 'line',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'TRA_LRR_LN', // LN，line的简写
     layout: {
       'line-cap': 'round',
@@ -18,7 +18,7 @@ const TieLu = [
   {
     id: 'tielu', // 记录了铁路，间隔白色
     type: 'line',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'TRA_LRR_LN', // LN，line的简写
     layout: {
       'line-cap': 'round',

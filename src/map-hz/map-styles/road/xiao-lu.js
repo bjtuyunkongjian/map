@@ -1,10 +1,10 @@
-import { LevelConfig } from 'tuyun-config';
+import { MapSource } from '../constant';
 
 const XiaoLu = [
   {
     id: 'LV15_XL_bg', // 15级小路背景
     type: 'line',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'XiaoL',
     layout: {
       'line-cap': 'round',
@@ -28,7 +28,7 @@ const XiaoLu = [
   {
     id: 'LV15_XL', // 15级小路主色
     type: 'line',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'XiaoL',
     layout: {
       'line-cap': 'round',

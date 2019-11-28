@@ -1,10 +1,10 @@
-import { LevelConfig } from 'tuyun-config';
+import { MapSource } from '../constant';
 
 const ZaDao = [
   {
     id: 'zd_bg', //匝道背景
     type: 'line',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'ZD',
     layout: {
       'line-join': 'round',
@@ -38,7 +38,7 @@ const ZaDao = [
   {
     id: 'zd', // 路网图层（name字段），匝道/立交
     type: 'line',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'ZD',
     layout: {
       'line-cap': 'round',

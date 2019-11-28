@@ -1,10 +1,10 @@
-import { LevelConfig } from 'tuyun-config';
+import { MapSource } from '../constant';
 
 const GuoDao = [
   {
     id: 'guodao_bg', // 国道背景
     type: 'line',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'GD',
     layout: {
       'line-join': 'round',
@@ -38,7 +38,7 @@ const GuoDao = [
   {
     id: 'guodao', // 路网图层（name字段），国道
     type: 'line',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'GD',
     layout: {
       'line-cap': 'round',

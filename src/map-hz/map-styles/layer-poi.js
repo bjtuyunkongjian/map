@@ -1,10 +1,10 @@
-import { LevelConfig } from 'tuyun-config';
+import { MapSource } from './constant';
 
 const poiRef = [
   {
     id: 'poi-ref', // 做线的基层使用，铁路
     type: 'fill',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'empty',
     paint: {
       'fill-opacity': 0
@@ -19,7 +19,7 @@ const townArr = [
   return {
     id: item.id,
     type: 'symbol',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': item.src,
     layout: {
       'text-field': '{Name}',
@@ -47,7 +47,7 @@ const districtArr = [{ id: 'QX_7L', src: 'QX_HZ' }].map(item => {
   return {
     id: item.id, //区，县的POI
     type: 'symbol',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': item.src,
     layout: {
       'text-field': '{Name}',
@@ -91,7 +91,7 @@ const travelArr = [
   return {
     id: item.id,
     type: 'symbol',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': item.src,
     layout: {
       'text-field': '{Name}',
@@ -127,7 +127,7 @@ const stationArr = [
   return {
     id: item.id,
     type: 'symbol',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': item.src,
     layout: {
       'text-field': '{Name}',
@@ -160,7 +160,7 @@ const policeStationArr = [
   return {
     id: item.id,
     type: 'symbol',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': item.src,
     layout: {
       'text-field': '{NAME}',
@@ -194,7 +194,7 @@ const governmentArr = [
   return {
     id: item.id,
     type: 'symbol',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': item.src,
     layout: {
       'text-field': '{NAME}',
@@ -245,7 +245,7 @@ const schoolArr = [
   return {
     id: item.id,
     type: 'symbol',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': item.src,
     layout: {
       'text-field': '{Name}',
@@ -284,7 +284,7 @@ const parkArr = [
   return {
     id: item.id,
     type: 'symbol',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': item.src,
     layout: {
       'text-field': '{Name}',
@@ -321,7 +321,7 @@ const hospitalArr = [
   return {
     id: item.id,
     type: 'symbol',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': item.src,
     layout: {
       'text-field': '{Name}',
@@ -358,7 +358,7 @@ const bridgeArr = [
   return {
     id: item.id,
     type: 'symbol',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': item.src,
     layout: {
       'text-field': '{Name}',
@@ -394,7 +394,7 @@ const facilityArr = [
   return {
     id: item.id,
     type: 'symbol',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': item.src,
     layout: {
       'text-field': '{Name}',
@@ -428,7 +428,7 @@ const healthArr = [
   return {
     id: item.id,
     type: 'symbol',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': item.src,
     layout: {
       'text-field': '{Name}',
@@ -462,7 +462,7 @@ const restaurantArr = [
   return {
     id: item.id,
     type: 'symbol',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': item.src,
     layout: {
       'text-field': '{Name}',
@@ -496,7 +496,7 @@ const companyArr = [
   return {
     id: item.id,
     type: 'symbol',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': item.src,
     layout: {
       'text-field': '{Name}',
@@ -529,7 +529,7 @@ const insuranceArr = [
   return {
     id: item.id,
     type: 'symbol',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': item.src,
     layout: {
       'text-field': '{Name}',
@@ -564,7 +564,7 @@ const residentArr = [
   return {
     id: item.id,
     type: 'symbol',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': item.src,
     layout: {
       'text-field': '{Name}',
@@ -594,7 +594,7 @@ const hotelArr = [{ id: 'LV18_ZS', src: 'ZS18' }].map(item => {
   return {
     id: item.id,
     type: 'symbol',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': item.src,
     layout: {
       'text-field': '{Name}',
@@ -624,7 +624,7 @@ const agricultureArr = [{ id: 'LV17_NLMYY', src: 'NLMYY17' }].map(item => {
   return {
     id: item.id,
     type: 'symbol',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': item.src,
     layout: {
       'text-field': '{Name}',
@@ -657,7 +657,7 @@ const marketArr = [
   return {
     id: item.id,
     type: 'symbol',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': item.src,
     layout: {
       'text-field': '{Name}',
@@ -687,7 +687,7 @@ const sportsArr = [{ id: 'LV17_YDXX', src: 'YDXX17' }].map(item => {
   return {
     id: item.id,
     type: 'symbol',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': item.src,
     layout: {
       'text-field': '{Name}',
@@ -717,7 +717,7 @@ const scienceArr = [{ id: 'KJJJSFW15', src: 'KJJJSFW15' }].map(item => {
   return {
     id: item.id,
     type: 'symbol',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': item.src,
     layout: {
       'text-field': '{Name}',
@@ -747,7 +747,7 @@ const trafficLayer = [
   {
     id: 'traffic',
     type: 'symbol',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'JTYSCC16',
     layout: {
       'text-field': '{Name}',
@@ -776,7 +776,7 @@ const subway = [
   {
     id: 'ditiezhan_name',
     type: 'symbol',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'DTZ',
     layout: {
       'text-field': '{Name}',
@@ -805,7 +805,7 @@ const cityLayer = [
   {
     id: 'DJS', // 地级市
     type: 'symbol',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'DJS_HZ',
     maxzoom: 13,
     layout: {

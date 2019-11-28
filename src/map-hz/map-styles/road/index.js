@@ -1,3 +1,3 @@
-import { LevelConfig } from 'tuyun-config';
+import { MapSource } from '../constant';
 
 export default [];

@@ -1,4 +1,4 @@
-import { LevelConfig } from 'tuyun-config';
+import { MapSource } from './constant';
 import { BuildingColor } from 'tuyun-utils';
 
 // 3d 普通建筑颜色和透明度
@@ -10,7 +10,7 @@ export default [
   {
     id: 'building-ref', // 建筑物基层
     type: 'fill',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'empty',
     paint: {
       'fill-opacity': 0
@@ -18,7 +18,7 @@ export default [
   },
   {
     id: '15_HOUSE', //15级房屋
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'RES_PY',
     type: 'fill-extrusion',
     paint: {
@@ -42,7 +42,7 @@ export default [
   },
   {
     id: '15_BUILDING', //15级居民地
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'RES_PY1',
     type: 'fill-extrusion',
     paint: {

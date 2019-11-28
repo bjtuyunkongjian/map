@@ -1,10 +1,10 @@
-import { LevelConfig } from 'tuyun-config';
+import { MapSource } from './constant';
 
 const rdNameRef = [
   {
     id: 'road-name-ref', // 做线的基层使用，铁路
     type: 'fill',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'empty',
     paint: {
       'fill-opacity': 0
@@ -16,7 +16,7 @@ const xiaolu = [
   {
     id: 'xiaolu-name',
     type: 'symbol',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'XiaoL',
     layout: {
       'text-field': '{FNAME}',
@@ -41,7 +41,7 @@ const zadao = [
   {
     id: 'zd_name',
     type: 'symbol',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'ZD',
     layout: {
       'text-field': {
@@ -71,7 +71,7 @@ const zhixian = [
   {
     id: 'zhixian_name',
     type: 'symbol',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'ZX',
     layout: {
       'text-field': {
@@ -111,7 +111,7 @@ const cigandao = [
   {
     id: 'cgd_name', // 次干道
     type: 'symbol',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'CGD',
     layout: {
       'text-field': {
@@ -152,7 +152,7 @@ const xiangdao = [
   {
     id: 'xiangdao_name',
     type: 'symbol',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'XiangD',
     layout: {
       'text-field': {
@@ -192,7 +192,7 @@ const kuaisulu = [
   {
     id: 'ksl_name', // 快速路名称
     type: 'symbol',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'KSL-GJ',
     layout: {
       'text-field': {
@@ -234,7 +234,7 @@ const zhugandao = [
   {
     id: 'zgd_name', // 主干道名称
     type: 'symbol',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'ZGD',
     layout: {
       'text-field': {
@@ -276,7 +276,7 @@ const xiandao = [
   {
     id: 'xiandao_name', // xiandao
     type: 'symbol',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'XianD',
     layout: {
       'text-field': {
@@ -318,7 +318,7 @@ const shengdao = [
   {
     id: 'shengdao_name', // 省道名称
     type: 'symbol',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'SD',
     layout: {
       'text-field': '{FNAME}',
@@ -353,7 +353,7 @@ const shengdao = [
   {
     id: 'shengdao_icon', // 省道图标
     type: 'symbol',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'SD',
     filter: ['!=', 'ROADCODE', ''],
     layout: {
@@ -382,7 +382,7 @@ const guodao = [
   {
     id: 'guodao_icon', // 国道图标
     type: 'symbol',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'GD',
     filter: ['!=', 'ROADCODE', ''],
     layout: {
@@ -408,7 +408,7 @@ const guodao = [
   {
     id: 'guodao_name', // 国道名称
     type: 'symbol',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'GD',
     layout: {
       'text-field': '{FNAME}',
@@ -445,7 +445,7 @@ const gaosu = [
   {
     id: 'gaosu_name',
     type: 'symbol',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'GS',
     // minzoom: _visibleLevel,
     layout: {

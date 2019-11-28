@@ -1,10 +1,10 @@
-import { LevelConfig } from 'tuyun-config';
+import { MapSource } from '../constant';
 
 const CiGanDao = [
   {
     id: 'cgd_bg',
     type: 'line',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'CGD',
     layout: {
       'line-join': 'round',
@@ -38,7 +38,7 @@ const CiGanDao = [
   {
     id: 'cgd',
     type: 'line',
-    source: LevelConfig.addLv7,
+    source: MapSource,
     'source-layer': 'CGD',
     layout: {
       'line-cap': 'round',
