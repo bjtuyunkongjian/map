@@ -1,6 +1,6 @@
 import mapboxgl from 'mapbox-gl';
 
-import BaseStyle from './map-styles';
+import MapStyles from './map-styles';
 import BaseConfig from './base-config';
 
 import {
@@ -63,7 +63,7 @@ class TyMap {
       return Object.create({});
     }
     const tyMap = new mapboxgl.Map({
-      style: BaseStyle,
+      style: MapStyles,
       container: container,
       hash,
       center,
@@ -558,7 +558,7 @@ const transformStyle = userKey => {
     encMap.key = pre;
     encMap.value = encArr.join('');
   }
-  transformUrl(BaseStyle, userKey, encMap);
+  transformUrl(MapStyles, userKey, encMap);
 };
 
 const transformUrl = (style, userKey, encMap) => {

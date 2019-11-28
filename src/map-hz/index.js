@@ -6,7 +6,7 @@
 import mapboxgl from 'mapbox-gl';
 import React, { Component } from 'react';
 
-import BaseStyle from './map-styles';
+import MapStyles from './map-styles';
 import ZjjdLayer from './jiudian';
 
 export default class MapBoxDemo extends Component {
@@ -27,7 +27,7 @@ export default class MapBoxDemo extends Component {
     window._MAP_ = this.map = new mapboxgl.Map({
       hash: true,
       container: this._mapContainer,
-      style: BaseStyle,
+      style: MapStyles,
       showTileBoundaries: true,
       center: [120.208615, 30.245062],
       zoom: 17,
