@@ -9,7 +9,7 @@
 //   httpTimeOut: 5000
 // };
 
-// 杭州地图
+// 杭州地图 外网
 const BuildApiHost = {
   geoserverHost: `http://47.110.135.245:8081/`, // geoserver 地址
   spriteHost: `http://47.110.135.245:12808/`, // 精灵图端口
