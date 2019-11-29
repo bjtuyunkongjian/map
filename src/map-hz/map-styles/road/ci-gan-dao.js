@@ -1,6 +1,22 @@
 import { MapSource } from '../constant';
 import { Layout } from './common';
 
+// lw -> line width
+const baseLw = 2;
+// 等级增加的线宽
+const lvAddLw = [
+  [7, 0],
+  [10, 1],
+  [13, 2],
+  [14, 3],
+  [15, 5],
+  [17, 7],
+  [19, 9],
+  [20, 17],
+  [21, 20],
+  [22, 22]
+];
+
 const CiGanDao = [
   {
     id: 'cgd_bg',
