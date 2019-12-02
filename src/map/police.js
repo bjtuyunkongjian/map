@@ -48,7 +48,7 @@ const CustomLayer = {
     // use the three.js GLTF loader to add the 3D model to the three.js scene
     var loader = new GLTFLoader();
     loader.load(
-      'http://47.110.135.245:12808/static/policeman/file.gltf',
+      'http://47.110.135.245:12808/models/policeman/file.gltf',
       function(gltf) {
         this.scene.add(gltf.scene);
       }.bind(this)
