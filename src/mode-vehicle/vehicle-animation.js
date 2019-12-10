@@ -89,9 +89,7 @@ export default class VehicleAnimation {
     const _timeDiff = new Date().getTime() - _start;
     this.roadTime = (fetchInterval + delay - _timeDiff) / 1000; // 计算
     if (this.roadTime < 1) this.roadTime = 1; // 最小时间
-    const { carData, uuid } = res;
-    this.dataUid = uuid;
-    this.resCarData = carData;
+    this.resCarData = res;
     this.createVehicleMap();
   };
 
@@ -109,9 +107,7 @@ export default class VehicleAnimation {
     } else {
       this.roadTime = fetchInterval / 1000;
     }
-    const { carData, uuid } = res;
-    this.dataUid = uuid;
-    this.resCarData = carData;
+    this.resCarData = res;
   };
 
   onMoveEnd = async () => {
@@ -119,9 +115,8 @@ export default class VehicleAnimation {
     const { res, err } = await this.fetchReq();
     if (!res || err) return;
     if (_uuid !== this.uuid) return;
-    const { carData, uuid } = res;
-    if (this.dataUid === uuid) {
-      for (let item of carData) {
+    if (IsEmpty(res)) {
+      for (let item of res) {
         const { objectID, roadPoints, gpsPoints } = item;
         if (this.vehicleMap[objectID]) continue;
         const _road = roadPoints.length === 0 ? gpsPoints : roadPoints;
@@ -143,7 +138,7 @@ export default class VehicleAnimation {
         };
       }
     } else {
-      for (let item of carData) {
+      for (let item of res) {
         const { objectID, gpsPoints } = item;
         if (this.vehicleMap[objectID]) continue;
         this.vehicleMap[objectID] = {
@@ -161,11 +156,15 @@ export default class VehicleAnimation {
 
   fetchReq = () => {
     const _bounds = this.map.getBounds();
-    const _body = Object.assign({ points: _bounds }, this.fetchParam);
+    // GPSServer/twoOneCurrentCar?
+    // type=1&minx=114&maxx=121&miny=34&maxy=37
+    const _param =
+      `minX=${_bounds._sw.lng}&maxX=${_bounds._ne.lng}&minY=${
+        _bounds._sw.lat
+      }&maxY=${_bounds._ne.lat}&` + this.fetchParam;
     return FetchRequest({
-      url: this.fetchUrl || 'GPSServer/string',
-      method: 'POST',
-      body: _body
+      url: this.fetchUrl || 'GPSServer/twoOneCurrentCar?' + _param,
+      method: 'GET'
     });
   };
 

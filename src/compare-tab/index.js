@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { GlobalEvent, GloEventName } from 'tuyun-utils';
+import { GlobalEvent, GloEventName, RemoveLayer, LayerIds } from 'tuyun-utils';
 
 import SelectArea from './select-area';
 import SelectDate from './select-date';
@@ -46,16 +46,17 @@ export default class CompareTab extends Component {
 
   _onCompareView = async ({ visible }) => {
     GlobalEvent.emit(GloEventName.closeTabView); // 出现比对碰撞，人口/单位/房屋/案件/警情弹框消失
-    GlobalEvent.emit(GloEventName.closeJurisdictionData); // 出现比对碰撞，关闭辖区数据
-    GlobalEvent.emit(GloEventName.changeLMVehicleType); // 关闭辖区数据
+    GlobalEvent.emit(GloEventName.closeJurisdictionData); // 关闭辖区数据
+    GlobalEvent.emit(GloEventName.changeLMVehicleType); // 关闭两客一危
+    GlobalEvent.emit(GloEventName.closeCrossTab); // 关闭交叉研判
     const { visible: curVisible } = this.state;
     if (visible === curVisible) return; //重复点击保护
     if (visible) {
       await this.setState({ visible: visible, animate: 'slide-in' });
+      Event.emit(EventName.toggleVisible, { visible });
     } else {
-      await this.setState({ visible: visible, animate: '' });
+      this._onCloseCompare();
     }
-    Event.emit(EventName.toggleVisible, { visible });
   };
 
   _onCloseCompare = async () => {
@@ -63,6 +64,8 @@ export default class CompareTab extends Component {
     if (!curVisible) return; //重复点击保护
     await this.setState({ visible: false, animate: '' });
     Event.emit(EventName.toggleVisible, { visible: false });
+    Event.emit(EventName.changeSelectedBar, '');
+    RemoveLayer(_MAP_, LayerIds.compareBar.point);
   };
 
   _toggleCompare = () => {

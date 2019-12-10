@@ -3,13 +3,14 @@
  */
 import { FetchRequest } from 'tuyun-utils';
 
-//
-export const FetchVehicleData = async body => {
-  Object.assign(body, { test: 'locationCar' });
+/**
+ * GPSServer/twoOneCurrentCar?
+ * type=1&minx=114&maxx=121&miny=34&maxy=37
+ */
+export const FetchVehicleData = async param => {
   const { res, err } = await FetchRequest({
-    url: 'GPSServer/string',
-    method: 'POST',
-    body
+    url: 'GPSServer/twoOneCurrentCar?' + param,
+    method: 'GET'
   });
   return { res, err };
 };

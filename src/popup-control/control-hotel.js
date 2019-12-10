@@ -5,7 +5,7 @@ export default class ControlHotel extends Component {
   state = {
     hotelName: '',
     listInfo: [],
-    pageNum: '',
+    pageNum: 1,
     totalPage: ''
   };
 
@@ -15,52 +15,51 @@ export default class ControlHotel extends Component {
     code: ''
   };
 
-  componentWillReceiveProps(props, nextProps) {
-    const { props: curCode } = props;
+  componentDidMount() {
+    const { code } = this.props;
+    this._fetchListInfo(code);
+  }
+
+  componentWillUpdate(nextProps) {
+    const { props: curCode } = this.props;
     const { code: nextCode } = nextProps;
     if (curCode === nextCode) return;
     // TODO 发请求
-    this._fetchListInfo();
+    this._fetchListInfo(nextCode);
   }
 
   render() {
-    const { hotelName, listInfo, pageNum, totalPage } = this.state;
+    const { hotelName, listInfo, pageNum } = this.state;
     return (
-      <div>
-        <div> {hotelName}</div>
+      <div className="table-box">
+        <div className="table-title">宾馆名称： {hotelName}</div>
 
         <ul className="table-header">
-          <li>旅客姓名</li>
-          <li>证件号码</li>
-          <li>地址</li>
-          <li>入住时间</li>
-          <li>退宿时间</li>
-          <li>房间号</li>
+          <li className="header-item">旅客姓名</li>
+          <li className="header-item">证件号码</li>
+          <li className="header-item">地址</li>
+          <li className="header-item">入住时间</li>
+          <li className="header-item">退宿时间</li>
+          <li className="header-item">房间号</li>
         </ul>
 
         {listInfo.map((item, index) => (
           <ul className="table-row" key={index}>
-            <li>{item.name}</li>
-            <li>{item.idCode}</li>
-            <li>{item.address}</li>
-            <li>{item.inTime}</li>
-            <li>{item.outTime}</li>
-            <li>{item.noRoom}</li>
+            <li className="row-item basis-6">{item.name || '无'}</li>
+            <li className="row-item basis-6">{item.idCode || '无'}</li>
+            <li className="row-item basis-6">{item.address || '无'}</li>
+            <li className="row-item basis-6">{item.inTime || '无'}</li>
+            <li className="row-item basis-6">{item.outTime || '无'}</li>
+            <li className="row-item basis-6">{item.noRoom || '无'}</li>
           </ul>
         ))}
 
-        <div>
-          <div
-            className={`prev-page ${pageNum === 1 ? 'hidden' : ''}`}
-            onClick={() => this._prePage()}
-          >
+        <div className="page">
+          <div className="prev-page" onClick={() => this._prePage()}>
             前一页
           </div>
           <div className="current-page">第{pageNum}页</div>
-          <div
-            className={`next-page ${pageNum === totalPage ? 'hidden' : ''}`}
-            onClick={() => this._nextPage()}
-          >
+          <div className="next-page" onClick={() => this._nextPage()}>
             后一页
           </div>
         </div>
@@ -71,24 +70,26 @@ export default class ControlHotel extends Component {
   _fetchListInfo = async code => {
     // code=3724120110&pageSize=10&pageNum=1
     const { pageNum } = this.state;
-    const _param = `code=${code}&pageSize=${_pagesize}&pageNum=${pageNum}`;
-    const { res, err } = await GetBayonetPop(_param);
+    const _param = `code=${code}&pageSize=${this._pagesize}&pageNum=${pageNum}`;
+    const { res, err } = await GetHotelPop(_param);
     if (!res || err) return;
-    const { list, name, totalPage } = res;
-    this.setState({ listInfo: list, hotelName: name, totalPage });
+    const { list, yycsmc, totalPage } = res;
+    this.setState({ listInfo: list, hotelName: yycsmc, totalPage });
   };
 
   _prePage = async () => {
     const { pageNum } = this.state;
     if (pageNum === 1) return;
     await this.setState({ pageNum: pageNum - 1 });
-    this._fetchListInfo();
+    const { code } = this.props;
+    this._fetchListInfo(code);
   };
 
   _nextPage = async () => {
     const { pageNum, totalPage } = this.state;
     if (pageNum === totalPage) return;
     await this.setState({ pageNum: pageNum + 1 });
-    this._fetchListInfo();
+    const { code } = this.props;
+    this._fetchListInfo(code);
   };
 }

@@ -71,8 +71,10 @@ export default class TabView extends Component {
     GlobalEvent.emit(GloEventName.closeCompareTab); // 关闭比对碰撞
     GlobalEvent.emit(GloEventName.closeJurisdictionData); // 关闭辖区数据
     GlobalEvent.emit(GloEventName.changeLMVehicleType); // 关闭两客一危
+    GlobalEvent.emit(GloEventName.closeCrossTab); // 关闭交叉研判
     const { animate, visible: curVisible } = this.state;
     if (tabName === this._curTabName && visible === curVisible) return; // 重复点击保护
+    this._selectedTabs = [];
     this._figureToSelectTab(visible, tabName, color); // 计算选中的 tab
     const _showTab = this._selectedTabs.length > 0;
     if (_showTab && animate !== 'slide-in') {

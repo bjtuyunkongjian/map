@@ -16,6 +16,7 @@ import LeftMenu from './left-menu';
 import TabView from './tab-view'; // 右侧联动显示
 import CompareTab from './compare-tab'; //对比碰撞右侧菜单显示
 import JurisdictionTab from './jurisdiction-tab'; // 右侧辖区数据显示
+import CrossTab from './cross-tab'; // 交叉研判
 import DetailPop from './detail-population'; // 重点人口详情
 import PopupPopulation from './popup-population'; // 人口弹框
 import PopupPopNameplate from './popup-pop-nameplate'; // 人口铭牌弹框
@@ -38,6 +39,7 @@ import ProgressPosituation from './progress-posituation'; // 警情，24小时�
 import PopupBayonet from './popup-bayonet'; // 卡口弹窗
 import PopupIcafe from './popup-icafe'; //网吧弹窗
 import PopupHotel from './popup-hotel'; //宾馆弹窗
+import PopupControl from './popup-control'; //布控重点人员弹框
 class MapApp extends Component {
   render() {
     const _userAgent = navigator.userAgent;
@@ -58,6 +60,7 @@ class MapApp extends Component {
         <FeaturesMenu />
         <CompareTab />
         <JurisdictionTab />
+        <CrossTab />
         {/* 弹窗 */}
         <PopupPopulation />
         <PopupPopNameplate />
@@ -72,6 +75,7 @@ class MapApp extends Component {
         <PupupPosituation />
         <PopupCamera />
         <SerachResult />
+        <PopupControl />
         {/* detail 详情 */}
         <DetailPop />
         <DetailUnit />

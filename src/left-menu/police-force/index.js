@@ -129,10 +129,10 @@ export default class PoliceForce extends Component {
       const _param = `objectId=${objectID}`;
       const { res, err } = await GetPoliceDetail(_param);
       if (err || !res) return;
-      const { devicetypebig_name, name, policetypebig_name } = res;
-      const _deviceType = `设备名称：${devicetypebig_name || '暂无'}`;
+      const { deviceTypeBigName, name, policeTypeBigName } = res;
+      const _deviceType = `设备名称：${deviceTypeBigName || '暂无'}`;
       const _callNum = `呼号：${name || '暂无'}`;
-      const _policeType = `警种类型：${policetypebig_name || '暂无'}`;
+      const _policeType = `警种类型：${policeTypeBigName || '暂无'}`;
       this.setState({
         showDialog: true,
         dialogTitle: '警员信息',
@@ -146,10 +146,10 @@ export default class PoliceForce extends Component {
       const _param = `objectId=${objectID}`;
       const { res, err } = await GetPoliceDetail(_param);
       if (err || !res) return;
-      const { devicetypebig_name, name, policetypebig_name } = res;
-      const _deviceType = `设备名称：${devicetypebig_name || '暂无'}`;
+      const { deviceTypeBigName, name, policeTypeBigName } = res;
+      const _deviceType = `设备名称：${deviceTypeBigName || '暂无'}`;
       const _carNum = `设备号：${name || '暂无'}`;
-      const _policeType = `警种类型：${policetypebig_name || '暂无'}`;
+      const _policeType = `警种类型：${policeTypeBigName || '暂无'}`;
       this.setState({
         showDialog: true,
         dialogTitle: '警车信息',
@@ -163,10 +163,10 @@ export default class PoliceForce extends Component {
       const _param = `objectId=${objectID}`;
       const { res, err } = await GetPoliceDetail(_param);
       if (err || !res) return;
-      const { devicetypebig_name, name, policetypebig_name } = res;
-      const _deviceType = `设备名称：${devicetypebig_name || '暂无'}`;
+      const { deviceTypeBigName, name, policeTypeBigName } = res;
+      const _deviceType = `设备名称：${deviceTypeBigName || '暂无'}`;
       const _carNum = `设备号：${name || '暂无'}`;
-      const _policeType = `警种类型：${policetypebig_name || '暂无'}`;
+      const _policeType = `警种类型：${policeTypeBigName || '暂无'}`;
       this.setState({
         showDialog: true,
         dialogTitle: '警车信息',
@@ -604,7 +604,9 @@ const handheldStyle = {
       scheme: 'tms',
       tiles: [
         // GPSServer/police?zoom=10&row=11&column=8&type=tms
-        `${BaseConfig.bffHost}GPSServer/police?type=tms&zoom={z}&row={x}&column={y}`
+        `${
+          BaseConfig.bffHost
+        }GPSServer/police?type=tms&zoom={z}&row={x}&column={y}`
       ],
       minzoom: visibleLevel
     }

@@ -219,13 +219,11 @@ export default class PolySearch extends Component {
     }
     GlobalEvent.emit(closeGlobalLoading);
     if (!res || err) return TuyunMessage.info('未搜到任何数据');
+    if (IsEmpty(res)) return TuyunMessage.info('区域内无对应数据');
     // 显示数据
     if (curType.value === 'camera') {
       const _features = res.map(item => {
         const { longitude, latitude, kdid, name, url } = item;
-        if (item.url) {
-          console.log(item, res.indexOf(item));
-        }
         return TurfPoint([longitude, latitude], {
           code: kdid,
           type: curType.value,
@@ -239,7 +237,9 @@ export default class PolySearch extends Component {
       };
       const { polyAreaReasult } = LayerIds;
       AddImageLayer(_MAP_, _geoJSON, polyAreaReasult.point, {
-        iconImage: 'camera_important'
+        iconImage: 'camera_important',
+        pitchAlignment: 'viewport',
+        rotationAlignment: 'viewport'
       });
     } else {
       const _features = res.map(item => {

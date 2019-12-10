@@ -53,8 +53,8 @@ export default class DateSelect extends Component {
       showModel
     } = this.state;
     return (
-      <div>
-        <div className="jurisdiction-date" onClick={this._showModel}>
+      <div className="cross-data-outer">
+        <div className="cross-date" onClick={this._showModel}>
           时间：
           <div className="selected-date">
             {FormatDate(new Date(showSY, showSM, showSD), fmtType)} 至{' '}

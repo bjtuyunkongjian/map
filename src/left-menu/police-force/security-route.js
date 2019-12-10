@@ -124,7 +124,8 @@ export default class SecurityRoute extends Component {
   };
 
   _fetchRouteDetail = async originName => {
-    const { res, err } = await FetchRouteInfo({ fileName: originName }); // 去后端请求数据
+    const _param = `fileName=${originName}`;
+    const { res, err } = await FetchRouteInfo(_param); // 去后端请求数据
     if (!res || err) return;
     const { features } = res;
     const _roadCoords = [];
@@ -182,6 +183,7 @@ export default class SecurityRoute extends Component {
           }
         },
         layout: {
+          'icon-anchor': 'bottom',
           'icon-image': '{image}',
           'icon-size': 0.9
         }

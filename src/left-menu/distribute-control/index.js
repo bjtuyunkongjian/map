@@ -111,17 +111,17 @@ export default class DistributeControl extends Component {
 
   _loadData = async () => {
     const { selectedTypes } = this.state;
-    if (selectedTypes.length === 0) {
-      this._removeAllLayers();
-      return;
-    }
+    if (selectedTypes.length === 0) return this._removeAllLayers();
+    GlobalEvent.emit(GloEventName.closeControlPop);
     const _bounds = _MAP_.getBounds();
     // minX=116.98261&maxX=118.98261&minY=36.64974&maxY=37.64974
     const _param = `minX=${_bounds._sw.lng}&maxX=${_bounds._ne.lng}&minY=${_bounds._sw.lat}&maxY=${_bounds._ne.lat}`;
     // 卡口
     if (selectedTypes.indexOf(BayonetOpt) > -1) {
       const { rgbHex, rgbHex2 } = BayonetOpt;
+      GlobalEvent.emit(GloEventName.showGlobalLoading);
       const { res, err } = await GetBayonetPosition(_param, rgbHex, rgbHex2);
+      GlobalEvent.emit(GloEventName.closeGlobalLoading);
       if (!res || err) return;
       const { geo, geo2 } = res;
       const { bayonet } = LayerIds;
@@ -137,14 +137,19 @@ export default class DistributeControl extends Component {
           AddCircleLayer(_MAP_, geo, bayonet.point);
         }
       }, 1000);
+    } else {
+      const { bayonet } = LayerIds;
+      clearInterval(this._bayonetIntervalId);
+      RemoveLayer(_MAP_, bayonet.point);
     }
     // 网吧 maxX=118.09357909623746&minY=36.96251473211209&maxY=38.96251473211209
     if (selectedTypes.indexOf(IcafeOpt) > -1) {
       const { rgbHex, rgbHex2 } = IcafeOpt;
+      GlobalEvent.emit(GloEventName.showGlobalLoading);
       const { res, err } = await GetIcafePosition(_param, rgbHex, rgbHex2);
+      GlobalEvent.emit(GloEventName.closeGlobalLoading);
       if (!res || err) return;
       const { geo, geo2 } = res;
-      console.log('geo', geo);
       const { icafe } = LayerIds;
       let _odd = false;
       clearInterval(this._icafeIntervalId);
@@ -152,18 +157,23 @@ export default class DistributeControl extends Component {
       AddCircleLayer(_MAP_, geo, icafe.point, _opt);
       this._icafeIntervalId = setInterval(() => {
         _odd = !_odd;
-
         if (_odd) {
           AddCircleLayer(_MAP_, geo2, icafe.point);
         } else {
           AddCircleLayer(_MAP_, geo, icafe.point);
         }
       }, 1000);
+    } else {
+      const { icafe } = LayerIds;
+      clearInterval(this._icafeIntervalId);
+      RemoveLayer(_MAP_, icafe.point);
     }
     // 宾馆
     if (selectedTypes.indexOf(HotelOpt) > -1) {
       const { rgbHex, rgbHex2 } = HotelOpt;
+      GlobalEvent.emit(GloEventName.showGlobalLoading);
       const { res, err } = await GetHotelPosition(_param, rgbHex, rgbHex2);
+      GlobalEvent.emit(GloEventName.closeGlobalLoading);
       if (!res || err) return;
       const { geo, geo2 } = res;
       const { hotel } = LayerIds;
@@ -179,6 +189,10 @@ export default class DistributeControl extends Component {
           AddCircleLayer(_MAP_, geo, hotel.point);
         }
       }, 1000);
+    } else {
+      const { hotel } = LayerIds;
+      clearInterval(this._hotelIntervalId);
+      RemoveLayer(_MAP_, hotel.point);
     }
   };
 
@@ -214,6 +228,7 @@ export default class DistributeControl extends Component {
 
   _clickBayonet = e => {
     const _isControl = e.features[0].properties.has;
+    const _name = e.features[0].properties.name;
     const { x, y } = _MAP_.project(e.lngLat);
     if (!_isControl) {
       const { showPopupBayonet } = GloEventName;
@@ -222,8 +237,7 @@ export default class DistributeControl extends Component {
         boxLeft: x,
         boxTop: y,
         lngLat: e.lngLat,
-        code: e.features[0].properties.code,
-        type: 'bayonet'
+        code: e.features[0].properties.code
       });
     } else {
       GlobalEvent.emit(GloEventName.showControlPop, {
@@ -231,7 +245,9 @@ export default class DistributeControl extends Component {
         boxLeft: x,
         boxTop: y,
         lngLat: e.lngLat,
-        code: e.features[0].properties.code
+        code: e.features[0].properties.code,
+        name: _name,
+        type: 'bayonet'
       });
     }
   };
@@ -270,7 +286,7 @@ export default class DistributeControl extends Component {
         boxLeft: x,
         boxTop: y,
         lngLat: e.lngLat,
-        code: e.features[0].properties.code
+        yycsdm: e.features[0].properties.yycsdm
       });
     } else {
       GlobalEvent.emit(GloEventName.showControlPop, {

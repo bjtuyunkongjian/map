@@ -38,3 +38,11 @@ export const GetChartData = async param => {
   });
   return { res, err };
 };
+
+export const GetPopDenisty = async param => {
+  const { res, err } = await FetchRequest({
+    url: 'mapServer/population/density?' + param,
+    method: 'GET'
+  });
+  return { res, err };
+};

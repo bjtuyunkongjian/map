@@ -3,58 +3,58 @@ import { GetBayonetPop } from './webapi';
 
 export default class ControlBayonet extends Component {
   state = {
-    bayonetName: '',
+    name: '',
     listInfo: [],
-    pageNum: '',
+    pageNum: 1,
     totalPage: ''
   };
 
-  _pagesize = 20;
+  _pagesize = 10;
 
   static defaultProps = {
-    code: ''
+    code: '',
+    name: ''
   };
+  componentDidMount() {
+    const { code } = this.props;
+    this._fetchListInfo(code);
+  }
 
-  componentWillReceiveProps(props, nextProps) {
-    const { props: curCode } = props;
+  componentWillUpdate(nextProps) {
+    const { props: curCode } = this.props;
     const { code: nextCode } = nextProps;
     if (curCode === nextCode) return;
     // TODO 发请求
-    this._fetchListInfo();
+    this._fetchListInfo(nextCode);
   }
 
   render() {
-    const { bayonetName, listInfo, pageNum, totalPage } = this.state;
+    const { name } = this.props;
+    const { listInfo, pageNum } = this.state;
     return (
-      <div>
-        <div> {bayonetName}</div>
+      <div className="table-box">
+        <div className="table-title">卡口名称: {name}</div>
 
         <ul className="table-header">
-          <li>车牌号</li>
-          <li>开始采集</li>
-          <li>结束采集</li>
+          <li className="header-item">车牌号</li>
+          <li className="header-item">开始采集</li>
+          <li className="header-item">结束采集</li>
         </ul>
 
         {listInfo.map((item, index) => (
           <ul className="table-row" key={index}>
-            <li>{item.plateNumber}</li>
-            <li>{item.captureTime}</li>
-            <li>{item.captureTime2}</li>
+            <li className="row-item basis-3">{item.plateNumber || '无'}</li>
+            <li className="row-item basis-3">{item.captureTime || '无'}</li>
+            <li className="row-item basis-3">{item.captureTime2 || '无'}</li>
           </ul>
         ))}
 
-        <div>
-          <div
-            className={`prev-page ${pageNum === 1 ? 'hidden' : ''}`}
-            onClick={() => this._prePage()}
-          >
+        <div className="page">
+          <div className="prev-page" onClick={() => this._prePage()}>
             前一页
           </div>
           <div className="current-page">第{pageNum}页</div>
-          <div
-            className={`next-page ${pageNum === totalPage ? 'hidden' : ''}`}
-            onClick={() => this._nextPage()}
-          >
+          <div className="next-page" onClick={() => this._nextPage()}>
             后一页
           </div>
         </div>
@@ -65,24 +65,26 @@ export default class ControlBayonet extends Component {
   _fetchListInfo = async code => {
     // code
     const { pageNum } = this.state;
-    const _param = `timeStart=1572007200&timeEnd=1572307200&pn=${pageNum}&length=${this._pagesize}&kkId=${code}`;
+    const _param = `pn=${pageNum}&length=${this._pagesize}&kkId=${code}`;
     const { res, err } = await GetBayonetPop(_param);
     if (!res || err) return;
-    const { list, name, totalPage } = res;
-    this.setState({ listInfo: list, bayonetName: name, totalPage });
+    const { data = [], totalPage } = res;
+    this.setState({ listInfo: data, bayonetName: name, totalPage });
   };
 
   _prePage = async () => {
     const { pageNum } = this.state;
     if (pageNum === 1) return;
     await this.setState({ pageNum: pageNum - 1 });
-    this._fetchListInfo();
+    const { code } = this.props;
+    this._fetchListInfo(code);
   };
 
   _nextPage = async () => {
     const { pageNum, totalPage } = this.state;
     if (pageNum === totalPage) return;
     await this.setState({ pageNum: pageNum + 1 });
-    this._fetchListInfo();
+    const { code } = this.props;
+    this._fetchListInfo(code);
   };
 }

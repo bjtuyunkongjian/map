@@ -16,8 +16,8 @@ import {
   FormatDate,
   RemoveLayer,
   LayerIds,
-  // AddCircleLayer,
-  AddImageLayer
+  AddCircleLayer
+  // AddImageLayer
 } from 'tuyun-utils';
 
 import Event, { EventName } from './event';
@@ -219,16 +219,68 @@ export default class ProgressBar extends Component {
     }
   };
 
+  // _renderFrame = () => {
+  //   const { curPlayIndex } = this.state;
+  //   const _curTime = this._timeList[curPlayIndex];
+  //   if (!_curTime) return false; // 如果超出范围，直接返回
+  //   const _mapKeys = Object.keys(this._typeDataMap);
+  //   const _features = [];
+  //   for (let key of _mapKeys) {
+  //     const _dataMap = this._typeDataMap[key];
+  //     const _curArr = _dataMap[_curTime];
+  //     if (!_curArr) {
+  //       clearInterval(this._intervalHandle); // 清空定时器
+  //       this._pauseFrame = _curTime; // 暂停帧
+  //       this._isLoading = true; // 当前为加载状态
+  //       GlobalEvent.emit(GloEventName.showGlobalLoading); // 显示 loading组件
+  //       return false;
+  //     } else {
+  //       for (let coord of _curArr) {
+  //         // if (coord[3] !== 0) console.log(coord);
+  //         if (coord[2] === 0) {
+  //           const _feature = {
+  //             img: 'ic_map_dot_' + _dataMap.rgbHex,
+  //             rotate: 0,
+  //             offset: [0, 0]
+  //           };
+  //           _features.push(TurfPoint(coord, _feature)); // 设置 features
+  //         } else {
+  //           const _feature = {
+  //             img: 'ic_map_arrow_' + _dataMap.rgbHex,
+  //             rotate: -coord[3],
+  //             offset: [coord[4] * 10, coord[5] * 10]
+  //           };
+  //           _features.push(TurfPoint(coord, _feature)); // 设置 features
+  //         }
+  //       }
+  //     }
+  //   }
+  //   const _geoJSONData = {
+  //     type: 'geojson',
+  //     data: FeatureCollection(_features)
+  //   };
+  //   const { vehicleTypes } = LayerIds;
+  //   const _opt = {
+  //     iconImage: ['get', 'img'],
+  //     iconRotate: ['get', 'rotate'],
+  //     iconSize: 1,
+  //     allowOverlap: true,
+  //     iconOffset: ['get', 'offset']
+  //   };
+  //   AddImageLayer(_MAP_, _geoJSONData, vehicleTypes.point, _opt);
+  //   return true;
+  // };
+
   _renderFrame = () => {
     const { curPlayIndex } = this.state;
     const _curTime = this._timeList[curPlayIndex];
-    // const _prevTime = [];
-    // const _tailCounts = 4;
-    // const _maxR = 2;
-    // const _minR = 1;
-    // for (let i = 0; i < _tailCounts; i++) {
-    //   _prevTime.push(this._timeList[curPlayIndex - i - 1]);
-    // }
+    const _prevTime = [];
+    const _tailCounts = 4;
+    const _maxR = 3;
+    const _minR = 2;
+    for (let i = 0; i < _tailCounts; i++) {
+      _prevTime.push(this._timeList[curPlayIndex - i - 1]);
+    }
     if (!_curTime) return false; // 如果超出范围，直接返回
     const _mapKeys = Object.keys(this._typeDataMap);
     const _features = [];
@@ -242,24 +294,52 @@ export default class ProgressBar extends Component {
         GlobalEvent.emit(GloEventName.showGlobalLoading); // 显示 loading组件
         return false;
       } else {
+        const _posFeature = {
+          radius: _maxR,
+          color: _dataMap.rgb,
+          strokeWidth: 0
+        }; // 正向的 feature
+        // const _negFeature = {
+        //   radius: _maxR,
+        //   color: 'rgb(255,255,255)',
+        //   strokeWidth: 1,
+        //   strokeColor: _dataMap.rgb
+        // }; // 反向的 feature
         for (let coord of _curArr) {
-          // if (coord[3] !== 0) console.log(coord);
-          if (coord[2] === 0) {
-            const _feature = {
-              img: 'ic_map_dot_' + _dataMap.rgbHex,
-              rotate: 0,
-              offset: [0, 0]
-            };
-            _features.push(TurfPoint(coord, _feature)); // 设置 features
-          } else {
-            const _feature = {
-              img: 'ic_map_arrow_' + _dataMap.rgbHex,
-              rotate: -coord[3],
-              offset: [coord[4] * 10, coord[5] * 10]
-            };
-            _features.push(TurfPoint(coord, _feature)); // 设置 features
-          }
+          // if (coord[2] === 1) {
+          //   _features.push(TurfPoint(coord, _posFeature)); // 设置 features
+          // } else {
+          //   _features.push(TurfPoint(coord, _negFeature)); // 设置 features
+          // }
+          _features.push(TurfPoint(coord, _posFeature)); // 设置 features
         }
+        // 前面的帧
+        _prevTime.map((time, index) => {
+          if (!time) return;
+          const _prevArr = _dataMap[time];
+          const _radius = _maxR - ((_maxR - _minR) / _tailCounts) * (index + 1);
+          const _posFeature = {
+            radius: _radius,
+            color: _dataMap[`rgb${index + 1}`],
+            strokeWidth: 0
+          }; // 正向的 feature
+          // const _negFeature = {
+          //   radius: _radius,
+          //   color: `rgba(255,255,255,${0.8 - 0.2 * index})`,
+          //   strokeWidth: 1,
+          //   strokeColor: _dataMap[`rgb${index + 1}`]
+          // }; // 反向的 feature
+          if (_prevArr) {
+            for (let coord of _prevArr) {
+              // if (coord[2] === 1) {
+              //   _features.push(TurfPoint(coord, _posFeature)); // 设置 features
+              // } else {
+              //   _features.push(TurfPoint(coord, _negFeature)); // 设置 features
+              // }
+              _features.push(TurfPoint(coord, _posFeature)); // 设置 features
+            }
+          }
+        });
       }
     }
     const _geoJSONData = {
@@ -268,13 +348,13 @@ export default class ProgressBar extends Component {
     };
     const { vehicleTypes } = LayerIds;
     const _opt = {
-      iconImage: ['get', 'img'],
-      iconRotate: ['get', 'rotate'],
-      iconSize: 1,
-      allowOverlap: true,
-      iconOffset: ['get', 'offset']
+      radius: ['get', 'radius'],
+      color: ['get', 'color'],
+      strokeWidth: ['get', 'strokeWidth'],
+      strokeColor: ['get', 'strokeColor'],
+      disablePointer: true
     };
-    AddImageLayer(_MAP_, _geoJSONData, vehicleTypes.point, _opt);
+    AddCircleLayer(_MAP_, _geoJSONData, vehicleTypes.point, _opt); // 渲染对应图层
     return true;
   };
 
@@ -324,10 +404,10 @@ export default class ProgressBar extends Component {
       );
       const _body = {
         points: _bounds,
-        maxX: _bounds._ne.lng,
-        minX: _bounds._sw.lng,
-        maxY: _bounds._ne.lat,
-        minX: _bounds._sw.lat,
+        maxx: _bounds._ne.lng,
+        minx: _bounds._sw.lng,
+        maxy: _bounds._ne.lat,
+        miny: _bounds._sw.lat,
         dates: _dateArr,
         type: _type,
         uuid: _uuid

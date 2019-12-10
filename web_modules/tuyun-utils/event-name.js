@@ -60,9 +60,9 @@ export default {
   showPopupBayonet: 'show:popupBayonet', //卡口
   closePopupBayonet: 'close:popupBayonet',
   showControlPop: 'show:controlPop', //显示布控的重点人员
+  closeControlPop: 'close:controlPop', //关闭布控弹框
   showHotel: 'show:popupHotel', //宾馆弹窗
   closeHotel: 'close:popupHotel',
-
   showIcafe: 'show:popupIcafe', //网吧弹窗
   closeIcafe: 'close:popupIcafe',
   // 辖区数据

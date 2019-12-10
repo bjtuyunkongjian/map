@@ -21,8 +21,8 @@ export default class CrossResearch extends Component {
   }
 
   _dealWithEvent = () => {
-    const { closeCompareTab } = GloEventName;
-    GlobalEvent.on(closeCompareTab, () => {
+    const { closeCrossTab } = GloEventName;
+    GlobalEvent.on(closeCrossTab, () => {
       this.setState({ selected: false });
     });
   };

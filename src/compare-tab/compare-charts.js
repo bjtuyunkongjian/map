@@ -61,12 +61,15 @@ export default class CompareCharts extends Component {
 
   _onToggleVisible = ({ visible } = {}) => {
     this._visible = visible;
-    if (visible) this._getCount();
+    if (visible) this._getChartCount();
   };
 
   _onChangeArea = ({ firstArea, secArea }) => {
     this._areaArr = [firstArea, secArea];
-    this._visible && this._getCount();
+    if (this._visible) {
+      this._getChartCount();
+      this._fetchData();
+    }
   };
 
   _onChangeDate = ({
@@ -82,10 +85,13 @@ export default class CompareCharts extends Component {
       fmtType
     );
     this._end = FormatDate(new Date(endYear, endMonth, endDate), fmtType);
-    this._visible && this._getCount();
+    if (this._visible) {
+      this._getChartCount();
+      this._fetchData();
+    }
   };
 
-  _getCount = async () => {
+  _getChartCount = async () => {
     // 生成 series
     const _series = {
       population: [],
@@ -197,6 +203,10 @@ export default class CompareCharts extends Component {
   };
 
   _onChangeSelectedBar = val => {
+    RemoveLayer(_MAP_, LayerIds.jurisdiction.point);
+    GlobalEvent.emit(GloEventName.closePopupPopulation);
+    GlobalEvent.emit(GloEventName.closePopupCase);
+    GlobalEvent.emit(GloEventName.closePopupSituation);
     const [chartName, type] = val.split(':');
     if (this._selectedChart === chartName && this._type === type) return;
     // 赋值
@@ -256,9 +266,12 @@ export default class CompareCharts extends Component {
 
   //code=&type=&startTime=&endTime=   type：点位的类型
   _fetchData = async () => {
+    if (!this._type) return;
     for (let i = 0; i < this._areaArr.length; i++) {
       if (this._areaArr[i].type === 'jurisdiction') {
-        const _param = `code=${this._areaArr[i].value}&level=${this._areaArr[i].level}&type=${this._type}Count&startTime=${this._start}&endTime=${this._end}`;
+        console.log(this._areaArr[i]);
+        const _level = this._areaArr[i].level || this._areaArr[i].detail.level;
+        const _param = `code=${this._areaArr[i].value}&level=${_level}&type=${this._type}Count&startTime=${this._start}&endTime=${this._end}`;
         GlobalEvent.emit(GloEventName.showGlobalLoading);
         const { res, err } = await GetAreaData(_param);
         GlobalEvent.emit(GloEventName.closeGlobalLoading);

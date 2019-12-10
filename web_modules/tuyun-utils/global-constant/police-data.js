@@ -14,7 +14,7 @@ const population = {
 const unit = {
   value: TabValue.unit,
   label: '单位',
-  color: '#ffcc42',
+  color: '#00ae9d',
   template: '警务综合'
 };
 

@@ -3,8 +3,8 @@ import ControlBayonet from './control-bayonet';
 import ControlIcafe from './control-icafe';
 import ControlHotel from './control-hotel';
 import { GlobalEvent, GloEventName } from 'tuyun-utils';
-import { GetBayonetPop, GetHotelPop, GetIcafePop } from './webapi';
-export default class ControlDetail extends Component {
+import { FaTimes } from 'react-icons/fa';
+export default class PopupControl extends Component {
   state = {
     visible: false,
     baseInfo: [],
@@ -12,17 +12,20 @@ export default class ControlDetail extends Component {
     boxTop: 0,
     type: '',
     code: '',
+    name: '',
     lngLat: [0, 0]
   };
 
   componentWillMount = () => this._dealWithEvent();
 
+  componentWillUnmount = () => this._reset();
+
   render() {
-    const { visible, boxLeft, boxTop, type, code } = this.state;
-    if (!visible) return null;
+    const { visible, boxLeft, boxTop, type, code, name } = this.state;
+    if (!visible || !code) return null;
     let _listEl;
     if (type === 'bayonet') {
-      _listEl = <ControlBayonet code={code} />;
+      _listEl = <ControlBayonet code={code} name={name} />;
     } else if (type === 'icafe') {
       _listEl = <ControlIcafe code={code} />;
     } else if (type === 'hotel') {
@@ -30,41 +33,49 @@ export default class ControlDetail extends Component {
     }
     return (
       <div
-        className="list-popup"
+        className="popup-control"
         style={{ top: boxTop + 10, left: boxLeft + 10 }}
       >
         <div className="list-title">
           布控列表
           <FaTimes className="close" onClick={this._closePopup} />
         </div>
-        <div className="list-content">
-          <ul>{_listEl}</ul>
-        </div>
+        {/* 列表 */}
+        {_listEl}
       </div>
     );
   }
+
   _dealWithEvent = () => {
-    GlobalEvent.on(GloEventName.showControlPop, async data => {
-      const { visible, code, type, boxLeft, boxTop, lngLat } = data;
-      // 请求布控重点人员详情
-      if (!visible) {
-        this._closePopup();
-      } else {
-        this.setState({ type, code, visible, boxLeft, boxTop, lngLat });
-        _MAP_.on('move', this._onMove);
-      }
-    });
+    GlobalEvent.on(GloEventName.showControlPop, this._showPopup);
+    GlobalEvent.on(GloEventName.closeControlPop, this._closePopup);
   };
 
-  _onMove = () => {
-    const { lngLat } = this.state;
-    const [lng, lat] = lngLat;
-    const { x: boxLeft, y: boxTop } = _MAP_.project({ lng, lat });
-    this.setState({ boxLeft, boxTop });
+  _reset = () => {
+    const { showControlPop, closeControlPop } = GloEventName;
+    GlobalEvent.removeListener(showControlPop, this._showPopup);
+    GlobalEvent.removeListener(closeControlPop, this._closePopup);
+  };
+
+  _showPopup = async data => {
+    const { visible, code, type, boxLeft, boxTop, lngLat, name } = data;
+    if (visible) {
+      this.setState({ type, code, visible, boxLeft, boxTop, lngLat, name });
+      _MAP_.on('move', this._onMove);
+    } else {
+      _MAP_.off('move', this._onMove);
+    }
   };
 
   _closePopup = () => {
-    _MAP_.off('move', this._onMove);
     this.setState({ visible: false });
+    _MAP_.off('move', this._onMove);
+  };
+
+  _onMove = () => {
+    const { lngLat, visible } = this.state;
+    if (!visible || !lngLat) return;
+    const { x: boxLeft, y: boxTop } = _MAP_.project(lngLat);
+    this.setState({ boxLeft, boxTop });
   };
 }

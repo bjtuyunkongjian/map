@@ -4,9 +4,9 @@ import {
   FaRegLaughBeam,
   FaRegMeh,
   FaRegSadCry,
-  FaEmptySet
+  FaRegTired
 } from 'react-icons/fa';
-import { IsEmpty, FetchRequest, IsArray } from 'tuyun-utils';
+import { IsEmpty, FetchRequest } from 'tuyun-utils';
 
 export default class TuyunTree extends Component {
   state = {
@@ -55,39 +55,52 @@ export default class TuyunTree extends Component {
       const _elArr = [];
       for (let item of arrData) {
         // 标签
-        console.log('isVal', item);
         const _isVail = item.isValid;
         const _selected = item === selectedVal;
         const _preSelected = item === preSelectedVal;
         const _hidden = isChildren && !item[visibleKey];
         const _clsName = `ReactTree__LeafLabel${_hidden ? ' hidden' : ' show'}`;
-        const _textColor = _isVail === false ? 'LabelText_Selcect' : '';
-        console.log('_isVail', _textColor);
         const _elItem = _hidden ? null : (
           <ul key={`el_tree_label_${item[valueKey]}`} className={_clsName}>
-            <li className={`ReactTree__LabelIcon`}>
-              {item[hasChildKey] || !IsEmpty(item[childKey]) ? (
-                item[childVisibleKey] ? (
-                  <IoIosArrowDown onClick={() => this._hideChildEl(item)} />
+            {/* 前面的图标 */}
+            {_isVail || (item[hasChildKey] || !IsEmpty(item[childKey])) ? (
+              <li className={`ReactTree__LabelIcon`}>
+                {item[hasChildKey] || !IsEmpty(item[childKey]) ? (
+                  item[childVisibleKey] ? (
+                    <IoIosArrowDown onClick={() => this._hideChildEl(item)} />
+                  ) : (
+                    <IoIosArrowForward
+                      onClick={() => this._showChildEl(item)}
+                    />
+                  )
+                ) : _selected ? (
+                  <FaRegLaughBeam onClick={() => this._selectNode(item)} />
+                ) : _preSelected ? (
+                  <FaRegSadCry onClick={() => this._selectNode(item)} />
                 ) : (
-                  <IoIosArrowForward onClick={() => this._showChildEl(item)} />
-                )
-              ) : _selected ? (
-                <FaRegLaughBeam onClick={() => this._selectNode(item)} />
-              ) : _preSelected ? (
-                <FaRegSadCry onClick={() => this._selectNode(item)} />
-              ) : (
-                <FaRegMeh onClick={() => this._selectNode(item)} />
-              )}
-            </li>
-            <li
-              className={`ReactTree__LabelText${
-                _selected ? ' ReactTree__Selected' : ''
-              } ${_textColor}`}
-              onClick={() => this._selectNode(item)}
-            >
-              {item[labelKey]}
-            </li>
+                  <FaRegMeh onClick={() => this._selectNode(item)} />
+                )}
+              </li>
+            ) : (
+              <li className="ReactTree__LabelIcon--disabled">
+                <FaRegTired />
+              </li>
+            )}
+            {/* 图标后面的文字 */}
+            {_isVail ? (
+              <li
+                className={`ReactTree__LabelText${
+                  _selected ? ' ReactTree__Selected' : ''
+                }`}
+                onClick={() => this._selectNode(item)}
+              >
+                {item[labelKey]}
+              </li>
+            ) : (
+              <li className="ReactTree__LabelText--disabled">
+                {item[labelKey]}
+              </li>
+            )}
           </ul>
         );
         _elArr.push(_elItem);

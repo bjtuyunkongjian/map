@@ -79,6 +79,7 @@ export default class VehicleType extends Component {
       });
     } else {
       await this.setState({ selectedTypes });
+      this._emitSelectedType();
     }
   };
 

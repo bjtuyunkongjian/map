@@ -30,7 +30,7 @@ export const GetCount = async param => {
 };
 
 /**
- * 获取单位密度图
+ * 获取房屋密度图
  * mapServer/house/density?type=ZZFW
  */
 export const GetDensity = async param => {

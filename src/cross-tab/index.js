@@ -52,10 +52,11 @@ export default class JurisdictionTab extends Component {
 
     if (visible) {
       await this.setState({ visible: visible, animate: 'slide-in' });
+
+      Event.emit(EventName.toggleVisible, { visible });
     } else {
-      await this.setState({ visible: visible, animate: '' });
+      this._onCloseCross();
     }
-    Event.emit(EventName.toggleVisible, { visible });
   };
 
   _onCloseCross = async () => {

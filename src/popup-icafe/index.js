@@ -14,7 +14,7 @@ export default class PopupIcafe extends Component {
     boxLeft: 0,
     visible: false,
     lngLat: [],
-    code: '',
+    yycsdm: '',
     baseInfo: []
   };
 
@@ -25,8 +25,8 @@ export default class PopupIcafe extends Component {
   componentWillUnmount = () => this._reset();
 
   render() {
-    const { code, boxTop, boxLeft, baseInfo, visible } = this.state;
-    if (!code || !visible) return null;
+    const { yycsdm, boxTop, boxLeft, baseInfo, visible } = this.state;
+    if (!yycsdm || !visible) return null;
 
     return (
       <div
@@ -37,8 +37,6 @@ export default class PopupIcafe extends Component {
           网吧信息
           <FaTimes className="close" onClick={this._closePopup} />
         </div>
-
-        {/* <div className="info-label">基本信息</div> */}
         <ul className="detail-box">
           {baseInfo.map((item, index) => (
             <li className="info-detail" key={`detail_${index}`}>
@@ -66,13 +64,13 @@ export default class PopupIcafe extends Component {
   };
 
   _showPopup = async param => {
-    const { visible, boxLeft, boxTop, lngLat, code } = param;
+    const { visible, boxLeft, boxTop, lngLat, yycsdm } = param;
     await this.setState({
       visible,
       boxLeft: boxLeft,
       boxTop: boxTop,
       lngLat: lngLat,
-      code: code,
+      yycsdm: yycsdm,
       baseInfo: [],
       affiliationInfo: [],
       custodianInfo: [],
@@ -88,8 +86,8 @@ export default class PopupIcafe extends Component {
   };
 
   _fetchDetail = async () => {
-    const { code } = this.state;
-    const _param = `yycsdm=${code}`;
+    const { yycsdm } = this.state;
+    const _param = `yycsdm=${yycsdm}`;
     const { res, err } = await GetIcafeDetail(_param);
     if (!res || err) return;
 

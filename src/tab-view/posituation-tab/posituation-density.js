@@ -132,7 +132,6 @@ export default class SituationDensity extends Component {
       await this._fetchPoliceDensity();
     }
     if (_MAP_.getLayer(policeStationId)) {
-      console.log(this._colorMap);
       _MAP_.setLayoutProperty(policeStationId, 'visibility', 'visible'); // 设置为可显示
       _MAP_.setPaintProperty(policeStationId, 'fill-color', [
         'coalesce',

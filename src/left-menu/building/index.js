@@ -7,14 +7,14 @@ import { GlobalEvent, GloEventName, GlobalConst } from 'tuyun-utils';
 export default class BuildingMenu extends Component {
   state = { selected: false };
 
-  componentWillMount = () => this._init();
+  componentWillMount = () => this._dealWithEvent();
 
   render() {
     const { selected } = this.state;
     const _labelClass = `item-label ${selected ? ' selected' : ''}`;
     return (
       <div className="menu-item">
-        <div className={_labelClass} onClick={this._clickPopulation}>
+        <div className={_labelClass} onClick={this._clickBuilding}>
           <IoIosPeople />
           <div className="label-text">{building.label}</div>
           <div
@@ -26,7 +26,7 @@ export default class BuildingMenu extends Component {
     );
   }
 
-  _init = () => {
+  _dealWithEvent = () => {
     const { closeTabView, toggleTabView } = GloEventName;
     GlobalEvent.on(closeTabView, () => {
       this.setState({ selected: false });
@@ -40,9 +40,10 @@ export default class BuildingMenu extends Component {
     });
   };
 
-  _clickPopulation = async () => {
+  _clickBuilding = async () => {
     const { selected } = this.state;
     const _selected = !selected;
+    console.log('sele', _selected);
     const { toggleTabView } = GloEventName;
     GlobalEvent.emit(toggleTabView, {
       visible: _selected,

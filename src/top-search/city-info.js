@@ -33,16 +33,15 @@ export default class CityInfo extends Component {
     Event.on(EventName.changeCityName, nextCity => {
       this.setState({ curCity: nextCity });
     });
-    Event.on(EventName.changeDropDown, dropDown => {
+    Event.on(EventName.changeDropDown, ({ dropDown } = {}) => {
       this.setState({ curDropDown: dropDown });
     });
   };
 
   _selectDropDown = () => {
     const { curDropDown } = this.state;
-    Event.emit(
-      EventName.changeDropDown,
-      curDropDown === DropDown.cityList ? '' : DropDown.cityList
-    );
+    Event.emit(EventName.changeDropDown, {
+      dropDown: curDropDown === DropDown.cityList ? '' : DropDown.cityList
+    });
   };
 }

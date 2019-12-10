@@ -4,6 +4,7 @@ import { TuyunModal, TuyunAsyncTree } from 'tuyun-kit';
 import Event, { EventName } from './event';
 import { DefaultArea, AreaList } from './constant';
 import { DrawMultiPolygon, RemoveGeometries } from './draw-polygon';
+import { RemoveLayer, LayerIds } from 'tuyun-utils';
 
 export default class SelectArea extends Component {
   state = {

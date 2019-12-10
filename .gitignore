@@ -31,3 +31,5 @@ npm-debug.log
 /build-api/
 api.html
 api.pdf
+/build-api-*/ty-map-development-*
+/build-api-*/ty-map-production-*

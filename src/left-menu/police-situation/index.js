@@ -57,5 +57,4 @@ export default class PoliceSituation extends Component {
   };
 }
 
-const color = '#65db42';
 const { poSituation } = GlobalConst.policeData;

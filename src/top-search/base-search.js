@@ -8,7 +8,8 @@ import {
   GlobalEvent,
   GloEventName,
   IsEmpty,
-  GlobalConst
+  GlobalConst,
+  IsArray
 } from 'tuyun-utils';
 import {
   point as TurfPoint,
@@ -23,9 +24,10 @@ import {
   GetCarData,
   GetCaseResult,
   GetPoliceResult,
-  GetPoliceCarResult
+  GetPoliceCarResult,
+  GetPoliceDetail
 } from './webapi';
-import { SearchValue } from './constant';
+import { SearchValue, DropDown } from './constant';
 import Event, { EventName } from './event';
 
 export default class BaseSearch extends Component {
@@ -147,7 +149,7 @@ export default class BaseSearch extends Component {
     Event.emit(EventName.changeSearchType, searchList[0]);
   };
 
-  // 人员查找
+  // 人员查找 idCard=372801197501116229
   _fetchIdCard = async () => {
     let _param = `idCard=${this._inputVal}`;
     const _uuid = (this._uuid = CreateUid());
@@ -168,11 +170,13 @@ export default class BaseSearch extends Component {
     };
     const { searchResult: SearchLayerIds } = LayerIds;
     AddImageLayer(_MAP_, _geoJSONDataPoint, SearchLayerIds.point, {
-      iconImage: 'landmark'
+      iconImage: 'landmark',
+      pitchAlignment: 'viewport',
+      rotationAlignment: 'viewport'
     });
   };
 
-  // 车牌查询
+  // 车牌查询 plateName=鲁S03750
   _fetchCarNumber = async () => {
     const _param = `plateName=${this._inputVal}`;
     const _uuid = (this._uuid = CreateUid());
@@ -193,61 +197,70 @@ export default class BaseSearch extends Component {
     };
     const { searchResult: SearchLayerIds } = LayerIds;
     AddImageLayer(_MAP_, _geoJSONDataPoint, SearchLayerIds.point, {
-      iconImage: 'landmark'
+      iconImage: 'landmark',
+      pitchAlignment: 'viewport',
+      rotationAlignment: 'viewport'
     });
   };
 
-  // 警员查找 objectId=37140000000004288
+  // 警员查找 label=275905
   _fetchPoliceData = async () => {
-    const _param = `objectId=${this._inputVal}`;
+    const _param = `label=${this._inputVal}`;
     const _uuid = (this._uuid = CreateUid());
     const { res, err } = await GetPoliceResult(_param);
     if (IsEmpty(res) || err) return TuyunMessage.info('未查询到对应信息');
-    console.log('res', res);
     if (this._uuid !== _uuid) return;
     const { x, y, objectId } = res;
+    _MAP_.flyTo({ center: [x, y], zoom: 10 });
+    const _features = [TurfPoint([x, y])];
+    const _geoJSONDataPoint = {
+      type: 'geojson',
+      data: FeatureCollection(_features)
+    };
+    const { searchResult } = LayerIds;
+    AddImageLayer(_MAP_, _geoJSONDataPoint, searchResult.point, {
+      iconImage: 'policeman2',
+      pitchAlignment: 'viewport',
+      rotationAlignment: 'viewport'
+    });
+    const _detailInfo = await this._getPoliceDetail(objectId);
+    if (!_detailInfo) return;
     GlobalEvent.emit(GloEventName.showSearchResult, {
       visible: true,
       type: searchType.policeNum,
-      detailInfo: res
-    });
-    const _features = [TurfPoint([x, y])];
-    const _geoJSONDataPoint = {
-      type: 'geojson',
-      data: FeatureCollection(_features)
-    };
-    const { searchResult } = LayerIds;
-    AddImageLayer(_MAP_, _geoJSONDataPoint, searchResult.point, {
-      iconImage: 'landmark'
+      detailInfo: Object.assign({ x, y }, _detailInfo)
     });
   };
 
-  // 警车查找 objectId=37010000000019406
+  // 警车查找 label=鲁A3298警
   _fetchPoliceCar = async () => {
-    const _param = `objectId=${this._inputVal}`;
+    const _param = `label=${this._inputVal}`;
     const _uuid = (this._uuid = CreateUid());
     const { res, err } = await GetPoliceCarResult(_param);
-    console.log('res', res);
-    const { 0: x, 1: y } = res.gpsPoints[0];
     if (IsEmpty(res) || err) return TuyunMessage.info('未查询到对应信息');
     if (this._uuid !== _uuid) return;
-    // GlobalEvent.emit(GloEventName.showSearchResult, {
-    //   visible: true,
-    //   type: searchType.policeCar,
-    //   detailInfo: res
-    // });
-    const _features = [TurfPoint([x, y])];
+    const { objectID, gpsPoints } = res;
+    const _lnglat = gpsPoints[gpsPoints.length - 1];
+    _MAP_.flyTo({ center: _lnglat, zoom: 10 });
+    const _features = [TurfPoint(_lnglat)];
     const _geoJSONDataPoint = {
       type: 'geojson',
       data: FeatureCollection(_features)
     };
-    const { searchResult } = LayerIds;
-    AddImageLayer(_MAP_, _geoJSONDataPoint, searchResult.point, {
+    const { searchResult: searchCar } = LayerIds;
+    AddImageLayer(_MAP_, _geoJSONDataPoint, searchCar.point, {
       iconImage: 'ic_map_policecar'
+    });
+    const _detailInfo = await this._getPoliceDetail(objectID);
+    if (!_detailInfo) return;
+    GlobalEvent.emit(GloEventName.showSearchResult, {
+      visible: true,
+      type: searchType.policeCar,
+      detailInfo: Object.assign({ x: _lnglat[0], y: _lnglat[1] }, _detailInfo)
     });
   };
 
-  // 单位名称查找
+  // 单位名称查找 unitName=凤凰岭
   _fetchUnitName = async () => {
     const _param = `unitName=${this._inputVal}`;
     const _uuid = (this._uuid = CreateUid());
@@ -257,7 +270,9 @@ export default class BaseSearch extends Component {
     if (IsEmpty(res) || err) return TuyunMessage.info('未查询到对应信息');
     if (this._uuid !== _uuid) return;
     const _features = res.map(item => {
-      const { x, y, zagldwbm } = item;
+      const { x, y, zagldwbm, dwmc } = item;
+      item.name = dwmc;
+      item.type = '单位';
       return TurfPoint([x, y], {
         radius: 6,
         code: zagldwbm,
@@ -270,11 +285,15 @@ export default class BaseSearch extends Component {
     };
     const { searchResult } = LayerIds;
     AddImageLayer(_MAP_, _geoJSONDataPoint, searchResult.point, {
-      iconImage: 'landmark'
+      iconImage: 'landmark',
+      pitchAlignment: 'viewport',
+      rotationAlignment: 'viewport'
     });
+    // 显示搜索结果
+    this._showResultList(res, searchType.baseUnitName);
   };
 
-  // 地点名称查找
+  // 地点名称查找 poiName=百临超市
   _fetchPlaceName = async () => {
     const _param = `poiName=${this._inputVal}`;
     const _uuid = (this._uuid = CreateUid());
@@ -286,7 +305,6 @@ export default class BaseSearch extends Component {
     const _features = res.map(item => {
       const { x, y, kind, name } = item;
       return TurfPoint([x, y], {
-        // radius: 6,
         type: searchType.basePlaceName,
         kind: kind,
         name: name
@@ -298,11 +316,15 @@ export default class BaseSearch extends Component {
     };
     const { searchResult: SearchLayerIds } = LayerIds;
     AddImageLayer(_MAP_, _geoJSONDataPoint, SearchLayerIds.point, {
-      iconImage: 'landmark'
+      iconImage: 'landmark',
+      pitchAlignment: 'viewport',
+      rotationAlignment: 'viewport'
     });
+    // 显示搜索结果
+    this._showResultList(res, searchType.basePlaceName);
   };
 
-  // 案件名称/案件编号搜索
+  // 案件名称/案件编号搜索 A3706843700002017065065
   _fetchCaseData = async () => {
     const _param = `option=${this._inputVal}`;
     const _uuid = (this._uuid = CreateUid());
@@ -311,8 +333,10 @@ export default class BaseSearch extends Component {
     GlobalEvent.emit(GloEventName.closeGlobalLoading);
     if (IsEmpty(res) || err) return TuyunMessage.info('未查询到对应信息');
     if (this._uuid !== _uuid) return;
-    const _features = res.map(item => {
+    const _data = IsArray(res) ? res : [res];
+    const _features = _data.map(item => {
       const { x, y, ajbh, ajmc } = item;
+      item.name = ajmc;
       return TurfPoint([x, y], {
         type: searchType.baseCaseName,
         ajbh: ajbh,
@@ -323,9 +347,24 @@ export default class BaseSearch extends Component {
       type: 'geojson',
       data: FeatureCollection(_features)
     };
+
     const { searchResult: SearchLayerIds } = LayerIds;
     AddImageLayer(_MAP_, _geoJSONDataPoint, SearchLayerIds.point, {
-      iconImage: 'landmark'
+      iconImage: 'landmark',
+      pitchAlignment: 'viewport',
+      rotationAlignment: 'viewport'
+    });
+    // 显示搜索结果
+    this._showResultList(_data, searchType.baseCaseName);
+  };
+
+  _showResultList = (resArr, type) => {
+    const { x, y } = resArr[0];
+    _MAP_.flyTo({ center: [x, y], zoom: 10 });
+    Event.emit(EventName.changeDropDown, {
+      dropDown: DropDown.resultList,
+      resArr: resArr || [],
+      type
     });
   };
 
@@ -344,6 +383,13 @@ export default class BaseSearch extends Component {
     GlobalEvent.emit(GloEventName.closePopupUnit);
     Event.emit(EventName.changeSearchType, option);
   };
+
+  _getPoliceDetail = async objectId => {
+    const _param = `objectId=${objectId}`;
+    const { res, err } = await GetPoliceDetail(_param);
+    if (!res || err) return;
+    return res;
+  };
 }
 
 const { searchType } = GlobalConst;
@@ -351,9 +397,9 @@ const { searchType } = GlobalConst;
 const searchList = [
   { label: '地点', value: 'placeName', placeholder: '输入地点名称' },
   { label: '人员', value: 'idCard', placeholder: '输入身份证号' },
-  { label: '车辆', value: 'carNumber', placeholder: '输入车牌号' },
   { label: '单位', value: 'unitName', placeholder: '输入单位名称' },
   { label: '案件', value: 'caseName', placeholder: '输入案件名称或编号' },
-  { label: '警员', value: 'policeNum', placeholder: '输入警员信息' },
-  { label: '警车', value: 'policeCar', placeholder: '输入警车信息' }
+  { label: '车辆', value: 'carNumber', placeholder: '输入车牌号' },
+  { label: '警员', value: 'policeNum', placeholder: '输入警员编号' },
+  { label: '警车', value: 'policeCar', placeholder: '输入警车车牌号' }
 ];

@@ -51,7 +51,7 @@ export default class CityList extends Component {
   }
 
   _init = () => {
-    Event.on(EventName.changeDropDown, dropDown => {
+    Event.on(EventName.changeDropDown, ({ dropDown } = {}) => {
       this.setState({ curDropDown: dropDown, curCity: {} });
     });
     Event.on(EventName.changeCityName, curCity => {
@@ -60,7 +60,7 @@ export default class CityList extends Component {
   };
 
   _closeCityList = () => {
-    Event.emit(EventName.changeDropDown, '');
+    Event.emit(EventName.changeDropDown, { dropDown: '' });
   };
 
   _selectCity = async cityInfo => {

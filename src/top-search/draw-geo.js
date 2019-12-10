@@ -203,7 +203,7 @@ const drawCircleRadius = function() {
   _MAP_.getCanvas().style.cursor = ''; // 清除鼠标样式
   if (vertexTotal.length >= 2) {
     createCircle();
-    const _prompt = new mapboxgl.Popup()
+    const _prompt = new mapboxgl.Popup({ closeOnClick: false })
       .setLngLat(vertexTotal[vertexTotal.length - 1])
       .setText('删除选中区域')
       .addTo(_MAP_);

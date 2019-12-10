@@ -14,7 +14,7 @@ const SearchArr = [
 
 const DropDown = {
   cityList: 'city-list',
-  seearchList: 'search-list'
+  resultList: 'result-list'
 };
 
 export { DefaultSearch, SearchValue, SearchArr, DropDown };

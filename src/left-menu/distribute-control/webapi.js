@@ -18,15 +18,21 @@ export const GetBayonetPosition = async (param, rgbHex, rgbHex2) => {
   const _features = [];
   const _features2 = [];
   for (let item of res) {
-    const { x, y, id, hasKey } = item;
+    const { x, y, id, hasKey, pointname } = item;
     _features.push(
-      TurfPoint([x, y], { code: id, color: `#${rgbHex}`, has: hasKey })
+      TurfPoint([x, y], {
+        code: id,
+        color: `#${rgbHex}`,
+        has: hasKey,
+        name: pointname
+      })
     );
     _features2.push(
       TurfPoint([x, y], {
         code: id,
         color: hasKey ? `#${rgbHex2}` : `#${rgbHex}`,
-        has: hasKey
+        has: hasKey,
+        name: pointname
       })
     );
   }
@@ -55,15 +61,21 @@ export const GetIcafePosition = async (param, rgbHex, rgbHex2) => {
   const _features = [];
   const _features2 = [];
   for (let item of res) {
-    const { x, y, yycsdm, hasKey } = item;
+    const { x, y, yycsmc, hasKey, yycsdm } = item;
     _features.push(
-      TurfPoint([x, y], { code: yycsdm, color: `#${rgbHex}`, has: hasKey })
+      TurfPoint([x, y], {
+        code: yycsmc,
+        color: `#${rgbHex}`,
+        has: hasKey,
+        yycsdm: yycsdm
+      })
     );
     _features2.push(
       TurfPoint([x, y], {
-        code: yycsdm,
+        code: yycsmc,
         color: hasKey ? `#${rgbHex2}` : `#${rgbHex}`,
-        has: hasKey
+        has: hasKey,
+        yycsdm: yycsdm
       })
     );
   }
@@ -72,6 +84,7 @@ export const GetIcafePosition = async (param, rgbHex, rgbHex2) => {
     type: 'geojson',
     data: FeatureCollection(_features)
   };
+  ``;
   const _geo2 = {
     type: 'geojson',
     data: FeatureCollection(_features2)
@@ -88,6 +101,7 @@ export const GetHotelPosition = async (param, rgbHex, rgbHex2) => {
     url: 'mapServer/hotel/screenPoint?' + param,
     method: 'GET'
   });
+
   if (!res || err) return { err };
   const _features = [];
   const _features2 = [];

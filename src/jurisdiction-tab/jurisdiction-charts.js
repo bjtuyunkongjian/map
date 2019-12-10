@@ -60,13 +60,17 @@ export default class JurisdictionCharts extends Component {
 
   _onToggleVisible = ({ visible } = {}) => {
     this._visible = visible;
-    if (visible) this._getCount();
+    if (visible) this._getChartCount();
+    RemoveLayer(_MAP_, LayerIds.jurisdiction.point);
     RemoveLayer(_MAP_, LayerIds.jurisdiction.area);
   };
 
   _onChangeArea = ({ area }) => {
     this._area = area;
-    this._visible && this._getCount();
+    if (this._visible) {
+      this._getChartCount();
+      this._fetchData();
+    }
   };
 
   _onChangeDate = ({
@@ -82,10 +86,13 @@ export default class JurisdictionCharts extends Component {
       fmtType
     );
     this._end = FormatDate(new Date(endYear, endMonth, endDate), fmtType);
-    this._visible && this._getCount();
+    if (this._visible) {
+      this._getChartCount();
+      this._fetchData();
+    }
   };
 
-  _getCount = async () => {
+  _getChartCount = async () => {
     // 生成 series
     const _series = {
       population: [],
@@ -161,16 +168,16 @@ export default class JurisdictionCharts extends Component {
   };
 
   _onChangeSelectedBar = val => {
-    const [chartName, type] = val.split(':');
+    RemoveLayer(_MAP_, LayerIds.jurisdiction.point);
+    GlobalEvent.emit(GloEventName.closePopupPopulation);
+    GlobalEvent.emit(GloEventName.closePopupCase);
+    GlobalEvent.emit(GloEventName.closePopupSituation);
+    const [chartName, type] = (val || '').split(':');
     if (this._selectedChart === chartName && this._type === type) return;
-    // 赋值
     this._selectedChart = chartName;
     this._type = type;
     if (!type) {
-      RemoveLayer(_MAP_, LayerIds.jurisdiction.point);
       _MAP_.off('click', LayerIds.jurisdiction.point, this._clickPoint);
-      // TODO 删除弹窗
-      // _MAP_.off('click', LayerIds.jurisdiction.point, this._closePopup);
     } else {
       this._fetchData();
       _MAP_.on('click', LayerIds.jurisdiction.point, this._clickPoint);
@@ -179,7 +186,6 @@ export default class JurisdictionCharts extends Component {
 
   _clickPoint = e => {
     // visible, boxLeft, boxTop, lngLat, code
-
     const { code } = e.features[0].properties;
     const { coordinates: lngLat } = e.features[0].geometry;
     const { x, y } = _MAP_.project(lngLat);
@@ -212,7 +218,10 @@ export default class JurisdictionCharts extends Component {
 
   //code=&type=&startTime=&endTime=   type：点位的类型
   _fetchData = async () => {
-    const _param = `code=${this._area.value}&level=${this._area.level}&type=${this._type}Count&startTime=${this._start}&endTime=${this._end}`;
+    if (!this._type) return;
+    const _param = `code=${this._area.value}&level=${this._area.level}&type=${
+      this._type
+    }Count&startTime=${this._start}&endTime=${this._end}`;
     GlobalEvent.emit(GloEventName.showGlobalLoading);
     const { res, err } = await GetAreaData(_param);
     GlobalEvent.emit(GloEventName.closeGlobalLoading);

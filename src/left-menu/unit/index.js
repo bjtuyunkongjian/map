@@ -12,7 +12,7 @@ export default class Unit extends Component {
     const _labelClass = `item-label ${selected ? ' selected' : ''}`;
     return (
       <div className="menu-item">
-        <div className={_labelClass} onClick={this._clickPopulation}>
+        <div className={_labelClass} onClick={this._clickUnit}>
           <IoIosPeople />
           <div className="label-text">{unit.label}</div>
           <div
@@ -38,7 +38,7 @@ export default class Unit extends Component {
     });
   };
 
-  _clickPopulation = async () => {
+  _clickUnit = async () => {
     const { selected } = this.state;
     const _selected = !selected;
     const { toggleTabView } = GloEventName;

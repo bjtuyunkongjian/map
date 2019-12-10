@@ -34,7 +34,12 @@ export default class BuildingDensity extends Component {
 
   render() {
     const { chartData, selectedIndex, curBar } = this.state;
-    const { czfwDensity, kzfwDensity, totalFwDensity, zzfwDensity } = chartData;
+    const {
+      czfwDensity = 0,
+      kzfwDensity = 0,
+      totalFwDensity = 0,
+      zzfwDensity = 0
+    } = chartData;
     const _max = +Math.max(totalFwDensity, 10).toFixed(2) || 10;
     if (curBar !== TabValue.building) return null;
     return (
@@ -44,9 +49,10 @@ export default class BuildingDensity extends Component {
           title={{ text: '房屋平均密度' }}
           legend={{ text: `平均密度` }}
           data={[
-            { value: czfwDensity || 0, label: '出租', type: 'CZFW', end: _max },
-            { value: zzfwDensity || 0, label: '自住', type: 'ZZFW', end: _max },
-            { value: kzfwDensity || 0, label: '空置', type: 'XZFW', end: _max }
+            // 0:出租,1:闲置,2:自住
+            { value: czfwDensity, label: '出租', type: typeMap.cz, end: _max },
+            { value: zzfwDensity, label: '自住', type: typeMap.zz, end: _max },
+            { value: kzfwDensity, label: '闲置', type: typeMap.xz, end: _max }
           ]}
           selectedIndex={selectedIndex}
           onClick={this._clickDensity}
@@ -81,11 +87,11 @@ export default class BuildingDensity extends Component {
       selectedIndex: _selectInd,
       selectedValue: _selectVal
     });
-    if (_selectVal === 'ZZFW' && IsEmpty(this._selfOccupiedColor)) {
+    if (_selectVal === typeMap.zz && IsEmpty(this._selfOccupiedColor)) {
       this._fetchDensity(); // 加载自住的数据
-    } else if (_selectVal === 'CZFW' && IsEmpty(this._rentOutColor)) {
+    } else if (_selectVal === typeMap.cz && IsEmpty(this._rentOutColor)) {
       this._fetchDensity(); // 加载出租的数据
-    } else if (_selectVal === 'XZFW' && IsEmpty(this._vavancyColor)) {
+    } else if (_selectVal === typeMap.xz && IsEmpty(this._vavancyColor)) {
       this._fetchDensity(); // 加载空置的数据
     } else {
       _selectInd > -1
@@ -98,21 +104,20 @@ export default class BuildingDensity extends Component {
     const { selectedValue } = this.state;
     if (!selectedValue) return;
     const _uuid = (this._uuid = CreateUid()); // 生成唯一标志，如果结尾改变，则该请求结果不显示
-    // type=ZZFW
     const _param = `type=${selectedValue}`;
     const { res, err } = await GetDensity(_param);
     if (!res || err) return;
-    if (selectedValue === 'ZZFW') {
+    if (selectedValue === typeMap.zz) {
       for (let key of Object.keys(res)) {
         if (!res[key]) continue;
         this._selfOccupiedColor[key] = DensityColor[res[key]];
       }
-    } else if (selectedValue === 'CZFW') {
+    } else if (selectedValue === typeMap.cz) {
       for (let key of Object.keys(res)) {
         if (!res[key]) continue;
         this._rentOutColor[key] = DensityColor[res[key]];
       }
-    } else if (selectedValue === 'XZFW') {
+    } else if (selectedValue === typeMap.xz) {
       for (let key of Object.keys(res)) {
         if (!res[key]) continue;
         this._vavancyColor[key] = DensityColor[res[key]];
@@ -126,18 +131,18 @@ export default class BuildingDensity extends Component {
   _showPoliceStation = () => {
     const { selectedValue } = this.state;
     let _colorMap = {};
-    if (selectedValue === 'ZZFW') {
+    if (selectedValue === typeMap.zz) {
       _colorMap = this._selfOccupiedColor;
-    } else if (selectedValue === 'CZFW') {
+    } else if (selectedValue === typeMap.cz) {
       _colorMap = this._rentOutColor;
-    } else if (selectedValue === 'XZFW') {
+    } else if (selectedValue === typeMap.xz) {
       _colorMap = this._vavancyColor;
     }
     if (_MAP_.getLayer(policeStationId)) {
       _MAP_.setLayoutProperty(policeStationId, 'visibility', 'visible'); // 设置为可显示
       _MAP_.setPaintProperty(policeStationId, 'fill-color', [
         'coalesce',
-        ['get', ['get', 'ID'], ['literal', _colorMap]],
+        ['get', ['get', 'code'], ['literal', _colorMap]],
         '#fff'
       ]);
     }
@@ -150,3 +155,9 @@ export default class BuildingDensity extends Component {
 }
 
 const policeStationId = 'POLICE_STATION_JUR'; // 派出所辖区图层名称
+// 0:出租,1:闲置,2:自住
+const typeMap = {
+  cz: '0',
+  xz: '1',
+  zz: '2'
+};

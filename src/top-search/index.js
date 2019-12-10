@@ -8,6 +8,7 @@ import CityList from './city-list';
 import SearchNav from './search-nav';
 import BaseSearch from './base-search';
 import PolySearch from './poly-search';
+import ResultList from './result-list';
 
 export default class TopSearch extends Component {
   state = { showUi: true };
@@ -26,6 +27,7 @@ export default class TopSearch extends Component {
         <SearchInput />
         <SearchBtn />
         <CityList />
+        <ResultList />
       </div>
     );
   }

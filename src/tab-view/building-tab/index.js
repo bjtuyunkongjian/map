@@ -65,6 +65,7 @@ export default class BuildingTab extends Component {
     GlobalEvent.emit(GloEventName.closePopupBuilding); // 关闭详情弹框
     await this.setState({ curBar: nextBar }); // 关闭对应弹窗
     if (TabValue.building === nextBar) {
+      this._fetchChartData(); //获取图表数据
       this._addListener(); // 增加监听
       const _zoom = _MAP_.getZoom();
       _MAP_.flyTo({ zoom: _zoom > 16 ? _zoom : 16 });
@@ -79,9 +80,7 @@ export default class BuildingTab extends Component {
     const _bounds = _MAP_.getBounds();
     const _zoom = _MAP_.getZoom();
     // minX=120&maxX=125&minY=36.4&maxY=37&level=8.7
-    const _param = `minX=${_bounds._sw.lng}&maxX=${_bounds._ne.lng}&minY=${
-      _bounds._sw.lat
-    }&maxY=${_bounds._ne.lat}&level=${_zoom}`;
+    const _param = `minX=${_bounds._sw.lng}&maxX=${_bounds._ne.lng}&minY=${_bounds._sw.lat}&maxY=${_bounds._ne.lat}&level=${_zoom}`;
     const { res, err } = await GetCount(_param);
     if (!res || err) return; // 保护
     const { fwbarData, fwdensity } = res;

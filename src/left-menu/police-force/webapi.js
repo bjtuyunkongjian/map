@@ -29,22 +29,26 @@ export const GetPoliceDetail = async param => {
   return { res, err };
 };
 
-// 获取所有的安保路线
+/**
+ * 获取所有的安保路线
+ * http://localhost:8082/GPSServer/securityName
+ */
 export const FetchAllRoutes = async () => {
   const { res, err } = await FetchRequest({
-    url: 'mapServer/string',
-    method: 'POST',
-    body: { test: 'getAllFileNames' }
+    url: 'GPSServer/securityName',
+    method: 'GET'
   });
   return { res, err };
 };
 
-export const FetchRouteInfo = async body => {
-  Object.assign(body, { test: 'queryFile' });
+/**
+ * 获取安保路线详情
+ * GPSServer/securityDetail?fileName=test_1
+ */
+export const FetchRouteInfo = async param => {
   const { res, err } = await FetchRequest({
-    url: 'mapServer/string',
-    method: 'POST',
-    body: body
+    url: 'GPSServer/securityDetail?' + param,
+    method: 'GET'
   });
   return { res, err };
 };

@@ -129,7 +129,11 @@ export default class DetailCase extends Component {
     const _uuid = (this._uuid.detailNum = CreateUid());
     const _bounds = _MAP_.getBounds();
     const _zoom = _MAP_.getZoom();
-    const _param = `minX=${_bounds._sw.lng}&maxX=${_bounds._ne.lng}&minY=${_bounds._sw.lat}&maxY=${_bounds._ne.lat}&startTime=${this._start}&endTime=${this._end}&type=${pCode}&level=${_zoom}`;
+    const _param = `minX=${_bounds._sw.lng}&maxX=${_bounds._ne.lng}&minY=${
+      _bounds._sw.lat
+    }&maxY=${_bounds._ne.lat}&startTime=${this._start}&endTime=${
+      this._end
+    }&type=${pCode}&level=${_zoom}`;
     const { res, err } = await GetDetailNum(_param);
     if (!res || err) return;
     if (_uuid !== this._uuid.detailNum) return;
@@ -156,11 +160,14 @@ export default class DetailCase extends Component {
     const _bounds = _MAP_.getBounds();
     const _zoom = _MAP_.getZoom();
     // minX=&maxX=&minY=&maxY=&startTime=&endTime=&type=&level=
-    const _param = `minX=${_bounds._sw.lng}&maxX=${_bounds._ne.lng}&minY=${
+    let _param = `minX=${_bounds._sw.lng}&maxX=${_bounds._ne.lng}&minY=${
       _bounds._sw.lat
     }&maxY=${_bounds._ne.lat}&startTime=${this._start}&endTime=${
       this._end
-    }&type=${selectedCode || pCode}&level=${_zoom}`;
+    }&type=${pCode}&level=${_zoom}`;
+    if (selectedCode) {
+      _param += `&code=${selectedCode}`;
+    }
     const { res, err } = await GetCaseData(_param);
     if (!res || err) return;
     if (_uuid !== this._uuid.caseData) return;
