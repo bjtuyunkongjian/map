@@ -4,12 +4,9 @@
  */
 
 import mapboxgl from 'mapbox-gl';
-import { AddLevel } from 'tuyun-utils';
 import React, { Component } from 'react';
 
 import BaseStyle from './map-styles/light-sd';
-import AddLevels from './add-levels';
-// import CustomLayer from './police';
 
 export default class MapBoxDemo extends Component {
   componentDidMount() {
@@ -44,45 +41,5 @@ export default class MapBoxDemo extends Component {
       localIdeographFontFamily: '黑体',
       preserveDrawingBuffer: true
     });
-    // 点击地图在控制台打出经纬度 15/36.6866/117.05608
-    // this.map.on('mouseup', async e => {
-    //   const _bounds = _MAP_.getBounds();
-    //   const _xDiff = _bounds._ne.lng - _bounds._sw.lng;
-    //   const _yDiff = _bounds._ne.lat - _bounds._sw.lat;
-    //   console.log(
-    //     'e.lngLat',
-    //     e.lngLat,
-    //     '屏幕范围精度差：',
-    //     _xDiff,
-    //     '屏幕范围纬度差：',
-    //     _yDiff
-    //   );
-    // });
-    // this.map.on('click', e => {
-    //   console.log(e.lngLat);
-    //   // console.log(this.map.queryRenderedFeatures(e.point));
-    // });
-    this.map
-      .on('style.load', () => {
-        this._addSourceFunc(); // 增加图层组
-        // for (let i = 0; i < 1; i++) {
-        //   this.map.addLayer(
-        //     new CustomLayer({
-        //       id: '3d-model-policeman-obj-' + i,
-        //       height: 21,
-        //       center: [117.03147871 + i / 11100, 36.67556967 + i / 11100]
-        //     })
-        //   );
-        // }
-      })
-      .on('zoomend', () => {
-        this._addSourceFunc();
-      });
-  };
-
-  _addSourceFunc = () => {
-    for (let item of AddLevels) {
-      AddLevel(this.map, item);
-    }
   };
 }
