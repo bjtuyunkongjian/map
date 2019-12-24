@@ -1,26 +1,7 @@
 .map-app {
   width: 100%;
   height: 100%;
-  @bottom-nav-width: 240px; // 底部导航的宽度，底部导航指 放大、缩小、恢复旋转角度、还原倾斜度 这些
-  @bottom-nav-height: 50px;
-  @left-menu-width: 200px; // 左侧导航栏宽度
-  @top-search-top: 50px; // 顶部导航栏距离浏览器上册的距离
-  // @import './top-nav/index'; // 顶部导航，刚开始版本，由于业务需求顶部导航做了改动，后期改回来放开
-  @import './left-menu/index.less'; // 左侧菜单栏
-  @import './top-search/index.less'; // 顶部搜索
-  @import 'tab-view/index.less'; // 右侧联动显示
-  @import './compare-tab/index.less'; //右侧比对碰撞
-  @import './jurisdiction-tab/index.less'; // 右侧辖区数据
-  @import './cross-tab/index.less'; // 右侧交叉研判的数据
-  @import './features-menu/index.less'; // 底部功能菜单
-  @import './bottom-nav/index.less'; // 底部导航
-  @import './detail-category/index.less'; // 重点人口详情
-  @import './podata-popup/index.less'; // 一标三识数据对应的弹框
-  @import './detail-popup.less'; // 一标三识详情
-  @import './progress-case/index.less'; // 案件进度条
-  @import './global-loading/index.less'; // 全局 loading
-  @import './case-detail/index.less'; // 案件详情
-  @import './progress-vehicle/index.less'; // 车辆，两客一危，进度条
-  @import './mode-vehicle/index.less'; // 车辆，两客一危，模式选择
-  @import './popup-control/index.less'; //布控显示的列表
+  background: @theme-bg-color;
+
+  @import './screen/index.less';
 }

@@ -6,7 +6,8 @@ import React, { Component } from 'react';
 import ReactDom from 'react-dom';
 
 import '../style/index.less';
-import MapDemo from './map';
+// import MapDemo from './map';
+import Screen from './screen';
 
 class MapApp extends Component {
   render() {
@@ -19,8 +20,7 @@ class MapApp extends Component {
     }
     return (
       <div className="map-app">
-        {/* 地图 */}
-        <MapDemo />
+        <Screen />
       </div>
     );
   }
