@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import TopNav from './top-nav';
+import BodyInfo from './body-info';
 
 export default class Screen extends Component {
   state = {};
@@ -8,6 +9,7 @@ export default class Screen extends Component {
     return (
       <div className="screen">
         <TopNav />
+        <BodyInfo />
       </div>
     );
   }

@@ -1,0 +1,21 @@
+.left-map {
+  position: relative;
+  flex: 1;
+  height: 100%;
+  padding-bottom: @bottom-height;
+  .img-container {
+    background: linear-gradient(to left, #f00, #f00) left top no-repeat,
+      linear-gradient(to bottom, #f00, #f00) left top no-repeat,
+      linear-gradient(to left, #f00, #f00) right top no-repeat,
+      linear-gradient(to bottom, #f00, #f00) right top no-repeat,
+      linear-gradient(to left, #f00, #f00) left bottom no-repeat,
+      linear-gradient(to bottom, #f00, #f00) left bottom no-repeat,
+      linear-gradient(to left, #f00, #f00) right bottom no-repeat,
+      linear-gradient(to left, #f00, #f00) right bottom no-repeat;
+    background-size: 1px 20px, 20px 1px, 1px 20px, 20px 1px;
+    height: 100%;
+    .map-img {
+      width: 100%;
+    }
+  }
+}
