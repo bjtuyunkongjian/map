@@ -33,9 +33,7 @@ const style = {
       type: 'vector',
       scheme: 'tms',
       tiles: [
-        `${
-          BaseConfig.geoserverHost
-        }geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_15L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`
+        `${BaseConfig.geoserverHost}geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_15L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`
       ],
       minzoom: visibleLevel
     }
@@ -179,7 +177,14 @@ const style = {
       paint: {
         'line-width': {
           base: 2,
-          stops: [[15, 5], [16, 7], [17, 11], [18, 15], [19, 16], [20, 14]]
+          stops: [
+            [15, 5],
+            [16, 7],
+            [17, 11],
+            [18, 15],
+            [19, 16],
+            [20, 14]
+          ]
         },
         'line-color': '#FFFFFF'
       },
@@ -225,7 +230,14 @@ const style = {
       paint: {
         'line-width': {
           base: 2,
-          stops: [[15, 5], [16, 8], [17, 11], [18, 14], [19, 14], [20, 14]]
+          stops: [
+            [15, 5],
+            [16, 8],
+            [17, 11],
+            [18, 14],
+            [19, 14],
+            [20, 14]
+          ]
         },
         'line-color': '#ffeebb'
       },
@@ -271,7 +283,14 @@ const style = {
       paint: {
         'line-width': {
           base: 2,
-          stops: [[15, 7], [16, 7], [17, 9], [18, 11], [19, 11], [20, 19]]
+          stops: [
+            [15, 7],
+            [16, 7],
+            [17, 9],
+            [18, 11],
+            [19, 11],
+            [20, 19]
+          ]
         },
         'line-color': '#ffeebb'
       },
@@ -403,6 +422,7 @@ const style = {
           ['get', ['to-string', ['get', 'ID']], ['literal', BuildingColor]],
           gresplColor
         ],
+        'fill-extrusion-pattern': 'camera',
         'fill-extrusion-height': [
           'interpolate',
           ['linear'],
@@ -429,6 +449,7 @@ const style = {
           ['get', ['to-string', ['get', 'ID']], ['literal', BuildingColor]],
           gresplColor
         ],
+        'fill-extrusion-pattern': 'camera',
         'fill-extrusion-height': [
           'interpolate',
           ['linear'],
@@ -455,6 +476,7 @@ const style = {
           ['get', ['to-string', ['get', 'ID']], ['literal', BuildingColor]],
           gresplColor
         ],
+        'fill-extrusion-pattern': 'camera',
         'fill-extrusion-height': [
           'interpolate',
           ['linear'],
