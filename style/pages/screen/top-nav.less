@@ -1,4 +1,28 @@
 .top-nav {
   color: white;
-  font-size: 35px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid black;
+  padding: 15px 0;
+  margin-bottom: 5px;
+  .title-container {
+    display: flex;
+    height: 100%;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    .title-text {
+      background: linear-gradient(to bottom, #21bed8, @color);
+      -webkit-background-clip: text;
+      color: transparent;
+      font-size: 24px;
+      font-weight: 800;
+    }
+  }
+  .parallel-gram {
+    width: 160px;
+    height: 100px;
+    background-color: beige;
+    transform: skew(-30deg);
+  }
 }
