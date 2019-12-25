@@ -34,7 +34,7 @@ const layers = [
       'line-join': 'round'
     },
     paint: {
-      'line-width': 10,
+      'line-width': 3,
       'line-color': '#cdcdcd'
     }
   },
