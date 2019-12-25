@@ -31,7 +31,7 @@ export default class LeftMap extends Component {
                   key={index}
                   style={{ left: item.left, bottom: item.bottom }}
                   onClick={() => {
-                    window.location.href = 'https:www.baidu.com';
+                    window.location.href = '';
                   }}
                 >
                   {item.name}
