@@ -17,6 +17,20 @@
       background: @background-border;
       background-size: @background-border-size;
       border: 1px solid black;
+      .chart-inner {
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.02);
+        animation: chart-fadein 1s cubic-bezier(0.58, 0.13, 0.94, 0.64) forwards;
+      }
     }
+  }
+}
+
+@keyframes chart-fadein {
+  0% {
+    transform: translateX(10%);
+    opacity: 0;
+    animation-timing-function: ease;
   }
 }
