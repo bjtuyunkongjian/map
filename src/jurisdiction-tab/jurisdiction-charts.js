@@ -42,6 +42,7 @@ export default class JurisdictionCharts extends Component {
   _selectedChart = '';
 
   componentWillMount = () => this._dealWithEvent();
+
   render() {
     return (
       <ul className="charts-box">

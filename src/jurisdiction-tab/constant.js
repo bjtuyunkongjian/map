@@ -1,7 +1,8 @@
 export const DefaultArea = {
   label: '',
-  value: '370500000000',
-  level: 1
+  value: '',
+  level: 1,
+  center: []
   // label: '',
   // value: '',
   // level: 2
@@ -12,8 +13,7 @@ export const DefaultArea = {
 export const Area = {
   index: 0,
   label: '当前辖区',
-  color: 'rgba(76, 125, 174, 0.1)',
-  center: []
+  color: 'rgba(76, 125, 174, 0.1)'
 };
 
 export const LabelLayerId = 'line-name-ref';

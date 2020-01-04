@@ -5,7 +5,8 @@ import SelectArea from './select-area';
 import SelectDate from './select-date';
 import JurisdictionCharts from './jurisdiction-charts';
 import Event, { EventName } from './event';
-
+import { GetCurArea } from './webapi';
+import { DefaultArea } from './constant';
 export default class JurisdictionTab extends Component {
   state = {
     visible: false, // slide-in，滑入，显示在屏幕中；slide-out，划出
@@ -56,6 +57,14 @@ export default class JurisdictionTab extends Component {
     const { visible: curVisible } = this.state;
     if (visible === curVisible) return; //重复点击保护
     if (visible) {
+      const { res, err } = GetCurArea();
+      if (!res || err) return;
+      const { point, code, name } = res;
+      DefaultArea.label = name;
+      DefaultArea.value = code;
+      DefaultArea.center = point;
+      // TODO 辖区对应的树层级
+      DefaultArea.level = '';
       await this.setState({ visible: visible, animate: 'slide-in' });
       Event.emit(EventName.toggleVisible, { visible });
     } else {

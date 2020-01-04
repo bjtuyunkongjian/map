@@ -93,6 +93,8 @@ export default class SelectArea extends Component {
   _storageTreeData = leaf => {
     const { toSelectArea } = this.state;
     const { label, value, detail } = leaf;
+    // TODO
+    // _MAP_.flyTo({center: detail.point, zoom: 10})
     if (toSelectArea.value === value) return;
     this.setState({ toSelectArea: { label, value, level: detail.level } });
   };

@@ -4,10 +4,6 @@ export const DefaultArea = [
     // value: '370099670000',
     // type: 'jurisdiction',
     // level: 2
-    // label: '',
-    // value: '',
-    // type: 'jurisdiction',
-    // level: 1
   },
   {
     // label: '',
