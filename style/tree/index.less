@@ -1,0 +1,44 @@
+.ReactTree__Container {
+  color: @t-base;
+  .ReactTree__LeafNode {
+    display: block;
+    margin-left: 16px;
+  }
+  .ReactTree__LeafLabel {
+    display: flex;
+    align-items: center;
+    // &.show {
+    //   .drop-down(19px);
+    // }
+  }
+  .ReactTree__LabelIcon {
+    cursor: pointer;
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+  .ReactTree__LabelIcon--disabled {
+    color: @t-disabled;
+  }
+  .ReactTree__LabelText {
+    padding: 2px 5px;
+    cursor: pointer;
+    border-radius: @radius-m;
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  .ReactTree__Selected {
+    background-color: @color-blue;
+    color: @t-white;
+    margin-left: 5px;
+  }
+
+  .ReactTree__LabelText--disabled {
+    padding: 2px 5px;
+    border-radius: @radius-m;
+    color: @t-disabled;
+    cursor: auto;
+  }
+}

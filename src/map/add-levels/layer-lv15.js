@@ -33,7 +33,9 @@ const style = {
       type: 'vector',
       scheme: 'tms',
       tiles: [
-        `${BaseConfig.geoserverHost}geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_15L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`
+        `${
+          BaseConfig.geoserverHost
+        }geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_15L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`
       ],
       minzoom: visibleLevel
     }
@@ -392,7 +394,7 @@ const style = {
     {
       id: 'GRESPL_1_3D',
       source: LevelConfig.addLv15,
-      'source-layer': 'GRESPL_Merge-1',
+      'source-layer': 'GRESPL_Merge_1',
       type: 'fill-extrusion',
       filter: ['!=', 'CLASID', '310200'],
       paint: {
@@ -418,7 +420,7 @@ const style = {
     {
       id: 'GRESPL_2_3D',
       source: LevelConfig.addLv15,
-      'source-layer': 'GRESPL_Merge_ID2',
+      'source-layer': 'GRESPL_Merge_2',
       type: 'fill-extrusion',
       filter: ['!=', 'CLASID', '310200'],
       paint: {
@@ -444,7 +446,7 @@ const style = {
     {
       id: 'GRESPL_3_3D',
       source: LevelConfig.addLv15,
-      'source-layer': 'GRESPL_Merge_ID3',
+      'source-layer': 'GRESPL_Merge_3',
       type: 'fill-extrusion',
       filter: ['!=', 'CLASID', '310200'],
       paint: {

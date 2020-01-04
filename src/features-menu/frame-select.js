@@ -17,14 +17,13 @@ import {
   RemoveLayer,
   LayerIds
 } from 'tuyun-utils';
+import { FaDrawPolygon } from 'react-icons/fa';
 
 import Event, { EventName } from './event';
 import MenuItems from './menu-items';
 
 export default class FrameSelect extends Component {
-  state = {
-    curMenu: -1
-  };
+  state = { curMenu: -1 };
 
   _vertexClick = []; // 已点击的坐标
   _vertexMove; // 移动时对应的坐标
@@ -43,6 +42,7 @@ export default class FrameSelect extends Component {
         className={`menu-item ${_selected ? 'checked' : ''}`}
         onClick={this._clickMenu}
       >
+        <FaDrawPolygon />
         框选
       </div>
     );
@@ -159,7 +159,8 @@ export default class FrameSelect extends Component {
         color: 'rgba(0,0,0,0)',
         strokeWidth: 2,
         strokeColor: '#4169E1',
-        labelLayerId
+        labelLayerId,
+        disablePointer: true
       });
     }
     // 添加线图层

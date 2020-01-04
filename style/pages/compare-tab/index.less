@@ -1,0 +1,75 @@
+.compare-tab {
+  width: @bottom-nav-width;
+  height: calc(~'100% - @{bottom-nav-height}');
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  right: -@bottom-nav-width;
+  &.slide-in {
+    right: 0;
+    animation: @slide-in;
+    @slide-in: 0.5s compare-slide-in;
+    @keyframes compare-slide-in {
+      0% {
+        right: -@bottom-nav-width;
+      }
+      100% {
+        right: 0px;
+      }
+    }
+  }
+  &.slide-out {
+    right: -@bottom-nav-width;
+    animation: @slide-out;
+    @slide-out: 0.5s compare-slide-out;
+    @keyframes compare-slide-out {
+      0% {
+        right: 0px;
+      }
+      100% {
+        right: -@bottom-nav-width;
+      }
+    }
+  }
+  // 比对碰撞面板
+  .compare-box {
+    width: @bottom-nav-width;
+    height: 100%;
+    background: @theme-bg-color;
+    overflow: hidden;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    @import './select-area.less';
+    @import './select-date.less';
+    @import './compare-charts.less';
+  }
+  // 伸缩按钮
+  .control {
+    background: @color-police-blue;
+    width: 20px;
+    height: 50px;
+    right: @bottom-nav-width;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    border-bottom-left-radius: @radius-m;
+    border-top-left-radius: @radius-m;
+    cursor: pointer;
+    .aspect-right {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border: none;
+      border-top: 1px solid @t-white;
+      border-left: 1px solid @t-white;
+      transform: rotate(135deg);
+      transform-origin: 50%;
+      &.changed {
+        transform: rotate(-45deg);
+        margin-left: 5px;
+      }
+    }
+  }
+}

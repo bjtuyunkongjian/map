@@ -5,46 +5,39 @@ import { FetchRequest } from 'tuyun-utils';
 
 /**
  * 获取单位数据
+ * /mapServer/company/distribution?
+ * minX=120&maxX=125&minY=36.4&maxY=37&level=9.5&type=BHDW&tzbhbm=252
  */
-export const FetchUnitData = async body => {
-  Object.assign(body, { test: 'dwData' });
+export const GetDistribution = async param => {
   const { res, err } = await FetchRequest({
-    url: 'mapServer/string',
-    method: 'POST',
-    body
+    url: 'mapServer/company/distribution?' + param,
+    method: 'GET'
   });
   return { res, err };
 };
 
 /**
  * 获取3D建筑物上的铭牌数字
- * @param { object } points
- * @param { number } firtype - 必填，类型  1:人口 2:单位 3:房屋
- * @param { number } sectype - 饼图分类  1:人口 2:单位 3:房屋
- * @param { number } thirtype - 饼图分类  1:人口 2:单位 3:房屋
+ * /mapServer/company/countOfBuilding?
+ * minX=120&maxX=125&minY=36.4&maxY=37&type=PTDW
  */
-export const FetchNameplateData = async body => {
-  Object.assign(body, { test: 'getNum' });
+export const GetNameplate = async param => {
   const { res, err } = await FetchRequest({
-    url: 'mapServer/string',
-    method: 'POST',
-    body
+    url: 'mapServer/company/countOfBuilding?' + param,
+    method: 'GET'
   });
   return { res, err };
 };
 
 /**
- * 获取3D建筑物上的铭牌数字
- * @param { object } points
- * @param { number } firtype - 必填，类型  firtype="1"或"2"，特种 1  保护 2
- * @param { number } sectype - 饼图分类  sectype="999"
+ * 获取二级分类的数量
+ * /mapServer/company/subCatalogsOfOther?
+ * minX=120&maxX=125&minY=36.4&maxY=37&type=BHDW&code=999&subCode=252
  */
-export const FetchDetailNum = async body => {
-  Object.assign(body, { test: 'dwQT' });
+export const GetSubCatalogs = async param => {
   const { res, err } = await FetchRequest({
-    url: 'mapServer/string',
-    method: 'POST',
-    body
+    url: 'mapServer/company/subCatalogsOfOther?' + param,
+    method: 'GET'
   });
   return { res, err };
 };

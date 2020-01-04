@@ -12,14 +12,14 @@ import TimeProgress from './time-progress';
 import ProgressSettings from './progress-settings';
 
 export default class ProgressCase extends Component {
-  state = { caseType: '' };
+  state = { caseType: '', showUi: true };
 
   componentWillMount = () => this._dealWithEvent();
 
   render() {
-    const { caseType } = this.state;
+    const { caseType, showUi } = this.state;
     return (
-      <div className={`progress-case ${!caseType ? 'hidden' : ''}`}>
+      <div className={`progress-case ${caseType && showUi ? '' : 'hidden'}`}>
         <ControlBtn />
         <ProgressBar />
         <TimeProgress />
@@ -29,8 +29,11 @@ export default class ProgressCase extends Component {
   }
 
   _dealWithEvent = () => {
-    const { changeSelectedCaseTendency } = GloEventName;
+    const { changeSelectedCaseTendency, toggleAllUi } = GloEventName;
     GlobalEvent.on(changeSelectedCaseTendency, this._changeCaseType);
+    GlobalEvent.on(toggleAllUi, ({ visible }) => {
+      this.setState({ showUi: visible });
+    });
   };
 
   _changeCaseType = caseType => {

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { GlobalEvent, GloEventName } from 'tuyun-utils';
 import { FaTimes } from 'react-icons/fa';
 
-import { FetchPopDetail } from './webapi';
+import { GetDetail } from './webapi';
 import { BaseInfo, HouseholdRegInfo, PopCategory } from './constant';
 
 export default class PupupPopulation extends Component {
@@ -13,7 +13,9 @@ export default class PupupPopulation extends Component {
     lngLat: [],
     popCode: '',
     baseInfo: [],
-    householdRegInfo: []
+    householdRegInfo: [],
+    pointx: 0,
+    pointy: 0
   };
 
   componentDidMount = () => this._init();
@@ -30,7 +32,6 @@ export default class PupupPopulation extends Component {
       householdRegInfo
     } = this.state;
     if (!popCode || !visible) return null;
-
     return (
       <div
         className="detail-popup"
@@ -40,7 +41,6 @@ export default class PupupPopulation extends Component {
           人员信息
           <FaTimes className="close" onClick={this._closePopup} />
         </div>
-
         <div className="info-label">基本信息</div>
         <ul className="detail-box">
           {baseInfo.map((item, index) => (
@@ -77,7 +77,7 @@ export default class PupupPopulation extends Component {
   };
 
   _showPopup = async param => {
-    const { visible, boxLeft, boxTop, lngLat, code } = param;
+    const { visible, boxLeft, boxTop, lngLat, code, pointx, pointy } = param;
     await this.setState({
       visible,
       boxLeft: boxLeft,
@@ -85,7 +85,9 @@ export default class PupupPopulation extends Component {
       lngLat: lngLat,
       popCode: code,
       baseInfo: [],
-      householdRegInfo: []
+      householdRegInfo: [],
+      pointx: pointx,
+      pointy: pointy
     });
     this._fetchPopDetail();
     _MAP_.on('move', this._addListener);
@@ -97,19 +99,26 @@ export default class PupupPopulation extends Component {
   };
 
   _fetchPopDetail = async () => {
-    const { popCode } = this.state;
-    const { res, err } = await FetchPopDetail({
-      rkbm: popCode
-    });
+    const { pointx, pointy, popCode } = this.state;
+    //mapServer/population/detail?rkbm=681FC89405770A87E053B592300AFB7D rkbm=${popCode}
+    if (!pointy && !pointx) {
+      var _param = `rkbm=${popCode}`;
+    } else if (!popCode) {
+      var _param = `x=${pointx}&y=${pointy}`;
+    } else {
+      var _param = `x=${pointx}&y=${pointy}&rkbm=${popCode}`;
+    }
+    const { res, err } = await GetDetail(_param);
     if (!res || err) return console.log('获取人口信息失败');
-    res.rklb = PopCategory[res.rklb]; // 人口类别
 
+    res.rklb = PopCategory[res.rklb]; // 人口类别
     BaseInfo.map(item => {
       item.value = res[item.key] || '暂无';
     });
     HouseholdRegInfo.map(item => {
       item.value = res[item.key] || '暂无';
     });
+
     this.setState({
       baseInfo: BaseInfo,
       householdRegInfo: HouseholdRegInfo

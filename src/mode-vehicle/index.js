@@ -14,6 +14,7 @@ import { DefaultOpt } from './constant';
 
 export default class ModeVehicle extends Component {
   state = {
+    showUi: true,
     vehicleTypes: []
   };
 
@@ -24,8 +25,8 @@ export default class ModeVehicle extends Component {
   componentWillMount = () => this._dealWithEvent();
 
   render() {
-    const { vehicleTypes } = this.state;
-    if (!vehicleTypes.length) return null;
+    const { vehicleTypes, showUi } = this.state;
+    if (!vehicleTypes || !vehicleTypes.length || !showUi) return null;
     return (
       <div className="mode-vehicle">
         <CurrentMode />
@@ -35,15 +36,22 @@ export default class ModeVehicle extends Component {
   }
 
   _dealWithEvent = () => {
-    const { changeModeVehicle } = GloEventName;
-    GlobalEvent.on(changeModeVehicle, this._onchangeModeVehicle);
     Event.on(EventName.changeMode, this._onChangeMode);
+    const { changeModeVehicle, toggleAllUi } = GloEventName;
+    GlobalEvent.on(changeModeVehicle, this._onchangeModeVehicle);
+    GlobalEvent.on(toggleAllUi, ({ visible }) => {
+      this.setState({ showUi: visible });
+    });
   };
 
   _onchangeModeVehicle = async ({ vehicleTypes }) => {
     this._unmountVehicleAni(); // 取消挂载
     await this.setState({ vehicleTypes });
-    this._onChangeMode({ mode: this._mode });
+    if (vehicleTypes.length === 0) {
+      this._onChangeMode({ mode: DefaultOpt });
+    } else {
+      this._onChangeMode({ mode: this._mode });
+    }
   };
 
   _onChangeMode = ({ mode }) => {
@@ -63,10 +71,7 @@ export default class ModeVehicle extends Component {
     const { vehicleTypes } = this.state;
     this._vehicleAnimates = vehicleTypes.map(item => {
       return new VehicleAnimation(_MAP_, {
-        fetchParam: {
-          test: 'locationCar',
-          type: item.type + ''
-        },
+        fetchParam: `type=${item.type}`,
         vehicleLayer: layerPrefix + item.type,
         hslColor: item.hsl, // hsl 色值
         rgbColor: item.rgb,

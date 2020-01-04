@@ -6,17 +6,19 @@ import {
   RemoveLayer,
   AddCircleLayer,
   AddNamePlateLayer,
-  LayerIds
+  LayerIds,
+  GlobalConst
 } from 'tuyun-utils';
 import {
   point as TurfPoint,
   featureCollection as FeatureCollection
 } from 'turf';
 
-import { FetchDetailNum, FetchUnitData, FetchNameplateData } from './webapi';
+import { GetSubCatalogs, GetDistribution, GetNameplate } from './webapi';
 
 export default class DetailUnit extends Component {
   state = {
+    showUi: true,
     visible: false, // 是否显示
     hidden: false, // 是否隐藏，右侧菜单栏收进去的时候不显示弹框，但数据还是要加载
     pCode: '',
@@ -29,7 +31,6 @@ export default class DetailUnit extends Component {
   _uuid = -1;
 
   componentWillMount = () => this._dealWithEvent();
-  componentDidMount = () => this._init();
 
   render() {
     const {
@@ -37,10 +38,11 @@ export default class DetailUnit extends Component {
       hasSecType,
       detailArr,
       selectedValue,
-      hidden
+      hidden,
+      showUi
     } = this.state;
 
-    if (!visible || !hasSecType) return null;
+    if (!visible || !hasSecType || !showUi) return null;
     if (!detailArr || detailArr.length === 0) return null;
     return (
       <ul className={`detail-category ${hidden ? 'hidden' : ''}`}>
@@ -61,10 +63,11 @@ export default class DetailUnit extends Component {
     );
   }
 
-  _init = () => {};
-
   _dealWithEvent = () => {
     GlobalEvent.on(GloEventName.toggleDetailUnit, this._onToggleDetailUnit);
+    GlobalEvent.on(GloEventName.toggleAllUi, ({ visible }) => {
+      this.setState({ showUi: visible });
+    });
   };
 
   _onToggleDetailUnit = async ({ visible, code, hasSecType, unitType }) => {
@@ -144,19 +147,18 @@ export default class DetailUnit extends Component {
   };
 
   _fetchUnitData = async () => {
+    const { unit } = GlobalConst.policeData;
     const { pCode, selectedValue, unitType } = this.state;
     const _uuid = (this._uuid = CreateUid());
     const _bounds = _MAP_.getBounds();
-    let _param = { points: _bounds };
+    const _zoom = _MAP_.getZoom();
+    let _param = `minX=${_bounds._sw.lng}&maxX=${_bounds._ne.lng}&minY=${_bounds._sw.lat}&maxY=${_bounds._ne.lat}&level=${_zoom}&type=${typeMap[unitType]}&tzbhbm=`;
     if (!selectedValue) {
-      _param = Object.assign(_param, {
-        firtype: firType[unitType],
-        sectype: pCode
-      });
+      _param += pCode;
     } else {
-      _param = Object.assign(_param, { thirdType: selectedValue });
+      _param += selectedValue;
     }
-    const { res, err } = await FetchUnitData(_param);
+    const { res, err } = await GetDistribution(_param);
     const { visible } = this.state;
     if (!visible) return;
     if (!res || err) return;
@@ -188,7 +190,9 @@ export default class DetailUnit extends Component {
       data: FeatureCollection(_features)
     };
     const { unit: unitLayerIds } = LayerIds;
-    AddCircleLayer(_MAP_, _geoJSONDataPoint, unitLayerIds.point);
+    AddCircleLayer(_MAP_, _geoJSONDataPoint, unitLayerIds.point, {
+      color: unit.color
+    });
     // 房屋铭牌数据为空
     const _geoJSONDataName = { type: 'geojson', data: FeatureCollection([]) };
     AddNamePlateLayer(_MAP_, _geoJSONDataName, unitLayerIds.namePlate);
@@ -199,14 +203,10 @@ export default class DetailUnit extends Component {
     const { pCode, selectedValue, unitType } = this.state;
     const _uuid = (this._uuid = CreateUid());
     const _bounds = _MAP_.getBounds();
-    const _param = {
-      firtype: '2',
-      points: _bounds,
-      thirtype: pCode,
-      flag: firType[unitType]
-    };
-    selectedValue && Object.assign(_param, { fourthtype: selectedValue });
-    const { res, err } = await FetchNameplateData(_param);
+    // minX=120&maxX=125&minY=36.4&maxY=37&type=BHDW&code=999&subCode=252
+    let _param = `minX=${_bounds._sw.lng}&maxX=${_bounds._ne.lng}&minY=${_bounds._sw.lat}&maxY=${_bounds._ne.lat}&type=${typeMap[unitType]}&code=${pCode}`;
+    if (selectedValue) _param += `&subCode=${selectedValue}`;
+    const { res, err } = await GetNameplate(_param);
     const { visible } = this.state;
     if (!visible) return;
     if (!res || err) return;
@@ -228,11 +228,9 @@ export default class DetailUnit extends Component {
   _fetchDetailNum = async () => {
     const { unitType } = this.state;
     const _bounds = _MAP_.getBounds();
-    const { res, err } = await FetchDetailNum({
-      points: _bounds,
-      firtype: firType[unitType],
-      sectype: '999'
-    });
+    // minX=120&maxX=125&minY=36.4&maxY=37&type=BHDW
+    const _param = `minX=${_bounds._sw.lng}&maxX=${_bounds._ne.lng}&minY=${_bounds._sw.lat}&maxY=${_bounds._ne.lat}&type=${typeMap[unitType]}`;
+    const { res, err } = await GetSubCatalogs(_param);
     if (!res || err) return;
     const { visible } = this.state;
     if (!visible) return;
@@ -240,4 +238,4 @@ export default class DetailUnit extends Component {
   };
 }
 
-const firType = { special: '1', protect: '2' };
+const typeMap = { special: 'TZDW', protect: 'BHDW' };

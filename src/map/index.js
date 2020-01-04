@@ -9,8 +9,7 @@ import React, { Component } from 'react';
 
 import BaseStyle from './map-styles/light-sd';
 import AddLevels from './add-levels';
-// import CustomLayer from './radar';
-import CustomLayer from './police';
+// import CustomLayer from './police';
 
 export default class MapBoxDemo extends Component {
   componentDidMount() {
@@ -65,7 +64,15 @@ export default class MapBoxDemo extends Component {
     this.map
       .on('style.load', () => {
         this._addSourceFunc(); // 增加图层组
-        this.map.addLayer(CustomLayer);
+        // for (let i = 0; i < 1; i++) {
+        //   this.map.addLayer(
+        //     new CustomLayer({
+        //       id: '3d-model-policeman-obj-' + i,
+        //       height: 21,
+        //       center: [117.03147871 + i / 11100, 36.67556967 + i / 11100]
+        //     })
+        //   );
+        // }
       })
       .on('zoomend', () => {
         this._addSourceFunc();

@@ -38,6 +38,8 @@
       // 此处导入要配置的样式
       // 此处导入要配置的样式
       @import './color-picker.less';
+      @import './change-area.less';
+      @import './select-area.less';
     }
     .ReactModal__Content--footer {
       padding: 10px 16px;
@@ -57,16 +59,16 @@
         width: 50px;
         cursor: pointer;
         &:hover {
-          color: @color-army-green;
+          color: @theme-bg-color;
           background-color: #fff;
-          border-color: @color-army-green;
+          border-color: @theme-bg-color;
         }
       }
       .btn-submit {
         margin-left: 8px;
         color: #fff;
-        background-color: @color-army-green;
-        border-color: @color-army-green;
+        background-color: @theme-bg-color;
+        border-color: @theme-bg-color;
         font-weight: 400;
         height: 32px;
         border-radius: @radius-m;

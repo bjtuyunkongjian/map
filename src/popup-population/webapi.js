@@ -4,12 +4,10 @@
 import { FetchRequest } from 'tuyun-utils';
 
 // 建筑物详情
-export const FetchPopDetail = async body => {
-  Object.assign(body, { test: 'personDetail' });
+export const GetDetail = async param => {
   const { res, err } = await FetchRequest({
-    url: 'mapServer/string',
-    method: 'POST',
-    body
+    url: 'mapServer/population/detail?' + param,
+    method: 'GET'
   });
   return { res, err };
 };

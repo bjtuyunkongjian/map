@@ -15,14 +15,6 @@
 
 import { LevelConfig, BaseConfig } from 'tuyun-config';
 
-// const areaColor = {
-//   370502: '#412f1f', /// 东营区
-//   370503: '#f05b72', //  河口区
-//   370505: '#f47920', // 垦利县
-//   370522: '#74905d', //  利津县
-//   370523: '#6a6da9' // 广饶县
-// };
-
 const ditchVisibleLevel = 14; // 沟和渠道显示等级
 const maxzoom = 12;
 
@@ -87,23 +79,17 @@ const layers = [
 
   // 派出所辖区
   {
-    id: 'POLICE_STATION_JUR', // 记录了一些水渠、河沟，水库的面状要素
+    id: 'POLICE_STATION_JUR', // 记录派出所辖区
     type: 'fill',
     source: LevelConfig.addLv7,
-    'source-layer': 'FQ_JYGLFQ_PCS_PG1', // py是面
-    filter: [
-      'all',
-      ['!=', 'CLASID', '210200'],
-      ['!=', 'CLASID', '230101'],
-      ['!=', 'CLASID', '240101'],
-      ['!=', 'CLASID', '250100']
-    ],
+    'source-layer': 'jurisdiction_1', // py是面
     layout: {
       visibility: 'none'
     },
+    minzoom: 7,
     paint: {
-      'fill-color': 'rgba(0, 0, 0, 0)',
-      'fill-opacity': 1,
+      'fill-color': '#ffffff',
+      'fill-opacity': 0.4,
       'fill-antialias': false
     }
   },
@@ -147,7 +133,28 @@ const layers = [
       // 'line-dasharray': [5, 4]
     }
   },
-
+  // {
+  //   id: 'POLICE_AREA', // 记录了辖区边界
+  //   type: 'line',
+  //   source: LevelConfig.addLv7,
+  //   'source-layer': 'jurisdiction_2', // LN，line的简写
+  //   // filter: [
+  //   //   'any',
+  //   //   ['==', 'CLASID', '630201'],
+  //   //   ['==', 'CLASID', '630202'],
+  //   //   ['==', 'CLASID', '640201'],
+  //   //   ['==', 'CLASID', '250100']
+  //   // ],
+  //   layout: {
+  //     'line-cap': 'round',
+  //     'line-join': 'round'
+  //   },
+  //   paint: {
+  //     'line-width': 1
+  //     // 'line-color': '#FFF'
+  //     // 'line-dasharray': [5, 4]
+  //   }
+  // },
   {
     id: 'GRAILN_bg', // 记录了铁路，底层颜色灰色
     type: 'line',
@@ -349,7 +356,9 @@ export default {
       type: 'vector',
       scheme: 'tms',
       tiles: [
-        `${BaseConfig.geoserverHost}geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_7L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`
+        `${
+          BaseConfig.geoserverHost
+        }geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_7L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`
       ]
     }
   },

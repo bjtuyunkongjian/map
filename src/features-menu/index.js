@@ -8,34 +8,35 @@ import ViewOptions from './view-options';
 import FilterOptions from './filter-options';
 // import MarkPlot from './mark-plot';
 import FrameSelect from './frame-select';
-import LineSelect from './line-select';
-import ToolBox from './tool-box';
+// import LineSelect from './line-select';
+// import ToolBox from './tool-box';
 // 事件
 import Event, { EventName } from './event';
 import { GlobalEvent, GloEventName } from 'tuyun-utils';
 
 export default class FeaturesMenu extends Component {
-  state = { visible: false };
+  state = { visible: false, showUi: true };
 
-  componentDidMount = () => this._init();
+  componentWillMount = () => this._dealWithEvent();
 
   render() {
-    const { visible } = this.state;
+    const { visible, showUi } = this.state;
     // 父元素不可见，所有子元素也不可见
     return (
-      <div className={`features-menu ${visible ? '' : 'hidden'}`}>
+      <div className={`features-menu ${visible && showUi ? '' : 'hidden'}`}>
         <ViewOptions />
         <FilterOptions />
         {/* <MarkPlot /> */}
         <FrameSelect />
-        <LineSelect />
-        <ToolBox />
+        {/* <LineSelect /> */}
+        {/* <ToolBox /> */}
       </div>
     );
   }
 
-  _init = () => {
-    GlobalEvent.on(GloEventName.toggleFeaturesMenu, nextVisible => {
+  _dealWithEvent = () => {
+    const { toggleFeaturesMenu, toggleAllUi } = GloEventName;
+    GlobalEvent.on(toggleFeaturesMenu, nextVisible => {
       if (nextVisible !== undefined) {
         this.setState({ visible: nextVisible });
         !nextVisible && Event.emit(EventName.changeCurMenu, -1); // 下一步不可见，隐藏所有的子菜单
@@ -44,6 +45,9 @@ export default class FeaturesMenu extends Component {
       const { visible } = this.state; // visible 为当前是否可见
       visible && Event.emit(EventName.changeCurMenu, -1); // 当前可见，下一步不可见，隐藏所有的子菜单
       this.setState({ visible: !visible });
+    });
+    GlobalEvent.on(toggleAllUi, ({ visible }) => {
+      this.setState({ showUi: visible });
     });
   };
 }

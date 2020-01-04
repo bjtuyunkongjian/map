@@ -9,7 +9,7 @@ import { TiHomeOutline } from 'react-icons/ti';
 import { FaTimes } from 'react-icons/fa';
 import { GlobalEvent, GloEventName } from 'tuyun-utils';
 
-import { FetchHouseDetail } from './webapi';
+import { GetHouseDetail } from './webapi';
 
 export default class PopupPopNameplate extends Component {
   state = {
@@ -24,7 +24,9 @@ export default class PopupPopNameplate extends Component {
     buildinglocation: '',
     totalRkNum: {}, // 常驻、流动、重点人口总数
     roomInfoList: [],
-    selectedPerson: {}
+    selectedPerson: {},
+    pointx: 0,
+    pointy: 0
   };
 
   _popupEl;
@@ -170,18 +172,18 @@ export default class PopupPopNameplate extends Component {
   _fetchPersionDetail = async () => {
     const { popCode } = this.state;
     this.setState({});
-    const { res, err } = await FetchHouseDetail({
-      type: '01',
-      jzwbm: popCode
-    });
+    const _param = `type=01&jzwbm=${popCode}`;
+    const { res, err } = await GetHouseDetail(_param);
     if (!res || err) return console.log('获取房屋信息失败');
-    const { jzwdzmc, roomInfoList, totalRkNum } = res;
+    const { jzwdzmc, roomInfoList, totalRkNum, x, y } = res;
     this.setState({
       buildingName: jzwdzmc || '暂无',
       buildingInfo: '' || '暂无',
       buildinglocation: jzwdzmc || '暂无',
       totalRkNum: totalRkNum || {},
-      roomInfoList: roomInfoList || []
+      roomInfoList: roomInfoList || [],
+      pointx: x,
+      pointy: y
     });
   };
 
@@ -247,7 +249,7 @@ export default class PopupPopNameplate extends Component {
   };
 
   _selectPerson = item => {
-    const { selectedPerson, boxLeft, boxTop } = this.state;
+    const { selectedPerson, boxLeft, boxTop, pointx, pointy } = this.state;
     const { closePopupPopulation, showPopupPopulation } = GloEventName;
     if (selectedPerson === item) {
       GlobalEvent.emit(closePopupPopulation);
@@ -263,7 +265,9 @@ export default class PopupPopNameplate extends Component {
         boxLeft: _boxLeft,
         boxTop: _boxTop,
         lngLat: _lngLat,
-        code: item.rkbm
+        code: item.rkbm,
+        pointx: pointx,
+        pointy: pointy
       });
       this.setState({ selectedPerson: item });
     }

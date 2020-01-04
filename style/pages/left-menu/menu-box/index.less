@@ -1,25 +1,40 @@
 .menu-box {
   width: 100%;
-  height: 100%;
+  height: calc(~'100% - @{logo-height}');
   overflow: auto;
-  background: @bg-gradient-base;
+  background: @theme-bg-color;
   transform: all 0.5s;
+
   .menu-item {
     width: 100%;
-    padding: 25px 30px;
     .item-label {
       color: @t-white;
       position: relative;
+      height: 56px;
       display: flex;
       flex-wrap: wrap;
       align-items: center;
+      padding: 0 @padding;
       justify-content: space-between;
+      list-style-type: none;
       cursor: pointer;
+      .label-text {
+        display: flex;
+        flex: 1;
+        margin-left: @margin;
+      }
       &:hover {
-        color: @color-blue;
+        color: @color-police-blue;
+        background-color: @bg-hover-opacity;
         .arrow {
-          border-top: 1px solid @color-blue;
-          border-right: 1px solid @color-blue;
+          border-color: @color-police-blue;
+        }
+      }
+      &.selected {
+        color: @color-police-blue;
+        background-color: @bg-selected-opacity;
+        .arrow {
+          border-color: @color-police-blue;
         }
       }
       .arrow-box {
@@ -28,9 +43,6 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        &.changed {
-          background: @bg-gradient-opacity;
-        }
       }
       .arrow {
         display: inline-block;

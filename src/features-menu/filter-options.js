@@ -5,6 +5,7 @@
 
 import React, { Component } from 'react';
 import { IoMdEyeOff, IoMdEye } from 'react-icons/io';
+import { TiFilter } from 'react-icons/ti';
 
 import Event, { EventName } from './event';
 import MenuItems from './menu-items';
@@ -38,6 +39,7 @@ export default class FilterOptions extends Component {
         className={`menu-item filter-options ${_selected ? 'checked' : ''}`}
         onClick={this._selectMenu}
       >
+        <TiFilter />
         筛选
         <ul className={`option-container ${_selected ? '' : 'hidden'}`}>
           {options.map((item, index) => (

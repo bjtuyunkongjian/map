@@ -133,9 +133,8 @@ export default class PupupBuilding extends Component {
 
   _fetchBuildingDetail = async () => {
     const { buildingCode } = this.state;
-    const { res, err } = await FetchBuildingDetail({
-      dzbm: buildingCode
-    });
+    const _param = `dzbm=${buildingCode}`;
+    const { res, err } = await FetchBuildingDetail(_param);
     if (!res || err) return console.log('获取房屋信息失败');
     res.fwxz = HousingNature[res.fwxz]; // 房屋性质
     res.syxs = HousingUseForm[res.syxs]; // 房屋使用形式
