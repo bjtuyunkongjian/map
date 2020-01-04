@@ -1,4 +1,4 @@
-export const DefaultArea = { label: '济南市公安局', value: '370100000000' };
+// export const DefaultArea = { label: '济南市公安局', value: '370100000000' };
 
 // [35, 100, 59], // rgb: [255, 170, 44]
 // [174, 76, 59], // rgb: [72, 230, 215]

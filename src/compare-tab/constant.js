@@ -1,15 +1,19 @@
 export const DefaultArea = [
   {
-    label: '滨海公安局滨西分局',
-    value: '370099670000',
-    type: 'jurisdiction',
-    level: 2
+    // label: '滨海公安局滨西分局',
+    // value: '370099670000',
+    // type: 'jurisdiction',
+    // level: 2
+    // label: '',
+    // value: '',
+    // type: 'jurisdiction',
+    // level: 1
   },
   {
-    label: '东营市公安局',
-    value: '370500000000',
-    type: 'jurisdiction',
-    level: 2
+    // label: '',
+    // value: '',
+    // type: 'jurisdiction',
+    // level: 1
   }
 ];
 

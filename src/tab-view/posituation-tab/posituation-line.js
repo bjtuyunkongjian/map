@@ -152,12 +152,12 @@ export default class SituationLine extends Component {
     if (!res || err) return;
     const _xAxis = [];
     const _series = [];
-    for (let ind = 0; ind < _dates.length; ind++) {
-      const _date = _dates[ind];
-      _xAxis.push(`${_dates[ind]} 至 ${_dates[ind + 1]}`);
-      const _dateSituation = res[_date];
+    for (let item of _dates) {
+      const _index = _dates.indexOf(item);
+      _xAxis.push(`${_dates[_index]} 至 ${_dates[_index + 1]}`);
+      const _dateSituation = res[item];
       if (!_dateSituation) break;
-      if (ind === 0) {
+      if (_index === 0) {
         for (let situationItem of _dateSituation) {
           _series.push({
             name: situationItem.name,

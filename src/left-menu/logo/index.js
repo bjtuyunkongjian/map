@@ -6,7 +6,7 @@ export default class Logo extends Component {
     return (
       <div className="logo">
         <FaMapMarkedAlt />
-        <div className="logo-text">图云空间</div>
+        <div className="logo-text">山东省公安厅</div>
       </div>
     );
   }

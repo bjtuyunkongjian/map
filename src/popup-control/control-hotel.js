@@ -21,7 +21,7 @@ export default class ControlHotel extends Component {
   }
 
   componentWillUpdate(nextProps) {
-    const { props: curCode } = this.props;
+    const { code: curCode } = this.props;
     const { code: nextCode } = nextProps;
     if (curCode === nextCode) return;
     // TODO 发请求

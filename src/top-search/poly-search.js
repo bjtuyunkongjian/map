@@ -17,7 +17,7 @@ import {
 
 import { SearchValue } from './constant';
 import Event, { EventName } from './event';
-import { DrawMultiPolygon, DrawCircle } from './draw-geo';
+import { DrawMultiPolygon, DrawCircle, RemoveGeometries } from './draw-geo';
 import { PostPolygonSearch, GetCircleSearch } from './webapi';
 
 export default class PolySearch extends Component {
@@ -171,6 +171,11 @@ export default class PolySearch extends Component {
     const { polyAreaReasult } = LayerIds;
     this.setState({ typeOptVisible: !typeOptVisible, shapeOptVisible: false });
     RemoveLayer(_MAP_, polyAreaReasult.point);
+    GlobalEvent.emit(GloEventName.closePopupCase);
+    GlobalEvent.emit(GloEventName.closePopupUnit);
+    GlobalEvent.emit(GloEventName.closeCamera);
+    GlobalEvent.emit(GloEventName.closePopupPopulation);
+    GlobalEvent.emit(GloEventName.closePopupSituation);
   };
 
   _selectItem = option => {
@@ -182,7 +187,12 @@ export default class PolySearch extends Component {
     this.setState({ shapeOptVisible: !shapeOptVisible, typeOptVisible: false });
   };
 
-  _changePoly = option => this.setState({ curPoly: option });
+  _changePoly = option => {
+    this.setState({ curPoly: option });
+    const { polyAreaReasult } = LayerIds;
+    RemoveLayer(_MAP_, polyAreaReasult.point);
+    RemoveGeometries();
+  };
 
   _checkArea = () => {
     const { curPoly } = this.state;

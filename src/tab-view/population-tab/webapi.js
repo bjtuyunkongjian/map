@@ -38,7 +38,9 @@ export const GetChartData = async param => {
   });
   return { res, err };
 };
-
+/**
+ * 获取右侧密度图数据
+ */
 export const GetPopDenisty = async param => {
   const { res, err } = await FetchRequest({
     url: 'mapServer/population/density?' + param,

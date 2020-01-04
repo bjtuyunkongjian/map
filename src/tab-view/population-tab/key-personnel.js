@@ -1,3 +1,6 @@
+/**
+ * 重点人员饼状图
+ */
 import React, { Component } from 'react';
 import { TuyunPie } from 'tuyun-kit';
 import { GlobalEvent, GloEventName, RemoveLayer, LayerIds } from 'tuyun-utils';
@@ -83,7 +86,7 @@ export default class KeyPersonnel extends Component {
     poppieData.map(item => {
       item.label = item.name;
       item.value = item.count;
-      item.code = item.type;
+      item.code = item._id;
     });
     const _chartData = [];
     const _dataLen = poppieData.length;

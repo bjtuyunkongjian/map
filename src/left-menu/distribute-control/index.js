@@ -112,7 +112,6 @@ export default class DistributeControl extends Component {
   _loadData = async () => {
     const { selectedTypes } = this.state;
     if (selectedTypes.length === 0) return this._removeAllLayers();
-    GlobalEvent.emit(GloEventName.closeControlPop);
     const _bounds = _MAP_.getBounds();
     // minX=116.98261&maxX=118.98261&minY=36.64974&maxY=37.64974
     const _param = `minX=${_bounds._sw.lng}&maxX=${_bounds._ne.lng}&minY=${_bounds._sw.lat}&maxY=${_bounds._ne.lat}`;
@@ -212,6 +211,7 @@ export default class DistributeControl extends Component {
     RemoveLayer(_MAP_, bayonet.point);
     RemoveLayer(_MAP_, hotel.point);
     RemoveLayer(_MAP_, icafe.point);
+    GlobalEvent.emit(GloEventName.closeControlPop);
   };
 
   _removeListener = () => {

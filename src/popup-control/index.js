@@ -18,8 +18,6 @@ export default class PopupControl extends Component {
 
   componentWillMount = () => this._dealWithEvent();
 
-  componentWillUnmount = () => this._reset();
-
   render() {
     const { visible, boxLeft, boxTop, type, code, name } = this.state;
     if (!visible || !code) return null;
@@ -49,12 +47,6 @@ export default class PopupControl extends Component {
   _dealWithEvent = () => {
     GlobalEvent.on(GloEventName.showControlPop, this._showPopup);
     GlobalEvent.on(GloEventName.closeControlPop, this._closePopup);
-  };
-
-  _reset = () => {
-    const { showControlPop, closeControlPop } = GloEventName;
-    GlobalEvent.removeListener(showControlPop, this._showPopup);
-    GlobalEvent.removeListener(closeControlPop, this._closePopup);
   };
 
   _showPopup = async data => {

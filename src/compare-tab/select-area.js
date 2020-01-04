@@ -12,6 +12,8 @@ export default class SelectArea extends Component {
     showModel: false,
     toSelectArea: [...DefaultArea],
     selectedArea: [...DefaultArea]
+    // toSelectArea:[],
+    // selectedArea:[],
   };
 
   _selectedLeaf = []; // 选中的树节点

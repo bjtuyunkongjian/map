@@ -48,6 +48,7 @@ export default class CameraDetail extends Component {
 
   _dealWithEvent = () => {
     GlobalEvent.on(GloEventName.showCamera, this._showCamera);
+    GlobalEvent.on(GloEventName.closeCamera, this._closeCamera);
   };
 
   _init = () => {};

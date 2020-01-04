@@ -17,8 +17,11 @@ import { TuyunMessage } from 'tuyun-kit';
 import PopulationChart from './population-chart';
 import CaseChart from './case-chart';
 import SituationChart from './situation-chart';
+import UnitChart from './unit-charts';
+import BuildingChart from './building-charts';
+
 import Event, { EventName } from './event';
-import { GetCount, GetAreaData } from './webapi';
+import { GetCount, GetAreaData, GetCurArea } from './webapi';
 import {
   DefaultArea,
   Area,
@@ -30,7 +33,6 @@ import {
   EndMonth,
   EndDate
 } from './constant';
-
 export default class JurisdictionCharts extends Component {
   _visible = false;
   _area = DefaultArea;
@@ -40,11 +42,12 @@ export default class JurisdictionCharts extends Component {
   _selectedChart = '';
 
   componentWillMount = () => this._dealWithEvent();
-
   render() {
     return (
       <ul className="charts-box">
         <PopulationChart />
+        <UnitChart />
+        <BuildingChart />
         <CaseChart />
         <SituationChart />
       </ul>
@@ -71,7 +74,17 @@ export default class JurisdictionCharts extends Component {
       this._getChartCount();
       this._fetchData();
     }
+    // _MAP_.flyto({ center });
   };
+
+  // _fetchCurData = () => {
+  //   const { res, err } = GetCurArea();
+  //   if (!res || err) return;
+  //   console.log('res', res);
+  //   const { point } = res;
+  //   _MAP_.flyto({ center: point, zoom: 11 });
+  //   this._onChangeArea();
+  // };
 
   _onChangeDate = ({
     startYear,
@@ -143,7 +156,8 @@ export default class JurisdictionCharts extends Component {
       res.qbdwCount || 0,
       res.ptdwCount || 0,
       res.tzdwCount || 0,
-      res.bhdwCount || 0
+      res.bhdwCount || 0,
+      res.jxcsCount || 0
     ];
     // 房屋
     _series.building[0].data = [
@@ -172,6 +186,9 @@ export default class JurisdictionCharts extends Component {
     GlobalEvent.emit(GloEventName.closePopupPopulation);
     GlobalEvent.emit(GloEventName.closePopupCase);
     GlobalEvent.emit(GloEventName.closePopupSituation);
+    GlobalEvent.emit(GloEventName.closePopupUnit);
+    GlobalEvent.emit(GloEventName.closePopupBuilding);
+
     const [chartName, type] = (val || '').split(':');
     if (this._selectedChart === chartName && this._type === type) return;
     this._selectedChart = chartName;
@@ -186,7 +203,7 @@ export default class JurisdictionCharts extends Component {
 
   _clickPoint = e => {
     // visible, boxLeft, boxTop, lngLat, code
-    const { code } = e.features[0].properties;
+    const { code, pointx, pointy } = e.features[0].properties;
     const { coordinates: lngLat } = e.features[0].geometry;
     const { x, y } = _MAP_.project(lngLat);
     if (this._selectedChart === 'population') {
@@ -195,7 +212,9 @@ export default class JurisdictionCharts extends Component {
         boxLeft: x,
         boxTop: y,
         code: code,
-        lngLat: lngLat
+        lngLat: lngLat,
+        pointx: pointx,
+        pointy: pointy
       });
     } else if (this._selectedChart === 'case') {
       GlobalEvent.emit(GloEventName.showPopupCase, {
@@ -213,23 +232,39 @@ export default class JurisdictionCharts extends Component {
         code: code,
         lngLat: lngLat
       });
+    } else if (this._selectedChart === 'unit') {
+      GlobalEvent.emit(GloEventName.showPopupUnit, {
+        visible: true,
+        boxLeft: x,
+        boxTop: y,
+        code: code,
+        lngLat: lngLat
+      });
+    } else if (this._selectedChart === 'building') {
+      GlobalEvent.emit(GloEventName.showPopupBuilding, {
+        visible: true,
+        boxLeft: x,
+        boxTop: y,
+        code: code,
+        lngLat: lngLat
+      });
     }
   };
 
   //code=&type=&startTime=&endTime=   type：点位的类型
   _fetchData = async () => {
     if (!this._type) return;
-    const _param = `code=${this._area.value}&level=${this._area.level}&type=${
-      this._type
-    }Count&startTime=${this._start}&endTime=${this._end}`;
+    const _param = `code=${this._area.value}&level=${this._area.level}&type=${this._type}Count&startTime=${this._start}&endTime=${this._end}`;
     GlobalEvent.emit(GloEventName.showGlobalLoading);
     const { res, err } = await GetAreaData(_param);
     GlobalEvent.emit(GloEventName.closeGlobalLoading);
     if (!res || err) return;
     const _features = res.map(item => {
-      const { x, y, RKBM, ajbh, jjdbh } = item;
+      const { x, y, RKBM, ajbh, jjdbh, ZAGLDWBM, DZBM } = item;
       return TurfPoint([x, y], {
-        code: RKBM || ajbh || jjdbh
+        code: RKBM || ajbh || jjdbh || ZAGLDWBM || DZBM,
+        pointx: x,
+        pointy: y
       });
     });
     const _geoJSONData = {

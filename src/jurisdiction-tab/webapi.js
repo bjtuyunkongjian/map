@@ -25,3 +25,15 @@ export const GetAreaData = async param => {
   });
   return { res, err };
 };
+
+/**
+ * 判断辖区所处位置和层级
+ * mapServer/index/getBoundary
+ */
+export const GetCurArea = async () => {
+  const { res, err } = await FetchRequest({
+    url: 'mapServer/index/getBoundary',
+    method: 'GET'
+  });
+  return { res, err };
+};

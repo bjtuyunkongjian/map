@@ -197,7 +197,6 @@ export default class TotalPopulation extends Component {
     const { res, err } = await GetNameplate(_param);
     if (!res || err) return;
     if (this._uuid !== _uuid) return; // 不是对应请求了
-
     const { curBar } = this.state;
     if (curBar !== TabValue.population) return; // 切换 tab 的情况
     const _features = res.map(item => {

@@ -21,13 +21,12 @@ export const GetDistribution = async param => {
  * @param { number } firtype - 必填，类型  1:人口 2:单位 3:房屋
  * @param { number } sectype - 饼图分类  1:人口 2:单位 3:房屋
  * @param { number } thirtype - 饼图分类  1:人口 2:单位 3:房屋
+ * http://56.8.2.241:12808/mapServer/population/countOfBuilding?minX=&maxX=&minY=&maxY=&type=
  */
-export const FetchNameplateData = async body => {
-  Object.assign(body, { test: 'getNum' });
+export const FetchNameplateData = async param => {
   const { res, err } = await FetchRequest({
-    url: 'mapServer/string',
-    method: 'POST',
-    body
+    url: 'mapServer/population/countOfBuilding?' + param,
+    method: 'GET'
   });
   return { res, err };
 };

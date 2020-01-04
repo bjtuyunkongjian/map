@@ -21,7 +21,7 @@ export default class ControlBayonet extends Component {
   }
 
   componentWillUpdate(nextProps) {
-    const { props: curCode } = this.props;
+    const { code: curCode } = this.props;
     const { code: nextCode } = nextProps;
     if (curCode === nextCode) return;
     // TODO 发请求
@@ -70,6 +70,7 @@ export default class ControlBayonet extends Component {
     if (!res || err) return;
     const { data = [], totalPage } = res;
     this.setState({ listInfo: data, bayonetName: name, totalPage });
+    // _MAP_.on('move',this._onMove);
   };
 
   _prePage = async () => {

@@ -17,10 +17,10 @@ import TabView from './tab-view'; // 右侧联动显示
 import CompareTab from './compare-tab'; //对比碰撞右侧菜单显示
 import JurisdictionTab from './jurisdiction-tab'; // 右侧辖区数据显示
 import CrossTab from './cross-tab'; // 交叉研判
-import DetailPop from './detail-population'; // 重点人口详情
-import PopupPopulation from './popup-population'; // 人口弹框
+import DetailPopulation from './detail-population'; // 重点人口详情
+import PupupPopulation from './popup-population'; // 人口弹框
 import PopupPopNameplate from './popup-pop-nameplate'; // 人口铭牌弹框
-import PupupPosituation from './popup-posituation';
+import PupupPosituation from './popup-posituation'; //警情弹框
 import PopupUnit from './popup-unit'; // 单位弹框
 import PopupUniNameplate from './popup-uni-nameplate'; // 单位铭牌弹窗
 import PopupBuilding from './popup-building'; // 建筑物弹框
@@ -62,7 +62,7 @@ class MapApp extends Component {
         <JurisdictionTab />
         <CrossTab />
         {/* 弹窗 */}
-        <PopupPopulation />
+        <PupupPopulation />
         <PopupPopNameplate />
         <PopupCase />
         <PopupUnit />
@@ -77,7 +77,7 @@ class MapApp extends Component {
         <SerachResult />
         <PopupControl />
         {/* detail 详情 */}
-        <DetailPop />
+        <DetailPopulation />
         <DetailUnit />
         <DetailCase />
         <DetailPosituation />

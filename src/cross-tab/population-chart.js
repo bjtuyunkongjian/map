@@ -122,12 +122,12 @@ export default class PopulationChart extends Component {
     }&maxY=${_bounds._ne.lat}&level=${_zoom}`;
     const { res, err } = await GetPopulationCount(_param);
     if (!res || err) return;
-    const { totalPop = 0, ckpop = 0, lkpop = 0, zdpop = 0 } = res;
+    const { totalPop = 0, ckpopPop = 0, lkPop = 0, zdpop = 0 } = res;
     const _series = [
       {
         name: '当前屏幕',
         code: 'curScreen',
-        data: [totalPop, ckpop, lkpop, zdpop]
+        data: [totalPop, ckpopPop, lkPop, zdpop]
       }
     ];
     this.setState({ series: _series });

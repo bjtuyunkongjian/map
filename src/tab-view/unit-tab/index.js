@@ -65,7 +65,7 @@ export default class UnitTab extends Component {
     GlobalEvent.emit(GloEventName.closePopupUnit); // 关闭详情弹框
     await this.setState({ curBar: nextBar }); // 关闭对应弹窗
     if (TabValue.unit === nextBar) {
-      this._fetchChartData(); // 获取图标数据
+      this._fetchChartData(); // 获取图表数据
       this._addListener(); // 增加监听
     } else {
       this._removeListener(); // 移除监听
@@ -78,9 +78,7 @@ export default class UnitTab extends Component {
     const _bounds = _MAP_.getBounds();
     const _zoom = _MAP_.getZoom();
     // minX=120&maxX=121&minY=36.4&maxY=36.5&level=9.5
-    const _param = `minX=${_bounds._sw.lng}&maxX=${_bounds._ne.lng}&minY=${
-      _bounds._sw.lat
-    }&maxY=${_bounds._ne.lat}&level=${_zoom}`;
+    const _param = `minX=${_bounds._sw.lng}&maxX=${_bounds._ne.lng}&minY=${_bounds._sw.lat}&maxY=${_bounds._ne.lat}&level=${_zoom}`;
     const { res, err } = await GetCount(_param);
     if (!res || err) return; // 保护
     const { dwbarData, tedwpieData, baohudwpieData } = res;

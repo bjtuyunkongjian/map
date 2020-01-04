@@ -604,9 +604,7 @@ const handheldStyle = {
       scheme: 'tms',
       tiles: [
         // GPSServer/police?zoom=10&row=11&column=8&type=tms
-        `${
-          BaseConfig.bffHost
-        }GPSServer/police?type=tms&zoom={z}&row={x}&column={y}`
+        `${BaseConfig.bffHost}GPSServer/police?type=tms&zoom={z}&row={x}&column={y}`
       ],
       minzoom: visibleLevel
     }

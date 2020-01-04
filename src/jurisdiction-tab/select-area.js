@@ -9,7 +9,8 @@ export default class SelectArea extends Component {
     visible: false,
     showModel: false,
     toSelectArea: DefaultArea,
-    selectedArea: DefaultArea
+    selectedArea: DefaultArea,
+    center: []
   };
 
   _selectedLeaf = []; // 选中的树节点
@@ -94,5 +95,10 @@ export default class SelectArea extends Component {
     const { label, value, detail } = leaf;
     if (toSelectArea.value === value) return;
     this.setState({ toSelectArea: { label, value, level: detail.level } });
+  };
+
+  _fetchCurArea = async () => {
+    const { res, err } = await GetCurArea();
+    if (!res || err) return;
   };
 }

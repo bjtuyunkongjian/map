@@ -92,7 +92,7 @@ export default class PopupBayonet extends Component {
     const _param = `kkId=${code}`;
     const { res, err } = await GetBayonetDetail(_param);
     if (!res || err) return;
-    const { pointname, name } = res[0];
+    const { pointname = '', name = '' } = res[0];
     this.setState({
       baseInfo: [
         { label: '名称', value: pointname },

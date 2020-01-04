@@ -34,6 +34,7 @@ import {
 export default class CompareCharts extends Component {
   _visible = false;
   _areaArr = [...DefaultArea];
+  // _areaArr = [];
   _geometryArr = [];
 
   _start = FormatDate(new Date(StartYear, StartMonth, StartDate), fmtType);
@@ -115,7 +116,9 @@ export default class CompareCharts extends Component {
       // 请求
       let res, err;
       if (_area.type === 'jurisdiction') {
-        const _param = `code=${_area.value}&startTime=${this._start}&endTime=${this._end}`;
+        const _param = `code=${_area.value}&startTime=${this._start}&endTime=${
+          this._end
+        }`;
         const resMap = await GetCount(_param);
         res = resMap.res;
         err = resMap.err;
@@ -269,9 +272,10 @@ export default class CompareCharts extends Component {
     if (!this._type) return;
     for (let i = 0; i < this._areaArr.length; i++) {
       if (this._areaArr[i].type === 'jurisdiction') {
-        console.log(this._areaArr[i]);
         const _level = this._areaArr[i].level || this._areaArr[i].detail.level;
-        const _param = `code=${this._areaArr[i].value}&level=${_level}&type=${this._type}Count&startTime=${this._start}&endTime=${this._end}`;
+        const _param = `code=${this._areaArr[i].value}&level=${_level}&type=${
+          this._type
+        }Count&startTime=${this._start}&endTime=${this._end}`;
         GlobalEvent.emit(GloEventName.showGlobalLoading);
         const { res, err } = await GetAreaData(_param);
         GlobalEvent.emit(GloEventName.closeGlobalLoading);

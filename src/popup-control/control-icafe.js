@@ -21,7 +21,7 @@ export default class ControlIcafe extends Component {
   }
 
   componentWillUpdate(nextProps) {
-    const { props: curCode } = this.props;
+    const { code: curCode } = this.props;
     const { code: nextCode } = nextProps;
     if (curCode === nextCode) return;
     // TODO 发请求
@@ -66,9 +66,7 @@ export default class ControlIcafe extends Component {
   _fetchListInfo = async code => {
     // code yycsmc=临邑县翰林网吧&pageSize=10&pageNum=1
     const { pageNum } = this.state;
-    const _param = `yycsmc=${code}&pageSize=${
-      this._pageSize
-    }&pageNum=${pageNum}`;
+    const _param = `yycsmc=${code}&pageSize=${this._pageSize}&pageNum=${pageNum}`;
     const { res, err } = await GetIcafePop(_param);
     if (!res || err) return;
     const { list, yycsmc, totalPage } = res;

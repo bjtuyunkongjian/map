@@ -43,7 +43,6 @@ export default class BuildingMenu extends Component {
   _clickBuilding = async () => {
     const { selected } = this.state;
     const _selected = !selected;
-    console.log('sele', _selected);
     const { toggleTabView } = GloEventName;
     GlobalEvent.emit(toggleTabView, {
       visible: _selected,
