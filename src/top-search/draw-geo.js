@@ -22,6 +22,7 @@ let vertexClick = []; // 已点击的坐标
 let vertexMove; // 移动时对应的坐标
 let vertexTotal = []; // 所有的坐标
 let prompt; // 提示
+let delPrompt; // 删除选中区域
 
 export const RemoveGeometries = function() {
   // 清空数据
@@ -40,7 +41,9 @@ export const DrawMultiPolygon = function() {
   // 更改鼠标样式
   _MAP_.getCanvas().style.cursor = 'crosshair';
   // 删除图层
-  RemoveGeometries();
+  delPrompt && delPrompt.remove();
+  delPrompt = undefined;
+  // RemoveGeometries();
   // 添加监听
   _MAP_.on('click', drawVertex);
   _MAP_.on('mousemove', selectNextVertex);
@@ -84,11 +87,11 @@ const drawEndVertex = function() {
   _MAP_.getCanvas().style.cursor = ''; // 清除鼠标样式
   if (vertexTotal.length >= 3) {
     createPolygon();
-    const _prompt = new mapboxgl.Popup({ closeOnClick: false })
+    delPrompt = new mapboxgl.Popup({ closeOnClick: false })
       .setLngLat(vertexTotal[vertexTotal.length - 1])
       .setText('删除选中区域')
       .addTo(_MAP_);
-    _prompt.on('close', RemoveGeometries); // 删除触发
+    delPrompt.on('close', RemoveGeometries); // 删除触发
     Event.emit(EventName.createFinalGeo, {
       shape: 'polygon',
       geometry: {
@@ -154,7 +157,9 @@ export const DrawCircle = function() {
   // 更改鼠标样式
   _MAP_.getCanvas().style.cursor = 'crosshair';
   // 删除图层
-  RemoveGeometries();
+  // RemoveGeometries();
+  delPrompt && delPrompt.remove();
+  delPrompt = undefined;
   // 添加监听
   _MAP_.on('click', drawCircleCenter);
   _MAP_.on('mousemove', selectCircleRadius);
@@ -203,11 +208,11 @@ const drawCircleRadius = function() {
   _MAP_.getCanvas().style.cursor = ''; // 清除鼠标样式
   if (vertexTotal.length >= 2) {
     createCircle();
-    const _prompt = new mapboxgl.Popup({ closeOnClick: false })
+    delPrompt = new mapboxgl.Popup({ closeOnClick: false })
       .setLngLat(vertexTotal[vertexTotal.length - 1])
       .setText('删除选中区域')
       .addTo(_MAP_);
-    _prompt.on('close', RemoveGeometries); // 删除触发
+    delPrompt.on('close', RemoveGeometries); // 删除触发
     // 生成图形信息
     const _center = TurfPoint(vertexTotal[0]); // 圆心
     const _ptOnCircle = TurfPoint(vertexTotal[1]); // 圆上面的点

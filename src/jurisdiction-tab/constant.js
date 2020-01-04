@@ -1,7 +1,8 @@
 export const DefaultArea = {
   label: '东营市公安局',
   value: '370500000000',
-  level: 2
+  level: 2,
+  center: []
 };
 
 // [35, 100, 59], // rgb: [255, 170, 44]
