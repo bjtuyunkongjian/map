@@ -417,12 +417,29 @@ const style = {
       type: 'fill-extrusion',
       filter: ['!=', 'CLASID', '310200'],
       paint: {
-        'fill-extrusion-color': [
-          'coalesce',
-          ['get', ['to-string', ['get', 'ID']], ['literal', BuildingColor]],
-          gresplColor
-        ],
         'fill-extrusion-pattern': 'camera',
+        'fill-extrusion-height': [
+          'interpolate',
+          ['linear'],
+          ['zoom'],
+          fillExtrusionHeight,
+          0,
+          fillExtrusionHeight + 0.55,
+          ['*', ['+', ['get', 'H'], 1], 3]
+        ],
+        'fill-extrusion-base': 0,
+        'fill-extrusion-opacity': gresplOpacity
+      },
+      labelLayerId: threeLabelLayerId
+    },
+    {
+      id: 'GRESPL_1_3D_TOP',
+      source: LevelConfig.addLv15,
+      'source-layer': 'GRESPL_Merge_1',
+      type: 'fill-extrusion',
+      filter: ['!=', 'CLASID', '310200'],
+      paint: {
+        'fill-extrusion-color': gresplColor,
         'fill-extrusion-height': [
           'interpolate',
           ['linear'],
@@ -491,17 +508,6 @@ const style = {
       },
       labelLayerId: threeLabelLayerId
     }
-    // {
-    //   id: 'POI_LEVEL_15_CAMERA',
-    //   type: 'symbol',
-    //   source: LevelConfig.addLv15,
-    //   'source-layer': 'camera',
-    //   layout: {
-    //     'icon-image': 'camera_{CAMERA}',
-    //     'icon-size': 1
-    //   },
-    //   labelLayerId: symbolLabelLayerId
-    // }
   ]
 };
 
