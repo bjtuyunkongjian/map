@@ -23,7 +23,7 @@ const threeLabelLayerId = '3d-ref';
 const fillExtrusionHeight = 16;
 
 // 3d 普通建筑颜色和透明度
-const gresplOpacity = 0.5;
+const gresplOpacity = 1;
 const gresplColor = 'rgb(255, 255, 255)';
 
 const style = {
@@ -411,28 +411,6 @@ const style = {
      * 3d建筑
      * */
     {
-      id: 'GRESPL_1_3D',
-      source: LevelConfig.addLv15,
-      'source-layer': 'GRESPL_Merge_1',
-      type: 'fill-extrusion',
-      filter: ['!=', 'CLASID', '310200'],
-      paint: {
-        'fill-extrusion-pattern': 'camera',
-        'fill-extrusion-height': [
-          'interpolate',
-          ['linear'],
-          ['zoom'],
-          fillExtrusionHeight,
-          0,
-          fillExtrusionHeight + 0.55,
-          ['*', ['+', ['get', 'H'], 1], 3]
-        ],
-        'fill-extrusion-base': 0,
-        'fill-extrusion-opacity': gresplOpacity
-      },
-      labelLayerId: threeLabelLayerId
-    },
-    {
       id: 'GRESPL_1_3D_TOP',
       source: LevelConfig.addLv15,
       'source-layer': 'GRESPL_Merge_1',
@@ -440,6 +418,28 @@ const style = {
       filter: ['!=', 'CLASID', '310200'],
       paint: {
         'fill-extrusion-color': gresplColor,
+        'fill-extrusion-height': [
+          'interpolate',
+          ['linear'],
+          ['zoom'],
+          fillExtrusionHeight,
+          0,
+          fillExtrusionHeight + 0.55,
+          ['+', ['*', ['+', ['get', 'H'], 1], 3], 0.1]
+        ],
+        'fill-extrusion-base': 0,
+        'fill-extrusion-opacity': gresplOpacity
+      },
+      labelLayerId: threeLabelLayerId
+    },
+    {
+      id: 'GRESPL_1_3D',
+      source: LevelConfig.addLv15,
+      'source-layer': 'GRESPL_Merge_1',
+      type: 'fill-extrusion',
+      filter: ['!=', 'CLASID', '310200'],
+      paint: {
+        'fill-extrusion-pattern': 'camera',
         'fill-extrusion-height': [
           'interpolate',
           ['linear'],
@@ -474,7 +474,7 @@ const style = {
           fillExtrusionHeight,
           0,
           fillExtrusionHeight + 0.55,
-          ['*', ['+', ['get', 'H'], 1], 3]
+          ['*', ['+', ['get', 'H'], 1], 3.1]
         ],
         'fill-extrusion-base': 0,
         'fill-extrusion-opacity': gresplOpacity
