@@ -687,9 +687,7 @@ const handheldStyle = {
       type: 'vector',
       scheme: 'tms',
       tiles: [
-        `${
-          BaseConfig.bffHost
-        }GPSServer/string?test=locationHandHeld&type=tms&zoom={z}&row={x}&column={y}`
+        `${BaseConfig.bffHost}GPSServer/string?test=locationHandHeld&type=tms&zoom={z}&row={x}&column={y}`
       ],
       minzoom: visibleLevel
     }
