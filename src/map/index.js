@@ -64,6 +64,13 @@ export default class MapBoxDemo extends Component {
     // });
     this.map
       .on('style.load', () => {
+        this.map.loadImage(
+          'http://47.110.135.245:12808/static/1.png',
+          (error, image) => {
+            if (error) throw error;
+            this.map.addImage('catcatcat', image);
+          }
+        );
         this._addSourceFunc(); // 增加图层组
         // for (let i = 0; i < 1; i++) {
         //   this.map.addLayer(
