@@ -16,6 +16,8 @@ const BuildApiHost = {
   imageHost: `http://47.110.135.245:12808/`, // 图片地址
   glyphsHost: `http://47.110.135.245:12808/`, // 字体端口
   apiHost: 'http://47.110.135.245:8081/', // api development 环境对应的 ip
+  bffHost: `http://localhost:8080/`, // bff 192.168.43.210:8080   47.110.135.245:12808/   192.168.8.103:8080顾金燕后台  47.110.135.245:10808顾金燕端口
+
   httpTimeOut: 5000
 };
 
