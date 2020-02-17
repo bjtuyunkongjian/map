@@ -4,8 +4,7 @@
  * @param {JSON} [body={}] body的请求参数，默认为空
  * @return {res: xxx, err: xxx}
  */
-import { BaseConfig as CONFIG } from 'tuyun-config';
-import { TuyunMessage } from 'tuyun-kit';
+import CONFIG from './base-config';
 
 export const FetchRequest = async function({ url, method = 'GET', body = {} }) {
   const _request = {
@@ -22,7 +21,6 @@ export const FetchRequest = async function({ url, method = 'GET', body = {} }) {
   return new Promise(async resolve => {
     // 添加网络超时机制
     const _timeoutId = setTimeout(() => {
-      __DEV__ && TuyunMessage.error(`网络传输超时！url：${url}`); // 开发环境，报网络超时错误
       resolve({
         res: null,
         err: 'timeout'
@@ -35,7 +33,6 @@ export const FetchRequest = async function({ url, method = 'GET', body = {} }) {
       // 判断状态码
       if (_response.status !== 200) {
         // 状态码不等于200
-        TuyunMessage.error(`url：${url}，${_response.status}`);
         resolve({
           res: null,
           err: _response.statusText
@@ -45,7 +42,6 @@ export const FetchRequest = async function({ url, method = 'GET', body = {} }) {
       // 状态码没问题
       const { message, data, status } = await _response.json();
       const _err = status !== 'success' && message;
-      _err && TuyunMessage.error(_err);
       resolve({
         // 有时会返回0的结果
         res: _err ? null : data,
@@ -54,7 +50,6 @@ export const FetchRequest = async function({ url, method = 'GET', body = {} }) {
     } catch (err) {
       // 404 错误也会到这
       clearTimeout(_timeoutId); // 报错了，清除定时器
-      __DEV__ && TuyunMessage.error(`请求错误，url：${url}`);
       resolve({
         res: null,
         err: err

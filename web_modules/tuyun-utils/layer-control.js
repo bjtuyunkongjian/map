@@ -321,7 +321,7 @@ const AddPolygonLayer = (map, source, layerId, option = {}) => {
 };
 
 const Add3dLayer = (map, source, layerId, option = {}) => {
-  const { labelLayerId, color, opacity } = option;
+  const { labelLayerId, color, opacity, baseHeight } = option;
   if (!map.getSource(layerId)) {
     map.addLayer(
       {
@@ -331,7 +331,7 @@ const Add3dLayer = (map, source, layerId, option = {}) => {
         paint: {
           'fill-extrusion-color': color || '#f00',
           'fill-extrusion-height': ['number', ['get', 'height']],
-          'fill-extrusion-base': 0,
+          'fill-extrusion-base': baseHeight || 0,
           'fill-extrusion-opacity': opacity || 1
         }
       },
