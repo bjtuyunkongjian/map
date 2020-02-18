@@ -2,6 +2,7 @@ import mapboxgl from 'mapbox-gl';
 
 import MapStyles from './map-styles';
 import BaseConfig from './base-config';
+import { FetchRequest } from './fetch';
 
 import {
   AddCircleLayer,
@@ -42,6 +43,7 @@ import {
 } from '@turf/turf';
 
 import ZjjdLayer from './jiudian';
+import { BuildingIds, GresplColor } from './map-styles/layer-building';
 
 const mapArr = [];
 
@@ -79,7 +81,54 @@ class TyMap {
     });
     this.mapIndex = mapArr.length;
     mapArr.push(tyMap);
+    // 通过获取后台数据修改对应的建筑物颜色
+    this.getBuildingColor();
+    this.getSurround();
   }
+
+  getBuildingColor = async () => {
+    // 获取服务器配置文件
+    const { res, err } = await FetchRequest({
+      url: 'extendMapServer/string?test=QueryColor'
+    });
+    console.log('配置文件', res, err);
+    if (!res || err) return console.error('获取建筑物颜色数据失败');
+    // 重新渲染
+    for (let item of BuildingIds) {
+      mapArr[this.mapIndex].setPaintProperty(item.id, 'fill-extrusion-color', [
+        'coalesce',
+        ['get', ['to-string', ['get', 'ID']], ['literal', res]],
+        GresplColor
+      ]);
+    }
+  };
+
+  setBuildingColor = async ({ x, y, color }) => {
+    const { err } = await FetchRequest({
+      url: `extendMapServer/string?test=PaintColor&x=${x}&y=${y}&color=${color}`
+    });
+    if (err) return console.error('设置建筑物颜色失败');
+    // 重新从服务器拉数据渲染一下
+    this.getBuildingColor();
+  };
+
+  getSurround = async () => {
+    const bounds = mapArr[this.mapIndex].getBounds();
+    const { _sw, _ne } = bounds;
+    console.log(bounds);
+    const { res, err } = await FetchRequest({
+      url: `extendMapServer/string?test=QueryCircle&wx=${_sw.lng}&sy=${_sw.lat}&ex=${_ne.lng}&ny=${_ne.lat}`
+    });
+    console.log('环绕建筑物', res, err);
+    if (!res || err) return console.error('获取建筑物颜色数据失败');
+  };
+
+  setSurround = async ({ x, y, color, floor }) => {
+    const { err } = await FetchRequest({
+      url: `extendMapServer/string?test=PaintCircle&x=${x}&y=${y}&color=${color}&floor=${floor}`
+    });
+    if (err) return console.error('设置环形建筑物颜色失败');
+  };
 
   resize = () => mapArr[this.mapIndex].resize();
 

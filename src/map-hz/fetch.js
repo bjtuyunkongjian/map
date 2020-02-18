@@ -41,7 +41,7 @@ export const FetchRequest = async function({ url, method = 'GET', body = {} }) {
       }
       // 状态码没问题
       const { message, data, status } = await _response.json();
-      const _err = status !== 'success' && message;
+      const _err = status !== 0 && message;
       resolve({
         // 有时会返回0的结果
         res: _err ? null : data,
