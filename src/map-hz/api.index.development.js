@@ -91,7 +91,6 @@ class TyMap {
     const { res, err } = await FetchRequest({
       url: 'extendMapServer/string?test=QueryColor'
     });
-    console.log('配置文件', res, err);
     if (!res || err) return console.error('获取建筑物颜色数据失败');
     // 重新渲染
     for (let item of BuildingIds) {
@@ -115,12 +114,36 @@ class TyMap {
   getSurround = async () => {
     const bounds = mapArr[this.mapIndex].getBounds();
     const { _sw, _ne } = bounds;
-    console.log(bounds);
     const { res, err } = await FetchRequest({
       url: `extendMapServer/string?test=QueryCircle&wx=${_sw.lng}&sy=${_sw.lat}&ex=${_ne.lng}&ny=${_ne.lat}`
     });
-    console.log('环绕建筑物', res, err);
     if (!res || err) return console.error('获取建筑物颜色数据失败');
+    // 生成 环绕带子 source
+    const features = [];
+    for (let item of res) {
+      const { color, circle, floor } = item;
+      const colorArr = color.split(';');
+      const floorInt = parseInt(floor); // 层数必须是整数
+      const perHeight = 3.5 / colorArr.length; // 每一份的高度
+      const suGeometry = JSON.parse(circle); // geometry
+      for (let index = 0; index < colorArr.length; index++) {
+        const properties = {}; // 属性
+        properties.baseH = floorInt * 3 + index * perHeight;
+        properties.height = floorInt * 3 + (index + 1) * perHeight;
+        properties.color = colorArr[index];
+        features.push({ type: 'Feature', geometry: suGeometry, properties });
+      }
+    }
+    const data = FeatureCollection(features);
+    const source = {
+      type: 'geojson',
+      data: data
+    };
+    this.add3dLayer(source, 'layerIdaaa_aa', {
+      baseHeight: ['get', 'baseH'],
+      color: ['get', 'color'],
+      labelLayerId: '15_BUILDING'
+    });
   };
 
   setSurround = async ({ x, y, color, floor }) => {
