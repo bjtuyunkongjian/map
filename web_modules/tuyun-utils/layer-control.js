@@ -321,13 +321,14 @@ const AddPolygonLayer = (map, source, layerId, option = {}) => {
 };
 
 const Add3dLayer = (map, source, layerId, option = {}) => {
-  const { labelLayerId, color, opacity, baseHeight } = option;
+  const { labelLayerId, color, opacity, baseHeight, minzoom } = option;
   if (!map.getSource(layerId)) {
     map.addLayer(
       {
         id: layerId,
         source: source,
         type: 'fill-extrusion',
+        minzoom: minzoom,
         paint: {
           'fill-extrusion-color': color || '#f00',
           'fill-extrusion-height': ['number', ['get', 'height']],

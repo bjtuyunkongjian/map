@@ -142,7 +142,8 @@ class TyMap {
     this.add3dLayer(source, 'layerIdaaa_aa', {
       baseHeight: ['get', 'baseH'],
       color: ['get', 'color'],
-      labelLayerId: '15_BUILDING'
+      labelLayerId: '15_BUILDING',
+      minzoom: 17
     });
   };
 
