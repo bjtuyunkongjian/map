@@ -1,5 +1,4 @@
 import { MapSource } from './constant';
-import { BuildingColor } from 'tuyun-utils';
 
 // 3d 普通建筑颜色和透明度
 const gresplOpacity = 0.8;
@@ -30,11 +29,7 @@ for (let item of BuildingIds) {
     'source-layer': item.sourceLayer,
     type: 'fill-extrusion',
     paint: {
-      'fill-extrusion-color': [
-        'coalesce',
-        ['get', ['to-string', ['get', 'ID']], ['literal', BuildingColor]],
-        GresplColor
-      ],
+      'fill-extrusion-color': GresplColor,
       'fill-extrusion-height': [
         'interpolate',
         ['linear'],
