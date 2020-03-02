@@ -2366,3 +2366,97 @@ tyMap.onLayerContextMenu('layerId', () => {
   // todo
 });
 ```
+
+## 扩展功能
+
+### 建筑物颜色
+
+### 1. setBuildingColor({ x, y, color })
+
+配置后的建筑物颜色。
+
+```markdown
+**传入参数**
+x: 经度
+y: 纬度
+color: 颜色，仅支持 rgb(r, g, b) 格式
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
+tyMap.setBuildingColor({
+  x: 118.8104,
+  y: 36.32626,
+  color: 'rgb(111,222, 333)'
+});
+```
+
+### 2. getBuildingColor()
+
+获取配置后的建筑物颜色。
+
+```markdown
+**传入参数**
+无
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
+tyMap.getBuildingColor();
+```
+
+### 建筑物楼层高度标定
+
+### 1. setSurround({ x, y, color, floor })
+
+配置后的建筑物颜色。
+
+```markdown
+**传入参数**
+x: 经度
+y: 纬度
+color: 颜色，仅支持 rgb(r, g, b) 格式
+floor: 楼层，必须为整数
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
+await tyMap.setSurround({
+  x: 118.8104,
+  y: 36.32626,
+  color: 'rgb(111,222, 333)',
+  floor: 5
+});
+// 更新已标定的楼层
+await tyMap.getSurround('layerId');
+```
+
+### 2. getSurround(layerId)
+
+获取配置后的建筑物颜色。一定要设置一个图层 id，方便点击的时候使用。更新的时候保证前后的图层 id 一致。
+
+```markdown
+**传入参数**
+layerId: 经度
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
+tyMap.getSurround('layerId');
+```

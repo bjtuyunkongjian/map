@@ -83,7 +83,7 @@ class TyMap {
     mapArr.push(tyMap);
     // 通过获取后台数据修改对应的建筑物颜色
     this.getBuildingColor();
-    this.getSurround();
+    this.getSurround('aaa');
   }
 
   getBuildingColor = async () => {
