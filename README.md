@@ -16,6 +16,18 @@
 - ./style/ 目录下是所有的 css 样式文件；
 - ./web_modules/ 目录下是一些公用的配置和组件；
 
+## 文件上传
+
+### 文档
+
+- 47.110 sl/map-server/static/docs
+- 47.97 sl/map-server/static/docs
+
+### api
+
+- 47.110 sl/map-server/static/third-party-api
+- 47.97 sl/map-server/static/third-party-api
+
 ## 配置
 
 1. mapbox 相应配置：[mapbox 参考文档](https://www.mapbox.com/mapbox-gl-js/)

@@ -4,7 +4,7 @@
 
 该地图的底层使用的 webgl 实现，请务必使用支持 webgl 的浏览器进行开发和测试。推荐使用 google chrome 浏览器，60 以上的版本。急速浏览器尽量使用 73 以上的版本。由于 windows xp 系统对 webgl 的支持很不友好，所以 windows 平台请使用 windows 7 以上的进行开发。
 
-查看 pdf 版本（当前最高版本: 2.4.15）接口文档：[点此下载](http://47.110.135.245:8080/docs/api.pdf)
+查看 pdf 版本（当前最高版本: 2.4.16）接口文档：[点此下载](http://47.110.135.245:8080/docs/api.pdf)
 
 注: **由于底层服务的改动，之前 1.x.x 版本对应的 js 包已不再维护，2019 年 3 月 12 日之前注册的 key 继续沿用，2019 年 3 月 12 日之后注册的 key 不再支持 1.x.x 版本。如有问题请与相关技术人员联系。**
 
@@ -23,7 +23,7 @@
   </head>
   <body style="width: 100%; height: 100%;">
     <div id="app" style="width: 100%; height: 100%;"></div>
-    <script src="http://ip:host/dir/ty-map-development.2.4.15.js"></script>
+    <script src="http://ip:host/dir/ty-map-development.2.4.16.js"></script>
     <script>
       const container = document.getElementById('app');
       const tyMap = new TyMap(container, { key: '你的对应的key' });
@@ -32,7 +32,7 @@
 </html>
 ```
 
-其中 TyMap 是 ty-map.2.4.15.js 中导出的唯一一个类。由于是 script 标签的形式引入，TyMap 也是一个全局对象。
+其中 TyMap 是 ty-map.2.4.16.js 中导出的唯一一个类。由于是 script 标签的形式引入，TyMap 也是一个全局对象。
 
 ## 需求
 
@@ -58,16 +58,16 @@
 
 ```html
 <!-- 地图引入文件 -->
-<script src="http://47.110.135.245:8080/third-party-api/ty-map-development.2.4.15.js"></script>
-<script src="http://47.110.135.245:8080/third-party-api/ty-map-production.2.4.15.js"></script>
+<script src="http://47.110.135.245:8080/third-party-api/ty-map-development.2.4.16.js"></script>
+<script src="http://47.110.135.245:8080/third-party-api/ty-map-production.2.4.16.js"></script>
 ```
 
 ### 下载第三方接口的 js 代码
 
-您可以从 <http://47.110.135.245:8080/third-party-api/ty-map-development.2.4.15.js> 或者 <http://47.110.135.245:8080/third-party-api/ty-map-production.2.4.15.js> 上下载图云空间第三方接口的对应版本到本地。其中 2.4.15 为版本号。然后通过
+您可以从 <http://47.110.135.245:8080/third-party-api/ty-map-development.2.4.16.js> 或者 <http://47.110.135.245:8080/third-party-api/ty-map-production.2.4.16.js> 上下载图云空间第三方接口的对应版本到本地。其中 2.4.16 为版本号。然后通过
 
 ```html
-<script src="dirname/ty-map-development.2.4.15.js"></script>
+<script src="dirname/ty-map-development.2.4.16.js"></script>
 ```
 
 的方式调用。
@@ -83,7 +83,7 @@
 通过 script 标签的方式将代码引入，
 
 ```html
-<script src="http://47.110.135.245:8080/third-party-api/ty-map-development.2.4.15.js"></script>
+<script src="http://47.110.135.245:8080/third-party-api/ty-map-development.2.4.16.js"></script>
 ```
 
 然后创建一个面积不为零的容器，比如创建一个 id 为 app 的 div 容器：
@@ -2414,7 +2414,7 @@ const tyMap = new TyMap(document.getElementById('app'), {
 tyMap.getBuildingColor();
 ```
 
-### removeBuildingColor({ x, y })
+### 3. removeBuildingColor({ x, y })
 
 删除已经配置的建筑物颜色。
 
@@ -2508,5 +2508,5 @@ await tyMap.removeSurround({
   floor: 5
 });
 // 更新已标定的楼层
-await tyMap.getSurround('layerId');
+await tyMap.getSurround('layerIdName');
 ```
