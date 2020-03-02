@@ -85,6 +85,101 @@ class TyMap {
     mapArr.push(tyMap);
   }
 
+  getBuildingColor = async () => {
+    // 获取服务器配置文件
+    const { res, err } = await FetchRequest({
+      url: 'extendMapServer/string?test=QueryColor'
+    });
+    if (!res || err) return console.error('获取建筑物颜色数据失败');
+    // 重新渲染
+    for (let item of BuildingIds) {
+      mapArr[this.mapIndex].setPaintProperty(item.id, 'fill-extrusion-color', [
+        'coalesce',
+        ['get', ['to-string', ['get', 'ID']], ['literal', res]],
+        GresplColor
+      ]);
+    }
+  };
+
+  setBuildingColor = async ({ x, y, color }) => {
+    // 判断颜色
+    const rgbExec = /rgb\((\d+),\s*(\d+),\s*(\d+)\)/g.exec(color);
+    if (!rgbExec) return '颜色不符合规范，仅支持 rgb(r, g, b) 格式';
+    for (let i = 1; i < 3; i++) {
+      if (rgbExec[i] > 255 || rgbExec[i] < 0)
+        return '颜色不符合规范，仅支持 rgb(r, g, b) 格式';
+    }
+    // 判断 x 和 y
+    const dotReg = /^[0-9]+(.[0-9]{1,})?$/;
+    if (!dotReg.test(x) || !dotReg.test(y)) return '经纬度不符合规范';
+    // 发请求
+    const { err } = await FetchRequest({
+      url: `extendMapServer/string?test=PaintColor&x=${x}&y=${y}&color=${color}`
+    });
+    if (err) return console.error('设置建筑物颜色失败');
+    // 重新从服务器拉数据渲染一下
+    this.getBuildingColor();
+  };
+
+  getSurround = async layerId => {
+    if (!layerId || typeof layerId !== 'string')
+      return new Error('没有设置图层id');
+    const bounds = mapArr[this.mapIndex].getBounds();
+    const { _sw, _ne } = bounds;
+    const { res, err } = await FetchRequest({
+      url: `extendMapServer/string?test=QueryCircle&wx=${_sw.lng}&sy=${_sw.lat}&ex=${_ne.lng}&ny=${_ne.lat}`
+    });
+    if (!res || err) return console.error('获取建筑物颜色数据失败');
+    // 生成 环绕带子 source
+    const features = [];
+    for (let item of res) {
+      const { color, circle, floor } = item;
+      const colorArr = color.split(';');
+      const floorInt = parseInt(floor); // 层数必须是整数
+      const perHeight = 3.5 / colorArr.length; // 每一份的高度
+      const suGeometry = JSON.parse(circle); // geometry
+      for (let index = 0; index < colorArr.length; index++) {
+        const properties = {}; // 属性
+        properties.baseH = floorInt * 3 + index * perHeight;
+        properties.height = floorInt * 3 + (index + 1) * perHeight;
+        properties.color = colorArr[index];
+        features.push({ type: 'Feature', geometry: suGeometry, properties });
+      }
+    }
+    const data = FeatureCollection(features);
+    const source = {
+      type: 'geojson',
+      data: data
+    };
+    this.add3dLayer(source, layerId, {
+      baseHeight: ['get', 'baseH'],
+      color: ['get', 'color'],
+      labelLayerId: '15_BUILDING',
+      minzoom: 17
+    });
+  };
+
+  setSurround = async ({ x, y, color, floor }) => {
+    // 判断颜色
+    const rgbExec = /rgb\((\d+),\s*(\d+),\s*(\d+)\)/g.exec(color);
+    if (!rgbExec) return '颜色不符合规范，仅支持 rgb(r, g, b) 格式';
+    for (let i = 1; i < 3; i++) {
+      if (rgbExec[i] > 255 || rgbExec[i] < 0)
+        return '颜色不符合规范，仅支持 rgb(r, g, b) 格式';
+    }
+    // 判断 x 和 y
+    const dotReg = /^[0-9]+(.[0-9]{1,})?$/;
+    if (!dotReg.test(x) || !dotReg.test(y)) return '经纬度不符合规范';
+    // 判断 floor ，楼层
+    const intReg = /^\d+$/;
+    if (!intReg) return '楼层不符合规范';
+    // 发请求
+    const { err } = await FetchRequest({
+      url: `extendMapServer/string?test=PaintCircle&x=${x}&y=${y}&color=${color}&floor=${floor}`
+    });
+    if (err) return console.error('设置环形建筑物颜色失败');
+  };
+
   resize = () => mapArr[this.mapIndex].resize();
 
   getBounds = () => mapArr[this.mapIndex].getBounds();

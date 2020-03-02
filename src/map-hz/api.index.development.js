@@ -103,6 +103,17 @@ class TyMap {
   };
 
   setBuildingColor = async ({ x, y, color }) => {
+    // 判断颜色
+    const rgbExec = /rgb\((\d+),\s*(\d+),\s*(\d+)\)/g.exec(color);
+    if (!rgbExec) return '颜色不符合规范，仅支持 rgb(r, g, b) 格式';
+    for (let i = 1; i < 3; i++) {
+      if (rgbExec[i] > 255 || rgbExec[i] < 0)
+        return '颜色不符合规范，仅支持 rgb(r, g, b) 格式';
+    }
+    // 判断 x 和 y
+    const dotReg = /^[0-9]+(.[0-9]{1,})?$/;
+    if (!dotReg.test(x) || !dotReg.test(y)) return '经纬度不符合规范';
+    // 发请求
     const { err } = await FetchRequest({
       url: `extendMapServer/string?test=PaintColor&x=${x}&y=${y}&color=${color}`
     });
@@ -111,7 +122,9 @@ class TyMap {
     this.getBuildingColor();
   };
 
-  getSurround = async () => {
+  getSurround = async layerId => {
+    if (!layerId || typeof layerId !== 'string')
+      return new Error('没有设置图层id');
     const bounds = mapArr[this.mapIndex].getBounds();
     const { _sw, _ne } = bounds;
     const { res, err } = await FetchRequest({
@@ -139,7 +152,7 @@ class TyMap {
       type: 'geojson',
       data: data
     };
-    this.add3dLayer(source, 'layerIdaaa_aa', {
+    this.add3dLayer(source, layerId, {
       baseHeight: ['get', 'baseH'],
       color: ['get', 'color'],
       labelLayerId: '15_BUILDING',
@@ -148,6 +161,20 @@ class TyMap {
   };
 
   setSurround = async ({ x, y, color, floor }) => {
+    // 判断颜色
+    const rgbExec = /rgb\((\d+),\s*(\d+),\s*(\d+)\)/g.exec(color);
+    if (!rgbExec) return '颜色不符合规范，仅支持 rgb(r, g, b) 格式';
+    for (let i = 1; i < 3; i++) {
+      if (rgbExec[i] > 255 || rgbExec[i] < 0)
+        return '颜色不符合规范，仅支持 rgb(r, g, b) 格式';
+    }
+    // 判断 x 和 y
+    const dotReg = /^[0-9]+(.[0-9]{1,})?$/;
+    if (!dotReg.test(x) || !dotReg.test(y)) return '经纬度不符合规范';
+    // 判断 floor ，楼层
+    const intReg = /^\d+$/;
+    if (!intReg) return '楼层不符合规范';
+    // 发请求
     const { err } = await FetchRequest({
       url: `extendMapServer/string?test=PaintCircle&x=${x}&y=${y}&color=${color}&floor=${floor}`
     });
