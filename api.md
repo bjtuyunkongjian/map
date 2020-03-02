@@ -2447,7 +2447,7 @@ tyMap.getBuildingColor();
 **传入参数**
 x: 经度
 y: 纬度
-color: 颜色，仅支持 rgb(r, g, b) 格式
+color: 颜色，仅支持 rgb(r, g, b) 格式。多个颜色以 ";" 隔开，如： rgb(1,2, 33);rgb(12, 33,4)
 floor: 楼层，必须为整数
 ```
 
