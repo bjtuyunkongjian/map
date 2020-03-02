@@ -2,6 +2,7 @@ import mapboxgl from 'mapbox-gl';
 
 import MapStyles from './map-styles';
 import BaseConfig from './base-config';
+import { FetchRequest } from './fetch';
 
 import {
   AddCircleLayer,
@@ -42,6 +43,7 @@ import {
 } from '@turf/turf';
 
 import ZjjdLayer from './jiudian';
+import { BuildingIds, GresplColor } from './map-styles/layer-building';
 
 const mapArr = [];
 
@@ -124,6 +126,19 @@ class TyMap {
     this.getBuildingColor();
   };
 
+  removeBuildingColor = async ({ x, y }) => {
+    // 判断 x 和 y
+    const dotReg = /^[0-9]+(.[0-9]{1,})?$/;
+    if (!dotReg.test(x) || !dotReg.test(y)) return '经纬度不符合规范';
+    // 发请求
+    const { err } = await FetchRequest({
+      url: `extendMapServer/string?test=PaintColor&x=${x}&y=${y}&color=0`
+    });
+    if (err) return console.error('设置建筑物颜色失败');
+    // 重新从服务器拉数据渲染一下
+    this.getBuildingColor();
+  };
+
   getSurround = async layerId => {
     if (!layerId || typeof layerId !== 'string')
       return new Error('没有设置图层id');
@@ -164,11 +179,14 @@ class TyMap {
 
   setSurround = async ({ x, y, color, floor }) => {
     // 判断颜色
-    const rgbExec = /rgb\((\d+),\s*(\d+),\s*(\d+)\)/g.exec(color);
-    if (!rgbExec) return '颜色不符合规范，仅支持 rgb(r, g, b) 格式';
-    for (let i = 1; i < 3; i++) {
-      if (rgbExec[i] > 255 || rgbExec[i] < 0)
-        return '颜色不符合规范，仅支持 rgb(r, g, b) 格式';
+    for (let item of color.split(';')) {
+      const rgbExec = /rgb\((\d+),\s*(\d+),\s*(\d+)\)/g.exec(item);
+      if (!rgbExec) return '颜色不符合规范，仅支持 rgb(r, g, b) 格式';
+      // 判断 rgb 各个值是 0 到 255 之间
+      for (let i = 1; i < 3; i++) {
+        if (rgbExec[i] > 255 || rgbExec[i] < 0)
+          return '颜色不符合规范，仅支持 rgb(r, g, b) 格式';
+      }
     }
     // 判断 x 和 y
     const dotReg = /^[0-9]+(.[0-9]{1,})?$/;
@@ -179,6 +197,20 @@ class TyMap {
     // 发请求
     const { err } = await FetchRequest({
       url: `extendMapServer/string?test=PaintCircle&x=${x}&y=${y}&color=${color}&floor=${floor}`
+    });
+    if (err) return console.error('设置环形建筑物颜色失败');
+  };
+
+  removeSurround = async ({ x, y, floor }) => {
+    // 判断 x 和 y
+    const dotReg = /^[0-9]+(.[0-9]{1,})?$/;
+    if (!dotReg.test(x) || !dotReg.test(y)) return '经纬度不符合规范';
+    // 判断 floor ，楼层
+    const intReg = /^\d+$/;
+    if (!intReg) return '楼层不符合规范';
+    // 发请求
+    const { err } = await FetchRequest({
+      url: `extendMapServer/string?test=PaintCircle&x=${x}&y=${y}&color=0&floor=${floor}`
     });
     if (err) return console.error('设置环形建筑物颜色失败');
   };

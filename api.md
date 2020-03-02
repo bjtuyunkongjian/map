@@ -2373,7 +2373,7 @@ tyMap.onLayerContextMenu('layerId', () => {
 
 ### 1. setBuildingColor({ x, y, color })
 
-配置后的建筑物颜色。
+配置建筑物颜色。配置完成后调用下获取建筑物颜色的接口以更新。
 
 ```markdown
 **传入参数**
@@ -2391,8 +2391,9 @@ const tyMap = new TyMap(document.getElementById('app'), {
 tyMap.setBuildingColor({
   x: 118.8104,
   y: 36.32626,
-  color: 'rgb(111,222, 333)'
+  color: 'rgb(111,222, 33)'
 });
+tyMap.getBuildingColor();
 ```
 
 ### 2. getBuildingColor()
@@ -2413,11 +2414,34 @@ const tyMap = new TyMap(document.getElementById('app'), {
 tyMap.getBuildingColor();
 ```
 
+### removeBuildingColor({ x, y })
+
+删除已经配置的建筑物颜色。
+
+```markdown
+**传入参数**
+x: 经度
+y: 纬度
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
+tyMap.removeBuildingColor({
+  x: 118.8104,
+  y: 36.32626
+});
+tyMap.getBuildingColor();
+```
+
 ### 建筑物楼层高度标定
 
 ### 1. setSurround({ x, y, color, floor })
 
-配置后的建筑物颜色。
+配置建筑物楼层的颜色。
 
 ```markdown
 **传入参数**
@@ -2436,16 +2460,16 @@ const tyMap = new TyMap(document.getElementById('app'), {
 await tyMap.setSurround({
   x: 118.8104,
   y: 36.32626,
-  color: 'rgb(111,222, 333)',
+  color: 'rgb(111,222, 33)',
   floor: 5
 });
 // 更新已标定的楼层
-await tyMap.getSurround('layerId');
+await tyMap.getSurround('layerIdName');
 ```
 
 ### 2. getSurround(layerId)
 
-获取配置后的建筑物颜色。一定要设置一个图层 id，方便点击的时候使用。更新的时候保证前后的图层 id 一致。
+获取配置后的建筑物楼层的颜色。一定要设置一个图层 id，方便点击的时候使用。更新的时候保证前后的图层 id 一致。
 
 ```markdown
 **传入参数**
@@ -2458,5 +2482,31 @@ layerId: 经度
 const tyMap = new TyMap(document.getElementById('app'), {
   key: '你的对应的key'
 });
-tyMap.getSurround('layerId');
+tyMap.getSurround('layerIdName');
+```
+
+### 3. removeSurround({ x, y, floor })
+
+删除配置的建筑物楼层的颜色。
+
+```markdown
+**传入参数**
+x: 经度
+y: 纬度
+floor: 楼层，必须为整数
+```
+
+举例：
+
+```javascript
+const tyMap = new TyMap(document.getElementById('app'), {
+  key: '你的对应的key'
+});
+await tyMap.removeSurround({
+  x: 118.8104,
+  y: 36.32626,
+  floor: 5
+});
+// 更新已标定的楼层
+await tyMap.getSurround('layerId');
 ```
