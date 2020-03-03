@@ -9,12 +9,8 @@ import React, { Component } from 'react';
 
 import BaseStyle from './map-styles/light-sd';
 import AddLevels from './add-levels';
-<<<<<<< HEAD
 // import CustomLayer from './radar';
 import CustomLayer from './custom-layer';
-=======
-// import CustomLayer from './police';
->>>>>>> 62020640e3bd2dc99649f75ad703bf70637b7862
 
 export default class MapBoxDemo extends Component {
   componentDidMount() {
