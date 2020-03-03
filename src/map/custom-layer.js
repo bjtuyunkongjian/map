@@ -9,7 +9,8 @@ const {
   DirectionalLight,
   WebGLRenderer,
   Matrix4,
-  Vector3
+  Vector3,
+  AmbientLight
 } = THREE;
 
 // configuration of the custom layer for a 3D model per the CustomLayerInterface
@@ -49,14 +50,14 @@ class CustomLayer {
     this.camera = new Camera();
     this.scene = new Scene();
 
-    var directionalLight = new DirectionalLight(0xffffff, 0.4);
+    var directionalLight = new AmbientLight(0xffffff);
     directionalLight.position.set(0, 70, 100).normalize();
     this.scene.add(directionalLight);
 
     // use the three.js GLTF loader to add the 3D model to the three.js scene
     var loader = new GLTFLoader();
     loader.load(
-      'http://47.110.135.245:12808/static/test.gltf',
+      this.url,
       function(gltf) {
         this.scene.add(gltf.scene);
       }.bind(this)
@@ -74,7 +75,7 @@ class CustomLayer {
   };
 
   render = (_, matrix) => {
-    if (this.map.getZoom() < 17) return;
+    if (this.map.getZoom() < 16) return;
     var rotationX = new Matrix4().makeRotationAxis(
       new Vector3(1, 0, 0),
       this.modelTransform.rotateX
