@@ -53,7 +53,7 @@ export default class MapBoxDemo extends Component {
         const _minLat = _bounds._sw.lat;
         const _diffLat = _bounds._ne.lat - _bounds._sw.lat;
         const gltfUrl = 'http://47.110.135.245:12808/static/test.gltf';
-        for (let i = 0; i < 50; i++) {
+        for (let i = 0; i < 100; i++) {
           const lng = _minLng + Math.random() * _diffLng;
           const lat = _minLat + Math.random() * _diffLat;
           this.map.addLayer(
