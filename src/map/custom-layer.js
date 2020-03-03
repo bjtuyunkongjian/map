@@ -13,9 +13,10 @@ const {
 } = THREE;
 
 // configuration of the custom layer for a 3D model per the CustomLayerInterface
-class CustomL {
-  constructor(x, y, z, id) {
+class CustomLayer {
+  constructor(x, y, z, id, url) {
     this.id = id;
+    this.url = url;
     this.modelOrigin = [x, y]; // 中心点
     this.modelAltitude = z || 0; // 高度，海拔
     this.modelTransform = {
@@ -113,4 +114,4 @@ class CustomL {
   };
 }
 
-export default CustomL;
+export default CustomLayer;

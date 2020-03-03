@@ -52,11 +52,12 @@ export default class MapBoxDemo extends Component {
         const _diffLng = _bounds._ne.lng - _bounds._sw.lng;
         const _minLat = _bounds._sw.lat;
         const _diffLat = _bounds._ne.lat - _bounds._sw.lat;
+        const gltfUrl = 'http://47.110.135.245:12808/static/test.gltf';
         for (let i = 0; i < 50; i++) {
           const lng = _minLng + Math.random() * _diffLng;
           const lat = _minLat + Math.random() * _diffLat;
           this.map.addLayer(
-            new CustomLayer(lng, lat, 0, 'aaaaa' + i),
+            new CustomLayer(lng, lat, 0, 'aaaaa' + i, gltfUrl),
             'GHYDPL_7L_NAME'
           );
         }
@@ -71,12 +72,13 @@ export default class MapBoxDemo extends Component {
         const _diffLng = _bounds._ne.lng - _bounds._sw.lng;
         const _minLat = _bounds._sw.lat;
         const _diffLat = _bounds._ne.lat - _bounds._sw.lat;
+        const gltfUrl = 'http://47.110.135.245:12808/static/test.gltf';
         for (let i = 0; i < 50; i++) {
           const lng = _minLng + Math.random() * _diffLng;
           const lat = _minLat + Math.random() * _diffLat;
           this.map.removeLayer('aaaaa' + i);
           this.map.addLayer(
-            new CustomLayer(lng, lat, 0, 'aaaaa' + i),
+            new CustomLayer(lng, lat, 0, 'aaaaa' + i, gltfUrl),
             'GHYDPL_7L_NAME'
           );
         }
