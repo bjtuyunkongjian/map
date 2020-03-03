@@ -132,10 +132,8 @@ export default class PopupUniNameplate extends Component {
 
   _fetchPersionDetail = async () => {
     const { popCode } = this.state;
-    const { res, err } = await FetchHouseDetail({
-      type: '02',
-      jzwbm: popCode
-    });
+    const _param = `jzwbm=${popCode}&type=02`;
+    const { res, err } = await FetchHouseDetail(_param);
     if (!res || err) return;
     const { jzwdzmc, companyInfoList, totalCompany } = res;
     this.setState({

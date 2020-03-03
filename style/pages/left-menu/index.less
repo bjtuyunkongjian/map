@@ -1,10 +1,66 @@
 .left-menu {
   width: @left-menu-width;
+  @padding: 20px;
+  @margin: 12px;
+  @item-cell-height: 48px;
+  @logo-height: 48px;
   height: 100%;
   z-index: 1;
-  left: -@left-menu-width;
+  left: 0;
   top: 0;
   position: absolute;
+  .logo {
+    height: @logo-height;
+    display: flex;
+    padding: @padding;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    color: @t-white;
+    background: @theme-bg-color;
+    .logo-text {
+      margin-left: @margin;
+    }
+  }
+  .item-cell {
+    font-size: 12px;
+    padding: 0 @padding 0 @padding * 2;
+    color: @t-white;
+    text-align: center;
+    height: @item-cell-height;
+    background: @color-dark-blue;
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    &.checked {
+      background: @bg-selected;
+      cursor: pointer;
+    }
+    .cell-label-text {
+      flex: 1;
+      display: flex;
+    }
+  }
+  .checkbox {
+    width: 15px;
+    height: 15px;
+    margin-right: @margin;
+    border-radius: @radius-s;
+    background-color: @t-white;
+    font-size: 15px;
+    cursor: pointer;
+    color: @t-base;
+    &.checked {
+      background-color: @bg-hover;
+    }
+  }
+
+  .cell-color-sign {
+    width: 10px;
+    height: 10px;
+    border-radius: @radius-circle;
+  }
+
   &.menu-slide-in {
     left: 0;
     animation: 0.5s menu-slide-in; // 菜单滑入
@@ -30,15 +86,10 @@
     }
   }
   @import './menu-box/index.less'; // 通用菜单样式
-  @import './work-content/index.less'; // 工作内容
-  @import './police-data/index.less'; // 一标三实
-  @import './camera/index.less'; // 摄像头
+  // 各个子类菜单
   @import './police-case/index.less'; // 案件
-  @import './call-police/index.less'; // 报警
   @import './police-force/index.less'; // 警力
   @import './security-route/index.less'; // 安保路线
-  @import './public-facility/index.less'; // 公共设施
-  @import './important-place/index.less'; // 重要场所
-  @import './control.less'; // 控制菜单滑入滑出按钮
   @import './vehicle-type/index.less'; // 两客一危
+  @import './control.less'; // 控制菜单滑入滑出按钮
 }

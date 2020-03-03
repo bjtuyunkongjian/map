@@ -139,7 +139,6 @@ export default class ColorBuildings extends Component {
         //   }),
         //   _MAP_.querySourceFeatures('GRESPL_Merge_ID1')
         // );
-        console.log(e.features);
         _MAP_.on('move', this._moveListener); // 添加事件
         this.setState({
           left: e.point.x,

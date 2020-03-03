@@ -6,8 +6,9 @@ import {
   along as TurfAlong
 } from 'turf';
 import { IoMdCheckmark } from 'react-icons/io';
+import { TuyunMessage } from 'tuyun-kit';
 
-import { FetchAllRoutes, FetchRouteInfo } from './webapi';
+import { GetAllRoutes, GetRouteDetail, DeleteFile } from './webapi';
 
 export default class ViewRoute extends Component {
   state = {
@@ -32,16 +33,23 @@ export default class ViewRoute extends Component {
           {routeList.map((item, index) => {
             const _isChecked = selectedPlan.indexOf(item) > -1;
             return (
-              <li
-                className="table-row"
-                key={`route_list_${index}`}
-                onClick={() => this._selectRoute(item)}
-              >
-                <div className={`checkbox ${_isChecked ? 'checked' : ''}`}>
-                  {_isChecked ? <IoMdCheckmark /> : null}
+              <li className="table-row" key={`route_list_${index}`}>
+                <div
+                  className="table-name"
+                  onClick={() => this._selectRoute(item)}
+                >
+                  <div className={`checkbox ${_isChecked ? 'checked' : ''}`}>
+                    {_isChecked ? <IoMdCheckmark /> : null}
+                  </div>
+                  {item.name}
                 </div>
-                <div className="table-name">{item.name}</div>
-                <div className="table-date">{item.date}</div>
+                {/* <div className="table-btn">修改</div> */}
+                <div
+                  className="table-btn"
+                  onClick={() => this._deleteFile(item)}
+                >
+                  删除
+                </div>
               </li>
             );
           })}
@@ -61,23 +69,10 @@ export default class ViewRoute extends Component {
   };
 
   _fetchAllRoutes = async () => {
-    const { res, err } = await FetchAllRoutes();
+    const { res, err } = await GetAllRoutes();
     if (!res || err) return console.log('获取重大安保轨迹失败');
-    const _dateLen = ('' + new Date().getTime()).length;
     const _routeList = res.map(item => {
-      const _name = item.substr(0, item.length - _dateLen - 1);
-      const _timeStep = item.substr(-_dateLen);
-      const _dateTime = parseInt(_timeStep);
-      const _newDate = new Date(_dateTime);
-      const _year = _newDate.getFullYear();
-      const _month = _newDate.getMonth() + 1;
-      const _date = _newDate.getDate();
-      return {
-        name: _name,
-        date: `${_year}-${_month}-${_date}`,
-        timeStep: _timeStep,
-        originName: item
-      };
+      return { name: item, originName: item };
     });
     this.setState({ routeList: _routeList });
   };
@@ -114,7 +109,7 @@ export default class ViewRoute extends Component {
 
   // 获取道路信息
   _fetchRouteInfo = async originName => {
-    const { res, err } = await FetchRouteInfo({ fileName: originName }); // 去后端请求数据
+    const { res, err } = await GetRouteDetail(`fileName=${originName}`); // 去后端请求数据
     if (!res || err) return console.log('获取重大安保轨迹详情失败');
     const { features } = res;
     const _roadCoords = [];
@@ -142,6 +137,17 @@ export default class ViewRoute extends Component {
     _MAP_.flyTo({ center: _roadCoords[0], zoom: 15 }); // 以刚点击的路线的起点为中心点
     this._drawRoad(); // 重新绘制路线
     this._animateCar(); // 小车动画
+  };
+
+  _deleteFile = async fileOpt => {
+    const { originName } = fileOpt;
+    const { err } = await DeleteFile(`fileName=${originName}`);
+    if (err) return TuyunMessage.error('删除文件失败');
+    TuyunMessage.success('删除成功');
+    const { routeList, selectedPlan } = this.state;
+    selectedPlan.splice(selectedPlan.indexOf(fileOpt), 1);
+    routeList.splice(routeList.indexOf(fileOpt), 1);
+    this.setState({ routeList, selectedPlan });
   };
 
   // 绘制路线
@@ -215,7 +221,6 @@ export default class ViewRoute extends Component {
         _features.push(_feature);
         // 添加尾车
         for (let i = tailCarCount; i > 0; i--) {
-          // console.log(i, drivenLength, i * carDistance);
           if (drivenLength > i * carDistance) {
             let _tailFeature = TurfAlong(
               features,

@@ -1,0 +1,39 @@
+.area-box {
+  width: 100%;
+  background-color: @t-white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .area-content {
+    width: 100%;
+    padding: 10px 10px;
+    font-size: 12px;
+    .area-item {
+      display: flex;
+      padding: 10px 0 5px;
+      align-items: flex-start;
+      .compare-name {
+        flex: 0 50px;
+      }
+      .select-area-name {
+        flex: 1;
+      }
+    }
+  }
+  .select-area-btn {
+    width: 80px;
+    height: 32px;
+    cursor: pointer;
+    display: flex;
+    border-radius: @radius-m;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: @color-police-blue;
+    color: @t-white;
+    margin-bottom: 10px;
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}

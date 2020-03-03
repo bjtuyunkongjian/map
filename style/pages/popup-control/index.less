@@ -1,0 +1,92 @@
+.popup-control {
+  border-radius: @radius-l;
+  overflow: hidden;
+  width: 350px;
+  background-color: white;
+  position: absolute;
+  left: 101%;
+  top: 0;
+  color: @t-base;
+  padding-bottom: 10px;
+  box-shadow: @box-shadow-mini;
+  .list-title {
+    background-color: @color-dark-blue;
+    color: @t-white;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .close {
+    font-weight: 800;
+    cursor: pointer;
+    .icon-right;
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+  .table-box {
+    padding: 8px 10px;
+    .table-title {
+      height: 20px;
+    }
+    .table-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: @t-grayer;
+      .header-item {
+        flex: 1;
+        text-align: center;
+        padding: 5px 0;
+      }
+    }
+    .table-row {
+      display: flex;
+      justify-content: space-around;
+      border-bottom: 1px solid @t-base;
+      border-left: 1px solid @t-base;
+      .row-item {
+        border-right: 1px solid @t-base;
+        flex-wrap: wrap;
+        text-align: center;
+        flex-grow: 1;
+        flex-shrink: 0;
+        padding: 3px 0;
+        word-break: break-all;
+      }
+      .basis-3 {
+        flex-basis: 33.33%;
+      }
+      .basis-4 {
+        flex-basis: 25%;
+      }
+      .basis-6 {
+        flex-basis: 16.68%;
+      }
+    }
+    .page {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 20px;
+      cursor: pointer;
+      .prev-page {
+        width: 50px;
+        border: 1px solid @t-base;
+        background-color: @color-dark-blue;
+        color: @t-white;
+        text-align: center;
+        border-radius: @radius-s;
+      }
+      .next-page {
+        width: 50px;
+        border: 1px solid @t-base;
+        background-color: @color-dark-blue;
+        color: @t-white;
+        text-align: center;
+        border-radius: @radius-s;
+      }
+    }
+  }
+}

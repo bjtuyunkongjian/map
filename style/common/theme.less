@@ -10,6 +10,9 @@
 @color-army-green: #009688;
 @color-orange: #ec5e2a;
 @color-blue: #40a9ff;
+@color-police-blue: #004d93;
+@color-dark-blue: #003f6f;
+@theme-bg-color: @color-police-blue; //地图主题背景色
 // 文字色
 @t-base: #333; // 基本
 @t-gray: #666; // 辅助色
@@ -19,12 +22,14 @@
 @t-disabled: #bbb; // 失效
 // 背景色
 @bg-gray: #f4f5f7; // 页面背景
-@bg-grayer: #fafafa; // 页面背景//套装背景
+@bg-grayer: #e5e9f2; // 页面背景//套装背景
+@bg-opacity: rgba(250, 250, 250, 0.5); // 透明通用背景
 @bg-hover: #efefef; // 悬浮时背景
+@bg-hover-opacity: rgba(250, 250, 250, 0.6); // 悬浮时背景
+@bg-selected: @color-police-blue / 2; // 选中时背景
+@bg-selected-opacity: rgba(239, 239, 239, 0.8); // 选中时背景
 @bg-disabled: #ccc; // 通用失效背景
 @bg-mask: rgba(0, 0, 0, 0.65); // 遮罩背景
-@bg-gradient-opacity: rgba(240, 248, 255, 0.3); // 透明通用背景
-@bg-gradient-base: linear-gradient(#536677, #67cca3);
 // 边框色
 @border-color-base: #eee;
 @border-color-darker: #ddd;
@@ -113,10 +118,12 @@
   @keyfName: ~'drop-down-@{end-height}';
   @keyframes @keyfName {
     0% {
-      height: 0px;
+      height: 0;
+      opacity: 0;
     }
     100% {
       height: @end-height;
+      opacity: 1;
     }
   }
   height: @end-height;
@@ -129,9 +136,11 @@
   @keyframes @keyfName {
     0% {
       height: @start-height;
+      opacity: 1;
     }
     100% {
       height: 0;
+      opacity: 0;
     }
   }
   height: 0;

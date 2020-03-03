@@ -12,7 +12,7 @@ import { GlobalEvent, GloEventName, CreateUid, FormatDate } from 'tuyun-utils';
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
 
 import Event, { EventName } from './event';
-import { FetchProgressData } from './webapi';
+import { GetProgressData } from './webapi';
 import {
   AddHeatMapLayer,
   RemoveLayer,
@@ -330,14 +330,15 @@ export default class ProgressBar extends Component {
       _unitDateArr.push(_unitDate);
     }
     // 循环请求
+    // minX=&maxX=&minY=&maxY=&startTime=&endTime=&intervals=&type=
     for (let item of _unitDateArr) {
-      const _dateArr = this._convertDateList(item);
-      const { res, err } = await FetchProgressData({
-        points: _bounds,
-        dates: _dateArr,
-        caseType: caseType,
-        level: _zoom
-      });
+      // const _dateArr = this._convertDateList(item);
+      const _param = `minX=${_bounds._sw.lng}&maxX=${_bounds._ne.lng}&minY=${
+        _bounds._sw.lat
+      }&maxY=${_bounds._ne.lat}&startTime=${item[0]}&endTime=${
+        item[item.length - 1]
+      }&intervals=${item.length}&type=${caseType}&level=${_zoom}`;
+      const { res, err } = await GetProgressData(_param);
 
       if (!res || err) continue;
       if (_uuid !== this._uuid) return; // 如果重新请求，终止之前的请求

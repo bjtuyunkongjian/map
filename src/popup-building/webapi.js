@@ -3,13 +3,11 @@
  */
 import { FetchRequest } from 'tuyun-utils';
 
-// 建筑物详情
-export const FetchBuildingDetail = async body => {
-  Object.assign(body, { test: 'fwDetail' });
+// 建筑物详情 mapServer/house/detail?dzbm=
+export const FetchBuildingDetail = async param => {
   const { res, err } = await FetchRequest({
-    url: 'mapServer/string',
-    method: 'POST',
-    body
+    url: 'mapServer/house/detail?' + param,
+    method: 'GET'
   });
   return { res, err };
 };

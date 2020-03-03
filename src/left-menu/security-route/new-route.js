@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { lineString as LineString, point as TurfPoint } from 'turf';
-import { TuyunMessage } from 'tuyun-kit';
-
+import { TuyunMessage, TuyunModal } from 'tuyun-kit';
+import { GlobalEvent, GloEventName, RemoveLayer } from 'tuyun-utils';
 import {
   DrawStartPoint,
   DrawIconPoint,
@@ -9,7 +9,15 @@ import {
   DrawNodePoint,
   RouteLayers
 } from './security-route-layer';
-import { FetchRoadInfo, SaveScurityRoute } from './webapi';
+import {
+  GetRouteFirst,
+  GetRoadIds,
+  PostRoutePlus,
+  GetRoutePenult,
+  GetRouteLast,
+  SaveScurityRoute,
+  GetAllRoutes
+} from './webapi';
 
 export default class NewRoute extends Component {
   state = {
@@ -17,12 +25,12 @@ export default class NewRoute extends Component {
     enableEnd: false,
     enableCancel: false,
     enableSave: false,
-    showContinueBtn: false
+    showContinueBtn: false,
+    showModel: false
   };
 
   _newRoute = undefined; // 壳子
   _input = undefined; // 输入框
-  _isLoading = false; // 正在请求数据
   _roadFeatures = []; // 选中的路
   _startEndFeatures = []; // 起始点和终点 feature
   _roadNode = []; // 选中路的节点，撤销使用
@@ -38,7 +46,8 @@ export default class NewRoute extends Component {
       enableEnd,
       enableCancel,
       enableSave,
-      showContinueBtn
+      showContinueBtn,
+      showModel
     } = this.state;
     return (
       <div className="new-route" ref={el => (this._newRoute = el)}>
@@ -79,11 +88,20 @@ export default class NewRoute extends Component {
           </div>
           <div
             className={`save-btn ${enableSave ? '' : 'disabled'}`}
-            onClick={this._saveSecurityRoute}
+            onClick={() => this._verifyRepeat()}
           >
             保存
           </div>
         </div>
+
+        <TuyunModal
+          title="重复的方案名称"
+          visible={showModel}
+          onOk={() => this._coverRepeat()}
+          onCancel={() => this.setState({ showModel: false })}
+        >
+          该方案名称已经存在，是否覆盖之前方案？
+        </TuyunModal>
       </div>
     );
   }
@@ -102,11 +120,10 @@ export default class NewRoute extends Component {
     _MAP_.off('click', RouteLayers.endRoute, this._setEndPoint); // 设置终点
     Object.keys(RouteLayers).map(key => {
       const _val = RouteLayers[key];
-      this._removeSourceLayer(_val); // 删除所有 layer 和 source
+      RemoveLayer(_MAP_, _val);
     });
     this._newRoute = undefined; // 壳子
     this._input = undefined; // 输入框
-    this._isLoading = false; // 正在请求数据
     this._roadFeatures = []; // 选中的路
     this._startEndFeatures = []; // 起始点和终点 feature
     this._roadNode = []; // 选中路的节点，撤销使用
@@ -128,19 +145,19 @@ export default class NewRoute extends Component {
   };
 
   _drawStartPoint = async e => {
-    if (this._isLoading) return; // 保护
     const { enableStart } = this.state; // 点击设置起点后 enableStart 为 true
     if (!enableStart || _MAP_.getLayer(RouteLayers.routeStart)) return; // 如果有 routeStart 这个层级，说明设置了起点
-    const _bound = _MAP_.getBounds(); // 获取屏幕边界
+    const _bounds = _MAP_.getBounds(); // 获取屏幕边界
     const _coord = e.lngLat; // 获取点击的坐标点
     DrawStartPoint(_MAP_, _coord); // 绘制点击的起始点
-    this._isLoading = true; // 正在加载
-    const { res, err } = await FetchRoadInfo({
-      coord: _coord,
-      bound: _bound,
-      order: 'first'
-    });
-    this._isLoading = false; // 加载完毕
+    const { showGlobalLoading, closeGlobalLoading } = GloEventName;
+    GlobalEvent.emit(showGlobalLoading); // 显示加载的弹窗
+    // minx=116&maxx=116.&miny=36&maxy=36&x=116&y=36
+    const _param = `minX=${_bounds._sw.lng}&maxX=${_bounds._ne.lng}&minY=${
+      _bounds._sw.lat
+    }&maxY=${_bounds._ne.lat}&x=${_coord.lng}&y=${_coord.lat}`;
+    const { res, err } = await GetRouteFirst(_param);
+    GlobalEvent.emit(closeGlobalLoading); // 关闭加载的弹窗
     if (err || !res) return; // 保护
     this._toSelectFeatures = []; // 清空待选择的点
     for (let item of res.points) {
@@ -172,9 +189,9 @@ export default class NewRoute extends Component {
 
   // 选择下一个点
   _chooseRoutePoint = async e => {
-    if (this._isLoading) return; // 保护
     const { properties } = e.features[0]; // 解构 properity
-    this._isLoading = true; // 正在加载
+    const { showGlobalLoading, closeGlobalLoading } = GloEventName;
+    GlobalEvent.emit(showGlobalLoading); // 显示加载的弹窗
     this.setState({ enableEnd: false, enableCancel: false, enableSave: false }); // 禁止取消和保存按钮
     const _prev = this._roadNode[this._roadNode.length - 1]; // 前一个点击的节点
     const _suff = JSON.parse(properties.coordInfo); // 当前选中的点， coordInfo 中包含待选择的信息
@@ -183,18 +200,19 @@ export default class NewRoute extends Component {
     _MAP_.flyTo({ center: [x, y], zoom: 15, duration: _duration }); // 动画
     await new Promise(resolve => {
       setTimeout(() => resolve(), _duration * 1.01);
-    }); // 设置定时器
-    this._removeSourceLayer(RouteLayers.toSelect); // 删除待选择图层 ======> 解决重绘延时问题
-    const _roodIds = await this._fetchRoadIds(); // 获取路的 ids
+    }); // 设置定时器，保证与动画同步
+    RemoveLayer(_MAP_, RouteLayers.toSelect); // 删除待选择图层 ======> 解决重绘延时问题
+    const _roodIds = await this._getRoadIds(); // 获取路的 ids
     if (!_roodIds) return console.log('未获取当前屏幕所有道路id'); // 保护
-    const _param = {
-      prev: _prev,
-      suff: _suff,
-      ids: _roodIds,
-      order: 'firstPlus'
+    const _body = {
+      coordinatePrev: _prev.coordinates[0],
+      coordinateNext: _suff.coordinates[0],
+      userDataPre: _prev.userData,
+      userDataNext: _suff.userData,
+      ids: _roodIds
     }; // 请求参数
-    const { res, err } = await FetchRoadInfo(_param); // 获取道路 id
-    this._isLoading = false; // 加载完毕
+    const { res, err } = await PostRoutePlus(_body); // 获取道路和点
+    GlobalEvent.emit(closeGlobalLoading); // 关闭加载的弹窗
     if (!res || err) return console.log('未返回当前道路和待选择的点'); // 保护
     const { isLineRing, coord } = res;
     this._lineRingFeatures = []; // 清空环形路 features
@@ -251,7 +269,7 @@ export default class NewRoute extends Component {
     const { index } = e.features[0].properties;
     const _feature = this._lineRingFeatures[index]; // 生成 feature
     this._roadFeatures.push(_feature); // 添加 feature
-    this._removeSourceLayer(RouteLayers.lineRingRoute); // 删除环形路
+    RemoveLayer(_MAP_, RouteLayers.lineRingRoute); // 删除环形路
     DrawRoad(_MAP_, {
       id: RouteLayers.selectedRoute,
       features: this._roadFeatures,
@@ -268,21 +286,26 @@ export default class NewRoute extends Component {
 
   _selectEndPoint = async () => {
     const { enableEnd } = this.state;
-    if (!enableEnd || this._isLoading) return; // 正在加载
-    this._isLoading = true; // 正在加载
+    if (!enableEnd) return; // 正在加载
+    const { showGlobalLoading, closeGlobalLoading } = GloEventName;
+    GlobalEvent.emit(showGlobalLoading); // 显示加载的弹窗
     const _suff = this._roadNode[this._roadNode.length - 1]; // 最后一个点
-    const _param = { coord: _suff, ids: _roodIds, order: 'forLast' }; // 参数
     this.setState({ enableEnd: false, enableCancel: false, enableSave: false }); //
     const { x, y } = _suff.coordinates[0];
+    // const _param = { x, y, userData: _suff.userData }; // 参数
+    let _param = `x=${x}&y=${y}`; // 参数
+    for (let item of _suff.userData) {
+      _param += `&userData=${item}`;
+    }
     const _duration = 500; // 动画时间
     _MAP_.flyTo({ center: [x, y], zoom: 15, duration: _duration }); // 动画
     await new Promise(resolve => {
       setTimeout(() => resolve(), _duration * 1.01);
     }); // 设置定时器
-    const _roodIds = await this._fetchRoadIds(); // 获取路的 ids
+    const _roodIds = await this._getRoadIds(); // 获取路的 ids
     if (!_roodIds) return console.log('未获取当前屏幕所有道路id'); // 保护
-    let { res, err } = await FetchRoadInfo(_param);
-    this._isLoading = false; // 加载完毕
+    let { res, err } = await GetRoutePenult(_param); // 获取终止点
+    GlobalEvent.emit(closeGlobalLoading); // 显示加载的弹窗
     const _features = [];
     if (err) return;
     for (let item of res) {
@@ -290,8 +313,7 @@ export default class NewRoute extends Component {
       const _roadCoords = coordinates.map(coord => [coord.x, coord.y]);
       _features.push(LineString(_roadCoords));
     }
-    // 删除图层
-    this._removeSourceLayer(RouteLayers.toSelect);
+    RemoveLayer(_MAP_, RouteLayers.toSelect); // 删除图层
     DrawRoad(_MAP_, {
       id: RouteLayers.endRoute,
       features: _features,
@@ -302,15 +324,22 @@ export default class NewRoute extends Component {
   };
 
   _setEndPoint = async e => {
-    if (this._isLoading) return;
-    this._isLoading = true; // 正在加载
+    const { showGlobalLoading, closeGlobalLoading } = GloEventName;
+    GlobalEvent.emit(showGlobalLoading); // 显示加载的弹窗
     this.setState({ enableEnd: false, enableCancel: false, enableSave: false });
-    const _roodIds = await this._fetchRoadIds(); // 获取路的 ids
+    const _roodIds = await this._getRoadIds(); // 获取路的 ids
     if (!_roodIds) return console.log('未获取当前屏幕所有道路id'); // 保护
     const _prev = this._roadNode[this._roadNode.length - 1]; // 最后一个点
-    const _param = { order: 'last', prev: _prev, suff: e.lngLat }; // 请求的参数
-    const { res, err } = await FetchRoadInfo(_param); // 发送请求
-    this._isLoading = false; // 加载完毕
+    const { x: prevX, y: prevY } = _prev.coordinates[0];
+    // preX=116&preY=36&userData=088b3c47-fcf3-4766-acf4-6ffd4d541eed&curX=116&curY=36
+    let _param = `preX=${prevX}&preY=${prevY}&curX=${e.lngLat.lng}&curY=${
+      e.lngLat.lat
+    }`;
+    for (let item of _prev.userData) {
+      _param += `&userData=${item}`;
+    }
+    const { res, err } = await GetRouteLast(_param); // 发送请求
+    GlobalEvent.emit(closeGlobalLoading); // 关闭加载的弹窗
     if (!res || err) return;
     for (let item of res) {
       const { coordinates } = item;
@@ -324,7 +353,7 @@ export default class NewRoute extends Component {
         const _feature = TurfPoint([coordinates[0].x, coordinates[0].y]);
         this._startEndFeatures.push(_feature);
       }
-      this._removeSourceLayer(RouteLayers.endRoute);
+      RemoveLayer(_MAP_, RouteLayers.endRoute); // 删除图层
     }
     DrawRoad(_MAP_, {
       id: RouteLayers.selectedRoute,
@@ -340,12 +369,12 @@ export default class NewRoute extends Component {
     this.setState({ enableEnd: true, enableCancel: true, enableSave: true });
   };
 
-  _fetchRoadIds = async () => {
-    const _bound = _MAP_.getBounds(); // 获取当前屏幕内的 roadIds
-    const { res, err } = await FetchRoadInfo({
-      bound: _bound,
-      order: 'switchScreen'
-    });
+  _getRoadIds = async () => {
+    const _bounds = _MAP_.getBounds(); // 获取当前屏幕内的 roadIds
+    const _param = `minX=${_bounds._sw.lng}&maxX=${_bounds._ne.lng}&minY=${
+      _bounds._sw.lat
+    }&maxY=${_bounds._ne.lat}`;
+    const { res, err } = await GetRoadIds(_param);
     return err ? undefined : res;
   };
 
@@ -356,7 +385,7 @@ export default class NewRoute extends Component {
     if (!showContinueBtn) {
       // 可以撤销
       DrawNodePoint(_MAP_, this._roadNode); // 绘制节点
-      this._removeSourceLayer(RouteLayers.toSelect); // 删除待选择的点
+      RemoveLayer(_MAP_, RouteLayers.toSelect); // 删除图层
       this.setState({ showContinueBtn: true });
       // 撤销道路
       _MAP_.on('click', RouteLayers.selectedRoute, this._clickSelectedRoute);
@@ -368,7 +397,7 @@ export default class NewRoute extends Component {
         iconImage: 'security_route_start'
       }); // 绘制待选择的点
       this.setState({ showContinueBtn: false });
-      this._removeSourceLayer(RouteLayers.routeNode); // 删除节点
+      RemoveLayer(_MAP_, RouteLayers.routeNode); // 删除节点
       _MAP_.off('click', RouteLayers.selectedRoute, this._clickSelectedRoute);
       this._continueSelect();
     }
@@ -390,7 +419,6 @@ export default class NewRoute extends Component {
   };
 
   _continueSelect = async () => {
-    if (this._isLoading) return; // 保护
     this.setState({ enableEnd: false, enableCancel: false, enableSave: false });
     const _prev = this._roadNode[this._roadNode.length - 2]; // 前一个点
     const _suff = this._roadNode[this._roadNode.length - 1]; // 当前选中的点
@@ -400,17 +428,20 @@ export default class NewRoute extends Component {
     await new Promise(resolve => {
       setTimeout(() => resolve(), _duration * 1.01);
     }); // 设置定时器
-    this._isLoading = true; // 正在加载
-    const _roodIds = await this._fetchRoadIds(); // 获取路的 ids
+    const { showGlobalLoading, closeGlobalLoading } = GloEventName;
+    GlobalEvent.emit(showGlobalLoading); // 显示加载的弹窗
+    const _roodIds = await this._getRoadIds(); // 获取路的 ids
     if (!_roodIds) return console.log('未获取当前屏幕所有道路id'); // 保护
-    const _param = {
-      prev: _prev,
-      suff: _suff,
-      ids: _roodIds,
-      order: 'firstPlus'
-    };
-    const { res, err } = await FetchRoadInfo(_param);
-    this._isLoading = false; // 加载完毕
+
+    const _body = {
+      coordinatePrev: _prev.coordinates[0],
+      coordinateNext: _suff.coordinates[0],
+      userDataPre: _prev.userData,
+      userDataNext: _suff.userData,
+      ids: _roodIds
+    }; // 请求参数
+    const { res, err } = await PostRoutePlus(_body); // 获取道路和点
+    GlobalEvent.emit(closeGlobalLoading); // 显示加载的弹窗
     if (!res || err) return console.log('未返回当前道路和待选择的点'); // 保护
     const { coord } = res;
     this._toSelectFeatures = []; // 绘制待选择的点的 features
@@ -429,27 +460,44 @@ export default class NewRoute extends Component {
     this.setState({ enableEnd: true, enableCancel: true, enableSave: true });
   };
 
-  _saveSecurityRoute = async () => {
+  _verifyRepeat = async () => {
     const { enableSave } = this.state;
-    const _inpVal = this._input.value;
-    if (!enableSave || this._isLoading) return;
-    if (!_inpVal) return TuyunMessage.warning('请输入方案名称');
-    const _now = new Date().getTime();
-    this._isLoading = true; // 正在加载
-    this.setState({ enableEnd: false, enableCancel: false, enableSave: false });
-    const { res, err } = await SaveScurityRoute({
-      fileName: _inpVal,
-      fileId: '' + _now,
-      content: {
-        features: this._roadFeatures
-      }
-    });
-    this._isLoading = false; // 加载完毕
-    if (res && !err) TuyunMessage.show('保存成功');
-    this.setState({ enableEnd: false, enableCancel: false, enableSave: false });
+    if (!enableSave) return; // 禁用保存
+    const _fileName = this._input.value; // 文件内容
+    if (!_fileName) return TuyunMessage.warning('请输入方案名称');
+    const { showGlobalLoading, closeGlobalLoading } = GloEventName;
+    GlobalEvent.emit(showGlobalLoading); // 显示加载的弹窗
+    const { res, err } = await GetAllRoutes();
+    GlobalEvent.emit(closeGlobalLoading); // 关闭加载的弹窗
+    if (!res || err) return; // 加载已有路线失败
+    if (res.indexOf(_fileName) > -1) this.setState({ showModel: true });
+    else this._saveSecurityRoute();
   };
 
-  _removeSourceLayer = layerId => {
-    _MAP_.getLayer(layerId) && _MAP_.removeLayer(layerId).removeSource(layerId); // 删除所有 layer 和 source
+  _coverRepeat = async () => {
+    await this.setState({ showModel: false });
+    this._saveSecurityRoute();
+  };
+
+  _getAllRoutes = async () => {
+    const { res, err } = await GetAllRoutes();
+    return new Promise(resolve => {
+      resolve({ existRoutes: !err ? res : undefined });
+    });
+  };
+
+  _saveSecurityRoute = async () => {
+    const _fileName = this._input.value; // 文件名称
+    const { showGlobalLoading, closeGlobalLoading } = GloEventName;
+    GlobalEvent.emit(showGlobalLoading); // 显示加载的弹窗
+    this.setState({ enableEnd: false, enableCancel: false, enableSave: false });
+    const { res, err } = await SaveScurityRoute({
+      fileName: _fileName,
+      jsonString: JSON.stringify({ features: this._roadFeatures })
+    });
+    GlobalEvent.emit(closeGlobalLoading); // 关闭加载的弹窗
+    if (res && !err) TuyunMessage.show('保存成功');
+    this.setState({ enableEnd: false, enableCancel: false, enableSave: false });
+    this._reset();
   };
 }

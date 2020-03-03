@@ -17,22 +17,30 @@
   border-radius: @radius-m;
   box-shadow: @box-shadow-mini;
   animation: @fade;
-
   .menu-item {
     display: flex;
-    flex: 1 @menu-item-height;
+    flex: 1;
     align-items: center;
     padding: 0 5px;
     cursor: pointer;
     position: relative;
-    // height: @menu-item-height;
+    height: @menu-item-height;
     width: @menu-item-width;
     padding: 0 @menu-item-padding;
+    &:nth-child(1) {
+      border-top-left-radius: @radius-m;
+      border-top-right-radius: @radius-m;
+    }
+    &:nth-child(-1) {
+      border-bottom-left-radius: @radius-m;
+      border-bottom-right-radius: @radius-m;
+    }
     &:hover {
-      color: @color-blue;
+      color: @color-police-blue;
     }
     &.checked {
-      color: @color-blue;
+      background-color: @theme-bg-color;
+      color: @t-white;
     }
     // option-container
     .option-container {
@@ -55,10 +63,10 @@
         justify-content: space-between;
         cursor: pointer;
         &:hover {
-          color: @color-blue;
+          color: @color-police-blue;
         }
         &.checked {
-          color: @color-blue;
+          color: @color-police-blue;
         }
       }
     }

@@ -1,0 +1,123 @@
+.tab-view {
+  @import './range-type.less';
+  width: @bottom-nav-width;
+  height: calc(~'100% - @{bottom-nav-height}');
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  right: -@bottom-nav-width;
+  &.slide-in {
+    right: 0;
+    animation: @slide-in;
+    @slide-in: 0.5s linkage-slide-in;
+    @keyframes linkage-slide-in {
+      0% {
+        right: -@bottom-nav-width;
+      }
+      100% {
+        right: 0;
+      }
+    }
+  }
+  &.slide-out {
+    right: -@bottom-nav-width;
+    animation: @slide-out;
+    @slide-out: 0.5s linkage-slide-out;
+    @keyframes linkage-slide-out {
+      0% {
+        right: 0;
+      }
+      100% {
+        right: -@bottom-nav-width;
+      }
+    }
+  }
+  // 伸缩按钮
+  .control {
+    background: @color-police-blue;
+    width: 20px;
+    height: 50px;
+    right: @bottom-nav-width;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    border-bottom-left-radius: @radius-m;
+    border-top-left-radius: @radius-m;
+    cursor: pointer;
+    .aspect-right {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border: none;
+      border-top: 1px solid @t-white;
+      border-left: 1px solid @t-white;
+      transform: rotate(135deg);
+      transform-origin: 50%;
+      &:hover {
+        border-top: 1px solid @color-police-blue;
+        border-left: 1px solid @color-police-blue;
+      }
+      &.changed {
+        transform: rotate(-45deg);
+        margin-left: 5px;
+      }
+    }
+  }
+  // 面板详情
+  .tab-box {
+    width: @bottom-nav-width;
+    height: 100%;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    background: @theme-bg-color;
+    overflow: auto;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    .tab-nav {
+      display: flex;
+      border-radius: @radius-m;
+      height: 40px;
+      z-index: 99;
+      align-items: center;
+      justify-content: space-between;
+      .nav-item {
+        display: flex;
+        flex: 1;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        color: #4e5e75;
+        background-color: #c0ccda;
+        cursor: pointer;
+        &:nth-last-child(1) {
+          border-right: 1px solid white;
+        }
+        &.selected {
+          color: @color-blue;
+          background-color: white;
+          flex: 0 60px;
+        }
+      }
+    }
+    .tab-charts {
+      @margin-bottom: 5px;
+      flex: 1;
+      overflow: auto;
+      .charts-box {
+        width: 100%;
+        border-radius: @radius-l;
+        // overflow: hidden;
+        margin-bottom: @margin-bottom;
+        &:nth-of-type(1) {
+          border-top-left-radius: 0;
+          border-top-right-radius: 0;
+        }
+      }
+      @import './case-date.less';
+      @import './multiple-area.less';
+    }
+  }
+}

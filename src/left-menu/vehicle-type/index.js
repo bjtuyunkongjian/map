@@ -21,39 +21,40 @@ export default class VehicleType extends Component {
   render() {
     const { selectedTypes, animate, expanded } = this.state;
     const _arrow = expanded ? 'arrow-down' : 'arrow-right';
+    const _labelCls = `item-label${expanded ? ' selected' : ''}`;
     return (
       <div className="menu-item content">
-        <div className="item-label" onClick={this._selectMenu}>
+        <div className={_labelCls} onClick={this._selectMenu}>
           <IoMdBus />
-          <span>两客一危</span>
+          <div className="label-text">两客一危</div>
           <div className={`arrow-box ${expanded ? 'changed' : ''}`}>
             <span className={`arrow ${_arrow}`} />
           </div>
         </div>
 
         <ul className={`vehicle-type ${animate}`}>
-          <li className="vehicle-item" onClick={e => this._selectAll(e)}>
+          {/* <li className="vehicle-item" onClick={e => this._selectAll(e)}>
             全部显示
-          </li>
+          </li> */}
           {TypeOptions.map((item, index) => {
             const _isChecked = selectedTypes.indexOf(item) > -1;
             const { rgb } = item;
             return (
               <li
-                className={`vehicle-item ${_isChecked ? 'checked' : ''}`}
+                className={`item-cell ${_isChecked ? 'checked' : ''}`}
                 key={`work_option_${index}`}
                 onClick={e => this._selectWork(item, e)}
               >
                 <div className={`checkbox ${_isChecked ? 'checked' : ''}`}>
                   {_isChecked ? <IoMdCheckmark /> : null}
                 </div>
+                <div className="cell-label-text">{item.name}</div>
                 <div
-                  className="color-sign"
+                  className="cell-color-sign"
                   style={{
                     backgroundColor: `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`
                   }}
                 />
-                {item.name}
               </li>
             );
           })}
@@ -78,23 +79,24 @@ export default class VehicleType extends Component {
       });
     } else {
       await this.setState({ selectedTypes });
+      this._emitSelectedType();
     }
   };
 
   _selectMenu = async () => {
     const { expanded } = this.state;
     const _animate = !expanded ? 'menu-down' : 'menu-up';
-    const _tplName = expanded ? '服务民生' : '侦察打击';
-    GlobalEvent.emit(GloEventName.changeMapTemplate, _tplName); // 切换模板
-
+    // const _tplName = expanded ? '服务民生' : '侦察打击';
+    // GlobalEvent.emit(GloEventName.changeMapTemplate, _tplName); // 切换模板
     await this.setState({
       expanded: !expanded,
       animate: _animate,
       selectedTypes: []
     }); // 修改 state
-    const { toggleLMPoliceData } = GloEventName;
     this._emitSelectedType();
-    !expanded && GlobalEvent.emit(toggleLMPoliceData, { expand: false }); // 展开时关闭 一标三实
+    GlobalEvent.emit(GloEventName.closeTabView); // 人口/单位/房屋/案件/警情弹框消失
+    GlobalEvent.emit(GloEventName.closeJurisdictionData); // 关闭辖区数据
+    GlobalEvent.emit(GloEventName.closeCompareTab); // 关闭比对碰撞
   };
 
   _selectAll = async e => {

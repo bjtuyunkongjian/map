@@ -9,8 +9,12 @@ import React, { Component } from 'react';
 
 import BaseStyle from './map-styles/light-sd';
 import AddLevels from './add-levels';
+<<<<<<< HEAD
 // import CustomLayer from './radar';
 import CustomLayer from './custom-layer';
+=======
+// import CustomLayer from './police';
+>>>>>>> 62020640e3bd2dc99649f75ad703bf70637b7862
 
 export default class MapBoxDemo extends Component {
   componentDidMount() {
@@ -47,19 +51,15 @@ export default class MapBoxDemo extends Component {
     this.map
       .on('style.load', () => {
         this._addSourceFunc(); // 增加图层组
-        const _bounds = this.map.getBounds();
-        const _minLng = _bounds._sw.lng;
-        const _diffLng = _bounds._ne.lng - _bounds._sw.lng;
-        const _minLat = _bounds._sw.lat;
-        const _diffLat = _bounds._ne.lat - _bounds._sw.lat;
-        for (let i = 0; i < 50; i++) {
-          const lng = _minLng + Math.random() * _diffLng;
-          const lat = _minLat + Math.random() * _diffLat;
-          this.map.addLayer(
-            new CustomLayer(lng, lat, 0, 'aaaaa' + i),
-            'GHYDPL_7L_NAME'
-          );
-        }
+        // for (let i = 0; i < 1; i++) {
+        //   this.map.addLayer(
+        //     new CustomLayer({
+        //       id: '3d-model-policeman-obj-' + i,
+        //       height: 21,
+        //       center: [117.03147871 + i / 11100, 36.67556967 + i / 11100]
+        //     })
+        //   );
+        // }
       })
       .on('zoomend', () => {
         this._addSourceFunc();

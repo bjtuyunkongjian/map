@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { GlobalEvent, GloEventName } from 'tuyun-utils';
 import { FaTimes } from 'react-icons/fa';
 
-import { FetchCaseDetail } from './webapi';
+import { GetCaseDetail } from './webapi';
 import { BaseInfo } from './constant';
 
 export default class PupupCase extends Component {
@@ -83,12 +83,11 @@ export default class PupupCase extends Component {
     this.setState({ visible: false });
     _MAP_.off('move', this._addListener);
   };
-
+  // ajbh=
   _fetchBuildingDetail = async () => {
     const { caseCode } = this.state;
-    const { res, err } = await FetchCaseDetail({
-      ajbh: caseCode
-    });
+    const _param = `ajbh=${caseCode}`;
+    const { res, err } = await GetCaseDetail(_param);
     if (!res || err) return;
     BaseInfo.map(item => {
       item.value = res[item.key] || '暂无';

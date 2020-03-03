@@ -3,7 +3,7 @@
  * @description 安保路线
  */
 import React, { Component } from 'react';
-import { IoIosCar } from 'react-icons/io';
+import { IoIosCar, IoMdCheckmark } from 'react-icons/io';
 
 import Event from '../event';
 import NewRoute from './new-route'; // 新建安保路线
@@ -28,29 +28,34 @@ export default class PoliceCar extends Component {
   render() {
     const { curMenu, selectedOpt, animate } = this.state;
     const _selected = curMenu === MenuItems.securityRoute;
+    const _labelCls = `item-label${_selected ? ' selected' : ''}`;
     const _arrow = _selected ? 'arrow-down' : 'arrow-right';
     return (
       <div className="menu-item">
-        <div className="item-label" onClick={this._selectMenu}>
+        <div className={_labelCls} onClick={this._selectMenu}>
           <IoIosCar />
-          <span>安保路线</span>
+          <div className="label-text">安保路线</div>
           <div className={`arrow-box ${_selected ? 'changed' : ''}`}>
             <span className={`arrow ${_arrow}`} />
           </div>
         </div>
 
         <ul className={`route-container ${animate}`}>
-          {options.map((item, index) => (
-            <li
-              className={`route-item ${
-                selectedOpt === item.value ? 'checked' : ''
-              }`}
-              key={`data_option_${index}`}
-              onClick={() => this._selectMenuItem(item.value)}
-            >
-              {item.name}
-            </li>
-          ))}
+          {options.map((item, index) => {
+            const _isChecked = selectedOpt === item.value;
+            return (
+              <li
+                className={`item-cell ${_isChecked ? 'checked' : ''}`}
+                key={`data_option_${index}`}
+                onClick={() => this._selectMenuItem(item.value)}
+              >
+                <div className={`checkbox ${_isChecked ? 'checked' : ''}`}>
+                  {_isChecked ? <IoMdCheckmark /> : null}
+                </div>
+                <div className="cell-label-text">{item.name}</div>
+              </li>
+            );
+          })}
         </ul>
 
         {selectedOpt === 'newRoute' ? <NewRoute /> : null}

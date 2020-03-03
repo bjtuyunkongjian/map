@@ -11,7 +11,7 @@ import { OptArr } from './constant';
 export default class ModeOptions extends Component {
   state = {
     visible: false,
-    selectedMode: {}
+    selectedMode: OptArr[0]
   };
 
   componentWillMount = () => this._dealWithEvent();
