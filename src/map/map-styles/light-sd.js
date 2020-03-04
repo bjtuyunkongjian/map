@@ -13,25 +13,9 @@
  * 面在最底层，其次是线，其次是点；居民区在绿地上面，绿地在水系面上面
  */
 
-import { LevelConfig, BaseConfig } from 'tuyun-config';
-
-const ditchVisibleLevel = 14; // 沟和渠道显示等级
-const maxzoom = 12;
+import { BaseConfig } from 'tuyun-config';
 
 const layers = [
-  // 面
-  // {
-  //   id: 'GVEGPL', // 记录了绿地
-  //   type: 'fill',
-  //   source: LevelConfig.addLv7,
-  //   'source-layer': 'GVEGPL_Merge',
-  //   paint: {
-  //     'fill-color': '#b5e9b6',
-  //     'fill-opacity': 1,
-  //     'fill-antialias': false
-  //   },
-  //   labelLayerId: 'GHYDPL_7L'
-  // },
   {
     id: 'layer1',
     type: 'raster',

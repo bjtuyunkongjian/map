@@ -4,12 +4,11 @@
  */
 
 import mapboxgl from 'mapbox-gl';
-// import { AddLevel } from 'tuyun-utils';
+import { AddLevel } from 'tuyun-utils';
 import React, { Component } from 'react';
 
 import BaseStyle from './map-styles/light-sd';
-// import AddLevels from './add-levels';
-// import CustomLayer from './police';
+import AddLevels from './add-levels';
 
 export default class MapBoxDemo extends Component {
   componentDidMount() {
@@ -44,17 +43,18 @@ export default class MapBoxDemo extends Component {
       localIdeographFontFamily: '黑体',
       preserveDrawingBuffer: true
     });
-    this.map.on('style.load', () => {
-      // this._addSourceFunc(); // 增加图层组
-    });
-    // .on('zoomend', () => {
-    //   this._addSourceFunc();
-    // });
+    this.map
+      .on('style.load', () => {
+        this._addSourceFunc(); // 增加图层组
+      })
+      .on('zoomend', () => {
+        this._addSourceFunc();
+      });
   };
 
-  // _addSourceFunc = () => {
-  //   for (let item of AddLevels) {
-  //     AddLevel(this.map, item);
-  //   }
-  // };
+  _addSourceFunc = () => {
+    for (let item of AddLevels) {
+      AddLevel(this.map, item);
+    }
+  };
 }
