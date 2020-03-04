@@ -44,7 +44,7 @@ class CustomLayer {
   type = 'custom';
   renderingMode = '3d';
   modelRotate = [Math.PI / 2, Math.PI / 2, 0]; // 旋转角度
-  modelScale = 5e-9; // 缩放比例
+  modelScale = 5e-8; // 缩放比例
 
   onAdd = (map, gl) => {
     this.camera = new Camera();
@@ -59,6 +59,7 @@ class CustomLayer {
     loader.load(
       this.url,
       function(gltf) {
+        console.log(gltf);
         this.scene.add(gltf.scene);
       }.bind(this)
     );
@@ -75,7 +76,7 @@ class CustomLayer {
   };
 
   render = (_, matrix) => {
-    if (this.map.getZoom() < 16) return;
+    // if (this.map.getZoom() < 16) return;
     var rotationX = new Matrix4().makeRotationAxis(
       new Vector3(1, 0, 0),
       this.modelTransform.rotateX
