@@ -2,9 +2,9 @@ import { BaseConfig } from 'tuyun-config';
 
 const layers = [
   {
-    id: 'simple-tiles7',
+    id: 'simple-tiles',
     type: 'raster',
-    source: 'raster-tiles7'
+    source: 'raster-tiles'
   }
 ];
 
@@ -13,7 +13,12 @@ export default {
   name: 'ty-map',
   metadata: {},
   sources: {
-    'raster-tiles7': {
+    'raster-tiles': {
+      type: 'raster',
+      tiles: ['http://192.168.251.11:8082/get-tiles/dev?z={z}&x={x}&y={y}'],
+      tileSize: 256
+    },
+    'tms-tiles': {
       type: 'raster',
       tiles: ['http://192.168.251.11:8082/get-tiles/dev?z={z}&x={x}&y={y}'],
       tileSize: 256
