@@ -64,7 +64,7 @@ export default class MapBoxDemo extends Component {
         //   );
         // }
         ////// 加载到正中心
-        const gltfUrl = './static/test3.gltf';
+        const gltfUrl = './static/test5.gltf';
         const { lat, lng } = this.map.getCenter();
         this.map.addLayer(
           new CustomLayer(lng, lat, 0, 'aaaaa', gltfUrl),
