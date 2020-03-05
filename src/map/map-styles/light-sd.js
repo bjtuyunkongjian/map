@@ -1,15 +1,6 @@
 import { BaseConfig } from 'tuyun-config';
 
 import Guodao from './road-guodao';
-import RoadShengdao from './road-shengdao';
-import XianDao from './road-xiandao';
-import Gjl from './road-gjl';
-import Ksl from './road-ksl';
-import Zgd from './road-zgd';
-import Cgd from './road-cgd';
-import XiangDao from './road-xiangdao';
-import Zx from './road-zx';
-import Other from './road-other';
 
 const layers = [
   {
@@ -17,15 +8,6 @@ const layers = [
     type: 'raster',
     source: 'raster-tiles'
   },
-  // ...Other,
-  // ...Zx,
-  // ...XiangDao,
-  // ...Ksl,
-  // ...Cgd,
-  // ...Gjl,
-  // ...Zgd,
-  // ...XianDao,
-  // ...RoadShengdao,
   ...Guodao
 ];
 
