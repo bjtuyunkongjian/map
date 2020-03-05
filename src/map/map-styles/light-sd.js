@@ -18,7 +18,7 @@ export default {
   sources: {
     'raster-tiles': {
       type: 'raster',
-      tiles: ['http://192.168.251.11:8082/get-tiles/dev?z={z}&x={x}&y={y}'],
+      tiles: [`${BaseConfig.wmsHost}get-tiles/dev?z={z}&x={x}&y={y}`],
       tileSize: 256
     },
     'bff-tile-source': {
