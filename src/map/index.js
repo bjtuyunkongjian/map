@@ -35,14 +35,30 @@ export default class MapBoxDemo extends Component {
       style: BaseStyle,
       showTileBoundaries: true,
       center: [117.0856, 36.6754],
-      zoom: 6,
+      zoom: 7,
       // pitch: 60,
       // bearing: -13.6,
-      minZoom: 6,
+      minZoom: 7,
       maxZoom: 11,
       localIdeographFontFamily: '黑体',
       preserveDrawingBuffer: true
     });
+    // this.map.on('style.load', () => {
+    //   this.map.addSource({
+    //     wmsTestSource: {
+    //       type: 'raster',
+    //       tiles: ['http://localhost:8082/get-tiles/dev?z={z}&x={x}&y={y}']
+    //     }
+    //   });
+    //   this.map.addLayer(
+    //     {
+    //       id: `layer-wms`,
+    //       type: 'raster',
+    //       source: 'wmsTestSource'
+    //     }
+    //     // 'aeroway-line'
+    //   );
+    // });
     this.map
       .on('style.load', () => {
         this._addSourceFunc(); // 增加图层组
