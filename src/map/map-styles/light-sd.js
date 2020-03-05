@@ -5,8 +5,6 @@ const layers = [
     id: 'simple-tiles7',
     type: 'raster',
     source: 'raster-tiles7'
-    // minzoom: 6,
-    // maxzoom: 7
   }
 ];
 
