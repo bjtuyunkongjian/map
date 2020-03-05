@@ -35,11 +35,11 @@ export default class MapBoxDemo extends Component {
       style: BaseStyle,
       showTileBoundaries: true,
       center: [117.0856, 36.6754],
-      zoom: 10,
+      zoom: 6,
       // pitch: 60,
       // bearing: -13.6,
-      minZoom: 7,
-      maxZoom: 20,
+      minZoom: 6,
+      maxZoom: 11,
       localIdeographFontFamily: '黑体',
       preserveDrawingBuffer: true
     });

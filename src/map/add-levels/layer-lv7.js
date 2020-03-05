@@ -2,7 +2,7 @@
  * @author sl 2019-01-02
  */
 
-const visibleLevel = 9;
+const visibleLevel = 7;
 
 const style = {
   visibleLevel: visibleLevel,
