@@ -22,7 +22,7 @@ export default {
       type: 'vector',
       scheme: 'tms',
       tiles: [
-        `${BaseConfig.geoserverHost}geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_7L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`
+        `${BaseConfig.tileHost}originMapServer/string?test=200&type=tms&zoom={z}&row={x}&column={y}`
       ]
     }
   },
