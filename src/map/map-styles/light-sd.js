@@ -22,6 +22,7 @@ const layers = [
     source: 'wmsTestSource',
     'source-layer': 'sdyx7',
     paint: {}
+    // maxzoom: 8
   }
 ];
 
@@ -32,7 +33,9 @@ export default {
   sources: {
     wmsTestSource: {
       type: 'raster',
-      tiles: [WMSURL],
+      tiles: [
+        'http://116.62.186.152:9280/geoserver/gwc/service/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&LAYER=rasterTest:sdyx7&STYLE=&TILEMATRIX=EPSG:3857:{z}&TILEMATRIXSET=EPSG:3857&FORMAT=image%2Fpng&TILECOL={x}&TILEROW={y}'
+      ],
       tileSize: 256
     }
   },

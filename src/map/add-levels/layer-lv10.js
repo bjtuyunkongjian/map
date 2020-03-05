@@ -3,7 +3,7 @@
  * 八级是没有图标的
  */
 
-const visibleLevel = 8;
+const visibleLevel = 10;
 
 const style = {
   visibleLevel: visibleLevel,
