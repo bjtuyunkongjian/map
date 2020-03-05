@@ -19,9 +19,11 @@ export default {
       tileSize: 256
     },
     'tms-tiles': {
-      type: 'raster',
-      tiles: ['http://192.168.251.11:8082/get-tiles/dev?z={z}&x={x}&y={y}'],
-      tileSize: 256
+      type: 'vector',
+      scheme: 'tms',
+      tiles: [
+        `${BaseConfig.geoserverHost}geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_7L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`
+      ]
     }
   },
   sprite: `${BaseConfig.spriteHost}sprite/sprite`,
