@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>加载第三方矢量切片</title>
+    <meta
+      name="viewport"
+      content="initial-scale=1,maximum-scale=1,user-scalable=no"
+    />
+    <script src="https://api.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.js"></script>
+    <link
+      href="https://api.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+      mapboxgl.accessToken =
+        'pk.eyJ1IjoieHFzb25nIiwiYSI6ImNqbjJqcjNxejAxazkzd3F6OWV6anE2N3AifQ._fNnNIoJ-128VJyQ_ri_fA';
+      var map = new mapboxgl.Map({
+        container: 'map', // container id
+        style: {
+          version: 8,
+          sources: {
+            'raster-tiles7': {
+              type: 'raster',
+              tiles: [
+                'http://116.62.186.152:9280/geoserver/gwc/service/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&LAYER=rasterTest:sd7&STYLE=&TILEMATRIX=EPSG:900913:{z}&TILEMATRIXSET=EPSG:900913&FORMAT=image%2Fpng&TILECOL={x}&TILEROW={y}'
+              ],
+              tileSize: 256
+            },
+            'raster-tiles8': {
+              type: 'raster',
+              tiles: [
+                'http://116.62.186.152:9280/geoserver/gwc/service/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&LAYER=rasterTest:sd8&STYLE=&TILEMATRIX=EPSG:900913:{z}&TILEMATRIXSET=EPSG:900913&FORMAT=image%2Fpng&TILECOL={x}&TILEROW={y}'
+              ],
+              tileSize: 256
+            },
+            'raster-tiles9': {
+              type: 'raster',
+              tiles: [
+                'http://116.62.186.152:9280/geoserver/gwc/service/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&LAYER=rasterTest:sd9&STYLE=&TILEMATRIX=EPSG:900913:{z}&TILEMATRIXSET=EPSG:900913&FORMAT=image%2Fpng&TILECOL={x}&TILEROW={y}'
+              ],
+              tileSize: 256
+            },
+            'raster-tiles10': {
+              type: 'raster',
+              tiles: [
+                'http://116.62.186.152:9280/geoserver/gwc/service/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&LAYER=rasterTest:sd10&STYLE=&TILEMATRIX=EPSG:900913:{z}&TILEMATRIXSET=EPSG:900913&FORMAT=image%2Fpng&TILECOL={x}&TILEROW={y}'
+              ],
+              tileSize: 256
+            },
+            'raster-tiles11': {
+              type: 'raster',
+              tiles: [
+                'http://116.62.186.152:9280/geoserver/gwc/service/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&LAYER=rasterTest:sd11&STYLE=&TILEMATRIX=EPSG:900913:{z}&TILEMATRIXSET=EPSG:900913&FORMAT=image%2Fpng&TILECOL={x}&TILEROW={y}'
+              ],
+              tileSize: 256
+            },
+            'raster-tiles12': {
+              type: 'raster',
+              tiles: [
+                'http://116.62.186.152:9280/geoserver/gwc/service/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&LAYER=rasterTest:sd12&STYLE=&TILEMATRIX=EPSG:900913:{z}&TILEMATRIXSET=EPSG:900913&FORMAT=image%2Fpng&TILECOL={x}&TILEROW={y}'
+              ],
+              tileSize: 256
+            }
+          },
+          layers: [
+            {
+              id: 'simple-tiles7',
+              type: 'raster',
+              source: 'raster-tiles7',
+              minzoom: 6,
+              maxzoom: 7
+            },
+            {
+              id: 'simple-tiles8',
+              type: 'raster',
+              source: 'raster-tiles8',
+              minzoom: 7,
+              maxzoom: 8
+            },
+            {
+              id: 'simple-tiles9',
+              type: 'raster',
+              source: 'raster-tiles9',
+              minzoom: 8,
+              maxzoom: 9
+            },
+            {
+              id: 'simple-tiles10',
+              type: 'raster',
+              source: 'raster-tiles10',
+              minzoom: 9,
+              maxzoom: 10
+            },
+            {
+              id: 'simple-tiles11',
+              type: 'raster',
+              source: 'raster-tiles11',
+              minzoom: 10,
+              maxzoom: 11
+            },
+            {
+              id: 'simple-tiles12',
+              type: 'raster',
+              source: 'raster-tiles12',
+              minzoom: 11,
+              maxzoom: 12
+            }
+          ]
+        },
+        center: [118.919, 36.513], // starting position
+        zoom: 6, // starting zoom
+        hash: true
+        //minzoom: 7,
+        //maxzoom: 10,
+      });
+
+      map.addControl(
+        new mapboxgl.NavigationControl()
+      ); /* new NavigationControl()创建NavigationControl，NavigationCongtrol包含一个缩放按钮和指南针，addControl(control,position)：添加控件，position表示位置，可以是top-left' ,  'top-right' ,  'bottom-left' , and  'bottom-right'，默认top-right */
+    </script>
+  </body>
+</html>

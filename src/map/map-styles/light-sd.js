@@ -2,11 +2,11 @@ import { BaseConfig } from 'tuyun-config';
 
 const layers = [
   {
-    id: 'background', // 背景
-    type: 'background',
-    paint: {
-      'background-color': '#f5f5f5'
-    }
+    id: 'simple-tiles7',
+    type: 'raster',
+    source: 'raster-tiles7'
+    // minzoom: 6,
+    // maxzoom: 7
   }
 ];
 
@@ -15,9 +15,9 @@ export default {
   name: 'ty-map',
   metadata: {},
   sources: {
-    wmsTestSource: {
+    'raster-tiles7': {
       type: 'raster',
-      tiles: ['http://localhost:8082/'],
+      tiles: ['http://192.168.251.11:8082/get-tiles/dev?z={z}&x={x}&y={y}'],
       tileSize: 256
     }
   },

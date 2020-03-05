@@ -4,11 +4,9 @@
  */
 
 import mapboxgl from 'mapbox-gl';
-import { AddLevel } from 'tuyun-utils';
 import React, { Component } from 'react';
 
 import BaseStyle from './map-styles/light-sd';
-import AddLevels from './add-levels';
 
 export default class MapBoxDemo extends Component {
   componentDidMount() {
@@ -39,38 +37,9 @@ export default class MapBoxDemo extends Component {
       // pitch: 60,
       // bearing: -13.6,
       minZoom: 7,
-      maxZoom: 11,
+      maxZoom: 20,
       localIdeographFontFamily: '黑体',
       preserveDrawingBuffer: true
     });
-    // this.map.on('style.load', () => {
-    //   this.map.addSource({
-    //     wmsTestSource: {
-    //       type: 'raster',
-    //       tiles: ['http://localhost:8082/get-tiles/dev?z={z}&x={x}&y={y}']
-    //     }
-    //   });
-    //   this.map.addLayer(
-    //     {
-    //       id: `layer-wms`,
-    //       type: 'raster',
-    //       source: 'wmsTestSource'
-    //     }
-    //     // 'aeroway-line'
-    //   );
-    // });
-    this.map
-      .on('style.load', () => {
-        this._addSourceFunc(); // 增加图层组
-      })
-      .on('zoomend', () => {
-        this._addSourceFunc();
-      });
-  };
-
-  _addSourceFunc = () => {
-    for (let item of AddLevels) {
-      AddLevel(this.map, item);
-    }
   };
 }
