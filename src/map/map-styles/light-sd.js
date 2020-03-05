@@ -1,11 +1,13 @@
 import { BaseConfig } from 'tuyun-config';
 
 const layers = [
-  // {
-  //   id: 'layer7',
-  //   type: 'raster',
-  //   source: 'wmsTestSource'
-  // }
+  {
+    id: 'background', // 背景
+    type: 'background',
+    paint: {
+      'background-color': '#f5f5f5'
+    }
+  }
 ];
 
 export default {
