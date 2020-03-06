@@ -10,7 +10,6 @@ import React, { Component } from 'react';
 import BaseStyle from './map-styles/light-sd';
 import AddLevels from './add-levels';
 // import CustomLayer from './radar';
-import CustomLayer from './custom-layer';
 
 export default class MapBoxDemo extends Component {
   componentDidMount() {
@@ -47,51 +46,10 @@ export default class MapBoxDemo extends Component {
     this.map
       .on('style.load', () => {
         this._addSourceFunc(); // 增加图层组
-        ////// 加载 n 个，位置当前屏幕随机的位置
-        // const _bounds = this.map.getBounds();
-        // const _minLng = _bounds._sw.lng;
-        // const _diffLng = _bounds._ne.lng - _bounds._sw.lng;
-        // const _minLat = _bounds._sw.lat;
-        // const _diffLat = _bounds._ne.lat - _bounds._sw.lat;
-        // const gltfUrl = './static/test.gltf';
-        // console.log(this.map.getCenter());
-        // for (let i = 0; i < 10; i++) {
-        //   const lng = _minLng + Math.random() * _diffLng;
-        //   const lat = _minLat + Math.random() * _diffLat;
-        //   this.map.addLayer(
-        //     new CustomLayer(lng, lat, 0, 'aaaaa' + i, gltfUrl),
-        //     'GHYDPL_7L_NAME'
-        //   );
-        // }
-        ////// 加载到正中心
-        const gltfUrl = './static/test7.gltf';
-        const { lat, lng } = this.map.getCenter();
-        this.map.addLayer(
-          new CustomLayer(lng, lat, 0, 'aaaaa', gltfUrl),
-          'GHYDPL_7L_NAME'
-        );
       })
       .on('zoomend', () => {
         this._addSourceFunc();
       });
-    // 添加的
-    // .on('moveend', () => {
-    //   const _bounds = this.map.getBounds();
-    //   const _minLng = _bounds._sw.lng;
-    //   const _diffLng = _bounds._ne.lng - _bounds._sw.lng;
-    //   const _minLat = _bounds._sw.lat;
-    //   const _diffLat = _bounds._ne.lat - _bounds._sw.lat;
-    //   const gltfUrl = 'http://47.110.135.245:12808/static/test.gltf';
-    //   for (let i = 0; i < 50; i++) {
-    //     const lng = _minLng + Math.random() * _diffLng;
-    //     const lat = _minLat + Math.random() * _diffLat;
-    //     this.map.removeLayer('aaaaa' + i);
-    //     this.map.addLayer(
-    //       new CustomLayer(lng, lat, 0, 'aaaaa' + i, gltfUrl),
-    //       'GHYDPL_7L_NAME'
-    //     );
-    //   }
-    // });
   };
 
   _addSourceFunc = () => {

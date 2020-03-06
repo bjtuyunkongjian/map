@@ -6,7 +6,6 @@ const {
   GLTFLoader,
   Camera,
   Scene,
-  DirectionalLight,
   WebGLRenderer,
   Matrix4,
   Vector3,
@@ -15,11 +14,12 @@ const {
 
 // configuration of the custom layer for a 3D model per the CustomLayerInterface
 class CustomLayer {
-  constructor(x, y, z, id, url) {
+  constructor(x, y, z, id, url, scale = 5e-8) {
     this.id = id;
     this.url = url;
     this.modelOrigin = [x, y]; // 中心点
     this.modelAltitude = z || 0; // 高度，海拔
+    this.modelScale = scale; // 缩放比例
     this.modelTransform = {
       translateX: mapboxgl.MercatorCoordinate.fromLngLat(
         this.modelOrigin,
@@ -44,7 +44,6 @@ class CustomLayer {
   type = 'custom';
   renderingMode = '3d';
   modelRotate = [Math.PI / 2, Math.PI / 2, 0]; // 旋转角度
-  modelScale = 5e-8; // 缩放比例
 
   onAdd = (map, gl) => {
     this.camera = new Camera();
@@ -59,7 +58,6 @@ class CustomLayer {
     loader.load(
       this.url,
       function(gltf) {
-        console.log(gltf);
         this.scene.add(gltf.scene);
       }.bind(this)
     );
