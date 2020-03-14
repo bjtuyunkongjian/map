@@ -4,7 +4,7 @@ import CustomLayer from './custom-layer';
 
 export default class index extends Component {
   state = {
-    scale: 2e-8
+    scale: 8e-9
   };
 
   _shouldRemove = false;
@@ -16,7 +16,7 @@ export default class index extends Component {
     return (
       <div className="add-custom">
         <div className="custom-row">
-          缩放比例：
+          模型缩放比例：
           <div className="custom-btn" onClick={() => this._changeScale(2)}>
             增加
           </div>
@@ -43,7 +43,7 @@ export default class index extends Component {
     // 小于 16 级，删除所有 id
     if (_zoom < 16) {
       for (let item of this._buildingArr) {
-        _MAP_.removeLayer('model-' + item.id);
+        this._removeBuilding(item);
       }
       return;
     }
@@ -56,32 +56,20 @@ export default class index extends Component {
     // 等请求结束删除不在屏幕范围之内的建筑物
     for (let item of this._buildingArr) {
       const { lnglat } = item;
-      !(
-        lnglat[0] < _bounds._ne.lng &&
-        lnglat[0] > _bounds._sw.lng &&
-        lnglat[1] < _bounds._ne.lat &&
-        lnglat[1] > _bounds._sw.lat
-      ) &&
-        _MAP_.getLayer('model-' + item.id) &&
-        _MAP_.removeLayer('model-' + item.id);
+      if (
+        !(
+          lnglat[0] < _bounds._ne.lng &&
+          lnglat[0] > _bounds._sw.lng &&
+          lnglat[1] < _bounds._ne.lat &&
+          lnglat[1] > _bounds._sw.lat
+        )
+      ) {
+        this._removeBuilding(item);
+      }
     }
-    const { scale } = this.state;
 
     for (let item of res) {
-      if (!_MAP_.getLayer('model-' + item.id)) {
-        const { lnglat } = item;
-        _MAP_.addLayer(
-          new CustomLayer(
-            lnglat[0],
-            lnglat[1],
-            0,
-            'model-' + item.id,
-            `http://47.110.135.245:12808/static/test/${item.id}.gltf`,
-            scale
-          ),
-          'GHYDPL_7L_NAME'
-        );
-      }
+      this._addBuilding(item);
     }
 
     // 赋予新值
@@ -94,23 +82,47 @@ export default class index extends Component {
 
     for (let item of this._buildingArr) {
       // 删除对应模型
-      _MAP_.getLayer('model-' + item.id) &&
-        _MAP_.removeLayer('model-' + item.id);
+      this._removeBuilding(item);
       // 重绘
-      if (!_MAP_.getLayer('model-' + item.id)) {
-        const { lnglat } = item;
-        _MAP_.addLayer(
-          new CustomLayer(
-            lnglat[0],
-            lnglat[1],
-            0,
-            'model-' + item.id,
-            `http://47.110.135.245:12808/static/test/${item.id}.gltf`,
-            w * scale
-          ),
-          'GHYDPL_7L_NAME'
-        );
-      }
+      this._addBuilding(item);
+    }
+  };
+
+  _removeBuilding = item => {
+    _MAP_.getLayer('model-' + item.id) && _MAP_.removeLayer('model-' + item.id);
+    _MAP_.getLayer('model-top-' + item.id) &&
+      _MAP_.removeLayer('model-top-' + item.id);
+  };
+
+  _addBuilding = item => {
+    const { scale } = this.state;
+    if (!_MAP_.getLayer('model-' + item.id)) {
+      const { lnglat } = item;
+      _MAP_.addLayer(
+        new CustomLayer(
+          lnglat[0],
+          lnglat[1],
+          0,
+          'model-' + item.id,
+          `http://47.110.135.245:12808/static/side/${item.id}.gltf`,
+          scale
+        ),
+        'GHYDPL_7L_NAME'
+      );
+    }
+    if (!_MAP_.getLayer('model-top-' + item.id)) {
+      const { lnglat } = item;
+      _MAP_.addLayer(
+        new CustomLayer(
+          lnglat[0],
+          lnglat[1],
+          0,
+          'model-top-' + item.id,
+          `http://47.110.135.245:12808/static/top/${item.id}top.gltf`,
+          scale
+        ),
+        'GHYDPL_7L_NAME'
+      );
     }
   };
 }
