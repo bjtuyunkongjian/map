@@ -77,7 +77,7 @@ export default class BaseMap {
     mapArr.push(tyMap);
     // 通过获取后台数据修改对应的建筑物颜色
     this.getBuildingColor();
-    this.getSurround('aaa');
+    // this.getSurround('aaa');
   }
 
   getBuildingColor = async () => {
