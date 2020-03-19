@@ -49,28 +49,17 @@ export default class index extends Component {
     _MAP_.on('style.load', () => {
       this._loadModels();
     });
-    // .on('moveend', () => {
-    //   this._loadModels(true);
-    // });
   };
 
   _loadModels = () => {
-    const { count, scale, gltfUrl } = this.state;
+    const { scale, gltfUrl } = this.state;
     if (!gltfUrl) return;
-    const _bounds = _MAP_.getBounds();
-    const _minLng = _bounds._sw.lng;
-    const _diffLng = _bounds._ne.lng - _bounds._sw.lng;
-    const _minLat = _bounds._sw.lat;
-    const _diffLat = _bounds._ne.lat - _bounds._sw.lat;
-    for (let i = 0; i < count; i++) {
-      const lng = _minLng + Math.random() * _diffLng;
-      const lat = _minLat + Math.random() * _diffLat;
-      this._shouldRemove && _MAP_.removeLayer('model-' + i);
-      _MAP_.addLayer(
-        new CustomLayer(lng, lat, 0, 'model-' + i, gltfUrl, scale),
-        'GHYDPL_7L_NAME'
-      );
-    }
+    const { lng, lat } = _MAP_.getCenter();
+    this._shouldRemove && _MAP_.removeLayer('model-');
+    _MAP_.addLayer(
+      new CustomLayer(lng, lat, 0, 'model-', gltfUrl, scale),
+      'GHYDPL_7L_NAME'
+    );
     if (!this._shouldRemove) this._shouldRemove = true;
   };
 
