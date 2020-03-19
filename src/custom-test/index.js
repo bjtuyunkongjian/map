@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { FetchRequest } from 'tuyun-utils';
+import { FetchRequest, AddTextLayer } from 'tuyun-utils';
 import CustomLayer from './custom-layer';
 import {
   featureCollection as FeatureCollection,
-  point as turfPoint
+  point as TurfPoint
 } from '@turf/turf';
 
 export default class index extends Component {
@@ -57,6 +57,16 @@ export default class index extends Component {
     const _url = `mod/getPointKey?minX=${_bounds._sw.lng}&maxX=${_bounds._ne.lng}&minY=${_bounds._sw.lat}&maxY=${_bounds._ne.lat}`;
     const { res, err } = await FetchRequest({ url: _url });
     if (err || !res) return console.error('没获取到返回数据');
+    const _features = res.map(item => {
+      const { lnglat, id } = item;
+      const [x, y] = lnglat;
+      return TurfPoint([x, y], { text: id });
+    });
+    const _geoJSONData = {
+      type: 'geojson',
+      data: FeatureCollection(_features)
+    };
+    AddTextLayer(_MAP_, _geoJSONData, 'building-id');
 
     // 等请求结束删除不在屏幕范围之内的建筑物
     for (let item of this._buildingArr) {
@@ -110,7 +120,7 @@ export default class index extends Component {
           lnglat[1],
           0,
           'model-' + item.id,
-          `http://47.110.135.245:12808/static/side/${item.id}.gltf`,
+          `http://47.110.135.245:12808/static/test/${item.id}.gltf`,
           scale
         ),
         'GHYDPL_7L_NAME'
@@ -124,7 +134,7 @@ export default class index extends Component {
           lnglat[1],
           0,
           'model-top-' + item.id,
-          `http://47.110.135.245:12808/static/top/${item.id}top.gltf`,
+          `http://47.110.135.245:12808/static/top2/${item.id}top.gltf`,
           scale
         ),
         'GHYDPL_7L_NAME'
