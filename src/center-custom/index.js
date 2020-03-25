@@ -4,8 +4,8 @@ import CustomLayer from './custom-layer';
 export default class index extends Component {
   state = {
     count: defaultCount,
-    scale: 5e-8,
-    gltfUrl: './static/a.gltf'
+    scale: 1e-8,
+    gltfUrl: './static/test.gltf'
   };
 
   _shouldRemove = false;
@@ -57,7 +57,7 @@ export default class index extends Component {
     const { lng, lat } = _MAP_.getCenter();
     this._shouldRemove && _MAP_.removeLayer('model-');
     _MAP_.addLayer(
-      new CustomLayer(lng, lat, 0, 'model-', gltfUrl, scale),
+      new CustomLayer(0, 0, 0, 'model-', gltfUrl, scale),
       'GHYDPL_7L_NAME'
     );
     if (!this._shouldRemove) this._shouldRemove = true;

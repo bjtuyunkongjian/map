@@ -49,6 +49,9 @@ export default class MapBoxDemo extends Component {
       })
       .on('zoomend', () => {
         this._addSourceFunc();
+      })
+      .on('click', e => {
+        console.log(e);
       });
   };
 
