@@ -40,12 +40,13 @@ class CustomLayer {
         const { x, y, z } = mapboxgl.MercatorCoordinate.fromLngLat([0, 0], 0);
 
         console.log(gltf);
+        // gltf.scene.scale.setScalar(1e-4);
         gltf.scene.rotation.x = Math.PI / 2;
         gltf.scene.rotation.y = Math.PI / 2;
         gltf.scene.position.set(
-          x / this.sceneScale,
-          -y / this.sceneScale,
-          z / this.sceneScale
+          (x / this.sceneScale) | 0,
+          (-y / this.sceneScale) | 0,
+          (z / this.sceneScale) | 0
         );
         this.scene.add(gltf.scene);
       }.bind(this)

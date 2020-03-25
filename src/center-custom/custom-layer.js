@@ -26,18 +26,13 @@ class CustomLayer {
     this.modelTransform = {
       translateX: mercatorCoord.x,
       translateY: mercatorCoord.y,
-      translateZ: mercatorCoord.z,
-      rotateX: this.modelRotate[0],
-      rotateY: this.modelRotate[1],
-      rotateZ: this.modelRotate[2],
-      scale: 1e-3
+      translateZ: mercatorCoord.z
     };
   }
 
   // parameters to ensure the model is georeferenced correctly on the map
   type = 'custom';
   renderingMode = '3d';
-  modelRotate = [Math.PI / 2, Math.PI / 2, 0]; // 旋转角度
 
   onAdd = (map, gl) => {
     this.camera = new Camera();
@@ -52,6 +47,19 @@ class CustomLayer {
     loader.load(
       this.url,
       function(gltf) {
+        // 36.6754/117.0856 117.0856, 36.6754
+        const { x, y, z } = mapboxgl.MercatorCoordinate.fromLngLat([10, 10], 0);
+        console.log(x, y, z);
+        gltf.scene.scale.setScalar(1e-8);
+
+        gltf.scene.position.set(
+          x - this.modelTransform.translateX,
+          this.modelTransform.translateY - y,
+          z
+        );
+        // 旋转模型
+        gltf.scene.rotation.x = Math.PI / 2;
+        gltf.scene.rotation.y = Math.PI / 2;
         this.scene.add(gltf.scene);
       }.bind(this)
     );
@@ -69,18 +77,6 @@ class CustomLayer {
 
   render = (_, matrix) => {
     // if (this.map.getZoom() < 16) return;
-    var rotationX = new Matrix4().makeRotationAxis(
-      new Vector3(1, 0, 0),
-      this.modelTransform.rotateX
-    );
-    var rotationY = new Matrix4().makeRotationAxis(
-      new Vector3(0, 1, 0),
-      this.modelTransform.rotateY
-    );
-    var rotationZ = new Matrix4().makeRotationAxis(
-      new Vector3(0, 0, 1),
-      this.modelTransform.rotateZ
-    );
 
     var m = new Matrix4().fromArray(matrix);
     var l = new Matrix4()
@@ -89,18 +85,8 @@ class CustomLayer {
         this.modelTransform.translateY,
         this.modelTransform.translateZ
       )
-      .scale(
-        new Vector3(
-          this.modelTransform.scale,
-          -this.modelTransform.scale,
-          this.modelTransform.scale
-        )
-      )
-      .multiply(rotationX)
-      .multiply(rotationY)
-      .multiply(rotationZ);
+      .scale(new Vector3(1, -1, 1));
 
-    this.camera.projectionMatrix.elements = matrix;
     this.camera.projectionMatrix = m.multiply(l);
     this.renderer.state.reset();
     this.renderer.render(this.scene, this.camera);
