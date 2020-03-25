@@ -14,19 +14,29 @@ const {
 
 // configuration of the custom layer for a 3D model per the CustomLayerInterface
 class CustomLayer {
-  constructor(x, y, z = 0, id, url, scale = 5e-8) {
+  constructor(x, y, z, id, url, scale = 5e-8) {
     this.id = id;
     this.url = url;
+    this.modelOrigin = [x, y]; // 中心点
+    this.modelAltitude = z || 0; // 高度，海拔
     this.modelScale = scale; // 缩放比例
-    const mercatorCoord = mapboxgl.MercatorCoordinate.fromLngLat([x, y], z);
     this.modelTransform = {
-      translateX: mercatorCoord.x,
-      translateY: mercatorCoord.y,
-      translateZ: mercatorCoord.z,
+      translateX: mapboxgl.MercatorCoordinate.fromLngLat(
+        this.modelOrigin,
+        this.modelAltitude
+      ).x,
+      translateY: mapboxgl.MercatorCoordinate.fromLngLat(
+        this.modelOrigin,
+        this.modelAltitude
+      ).y,
+      translateZ: mapboxgl.MercatorCoordinate.fromLngLat(
+        this.modelOrigin,
+        this.modelAltitude
+      ).z,
       rotateX: this.modelRotate[0],
       rotateY: this.modelRotate[1],
       rotateZ: this.modelRotate[2],
-      scale: this.sceneScale
+      scale: this.modelScale
     };
   }
 
@@ -34,42 +44,23 @@ class CustomLayer {
   type = 'custom';
   renderingMode = '3d';
   modelRotate = [Math.PI / 2, Math.PI / 2, 0]; // 旋转角度
-  sceneScale = 1e-2; // 270.18025716224105  266.2919669508635  263.63270165929544  286.67217198701314
 
   onAdd = (map, gl) => {
     this.camera = new Camera();
     this.scene = new Scene();
 
-    var ambientLight = new AmbientLight(0xffffff);
-    this.scene.add(ambientLight);
+    var directionalLight = new AmbientLight(0xffffff);
+    directionalLight.position.set(0, 70, 100).normalize();
+    this.scene.add(directionalLight);
 
     // use the three.js GLTF loader to add the 3D model to the three.js scene
-    // var loader = new GLTFLoader();
-    // loader.load(
-    //   this.url,
-    //   function(gltf) {
-    //     console.log(gltf);
-    //     this.scene.add(gltf.scene);
-    //   }.bind(this)
-    // );
-
-    // loader.load(
-    //   this.url,
-    //   function(gltf) {
-    //     gltf.scene.scale.setScalar(5);
-    //     gltf.scene.position.set(1000, 0, 100);
-    //     this.scene.add(gltf.scene);
-    //   }.bind(this)
-    // );
-
-    var geometry = new THREE.CubeGeometry(1, 0.01, 1);
-    var material = new THREE.MeshBasicMaterial({ color: 0xaaaaaa });
-
-    const { x, y, z } = mapboxgl.MercatorCoordinate.fromLngLat([10, 10], 0);
-    const box = new THREE.Mesh(geometry, material);
-    box.position.set(x, 0, y);
-    console.log(box);
-    this.scene.add(box);
+    var loader = new GLTFLoader();
+    loader.load(
+      this.url,
+      function(gltf) {
+        this.scene.add(gltf.scene);
+      }.bind(this)
+    );
 
     this.map = map;
 

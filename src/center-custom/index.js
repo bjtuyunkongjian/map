@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import CustomLayer from './custom-layer';
+import CustomLayer from './custom-layers';
 
 export default class index extends Component {
   state = {
     count: defaultCount,
-    scale: 1e-8,
-    gltfUrl: './static/test.gltf'
+    scale: 5e-8,
+    gltfUrl: './static/a.gltf'
   };
 
   _shouldRemove = false;
@@ -54,10 +54,9 @@ export default class index extends Component {
   _loadModels = () => {
     const { scale, gltfUrl } = this.state;
     if (!gltfUrl) return;
-    const { lng, lat } = _MAP_.getCenter();
     this._shouldRemove && _MAP_.removeLayer('model-');
     _MAP_.addLayer(
-      new CustomLayer(0, 0, 0, 'model-', gltfUrl, scale),
+      new CustomLayer(117.0856, 36.6754, 0, 'model-', gltfUrl, scale),
       'GHYDPL_7L_NAME'
     );
     if (!this._shouldRemove) this._shouldRemove = true;

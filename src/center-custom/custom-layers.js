@@ -14,50 +14,39 @@ const {
 
 // configuration of the custom layer for a 3D model per the CustomLayerInterface
 class CustomLayer {
-  constructor(x, y, z, id, url, scale = 5e-8) {
+  constructor(x, y, z = 0, id, url, scale = 5e-8) {
     this.id = id;
     this.url = url;
-    this.modelOrigin = [x, y]; // 中心点
-    this.modelAltitude = z || 0; // 高度，海拔
-    this.modelScale = scale; // 缩放比例
-    this.modelTransform = {
-      translateX: mapboxgl.MercatorCoordinate.fromLngLat(
-        this.modelOrigin,
-        this.modelAltitude
-      ).x,
-      translateY: mapboxgl.MercatorCoordinate.fromLngLat(
-        this.modelOrigin,
-        this.modelAltitude
-      ).y,
-      translateZ: mapboxgl.MercatorCoordinate.fromLngLat(
-        this.modelOrigin,
-        this.modelAltitude
-      ).z,
-      rotateX: this.modelRotate[0],
-      rotateY: this.modelRotate[1],
-      rotateZ: this.modelRotate[2],
-      scale: this.modelScale
-    };
   }
 
   // parameters to ensure the model is georeferenced correctly on the map
   type = 'custom';
   renderingMode = '3d';
-  modelRotate = [Math.PI / 2, Math.PI / 2, 0]; // 旋转角度
+  sceneScale = 1e-6; //
 
   onAdd = (map, gl) => {
     this.camera = new Camera();
     this.scene = new Scene();
+    this.scene.scale.setScalar(this.sceneScale);
 
-    var directionalLight = new AmbientLight(0xffffff);
-    directionalLight.position.set(0, 70, 100).normalize();
-    this.scene.add(directionalLight);
+    const ambientLight = new AmbientLight(0xffffff);
+    this.scene.add(ambientLight);
 
-    // use the three.js GLTF loader to add the 3D model to the three.js scene
-    var loader = new GLTFLoader();
+    const loader = new GLTFLoader();
     loader.load(
       this.url,
       function(gltf) {
+        // gltf.scene.scale.setScalar(1e-7 / this.sceneScale);
+        const { x, y, z } = mapboxgl.MercatorCoordinate.fromLngLat([0, 0], 0);
+
+        console.log(gltf);
+        gltf.scene.rotation.x = Math.PI / 2;
+        gltf.scene.rotation.y = Math.PI / 2;
+        gltf.scene.position.set(
+          x / this.sceneScale,
+          -y / this.sceneScale,
+          z / this.sceneScale
+        );
         this.scene.add(gltf.scene);
       }.bind(this)
     );
@@ -74,39 +63,10 @@ class CustomLayer {
   };
 
   render = (_, matrix) => {
-    // if (this.map.getZoom() < 16) return;
-    var rotationX = new Matrix4().makeRotationAxis(
-      new Vector3(1, 0, 0),
-      this.modelTransform.rotateX
-    );
-    var rotationY = new Matrix4().makeRotationAxis(
-      new Vector3(0, 1, 0),
-      this.modelTransform.rotateY
-    );
-    var rotationZ = new Matrix4().makeRotationAxis(
-      new Vector3(0, 0, 1),
-      this.modelTransform.rotateZ
-    );
-
     var m = new Matrix4().fromArray(matrix);
-    var l = new Matrix4()
-      .makeTranslation(
-        this.modelTransform.translateX,
-        this.modelTransform.translateY,
-        this.modelTransform.translateZ
-      )
-      .scale(
-        new Vector3(
-          this.modelTransform.scale,
-          -this.modelTransform.scale,
-          this.modelTransform.scale
-        )
-      )
-      .multiply(rotationX)
-      .multiply(rotationY)
-      .multiply(rotationZ);
+    var l = new Matrix4().scale(new Vector3(1, -1, 1));
 
-    this.camera.projectionMatrix.elements = matrix;
+    // this.camera.projectionMatrix.elements = matrix;
     this.camera.projectionMatrix = m.multiply(l);
     this.renderer.state.reset();
     this.renderer.render(this.scene, this.camera);

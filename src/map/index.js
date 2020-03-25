@@ -39,7 +39,7 @@ export default class MapBoxDemo extends Component {
       zoom: 17,
       // pitch: 60,
       // bearing: -13.6,
-      minZoom: 7,
+      minZoom: 0,
       maxZoom: 20,
       localIdeographFontFamily: '黑体'
     });
@@ -49,9 +49,6 @@ export default class MapBoxDemo extends Component {
       })
       .on('zoomend', () => {
         this._addSourceFunc();
-      })
-      .on('click', e => {
-        console.log(e);
       });
   };
 
