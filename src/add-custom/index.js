@@ -4,8 +4,8 @@ import CustomLayer from './custom-layer';
 export default class index extends Component {
   state = {
     count: defaultCount,
-    scale: 5e-8,
-    gltfUrl: 'http://47.110.135.245:12808/static/test.gltf'
+    scale: 1e-8,
+    gltfUrl: './static/test.gltf'
   };
 
   _shouldRemove = false;
@@ -46,13 +46,12 @@ export default class index extends Component {
   }
 
   _init = () => {
-    _MAP_
-      .on('style.load', () => {
-        this._loadModels();
-      })
-      .on('moveend', () => {
-        this._loadModels(true);
-      });
+    _MAP_.on('style.load', () => {
+      this._loadModels();
+    });
+    // .on('moveend', () => {
+    //   this._loadModels(true);
+    // });
   };
 
   _loadModels = () => {

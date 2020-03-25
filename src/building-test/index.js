@@ -82,10 +82,8 @@ export default class index extends Component {
         this._removeBuilding(item);
       }
     }
-    const features = [];
     for (let item of res) {
       this._addBuilding(item);
-      // features.push()
     }
 
     // 赋予新值

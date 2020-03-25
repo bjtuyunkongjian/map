@@ -7,7 +7,7 @@ import ReactDom from 'react-dom';
 
 import '../style/index.less';
 import MapDemo from './map';
-import CustomLayer from './center-custom';
+import CustomLayer from './add-custom';
 
 class MapApp extends Component {
   render() {
