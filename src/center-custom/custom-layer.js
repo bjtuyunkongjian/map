@@ -14,29 +14,23 @@ const {
 
 // configuration of the custom layer for a 3D model per the CustomLayerInterface
 class CustomLayer {
-  constructor(x, y, z, id, url, scale = 5e-8) {
+  constructor(x, y, z, id, url) {
     this.id = id;
     this.url = url;
     this.modelOrigin = [x, y]; // 中心点
     this.modelAltitude = z || 0; // 高度，海拔
-    this.modelScale = scale; // 缩放比例
+    const mercatorCoord = mapboxgl.MercatorCoordinate.fromLngLat(
+      this.modelOrigin,
+      this.modelAltitude
+    );
     this.modelTransform = {
-      translateX: mapboxgl.MercatorCoordinate.fromLngLat(
-        this.modelOrigin,
-        this.modelAltitude
-      ).x,
-      translateY: mapboxgl.MercatorCoordinate.fromLngLat(
-        this.modelOrigin,
-        this.modelAltitude
-      ).y,
-      translateZ: mapboxgl.MercatorCoordinate.fromLngLat(
-        this.modelOrigin,
-        this.modelAltitude
-      ).z,
+      translateX: mercatorCoord.x,
+      translateY: mercatorCoord.y,
+      translateZ: mercatorCoord.z,
       rotateX: this.modelRotate[0],
       rotateY: this.modelRotate[1],
       rotateZ: this.modelRotate[2],
-      scale: this.modelScale
+      scale: 1e-3
     };
   }
 

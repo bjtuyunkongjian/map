@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import CustomLayer from './custom-layers';
+import CustomLayer from './custom-layer';
 
 export default class index extends Component {
   state = {
@@ -56,7 +56,7 @@ export default class index extends Component {
     if (!gltfUrl) return;
     this._shouldRemove && _MAP_.removeLayer('model-');
     _MAP_.addLayer(
-      new CustomLayer(117.0856, 36.6754, 0, 'model-', gltfUrl, scale),
+      new CustomLayer(0, 0, 0, 'model-', gltfUrl, scale),
       'GHYDPL_7L_NAME'
     );
     if (!this._shouldRemove) this._shouldRemove = true;
