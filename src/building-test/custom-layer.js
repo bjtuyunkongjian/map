@@ -18,7 +18,6 @@ class CustomLayer {
 
     this.camera = new Camera();
     this.scene = new Scene();
-    console.log(this.scene);
 
     var directionalLight = new AmbientLight(0xffffff);
     directionalLight.position.set(0, 70, 100).normalize();
@@ -41,17 +40,22 @@ class CustomLayer {
 
   updateModel = ({ modelArr, center, bounds }) => {
     this.modelTransform = mapboxgl.MercatorCoordinate.fromLngLat(center, 0);
-    for (let item of modelArr) {
+    const removeNameArr = [];
+    for (let item of this.scene.children) {
       const isInBounds =
         item.lng < bounds._ne.lng &&
         item.lng > bounds._sw.lng &&
         item.lat < bounds._ne.lat &&
         item.lat > bounds._sw.lat;
-      if (isInBounds) {
-        this.loadModel(item);
-      } else {
-        this.scene.remove(item.name);
+      if (!isInBounds && item.name) {
+        removeNameArr.push(item);
       }
+    }
+    for (let name of removeNameArr) {
+      this.scene.remove(name);
+    }
+    for (let item of modelArr) {
+      this.loadModel(item);
     }
   };
 
@@ -61,7 +65,7 @@ class CustomLayer {
       altitude
     );
     const gltfScene = this.scene.getObjectByName(name);
-    if (this.scene.getObjectByName(name)) {
+    if (gltfScene) {
       gltfScene.position.set(
         x - this.modelTransform.x,
         this.modelTransform.y - y,
@@ -69,6 +73,8 @@ class CustomLayer {
       );
     } else {
       this.loader.load(url, gltf => {
+        gltf.scene.lng = lng;
+        gltf.scene.lat = lat;
         gltf.scene.name = name;
         gltf.scene.scale.setScalar(1e-8); // 3.6e-8
         gltf.scene.position.set(

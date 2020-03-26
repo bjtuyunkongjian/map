@@ -12,7 +12,7 @@ export default class index extends Component {
   };
 
   _shouldRemove = false;
-  _modelLayer = undefined;
+  _customLayer = undefined;
 
   componentDidMount = () => this._init();
 
@@ -46,7 +46,7 @@ export default class index extends Component {
     const _zoom = _MAP_.getZoom();
     // 小于 16 级，删除对应图层
     if (_zoom < 16) {
-      this._modelLayer = undefined;
+      this._customLayer = undefined;
       return this._removeBuilding('model-custom');
     }
     // 获取屏幕范围
@@ -54,7 +54,7 @@ export default class index extends Component {
     // 获取新的建筑物
     const _url = `mod/getPointKey?minX=${_bounds._sw.lng}&maxX=${_bounds._ne.lng}&minY=${_bounds._sw.lat}&maxY=${_bounds._ne.lat}`;
     const { res, err } = await FetchRequest({ url: _url });
-    if (err || !res) return console.error('没获取到返回数据');
+    if (err || !res) return console.log('没获取到返回数据');
     const _modelArr = [];
     const _features = [];
     for (let item of res) {
@@ -87,16 +87,16 @@ export default class index extends Component {
 
     // 添加模型
     const _center = _MAP_.getCenter();
-    if (!this._modelLayer) {
-      this._modelLayer = new CustomLayer({
+    if (!this._customLayer) {
+      this._customLayer = new CustomLayer({
         center: [_center.lng, _center.lat],
         id: 'model-custom',
         modelArr: _modelArr,
         bounds: _bounds
       });
-      _MAP_.addLayer(this._modelLayer, 'GHYDPL_7L_NAME');
+      _MAP_.addLayer(this._customLayer, 'GHYDPL_7L_NAME');
     } else {
-      this._modelLayer.updateModel({
+      this._customLayer.updateModel({
         center: [_center.lng, _center.lat],
         modelArr: _modelArr,
         bounds: _bounds
