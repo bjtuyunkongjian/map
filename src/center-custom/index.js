@@ -52,11 +52,17 @@ export default class index extends Component {
   };
 
   _loadModels = () => {
-    const { scale, gltfUrl } = this.state;
+    const { gltfUrl } = this.state;
     if (!gltfUrl) return;
     this._shouldRemove && _MAP_.removeLayer('model-');
+    const modelArr = [{ url: gltfUrl, lng: 10.001, lat: 10.001, altitude: 0 }];
     _MAP_.addLayer(
-      new CustomLayer(10, 10, 0, 'model-', gltfUrl, scale),
+      new CustomLayer({
+        center: [10, 10],
+        id: 'model-',
+        url: gltfUrl,
+        modelArr
+      }),
       'GHYDPL_7L_NAME'
     );
     if (!this._shouldRemove) this._shouldRemove = true;
