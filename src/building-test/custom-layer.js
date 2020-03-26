@@ -13,96 +13,85 @@ const {
 } = THREE;
 
 class CustomLayer {
-  constructor(x, y, z, id, url, scale = 5e-8) {
+  constructor({ center, id, modelArr, bounds }) {
     this.id = id;
-    this.url = url;
-    this.modelOrigin = [x, y]; // 中心点
-    this.modelAltitude = z || 0; // 高度，海拔
-    this.modelScale = scale; // 缩放比例
-    this.modelTransform = {
-      translateX: mapboxgl.MercatorCoordinate.fromLngLat(
-        this.modelOrigin,
-        this.modelAltitude
-      ).x,
-      translateY: mapboxgl.MercatorCoordinate.fromLngLat(
-        this.modelOrigin,
-        this.modelAltitude
-      ).y,
-      translateZ: mapboxgl.MercatorCoordinate.fromLngLat(
-        this.modelOrigin,
-        this.modelAltitude
-      ).z,
-      rotateX: this.modelRotate[0],
-      rotateY: this.modelRotate[1],
-      rotateZ: this.modelRotate[2],
-      scale: this.modelScale
-    };
-  }
 
-  type = 'custom';
-  renderingMode = '3d';
-  modelRotate = [Math.PI / 2, Math.PI / 2, 0]; // 旋转角度
-
-  onAdd = (map, gl) => {
     this.camera = new Camera();
     this.scene = new Scene();
+    console.log(this.scene);
 
     var directionalLight = new AmbientLight(0xffffff);
     directionalLight.position.set(0, 70, 100).normalize();
     this.scene.add(directionalLight);
+    this.updateModel({ center, modelArr, bounds });
+  }
 
-    var loader = new GLTFLoader();
-    loader.load(
-      this.url,
-      function(gltf) {
-        this.scene.add(gltf.scene);
-      }.bind(this)
-    );
+  type = 'custom';
+  renderingMode = '3d';
+  loader = new GLTFLoader();
 
+  onAdd = (map, gl) => {
     this.map = map;
-
     this.renderer = new WebGLRenderer({
       canvas: map.getCanvas(),
       context: gl
     });
-
     this.renderer.autoClear = false;
+  };
+
+  updateModel = ({ modelArr, center, bounds }) => {
+    this.modelTransform = mapboxgl.MercatorCoordinate.fromLngLat(center, 0);
+    for (let item of modelArr) {
+      const isInBounds =
+        item.lng < bounds._ne.lng &&
+        item.lng > bounds._sw.lng &&
+        item.lat < bounds._ne.lat &&
+        item.lat > bounds._sw.lat;
+      if (isInBounds) {
+        this.loadModel(item);
+      } else {
+        this.scene.remove(item.name);
+      }
+    }
+  };
+
+  loadModel = ({ lng, lat, altitude = 0, url, name }) => {
+    const { x, y, z } = mapboxgl.MercatorCoordinate.fromLngLat(
+      [lng, lat],
+      altitude
+    );
+    const gltfScene = this.scene.getObjectByName(name);
+    if (this.scene.getObjectByName(name)) {
+      gltfScene.position.set(
+        x - this.modelTransform.x,
+        this.modelTransform.y - y,
+        z
+      );
+    } else {
+      this.loader.load(url, gltf => {
+        gltf.scene.name = name;
+        gltf.scene.scale.setScalar(1e-8); // 3.6e-8
+        gltf.scene.position.set(
+          x - this.modelTransform.x,
+          this.modelTransform.y - y,
+          z
+        );
+        // 旋转模型
+        gltf.scene.rotation.x = Math.PI / 2;
+        gltf.scene.rotation.y = Math.PI / 2;
+        this.scene.add(gltf.scene);
+      });
+    }
   };
 
   render = (_, matrix) => {
     // if (this.map.getZoom() < 16) return;
-    var rotationX = new Matrix4().makeRotationAxis(
-      new Vector3(1, 0, 0),
-      this.modelTransform.rotateX
-    );
-    var rotationY = new Matrix4().makeRotationAxis(
-      new Vector3(0, 1, 0),
-      this.modelTransform.rotateY
-    );
-    var rotationZ = new Matrix4().makeRotationAxis(
-      new Vector3(0, 0, 1),
-      this.modelTransform.rotateZ
-    );
 
     var m = new Matrix4().fromArray(matrix);
     var l = new Matrix4()
-      .makeTranslation(
-        this.modelTransform.translateX,
-        this.modelTransform.translateY,
-        this.modelTransform.translateZ
-      )
-      .scale(
-        new Vector3(
-          this.modelTransform.scale,
-          -this.modelTransform.scale,
-          this.modelTransform.scale
-        )
-      )
-      .multiply(rotationX)
-      .multiply(rotationY)
-      .multiply(rotationZ);
+      .makeTranslation(this.modelTransform.x, this.modelTransform.y, 0)
+      .scale(new Vector3(1, -1, 1));
 
-    this.camera.projectionMatrix.elements = matrix;
     this.camera.projectionMatrix = m.multiply(l);
     this.renderer.state.reset();
     this.renderer.render(this.scene, this.camera);

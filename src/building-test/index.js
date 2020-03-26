@@ -12,7 +12,7 @@ export default class index extends Component {
   };
 
   _shouldRemove = false;
-  _buildingArr = [];
+  _modelLayer = undefined;
 
   componentDidMount = () => this._init();
 
@@ -44,12 +44,10 @@ export default class index extends Component {
 
   _loadModels = async () => {
     const _zoom = _MAP_.getZoom();
-    // 小于 16 级，删除所有 id
+    // 小于 16 级，删除对应图层
     if (_zoom < 16) {
-      for (let item of this._buildingArr) {
-        this._removeBuilding(item);
-      }
-      return;
+      this._modelLayer = undefined;
+      return this._removeBuilding('model-custom');
     }
     // 获取屏幕范围
     const _bounds = _MAP_.getBounds();
@@ -57,86 +55,59 @@ export default class index extends Component {
     const _url = `mod/getPointKey?minX=${_bounds._sw.lng}&maxX=${_bounds._ne.lng}&minY=${_bounds._sw.lat}&maxY=${_bounds._ne.lat}`;
     const { res, err } = await FetchRequest({ url: _url });
     if (err || !res) return console.error('没获取到返回数据');
-    const _features = res.map(item => {
+    const _modelArr = [];
+    const _features = [];
+    for (let item of res) {
       const { lnglat, id } = item;
       const [x, y] = lnglat;
-      return TurfPoint([x, y], { text: id });
-    });
+      // 文字
+      _features.push(TurfPoint([x, y], { text: id }));
+      // 模型
+      _modelArr.push({
+        url: `http://47.110.135.245:12808/static/test/${id}.gltf`,
+        lng: x,
+        lat: y,
+        altitude: 0,
+        name: `side-${id}`
+      });
+      _modelArr.push({
+        url: `http://47.110.135.245:12808/static/top2/${id}top.gltf`,
+        lng: x,
+        lat: y,
+        altitude: 0,
+        name: `top-${id}`
+      });
+    }
+    // 添加文字
     const _geoJSONData = {
       type: 'geojson',
       data: FeatureCollection(_features)
     };
     AddTextLayer(_MAP_, _geoJSONData, 'building-id');
 
-    // 等请求结束删除不在屏幕范围之内的建筑物
-    for (let item of this._buildingArr) {
-      const { lnglat } = item;
-      if (
-        !(
-          lnglat[0] < _bounds._ne.lng &&
-          lnglat[0] > _bounds._sw.lng &&
-          lnglat[1] < _bounds._ne.lat &&
-          lnglat[1] > _bounds._sw.lat
-        )
-      ) {
-        this._removeBuilding(item);
-      }
+    // 添加模型
+    const _center = _MAP_.getCenter();
+    if (!this._modelLayer) {
+      this._modelLayer = new CustomLayer({
+        center: [_center.lng, _center.lat],
+        id: 'model-custom',
+        modelArr: _modelArr,
+        bounds: _bounds
+      });
+      _MAP_.addLayer(this._modelLayer, 'GHYDPL_7L_NAME');
+    } else {
+      this._modelLayer.updateModel({
+        center: [_center.lng, _center.lat],
+        modelArr: _modelArr,
+        bounds: _bounds
+      });
     }
-    for (let item of res) {
-      this._addBuilding(item);
-    }
-
-    // 赋予新值
-    this._buildingArr = res;
   };
 
   _changeScale = async w => {
     const { scale } = this.state;
     this.setState({ scale: w * scale });
-
-    for (let item of this._buildingArr) {
-      // 删除对应模型
-      this._removeBuilding(item);
-      // 重绘
-      this._addBuilding(item);
-    }
   };
 
-  _removeBuilding = item => {
-    _MAP_.getLayer('model-' + item.id) && _MAP_.removeLayer('model-' + item.id);
-    _MAP_.getLayer('model-top-' + item.id) &&
-      _MAP_.removeLayer('model-top-' + item.id);
-  };
-
-  _addBuilding = item => {
-    const { scale } = this.state;
-    if (!_MAP_.getLayer('model-' + item.id)) {
-      const { lnglat } = item;
-      _MAP_.addLayer(
-        new CustomLayer(
-          lnglat[0],
-          lnglat[1],
-          0,
-          'model-' + item.id,
-          `http://47.110.135.245:12808/static/test/${item.id}.gltf`,
-          scale
-        ),
-        'GHYDPL_7L_NAME'
-      );
-    }
-    if (!_MAP_.getLayer('model-top-' + item.id)) {
-      const { lnglat } = item;
-      _MAP_.addLayer(
-        new CustomLayer(
-          lnglat[0],
-          lnglat[1],
-          0,
-          'model-top-' + item.id,
-          `http://47.110.135.245:12808/static/top2/${item.id}top.gltf`,
-          scale
-        ),
-        'GHYDPL_7L_NAME'
-      );
-    }
-  };
+  _removeBuilding = id => _MAP_.getLayer(id) && _MAP_.removeLayer(id);
 }
