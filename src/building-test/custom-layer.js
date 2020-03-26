@@ -51,8 +51,8 @@ class CustomLayer {
         removeNameArr.push(item);
       }
     }
-    for (let name of removeNameArr) {
-      this.scene.remove(name);
+    for (let item of removeNameArr) {
+      this.scene.remove(item);
     }
     for (let item of modelArr) {
       this.loadModel(item);
@@ -82,7 +82,6 @@ class CustomLayer {
           this.modelTransform.y - y,
           z
         );
-        // 旋转模型
         gltf.scene.rotation.x = Math.PI / 2;
         gltf.scene.rotation.y = Math.PI / 2;
         this.scene.add(gltf.scene);
