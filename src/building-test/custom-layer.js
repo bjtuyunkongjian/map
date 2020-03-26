@@ -40,19 +40,17 @@ class CustomLayer {
 
   updateModel = ({ modelArr, center, bounds }) => {
     this.modelTransform = mapboxgl.MercatorCoordinate.fromLngLat(center, 0);
-    const removeNameArr = [];
-    for (let item of this.scene.children) {
+    const modelCount = this.scene.children.length;
+    for (let i = modelCount; i > 0; i--) {
+      const item = this.scene.children[i - 1];
       const isInBounds =
         item.lng < bounds._ne.lng &&
         item.lng > bounds._sw.lng &&
         item.lat < bounds._ne.lat &&
         item.lat > bounds._sw.lat;
       if (!isInBounds && item.name) {
-        removeNameArr.push(item);
+        this.scene.remove(item);
       }
-    }
-    for (let item of removeNameArr) {
-      this.scene.remove(item);
     }
     for (let item of modelArr) {
       this.loadModel(item);
