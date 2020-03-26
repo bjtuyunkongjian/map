@@ -85,8 +85,6 @@ class CustomLayer {
   };
 
   render = (_, matrix) => {
-    // if (this.map.getZoom() < 16) return;
-
     var m = new Matrix4().fromArray(matrix);
     var l = new Matrix4()
       .makeTranslation(this.modelTransform.x, this.modelTransform.y, 0)
