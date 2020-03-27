@@ -19,15 +19,15 @@ class CustomLayer {
     this.camera = new Camera();
     this.scene = new Scene();
 
-    var directionalLight = new AmbientLight(0xffffff);
-    directionalLight.position.set(0, 70, 100).normalize();
-    this.scene.add(directionalLight);
+    const light = new AmbientLight(0xffffff);
+    this.scene.add(light);
     this.updateModel({ center, modelArr, bounds });
   }
 
   type = 'custom';
   renderingMode = '3d';
   loader = new GLTFLoader();
+  scale = 1 / 111000 / 360;
 
   onAdd = (map, gl) => {
     this.map = map;
@@ -74,7 +74,7 @@ class CustomLayer {
         gltf.scene.lng = lng;
         gltf.scene.lat = lat;
         gltf.scene.name = name;
-        gltf.scene.scale.setScalar(1e-8); // 3.6e-8
+        gltf.scene.scale.setScalar(this.scale); // 3.6e-8
         gltf.scene.position.set(
           x - this.modelTransform.x,
           this.modelTransform.y - y,

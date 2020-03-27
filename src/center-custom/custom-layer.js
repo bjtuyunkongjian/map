@@ -22,7 +22,6 @@ class CustomLayer {
     this.scene = new Scene();
 
     var directionalLight = new AmbientLight(0xffffff);
-    directionalLight.position.set(0, 70, 100).normalize();
     this.scene.add(directionalLight);
     this.updateModel({ center, modelArr });
   }
@@ -30,6 +29,7 @@ class CustomLayer {
   type = 'custom';
   renderingMode = '3d';
   loader = new GLTFLoader();
+  scale = 1 / 111000 / 360;
 
   onAdd = (map, gl) => {
     this.map = map;
@@ -56,7 +56,7 @@ class CustomLayer {
         [lng, lat],
         altitude
       );
-      gltf.scene.scale.setScalar(1e-8);
+      gltf.scene.scale.setScalar(this.scale);
 
       gltf.scene.position.set(
         x - this.modelTransform.x,
