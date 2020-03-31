@@ -5,7 +5,7 @@ export default class index extends Component {
   state = {
     count: defaultCount,
     scale: 5e-8,
-    gltfUrl: './static/a.gltf'
+    gltfUrl: './static/55274.gltf'
   };
 
   _shouldRemove = false;
