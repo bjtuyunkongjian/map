@@ -14,9 +14,6 @@ const {
 
 class CustomLayer {
   constructor({ center, id, modelArr, bounds }) {
-    const p1 = mapboxgl.MercatorCoordinate.fromLngLat([0, 0], altitude);
-    const p2 = mapboxgl.MercatorCoordinate.fromLngLat([0, 0], altitude);
-    console.log(p1, p2);
     this.id = id;
 
     this.camera = new Camera();
