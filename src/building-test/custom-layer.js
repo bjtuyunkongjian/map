@@ -66,7 +66,7 @@ class CustomLayer {
     if (gltfScene) {
       gltfScene.position.set(
         x - this.modelTransform.x,
-        this.modelTransform.y - y,
+        y - this.modelTransform.y,
         z
       );
     } else {
@@ -77,11 +77,11 @@ class CustomLayer {
         gltf.scene.scale.setScalar(this.scale); // 3.6e-8
         gltf.scene.position.set(
           x - this.modelTransform.x,
-          this.modelTransform.y - y,
+          y - this.modelTransform.y,
           z
         );
         gltf.scene.rotation.x = Math.PI / 2;
-        gltf.scene.rotation.y = -Math.PI;
+        // gltf.scene.rotation.y = -Math.PI;
         this.scene.add(gltf.scene);
       });
     }
@@ -91,7 +91,7 @@ class CustomLayer {
     var m = new Matrix4().fromArray(matrix);
     var l = new Matrix4()
       .makeTranslation(this.modelTransform.x, this.modelTransform.y, 0)
-      .scale(new Vector3(1, -1, 1));
+      .scale(new Vector3(1, 1, 1));
 
     this.camera.projectionMatrix = m.multiply(l);
     this.renderer.state.reset();
