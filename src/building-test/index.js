@@ -54,6 +54,7 @@ export default class index extends Component {
     // 获取新的建筑物
     const _url = `mod/getPointKey?minX=${_bounds._sw.lng}&maxX=${_bounds._ne.lng}&minY=${_bounds._sw.lat}&maxY=${_bounds._ne.lat}`;
     const { res, err } = await FetchRequest({ url: _url });
+    console.log('res', res);
     if (err || !res) return console.log('没获取到返回数据');
     const _modelArr = [];
     const _features = [];
@@ -64,18 +65,11 @@ export default class index extends Component {
       _features.push(TurfPoint([x, y], { text: id }));
       // 模型
       _modelArr.push({
-        url: `http://47.110.135.245:12808/static/test/${id}.gltf`,
+        url: `http://47.110.135.245:12808/static/models/${id}.gltf`,
         lng: x,
         lat: y,
         altitude: 0,
         name: `side-${id}`
-      });
-      _modelArr.push({
-        url: `http://47.110.135.245:12808/static/top2/${id}top.gltf`,
-        lng: x,
-        lat: y,
-        altitude: 0,
-        name: `top-${id}`
       });
     }
     // 添加文字
@@ -94,6 +88,7 @@ export default class index extends Component {
         modelArr: _modelArr,
         bounds: _bounds
       });
+      console.log(this._customLayer);
       _MAP_.addLayer(this._customLayer, 'GHYDPL_7L_NAME');
     } else {
       this._customLayer.updateModel({
