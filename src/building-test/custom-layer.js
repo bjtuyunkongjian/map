@@ -81,7 +81,7 @@ class CustomLayer {
           z
         );
         gltf.scene.rotation.x = Math.PI / 2;
-        gltf.scene.rotation.y = Math.PI;
+        gltf.scene.rotation.y = -Math.PI;
         this.scene.add(gltf.scene);
       });
     }
