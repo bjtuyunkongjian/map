@@ -406,98 +406,87 @@ const style = {
         'text-halo-color': 'rgba(255, 255, 255, 1)'
       },
       labelLayerId: symbolLabelLayerId
-    },
+    }
     /**
      * 3d建筑
      * */
-    {
-      id: 'GRESPL_1_3D',
-      source: LevelConfig.addLv15,
-      'source-layer': 'GRESPL_Merge_1',
-      type: 'fill-extrusion',
-      filter: ['!=', 'CLASID', '310200'],
-      paint: {
-        'fill-extrusion-color': [
-          'coalesce',
-          ['get', ['to-string', ['get', 'ID']], ['literal', BuildingColor]],
-          gresplColor
-        ],
-        'fill-extrusion-height': [
-          'interpolate',
-          ['linear'],
-          ['zoom'],
-          fillExtrusionHeight,
-          0,
-          fillExtrusionHeight + 0.55,
-          ['*', ['+', ['get', 'H'], 1], 3]
-        ],
-        'fill-extrusion-base': 0,
-        'fill-extrusion-opacity': gresplOpacity
-      },
-      labelLayerId: threeLabelLayerId
-    },
-    {
-      id: 'GRESPL_2_3D',
-      source: LevelConfig.addLv15,
-      'source-layer': 'GRESPL_Merge_2',
-      type: 'fill-extrusion',
-      filter: ['!=', 'CLASID', '310200'],
-      paint: {
-        'fill-extrusion-color': [
-          'coalesce',
-          ['get', ['to-string', ['get', 'ID']], ['literal', BuildingColor]],
-          gresplColor
-        ],
-        'fill-extrusion-height': [
-          'interpolate',
-          ['linear'],
-          ['zoom'],
-          fillExtrusionHeight,
-          0,
-          fillExtrusionHeight + 0.55,
-          ['*', ['+', ['get', 'H'], 1], 3]
-        ],
-        'fill-extrusion-base': 0,
-        'fill-extrusion-opacity': gresplOpacity
-      },
-      labelLayerId: threeLabelLayerId
-    },
-    {
-      id: 'GRESPL_3_3D',
-      source: LevelConfig.addLv15,
-      'source-layer': 'GRESPL_Merge_3',
-      type: 'fill-extrusion',
-      filter: ['!=', 'CLASID', '310200'],
-      paint: {
-        'fill-extrusion-color': [
-          'coalesce',
-          ['get', ['to-string', ['get', 'ID']], ['literal', BuildingColor]],
-          gresplColor
-        ],
-        'fill-extrusion-height': [
-          'interpolate',
-          ['linear'],
-          ['zoom'],
-          fillExtrusionHeight,
-          0,
-          fillExtrusionHeight + 0.55,
-          ['*', ['+', ['get', 'H'], 1], 3]
-        ],
-        'fill-extrusion-base': 0,
-        'fill-extrusion-opacity': gresplOpacity
-      },
-      labelLayerId: threeLabelLayerId
-    }
     // {
-    //   id: 'POI_LEVEL_15_CAMERA',
-    //   type: 'symbol',
+    //   id: 'GRESPL_1_3D',
     //   source: LevelConfig.addLv15,
-    //   'source-layer': 'camera',
-    //   layout: {
-    //     'icon-image': 'camera_{CAMERA}',
-    //     'icon-size': 1
+    //   'source-layer': 'GRESPL_Merge_1',
+    //   type: 'fill-extrusion',
+    //   filter: ['!=', 'CLASID', '310200'],
+    //   paint: {
+    //     'fill-extrusion-color': [
+    //       'coalesce',
+    //       ['get', ['to-string', ['get', 'ID']], ['literal', BuildingColor]],
+    //       gresplColor
+    //     ],
+    //     'fill-extrusion-height': [
+    //       'interpolate',
+    //       ['linear'],
+    //       ['zoom'],
+    //       fillExtrusionHeight,
+    //       0,
+    //       fillExtrusionHeight + 0.55,
+    //       ['*', ['+', ['get', 'H'], 1], 3]
+    //     ],
+    //     'fill-extrusion-base': 0,
+    //     'fill-extrusion-opacity': gresplOpacity
     //   },
-    //   labelLayerId: symbolLabelLayerId
+    //   labelLayerId: threeLabelLayerId
+    // },
+    // {
+    //   id: 'GRESPL_2_3D',
+    //   source: LevelConfig.addLv15,
+    //   'source-layer': 'GRESPL_Merge_2',
+    //   type: 'fill-extrusion',
+    //   filter: ['!=', 'CLASID', '310200'],
+    //   paint: {
+    //     'fill-extrusion-color': [
+    //       'coalesce',
+    //       ['get', ['to-string', ['get', 'ID']], ['literal', BuildingColor]],
+    //       gresplColor
+    //     ],
+    //     'fill-extrusion-height': [
+    //       'interpolate',
+    //       ['linear'],
+    //       ['zoom'],
+    //       fillExtrusionHeight,
+    //       0,
+    //       fillExtrusionHeight + 0.55,
+    //       ['*', ['+', ['get', 'H'], 1], 3]
+    //     ],
+    //     'fill-extrusion-base': 0,
+    //     'fill-extrusion-opacity': gresplOpacity
+    //   },
+    //   labelLayerId: threeLabelLayerId
+    // },
+    // {
+    //   id: 'GRESPL_3_3D',
+    //   source: LevelConfig.addLv15,
+    //   'source-layer': 'GRESPL_Merge_3',
+    //   type: 'fill-extrusion',
+    //   filter: ['!=', 'CLASID', '310200'],
+    //   paint: {
+    //     'fill-extrusion-color': [
+    //       'coalesce',
+    //       ['get', ['to-string', ['get', 'ID']], ['literal', BuildingColor]],
+    //       gresplColor
+    //     ],
+    //     'fill-extrusion-height': [
+    //       'interpolate',
+    //       ['linear'],
+    //       ['zoom'],
+    //       fillExtrusionHeight,
+    //       0,
+    //       fillExtrusionHeight + 0.55,
+    //       ['*', ['+', ['get', 'H'], 1], 3]
+    //     ],
+    //     'fill-extrusion-base': 0,
+    //     'fill-extrusion-opacity': gresplOpacity
+    //   },
+    //   labelLayerId: threeLabelLayerId
     // }
   ]
 };

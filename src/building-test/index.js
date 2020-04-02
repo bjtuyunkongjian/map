@@ -13,6 +13,7 @@ export default class index extends Component {
 
   _shouldRemove = false;
   _customLayer = undefined;
+  _visibleLv = 17;
 
   componentDidMount = () => this._init();
 
@@ -44,8 +45,8 @@ export default class index extends Component {
 
   _loadModels = async () => {
     const _zoom = _MAP_.getZoom();
-    // 小于 16 级，删除对应图层
-    if (_zoom < 16) {
+    // 小于 _visibleLv 级，删除对应图层
+    if (_zoom < this._visibleLv) {
       this._customLayer = undefined;
       return this._removeBuilding('model-custom');
     }
@@ -54,7 +55,6 @@ export default class index extends Component {
     // 获取新的建筑物
     const _url = `mod/getPointKey?minX=${_bounds._sw.lng}&maxX=${_bounds._ne.lng}&minY=${_bounds._sw.lat}&maxY=${_bounds._ne.lat}`;
     const { res, err } = await FetchRequest({ url: _url });
-    console.log('res', res);
     if (err || !res) return console.log('没获取到返回数据');
     const _modelArr = [];
     const _features = [];
@@ -72,7 +72,7 @@ export default class index extends Component {
         name: `side-${id}`
       });
     }
-    // 添加文字
+    // // 添加文字
     const _geoJSONData = {
       type: 'geojson',
       data: FeatureCollection(_features)
@@ -88,7 +88,6 @@ export default class index extends Component {
         modelArr: _modelArr,
         bounds: _bounds
       });
-      console.log(this._customLayer);
       _MAP_.addLayer(this._customLayer, 'GHYDPL_7L_NAME');
     } else {
       this._customLayer.updateModel({
