@@ -3,7 +3,6 @@
  * 视图
  */
 import React, { Component } from 'react';
-import { IoMdReorder } from 'react-icons/io';
 import { MdCheck } from 'react-icons/md';
 import { GlobalEvent, GloEventName } from 'tuyun-utils';
 
@@ -24,15 +23,13 @@ export default class ViewOptions extends Component {
   componentDidMount = () => this._init();
 
   render() {
-    const { curMenu, selectedOpt } = this.state;
-    const _selected = curMenu === MenuItems.viewOptions;
+    const { selectedOpt } = this.state;
+    const _selected = true;
     return (
       <div
         className={`menu-item view-options ${_selected ? 'checked' : ''}`}
         onClick={this._selectMenu}
       >
-        <IoMdReorder />
-        模板
         <ul className={`option-container ${_selected ? '' : 'hidden'}`}>
           {options.map((item, index) => (
             <li

@@ -5,9 +5,9 @@
 
 import React, { Component } from 'react';
 import ViewOptions from './view-options';
-import FilterOptions from './filter-options';
+// import FilterOptions from './filter-options';
 // import MarkPlot from './mark-plot';
-import FrameSelect from './frame-select';
+// import FrameSelect from './frame-select';
 // import LineSelect from './line-select';
 // import ToolBox from './tool-box';
 // 事件
@@ -25,9 +25,9 @@ export default class FeaturesMenu extends Component {
     return (
       <div className={`features-menu ${visible && showUi ? '' : 'hidden'}`}>
         <ViewOptions />
-        <FilterOptions />
+        {/* <FilterOptions /> */}
         {/* <MarkPlot /> */}
-        <FrameSelect />
+        {/* <FrameSelect /> */}
         {/* <LineSelect /> */}
         {/* <ToolBox /> */}
       </div>
