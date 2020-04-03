@@ -2,14 +2,7 @@ import mapboxgl from 'mapbox-gl';
 
 import { THREE } from 'tuyun-utils';
 
-const {
-  GLTFLoader,
-  Camera,
-  Scene,
-  WebGLRenderer,
-  Matrix4,
-  AmbientLight
-} = THREE;
+const { GLTFLoader, Camera, Scene, WebGLRenderer, Matrix4 } = THREE;
 
 class CustomLayer {
   constructor({ center, id, modelArr, bounds }) {
