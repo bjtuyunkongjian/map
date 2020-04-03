@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
-import { FetchRequest, AddTextLayer } from 'tuyun-utils';
-import CustomLayer from './custom-layer';
 import {
-  featureCollection as FeatureCollection,
-  point as TurfPoint
-} from '@turf/turf';
+  FetchRequest
+  // AddTextLayer
+} from 'tuyun-utils';
+import CustomLayer from './custom-layer';
+// import {
+//   featureCollection as FeatureCollection,
+//   point as TurfPoint
+// } from '@turf/turf';
 
 export default class index extends Component {
   state = {
@@ -57,12 +60,12 @@ export default class index extends Component {
     const { res, err } = await FetchRequest({ url: _url });
     if (err || !res) return console.log('没获取到返回数据');
     const _modelArr = [];
-    const _features = [];
+    // const _features = [];
     for (let item of res) {
       const { lnglat, id } = item;
       const [x, y] = lnglat;
       // 文字
-      _features.push(TurfPoint([x, y], { text: id }));
+      // _features.push(TurfPoint([x, y], { text: id }));
       // 模型
       _modelArr.push({
         url: `http://47.110.135.245:12808/static/models/${id}.gltf`,
@@ -73,11 +76,11 @@ export default class index extends Component {
       });
     }
     // // 添加文字
-    const _geoJSONData = {
-      type: 'geojson',
-      data: FeatureCollection(_features)
-    };
-    AddTextLayer(_MAP_, _geoJSONData, 'building-id');
+    // const _geoJSONData = {
+    //   type: 'geojson',
+    //   data: FeatureCollection(_features)
+    // };
+    // AddTextLayer(_MAP_, _geoJSONData, 'building-id');
 
     // 添加模型
     const _center = _MAP_.getCenter();
