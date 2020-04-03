@@ -8,7 +8,6 @@ const {
   Scene,
   WebGLRenderer,
   Matrix4,
-  Vector3,
   AmbientLight
 } = THREE;
 
@@ -19,8 +18,6 @@ class CustomLayer {
     this.camera = new Camera();
     this.scene = new Scene();
 
-    const light = new AmbientLight(0xffffff);
-    this.scene.add(light);
     this.updateModel({ center, modelArr, bounds });
   }
 
