@@ -9,7 +9,6 @@ import { MapSource } from './constant';
 
 import BaseConfig from '../base-config';
 import LayerBackground from './layer-background';
-import LayerPlayground from './layer-playground';
 import LayerBoundary from './layer-boundary';
 import LayerRiver from './layer-river';
 import LayerGrass from './layer-grass';
@@ -22,7 +21,6 @@ const layers = [
   ...LayerBackground,
   ...LayerRiver,
   ...LayerGrass,
-  ...LayerPlayground,
   ...LayerBoundary,
   ...LayerRoad,
   ...LayerRdName,
