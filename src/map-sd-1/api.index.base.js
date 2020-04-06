@@ -11,7 +11,7 @@ import {
   AddLineLayer,
   AddHeatMapLayer,
   AddLoadedImageLayer,
-  RemoveLayer
+  RemoveLayer,
 } from 'tuyun-utils';
 
 import {
@@ -38,7 +38,7 @@ import {
   convex as Convex,
   intersect as PolygonIntersect,
   union as PolygonUnion,
-  difference as PolygonDiff
+  difference as PolygonDiff,
 } from '@turf/turf';
 
 import ZjjdLayer from './jiudian';
@@ -55,7 +55,7 @@ export default class BaseMap {
       pitch = 60,
       bearing = -13.6,
       maxZoom = 20,
-      minZoom = 8
+      minZoom = 8,
     } = options;
 
     const tyMap = new mapboxgl.Map({
@@ -68,7 +68,7 @@ export default class BaseMap {
       bearing,
       minZoom,
       maxZoom,
-      localIdeographFontFamily: '黑体'
+      localIdeographFontFamily: '黑体',
     });
     tyMap.on('style.load', () => {
       tyMap.addLayer(ZjjdLayer, '15_HOUSE');
@@ -83,15 +83,16 @@ export default class BaseMap {
   getBuildingColor = async () => {
     // 获取服务器配置文件
     const { res, err } = await FetchRequest({
-      url: 'extendMapServer/string?test=QueryColor'
+      url: 'extendMapServer/string?test=QueryColor',
     });
+    console.log('aaaaaaaaaaaa');
     if (!res || err) return console.error('获取建筑物颜色数据失败');
     // 重新渲染
     for (let item of BuildingIds) {
       mapArr[this.mapIndex].setPaintProperty(item.id, 'fill-extrusion-color', [
         'coalesce',
         ['get', ['to-string', ['get', 'ID']], ['literal', res]],
-        GresplColor
+        GresplColor,
       ]);
     }
   };
@@ -109,7 +110,7 @@ export default class BaseMap {
     if (!dotReg.test(x) || !dotReg.test(y)) return '经纬度不符合规范';
     // 发请求
     const { err } = await FetchRequest({
-      url: `extendMapServer/string?test=PaintColor&x=${x}&y=${y}&color=${color}`
+      url: `extendMapServer/string?test=PaintColor&x=${x}&y=${y}&color=${color}`,
     });
     if (err) return console.error('设置建筑物颜色失败');
     // 重新从服务器拉数据渲染一下
@@ -122,20 +123,20 @@ export default class BaseMap {
     if (!dotReg.test(x) || !dotReg.test(y)) return '经纬度不符合规范';
     // 发请求
     const { err } = await FetchRequest({
-      url: `extendMapServer/string?test=PaintColor&x=${x}&y=${y}&color=0`
+      url: `extendMapServer/string?test=PaintColor&x=${x}&y=${y}&color=0`,
     });
     if (err) return console.error('设置建筑物颜色失败');
     // 重新从服务器拉数据渲染一下
     this.getBuildingColor();
   };
 
-  getSurround = async layerId => {
+  getSurround = async (layerId) => {
     if (!layerId || typeof layerId !== 'string')
       return new Error('没有设置图层id');
     const bounds = mapArr[this.mapIndex].getBounds();
     const { _sw, _ne } = bounds;
     const { res, err } = await FetchRequest({
-      url: `extendMapServer/string?test=QueryCircle&wx=${_sw.lng}&sy=${_sw.lat}&ex=${_ne.lng}&ny=${_ne.lat}`
+      url: `extendMapServer/string?test=QueryCircle&wx=${_sw.lng}&sy=${_sw.lat}&ex=${_ne.lng}&ny=${_ne.lat}`,
     });
     if (!res || err) return console.error('获取建筑物颜色数据失败');
     // 生成 环绕带子 source
@@ -157,13 +158,13 @@ export default class BaseMap {
     const data = FeatureCollection(features);
     const source = {
       type: 'geojson',
-      data: data
+      data: data,
     };
     this.add3dLayer(source, layerId, {
       baseHeight: ['get', 'baseH'],
       color: ['get', 'color'],
       labelLayerId: '15_BUILDING',
-      minzoom: 17
+      minzoom: 17,
     });
   };
 
@@ -186,7 +187,7 @@ export default class BaseMap {
     if (!intReg) return '楼层不符合规范';
     // 发请求
     const { err } = await FetchRequest({
-      url: `extendMapServer/string?test=PaintCircle&x=${x}&y=${y}&color=${color}&floor=${floor}`
+      url: `extendMapServer/string?test=PaintCircle&x=${x}&y=${y}&color=${color}&floor=${floor}`,
     });
     if (err) return console.error('设置环形建筑物颜色失败');
   };
@@ -200,7 +201,7 @@ export default class BaseMap {
     if (!intReg) return '楼层不符合规范';
     // 发请求
     const { err } = await FetchRequest({
-      url: `extendMapServer/string?test=PaintCircle&x=${x}&y=${y}&color=0&floor=${floor}`
+      url: `extendMapServer/string?test=PaintCircle&x=${x}&y=${y}&color=0&floor=${floor}`,
     });
     if (err) return console.error('设置环形建筑物颜色失败');
   };
@@ -209,12 +210,12 @@ export default class BaseMap {
 
   getBounds = () => mapArr[this.mapIndex].getBounds();
 
-  setMaxBounds = bounds => {
+  setMaxBounds = (bounds) => {
     mapArr[this.mapIndex].setMaxBounds(bounds); // 不提供返回值
   };
   getMaxBounds = () => mapArr[this.mapIndex].getMaxBounds();
 
-  setMinZoom = zoomLevel => {
+  setMinZoom = (zoomLevel) => {
     mapArr[this.mapIndex].setMinZoom(zoomLevel); // 不提供返回值
   };
   getMinZoom = () => mapArr[this.mapIndex].getMinZoom();
@@ -229,9 +230,9 @@ export default class BaseMap {
   isMoving = () => mapArr[this.mapIndex].isMoving();
 
   queryRenderedFeatures = () => mapArr[this.mapIndex].queryRenderedFeatures();
-  querySourceFeatures = id => mapArr[this.mapIndex].querySourceFeatures(id);
+  querySourceFeatures = (id) => mapArr[this.mapIndex].querySourceFeatures(id);
 
-  getLayer = layerId => mapArr[this.mapIndex].getLayer(layerId);
+  getLayer = (layerId) => mapArr[this.mapIndex].getLayer(layerId);
 
   addCircleLayer = (source, layerId, options = {}) =>
     AddCircleLayer(mapArr[this.mapIndex], source, layerId, options);
@@ -254,32 +255,32 @@ export default class BaseMap {
   addHeatMapLayer = (source, layerId, options = {}) =>
     AddHeatMapLayer(mapArr[this.mapIndex], source, layerId, options);
 
-  removeLayer = layerId => RemoveLayer(mapArr[this.mapIndex], layerId);
+  removeLayer = (layerId) => RemoveLayer(mapArr[this.mapIndex], layerId);
 
   setFilter = (layerId, filterExpress) => {
     mapArr[this.mapIndex].setFilter(layerId, filterExpress);
   };
 
-  setCenter = center => {
+  setCenter = (center) => {
     mapArr[this.mapIndex].setCenter(center);
   };
   getCenter = () => mapArr[this.mapIndex].getCenter();
 
-  setZoom = zoomLevel => {
+  setZoom = (zoomLevel) => {
     mapArr[this.mapIndex].setZoom(zoomLevel);
   };
   getZoom = () => {
     mapArr[this.mapIndex].getZoom();
   };
 
-  setBearing = bearing => {
+  setBearing = (bearing) => {
     mapArr[this.mapIndex].setBearing(bearing);
   };
   getBearing = () => {
     mapArr[this.mapIndex].getBearing();
   };
 
-  setPitch = pitch => {
+  setPitch = (pitch) => {
     mapArr[this.mapIndex].setPitch(pitch);
   };
   getPitch = () => {
@@ -296,25 +297,25 @@ export default class BaseMap {
   zoomOut = () => {
     mapArr[this.mapIndex].zoomOut();
   };
-  zoomTo = zoomLevel => {
+  zoomTo = (zoomLevel) => {
     mapArr[this.mapIndex].zoomOut(zoomLevel);
   };
 
-  rotateTo = bearing => {
+  rotateTo = (bearing) => {
     mapArr[this.mapIndex].rotateTo(bearing);
   };
 
-  panTo = lnglat => {
+  panTo = (lnglat) => {
     mapArr[this.mapIndex].panTo(lnglat);
   };
 
-  flyTo = options => {
+  flyTo = (options) => {
     mapArr[this.mapIndex].flyTo(options);
   };
 
   // 辅助计算
-  unproject = point => mapArr[this.mapIndex].unproject(point);
-  project = lnglat => mapArr[this.mapIndex].project(lnglat);
+  unproject = (point) => mapArr[this.mapIndex].unproject(point);
+  project = (lnglat) => mapArr[this.mapIndex].project(lnglat);
 
   point = TurfPoint;
   multiPoint = MultiPoint;
@@ -335,7 +336,7 @@ export default class BaseMap {
       num_vertices: verticesNum,
       max_length: maxLength,
       max_rotation: maxRotation,
-      bbox: boundingBox
+      bbox: boundingBox,
     });
   };
 
@@ -346,7 +347,7 @@ export default class BaseMap {
     RandomPolygon(count, {
       num_vertices: verticesNum,
       max_radial_length: maxRadialLen,
-      bbox: boundingBox
+      bbox: boundingBox,
     });
   };
 
@@ -382,268 +383,268 @@ export default class BaseMap {
   polygonDiff = PolygonDiff;
 
   // 地图事件回调
-  onResize = callback =>
-    mapArr[this.mapIndex].on('resize', ev => {
+  onResize = (callback) =>
+    mapArr[this.mapIndex].on('resize', (ev) => {
       callback({
         features: ev.features,
         lngLat: ev.lngLat,
         originalEv: ev.originalEvent,
         point: ev.point,
-        type: ev.type
+        type: ev.type,
       });
     });
 
-  onMouseDown = callback =>
-    mapArr[this.mapIndex].on('mousedown', ev => {
+  onMouseDown = (callback) =>
+    mapArr[this.mapIndex].on('mousedown', (ev) => {
       callback({
         features: ev.features,
         lngLat: ev.lngLat,
         originalEv: ev.originalEvent,
         point: ev.point,
-        type: ev.type
+        type: ev.type,
       });
     });
 
-  onMouseUp = callback =>
-    mapArr[this.mapIndex].on('mouseup', ev => {
+  onMouseUp = (callback) =>
+    mapArr[this.mapIndex].on('mouseup', (ev) => {
       callback({
         features: ev.features,
         lngLat: ev.lngLat,
         originalEv: ev.originalEvent,
         point: ev.point,
-        type: ev.type
+        type: ev.type,
       });
     });
 
-  onMouseOver = callback =>
-    mapArr[this.mapIndex].on('mouseover', ev => {
+  onMouseOver = (callback) =>
+    mapArr[this.mapIndex].on('mouseover', (ev) => {
       callback({
         features: ev.features,
         lngLat: ev.lngLat,
         originalEv: ev.originalEvent,
         point: ev.point,
-        type: ev.type
+        type: ev.type,
       });
     });
 
-  onMouseOut = callback =>
-    mapArr[this.mapIndex].on('mouseout', ev => {
+  onMouseOut = (callback) =>
+    mapArr[this.mapIndex].on('mouseout', (ev) => {
       callback({
         features: ev.features,
         lngLat: ev.lngLat,
         originalEv: ev.originalEvent,
         point: ev.point,
-        type: ev.type
+        type: ev.type,
       });
     });
 
-  onMouseMove = callback =>
-    mapArr[this.mapIndex].on('mousemove', ev => {
+  onMouseMove = (callback) =>
+    mapArr[this.mapIndex].on('mousemove', (ev) => {
       callback({
         features: ev.features,
         lngLat: ev.lngLat,
         originalEv: ev.originalEvent,
         point: ev.point,
-        type: ev.type
+        type: ev.type,
       });
     });
 
-  onClick = callback =>
-    mapArr[this.mapIndex].on('click', ev => {
+  onClick = (callback) =>
+    mapArr[this.mapIndex].on('click', (ev) => {
       callback({
         features: ev.features,
         lngLat: ev.lngLat,
         originalEv: ev.originalEvent,
         point: ev.point,
-        type: ev.type
+        type: ev.type,
       });
     });
 
-  onDblClick = callback =>
-    mapArr[this.mapIndex].on('dblclick', ev => {
+  onDblClick = (callback) =>
+    mapArr[this.mapIndex].on('dblclick', (ev) => {
       callback({
         features: ev.features,
         lngLat: ev.lngLat,
         originalEv: ev.originalEvent,
         point: ev.point,
-        type: ev.type
+        type: ev.type,
       });
     });
 
-  onContextMenu = callback =>
-    mapArr[this.mapIndex].on('contextmenu', ev => {
+  onContextMenu = (callback) =>
+    mapArr[this.mapIndex].on('contextmenu', (ev) => {
       callback({
         features: ev.features,
         lngLat: ev.lngLat,
         originalEv: ev.originalEvent,
         point: ev.point,
-        type: ev.type
+        type: ev.type,
       });
     });
 
-  onDrag = callback =>
-    mapArr[this.mapIndex].on('drag', ev => {
+  onDrag = (callback) =>
+    mapArr[this.mapIndex].on('drag', (ev) => {
       callback({
         features: ev.features,
         lngLat: ev.lngLat,
         originalEv: ev.originalEvent,
         point: ev.point,
-        type: ev.type
+        type: ev.type,
       });
     });
 
-  onZoom = callback =>
-    mapArr[this.mapIndex].on('zoom', ev => {
+  onZoom = (callback) =>
+    mapArr[this.mapIndex].on('zoom', (ev) => {
       callback({
         features: ev.features,
         lngLat: ev.lngLat,
         originalEv: ev.originalEvent,
         point: ev.point,
-        type: ev.type
+        type: ev.type,
       });
     });
 
-  onRotate = callback =>
-    mapArr[this.mapIndex].on('rotate', ev => {
+  onRotate = (callback) =>
+    mapArr[this.mapIndex].on('rotate', (ev) => {
       callback({
         features: ev.features,
         lngLat: ev.lngLat,
         originalEv: ev.originalEvent,
         point: ev.point,
-        type: ev.type
+        type: ev.type,
       });
     });
 
-  onPitch = callback =>
-    mapArr[this.mapIndex].on('pitch', ev => {
+  onPitch = (callback) =>
+    mapArr[this.mapIndex].on('pitch', (ev) => {
       callback({
         features: ev.features,
         lngLat: ev.lngLat,
         originalEv: ev.originalEvent,
         point: ev.point,
-        type: ev.type
+        type: ev.type,
       });
     });
 
-  onMove = callback =>
-    mapArr[this.mapIndex].on('move', ev => {
+  onMove = (callback) =>
+    mapArr[this.mapIndex].on('move', (ev) => {
       callback({
         features: ev.features,
         lngLat: ev.lngLat,
         originalEv: ev.originalEvent,
         point: ev.point,
-        type: ev.type
+        type: ev.type,
       });
     });
 
-  onMoveEnd = callback =>
-    mapArr[this.mapIndex].on('moveend', ev => {
+  onMoveEnd = (callback) =>
+    mapArr[this.mapIndex].on('moveend', (ev) => {
       callback({
         features: ev.features,
         lngLat: ev.lngLat,
         originalEv: ev.originalEvent,
         point: ev.point,
-        type: ev.type
+        type: ev.type,
       });
     });
 
-  onLoad = callback =>
-    mapArr[this.mapIndex].on('load', ev => {
+  onLoad = (callback) =>
+    mapArr[this.mapIndex].on('load', (ev) => {
       callback({
         features: ev.features,
         lngLat: ev.lngLat,
         originalEv: ev.originalEvent,
         point: ev.point,
-        type: ev.type
+        type: ev.type,
       });
     });
 
   // 图层事件回调
   onLayerMousedown = (layerId, callback) =>
-    mapArr[this.mapIndex].on('mousedown', layerId, ev => {
+    mapArr[this.mapIndex].on('mousedown', layerId, (ev) => {
       callback({
         features: ev.features,
         lngLat: ev.lngLat,
         originalEv: ev.originalEvent,
         point: ev.point,
-        type: ev.type
+        type: ev.type,
       });
     });
 
   onLayerMouseUp = (layerId, callback) =>
-    mapArr[this.mapIndex].on('mouseup', layerId, ev => {
+    mapArr[this.mapIndex].on('mouseup', layerId, (ev) => {
       callback({
         features: ev.features,
         lngLat: ev.lngLat,
         originalEv: ev.originalEvent,
         point: ev.point,
-        type: ev.type
+        type: ev.type,
       });
     });
 
   onLayerMouseOver = (layerId, callback) =>
-    mapArr[this.mapIndex].on('mouseover', layerId, ev => {
+    mapArr[this.mapIndex].on('mouseover', layerId, (ev) => {
       callback({
         features: ev.features,
         lngLat: ev.lngLat,
         originalEv: ev.originalEvent,
         point: ev.point,
-        type: ev.type
+        type: ev.type,
       });
     });
 
   onLayerMouseOut = (layerId, callback) =>
-    mapArr[this.mapIndex].on('mouseout', layerId, ev => {
+    mapArr[this.mapIndex].on('mouseout', layerId, (ev) => {
       callback({
         features: ev.features,
         lngLat: ev.lngLat,
         originalEv: ev.originalEvent,
         point: ev.point,
-        type: ev.type
+        type: ev.type,
       });
     });
 
   onLayerMouseMove = (layerId, callback) =>
-    mapArr[this.mapIndex].on('mousemove', layerId, ev => {
+    mapArr[this.mapIndex].on('mousemove', layerId, (ev) => {
       callback({
         features: ev.features,
         lngLat: ev.lngLat,
         originalEv: ev.originalEvent,
         point: ev.point,
-        type: ev.type
+        type: ev.type,
       });
     });
 
   onLayerClick = (layerId, callback) =>
-    mapArr[this.mapIndex].on('click', layerId, ev => {
+    mapArr[this.mapIndex].on('click', layerId, (ev) => {
       callback({
         features: ev.features,
         lngLat: ev.lngLat,
         originalEv: ev.originalEvent,
         point: ev.point,
-        type: ev.type
+        type: ev.type,
       });
     });
 
   onLayerDblClick = (layerId, callback) =>
-    mapArr[this.mapIndex].on('dblclick', layerId, ev => {
+    mapArr[this.mapIndex].on('dblclick', layerId, (ev) => {
       callback({
         features: ev.features,
         lngLat: ev.lngLat,
         originalEv: ev.originalEvent,
         point: ev.point,
-        type: ev.type
+        type: ev.type,
       });
     });
 
   onLayerContextMenu = (layerId, callback) =>
-    mapArr[this.mapIndex].on('contextmenu', layerId, ev => {
+    mapArr[this.mapIndex].on('contextmenu', layerId, (ev) => {
       callback({
         features: ev.features,
         lngLat: ev.lngLat,
         originalEv: ev.originalEvent,
         point: ev.point,
-        type: ev.type
+        type: ev.type,
       });
     });
 }
