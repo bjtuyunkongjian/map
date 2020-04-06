@@ -1,4 +1,5 @@
 import { MapSource } from './constant';
+import BuildingColor from './building-color';
 
 // 3d 普通建筑颜色和透明度
 const gresplOpacity = 0.8;
@@ -6,8 +7,9 @@ export const GresplColor = 'rgb(255, 255, 255)';
 const fillExtrusionHeight = 16;
 
 export const BuildingIds = [
-  { sourceLayer: 'RES_PY', id: '15_HOUSE' },
-  { sourceLayer: 'RES_PY1', id: '15_BUILDING' }
+  { id: 'building-1', src: 'GRESPL_Merge_1' },
+  { id: 'building-2', src: 'GRESPL_Merge_2' },
+  { id: 'building-3', src: 'GRESPL_Merge_3' },
 ];
 
 const buildingLayer = [
@@ -17,19 +19,24 @@ const buildingLayer = [
     source: MapSource,
     'source-layer': 'empty',
     paint: {
-      'fill-opacity': 0
-    }
-  }
+      'fill-opacity': 0,
+    },
+  },
 ];
 
 for (let item of BuildingIds) {
   buildingLayer.push({
     id: item.id, //15级房屋
     source: MapSource,
-    'source-layer': item.sourceLayer,
+    'source-layer': item.src,
     type: 'fill-extrusion',
+    filter: ['!=', 'CLASID', '310200'],
     paint: {
-      'fill-extrusion-color': GresplColor,
+      'fill-extrusion-color': [
+        'coalesce',
+        ['get', ['to-string', ['get', 'ID']], ['literal', BuildingColor]],
+        GresplColor,
+      ],
       'fill-extrusion-height': [
         'interpolate',
         ['linear'],
@@ -37,11 +44,11 @@ for (let item of BuildingIds) {
         fillExtrusionHeight,
         0,
         fillExtrusionHeight + 0.55,
-        ['*', ['+', ['get', 'FLOOR'], 1], 3]
+        ['*', ['+', ['get', 'H'], 1], 3],
       ],
       'fill-extrusion-base': 0,
-      'fill-extrusion-opacity': gresplOpacity
-    }
+      'fill-extrusion-opacity': gresplOpacity,
+    },
   });
 }
 

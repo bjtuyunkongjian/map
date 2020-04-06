@@ -96,6 +96,255 @@ const otherRd = [
       'line-color': '#fff',
     },
   },
+  {
+    id: 'GROALN_other_ZD_bg', // 路网图层（name字段），栈道、内部道路、机耕路、乡村路、小路 + 专用公路、其他公路、村道
+    type: 'line',
+    source: MapSource,
+    filter: [
+      'any',
+      ['==', 'CLASID', '420400'],
+      ['==', 'CLASID', '420500'],
+      ['==', 'CLASID', '420700'],
+      ['==', 'CLASID', '430400'],
+      // ['==', 'CLASID', '430503'],
+      ['==', 'CLASID', '430531'],
+      ['==', 'CLASID', '430532'],
+      ['==', 'CLASID', '430533'],
+      ['==', 'CLASID', '430600'],
+      ['==', 'CLASID', '430700'],
+      ['==', 'CLASID', '440100'],
+      ['==', 'CLASID', '440200'],
+      ['==', 'CLASID', '440300'],
+      ['==', 'CLASID', '440600'],
+    ],
+    'source-layer': 'GROALN_other',
+    layout: {
+      'line-cap': 'round',
+      'line-join': 'round',
+    },
+    paint: {
+      'line-width': {
+        base: 2,
+        stops: [
+          [15, 5],
+          [16, 10],
+          [17, 12],
+          [18, 14],
+          [19, 14],
+          [20, 22],
+          [21, 24],
+          [22, 26],
+        ],
+      },
+      'line-color': '#d8d8d8',
+    },
+  },
+  {
+    id: 'GROALN_other_ZD', // 路网图层（name字段），栈道、内部道路、机耕路、乡村路、小路 + 专用公路、其他公路、村道
+    type: 'line',
+    source: MapSource,
+    filter: [
+      'any',
+      ['==', 'CLASID', '420400'],
+      ['==', 'CLASID', '420500'],
+      ['==', 'CLASID', '420700'],
+      ['==', 'CLASID', '430400'],
+      // ['==', 'CLASID', '430503'],
+      ['==', 'CLASID', '430531'],
+      ['==', 'CLASID', '430532'],
+      ['==', 'CLASID', '430533'],
+      ['==', 'CLASID', '430600'],
+      ['==', 'CLASID', '430700'],
+      ['==', 'CLASID', '440100'],
+      ['==', 'CLASID', '440200'],
+      ['==', 'CLASID', '440300'],
+      ['==', 'CLASID', '440600'],
+    ],
+    'source-layer': 'GROALN_other',
+    layout: {
+      'line-cap': 'round',
+      'line-join': 'round',
+    },
+    paint: {
+      'line-width': {
+        base: 2,
+        stops: [
+          [15, 4],
+          [16, 7],
+          [17, 9],
+          [18, 11],
+          [19, 11],
+          [20, 19],
+          [21, 22],
+          [22, 24],
+        ],
+      },
+      'line-color': '#FFFFFF',
+    },
+  },
+  ///////////////////
+  {
+    id: 'GROALN_other_CGD_bg', // 路网图层（name字段），次干道、县道
+    type: 'line',
+    source: MapSource,
+    filter: [
+      'any',
+      ['==', 'CLASID', '420301'],
+      ['==', 'CLASID', '420302'],
+      ['==', 'CLASID', '430502'],
+    ],
+    'source-layer': 'GROALN_other',
+    layout: {
+      'line-cap': 'round',
+      'line-join': 'round',
+    },
+    paint: {
+      'line-width': {
+        base: 2,
+        stops: [
+          [15, 7],
+          [16, 9.5],
+          [17, 11.5],
+          [18, 13.5],
+          [19, 15.5],
+          [20, 16],
+        ],
+      },
+      'line-color': '#d8d8d8',
+    },
+  },
+  {
+    id: 'GROALN_other_CGD', // 路网图层（name字段），次干道、县道
+    type: 'line',
+    source: MapSource,
+    filter: [
+      'any',
+      ['==', 'CLASID', '420301'],
+      ['==', 'CLASID', '420302'],
+      ['==', 'CLASID', '430502'],
+    ],
+    'source-layer': 'GROALN_other',
+    layout: {
+      'line-cap': 'round',
+      'line-join': 'round',
+    },
+    paint: {
+      'line-width': {
+        base: 2,
+        stops: [
+          [15, 5],
+          [16, 7],
+          [17, 11],
+          [18, 15],
+          [19, 16],
+          [20, 14],
+        ],
+      },
+      'line-color': '#FFFFFF',
+    },
+  },
+  /////////////////////
+  {
+    id: 'GROALN_other_ZGD_bg', // 路网图层（name字段），主干道
+    type: 'line',
+    source: MapSource,
+    filter: ['==', 'CLASID', '430501'],
+    'source-layer': 'GROALN_other',
+    layout: {
+      'line-cap': 'round',
+      'line-join': 'round',
+    },
+    paint: {
+      'line-width': {
+        base: 2,
+        stops: [
+          [15, 6],
+          [16, 9.5],
+          [17, 12.5],
+          [18, 15.5],
+          [19, 17.5],
+          [20, 16],
+        ],
+      },
+      'line-color': '#ffae00',
+    },
+  },
+  {
+    id: 'GROALN_other_ZGD', // 路网图层（name字段），主干道
+    type: 'line',
+    source: MapSource,
+    filter: ['==', 'CLASID', '430501'],
+    'source-layer': 'GROALN_other',
+    layout: {
+      'line-cap': 'round',
+      'line-join': 'round',
+    },
+    paint: {
+      'line-width': {
+        base: 2,
+        stops: [
+          [15, 5],
+          [16, 8],
+          [17, 11],
+          [18, 14],
+          [19, 14],
+          [20, 14],
+        ],
+      },
+      'line-color': '#ffeebb',
+    },
+  },
+  ////////////////////////
+  {
+    id: 'GROALN_other_KSL_bg', // 路网图层（name字段），背景充当描边 快速路，高架路
+    type: 'line',
+    source: MapSource,
+    filter: ['any', ['==', 'CLASID', '430200'], ['==', 'CLASID', '430300']],
+    'source-layer': 'GROALN_other',
+    layout: {
+      'line-cap': 'round',
+      'line-join': 'round',
+    },
+    paint: {
+      'line-width': {
+        base: 2,
+        stops: [
+          [15, 8.5],
+          [16, 8.5],
+          [17, 10],
+          [18, 12.5],
+          [19, 12.5],
+          [20, 20],
+        ],
+      },
+      'line-color': '#ffae00',
+    },
+  },
+  {
+    id: 'GROALN_other_KSL', // 路网图层（name字段） 快速路，高架路
+    type: 'line',
+    source: MapSource,
+    filter: ['any', ['==', 'CLASID', '430200'], ['==', 'CLASID', '430300']],
+    'source-layer': 'GROALN_other',
+    layout: {
+      'line-cap': 'round',
+      'line-join': 'round',
+    },
+    paint: {
+      'line-width': {
+        base: 2,
+        stops: [
+          [15, 7],
+          [16, 7],
+          [17, 9],
+          [18, 11],
+          [19, 11],
+          [20, 19],
+        ],
+      },
+      'line-color': '#ffeebb',
+    },
+  },
 ];
 
 const zhixian = [

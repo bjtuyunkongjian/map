@@ -49,6 +49,29 @@ const otherRd = [
       'text-halo-color': 'rgba(255, 255, 255, 1)',
     },
   },
+  {
+    id: 'GROALN_other_NAME',
+    type: 'symbol',
+    source: MapSource,
+    'source-layer': 'GROALN_other', // LN，line的简写
+    filter: ['!=', 'CLASID', '430503'],
+    layout: {
+      'text-field': '{NAME}',
+      visibility: 'visible',
+      'symbol-placement': 'line',
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'symbol-spacing': 500,
+      'text-rotation-alignment': 'map',
+      'text-size': 12,
+      'icon-rotation-alignment': 'viewport',
+    },
+    paint: {
+      'text-color': '#747474',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)',
+    },
+  },
 ];
 
 const zhixian = [
