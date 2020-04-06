@@ -3,92 +3,35 @@
  */
 import { MapSource } from './constant';
 
+const ditchVisibleLevel = 14; // 沟和渠道显示等级
+
 export default [
   {
-    id: 'water-ref', // 做线的基层使用，铁路
+    id: 'water-ref', // 做水的基层使用
     type: 'fill',
     source: MapSource,
     'source-layer': 'empty',
     paint: {
-      'fill-opacity': 0
-    }
+      'fill-opacity': 0,
+    },
   },
   {
-    id: 'HAIYU', // 记录海域，河流的面状要素
+    id: 'GHYDPL_OTH', // 记录了一些水渠、河沟，水库的面状要素
     type: 'fill',
     source: MapSource,
-    'source-layer': 'HaiYu',
+    'source-layer': 'GHYDPL_Merge', // py是面
+    filter: [
+      'all',
+      ['!=', 'CLASID', '210200'],
+      ['!=', 'CLASID', '230101'],
+      ['!=', 'CLASID', '240101'],
+      ['!=', 'CLASID', '250100'],
+    ],
+    minzoom: ditchVisibleLevel,
     paint: {
       'fill-color': '#b3d8ff',
       'fill-opacity': 1,
-      'fill-antialias': false
-    }
+      'fill-antialias': false,
+    },
   },
-
-  {
-    id: 'xihu', // 沟渠
-    type: 'fill',
-    source: MapSource,
-    'source-layer': 'XH',
-    paint: {
-      'fill-color': '#b3d8ff',
-      'fill-opacity': 1,
-      'fill-antialias': false
-    }
-  },
-  {
-    id: 'GQ_LV15', // 沟渠
-    type: 'fill',
-    source: MapSource,
-    'source-layer': 'GQ',
-    paint: {
-      'fill-color': '#b3d8ff',
-      'fill-opacity': 1,
-      'fill-antialias': false
-    }
-  },
-  {
-    id: 'HUCHI_LV15', // 湖泊水池
-    type: 'fill',
-    source: MapSource,
-    'source-layer': 'Hu-Chi',
-    paint: {
-      'fill-color': '#b3d8ff',
-      'fill-opacity': 1,
-      'fill-antialias': false
-    }
-  },
-  {
-    id: 'SKCT_LV15', // 水库池塘
-    type: 'fill',
-    source: MapSource,
-    'source-layer': 'SK-CT',
-    paint: {
-      'fill-color': '#b3d8ff',
-      'fill-opacity': 1,
-      'fill-antialias': false
-    }
-  },
-  {
-    id: 'ZQ_LV15', // 支渠
-    type: 'fill',
-    source: MapSource,
-    'source-layer': 'Zhiqu',
-    paint: {
-      'fill-color': '#b3d8ff',
-      'fill-opacity': 1,
-      'fill-antialias': false
-    }
-  },
-  {
-    id: 'add_water', // 沟渠
-    type: 'fill',
-    source: MapSource,
-    'source-layer': 'add_water',
-    paint: {
-      'fill-color': '#b3d8ff',
-      'fill-opacity': 1,
-      'fill-antialias': false
-    }
-  }
 ];

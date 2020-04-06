@@ -5,7 +5,7 @@
 import React, { Component } from 'react';
 import ReactDom from 'react-dom';
 
-import MapDemo from './map-sd-1';
+import MapDemo from './map-sd';
 
 class MapApp extends Component {
   render() {
