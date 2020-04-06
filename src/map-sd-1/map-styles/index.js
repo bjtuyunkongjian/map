@@ -10,7 +10,6 @@ import { MapSource } from './constant';
 import BaseConfig from '../base-config';
 import LayerBackground from './layer-background';
 import LayerPlayground from './layer-playground';
-import LayerCounty from './layer-county';
 import LayerBoundary from './layer-boundary';
 import LayerRiver from './layer-river';
 import LayerGrass from './layer-grass';
@@ -21,7 +20,6 @@ import LayerRdName from './layer-rd-name';
 
 const layers = [
   ...LayerBackground,
-  ...LayerCounty,
   ...LayerBoundary,
   ...LayerRiver,
   ...LayerGrass,
@@ -29,7 +27,7 @@ const layers = [
   ...LayerRoad,
   ...LayerRdName,
   ...LayerBuilding,
-  ...LayerPoi
+  ...LayerPoi,
 ];
 
 export default {
@@ -41,12 +39,12 @@ export default {
       type: 'vector',
       scheme: 'tms',
       tiles: [
-        `${BaseConfig.geoserverHost}get-geo/combine?type=geo&x={x}&y={y}&z={z}`
-      ]
-    }
+        `${BaseConfig.geoserverHost}get-geo/combine?type=geo&x={x}&y={y}&z={z}`,
+      ],
+    },
   },
   sprite: `${BaseConfig.spriteHost}sprite/sprite`,
   glyphs: `${BaseConfig.glyphsHost}font/{fontstack}/{range}.pbf`, // http://localhost:3000/static/fonts
   visibility: 'public',
-  layers
+  layers,
 };

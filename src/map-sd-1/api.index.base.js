@@ -41,7 +41,6 @@ import {
   difference as PolygonDiff,
 } from '@turf/turf';
 
-import ZjjdLayer from './jiudian';
 import { BuildingIds, GresplColor } from './map-styles/layer-building';
 
 const mapArr = [];
@@ -55,7 +54,7 @@ export default class BaseMap {
       pitch = 60,
       bearing = -13.6,
       maxZoom = 20,
-      minZoom = 8,
+      minZoom = 7,
     } = options;
 
     const tyMap = new mapboxgl.Map({

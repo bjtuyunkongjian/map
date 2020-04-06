@@ -7,7 +7,6 @@ import mapboxgl from 'mapbox-gl';
 import React, { Component } from 'react';
 
 import MapStyles from './map-styles';
-import ZjjdLayer from './jiudian';
 
 export default class MapBoxDemo extends Component {
   componentDidMount = () => this._init();
@@ -29,18 +28,13 @@ export default class MapBoxDemo extends Component {
       container: this._mapContainer,
       style: MapStyles,
       showTileBoundaries: true,
-      // center: [120.208615, 30.245062],
       center: [117.0856, 36.6754],
-      zoom: 17,
+      zoom: 11,
       pitch: 60,
       // bearing: -13.6,
-      minZoom: 8,
+      minZoom: 7,
       maxZoom: 20,
       localIdeographFontFamily: '黑体',
-    });
-    this.map.on('style.load', () => {
-      // 30.2449/120.209
-      this.map.addLayer(ZjjdLayer, '15_HOUSE');
     });
   };
 }
