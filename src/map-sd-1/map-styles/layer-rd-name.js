@@ -1,5 +1,7 @@
 import { MapSource } from './constant';
 
+const roadNameArr = [];
+
 const rdNameRef = [
   {
     id: 'road-name-ref', // 做线的基层使用，铁路
@@ -7,48 +9,23 @@ const rdNameRef = [
     source: MapSource,
     'source-layer': 'empty',
     paint: {
-      'fill-opacity': 0
-    }
-  }
-];
-
-const xiaolu = [
-  {
-    id: 'xiaolu-name',
-    type: 'symbol',
-    source: MapSource,
-    'source-layer': 'XiaoL',
-    layout: {
-      'text-field': '{FNAME}',
-      visibility: 'visible',
-      'symbol-placement': 'line',
-      'text-font': ['黑体'],
-      'text-pitch-alignment': 'viewport',
-      'symbol-spacing': 500,
-      'text-rotation-alignment': 'map',
-      'text-size': 12,
-      'icon-rotation-alignment': 'viewport'
+      'fill-opacity': 0,
     },
-    paint: {
-      'text-color': '#747474',
-      'text-halo-width': 2,
-      'text-halo-color': 'rgba(255, 255, 255, 1)'
-    }
-  }
+  },
 ];
 
-const zadao = [
+const otherRd = [
   {
-    id: 'zd_name',
+    id: 'other-name', // other名称
     type: 'symbol',
     source: MapSource,
-    'source-layer': 'ZD',
+    'source-layer': 'other',
     layout: {
       'text-field': {
         stops: [
           [7, ''],
-          [13, '{FNAME}']
-        ]
+          [16, '{NAME}'],
+        ],
       },
       visibility: 'visible',
       'symbol-placement': 'line',
@@ -56,15 +33,24 @@ const zadao = [
       'text-pitch-alignment': 'viewport',
       'symbol-spacing': 500,
       'text-rotation-alignment': 'map',
-      'text-size': 10,
-      'icon-rotation-alignment': 'viewport'
+      'text-size': {
+        base: 0,
+        stops: [
+          [16, 11],
+          [17, 11],
+          [18, 12],
+          [19, 12],
+          [20, 12],
+        ],
+      },
+      'icon-rotation-alignment': 'viewport',
     },
     paint: {
-      'text-color': 'rgba(65, 65, 65, 0.9)',
+      'text-color': 'rgba(65, 65, 65, 1)',
       'text-halo-width': 2,
-      'text-halo-color': 'rgba(255, 255, 255, 1)'
-    }
-  }
+      'text-halo-color': 'rgba(255, 255, 255, 1)',
+    },
+  },
 ];
 
 const zhixian = [
@@ -72,13 +58,14 @@ const zhixian = [
     id: 'zhixian_name',
     type: 'symbol',
     source: MapSource,
-    'source-layer': 'ZX',
+    'source-layer': 'zxGDB',
+
     layout: {
       'text-field': {
         stops: [
           [7, ''],
-          [15, '{FNAME}']
-        ]
+          [15, '{NAME}'],
+        ],
       },
       visibility: 'visible',
       'symbol-placement': 'line',
@@ -94,17 +81,87 @@ const zhixian = [
           [17, 11],
           [18, 11],
           [19, 12],
-          [20, 12]
-        ]
+          [20, 12],
+        ],
       },
-      'icon-rotation-alignment': 'viewport'
+      'icon-rotation-alignment': 'viewport',
     },
     paint: {
       'text-color': 'rgba(65, 65, 65, 0.8)',
       'text-halo-width': 2,
-      'text-halo-color': 'rgba(255, 255, 255, 1)'
-    }
-  }
+      'text-halo-color': 'rgba(255, 255, 255, 1)',
+    },
+  },
+];
+
+const xiangdao = [
+  {
+    id: 'xiangdao_name',
+    type: 'symbol',
+    source: MapSource,
+    'source-layer': 'xiangdaoGDB',
+    layout: {
+      'text-field': {
+        stops: [
+          [7, ''],
+          [15, '{NAME}'],
+        ],
+      },
+      visibility: 'visible',
+      'symbol-placement': 'line',
+      'text-font': ['黑体'],
+      'symbol-spacing': 500,
+      'text-pitch-alignment': 'viewport',
+      'text-rotation-alignment': 'map',
+      'text-size': {
+        base: 10,
+        stops: [
+          [15, 10],
+          [16, 10],
+          [17, 11],
+          [18, 11],
+          [19, 12],
+          [20, 12],
+        ],
+      },
+      'icon-rotation-alignment': 'viewport',
+    },
+    paint: {
+      'text-color': 'rgba(65, 65, 65, 0.9)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)',
+    },
+  },
+];
+
+const zadao = [
+  {
+    id: 'zd_name',
+    type: 'symbol',
+    source: MapSource,
+    'source-layer': 'ZD',
+    layout: {
+      'text-field': {
+        stops: [
+          [7, ''],
+          [13, '{FNAME}'],
+        ],
+      },
+      visibility: 'visible',
+      'symbol-placement': 'line',
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'symbol-spacing': 500,
+      'text-rotation-alignment': 'map',
+      'text-size': 10,
+      'icon-rotation-alignment': 'viewport',
+    },
+    paint: {
+      'text-color': 'rgba(65, 65, 65, 0.9)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)',
+    },
+  },
 ];
 
 const cigandao = [
@@ -117,8 +174,8 @@ const cigandao = [
       'text-field': {
         stops: [
           [7, ''],
-          [14, '{FNAME}']
-        ]
+          [14, '{FNAME}'],
+        ],
       },
       visibility: 'visible',
       'symbol-placement': 'line',
@@ -135,57 +192,17 @@ const cigandao = [
           [17, 11],
           [18, 12],
           [19, 12],
-          [20, 12]
-        ]
+          [20, 12],
+        ],
       },
-      'icon-rotation-alignment': 'viewport'
+      'icon-rotation-alignment': 'viewport',
     },
     paint: {
       'text-color': 'rgba(65, 65, 65, 0.9)',
       'text-halo-width': 2,
-      'text-halo-color': 'rgba(255, 255, 255, 1)'
-    }
-  }
-];
-
-const xiangdao = [
-  {
-    id: 'xiangdao_name',
-    type: 'symbol',
-    source: MapSource,
-    'source-layer': 'XiangD',
-    layout: {
-      'text-field': {
-        stops: [
-          [7, ''],
-          [15, '{FNAME}']
-        ]
-      },
-      visibility: 'visible',
-      'symbol-placement': 'line',
-      'text-font': ['黑体'],
-      'symbol-spacing': 500,
-      'text-pitch-alignment': 'viewport',
-      'text-rotation-alignment': 'map',
-      'text-size': {
-        base: 10,
-        stops: [
-          [15, 10],
-          [16, 10],
-          [17, 11],
-          [18, 11],
-          [19, 12],
-          [20, 12]
-        ]
-      },
-      'icon-rotation-alignment': 'viewport'
+      'text-halo-color': 'rgba(255, 255, 255, 1)',
     },
-    paint: {
-      'text-color': 'rgba(65, 65, 65, 0.9)',
-      'text-halo-width': 2,
-      'text-halo-color': 'rgba(255, 255, 255, 1)'
-    }
-  }
+  },
 ];
 
 const kuaisulu = [
@@ -198,8 +215,8 @@ const kuaisulu = [
       'text-field': {
         stops: [
           [7, ''],
-          [13, '{FNAME}']
-        ]
+          [13, '{FNAME}'],
+        ],
       },
       visibility: 'visible',
       'symbol-placement': 'line',
@@ -217,17 +234,17 @@ const kuaisulu = [
           [17, 12],
           [18, 12],
           [19, 12],
-          [20, 12]
-        ]
+          [20, 12],
+        ],
       },
-      'icon-rotation-alignment': 'viewport'
+      'icon-rotation-alignment': 'viewport',
     },
     paint: {
       'text-color': 'rgba(65, 65, 65, 0.9)',
       'text-halo-width': 2,
-      'text-halo-color': 'rgba(255, 255, 255, 1)'
-    }
-  }
+      'text-halo-color': 'rgba(255, 255, 255, 1)',
+    },
+  },
 ];
 
 const zhugandao = [
@@ -240,8 +257,8 @@ const zhugandao = [
       'text-field': {
         stops: [
           [7, ''],
-          [13, '{FNAME}']
-        ]
+          [13, '{FNAME}'],
+        ],
       },
       visibility: 'visible',
       'symbol-placement': 'line',
@@ -259,17 +276,17 @@ const zhugandao = [
           [17, 12],
           [18, 14],
           [19, 14],
-          [20, 14]
-        ]
+          [20, 14],
+        ],
       },
-      'icon-rotation-alignment': 'viewport'
+      'icon-rotation-alignment': 'viewport',
     },
     paint: {
       'text-color': 'rgba(65, 65, 65, 0.9)',
       'text-halo-width': 2,
-      'text-halo-color': 'rgba(255, 255, 255, 1)'
-    }
-  }
+      'text-halo-color': 'rgba(255, 255, 255, 1)',
+    },
+  },
 ];
 
 const xiandao = [
@@ -282,8 +299,8 @@ const xiandao = [
       'text-field': {
         stops: [
           [7, ''],
-          [13, '{FNAME}']
-        ]
+          [13, '{FNAME}'],
+        ],
       },
       visibility: 'visible',
       'symbol-placement': 'line',
@@ -301,17 +318,17 @@ const xiandao = [
           [17, 12],
           [18, 12],
           [19, 12],
-          [20, 12]
-        ]
+          [20, 12],
+        ],
       },
-      'icon-rotation-alignment': 'viewport'
+      'icon-rotation-alignment': 'viewport',
     },
     paint: {
       'text-color': 'rgba(65, 65, 65, 0.9)',
       'text-halo-width': 2,
-      'text-halo-color': 'rgba(255, 255, 255, 1)'
-    }
-  }
+      'text-halo-color': 'rgba(255, 255, 255, 1)',
+    },
+  },
 ];
 
 const shengdao = [
@@ -338,16 +355,16 @@ const shengdao = [
           [17, 13],
           [18, 14],
           [19, 14],
-          [20, 14]
-        ]
+          [20, 14],
+        ],
       },
-      'icon-rotation-alignment': 'viewport'
+      'icon-rotation-alignment': 'viewport',
     },
     paint: {
       'text-color': 'rgba(65, 65, 65, 1)',
       'text-halo-width': 2,
-      'text-halo-color': 'rgba(255, 255, 255, 1)'
-    }
+      'text-halo-color': 'rgba(255, 255, 255, 1)',
+    },
   },
 
   {
@@ -370,12 +387,12 @@ const shengdao = [
       'text-rotation-alignment': 'viewport',
       'icon-rotation-alignment': 'viewport',
       'text-anchor': 'center',
-      'text-keep-upright': false
+      'text-keep-upright': false,
     },
     paint: {
-      'text-color': '#FFFFFF'
-    }
-  }
+      'text-color': '#FFFFFF',
+    },
+  },
 ];
 
 const guodao = [
@@ -399,11 +416,11 @@ const guodao = [
       'text-rotation-alignment': 'viewport',
       'icon-rotation-alignment': 'viewport',
       'text-anchor': 'center',
-      'text-keep-upright': false
+      'text-keep-upright': false,
     },
     paint: {
-      'text-color': '#FFFFFF'
-    }
+      'text-color': '#FFFFFF',
+    },
   },
   {
     id: 'guodao_name', // 国道名称
@@ -428,17 +445,17 @@ const guodao = [
           [17, 13],
           [18, 15],
           [19, 15],
-          [20, 15]
-        ]
+          [20, 15],
+        ],
       },
-      'icon-rotation-alignment': 'viewport'
+      'icon-rotation-alignment': 'viewport',
     },
     paint: {
       'text-color': 'rgba(65, 65, 65, 1)',
       'text-halo-width': 2,
-      'text-halo-color': 'rgba(255, 255, 255, 1)'
-    }
-  }
+      'text-halo-color': 'rgba(255, 255, 255, 1)',
+    },
+  },
 ];
 
 const gaosu = [
@@ -452,8 +469,8 @@ const gaosu = [
       'text-field': {
         stops: [
           [7, ''],
-          [13, '{FNAME}']
-        ]
+          [13, '{FNAME}'],
+        ],
       },
       visibility: 'visible',
       'symbol-placement': 'line',
@@ -463,27 +480,28 @@ const gaosu = [
 
       'text-rotation-alignment': 'map',
       'text-size': 12,
-      'icon-rotation-alignment': 'viewport'
+      'icon-rotation-alignment': 'viewport',
     },
     paint: {
       'text-color': 'rgba(65, 65, 65, 0.9)',
       'text-halo-width': 2,
-      'text-halo-color': 'rgba(255, 255, 255, 1)'
-    }
-  }
+      'text-halo-color': 'rgba(255, 255, 255, 1)',
+    },
+  },
 ]; // 高速
 
 export default [
   ...rdNameRef,
-  ...xiaolu,
-  ...zadao,
+  ...otherRd,
   ...zhixian,
-  ...cigandao,
   ...xiangdao,
+
+  ...zadao,
+  ...cigandao,
   ...kuaisulu,
   ...zhugandao,
   ...xiandao,
   ...gaosu,
   ...shengdao,
-  ...guodao
+  ...guodao,
 ];

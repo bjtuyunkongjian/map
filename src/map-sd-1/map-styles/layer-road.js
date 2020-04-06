@@ -7,209 +7,49 @@ const tielu = [
     source: MapSource,
     'source-layer': 'empty',
     paint: {
-      'fill-opacity': 0
-    }
+      'fill-opacity': 0,
+    },
   },
   {
-    id: 'tielu_bg', // 记录了铁路，底层颜色灰色
+    id: 'GRAILN_bg', // 记录了铁路，底层颜色灰色
     type: 'line',
     source: MapSource,
-    'source-layer': 'TRA_LRR_LN', // LN，line的简写
+    'source-layer': 'SD_GRAILN', // LN，line的简写
     layout: {
       'line-cap': 'round',
-      'line-join': 'round'
+      'line-join': 'round',
     },
     paint: {
       'line-color': '#B6B3B7',
-      'line-width': 2.4
-    }
+      'line-width': 2.4,
+    },
   },
   {
-    id: 'tielu', // 记录了铁路，间隔白色
+    id: 'GRAILN', // 记录了铁路，间隔白色
     type: 'line',
     source: MapSource,
-    'source-layer': 'TRA_LRR_LN', // LN，line的简写
+    'source-layer': 'SD_GRAILN', // LN，line的简写
     layout: {
       'line-cap': 'round',
-      'line-join': 'round'
+      'line-join': 'round',
     },
     paint: {
       'line-color': '#FFFFFF',
       'line-dasharray': [5, 5],
-      'line-width': 1.6
-    }
-  }
-];
-
-const ditieMap = {
-  '地铁２号线（在建中）': '#fd9a34',
-  '地铁４号线（在建中）': '#98b737',
-  地铁１号线: '#fd2d2d',
-  '地铁６号线（在建中）': '#004dbb',
-  地铁１号线: '#fd2d2d',
-  地铁４号线: '#98b737',
-  地铁２号线: '#fd9a34'
-};
-
-const ditie = [
-  {
-    id: 'ditie', // 15级小路主色
-    type: 'line',
-    source: MapSource,
-    'source-layer': 'DT',
-    layout: {
-      'line-cap': 'round',
-      'line-join': 'round'
+      'line-width': 1.6,
     },
-    paint: {
-      'line-width': {
-        base: 2,
-        stops: [
-          [15, 2],
-          [16, 7],
-          [17, 11],
-          [18, 15],
-          [19, 16],
-          [20, 14]
-        ]
-      },
-      'line-color': ['get', ['get', 'Name'], ['literal', ditieMap]]
-      // 'line-color': '#fd2d2d'
-    }
-  }
-];
-
-const xiaolu = [
-  {
-    id: 'LV15_XL_bg', // 15级小路背景
-    type: 'line',
-    source: MapSource,
-    'source-layer': 'XiaoL',
-    layout: {
-      'line-cap': 'round',
-      'line-join': 'round'
-    },
-    paint: {
-      'line-width': {
-        base: 2,
-        stops: [
-          [15, 7],
-          [16, 9.5],
-          [17, 11.5],
-          [18, 13.5],
-          [19, 15.5],
-          [20, 16]
-        ]
-      },
-      'line-color': '#d8d8d8'
-    }
   },
-  {
-    id: 'LV15_XL', // 15级小路主色
-    type: 'line',
-    source: MapSource,
-    'source-layer': 'XiaoL',
-    layout: {
-      'line-cap': 'round',
-      'line-join': 'round'
-    },
-    paint: {
-      'line-width': {
-        base: 2,
-        stops: [
-          [15, 5],
-          [16, 7],
-          [17, 11],
-          [18, 15],
-          [19, 16],
-          [20, 14]
-        ]
-      },
-      'line-color': '#FFFFFF'
-    }
-  }
 ];
 
-const zadao = [
+const otherRd = [
   {
-    id: 'zd_bg', //匝道背景
+    id: 'other_bg', // 其他道路背景
     type: 'line',
     source: MapSource,
-    'source-layer': 'ZD',
+    'source-layer': 'other',
     layout: {
       'line-join': 'round',
-      'line-cap': 'round'
-    },
-    paint: {
-      'line-width': {
-        base: 2,
-        stops: [
-          [7, 3],
-          [8, 2],
-          [9, 3],
-          [10, 4],
-          [11, 4],
-          [12, 7],
-          [13, 5],
-          [14, 6],
-          [15, 8],
-          [16, 8],
-          [17, 8],
-          [18, 10],
-          [19, 14],
-          [20, 22],
-          [21, 24],
-          [22, 26]
-        ]
-      },
-      'line-color': '#fed669'
-    }
-  },
-  {
-    id: 'zd', // 路网图层（name字段），匝道/立交
-    type: 'line',
-    source: MapSource,
-    'source-layer': 'ZD',
-    layout: {
       'line-cap': 'round',
-      'line-join': 'round'
-    },
-    paint: {
-      'line-width': {
-        base: 2,
-        stops: [
-          [7, 2],
-          [8, 1],
-          [9, 2],
-          [10, 3],
-          [11, 3],
-          [12, 5],
-          [13, 4],
-          [14, 5],
-          [15, 7],
-          [16, 7],
-          [17, 9],
-          [18, 9],
-          [19, 11],
-          [20, 19],
-          [21, 22],
-          [22, 24]
-        ]
-      },
-      'line-color': '#ffeebb'
-    }
-  }
-];
-
-const zhixian = [
-  {
-    id: 'zx_bg',
-    type: 'line',
-    source: MapSource,
-    'source-layer': 'ZX',
-    layout: {
-      'line-join': 'round',
-      'line-cap': 'round'
     },
     paint: {
       'line-width': {
@@ -223,21 +63,20 @@ const zhixian = [
           [19, 14],
           [20, 22],
           [21, 24],
-          [22, 26]
-        ]
+          [22, 26],
+        ],
       },
-      'line-color': '#d8d8d8'
-    }
+      'line-color': '#d8d8d8',
+    },
   },
   {
-    id: 'zx', // 路网图层（name字段），县道
+    id: 'other', // 路网图层（name字段），other
     type: 'line',
     source: MapSource,
-    'source-layer': 'ZX',
-
+    'source-layer': 'other',
     layout: {
       'line-cap': 'round',
-      'line-join': 'round'
+      'line-join': 'round',
     },
     paint: {
       'line-width': {
@@ -251,12 +90,141 @@ const zhixian = [
           [19, 11],
           [20, 19],
           [21, 22],
-          [22, 24]
-        ]
+          [22, 24],
+        ],
       },
-      'line-color': '#fff'
-    }
-  }
+      'line-color': '#fff',
+    },
+  },
+];
+
+const zhixian = [
+  {
+    id: 'zx_bg',
+    type: 'line',
+    source: MapSource,
+    'source-layer': 'zxGDB',
+    layout: {
+      'line-join': 'round',
+      'line-cap': 'round',
+    },
+    paint: {
+      'line-width': {
+        base: 2,
+        stops: [
+          [14, 3],
+          [15, 5],
+          [16, 10],
+          [17, 12],
+          [18, 14],
+          [19, 14],
+          [20, 22],
+          [21, 24],
+          [22, 26],
+        ],
+      },
+      'line-color': '#d8d8d8',
+    },
+  },
+  {
+    id: 'zx', // 路网图层（name字段），县道
+    type: 'line',
+    source: MapSource,
+    'source-layer': 'zxGDB',
+
+    layout: {
+      'line-cap': 'round',
+      'line-join': 'round',
+    },
+    paint: {
+      'line-width': {
+        base: 2,
+        stops: [
+          [14, 2],
+          [15, 4],
+          [16, 7],
+          [17, 9],
+          [18, 11],
+          [19, 11],
+          [20, 19],
+          [21, 22],
+          [22, 24],
+        ],
+      },
+      'line-color': '#fff',
+    },
+  },
+];
+
+const xiangdao = [
+  {
+    id: 'xiangdao_bg', //乡道
+    type: 'line',
+    source: MapSource,
+    'source-layer': 'xiangdaoGDB',
+    layout: {
+      'line-join': 'round',
+      'line-cap': 'round',
+    },
+    paint: {
+      'line-width': {
+        base: 2,
+        stops: [
+          [7, 3],
+          [8, 2],
+          [9, 3],
+          [10, 4],
+          [11, 4],
+          [12, 3],
+          [13, 5],
+          [14, 6],
+          [15, 10],
+          [16, 10],
+          [17, 12],
+          [18, 14],
+          [19, 14],
+          [20, 22],
+          [21, 24],
+          [22, 26],
+        ],
+      },
+      'line-color': '#d8d8d8',
+    },
+  },
+  {
+    id: 'xiangdao',
+    type: 'line',
+    source: MapSource,
+    'source-layer': 'xiangdaoGDB',
+    layout: {
+      'line-cap': 'round',
+      'line-join': 'round',
+    },
+    paint: {
+      'line-width': {
+        base: 2,
+        stops: [
+          [7, 2],
+          [8, 1],
+          [9, 2],
+          [10, 3],
+          [11, 3],
+          [12, 3],
+          [13, 4],
+          [14, 5],
+          [15, 7],
+          [16, 7],
+          [17, 9],
+          [18, 11],
+          [19, 11],
+          [20, 19],
+          [21, 22],
+          [22, 24],
+        ],
+      },
+      'line-color': '#fff',
+    },
+  },
 ];
 
 const cigandao = [
@@ -267,7 +235,7 @@ const cigandao = [
     'source-layer': 'CGD',
     layout: {
       'line-join': 'round',
-      'line-cap': 'round'
+      'line-cap': 'round',
     },
     paint: {
       'line-width': {
@@ -288,11 +256,11 @@ const cigandao = [
           [19, 14],
           [20, 22],
           [21, 24],
-          [22, 26]
-        ]
+          [22, 26],
+        ],
       },
-      'line-color': '#d8d8d8'
-    }
+      'line-color': '#d8d8d8',
+    },
   },
   {
     id: 'cgd',
@@ -301,78 +269,7 @@ const cigandao = [
     'source-layer': 'CGD',
     layout: {
       'line-cap': 'round',
-      'line-join': 'round'
-    },
-    paint: {
-      'line-width': {
-        base: 2,
-        stops: [
-          [7, 2],
-          [8, 1],
-          [9, 2],
-          [10, 3],
-          [11, 3],
-          [12, 3],
-          [13, 4],
-          [14, 5],
-          [15, 7],
-          [16, 7],
-          [17, 9],
-          [18, 11],
-          [19, 11],
-          [20, 19],
-          [21, 22],
-          [22, 24]
-        ]
-      },
-      'line-color': '#fff'
-    }
-  }
-];
-
-const xiangdao = [
-  {
-    id: 'xiangdao_bg', //乡道
-    type: 'line',
-    source: MapSource,
-    'source-layer': 'XiangD',
-    layout: {
       'line-join': 'round',
-      'line-cap': 'round'
-    },
-    paint: {
-      'line-width': {
-        base: 2,
-        stops: [
-          [7, 3],
-          [8, 2],
-          [9, 3],
-          [10, 4],
-          [11, 4],
-          [12, 3],
-          [13, 5],
-          [14, 6],
-          [15, 10],
-          [16, 10],
-          [17, 12],
-          [18, 14],
-          [19, 14],
-          [20, 22],
-          [21, 24],
-          [22, 26]
-        ]
-      },
-      'line-color': '#d8d8d8'
-    }
-  },
-  {
-    id: 'xiangdao',
-    type: 'line',
-    source: MapSource,
-    'source-layer': 'XiangD',
-    layout: {
-      'line-cap': 'round',
-      'line-join': 'round'
     },
     paint: {
       'line-width': {
@@ -393,12 +290,12 @@ const xiangdao = [
           [19, 11],
           [20, 19],
           [21, 22],
-          [22, 24]
-        ]
+          [22, 24],
+        ],
       },
-      'line-color': '#fff'
-    }
-  }
+      'line-color': '#fff',
+    },
+  },
 ];
 
 const kuaisulu = [
@@ -409,7 +306,7 @@ const kuaisulu = [
     'source-layer': 'KSL-GJ',
     layout: {
       'line-join': 'round',
-      'line-cap': 'round'
+      'line-cap': 'round',
     },
     paint: {
       'line-width': {
@@ -430,11 +327,11 @@ const kuaisulu = [
           [19, 14],
           [20, 22],
           [21, 24],
-          [22, 26]
-        ]
+          [22, 26],
+        ],
       },
-      'line-color': '#d8d8d8'
-    }
+      'line-color': '#d8d8d8',
+    },
   },
   {
     id: 'ksl',
@@ -443,7 +340,7 @@ const kuaisulu = [
     'source-layer': 'KSL-GJ',
     layout: {
       'line-cap': 'round',
-      'line-join': 'round'
+      'line-join': 'round',
     },
     paint: {
       'line-width': {
@@ -464,12 +361,12 @@ const kuaisulu = [
           [19, 11],
           [20, 19],
           [21, 22],
-          [22, 24]
-        ]
+          [22, 24],
+        ],
       },
-      'line-color': '#fff'
-    }
-  }
+      'line-color': '#fff',
+    },
+  },
 ];
 
 const zhugandao = [
@@ -480,7 +377,7 @@ const zhugandao = [
     'source-layer': 'ZGD',
     layout: {
       'line-join': 'round',
-      'line-cap': 'round'
+      'line-cap': 'round',
     },
     paint: {
       'line-width': {
@@ -501,11 +398,11 @@ const zhugandao = [
           [19, 14],
           [20, 22],
           [21, 24],
-          [22, 26]
-        ]
+          [22, 26],
+        ],
       },
-      'line-color': '#ffae00'
-    }
+      'line-color': '#ffae00',
+    },
   },
   {
     id: '9L_zgd', // 路网图层（name字段），主干道
@@ -514,7 +411,7 @@ const zhugandao = [
     'source-layer': 'ZGD',
     layout: {
       'line-cap': 'round',
-      'line-join': 'round'
+      'line-join': 'round',
     },
     paint: {
       'line-width': {
@@ -535,12 +432,12 @@ const zhugandao = [
           [19, 11],
           [20, 19],
           [21, 22],
-          [22, 24]
-        ]
+          [22, 24],
+        ],
       },
-      'line-color': '#ffeebb'
-    }
-  }
+      'line-color': '#ffeebb',
+    },
+  },
 ];
 
 const xiandao = [
@@ -551,7 +448,7 @@ const xiandao = [
     'source-layer': 'XianD',
     layout: {
       'line-join': 'round',
-      'line-cap': 'round'
+      'line-cap': 'round',
     },
     paint: {
       'line-width': {
@@ -572,11 +469,11 @@ const xiandao = [
           [19, 14],
           [20, 22],
           [21, 24],
-          [22, 26]
-        ]
+          [22, 26],
+        ],
       },
-      'line-color': '#d8d8d8'
-    }
+      'line-color': '#d8d8d8',
+    },
   },
   {
     id: 'xd', // 路网图层（name字段），县道
@@ -585,7 +482,7 @@ const xiandao = [
     'source-layer': 'XianD',
     layout: {
       'line-cap': 'round',
-      'line-join': 'round'
+      'line-join': 'round',
     },
     paint: {
       'line-width': {
@@ -606,12 +503,12 @@ const xiandao = [
           [19, 11],
           [20, 19],
           [21, 22],
-          [22, 24]
-        ]
+          [22, 24],
+        ],
       },
-      'line-color': '#fed669'
-    }
-  }
+      'line-color': '#fed669',
+    },
+  },
 ];
 
 const shengdao = [
@@ -622,7 +519,7 @@ const shengdao = [
     'source-layer': 'SD',
     layout: {
       'line-join': 'round',
-      'line-cap': 'round'
+      'line-cap': 'round',
     },
     paint: {
       'line-width': {
@@ -642,11 +539,11 @@ const shengdao = [
           [19, 14],
           [20, 22],
           [21, 24],
-          [22, 26]
-        ]
+          [22, 26],
+        ],
       },
-      'line-color': '#ffae00'
-    }
+      'line-color': '#ffae00',
+    },
   },
   {
     id: 'shengdao', // 路网图层（name字段），省道
@@ -655,7 +552,7 @@ const shengdao = [
     'source-layer': 'SD',
     layout: {
       'line-cap': 'round',
-      'line-join': 'round'
+      'line-join': 'round',
     },
     paint: {
       'line-width': {
@@ -675,12 +572,12 @@ const shengdao = [
           [19, 11],
           [20, 19],
           [21, 22],
-          [22, 24]
-        ]
+          [22, 24],
+        ],
       },
-      'line-color': '#ffeebb'
-    }
-  }
+      'line-color': '#ffeebb',
+    },
+  },
 ];
 
 const guodao = [
@@ -691,7 +588,7 @@ const guodao = [
     'source-layer': 'GD',
     layout: {
       'line-join': 'round',
-      'line-cap': 'round'
+      'line-cap': 'round',
     },
     paint: {
       'line-width': {
@@ -712,11 +609,11 @@ const guodao = [
           [19, 14],
           [20, 22],
           [21, 24],
-          [22, 26]
-        ]
+          [22, 26],
+        ],
       },
-      'line-color': '#f9bd09'
-    }
+      'line-color': '#f9bd09',
+    },
   },
   {
     id: 'guodao', // 路网图层（name字段），国道
@@ -725,7 +622,7 @@ const guodao = [
     'source-layer': 'GD',
     layout: {
       'line-cap': 'round',
-      'line-join': 'round'
+      'line-join': 'round',
     },
     paint: {
       'line-width': {
@@ -746,12 +643,12 @@ const guodao = [
           [19, 11],
           [20, 19],
           [21, 22],
-          [22, 24]
-        ]
+          [22, 24],
+        ],
       },
-      'line-color': '#fed669'
-    }
-  }
+      'line-color': '#fed669',
+    },
+  },
 ];
 
 const gaosu = [
@@ -762,7 +659,7 @@ const gaosu = [
     'source-layer': 'GS',
     layout: {
       'line-join': 'round',
-      'line-cap': 'round'
+      'line-cap': 'round',
     },
     paint: {
       'line-width': {
@@ -783,11 +680,11 @@ const gaosu = [
           [19, 14],
           [20, 22],
           [21, 24],
-          [22, 26]
-        ]
+          [22, 26],
+        ],
       },
-      'line-color': '#d8d8d8'
-    }
+      'line-color': '#d8d8d8',
+    },
   },
   {
     id: 'gjl',
@@ -796,7 +693,7 @@ const gaosu = [
     'source-layer': 'GS',
     layout: {
       'line-cap': 'round',
-      'line-join': 'round'
+      'line-join': 'round',
     },
     paint: {
       'line-width': {
@@ -817,26 +714,25 @@ const gaosu = [
           [19, 11],
           [20, 19],
           [21, 22],
-          [22, 24]
-        ]
+          [22, 24],
+        ],
       },
-      'line-color': '#fed669'
-    }
-  }
+      'line-color': '#fed669',
+    },
+  },
 ];
 
 export default [
   ...tielu,
-  ...xiaolu,
-  ...zadao,
+  ...otherRd,
   ...zhixian,
-  ...cigandao,
   ...xiangdao,
+
+  ...cigandao,
   ...kuaisulu,
   ...zhugandao,
   ...xiandao,
   ...shengdao,
   ...guodao,
   ...gaosu,
-  ...ditie
 ];
