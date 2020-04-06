@@ -227,83 +227,12 @@ const xiangdao = [
   },
 ];
 
-const cigandao = [
-  {
-    id: 'cgd_bg',
-    type: 'line',
-    source: MapSource,
-    'source-layer': 'CGD',
-    layout: {
-      'line-join': 'round',
-      'line-cap': 'round',
-    },
-    paint: {
-      'line-width': {
-        base: 2,
-        stops: [
-          [7, 3],
-          [8, 2],
-          [9, 3],
-          [10, 4],
-          [11, 4],
-          [12, 3],
-          [13, 5],
-          [14, 6],
-          [15, 10],
-          [16, 10],
-          [17, 12],
-          [18, 14],
-          [19, 14],
-          [20, 22],
-          [21, 24],
-          [22, 26],
-        ],
-      },
-      'line-color': '#d8d8d8',
-    },
-  },
-  {
-    id: 'cgd',
-    type: 'line',
-    source: MapSource,
-    'source-layer': 'CGD',
-    layout: {
-      'line-cap': 'round',
-      'line-join': 'round',
-    },
-    paint: {
-      'line-width': {
-        base: 2,
-        stops: [
-          [7, 2],
-          [8, 1],
-          [9, 2],
-          [10, 3],
-          [11, 3],
-          [12, 3],
-          [13, 4],
-          [14, 5],
-          [15, 7],
-          [16, 7],
-          [17, 9],
-          [18, 11],
-          [19, 11],
-          [20, 19],
-          [21, 22],
-          [22, 24],
-        ],
-      },
-      'line-color': '#fff',
-    },
-  },
-];
-
 const kuaisulu = [
   {
     id: 'ksl_bg', //快速路的背景
     type: 'line',
     source: MapSource,
-    'source-layer': 'KSL-GJ',
+    'source-layer': 'kslGDB',
     layout: {
       'line-join': 'round',
       'line-cap': 'round',
@@ -337,7 +266,7 @@ const kuaisulu = [
     id: 'ksl',
     type: 'line',
     source: MapSource,
-    'source-layer': 'KSL-GJ',
+    'source-layer': 'kslGDB',
     layout: {
       'line-cap': 'round',
       'line-join': 'round',
@@ -369,12 +298,83 @@ const kuaisulu = [
   },
 ];
 
+const cigandao = [
+  {
+    id: 'cgd_bg',
+    type: 'line',
+    source: MapSource,
+    'source-layer': 'cgdGDB',
+    layout: {
+      'line-join': 'round',
+      'line-cap': 'round',
+    },
+    paint: {
+      'line-width': {
+        base: 2,
+        stops: [
+          [7, 3],
+          [8, 2],
+          [9, 3],
+          [10, 4],
+          [11, 4],
+          [12, 3],
+          [13, 5],
+          [14, 6],
+          [15, 10],
+          [16, 10],
+          [17, 12],
+          [18, 14],
+          [19, 14],
+          [20, 22],
+          [21, 24],
+          [22, 26],
+        ],
+      },
+      'line-color': '#d8d8d8',
+    },
+  },
+  {
+    id: 'cgd',
+    type: 'line',
+    source: MapSource,
+    'source-layer': 'cgdGDB',
+    layout: {
+      'line-cap': 'round',
+      'line-join': 'round',
+    },
+    paint: {
+      'line-width': {
+        base: 2,
+        stops: [
+          [7, 2],
+          [8, 1],
+          [9, 2],
+          [10, 3],
+          [11, 3],
+          [12, 3],
+          [13, 4],
+          [14, 5],
+          [15, 7],
+          [16, 7],
+          [17, 9],
+          [18, 11],
+          [19, 11],
+          [20, 19],
+          [21, 22],
+          [22, 24],
+        ],
+      },
+      'line-color': '#fff',
+    },
+  },
+];
+
 const zhugandao = [
   {
     id: '9L_zgd_bg', // 主干道背景
     type: 'line',
     source: MapSource,
-    'source-layer': 'ZGD',
+    'source-layer': 'zgdGDB',
     layout: {
       'line-join': 'round',
       'line-cap': 'round',
@@ -408,7 +408,7 @@ const zhugandao = [
     id: '9L_zgd', // 路网图层（name字段），主干道
     type: 'line',
     source: MapSource,
-    'source-layer': 'ZGD',
+    'source-layer': 'zgdGDB',
     layout: {
       'line-cap': 'round',
       'line-join': 'round',
@@ -445,7 +445,7 @@ const xiandao = [
     id: 'xd_bg', // 县道背景
     type: 'line',
     source: MapSource,
-    'source-layer': 'XianD',
+    'source-layer': 'xiandaoGDB',
     layout: {
       'line-join': 'round',
       'line-cap': 'round',
@@ -479,7 +479,78 @@ const xiandao = [
     id: 'xd', // 路网图层（name字段），县道
     type: 'line',
     source: MapSource,
-    'source-layer': 'XianD',
+    'source-layer': 'xiandaoGDB',
+    layout: {
+      'line-cap': 'round',
+      'line-join': 'round',
+    },
+    paint: {
+      'line-width': {
+        base: 2,
+        stops: [
+          [7, 2],
+          [8, 1],
+          [9, 2],
+          [10, 3],
+          [11, 3],
+          [12, 4],
+          [13, 6],
+          [14, 8],
+          [15, 7],
+          [16, 7],
+          [17, 9],
+          [18, 11],
+          [19, 11],
+          [20, 19],
+          [21, 22],
+          [22, 24],
+        ],
+      },
+      'line-color': '#fed669',
+    },
+  },
+];
+
+const gaosu = [
+  {
+    id: 'gjl_bg', //高架路背景
+    type: 'line',
+    source: MapSource,
+    'source-layer': 'gjlGDB',
+    layout: {
+      'line-join': 'round',
+      'line-cap': 'round',
+    },
+    paint: {
+      'line-width': {
+        base: 2,
+        stops: [
+          [7, 3],
+          [8, 2],
+          [9, 3],
+          [10, 4],
+          [11, 4],
+          [12, 5],
+          [13, 7],
+          [14, 9],
+          [15, 10],
+          [16, 10],
+          [17, 12],
+          [18, 14],
+          [19, 14],
+          [20, 22],
+          [21, 24],
+          [22, 26],
+        ],
+      },
+      'line-color': '#d8d8d8',
+    },
+  },
+  {
+    id: 'gjl', //高架路
+    type: 'line',
+    source: MapSource,
+    'source-layer': 'gjlGDB',
     layout: {
       'line-cap': 'round',
       'line-join': 'round',
@@ -516,7 +587,7 @@ const shengdao = [
     id: 'shengdao_bg', // 省道背景
     type: 'line',
     source: MapSource,
-    'source-layer': 'SD',
+    'source-layer': 'shengGDBt',
     layout: {
       'line-join': 'round',
       'line-cap': 'round',
@@ -549,7 +620,7 @@ const shengdao = [
     id: 'shengdao', // 路网图层（name字段），省道
     type: 'line',
     source: MapSource,
-    'source-layer': 'SD',
+    'source-layer': 'shengGDBt',
     layout: {
       'line-cap': 'round',
       'line-join': 'round',
@@ -585,7 +656,7 @@ const guodao = [
     id: 'guodao_bg', // 国道背景
     type: 'line',
     source: MapSource,
-    'source-layer': 'GD',
+    'source-layer': 'gaoguoGDB',
     layout: {
       'line-join': 'round',
       'line-cap': 'round',
@@ -619,7 +690,7 @@ const guodao = [
     id: 'guodao', // 路网图层（name字段），国道
     type: 'line',
     source: MapSource,
-    'source-layer': 'GD',
+    'source-layer': 'gaoguoGDB',
     layout: {
       'line-cap': 'round',
       'line-join': 'round',
@@ -651,88 +722,16 @@ const guodao = [
   },
 ];
 
-const gaosu = [
-  {
-    id: 'gjl_bg',
-    type: 'line',
-    source: MapSource,
-    'source-layer': 'GS',
-    layout: {
-      'line-join': 'round',
-      'line-cap': 'round',
-    },
-    paint: {
-      'line-width': {
-        base: 2,
-        stops: [
-          [7, 3],
-          [8, 2],
-          [9, 3],
-          [10, 4],
-          [11, 4],
-          [12, 5],
-          [13, 7],
-          [14, 9],
-          [15, 10],
-          [16, 10],
-          [17, 12],
-          [18, 14],
-          [19, 14],
-          [20, 22],
-          [21, 24],
-          [22, 26],
-        ],
-      },
-      'line-color': '#d8d8d8',
-    },
-  },
-  {
-    id: 'gjl',
-    type: 'line',
-    source: MapSource,
-    'source-layer': 'GS',
-    layout: {
-      'line-cap': 'round',
-      'line-join': 'round',
-    },
-    paint: {
-      'line-width': {
-        base: 2,
-        stops: [
-          [7, 2],
-          [8, 1],
-          [9, 2],
-          [10, 3],
-          [11, 3],
-          [12, 4],
-          [13, 6],
-          [14, 8],
-          [15, 7],
-          [16, 7],
-          [17, 9],
-          [18, 11],
-          [19, 11],
-          [20, 19],
-          [21, 22],
-          [22, 24],
-        ],
-      },
-      'line-color': '#fed669',
-    },
-  },
-];
-
 export default [
   ...tielu,
   ...otherRd,
   ...zhixian,
   ...xiangdao,
-
-  ...cigandao,
   ...kuaisulu,
+  ...cigandao,
   ...zhugandao,
   ...xiandao,
+  ...gaosu,
   ...shengdao,
   ...guodao,
-  ...gaosu,
 ];

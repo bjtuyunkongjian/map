@@ -1,7 +1,5 @@
 import { MapSource } from './constant';
 
-const roadNameArr = [];
-
 const rdNameRef = [
   {
     id: 'road-name-ref', // 做线的基层使用，铁路
@@ -134,88 +132,17 @@ const xiangdao = [
   },
 ];
 
-const zadao = [
-  {
-    id: 'zd_name',
-    type: 'symbol',
-    source: MapSource,
-    'source-layer': 'ZD',
-    layout: {
-      'text-field': {
-        stops: [
-          [7, ''],
-          [13, '{FNAME}'],
-        ],
-      },
-      visibility: 'visible',
-      'symbol-placement': 'line',
-      'text-font': ['黑体'],
-      'text-pitch-alignment': 'viewport',
-      'symbol-spacing': 500,
-      'text-rotation-alignment': 'map',
-      'text-size': 10,
-      'icon-rotation-alignment': 'viewport',
-    },
-    paint: {
-      'text-color': 'rgba(65, 65, 65, 0.9)',
-      'text-halo-width': 2,
-      'text-halo-color': 'rgba(255, 255, 255, 1)',
-    },
-  },
-];
-
-const cigandao = [
-  {
-    id: 'cgd_name', // 次干道
-    type: 'symbol',
-    source: MapSource,
-    'source-layer': 'CGD',
-    layout: {
-      'text-field': {
-        stops: [
-          [7, ''],
-          [14, '{FNAME}'],
-        ],
-      },
-      visibility: 'visible',
-      'symbol-placement': 'line',
-      'text-font': ['黑体'],
-      'text-pitch-alignment': 'viewport',
-      'symbol-spacing': 500,
-      'text-rotation-alignment': 'map',
-      'text-size': {
-        base: 0,
-        stops: [
-          [14, 10],
-          [15, 10],
-          [16, 11],
-          [17, 11],
-          [18, 12],
-          [19, 12],
-          [20, 12],
-        ],
-      },
-      'icon-rotation-alignment': 'viewport',
-    },
-    paint: {
-      'text-color': 'rgba(65, 65, 65, 0.9)',
-      'text-halo-width': 2,
-      'text-halo-color': 'rgba(255, 255, 255, 1)',
-    },
-  },
-];
-
 const kuaisulu = [
   {
     id: 'ksl_name', // 快速路名称
     type: 'symbol',
     source: MapSource,
-    'source-layer': 'KSL-GJ',
+    'source-layer': 'kslGDB',
     layout: {
       'text-field': {
         stops: [
           [7, ''],
-          [13, '{FNAME}'],
+          [13, '{NAME}'],
         ],
       },
       visibility: 'visible',
@@ -247,17 +174,58 @@ const kuaisulu = [
   },
 ];
 
-const zhugandao = [
+const cigandao = [
   {
-    id: 'zgd_name', // 主干道名称
+    id: 'cgd_name', // 次干道
     type: 'symbol',
     source: MapSource,
-    'source-layer': 'ZGD',
+    'source-layer': 'cgdGDB',
     layout: {
       'text-field': {
         stops: [
           [7, ''],
-          [13, '{FNAME}'],
+          [14, '{NAME}'],
+        ],
+      },
+      visibility: 'visible',
+      'symbol-placement': 'line',
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'symbol-spacing': 500,
+      'text-rotation-alignment': 'map',
+      'text-size': {
+        base: 0,
+        stops: [
+          [14, 10],
+          [15, 10],
+          [16, 11],
+          [17, 11],
+          [18, 12],
+          [19, 12],
+          [20, 12],
+        ],
+      },
+      'icon-rotation-alignment': 'viewport',
+    },
+    paint: {
+      'text-color': 'rgba(65, 65, 65, 0.9)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)',
+    },
+  },
+];
+
+const zhugandao = [
+  {
+    id: '9L_zgd_name', // 主干道名称
+    type: 'symbol',
+    source: MapSource,
+    'source-layer': 'zgdGDB',
+    layout: {
+      'text-field': {
+        stops: [
+          [7, ''],
+          [13, '{NAME}'],
         ],
       },
       visibility: 'visible',
@@ -291,15 +259,15 @@ const zhugandao = [
 
 const xiandao = [
   {
-    id: 'xiandao_name', // xiandao
+    id: 'xd_name', // xiandao
     type: 'symbol',
     source: MapSource,
-    'source-layer': 'XianD',
+    'source-layer': 'xiandaoGDB',
     layout: {
       'text-field': {
         stops: [
           [7, ''],
-          [13, '{FNAME}'],
+          [13, '{NAME}'],
         ],
       },
       visibility: 'visible',
@@ -336,9 +304,14 @@ const shengdao = [
     id: 'shengdao_name', // 省道名称
     type: 'symbol',
     source: MapSource,
-    'source-layer': 'SD',
+    'source-layer': 'shengGDBt',
     layout: {
-      'text-field': '{FNAME}',
+      'text-field': {
+        stops: [
+          [7, ''],
+          [13, '{NAME}'],
+        ],
+      },
       visibility: 'visible',
       'symbol-placement': 'line',
       'text-font': ['黑体'],
@@ -366,15 +339,14 @@ const shengdao = [
       'text-halo-color': 'rgba(255, 255, 255, 1)',
     },
   },
-
   {
     id: 'shengdao_icon', // 省道图标
     type: 'symbol',
     source: MapSource,
-    'source-layer': 'SD',
-    filter: ['!=', 'ROADCODE', ''],
+    'source-layer': 'shengGDBt',
+    filter: ['!=', 'ENTIID', ''],
     layout: {
-      'text-field': '{ROADCODE}',
+      'text-field': '{ENTIID}',
       visibility: 'visible',
       'symbol-placement': 'line',
       'text-size': 10,
@@ -397,38 +369,17 @@ const shengdao = [
 
 const guodao = [
   {
-    id: 'guodao_icon', // 国道图标
-    type: 'symbol',
-    source: MapSource,
-    'source-layer': 'GD',
-    filter: ['!=', 'ROADCODE', ''],
-    layout: {
-      'text-field': '{ROADCODE}',
-      visibility: 'visible',
-      'symbol-placement': 'line',
-      'text-size': 10,
-      'icon-image': 'ic_map_gh.9',
-      'icon-text-fit': 'both',
-      'icon-text-fit-padding': [1, 2, 1, 2],
-      'text-justify': 'center',
-      'text-font': ['黑体'],
-      'text-pitch-alignment': 'viewport',
-      'text-rotation-alignment': 'viewport',
-      'icon-rotation-alignment': 'viewport',
-      'text-anchor': 'center',
-      'text-keep-upright': false,
-    },
-    paint: {
-      'text-color': '#FFFFFF',
-    },
-  },
-  {
     id: 'guodao_name', // 国道名称
     type: 'symbol',
     source: MapSource,
-    'source-layer': 'GD',
+    'source-layer': 'gaoguoGDB',
     layout: {
-      'text-field': '{FNAME}',
+      'text-field': {
+        stops: [
+          [7, ''],
+          [12, '{NAME}'],
+        ],
+      },
       visibility: 'visible',
       'symbol-placement': 'line',
       'text-font': ['黑体'],
@@ -456,20 +407,46 @@ const guodao = [
       'text-halo-color': 'rgba(255, 255, 255, 1)',
     },
   },
+  {
+    id: 'guodao_icon', // 国道图标
+    type: 'symbol',
+    source: MapSource,
+    'source-layer': 'gaoguoGDB',
+    filter: ['!=', 'ENTIID', ''],
+    layout: {
+      'text-field': '{ENTIID}',
+      visibility: 'visible',
+      'symbol-placement': 'line',
+      'text-size': 10,
+      'icon-image': 'ic_map_gh.9',
+      'icon-text-fit': 'both',
+      'icon-text-fit-padding': [1, 2, 1, 2],
+      'text-justify': 'center',
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'text-rotation-alignment': 'viewport',
+      'icon-rotation-alignment': 'viewport',
+      'text-anchor': 'center',
+      'text-keep-upright': false,
+    },
+    paint: {
+      'text-color': '#FFFFFF',
+    },
+  },
 ];
 
 const gaosu = [
   {
-    id: 'gaosu_name',
+    id: 'gjl_name',
     type: 'symbol',
     source: MapSource,
-    'source-layer': 'GS',
+    'source-layer': 'gjlGDB',
     // minzoom: _visibleLevel,
     layout: {
       'text-field': {
         stops: [
           [7, ''],
-          [13, '{FNAME}'],
+          [13, '{NAME}'],
         ],
       },
       visibility: 'visible',
@@ -495,10 +472,8 @@ export default [
   ...otherRd,
   ...zhixian,
   ...xiangdao,
-
-  ...zadao,
-  ...cigandao,
   ...kuaisulu,
+  ...cigandao,
   ...zhugandao,
   ...xiandao,
   ...gaosu,
