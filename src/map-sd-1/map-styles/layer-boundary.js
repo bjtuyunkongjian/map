@@ -43,32 +43,4 @@ export default [
       visibility: 'none',
     },
   },
-
-  {
-    id: 'POI_LEVEL7', // POI图层
-    type: 'symbol',
-    source: MapSource,
-    'source-layer': 'POI_LEVEL_7',
-    // maxzoom: maxzoom,
-    layout: {
-      'text-field': '{NAME}',
-      visibility: 'visible',
-      'symbol-placement': 'point',
-      'text-size': 16,
-      'text-padding': 4,
-      'icon-image': 'ic_map_{KIND}',
-      'text-justify': 'left',
-      'text-anchor': 'left',
-      'text-offset': [0.5, 0],
-      'text-font': ['黑体'],
-      'text-pitch-alignment': 'viewport',
-      'text-rotation-alignment': 'viewport',
-      'icon-rotation-alignment': 'viewport',
-    },
-    paint: {
-      'text-color': 'rgba(65, 65, 65, 1)', // ['get', ['get', 'KIND'], ['literal', FontColor]]
-      'text-halo-width': 2,
-      'text-halo-color': 'rgba(255, 255, 255, 1)',
-    },
-  },
 ];

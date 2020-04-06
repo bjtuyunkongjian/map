@@ -32,8 +32,8 @@ const layers = [
     id: 'background', // 背景
     type: 'background',
     paint: {
-      'background-color': '#f5f5f5'
-    }
+      'background-color': '#f5f5f5',
+    },
   },
   // 面
   {
@@ -46,13 +46,13 @@ const layers = [
       ['==', 'CLASID', '210200'],
       ['==', 'CLASID', '230101'],
       ['==', 'CLASID', '240101'],
-      ['==', 'CLASID', '250100']
+      ['==', 'CLASID', '250100'],
     ],
     paint: {
       'fill-color': '#b3d8ff',
       'fill-opacity': 1,
-      'fill-antialias': false
-    }
+      'fill-antialias': false,
+    },
   },
   {
     id: 'GHYDPL_OTH', // 记录了一些水渠、河沟，水库的面状要素
@@ -64,14 +64,14 @@ const layers = [
       ['!=', 'CLASID', '210200'],
       ['!=', 'CLASID', '230101'],
       ['!=', 'CLASID', '240101'],
-      ['!=', 'CLASID', '250100']
+      ['!=', 'CLASID', '250100'],
     ],
     minzoom: ditchVisibleLevel,
     paint: {
       'fill-color': '#b3d8ff',
       'fill-opacity': 1,
-      'fill-antialias': false
-    }
+      'fill-antialias': false,
+    },
   },
   {
     id: 'grass-ref', // 记录了绿地
@@ -81,8 +81,8 @@ const layers = [
     paint: {
       'fill-color': '#b5e9b6',
       'fill-opacity': 1,
-      'fill-antialias': false
-    }
+      'fill-antialias': false,
+    },
   },
 
   // 派出所辖区
@@ -96,16 +96,16 @@ const layers = [
       ['!=', 'CLASID', '210200'],
       ['!=', 'CLASID', '230101'],
       ['!=', 'CLASID', '240101'],
-      ['!=', 'CLASID', '250100']
+      ['!=', 'CLASID', '250100'],
     ],
     layout: {
-      visibility: 'none'
+      visibility: 'none',
     },
     paint: {
       'fill-color': 'rgba(0, 0, 0, 0)',
       'fill-opacity': 1,
-      'fill-antialias': false
-    }
+      'fill-antialias': false,
+    },
   },
 
   // 城市边界
@@ -137,17 +137,17 @@ const layers = [
       ['==', 'CLASID', '630201'],
       ['==', 'CLASID', '630202'],
       ['==', 'CLASID', '640201'],
-      ['==', 'CLASID', '250100']
+      ['==', 'CLASID', '250100'],
     ],
     layout: {
       'line-cap': 'round',
-      'line-join': 'round'
+      'line-join': 'round',
     },
     paint: {
       'line-width': 1,
-      'line-color': '#cdcdcd'
+      'line-color': '#cdcdcd',
       // 'line-dasharray': [5, 4]
-    }
+    },
   },
 
   {
@@ -157,12 +157,12 @@ const layers = [
     'source-layer': 'SD_GRAILN', // LN，line的简写
     layout: {
       'line-cap': 'round',
-      'line-join': 'round'
+      'line-join': 'round',
     },
     paint: {
       'line-color': '#B6B3B7',
-      'line-width': 2.4
-    }
+      'line-width': 2.4,
+    },
   },
   {
     id: 'GRAILN', // 记录了铁路，间隔白色
@@ -171,13 +171,13 @@ const layers = [
     'source-layer': 'SD_GRAILN', // LN，line的简写
     layout: {
       'line-cap': 'round',
-      'line-join': 'round'
+      'line-join': 'round',
     },
     paint: {
       'line-color': '#FFFFFF',
       'line-dasharray': [5, 5],
-      'line-width': 1.6
-    }
+      'line-width': 1.6,
+    },
   },
 
   {
@@ -186,8 +186,8 @@ const layers = [
     source: LevelConfig.addLv7,
     'source-layer': 'empty',
     paint: {
-      'fill-opacity': 0
-    }
+      'fill-opacity': 0,
+    },
   },
   {
     id: 'line-grailn-ref', // 做线的基层使用，铁路
@@ -195,8 +195,8 @@ const layers = [
     source: LevelConfig.addLv7,
     'source-layer': 'empty',
     paint: {
-      'fill-opacity': 0
-    }
+      'fill-opacity': 0,
+    },
   },
   {
     id: 'line-bg-ref', // 做线的背景基层使用
@@ -204,8 +204,8 @@ const layers = [
     source: LevelConfig.addLv7,
     'source-layer': 'empty',
     paint: {
-      'fill-opacity': 0
-    }
+      'fill-opacity': 0,
+    },
   },
   {
     id: 'line-lv15-ref', // 做线的基层使用
@@ -213,8 +213,8 @@ const layers = [
     source: LevelConfig.addLv7,
     'source-layer': 'empty',
     paint: {
-      'fill-opacity': 0
-    }
+      'fill-opacity': 0,
+    },
   },
   {
     id: 'line-ref', // 做线的基层使用
@@ -222,8 +222,8 @@ const layers = [
     source: LevelConfig.addLv7,
     'source-layer': 'empty',
     paint: {
-      'fill-opacity': 0
-    }
+      'fill-opacity': 0,
+    },
   },
   {
     id: 'line-sd-bg-ref', // 做线的背景基层使用
@@ -231,8 +231,8 @@ const layers = [
     source: LevelConfig.addLv7,
     'source-layer': 'empty',
     paint: {
-      'fill-opacity': 0
-    }
+      'fill-opacity': 0,
+    },
   },
   {
     id: 'line-sd-ref', // 做线的基层使用
@@ -240,8 +240,8 @@ const layers = [
     source: LevelConfig.addLv7,
     'source-layer': 'empty',
     paint: {
-      'fill-opacity': 0
-    }
+      'fill-opacity': 0,
+    },
   },
   {
     id: 'line-gd-ref', // 做线的基层使用，国道
@@ -249,8 +249,8 @@ const layers = [
     source: LevelConfig.addLv7,
     'source-layer': 'empty',
     paint: {
-      'fill-opacity': 0
-    }
+      'fill-opacity': 0,
+    },
   },
   {
     id: 'line-top-ref', // 介于线和线名中间
@@ -258,18 +258,17 @@ const layers = [
     source: LevelConfig.addLv7,
     'source-layer': 'empty',
     paint: {
-      'fill-opacity': 0
-    }
+      'fill-opacity': 0,
+    },
   },
-
   {
     id: 'road-name-ref', // 做线名称的基层使用
     type: 'fill',
     source: LevelConfig.addLv7,
     'source-layer': 'empty',
     paint: {
-      'fill-opacity': 0
-    }
+      'fill-opacity': 0,
+    },
   },
   {
     id: 'line-name-ref', // 做线名称的基层使用
@@ -277,8 +276,8 @@ const layers = [
     source: LevelConfig.addLv7,
     'source-layer': 'empty',
     paint: {
-      'fill-opacity': 0
-    }
+      'fill-opacity': 0,
+    },
   },
   /////////////////////////////
   {
@@ -287,8 +286,8 @@ const layers = [
     source: LevelConfig.addLv7,
     'source-layer': 'empty',
     paint: {
-      'fill-opacity': 0
-    }
+      'fill-opacity': 0,
+    },
   },
 
   ///////////////////////////////
@@ -313,13 +312,13 @@ const layers = [
       'text-rotation-alignment': 'viewport',
       'icon-rotation-alignment': 'viewport',
       'text-anchor': 'center',
-      'text-keep-upright': false
+      'text-keep-upright': false,
     },
     paint: {
       'text-color': 'rgba(65, 65, 65, 0.9)',
       'text-halo-width': 2,
-      'text-halo-color': 'rgba(255, 255, 255, 1)'
-    }
+      'text-halo-color': 'rgba(255, 255, 255, 1)',
+    },
   },
 
   {
@@ -328,8 +327,8 @@ const layers = [
     source: LevelConfig.addLv7,
     'source-layer': 'POI_LEVEL_7',
     paint: {
-      'fill-opacity': 0
-    }
+      'fill-opacity': 0,
+    },
   },
 
   {
@@ -351,14 +350,14 @@ const layers = [
       'text-font': ['黑体'],
       'text-pitch-alignment': 'viewport',
       'text-rotation-alignment': 'viewport',
-      'icon-rotation-alignment': 'viewport'
+      'icon-rotation-alignment': 'viewport',
     },
     paint: {
       'text-color': 'rgba(65, 65, 65, 1)', // ['get', ['get', 'KIND'], ['literal', FontColor]]
       'text-halo-width': 2,
-      'text-halo-color': 'rgba(255, 255, 255, 1)'
-    }
-  }
+      'text-halo-color': 'rgba(255, 255, 255, 1)',
+    },
+  },
 ];
 
 export default {
@@ -370,12 +369,12 @@ export default {
       type: 'vector',
       scheme: 'tms',
       tiles: [
-        `${Config.geoserverHost}geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_7L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`
-      ]
-    }
+        `${Config.geoserverHost}geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_7L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`,
+      ],
+    },
   },
   sprite: `${Config.spriteHost}sprite/sprite`,
   glyphs: `${Config.glyphsHost}font/{fontstack}/{range}.pbf`, // http://localhost:3000/static/fonts
   visibility: 'public',
-  layers
+  layers,
 };

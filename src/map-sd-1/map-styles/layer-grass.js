@@ -1,38 +1,15 @@
-/**
- * 7级图层配置
- */
 import { MapSource } from './constant';
 
 export default [
   {
-    id: 'grass-ref', // 做线的基层使用，铁路
+    id: 'grass-ref', // 记录了绿地
     type: 'fill',
     source: MapSource,
-    'source-layer': 'empty',
-    paint: {
-      'fill-opacity': 0
-    }
-  },
-  {
-    id: 'HUAPU', // 绿地的面状要素
-    type: 'fill',
-    source: MapSource,
-    'source-layer': 'VEG_PY',
+    'source-layer': 'GVEGPL_Merge',
     paint: {
       'fill-color': '#b5e9b6',
       'fill-opacity': 1,
-      'fill-antialias': false
-    }
+      'fill-antialias': false,
+    },
   },
-  {
-    id: 'VEG_PY_5', // 绿地的面状要素
-    type: 'fill',
-    source: MapSource,
-    'source-layer': 'VEG_PY_5',
-    paint: {
-      'fill-color': '#b5e9b6',
-      'fill-opacity': 1,
-      'fill-antialias': false
-    }
-  }
 ];

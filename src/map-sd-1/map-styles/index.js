@@ -20,10 +20,10 @@ import LayerRdName from './layer-rd-name';
 
 const layers = [
   ...LayerBackground,
-  ...LayerBoundary,
   ...LayerRiver,
   ...LayerGrass,
   ...LayerPlayground,
+  ...LayerBoundary,
   ...LayerRoad,
   ...LayerRdName,
   ...LayerBuilding,
