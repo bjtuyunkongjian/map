@@ -18,9 +18,7 @@ export default {
   sources: {
     'raster-tiles': {
       type: 'raster',
-      tiles: [
-        'https://t0.tianditu.gov.cn/img_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=img&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILECOL={x}&TILEROW={y}&TILEMATRIX={z}&tk=3991cefea7f40e49e48f26915530f3c8',
-      ],
+      tiles: ['http://localhost:8083/get-tiles/dev?x={x}&y={y}&z={z}'],
       tileSize: 256,
     },
     'bff-tile-source': {
@@ -32,7 +30,7 @@ export default {
     },
   },
   sprite: `${BaseConfig.spriteHost}sprite/sprite`,
-  glyphs: `${BaseConfig.glyphsHost}font/{fontstack}/{range}.pbf`, // http://localhost:3000/static/fonts
+  glyphs: `${BaseConfig.glyphsHost}font/{fontstack}/{range}.pbf`,
   visibility: 'public',
   layers,
 };
