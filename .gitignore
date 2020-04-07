@@ -33,4 +33,4 @@ api.html
 api.pdf
 # /build-api-*/ty-map-development*
 # /build-api-*/ty-map-production*
-/build-api-*
+/build-api-*/
