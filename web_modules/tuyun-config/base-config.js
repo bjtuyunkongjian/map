@@ -19,7 +19,7 @@ const BuildApiHost = {
   imageHost: `http://116.62.186.152:12808/`, // 图片地址
   glyphsHost: `http://116.62.186.152:12808/`, // 字体端口
   apiHost: 'http://47.110.135.245:8080/', // api development 环境对应的 ip
-  httpTimeOut: 5000
+  httpTimeOut: 5000,
 };
 
 // // 连接省厅内网的 主机
