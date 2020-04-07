@@ -104,6 +104,17 @@
 
 在 div#app 容器中就能看到某个省份的地图了。
 
+### 2. 设置地图默认风格样式
+
+可以在配置项中设置地图默认风格样式。
+
+举例：
+
+```javascript
+const container = document.getElementById('app');
+new TyMap(container, { key: '你的对应的key', center: [117.0856, 36.6754] });
+```
+
 ### 2. 地图的倾斜、旋转、移动、缩放
 
 在默认实例化 TyMap 后就会带有这些功能。实例化 TyMap 接受两个参数，第一个参数是容器，第二个参数是**配置项**。可以在配置项中禁用这些功能。
@@ -171,7 +182,7 @@ null
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 console.log(tyMap.getBounds());
 // 返回：
@@ -203,12 +214,12 @@ null
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.setMaxBounds(); // 清除边界
 tyMap.setMaxBounds([
   [117.04023142816038, 36.78984454855521],
-  [117.24189547791264, 36.73030425442248]
+  [117.24189547791264, 36.73030425442248],
 ]); // 设置边界
 ```
 
@@ -230,7 +241,7 @@ null
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.getMaxBounds(); // 返回：null
 ```
@@ -251,7 +262,7 @@ null
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.setMinZoom(10);
 ```
@@ -272,7 +283,7 @@ null
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.getMinZoom(); // 返回：7
 ```
@@ -293,7 +304,7 @@ null
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.setMaxZoom(20);
 ```
@@ -314,7 +325,7 @@ null
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.getMaxZoom(); // 返回：20
 ```
@@ -335,7 +346,7 @@ null
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.isZooming(); // 返回 true 或者 false
 ```
@@ -356,7 +367,7 @@ null
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.isRotating(); // 返回 true 或者 false
 ```
@@ -377,7 +388,7 @@ null
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.isMoving(); // 返回 true 或者 false
 ```
@@ -398,7 +409,7 @@ layerId，对应图层的 id 号
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.getLayer('layerIdxxx'); // 返回 对应的信息
 ```
@@ -724,7 +735,7 @@ null
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.setFilter('toFilterLayer', ['==', 'type', 'HYH']); // toFilterLayer 过滤只剩下 type 为 HYH 的数据
 ```
@@ -745,7 +756,7 @@ null
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.removeLayer('toRemoveLayer'); // 删除 toRemoveLayer 图层
 ```
@@ -766,7 +777,7 @@ null
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.setCenter([116.98462, 36.64932]);
 ```
@@ -786,7 +797,7 @@ tyMap.setCenter([116.98462, 36.64932]);
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.getCenter();
 // 返回：{lng: 116.98462, lat: 36.64932}
@@ -808,7 +819,7 @@ null
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.setZoom(15);
 ```
@@ -829,7 +840,7 @@ null
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.getZoom();
 // 返回：11.21
@@ -851,7 +862,7 @@ null
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.setBearing(180);
 ```
@@ -872,7 +883,7 @@ null
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.getBearing();
 // 返回：0
@@ -894,7 +905,7 @@ null
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.setPitch(30);
 ```
@@ -915,7 +926,7 @@ null
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.getPitch();
 // 返回：0
@@ -942,13 +953,13 @@ null
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.jumpTo({
   center: [117.0856, 36.6754],
   zoom: 12,
   pitch: 30,
-  bearing: 180
+  bearing: 180,
 });
 ```
 
@@ -968,7 +979,7 @@ null
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.zoomIn();
 ```
@@ -989,7 +1000,7 @@ null
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.zoomOut();
 ```
@@ -1010,7 +1021,7 @@ null
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.zoomTo(12);
 ```
@@ -1031,7 +1042,7 @@ null
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.rotateTo(120);
 ```
@@ -1052,7 +1063,7 @@ null
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.panTo([117.0856, 36.6754]);
 ```
@@ -1078,13 +1089,13 @@ null
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.flyTo({
   center: [117.0856, 36.6754],
   zoom: 12,
   pitch: 30,
-  bearing: 180
+  bearing: 180,
 });
 ```
 
@@ -1104,7 +1115,7 @@ null
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.stopAni();
 ```
@@ -1127,7 +1138,7 @@ tyMap.stopAni();
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 console.log(tyMap.unproject([100, 100]));
 // 返回：{lng: 114.46505859371695, lat: 37.93974548507774}
@@ -1149,7 +1160,7 @@ console.log(tyMap.unproject([100, 100]));
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 console.log(tyMap.project([114.4650585, 37.9397454]));
 // 返回：{x: -6792.88034417781, y: -4185.204987593001}
@@ -1172,7 +1183,7 @@ prop?: 对应的属性，如 { radius: 3 }
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 console.log(tyMap.point([114.4650585, 37.9397454], { radius: 3 }));
 // 返回：
@@ -1208,16 +1219,16 @@ prop?: 对应的属性，如 { radius: 3 }
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 console.log(
   tyMap.multiPoint(
     [
       [114.4650585, 37.9397454],
-      [114.5650585, 37.8397454]
+      [114.5650585, 37.8397454],
     ],
     {
-      radius: 3
+      radius: 3,
     }
   )
 );
@@ -1240,14 +1251,14 @@ prop?: 对应的属性，如 { name: 'HYH 路' }
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 console.log(
   tyMap.lineString(
     [
       [1, 1],
       [2, 2],
-      [3, 3]
+      [3, 3],
     ],
     { name: 'HYH路' }
   )
@@ -1271,7 +1282,7 @@ prop?: 对应的属性，如 { name: 'HYH 路' }
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 console.log(
   tyMap.multiLineString(
@@ -1279,13 +1290,13 @@ console.log(
       [
         [11, 11],
         [12, 12],
-        [13, 13]
+        [13, 13],
       ],
       [
         [21, 21],
         [22, 22],
-        [23, 23]
-      ]
+        [23, 23],
+      ],
     ],
     { name: 'HYH路' }
   )
@@ -1309,7 +1320,7 @@ prop?: 对应的属性，如 { name: 'HYH 区' }
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 console.log(
   tyMap.polygon(
@@ -1318,8 +1329,8 @@ console.log(
         [11, 11],
         [12, 12],
         [13, 13],
-        [14, 14]
-      ]
+        [14, 14],
+      ],
     ],
     { name: 'HYH区' }
   )
@@ -1346,7 +1357,7 @@ prop?: 对应的属性，如 { name: 'HYH 区' }
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 console.log(
   tyMap.multiPolygon(
@@ -1356,12 +1367,12 @@ console.log(
           [111, 111],
           [112, 112],
           [113, 113],
-          [114, 114]
-        ]
-      ]
+          [114, 114],
+        ],
+      ],
     ],
     {
-      name: 'HYH区'
+      name: 'HYH区',
     }
   )
 );
@@ -1384,7 +1395,7 @@ prop?: 对应的属性，如 { name: 'HYH 建筑', height: 80 }
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 console.log(
   tyMap.polygon3d(
@@ -1393,11 +1404,11 @@ console.log(
         [11, 11],
         [12, 12],
         [13, 13],
-        [14, 14]
-      ]
+        [14, 14],
+      ],
     ],
     {
-      name: 'HYH建筑'
+      name: 'HYH建筑',
     }
   )
 );
@@ -1423,7 +1434,7 @@ prop?: 对应的属性，如 { name: 'HYH 建筑', height: 50 }
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 console.log(
   tyMap.multiPolygon3d(
@@ -1433,12 +1444,12 @@ console.log(
           [111, 111],
           [112, 112],
           [113, 113],
-          [114, 114]
-        ]
-      ]
+          [114, 114],
+        ],
+      ],
     ],
     {
-      name: 'HYH区'
+      name: 'HYH区',
     }
   )
 );
@@ -1461,7 +1472,7 @@ boundingBox?: 可选参数，边界范围 [minLng, minLat, maxLng, maxLat]，可
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 console.log(tyMap.randomPoint(10, [-180, -90, 180, 90]));
 ```
@@ -1487,7 +1498,7 @@ options?: 可选参数，对象包含以下这些：
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 console.log(tyMap.randomLineString(10, { boundingBox: [-180, -90, 180, 90] }));
 ```
@@ -1513,7 +1524,7 @@ options?: 可选参数，对象包含以下这些：
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 console.log(tyMap.randomPolygon(10, { boundingBox: [-180, -90, 180, 90] }));
 ```
@@ -1534,7 +1545,7 @@ geojson 格式的对应的集合。
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 const pt1 = tyMap.point([1, 1], { text: 'pt1' });
 const pt2 = tyMap.point([2, 2], { text: 'pt2' });
@@ -1560,7 +1571,7 @@ geojson 格式的对应的点
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 const pt1 = tyMap.point([1, 1]);
 const pt2 = tyMap.point([2, 2]);
@@ -1586,7 +1597,7 @@ units?: 单位，可选值为 英里(miles)/千米(kilometers)，默认为 千�
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 const from = tyMap.point([1, 1]);
 const to = tyMap.point([2, 2]);
@@ -1610,13 +1621,13 @@ units?: 单位，可选值为 英里(miles)/千米(kilometers)，默认为 千�
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 const from = tyMap.lineString([
   [11, 32],
   [13, 22],
   [13, 25],
-  [15, 34]
+  [15, 34],
 ]);
 const length = tyMap.lineLength(line);
 ```
@@ -1637,15 +1648,15 @@ lineString: geojson 格式的面，必须为单面
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 const from = tyMap.lineString([
   [
     [11, 32],
     [13, 22],
     [13, 25],
-    [15, 34]
-  ]
+    [15, 34],
+  ],
 ]);
 const length = tyMap.polygonArea(line);
 ```
@@ -1666,7 +1677,7 @@ geojson 格式的对应的点
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 const pt1 = tyMap.point([1, 1]);
 const pt2 = tyMap.point([2, 2]);
@@ -1693,12 +1704,12 @@ geojson 格式的对应的点
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 const pt = tyMap.point([1, 3]);
 const lineString = tyMap.lineString([
   [1, 1],
-  [3, 3]
+  [3, 3],
 ]);
 const distance = tyMap.point2LineDistance(pt, lineString);
 ```
@@ -1724,12 +1735,12 @@ point: geojson 格式的点
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 const pt = tyMap.point([1, 3]);
 const lineString1 = tyMap.lineString([
   [1, 1],
-  [3, 3]
+  [3, 3],
 ]);
 const nearestPt = tyMap.nearestPointOnLine(line, pt);
 ```
@@ -1752,11 +1763,11 @@ geojson 格式的对应的点
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 const lineString = tyMap.lineString([
   [1, 1],
-  [3, 3]
+  [3, 3],
 ]);
 const distance = tyMap.alongLine(lineString, 200);
 ```
@@ -1778,7 +1789,7 @@ true 或 false
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 const point = tyMap.point([2, 2]);
 const poly = tyMap.polygon([
@@ -1786,7 +1797,7 @@ const poly = tyMap.polygon([
   [1, 3],
   [3, 3],
   [3, 1],
-  [1, 1]
+  [1, 1],
 ]);
 const distance = tyMap.pointInPolygon(point, poly);
 ```
@@ -1815,7 +1826,7 @@ geojson 格式的对应的面
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 const center = tyMap.point([1, 1]);
 const radius = 5;
@@ -1840,14 +1851,14 @@ geojson 格式的对应的面
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 const collection = tyMap.featureCollection([
   tyMap.point([1, 4]),
   tyMap.point([2, 4]),
   tyMap.point([5, 7]),
   tyMap.point([5, 4]),
-  tyMap.point([3, 0])
+  tyMap.point([3, 0]),
 ]);
 const convPoly = tyMap.convex(collection);
 ```
@@ -1870,7 +1881,7 @@ null 就代表两个面没有任何交集。
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 const poly1 = tyMap.polygon([
   [
@@ -1878,8 +1889,8 @@ const poly1 = tyMap.polygon([
     [122.801742, 45.60491],
     [122.584762, 45.60491],
     [122.584762, 45.48565],
-    [122.801742, 45.48565]
-  ]
+    [122.801742, 45.48565],
+  ],
 ]);
 
 const poly2 = tyMap.polygon([
@@ -1890,8 +1901,8 @@ const poly2 = tyMap.polygon([
     [122.669906, 45.507309],
     [122.723464, 45.446643],
     [122.487258, 45.477466],
-    [122.520217, 45.535693]
-  ]
+    [122.520217, 45.535693],
+  ],
 ]);
 const intersectPoly = tyMap.polygonIntersect(poly1, poly2);
 ```
@@ -1930,7 +1941,7 @@ geojson 格式的对应的 polygon/multiPolygon。
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 const poly1 = tyMap.polygon([
   [
@@ -1938,8 +1949,8 @@ const poly1 = tyMap.polygon([
     [141, -26],
     [141, -21],
     [128, -21],
-    [128, -26]
-  ]
+    [128, -26],
+  ],
 ]);
 const poly1 = tyMap.polygon([
   [
@@ -1947,8 +1958,8 @@ const poly1 = tyMap.polygon([
     [140, -28],
     [140, -20],
     [126, -20],
-    [126, -28]
-  ]
+    [126, -28],
+  ],
 ]);
 const polyDiff = turf.polygonDiff(poly1, poly2);
 ```
@@ -1965,7 +1976,7 @@ const polyDiff = turf.polygonDiff(poly1, poly2);
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.onMouseDown(() => {
   // todo
@@ -1980,7 +1991,7 @@ tyMap.onMouseDown(() => {
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.onMouseDown(() => {
   // todo
@@ -1995,7 +2006,7 @@ tyMap.onMouseDown(() => {
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.onMouseUp(() => {
   // todo
@@ -2010,7 +2021,7 @@ tyMap.onMouseUp(() => {
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.onMouseOver(() => {
   // todo
@@ -2025,7 +2036,7 @@ tyMap.onMouseOver(() => {
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.onMouseOut(() => {
   // todo
@@ -2040,7 +2051,7 @@ tyMap.onMouseOut(() => {
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.onMouseMove(() => {
   // todo
@@ -2055,7 +2066,7 @@ tyMap.onMouseMove(() => {
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.onClick(() => {
   // todo
@@ -2070,7 +2081,7 @@ tyMap.onClick(() => {
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.onDblClick(() => {
   // todo
@@ -2085,7 +2096,7 @@ tyMap.onDblClick(() => {
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.onContextMenu(() => {
   // todo
@@ -2100,7 +2111,7 @@ tyMap.onContextMenu(() => {
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.onDrag(() => {
   // todo
@@ -2115,7 +2126,7 @@ tyMap.onDrag(() => {
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.onZoom(() => {
   // todo
@@ -2130,7 +2141,7 @@ tyMap.onZoom(() => {
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.onRotate(() => {
   // todo
@@ -2145,7 +2156,7 @@ tyMap.onRotate(() => {
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.onPitch(() => {
   // todo
@@ -2160,7 +2171,7 @@ tyMap.onPitch(() => {
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.onMove(() => {
   // todo
@@ -2175,7 +2186,7 @@ tyMap.onMove(() => {
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.onMoveEnd(() => {
   // todo
@@ -2190,7 +2201,7 @@ tyMap.onMoveEnd(() => {
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.onLoad(() => {
   // todo
@@ -2213,7 +2224,7 @@ callback: 回调函数
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.onLayerMousedown('layerId', () => {
   // todo
@@ -2234,7 +2245,7 @@ callback: 回调函数
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.onLayerMouseUp('layerId', () => {
   // todo
@@ -2255,7 +2266,7 @@ callback: 回调函数
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.onLayerMouseOver('layerId', () => {
   // todo
@@ -2276,7 +2287,7 @@ callback: 回调函数
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.onLayerMouseOut('layerId', () => {
   // todo
@@ -2297,7 +2308,7 @@ callback: 回调函数
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.onLayerMouseMove('layerId', () => {
   // todo
@@ -2318,7 +2329,7 @@ callback: 回调函数
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.onLayerClick('layerId', () => {
   // todo
@@ -2339,7 +2350,7 @@ callback: 回调函数
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.onLayerDblClick('layerId', () => {
   // todo
@@ -2360,7 +2371,7 @@ callback: 回调函数
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.onLayerContextMenu('layerId', () => {
   // todo
@@ -2386,12 +2397,12 @@ color: 颜色，仅支持 rgb(r, g, b) 格式
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.setBuildingColor({
   x: 118.8104,
   y: 36.32626,
-  color: 'rgb(111,222, 33)'
+  color: 'rgb(111,222, 33)',
 });
 tyMap.getBuildingColor();
 ```
@@ -2409,7 +2420,7 @@ tyMap.getBuildingColor();
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.getBuildingColor();
 ```
@@ -2428,11 +2439,11 @@ y: 纬度
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.removeBuildingColor({
   x: 118.8104,
-  y: 36.32626
+  y: 36.32626,
 });
 tyMap.getBuildingColor();
 ```
@@ -2455,13 +2466,13 @@ floor: 楼层，必须为整数
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 await tyMap.setSurround({
   x: 118.8104,
   y: 36.32626,
   color: 'rgb(111,222, 33)',
-  floor: 5
+  floor: 5,
 });
 // 更新已标定的楼层
 await tyMap.getSurround('layerIdName');
@@ -2480,7 +2491,7 @@ layerId: 经度
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 tyMap.getSurround('layerIdName');
 ```
@@ -2500,12 +2511,12 @@ floor: 楼层，必须为整数
 
 ```javascript
 const tyMap = new TyMap(document.getElementById('app'), {
-  key: '你的对应的key'
+  key: '你的对应的key',
 });
 await tyMap.removeSurround({
   x: 118.8104,
   y: 36.32626,
-  floor: 5
+  floor: 5,
 });
 // 更新已标定的楼层
 await tyMap.getSurround('layerIdName');
