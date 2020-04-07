@@ -70,9 +70,6 @@ export default class BaseMap {
       maxZoom,
       localIdeographFontFamily: '黑体',
     });
-    tyMap.on('style.load', () => {
-      tyMap.addLayer(ZjjdLayer, '15_HOUSE');
-    });
     this.mapIndex = mapArr.length;
     mapArr.push(tyMap);
     // 通过获取后台数据修改对应的建筑物颜色
