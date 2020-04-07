@@ -6,7 +6,7 @@
 import mapboxgl from 'mapbox-gl';
 import React, { Component } from 'react';
 
-import MapStyles from './map-styles';
+// import MapStyles from './map-styles';
 
 export default class MapBoxDemo extends Component {
   componentDidMount = () => this._init();
@@ -26,7 +26,7 @@ export default class MapBoxDemo extends Component {
     window._MAP_ = this.map = new mapboxgl.Map({
       hash: true,
       container: this._mapContainer,
-      style: MapStyles,
+      style: 'http://localhost:8083/theme/standard.json',
       showTileBoundaries: true,
       center: [117.0856, 36.6754],
       zoom: 11,
