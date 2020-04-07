@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  FetchRequest
+  FetchRequest,
   // AddTextLayer
 } from 'tuyun-utils';
 import CustomLayer from './custom-layer';
@@ -11,7 +11,7 @@ import CustomLayer from './custom-layer';
 
 export default class index extends Component {
   state = {
-    scale: 8e-9
+    scale: 8e-9,
   };
 
   _shouldRemove = false;
@@ -68,11 +68,11 @@ export default class index extends Component {
       // _features.push(TurfPoint([x, y], { text: id }));
       // 模型
       _modelArr.push({
-        url: `http://47.110.135.245:12808/static/models/${id}.gltf`,
+        url: `http://47.97.230.212:8082/models/${id}.gltf`,
         lng: x,
         lat: y,
         altitude: 0,
-        name: `side-${id}`
+        name: `side-${id}`,
       });
     }
     // // 添加文字
@@ -89,22 +89,22 @@ export default class index extends Component {
         center: [_center.lng, _center.lat],
         id: 'model-custom',
         modelArr: _modelArr,
-        bounds: _bounds
+        bounds: _bounds,
       });
       _MAP_.addLayer(this._customLayer, 'GHYDPL_7L_NAME');
     } else {
       this._customLayer.updateModel({
         center: [_center.lng, _center.lat],
         modelArr: _modelArr,
-        bounds: _bounds
+        bounds: _bounds,
       });
     }
   };
 
-  _changeScale = async w => {
+  _changeScale = async (w) => {
     const { scale } = this.state;
     this.setState({ scale: w * scale });
   };
 
-  _removeBuilding = id => _MAP_.getLayer(id) && _MAP_.removeLayer(id);
+  _removeBuilding = (id) => _MAP_.getLayer(id) && _MAP_.removeLayer(id);
 }
