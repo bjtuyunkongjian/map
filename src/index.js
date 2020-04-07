@@ -8,6 +8,7 @@ import ReactDom from 'react-dom';
 import '../style/index.less';
 import MapDemo from './map';
 import ShowTms from './show-tms';
+import CustomLayer from './building-test';
 
 class MapApp extends Component {
   render() {
@@ -23,6 +24,7 @@ class MapApp extends Component {
         {/* 地图 */}
         <MapDemo />
         <ShowTms />
+        <CustomLayer />
       </div>
     );
   }
