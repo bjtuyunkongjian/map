@@ -55,6 +55,7 @@ export default class BaseMap {
       bearing = -13.6,
       maxZoom = 20,
       minZoom = 7,
+      theme = 'standard',
     } = options;
 
     const tyMap = new mapboxgl.Map({
