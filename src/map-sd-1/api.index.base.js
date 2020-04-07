@@ -75,8 +75,6 @@ export default class BaseMap {
     this.mapIndex = mapArr.length;
     mapArr.push(tyMap);
     // 通过获取后台数据修改对应的建筑物颜色
-    this.getBuildingColor();
-    // this.getSurround('aaa');
   }
 
   getBuildingColor = async () => {
@@ -84,7 +82,6 @@ export default class BaseMap {
     const { res, err } = await FetchRequest({
       url: 'extendMapServer/string?test=QueryColor',
     });
-    console.log('aaaaaaaaaaaa');
     if (!res || err) return console.error('获取建筑物颜色数据失败');
     // 重新渲染
     for (let item of BuildingIds) {
