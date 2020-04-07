@@ -1,14 +1,6 @@
 import React, { Component } from 'react';
-import {
-  FetchRequest,
-  // AddTextLayer
-} from 'tuyun-utils';
+import { FetchRequest } from 'tuyun-utils';
 import CustomLayer from './custom-layer';
-// import {
-//   featureCollection as FeatureCollection,
-//   point as TurfPoint
-// } from '@turf/turf';
-
 export default class index extends Component {
   state = {
     scale: 8e-9,
