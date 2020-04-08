@@ -7,9 +7,9 @@ export const GresplColor = 'rgb(255, 255, 255)';
 const fillExtrusionHeight = 16;
 
 export const BuildingIds = [
-  { id: 'building-1', src: 'GRESPL_Merge_1' },
-  { id: 'building-2', src: 'GRESPL_Merge_2' },
-  { id: 'building-3', src: 'GRESPL_Merge_3' },
+  { id: 'building-1', src: 'GRESPL_Merge-1' },
+  { id: 'building-2', src: 'GRESPL_Merge_ID2' },
+  { id: 'building-3', src: 'GRESPL_Merge_ID3' },
 ];
 
 const buildingLayer = [
