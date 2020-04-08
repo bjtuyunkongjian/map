@@ -11,7 +11,7 @@
 
 // 杭州地图 外网
 const BuildApiHost = {
-  geoserverHost: `http://localhost:8083/`, // geoserver 地址
+  geoserverHost: `http://localhost:8084/`, // geoserver 地址
   spriteHost: `http://47.110.135.245:12808/`, // 精灵图端口
   imageHost: `http://47.110.135.245:12808/`, // 图片地址
   glyphsHost: `http://47.110.135.245:12808/`, // 字体端口
