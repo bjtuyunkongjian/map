@@ -6,7 +6,7 @@
 import mapboxgl from 'mapbox-gl';
 import React, { Component } from 'react';
 
-import MapStyles from './map-styles';
+import MapStyles from './map-styles-serenity';
 
 export default class MapBoxDemo extends Component {
   componentDidMount = () => this._init();

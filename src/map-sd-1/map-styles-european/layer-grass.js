@@ -7,7 +7,7 @@ export default [
     source: MapSource,
     'source-layer': 'GVEGPL_Merge',
     paint: {
-      'fill-color': '#GVEGPL',
+      'fill-color': '#bbf5ae',
       'fill-opacity': 1,
       'fill-antialias': false,
     },
