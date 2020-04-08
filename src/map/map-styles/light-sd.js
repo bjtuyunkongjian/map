@@ -19,7 +19,8 @@ export default {
     'raster-tiles': {
       type: 'raster',
       tiles: [
-        'https://t0.tianditu.gov.cn/img_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=img&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILECOL={x}&TILEROW={y}&TILEMATRIX={z}&tk=3991cefea7f40e49e48f26915530f3c8',
+        // 'https://t0.tianditu.gov.cn/img_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=img&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILECOL={x}&TILEROW={y}&TILEMATRIX={z}&tk=3991cefea7f40e49e48f26915530f3c8',
+        './static/lvdi.png',
       ],
       tileSize: 256,
     },
