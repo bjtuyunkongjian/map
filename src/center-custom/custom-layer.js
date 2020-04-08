@@ -9,7 +9,7 @@ const {
   WebGLRenderer,
   Matrix4,
   Vector3,
-  AmbientLight
+  AmbientLight,
 } = THREE;
 
 class CustomLayer {
@@ -36,7 +36,7 @@ class CustomLayer {
 
     this.renderer = new WebGLRenderer({
       canvas: map.getCanvas(),
-      context: gl
+      context: gl,
     });
 
     this.renderer.autoClear = false;
@@ -50,7 +50,7 @@ class CustomLayer {
   };
 
   loadModel = ({ lng, lat, altitude = 0, url }) => {
-    this.loader.load(url, gltf => {
+    this.loader.load(url, (gltf) => {
       // 36.6754/117.0856 117.0856, 36.6754
       const { x, y, z } = mapboxgl.MercatorCoordinate.fromLngLat(
         [lng, lat],
@@ -60,7 +60,7 @@ class CustomLayer {
 
       gltf.scene.position.set(
         x - this.modelTransform.x,
-        this.modelTransform.y - y,
+        y - this.modelTransform.y,
         z
       );
       // 旋转模型
@@ -74,9 +74,11 @@ class CustomLayer {
     // if (this.map.getZoom() < 16) return;
 
     var m = new Matrix4().fromArray(matrix);
-    var l = new Matrix4()
-      .makeTranslation(this.modelTransform.x, this.modelTransform.y, 0)
-      .scale(new Vector3(1, -1, 1));
+    var l = new Matrix4().makeTranslation(
+      this.modelTransform.x,
+      this.modelTransform.y,
+      0
+    );
 
     this.camera.projectionMatrix = m.multiply(l);
     this.renderer.state.reset();

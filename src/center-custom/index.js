@@ -5,7 +5,7 @@ export default class index extends Component {
   state = {
     count: defaultCount,
     scale: 5e-8,
-    gltfUrl: './static/55274.gltf'
+    gltfUrl: './static/models/test.gltf',
   };
 
   _shouldRemove = false;
@@ -61,14 +61,14 @@ export default class index extends Component {
       new CustomLayer({
         center: [lng, lat],
         id: 'model-',
-        modelArr
+        modelArr,
       }),
       'GHYDPL_7L_NAME'
     );
     if (!this._shouldRemove) this._shouldRemove = true;
   };
 
-  _changeCount = async e => {
+  _changeCount = async (e) => {
     const { value } = e.target;
     if (!value) {
       this.setState({ count: defaultCount });
@@ -80,13 +80,13 @@ export default class index extends Component {
     this.setState({ count: parseInt(value) });
   };
 
-  _changeScale = async w => {
+  _changeScale = async (w) => {
     const { scale } = this.state;
     this.setState({ scale: w * scale });
     this._loadModels();
   };
 
-  _changeUrl = async e => {
+  _changeUrl = async (e) => {
     const { value } = e.target;
     this.setState({ gltfUrl: value });
   };
