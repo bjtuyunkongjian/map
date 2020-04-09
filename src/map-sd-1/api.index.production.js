@@ -1,4 +1,4 @@
-import MapStyles from './map-styles';
+import MapStyles from './map-styles-standard';
 import BaseConfig from './base-config';
 
 import BaseMap from './api.index.base';
@@ -21,7 +21,7 @@ class TyMap extends BaseMap {
 
 window.TyMap = TyMap;
 
-const transformStyle = userKey => {
+const transformStyle = (userKey) => {
   if (!userKey) return -1; // 没有 userKey
   const { hostname } = window.location;
   if (!hostname) return 0; // 没有 hostame
@@ -75,4 +75,4 @@ const transformUrl = (style, userKey, encMap) => {
   }
 };
 
-const createZeros = count => '0'.repeat(count);
+const createZeros = (count) => '0'.repeat(count);

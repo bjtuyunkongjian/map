@@ -1,4 +1,4 @@
-import MapStyles from './map-styles';
+import MapStyles from './map-styles-standard';
 import BaseConfig from './base-config';
 
 import BaseMap from './api.index.base';

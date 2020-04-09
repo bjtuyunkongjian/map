@@ -1,6 +1,6 @@
 import mapboxgl from 'mapbox-gl';
 
-import MapStyles from './map-styles';
+import MapStyles from './map-styles-standard';
 import { FetchRequest } from './fetch';
 
 import {
@@ -41,7 +41,7 @@ import {
   difference as PolygonDiff,
 } from '@turf/turf';
 
-import { BuildingIds, GresplColor } from './map-styles/layer-building';
+import { BuildingIds, GresplColor } from './map-styles-standard/layer-building';
 
 const mapArr = [];
 
