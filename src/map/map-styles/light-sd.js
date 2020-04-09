@@ -18,7 +18,10 @@ export default {
   sources: {
     'raster-tiles': {
       type: 'raster',
-      tiles: ['http://localhost:8083/get-tiles/dev?x={x}&y={y}&z={z}'],
+      tiles: [
+        // 'http://localhost:8083/get-tiles/dev?x={x}&y={y}&z={z}',
+        'http://10.48.143.145:8080/quantum/string?at=st&v=1&type=online&z={z}&x{x}d&y={y}',
+      ],
       tileSize: 256,
     },
     'bff-tile-source': {
