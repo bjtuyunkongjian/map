@@ -1,6 +1,6 @@
 {
   "name": "mapbox-demo",
-  "version": "2.4.16",
+  "version": "2.4.17",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -9,7 +9,8 @@
     "clean": "rm -rf ./dist/* && rm -rf ./build-api/*",
     "deploy": "node ./bin/shell.js",
     "build-api-hz": "node ./bin/build-api-hz.js",
-    "build-api-sd": "node ./bin/build-api-sd.js"
+    "build-api-sd": "node ./bin/build-api-sd.js",
+    "build-api-sd-1": "node ./bin/build-api-sd-1.js"
   },
   "keywords": [],
   "author": "",

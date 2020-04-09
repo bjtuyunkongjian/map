@@ -1,7 +1,8 @@
 import mapboxgl from 'mapbox-gl';
 
-import MapStyles from './map-styles-standard';
+// import MapStyles from './map-styles-standard';
 import { FetchRequest } from './fetch';
+import CONFIG from './base-config';
 
 import {
   AddCircleLayer,
@@ -49,8 +50,8 @@ export default class BaseMap {
   constructor(container, options = {}) {
     const {
       hash = true,
-      center = [120.208615, 30.245062],
-      zoom = 17,
+      center = [117.0856, 36.6754],
+      zoom = 11,
       pitch = 60,
       bearing = -13.6,
       maxZoom = 20,
@@ -59,7 +60,7 @@ export default class BaseMap {
     } = options;
 
     const tyMap = new mapboxgl.Map({
-      style: MapStyles,
+      style: `${CONFIG.apiHost}theme/${theme}.json`,
       container: container,
       hash,
       center,
@@ -199,6 +200,9 @@ export default class BaseMap {
     });
     if (err) return console.error('设置环形建筑物颜色失败');
   };
+
+  setTheme = (themeName) =>
+    mapArr[this.mapIndex].setStyle(`${CONFIG.apiHost}theme/${themeName}.json`);
 
   resize = () => mapArr[this.mapIndex].resize();
 
@@ -642,3 +646,5 @@ export default class BaseMap {
       });
     });
 }
+
+window.TyMap = BaseMap;
