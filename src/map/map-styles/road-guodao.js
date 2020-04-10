@@ -6,7 +6,7 @@ const layers = [
     'source-layer': 'gaoguoGDB',
     layout: {
       'line-join': 'round',
-      'line-cap': 'round'
+      'line-cap': 'round',
     },
     paint: {
       'line-width': {
@@ -27,11 +27,11 @@ const layers = [
           [19, 14],
           [20, 22],
           [21, 24],
-          [22, 26]
-        ]
+          [22, 26],
+        ],
       },
-      'line-color': '#f9bd09'
-    }
+      'line-color': '#aaaaaa',
+    },
   },
   {
     id: 'guodao', // 路网图层（name字段），国道
@@ -40,7 +40,7 @@ const layers = [
     'source-layer': 'gaoguoGDB',
     layout: {
       'line-cap': 'round',
-      'line-join': 'round'
+      'line-join': 'round',
     },
     paint: {
       'line-width': {
@@ -61,12 +61,12 @@ const layers = [
           [19, 11],
           [20, 19],
           [21, 22],
-          [22, 24]
-        ]
+          [22, 24],
+        ],
       },
-      'line-color': '#0000ff'
-    }
-  }
+      'line-color': '#ffffff',
+    },
+  },
 ];
 
 export default layers;

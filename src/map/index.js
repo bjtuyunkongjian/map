@@ -7,6 +7,7 @@ import mapboxgl from 'mapbox-gl';
 import React, { Component } from 'react';
 
 import BaseStyle from './map-styles/light-sd';
+import JnData from './jinan';
 
 export default class MapBoxDemo extends Component {
   componentDidMount() {
@@ -21,7 +22,7 @@ export default class MapBoxDemo extends Component {
     return (
       <div
         style={{ width: '100%', height: '100%' }}
-        ref={_el => (this._mapContainer = _el)}
+        ref={(_el) => (this._mapContainer = _el)}
       />
     );
   }
@@ -39,7 +40,29 @@ export default class MapBoxDemo extends Component {
       minZoom: 7,
       maxZoom: 20,
       localIdeographFontFamily: '黑体',
-      preserveDrawingBuffer: true
+      preserveDrawingBuffer: true,
+    });
+
+    this.map.on('style.load', () => {
+      this.map.addLayer(
+        {
+          id: 'maine',
+          type: 'fill',
+          source: {
+            type: 'geojson',
+            data: {
+              type: 'Feature',
+              geometry: JnData,
+            },
+          },
+          layout: {},
+          paint: {
+            'fill-color': '#fff',
+            'fill-opacity': 0.4,
+          },
+        },
+        'guodao_bg'
+      );
     });
   };
 }
