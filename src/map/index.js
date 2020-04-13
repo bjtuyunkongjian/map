@@ -58,7 +58,7 @@ export default class MapBoxDemo extends Component {
           layout: {},
           paint: {
             'fill-color': '#fff',
-            'fill-opacity': 0.4,
+            'fill-opacity': 0,
           },
         },
         'guodao_bg'
