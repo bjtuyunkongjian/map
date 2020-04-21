@@ -2229,6 +2229,74 @@ tyMap.onLoad(() => {
 });
 ```
 
+### 移除地图监听事件
+
+移除监听事件与各个监听事件相对应，移出监听事件的回调函数应该和监听事件的回调函数是同一个函数。
+
+### 1. offResize(callback)
+
+移除调整地图容器大小事件。callback 为回调函数。
+
+### 2. offMouseDown(callback)
+
+移除鼠标按下事件。callback 为回调函数。
+
+### 3. offMouseUp(callback)
+
+移除鼠标释放事件。callback 为回调函数。
+
+### 4. offMouseOver(callback)
+
+移除鼠标移入事件。callback 为回调函数。
+
+### 5. offMouseOut(callback)
+
+移除鼠标移出事件。callback 为回调函数。
+
+### 6.offMouseMove(callback)
+
+移除鼠标移动事件。callback 为回调函数。
+
+### 7.offClick(callback)
+
+移除鼠标点击事件。callback 为回调函数。
+
+### 8.offDbClick(callback)
+
+移除鼠标双击事件。callback 为回调函数。
+
+### 9. offContextMenu(callback)
+
+移除鼠标右键点击事件。callback 为回调函数。
+
+### 10. offDrag(callback)
+
+移除地图拖拽事件。callback 为回调函数。
+
+### 11. offZoom(callback)
+
+移除地图缩放事件。callback 为回调函数。
+
+### 12. offRotate(callback)
+
+移除地图旋转事件。callback 为回调函数。
+
+### 13. offPitch(callback)
+
+移除地图倾斜事件。callback 为回调函数。
+
+### 14. offMove(callback)
+
+移除地图移动事件。callback 为回调函数。
+
+### 15. offMoveEnd(callback)
+
+移除地图移动结束事件。callback 为回调函数。
+
+### 16. offLoad(callback)
+
+移除地图首次渲染完成事件。callback 为回调函数。
+
 ### 图层监听事件
 
 ### 1.onLayerMousedown(layerId, callback)
@@ -2397,6 +2465,88 @@ const tyMap = new TyMap(document.getElementById('app'), {
 tyMap.onLayerContextMenu('layerId', () => {
   // todo
 });
+```
+
+### 移除图层监听事件
+
+### 1.offLayerMousedown(layerId, callback)
+
+移除鼠标按下事件。
+
+```markdown
+**传入参数**
+layerId: 对应的图层 id
+callback: 回调函数
+```
+
+### 2.offLayerMouseUp(layerId, callback)
+
+移除鼠标释放事件。
+
+```markdown
+**传入参数**
+layerId: 对应的图层 id
+callback: 回调函数
+```
+
+### 3. offLayerMouseOver(layerId, callback)
+
+移除鼠标移入事件。
+
+```markdown
+**传入参数**
+layerId: 对应的图层 id
+callback: 回调函数
+```
+
+### 4. offLayerMouseOut(layerId, callback)
+
+移除鼠标移出事件。
+
+```markdown
+**传入参数**
+layerId: 对应的图层 id
+callback: 回调函数
+```
+
+### 5. offLayerMouseMove(layerId, callback)
+
+移除鼠标移动事件。
+
+```markdown
+**传入参数**
+layerId: 对应的图层 id
+callback: 回调函数
+```
+
+### 6. offLayerClick(layerId, callback)
+
+移除鼠标点击事件。
+
+```markdown
+**传入参数**
+layerId: 对应的图层 id
+callback: 回调函数
+```
+
+### 7. offLayerDblClick(layerId, callback)
+
+移除鼠标双击事件。
+
+```markdown
+**传入参数**
+layerId: 对应的图层 id
+callback: 回调函数
+```
+
+### 8. offLayerContextMenu(layerId, callback)
+
+移除鼠标右键点击事件。
+
+```markdown
+**传入参数**
+layerId: 对应的图层 id
+callback: 回调函数
 ```
 
 ## 扩展功能
