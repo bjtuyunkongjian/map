@@ -6,10 +6,15 @@ const layers = [
     'source-layer': 'gaoguoGDB',
     layout: {
       'line-join': 'round',
-      'line-cap': 'round',
+      'line-cap': 'butt',
     },
     paint: {
-      'line-width': ['*', 20, ['get', 'zoom']],
+      'line-width': {
+        stops: [
+          [7, 21],
+          [22, 66],
+        ],
+      },
       'line-color': '#000000',
     },
   },
@@ -19,11 +24,22 @@ const layers = [
     source: 'bff-tile-source',
     'source-layer': 'gaoguoGDB',
     layout: {
-      'line-cap': 'round',
+      'line-cap': 'butt',
       'line-join': 'round',
     },
     paint: {
-      'line-width': 2,
+      'line-width': {
+        stops: [
+          [7, 1],
+          [21, 3],
+        ],
+      },
+      'line-gap-width': {
+        stops: [
+          [7, 7],
+          [22, 22],
+        ],
+      },
       'line-color': '#ffffff',
       'line-dasharray': [10, 10],
     },

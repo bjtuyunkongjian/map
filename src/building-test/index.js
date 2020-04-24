@@ -83,7 +83,7 @@ export default class index extends Component {
         modelArr: _modelArr,
         bounds: _bounds,
       });
-      _MAP_.addLayer(this._customLayer, 'guodao');
+      _MAP_.addLayer(this._customLayer);
     } else {
       this._customLayer.updateModel({
         center: [_center.lng, _center.lat],
