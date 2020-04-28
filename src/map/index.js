@@ -8,6 +8,7 @@ import React, { Component } from 'react';
 
 import BaseStyle from './map-styles/light-sd';
 import JnData from './jinan';
+import { FetchRequest } from './fetch';
 
 export default class MapBoxDemo extends Component {
   componentDidMount() {
@@ -63,6 +64,17 @@ export default class MapBoxDemo extends Component {
         },
         'guodao_bg'
       );
+    });
+    this._getGeojson();
+    this.map.on('moveend', this._getGeojson);
+  };
+
+  _getGeojson = async () => {
+    // 192.168.251.15:8889/mod/getPointKey?minX=117.12036584415841&minY=36.64837283518824&maxX=118.12036584415841&maxY=37.64837283518824
+    const _bounds = FetchRequest({
+      host: 'http://192.168.251.15:8889',
+      url:
+        '/mod/getPointKey?minX=117.12036584415841&minY=36.64837283518824&maxX=118.12036584415841&maxY=37.64837283518824',
     });
   };
 }
