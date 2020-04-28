@@ -72,7 +72,7 @@ export default class MapBoxDemo extends Component {
   _getGeojson = async () => {
     // 192.168.251.15:8889/mod/getPointKey?minX=117.12036584415841&minY=36.64837283518824&maxX=118.12036584415841&maxY=37.64837283518824
     const _zoom = this.map.getZoom();
-    if (_zoom < 14) return;
+    if (_zoom < 15) return;
     const _bounds = this.map.getBounds();
     const _url = `mod/getPointKey?minX=${_bounds._sw.lng}&minY=${_bounds._sw.lat}&maxX=${_bounds._ne.lng}&maxY=${_bounds._ne.lat}`;
     const { res, err } = await FetchRequest({
@@ -83,11 +83,11 @@ export default class MapBoxDemo extends Component {
     const _features = res.map((item) => {
       return { type: 'Feature', geometry: item };
     });
-    console.log('building-bottom-undefined');
-    if (!this.map.getLayer('building-bottom-undefined')) {
+    const layerId = 'building-bottom-undefined';
+    if (!this.map.getSource(layerId)) {
       this.map.addLayer(
         {
-          id: 'building-bottom-undefined',
+          id: layerId,
           type: 'fill',
           source: {
             type: 'geojson',
@@ -104,7 +104,7 @@ export default class MapBoxDemo extends Component {
         'guodao_bg'
       );
     } else {
-      this.map.getLayer('building-bottom-undefined').setData({
+      this.map.getSource(layerId).setData({
         type: 'FeatureCollection',
         features: _features,
       });
