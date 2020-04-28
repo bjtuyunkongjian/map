@@ -1,3 +1,7 @@
+const lineLabelLayerId = 'line-gd-ref';
+const lineBgLabelLayerId = 'line-gd-ref';
+const symbolLabelLayerId = 'symbol-ref';
+
 const layers = [
   {
     id: 'guodao_bg', // 国道背景
@@ -6,17 +10,33 @@ const layers = [
     'source-layer': 'gaoguoGDB',
     layout: {
       'line-join': 'round',
-      'line-cap': 'butt',
+      'line-cap': 'round',
     },
     paint: {
       'line-width': {
+        base: 2,
         stops: [
-          [7, 21],
-          [22, 66],
+          [7, 1],
+          [8, 2],
+          [9, 3],
+          [10, 4],
+          [11, 4],
+          [12, 5],
+          [13, 7],
+          [14, 9],
+          [15, 10],
+          [16, 10],
+          [17, 12],
+          [18, 14],
+          [19, 14],
+          [20, 22],
+          [21, 24],
+          [22, 26],
         ],
       },
-      'line-color': '#000000',
+      'line-color': '#f9bd09',
     },
+    labelLayerId: lineBgLabelLayerId,
   },
   {
     id: 'guodao', // 路网图层（name字段），国道
@@ -24,25 +44,74 @@ const layers = [
     source: 'bff-tile-source',
     'source-layer': 'gaoguoGDB',
     layout: {
-      'line-cap': 'butt',
+      'line-cap': 'round',
       'line-join': 'round',
     },
     paint: {
       'line-width': {
+        base: 2,
         stops: [
           [7, 1],
-          [21, 3],
+          [8, 1],
+          [9, 2],
+          [10, 3],
+          [11, 3],
+          [12, 4],
+          [13, 6],
+          [14, 8],
+          [15, 7],
+          [16, 7],
+          [17, 9],
+          [18, 11],
+          [19, 11],
+          [20, 19],
+          [21, 22],
+          [22, 24],
         ],
       },
-      'line-gap-width': {
-        stops: [
-          [7, 7],
-          [22, 22],
-        ],
-      },
-      'line-color': '#ffffff',
-      'line-dasharray': [10, 10],
+      'line-color': '#fed669',
     },
+    labelLayerId: lineLabelLayerId,
+  },
+  {
+    id: 'guodao_name', // 国道名称
+    type: 'symbol',
+    source: 'bff-tile-source',
+    'source-layer': 'gaoguoGDB',
+    layout: {
+      'text-field': {
+        stops: [
+          [7, ''],
+          [12, '{NAME}'],
+        ],
+      },
+      visibility: 'visible',
+      'symbol-placement': 'line',
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'symbol-spacing': 500,
+      'text-rotation-alignment': 'map',
+      'text-size': {
+        base: 0,
+        stops: [
+          [13, 10],
+          [14, 12],
+          [15, 12],
+          [16, 13],
+          [17, 13],
+          [18, 15],
+          [19, 15],
+          [20, 15],
+        ],
+      },
+      'icon-rotation-alignment': 'viewport',
+    },
+    paint: {
+      'text-color': 'rgba(65, 65, 65, 1)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)',
+    },
+    labelLayerId: symbolLabelLayerId,
   },
 ];
 
