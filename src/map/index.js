@@ -65,12 +65,11 @@ export default class MapBoxDemo extends Component {
         'guodao_bg'
       );
     });
-    this._getGeojson();
-    this.map.on('moveend', this._getGeojson);
+    // this._getGeojson();
+    // this.map.on('moveend', this._getGeojson);
   };
 
   _getGeojson = async () => {
-    // 192.168.251.15:8889/mod/getPointKey?minX=117.12036584415841&minY=36.64837283518824&maxX=118.12036584415841&maxY=37.64837283518824
     const _zoom = this.map.getZoom();
     if (_zoom < 15) return;
     const _bounds = this.map.getBounds();
