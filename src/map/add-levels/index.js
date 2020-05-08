@@ -22,7 +22,7 @@ const addLvs = [
   LayerLv10,
   LayerLv11,
   LayerLv12,
-  LayerLv13,
+  // LayerLv13,
   LayerLv14,
   LayerLv15,
   LayerLv16,
@@ -30,7 +30,7 @@ const addLvs = [
   LayerLv18,
   LayerLv19,
   LayerAllRd,
-  BffTile,
+  // BffTile,
 ];
 
 export default addLvs;
