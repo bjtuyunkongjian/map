@@ -71,21 +71,17 @@ export default class index extends Component {
     this._shouldRemove && _MAP_.removeLayer('model-');
     const { lng, lat } = _MAP_.getCenter();
     const modelArr = [];
-    const { _ne, _sw } = _MAP_.getBounds();
-    const _maxLng = _ne.lng;
-    const _minLng = _sw.lng;
-    const _maxLat = _ne.lat;
-    const _minLat = _sw.lat;
-    const _diffLng = _maxLng - _minLng;
-    const _diffLat = _maxLat - _minLat;
 
-    for (let item of gltfUrl) {
-      modelArr.push({
-        url: `${_prefix + item}.gltf`,
-        lng: _minLng + _diffLng * Math.random(),
-        lat: _minLat + _diffLat * Math.random(),
-        altitude: 0,
-      });
+    for (let i = 0; i < gltfUrl.length; i++) {
+      for (let j = gltfUrl.length; j > 0; j--) {
+        const item = gltfUrl[i];
+        modelArr.push({
+          url: `${_prefix + item}.gltf`,
+          lng: lng + 0.0005 * i,
+          lat: lat + 0.001 * j,
+          altitude: 0,
+        });
+      }
     }
 
     _MAP_.addLayer(
