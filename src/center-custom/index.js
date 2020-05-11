@@ -62,8 +62,8 @@ export default class index extends Component {
         center: [lng, lat],
         id: 'model-',
         modelArr,
-      }),
-      'GHYDPL_7L_NAME'
+      })
+      // 'GHYDPL_7L_NAME'
     );
     if (!this._shouldRemove) this._shouldRemove = true;
   };
