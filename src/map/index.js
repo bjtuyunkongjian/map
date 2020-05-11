@@ -38,8 +38,8 @@ export default class MapBoxDemo extends Component {
       zoom: 7,
       // pitch: 60,
       // bearing: -13.6,
-      minZoom: 7,
-      maxZoom: 20,
+      minZoom: 16,
+      maxZoom: 17.49,
       localIdeographFontFamily: '黑体',
       preserveDrawingBuffer: true,
     });

@@ -5,7 +5,7 @@ export default class index extends Component {
   state = {
     count: defaultCount,
     scale: 5e-8,
-    gltfUrl: './static/models/test.gltf',
+    gltfUrl: ['./static/models/test.gltf'],
   };
 
   _shouldRemove = false;
@@ -56,7 +56,24 @@ export default class index extends Component {
     if (!gltfUrl) return;
     this._shouldRemove && _MAP_.removeLayer('model-');
     const { lng, lat } = _MAP_.getCenter();
-    const modelArr = [{ url: gltfUrl, lng, lat, altitude: 0 }];
+    const modelArr = [];
+    const { _ne, _sw } = _MAP_.getBounds();
+    const _maxLng = _ne.lng;
+    const _minLng = _sw.lng;
+    const _maxLat = _ne.lat;
+    const _minLat = _sw.lat;
+    const _diffLng = _maxLng - _minLng;
+    const _diffLat = _maxLat - _minLat;
+
+    for (let item of gltfUrl) {
+      modelArr.push({
+        url: item,
+        lng: _minLng + _diffLng * Math.random(),
+        lat: _minLat + _diffLat * Math.random(),
+        altitude: 0,
+      });
+    }
+
     _MAP_.addLayer(
       new CustomLayer({
         center: [lng, lat],

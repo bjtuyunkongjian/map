@@ -50,7 +50,6 @@ class CustomLayer {
 
   loadModel = ({ lng, lat, altitude = 0, url }) => {
     this.loader.load(url, (gltf) => {
-      console.log(gltf);
       // 36.6754/117.0856 117.0856, 36.6754
       const { x, y, z } = mapboxgl.MercatorCoordinate.fromLngLat(
         [lng, lat],
