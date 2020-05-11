@@ -5,7 +5,20 @@ export default class index extends Component {
   state = {
     count: defaultCount,
     scale: 5e-8,
-    gltfUrl: ['test'],
+    gltfUrl: [
+      'low1',
+      'low2',
+      'low3',
+      'low4',
+      'low5',
+      'high1',
+      'high2',
+      'high3',
+      'high4',
+      'glass1',
+      'glass2',
+      'glass3',
+    ],
   };
 
   _shouldRemove = false;
