@@ -5,7 +5,7 @@ export default class index extends Component {
   state = {
     count: defaultCount,
     scale: 5e-8,
-    gltfUrl: ['./static/models/test.gltf'],
+    gltfUrl: ['test'],
   };
 
   _shouldRemove = false;
@@ -54,6 +54,7 @@ export default class index extends Component {
   _loadModels = () => {
     const { gltfUrl } = this.state;
     if (!gltfUrl) return;
+    const _prefix = './static/models/';
     this._shouldRemove && _MAP_.removeLayer('model-');
     const { lng, lat } = _MAP_.getCenter();
     const modelArr = [];
@@ -67,7 +68,7 @@ export default class index extends Component {
 
     for (let item of gltfUrl) {
       modelArr.push({
-        url: item,
+        url: `${_prefix + item}.gltf`,
         lng: _minLng + _diffLng * Math.random(),
         lat: _minLat + _diffLat * Math.random(),
         altitude: 0,
