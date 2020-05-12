@@ -36,6 +36,13 @@ export default {
         `${BaseConfig.tileHost}originMapServer/string?test=200&type=tms&zoom={z}&row={x}&column={y}`,
       ],
     },
+    'road-siwei': {
+      type: 'vector',
+      scheme: 'tms',
+      tiles: [
+        `${BaseConfig.tileHost}geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ARoad_SiWei@EPSG%3A900913@pbf`,
+      ],
+    },
   },
   sprite: `${BaseConfig.spriteHost}sprite/sprite`,
   glyphs: `${BaseConfig.glyphsHost}font/{fontstack}/{range}.pbf`,
