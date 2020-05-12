@@ -7,7 +7,7 @@ import mapboxgl from 'mapbox-gl';
 import React, { Component } from 'react';
 
 import BaseStyle from './map-styles/light-sd';
-import JnData from './jinan';
+// import JnData from './jinan';
 import { FetchRequest } from './fetch';
 
 export default class MapBoxDemo extends Component {
@@ -44,27 +44,27 @@ export default class MapBoxDemo extends Component {
       preserveDrawingBuffer: true,
     });
 
-    this.map.on('style.load', () => {
-      this.map.addLayer(
-        {
-          id: 'maine',
-          type: 'fill',
-          source: {
-            type: 'geojson',
-            data: {
-              type: 'Feature',
-              geometry: JnData,
-            },
-          },
-          layout: {},
-          paint: {
-            'fill-color': '#fff',
-            'fill-opacity': 0,
-          },
-        },
-        'guodao_bg'
-      );
-    });
+    // this.map.on('style.load', () => {
+    //   this.map.addLayer(
+    //     {
+    //       id: 'maine',
+    //       type: 'fill',
+    //       source: {
+    //         type: 'geojson',
+    //         data: {
+    //           type: 'Feature',
+    //           geometry: JnData,
+    //         },
+    //       },
+    //       layout: {},
+    //       paint: {
+    //         'fill-color': '#fff',
+    //         'fill-opacity': 0,
+    //       },
+    //     },
+    //     'guodao_bg'
+    //   );
+    // });
     // this._getGeojson();
     // this.map.on('moveend', this._getGeojson);
   };

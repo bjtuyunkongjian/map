@@ -1,6 +1,7 @@
 import { BaseConfig } from 'tuyun-config';
 
-import Guodao from './road-guodao';
+// import Guodao from './road-guodao';
+import RoadSiWei from './road-siwei';
 
 const layers = [
   {
@@ -8,7 +9,8 @@ const layers = [
     type: 'raster',
     source: 'raster-tiles',
   },
-  ...Guodao,
+  // ...Guodao,
+  ...RoadSiWei,
 ];
 
 export default {
@@ -40,7 +42,7 @@ export default {
       type: 'vector',
       scheme: 'tms',
       tiles: [
-        `${BaseConfig.tileHost}geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ARoad_SiWei@EPSG%3A900913@pbf`,
+        `${BaseConfig.geoserverHost}geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ARoad_SiWei@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`,
       ],
     },
   },
