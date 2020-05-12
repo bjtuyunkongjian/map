@@ -27,15 +27,7 @@ export default class index extends Component {
   render() {
     return (
       <div className="add-custom">
-        <div className="custom-row">
-          缩放比例：
-          <div className="custom-btn" onClick={() => this._changeScale(2)}>
-            增加
-          </div>
-          <div className="custom-btn" onClick={() => this._changeScale(0.5)}>
-            减小
-          </div>
-        </div>
+        <div className="custom-row">缩放比例：100%</div>
       </div>
     );
   }
@@ -55,10 +47,11 @@ export default class index extends Component {
     const modelArr = [];
 
     for (let i = 0; i < gltfUrl.length; i++) {
+      const index = Math.floor(Math.random() * gltfUrl.length);
+      const model = gltfUrl[index];
       for (let j = gltfUrl.length; j > 0; j--) {
-        const item = gltfUrl[i];
         modelArr.push({
-          url: `${_prefix + item}.gltf`,
+          url: `${_prefix + model}.gltf`,
           lng: lng + 0.0005 * i,
           lat: lat + 0.001 * j,
           altitude: 0,
@@ -75,11 +68,5 @@ export default class index extends Component {
       // 'GHYDPL_7L_NAME'
     );
     if (!this._shouldRemove) this._shouldRemove = true;
-  };
-
-  _changeScale = async (w) => {
-    const { scale } = this.state;
-    this.setState({ scale: w * scale });
-    this._loadModels();
   };
 }
