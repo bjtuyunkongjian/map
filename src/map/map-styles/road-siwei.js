@@ -30,8 +30,8 @@ for (let item of roads) {
       'line-width': {
         base: 1,
         stops: [
-          [7, 14],
-          [20, 42],
+          [10, 15],
+          [20, 30],
         ],
       },
       'line-color': '#AAAAAA',
