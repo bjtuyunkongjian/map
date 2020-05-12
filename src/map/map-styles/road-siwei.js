@@ -1,5 +1,6 @@
 const lineLabelLayerId = 'line-gd-ref';
 const lineBgLabelLayerId = 'line-gd-ref';
+const minzoom = 16.5;
 
 const roads = [
   'dushigaosulu',
@@ -20,6 +21,7 @@ for (let item of roads) {
     type: 'line',
     source: 'road-siwei',
     'source-layer': item,
+    minzoom,
     layout: {
       'line-join': 'round',
       'line-cap': 'round',
@@ -32,7 +34,7 @@ for (let item of roads) {
           [20, 42],
         ],
       },
-      'line-color': '#282828',
+      'line-color': '#AAAAAA',
     },
     labelLayerId: lineBgLabelLayerId,
   };
@@ -43,6 +45,7 @@ for (let item of roads) {
     type: 'line',
     source: 'road-siwei',
     'source-layer': item,
+    minzoom,
     layout: {
       'line-join': 'round',
       'line-cap': 'butt',

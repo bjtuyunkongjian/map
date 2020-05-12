@@ -8,7 +8,7 @@ export default class index extends Component {
 
   _shouldRemove = false;
   _customLayer = undefined;
-  _visibleLv = 17;
+  _visibleLv = 16.5;
 
   componentDidMount = () => this._init();
 
