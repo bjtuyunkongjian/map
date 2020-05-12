@@ -3,7 +3,6 @@ import CustomLayer from './custom-layer';
 
 export default class index extends Component {
   state = {
-    count: defaultCount,
     scale: 5e-8,
     gltfUrl: [
       'low1',
@@ -26,17 +25,8 @@ export default class index extends Component {
   componentDidMount = () => this._init();
 
   render() {
-    const { count, gltfUrl } = this.state;
     return (
       <div className="add-custom">
-        <div className="custom-row">
-          模型数量：
-          <input type="text" value={count} onChange={this._changeCount} />
-          <div className="custom-btn" onClick={this._loadModels}>
-            确定
-          </div>
-        </div>
-
         <div className="custom-row">
           缩放比例：
           <div className="custom-btn" onClick={() => this._changeScale(2)}>
@@ -44,14 +34,6 @@ export default class index extends Component {
           </div>
           <div className="custom-btn" onClick={() => this._changeScale(0.5)}>
             减小
-          </div>
-        </div>
-
-        <div className="custom-row">
-          模型地址：
-          <input type="text" value={gltfUrl} onChange={this._changeCount} />
-          <div className="custom-btn" onClick={this._loadModels}>
-            确定
           </div>
         </div>
       </div>
@@ -95,28 +77,9 @@ export default class index extends Component {
     if (!this._shouldRemove) this._shouldRemove = true;
   };
 
-  _changeCount = async (e) => {
-    const { value } = e.target;
-    if (!value) {
-      this.setState({ count: defaultCount });
-      return;
-    }
-    const isNum = /^\d{1,}$/.test(value);
-    if (!isNum) return;
-    if (value === '0') return;
-    this.setState({ count: parseInt(value) });
-  };
-
   _changeScale = async (w) => {
     const { scale } = this.state;
     this.setState({ scale: w * scale });
     this._loadModels();
   };
-
-  _changeUrl = async (e) => {
-    const { value } = e.target;
-    this.setState({ gltfUrl: value });
-  };
 }
-
-const defaultCount = 1;
