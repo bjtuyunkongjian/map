@@ -2,6 +2,8 @@ import mapboxgl from 'mapbox-gl';
 
 import { THREE } from 'tuyun-utils';
 
+import CreateUid from './create-uid';
+
 const { GLTFLoader, Camera, Scene, WebGLRenderer, Matrix4 } = THREE;
 
 class CustomLayer {
@@ -18,6 +20,7 @@ class CustomLayer {
   renderingMode = '3d';
   loader = new GLTFLoader();
   scale = 1 / 111000 / 360;
+  uuid = undefined;
 
   onAdd = (map, gl) => {
     this.map = map;
@@ -29,6 +32,7 @@ class CustomLayer {
   };
 
   updateModel = ({ modelArr, center, bounds }) => {
+    this.uuid = CreateUid();
     this.modelTransform = mapboxgl.MercatorCoordinate.fromLngLat(center, 0);
     const modelCount = this.scene.children.length;
     for (let i = modelCount; i > 0; i--) {
@@ -48,6 +52,7 @@ class CustomLayer {
   };
 
   loadModel = ({ lng, lat, altitude = 0, url, name }) => {
+    const uuid = this.uuid;
     const { x, y, z } = mapboxgl.MercatorCoordinate.fromLngLat(
       [lng, lat],
       altitude
@@ -61,6 +66,7 @@ class CustomLayer {
       );
     } else {
       this.loader.load(url, (gltf) => {
+        if (uuid !== this.uuid) return;
         gltf.scene.lng = lng;
         gltf.scene.lat = lat;
         gltf.scene.name = name;
