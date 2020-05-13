@@ -48,14 +48,14 @@ class CustomLayer {
     }
   };
 
-  loadModel = ({ lng, lat, altitude = 0, url }) => {
+  loadModel = ({ lng, lat, altitude = 0, url, scale = 1, rotate = 0 }) => {
     this.loader.load(url, (gltf) => {
       // 36.6754/117.0856 117.0856, 36.6754
       const { x, y, z } = mapboxgl.MercatorCoordinate.fromLngLat(
         [lng, lat],
         altitude
       );
-      gltf.scene.scale.setScalar(this.scale);
+      gltf.scene.scale.setScalar(this.scale * scale);
 
       gltf.scene.position.set(
         x - this.modelTransform.x,
@@ -64,7 +64,8 @@ class CustomLayer {
       );
       // 旋转模型
       gltf.scene.rotation.x = Math.PI / 2;
-      gltf.scene.rotation.y = Math.PI / 2;
+      gltf.scene.rotation.y = rotate;
+      // gltf.scene.rotation.y = Math.PI / 2;
       this.scene.add(gltf.scene);
     });
   };
