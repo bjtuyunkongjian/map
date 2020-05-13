@@ -2,6 +2,7 @@ import { BaseConfig } from 'tuyun-config';
 
 // import Guodao from './road-guodao';
 import RoadSiWei from './road-siwei';
+import Water from './water';
 
 const layers = [
   {
@@ -10,6 +11,7 @@ const layers = [
     source: 'raster-tiles',
   },
   // ...Guodao,
+  ...Water,
   ...RoadSiWei,
 ];
 
@@ -38,6 +40,15 @@ export default {
     //     `${BaseConfig.tileHost}originMapServer/string?test=200&type=tms&zoom={z}&row={x}&column={y}`,
     //   ],
     // },
+    'water-7': {
+      type: 'vector',
+      scheme: 'tms',
+      tiles: [
+        `${BaseConfig.geoserverHost}geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_7L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`,
+      ],
+      minzoom: 7,
+    },
+
     'road-siwei': {
       type: 'vector',
       scheme: 'tms',
