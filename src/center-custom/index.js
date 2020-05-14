@@ -3,21 +3,26 @@ import CustomLayer from './custom-layer';
 
 export default class index extends Component {
   state = {
-    scale: 5e-8,
+    // gltfUrl: [
+    //   { model: 'low1' },
+    //   { model: 'low2' },
+    //   { model: 'low3' },
+    //   { model: 'low4' },
+    //   { model: 'low5' },
+    //   { model: 'high1' },
+    //   { model: 'high2' },
+    //   { model: 'high3' },
+    //   { model: 'high4' },
+    //   { model: 'glass1' },
+    //   { model: 'glass2' },
+    //   { model: 'glass3' },
+    // ],
     gltfUrl: [
-      // 'low1',
-      // 'low2',
-      // 'low3',
-      // 'low4',
-      // 'low5',
-      // 'high1',
-      // 'high2',
-      // 'high3',
-      // 'high4',
-      // 'glass1',
-      // 'glass2',
-      // 'glass3',
-      'test',
+      { model: 'building1', scale: 3e-3 },
+      { model: 'building2', scale: 5e-3 },
+      { model: 'building3', scale: 3e-3 },
+      { model: 'building4', scale: 4e-3 },
+      { model: 'building5', scale: 4e-3 },
     ],
   };
 
@@ -46,16 +51,19 @@ export default class index extends Component {
     this._shouldRemove && _MAP_.removeLayer('model-');
     const { lng, lat } = _MAP_.getCenter();
     const modelArr = [];
+    const _rotate = _MAP_.getBearing();
 
     for (let i = 0; i < gltfUrl.length; i++) {
-      const index = Math.floor(Math.random() * gltfUrl.length);
-      const model = gltfUrl[index];
       for (let j = gltfUrl.length; j > 0; j--) {
+        const index = Math.floor(Math.random() * gltfUrl.length);
+        const { model, scale } = gltfUrl[index];
         modelArr.push({
           url: `${_prefix + model}.gltf`,
-          lng: lng + 0.0005 * i,
-          lat: lat + 0.001 * j,
+          lng: lng + 0.0015 * i,
+          lat: lat + 0.003 * j,
           altitude: 0,
+          scale: scale,
+          rotate: _rotate,
         });
       }
     }

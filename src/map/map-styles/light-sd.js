@@ -2,6 +2,7 @@ import { BaseConfig } from 'tuyun-config';
 
 // import Guodao from './road-guodao';
 import RoadSiWei from './road-siwei';
+import Water from './water';
 
 const layers = [
   {
@@ -10,6 +11,7 @@ const layers = [
     source: 'raster-tiles',
   },
   // ...Guodao,
+  ...Water,
   ...RoadSiWei,
 ];
 
@@ -21,12 +23,12 @@ export default {
     'raster-tiles': {
       type: 'raster',
       tiles: [
-        // 'https://t0.tianditu.gov.cn/img_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=img&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILECOL={x}&TILEROW={y}&TILEMATRIX={z}&tk=3991cefea7f40e49e48f26915530f3c8',
+        'https://t0.tianditu.gov.cn/img_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=img&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILECOL={x}&TILEROW={y}&TILEMATRIX={z}&tk=3991cefea7f40e49e48f26915530f3c8',
         // './static/lvdi.png',
         // '
         // 'http://192.168.251.67:6080/arcgis/rest/services/test1/sdxy1/MapServer/tile/{z}/{y}/{x}/lvdi.png',
         // 'http://localhost:8083/get-tiles/dev?z={z}&x={x}&y={y}',
-        'http://192.168.251.100:8888/direct?z={z}&x={x}&y={y}',
+        // 'http://192.168.251.100:8888/direct?z={z}&x={x}&y={y}',
         // 'http://124.128.48.215/tileservice/spot2006?layer=c&style=c&tilematrixset=c&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image%2Fpng&TileMatrix={z}&TileCol={y}&TileRow={x}',
       ],
       tileSize: 256,
@@ -38,6 +40,15 @@ export default {
     //     `${BaseConfig.tileHost}originMapServer/string?test=200&type=tms&zoom={z}&row={x}&column={y}`,
     //   ],
     // },
+    'water-7': {
+      type: 'vector',
+      scheme: 'tms',
+      tiles: [
+        `${BaseConfig.geoserverHost}geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_7L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`,
+      ],
+      minzoom: 7,
+    },
+
     'road-siwei': {
       type: 'vector',
       scheme: 'tms',
