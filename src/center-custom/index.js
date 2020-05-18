@@ -27,7 +27,7 @@ export default class index extends Component {
       { model: '2', scale: 1, h: 50 },
       { model: '3', scale: 5e-1, h: 10 },
       { model: '4', scale: 1, h: 15 },
-      { model: '5', scale: 1, h: 15 },
+      { model: '11', scale: 1, h: 15 },
     ],
   };
 
@@ -58,15 +58,18 @@ export default class index extends Component {
     const modelArr = [];
     const _rotate = _MAP_.getBearing();
 
+    const _halfLn = gltfUrl.length / 2;
+
     for (let i = 0; i < gltfUrl.length; i++) {
       for (let j = gltfUrl.length; j > 0; j--) {
         const index = Math.floor(Math.random() * gltfUrl.length);
-        const { model, scale, h } = gltfUrl[index];
+        const { model, scale } = gltfUrl[index];
+
         modelArr.push({
           url: `${_prefix + model}.gltf`,
-          lng: lng + 0.0015 * i,
-          lat: lat + 0.003 * j,
-          altitude: h,
+          lng: lng + 0.0015 * (i - _halfLn),
+          lat: lat + 0.003 * (j - _halfLn),
+          altitude: 0,
           scale: scale,
           rotate: _rotate,
         });
