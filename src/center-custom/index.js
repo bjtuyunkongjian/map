@@ -23,11 +23,12 @@ export default class index extends Component {
       // { model: 'building3', scale: 3e-3 },
       // { model: 'building4', scale: 4e-3 },
       // { model: 'building5', scale: 4e-3 },
-      { model: '1', scale: 1 },
-      { model: '2', scale: 1 },
-      { model: '3', scale: 5e-1 },
-      { model: '4', scale: 5e-1 },
-      { model: '5', scale: 1 },
+      { model: '1', scale: 5e-1 },
+      { model: '2', scale: 5e-1 },
+      { model: '3', scale: 2.5e-1 },
+      { model: '4', scale: 2.5e-1 },
+      { model: '5', scale: 5e-1 },
+      { model: '6', scale: 5e-1 },
     ],
   };
 
@@ -68,7 +69,7 @@ export default class index extends Component {
         modelArr.push({
           url: `${_prefix + model}.gltf`,
           lng: lng + 0.0015 * (i - _halfLn),
-          lat: lat + 0.003 * (j - _halfLn),
+          lat: lat + 0.0015 * (j - _halfLn),
           altitude: 0,
           scale: scale,
           rotate: _rotate,
