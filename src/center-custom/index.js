@@ -23,11 +23,11 @@ export default class index extends Component {
       // { model: 'building3', scale: 3e-3 },
       // { model: 'building4', scale: 4e-3 },
       // { model: 'building5', scale: 4e-3 },
-      { model: '1', scale: 1 },
-      { model: '2', scale: 1 },
-      { model: '3', scale: 5e-1 },
-      { model: '4', scale: 1 },
-      { model: '5', scale: 1 },
+      { model: '1', scale: 1, h: 60 },
+      { model: '2', scale: 1, h: 50 },
+      { model: '3', scale: 5e-1, h: 10 },
+      { model: '4', scale: 1, h: 15 },
+      { model: '5', scale: 1, h: 15 },
     ],
   };
 
@@ -61,12 +61,12 @@ export default class index extends Component {
     for (let i = 0; i < gltfUrl.length; i++) {
       for (let j = gltfUrl.length; j > 0; j--) {
         const index = Math.floor(Math.random() * gltfUrl.length);
-        const { model, scale } = gltfUrl[index];
+        const { model, scale, h } = gltfUrl[index];
         modelArr.push({
           url: `${_prefix + model}.gltf`,
           lng: lng + 0.0015 * i,
           lat: lat + 0.003 * j,
-          altitude: 0,
+          altitude: h,
           scale: scale,
           rotate: _rotate,
         });
