@@ -9,6 +9,7 @@ const {
   WebGLRenderer,
   Matrix4,
   AmbientLight,
+  DirectionalLight,
 } = THREE;
 
 class CustomLayer {
@@ -20,8 +21,24 @@ class CustomLayer {
     this.camera = new Camera();
     this.scene = new Scene();
 
-    var directionalLight = new AmbientLight(0xffffff);
-    this.scene.add(directionalLight);
+    // var ambientLight = new AmbientLight(0xffffff);
+    // this.scene.add(ambientLight);
+
+    var directionalLight1 = new DirectionalLight(0xffffff, 0.3);
+    directionalLight1.position.set(100, 100, 100);
+    this.scene.add(directionalLight1);
+    var directionalLight2 = new DirectionalLight(0xffffff, 0.3);
+    directionalLight2.position.set(100, 100, -100);
+    this.scene.add(directionalLight2);
+
+    var directionalLight3 = new DirectionalLight(0xffffff, 0.3);
+    directionalLight3.position.set(-100, 100, -100);
+    this.scene.add(directionalLight3);
+
+    var directionalLight4 = new DirectionalLight(0xffffff, 0.3);
+    directionalLight4.position.set(-100, 100, 100);
+    this.scene.add(directionalLight4);
+
     this.updateModel({ center, modelArr });
   }
 
@@ -63,6 +80,7 @@ class CustomLayer {
         z
       );
       // 旋转模型
+
       gltf.scene.rotation.x = Math.PI / 2;
       gltf.scene.rotation.y = rotate;
       // gltf.scene.rotation.y = Math.PI / 2;
