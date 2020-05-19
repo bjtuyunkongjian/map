@@ -18,6 +18,7 @@ export default class index extends Component {
     //   { model: 'glass3' },
     // ],
     gltfUrl: [
+      // { model: 'test1'  },
       // { model: 'building1', scale: 3e-3 },
       // { model: 'building2', scale: 5e-3 },
       // { model: 'building3', scale: 3e-3 },
