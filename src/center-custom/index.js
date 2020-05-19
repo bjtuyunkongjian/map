@@ -27,7 +27,7 @@ export default class index extends Component {
       { model: '2', scale: 5e-1 },
       { model: '3', scale: 2.5e-1 },
       { model: '4', scale: 2.5e-1 },
-      { model: '5', scale: 5e-1 },
+      { model: '5', scale: 1 },
       { model: '6', scale: 5e-1 },
     ],
   };
