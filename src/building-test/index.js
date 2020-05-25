@@ -60,7 +60,8 @@ export default class index extends Component {
       // _features.push(TurfPoint([x, y], { text: id }));
       // 模型
       _modelArr.push({
-        url: `http://47.97.230.212:8082/models/${id}.gltf`,
+        // url: `http://47.97.230.212:8082/models/${id}.gltf`,
+        url: `http://47.110.135.245:12808/static/gltf2/${id}.gltf`,
         lng: x,
         lat: y,
         altitude: 0,
