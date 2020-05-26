@@ -48,7 +48,7 @@ export default class index extends Component {
     // 获取屏幕范围
     const _bounds = _MAP_.getBounds();
     // 获取新的建筑物
-    const _url = `mod/getPointKey?minX=${_bounds._sw.lng}&maxX=${_bounds._ne.lng}&minY=${_bounds._sw.lat}&maxY=${_bounds._ne.lat}`;
+    const _url = `mod/getPointKey?minX=${_bounds._sw.lng}&maxX=${_bounds._ne.lng}&minY=${_bounds._sw.lat}&maxY=${_bounds._ne.lat}&level=${_zoom}`;
     const { res, err } = await FetchRequest({ url: _url });
     if (err || !res) return console.log('没获取到返回数据');
     const _modelArr = [];

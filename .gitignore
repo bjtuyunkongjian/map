@@ -1,6 +1,7 @@
 /rollup/build/
 /docs/components/api.json
 /dist/
+dist.zip
 /node_modules/
 /docs/pages/dist/mapbox-gl-dev.js
 /docs/pages/dist/mapbox-gl.js
