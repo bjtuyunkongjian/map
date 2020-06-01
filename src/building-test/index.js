@@ -61,7 +61,9 @@ export default class index extends Component {
       // 模型
       _modelArr.push({
         // url: `http://47.97.230.212:8082/models/${id}.gltf`,
-        url: `http://47.110.135.245:12808/static/gltf2/${id}.gltf`,
+        url: `http://192.168.251.8:9090/new-models/${id}.gltf`,
+        // url: `http://47.97.230.212:8082/new-models/${id}.gltf`,
+        // url: `http://47.110.135.245:12808/static/gltf2/${id}.gltf`,
         lng: x,
         lat: y,
         altitude: 0,

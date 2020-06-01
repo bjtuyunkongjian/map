@@ -53,7 +53,7 @@ class CustomLayer {
   groupLoad = async (modelArr) => {
     const start = new Date().getTime();
     const uuid = this.uuid;
-    const perGroup = 300;
+    const perGroup = 12;
     const groupArr = [];
     let groupChild = [];
     for (let i = 0; i < modelArr.length; i++) {
