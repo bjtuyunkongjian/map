@@ -46,9 +46,48 @@ class CustomLayer {
         this.scene.remove(item);
       }
     }
-    for (let item of modelArr) {
-      this.loadModel(item);
+    // 批量获取 gltf
+    this.groupLoad(modelArr);
+  };
+
+  groupLoad = async (modelArr) => {
+    const start = new Date().getTime();
+    const uuid = this.uuid;
+    const perGroup = 300;
+    const groupArr = [];
+    let groupChild = [];
+    for (let i = 0; i < modelArr.length; i++) {
+      const item = modelArr[i];
+      const { lng, lat, altitude = 0, name } = item;
+      const gltfScene = this.scene.getObjectByName(name);
+      if (gltfScene) {
+        const { x, y, z } = mapboxgl.MercatorCoordinate.fromLngLat(
+          [lng, lat],
+          altitude
+        );
+        gltfScene.position.set(
+          x - this.modelTransform.x,
+          y - this.modelTransform.y,
+          z
+        );
+      } else {
+        groupChild.push(item);
+        if (groupChild.length < perGroup && i < modelArr.length - 1) continue;
+        groupArr.push(groupChild);
+        groupChild = [];
+      }
     }
+    // 批量获取 gltf
+    for (let group of groupArr) {
+      const promiseArr = [];
+      for (let item of group) {
+        const newPromise = this.loadModel(item);
+        promiseArr.push(newPromise);
+      }
+      if (this.uuid !== uuid) return;
+      await Promise.all(promiseArr);
+    }
+    console.log('加载完毕', (new Date().getTime() - start) / 1000);
   };
 
   loadModel = ({ lng, lat, altitude = 0, url, name }) => {
@@ -57,30 +96,31 @@ class CustomLayer {
       [lng, lat],
       altitude
     );
-    const gltfScene = this.scene.getObjectByName(name);
-    if (gltfScene) {
-      gltfScene.position.set(
-        x - this.modelTransform.x,
-        y - this.modelTransform.y,
-        z
+    return new Promise((resolve) => {
+      this.loader.load(
+        url,
+        (gltf) => {
+          if (uuid !== this.uuid) return;
+          gltf.scene.lng = lng;
+          gltf.scene.lat = lat;
+          gltf.scene.name = name;
+          gltf.scene.scale.setScalar(this.scale); // 3.6e-8
+          gltf.scene.position.set(
+            x - this.modelTransform.x,
+            y - this.modelTransform.y,
+            z
+          );
+          gltf.scene.rotation.x = Math.PI / 2;
+          // gltf.scene.rotation.y = -Math.PI;
+          this.scene.add(gltf.scene);
+          resolve();
+        },
+        () => {},
+        () => {
+          resolve();
+        }
       );
-    } else {
-      this.loader.load(url, (gltf) => {
-        if (uuid !== this.uuid) return;
-        gltf.scene.lng = lng;
-        gltf.scene.lat = lat;
-        gltf.scene.name = name;
-        gltf.scene.scale.setScalar(this.scale); // 3.6e-8
-        gltf.scene.position.set(
-          x - this.modelTransform.x,
-          y - this.modelTransform.y,
-          z
-        );
-        gltf.scene.rotation.x = Math.PI / 2;
-        // gltf.scene.rotation.y = -Math.PI;
-        this.scene.add(gltf.scene);
-      });
-    }
+    });
   };
 
   render = (_, matrix) => {
