@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
-import { FetchRequest } from 'tuyun-utils';
+import { FetchRequest, Add3dLayer } from 'tuyun-utils';
+import {
+  polygon as TurfPolygon,
+  featureCollection as FeatureCollection,
+} from 'turf';
 import CustomLayer from './custom-layer';
 export default class index extends Component {
   state = {
@@ -51,9 +55,26 @@ export default class index extends Component {
     const _url = `mod/getPointKey?minX=${_bounds._sw.lng}&maxX=${_bounds._ne.lng}&minY=${_bounds._sw.lat}&maxY=${_bounds._ne.lat}&level=${_zoom}`;
     const { res, err } = await FetchRequest({ url: _url });
     if (err || !res) return console.log('没获取到返回数据');
+    // 添加矢量数据
+    const { geojson, gltf: gltfIdArr } = res;
+    const _featuresBui = [];
+    for (const item of geojson) {
+      const { H, geometry } = item;
+      _featuresBui.push(
+        TurfPolygon(geometry.coordinates, { height: (H + 1) * 3 })
+      );
+    }
+    const _geoJSONDataBui = {
+      type: 'geojson',
+      data: FeatureCollection(_featuresBui),
+    };
+    Add3dLayer(_MAP_, _geoJSONDataBui, 'geojson-building', {
+      color: '#ffffff',
+    });
+    // 添加模型
     const _modelArr = [];
     // const _features = [];
-    for (let item of res) {
+    for (let item of gltfIdArr) {
       const { lnglat, id } = item;
       const [x, y] = lnglat;
       // 文字
@@ -61,8 +82,8 @@ export default class index extends Component {
       // 模型
       _modelArr.push({
         // url: `http://47.97.230.212:8082/models/${id}.gltf`,
-        url: `http://192.168.251.8:9090/new-models/${id}.gltf`,
-        // url: `http://47.97.230.212:8082/new-models/${id}.gltf`,
+        // url: `http://192.168.251.8:9090/new-models/${id}.gltf`,
+        url: `http://47.97.230.212:8082/new-models/${id}.gltf`,
         // url: `http://47.110.135.245:12808/static/gltf2/${id}.gltf`,
         lng: x,
         lat: y,
