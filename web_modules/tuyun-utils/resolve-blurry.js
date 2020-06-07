@@ -1,4 +1,5 @@
 /**
+ * @author sl204984
  * canvas 解决高倍屏文字变模糊问题
  * @param { canvas 预设的宽 } width
  * @param { canvas 预设的高 } width
