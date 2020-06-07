@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { FetchRequest, Add3dLayer } from 'tuyun-utils';
-import {
-  polygon as TurfPolygon,
-  featureCollection as FeatureCollection,
-} from 'turf';
+// import { FetchRequest, Add3dLayer } from 'tuyun-utils';
+// import {
+//   polygon as TurfPolygon,
+//   featureCollection as FeatureCollection,
+// } from 'turf';
 import CustomLayer from './custom-layer';
 export default class index extends Component {
   state = {
@@ -50,53 +50,31 @@ export default class index extends Component {
       return this._removeBuilding('model-custom');
     }
     // 获取屏幕范围
+    const _maxLng = 180;
+    const _maxLat = 85.05112878;
     const _bounds = _MAP_.getBounds();
-    // 获取新的建筑物
-    const _url = `mod/getPointKey?minX=${_bounds._sw.lng}&maxX=${_bounds._ne.lng}&minY=${_bounds._sw.lat}&maxY=${_bounds._ne.lat}&level=${_zoom}`;
-    const { res, err } = await FetchRequest({ url: _url });
-    if (err || !res) return console.log('没获取到返回数据');
-    // 添加矢量数据
-    const { geojson, gltf: gltfIdArr } = res;
-    const _featuresBui = [];
-    for (const item of geojson) {
-      const { H, geometry } = item;
-      _featuresBui.push(
-        TurfPolygon(geometry.coordinates, { height: (H + 1) * 3 })
-      );
-    }
-    const _geoJSONDataBui = {
-      type: 'geojson',
-      data: FeatureCollection(_featuresBui),
-    };
-    Add3dLayer(_MAP_, _geoJSONDataBui, 'geojson-building', {
-      color: '#ffffff',
-    });
+    // 生成要请求瓦片起始终止序列号
+    const _sX = Math.floor(((_bounds._sw.lng + _maxLng) / _maxLng) * 2 ** 16);
+    const _sY = Math.floor(((_bounds._sw.lat + _maxLat) / _maxLat) * 2 ** 16);
+    const _eX = Math.ceil(((_bounds._ne.lng + _maxLng) / _maxLng) * 2 ** 16);
+    const _eY = Math.ceil(((_bounds._ne.lat + _maxLat) / _maxLat) * 2 ** 16);
     // 添加模型
     const _modelArr = [];
-    // const _features = [];
-    for (let item of gltfIdArr) {
-      const { lnglat, id } = item;
-      const [x, y] = lnglat;
-      // 文字
-      // _features.push(TurfPoint([x, y], { text: id }));
-      // 模型
-      _modelArr.push({
-        // url: `http://47.97.230.212:8082/models/${id}.gltf`,
-        // url: `http://192.168.251.8:9090/new-models/${id}.gltf`,
-        url: `http://47.97.230.212:8082/new-models/${id}.gltf`,
-        // url: `http://47.110.135.245:12808/static/gltf2/${id}.gltf`,
-        lng: x,
-        lat: y,
-        altitude: 0,
-        name: `side-${id}`,
-      });
+    for (let x = _sX; x <= _eX; x++) {
+      for (let y = _sY; y <= _eY; y++) {
+        const _id = `${x}_${y}`;
+        const _lng = ((x + 0.5) / 2 ** 16) * _maxLng - _maxLng;
+        const _lat = ((y + 0.5) / 2 ** 16) * _maxLat - _maxLat;
+        _modelArr.push({
+          url: `http://47.97.230.212:8082/tiles/${_id}.gltf`,
+          lng: _lng,
+          lat: _lat,
+          altitude: 0,
+          name: `tile-${_id}`,
+        });
+      }
     }
-    // // 添加文字
-    // const _geoJSONData = {
-    //   type: 'geojson',
-    //   data: FeatureCollection(_features)
-    // };
-    // AddTextLayer(_MAP_, _geoJSONData, 'building-id');
+    console.log(_modelArr);
 
     // 添加模型
     const _center = _MAP_.getCenter();

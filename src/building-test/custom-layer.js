@@ -4,7 +4,15 @@ import { THREE } from 'tuyun-utils';
 
 import CreateUid from './create-uid';
 
-const { GLTFLoader, Camera, Scene, WebGLRenderer, Matrix4 } = THREE;
+const {
+  GLTFLoader,
+  Camera,
+  Scene,
+  WebGLRenderer,
+  Matrix4,
+  AmbientLight,
+  DirectionalLight,
+} = THREE;
 
 class CustomLayer {
   constructor({ center, id, modelArr, bounds }) {
@@ -12,6 +20,13 @@ class CustomLayer {
 
     this.camera = new Camera();
     this.scene = new Scene();
+
+    var ambientLight = new AmbientLight(0xffffff);
+    this.scene.add(ambientLight);
+
+    var directionalLight1 = new DirectionalLight(0xffffff, 0.8);
+    directionalLight1.position.set(1, 1, 1);
+    this.scene.add(directionalLight1);
 
     this.updateModel({ center, modelArr, bounds });
   }
@@ -53,7 +68,7 @@ class CustomLayer {
   groupLoad = async (modelArr) => {
     const start = new Date().getTime();
     const uuid = this.uuid;
-    const perGroup = 12;
+    const perGroup = 300;
     const groupArr = [];
     let groupChild = [];
     for (let i = 0; i < modelArr.length; i++) {
