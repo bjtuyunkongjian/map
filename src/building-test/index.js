@@ -66,7 +66,7 @@ export default class index extends Component {
         const _lng = ((x + 0.5) / 2 ** 16) * _maxLng - _maxLng;
         const _lat = ((y + 0.5) / 2 ** 16) * _maxLat - _maxLat;
         _modelArr.push({
-          url: `http://47.97.230.212:8082/tiles/${_id}.gltf`,
+          url: `http://192.168.251.8:8081/tiles/${_id}.gltf`,
           lng: _lng,
           lat: _lat,
           altitude: 0,
@@ -74,8 +74,6 @@ export default class index extends Component {
         });
       }
     }
-    console.log(_modelArr);
-
     // 添加模型
     const _center = _MAP_.getCenter();
     if (!this._customLayer) {

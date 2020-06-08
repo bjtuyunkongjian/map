@@ -101,6 +101,7 @@ class CustomLayer {
       }
       if (this.uuid !== uuid) return;
       await Promise.all(promiseArr);
+      // for(let scene of sceneArr) {}
     }
     console.log('加载完毕', (new Date().getTime() - start) / 1000);
   };
@@ -128,7 +129,7 @@ class CustomLayer {
           gltf.scene.rotation.x = Math.PI / 2;
           // gltf.scene.rotation.y = -Math.PI;
           this.scene.add(gltf.scene);
-          resolve();
+          resolve(gltf.scene);
         },
         () => {},
         () => {
