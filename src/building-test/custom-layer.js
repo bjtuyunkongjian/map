@@ -11,7 +11,7 @@ const {
   WebGLRenderer,
   Matrix4,
   AmbientLight,
-  DirectionalLight,
+  HemisphereLight,
 } = THREE;
 
 class CustomLayer {
@@ -21,12 +21,11 @@ class CustomLayer {
     this.camera = new Camera();
     this.scene = new Scene();
 
-    var ambientLight = new AmbientLight(0xffffff);
+    const ambientLight = new AmbientLight(0xffffff, 1);
     this.scene.add(ambientLight);
 
-    var directionalLight1 = new DirectionalLight(0xffffff, 0.8);
-    directionalLight1.position.set(1, 1, 1);
-    this.scene.add(directionalLight1);
+    const hemisphereLight = new HemisphereLight(0x0000000, 0xffffff, 1);
+    this.scene.add(hemisphereLight);
 
     this.updateModel({ center, modelArr, bounds });
   }
