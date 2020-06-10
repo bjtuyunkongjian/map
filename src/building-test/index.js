@@ -66,7 +66,8 @@ export default class index extends Component {
     // 获取可视区域的范围
     const { viewArea: vArea, viewCenter: vCenter } = this._getViewArea() || {};
     if (!vArea || !vCenter) return;
-    const _viewModelArr = _modelArr.filter((item) => {
+    const _viewModelArr = [];
+    for (const item of _modelArr) {
       let _pt;
       if (item.lng < vCenter.lng) {
         if (item.lat < vCenter.lat) {
@@ -81,8 +82,8 @@ export default class index extends Component {
           _pt = TurfPoint([item.lng - _diffLng / 2, item.lat - _diffLat / 2]);
         }
       }
-      return PointInPolygon(_pt, vArea);
-    });
+      PointInPolygon(_pt, vArea) && _viewModelArr.push(item);
+    }
     // 获取中心点坐标
     const _center = _MAP_.getCenter();
     // 添加模型
@@ -110,7 +111,7 @@ export default class index extends Component {
       right: cvsR,
       bottom: cvsB,
     } = _canvas.getBoundingClientRect();
-    const _center = [0, 0];
+    const _center = { lng: 0, lat: 0 };
     const _viewArea = [
       [cvsL, cvsT],
       [cvsR, cvsT],
@@ -118,13 +119,13 @@ export default class index extends Component {
       [cvsL, cvsB],
     ].map((xy) => {
       const { lng, lat } = _MAP_.unproject(xy);
-      _center[0] += lng;
-      _center[1] += lat;
+      _center.lng += lng;
+      _center.lat += lat;
       return [lng, lat];
     });
     // 中心点
-    _center[0] /= _viewArea.length;
-    _center[1] /= _viewArea.length;
+    _center.lng /= _viewArea.length;
+    _center.lat /= _viewArea.length;
     return {
       viewArea: TurfPolygon([[..._viewArea, _viewArea[0]]]),
       viewCenter: _center,
