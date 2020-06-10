@@ -49,7 +49,6 @@ class CustomLayer {
     this.uuid = CreateUid();
     this.modelTransform = mapboxgl.MercatorCoordinate.fromLngLat(center, 0);
     const sceneModelCount = this.scene.children.length;
-    console.log(this.scene.children);
     // 复制一份
     const toLoadModelArr = [...modelArr];
     for (let i = sceneModelCount; i > 0; i--) {
@@ -80,7 +79,6 @@ class CustomLayer {
         toLoadModelArr.splice(modelIndex, 1);
       }
     }
-    console.log(toLoadModelArr);
     // 批量获取 gltf
     this.groupLoad(toLoadModelArr);
   };

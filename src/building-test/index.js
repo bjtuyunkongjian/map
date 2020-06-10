@@ -82,6 +82,7 @@ export default class index extends Component {
     // 获取可视区域的范围
     const { viewArea: vArea, viewCenter: vCenter } = this._getViewArea() || {};
     if (!vArea || !vCenter) return;
+    console.log(vArea, vCenter);
     const _viewModelArr = _modelArr.filter((item) => {
       let _pt;
       if (item.lng < vCenter.lng) {
