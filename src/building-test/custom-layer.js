@@ -76,7 +76,9 @@ class CustomLayer {
           y - this.modelTransform.y,
           z
         );
+        // 删除不需要加载的对象
         toLoadModelArr.splice(modelIndex, 1);
+        this.map.triggerRepaint(); // 重绘
       }
     }
     // 批量获取 gltf
@@ -134,7 +136,8 @@ class CustomLayer {
           gltf.scene.rotation.x = Math.PI / 2;
           // gltf.scene.rotation.y = -Math.PI;
           this.scene.add(gltf.scene);
-          resolve(gltf.scene);
+          this.map.triggerRepaint(); // 重绘
+          resolve();
         },
         () => {},
         () => {
@@ -155,7 +158,6 @@ class CustomLayer {
     this.camera.projectionMatrix = m.multiply(l);
     this.renderer.state.reset();
     this.renderer.render(this.scene, this.camera);
-    this.map.triggerRepaint();
   };
 }
 
