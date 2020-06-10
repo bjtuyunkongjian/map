@@ -7,10 +7,6 @@ import {
 } from '@turf/turf';
 import CustomLayer from './custom-layer';
 export default class index extends Component {
-  state = {
-    scale: 8e-9,
-  };
-
   _shouldRemove = false;
   _customLayer = undefined;
   _customLayerId = 'model-custom';
@@ -19,19 +15,7 @@ export default class index extends Component {
   componentDidMount = () => this._init();
 
   render() {
-    return (
-      <div className="add-custom">
-        <div className="custom-row">
-          模型缩放比例：
-          <div className="custom-btn" onClick={() => this._changeScale(2)}>
-            增加
-          </div>
-          <div className="custom-btn" onClick={() => this._changeScale(0.5)}>
-            减小
-          </div>
-        </div>
-      </div>
-    );
+    return <div></div>;
   }
 
   _init = () => {
@@ -57,10 +41,10 @@ export default class index extends Component {
     const _maxLng = 180;
     const _maxLat = 85.05112878;
     // 生成要请求瓦片起始终止序列号
-    const _sX = Math.floor(((_bounds._sw.lng + _maxLng) / _maxLng) * 2 ** 16);
-    const _sY = Math.floor(((_bounds._sw.lat + _maxLat) / _maxLat) * 2 ** 16);
-    const _eX = Math.ceil(((_bounds._ne.lng + _maxLng) / _maxLng) * 2 ** 16);
-    const _eY = Math.ceil(((_bounds._ne.lat + _maxLat) / _maxLat) * 2 ** 16);
+    const _sX = Math.floor((_bounds._sw.lng / _maxLng + 1) * 2 ** 16);
+    const _sY = Math.floor((_bounds._sw.lat / _maxLat + 1) * 2 ** 16);
+    const _eX = Math.ceil((_bounds._ne.lng / _maxLng + 1) * 2 ** 16);
+    const _eY = Math.ceil((_bounds._ne.lat / _maxLat + 1) * 2 ** 16);
     // 添加模型
     const _modelArr = [];
     const _diffLng = _maxLng / 2 ** 16;
@@ -82,7 +66,6 @@ export default class index extends Component {
     // 获取可视区域的范围
     const { viewArea: vArea, viewCenter: vCenter } = this._getViewArea() || {};
     if (!vArea || !vCenter) return;
-    console.log(vArea, vCenter);
     const _viewModelArr = _modelArr.filter((item) => {
       let _pt;
       if (item.lng < vCenter.lng) {
@@ -146,11 +129,6 @@ export default class index extends Component {
       viewArea: TurfPolygon([[..._viewArea, _viewArea[0]]]),
       viewCenter: _center,
     };
-  };
-
-  _changeScale = async (w) => {
-    const { scale } = this.state;
-    this.setState({ scale: w * scale });
   };
 
   _removeBuilding = (id) => _MAP_.getLayer(id) && _MAP_.removeLayer(id);
