@@ -15,7 +15,7 @@ const {
 } = THREE;
 
 class CustomLayer {
-  constructor({ center, id, modelArr, bounds }) {
+  constructor({ center, id, modelArr }) {
     this.id = id;
 
     this.camera = new Camera();
@@ -27,7 +27,7 @@ class CustomLayer {
     const hemisphereLight = new HemisphereLight(0x0000000, 0xffffff, 1);
     this.scene.add(hemisphereLight);
 
-    this.updateModel({ center, modelArr, bounds });
+    this.updateModel({ center, modelArr });
   }
 
   type = 'custom';
@@ -45,23 +45,44 @@ class CustomLayer {
     this.renderer.autoClear = false;
   };
 
-  updateModel = ({ modelArr, center, bounds }) => {
+  updateModel = ({ modelArr, center }) => {
     this.uuid = CreateUid();
     this.modelTransform = mapboxgl.MercatorCoordinate.fromLngLat(center, 0);
-    const modelCount = this.scene.children.length;
-    for (let i = modelCount; i > 0; i--) {
+    const sceneModelCount = this.scene.children.length;
+    console.log(this.scene.children);
+    // 复制一份
+    const toLoadModelArr = [...modelArr];
+    for (let i = sceneModelCount; i > 0; i--) {
       const item = this.scene.children[i - 1];
-      const isInBounds =
-        item.lng < bounds._ne.lng &&
-        item.lng > bounds._sw.lng &&
-        item.lat < bounds._ne.lat &&
-        item.lat > bounds._sw.lat;
-      if (!isInBounds && item.name) {
+      const { isModel, name: modelName } = item;
+      // 只遍历添加的模型
+      if (!isModel) continue;
+      // 判断现在要加载的模型里面有没有这个模型名称
+      const modelIndex = toLoadModelArr.findIndex(
+        (item) => item.name === modelName
+      );
+      // 没有这个模型，scene中删除对应模型
+      // 有这个模型，修改模型对应场景中的位置，要从服务端加载的模型数组中删除这个对象
+      if (modelIndex === -1) {
         this.scene.remove(item);
+      } else {
+        const { lng, lat, altitude = 0, name } = toLoadModelArr[modelIndex];
+        const { x, y, z } = mapboxgl.MercatorCoordinate.fromLngLat(
+          [lng, lat],
+          altitude
+        );
+        const gltfScene = this.scene.getObjectByName(name);
+        gltfScene.position.set(
+          x - this.modelTransform.x,
+          y - this.modelTransform.y,
+          z
+        );
+        toLoadModelArr.splice(modelIndex, 1);
       }
     }
+    console.log(toLoadModelArr);
     // 批量获取 gltf
-    this.groupLoad(modelArr);
+    this.groupLoad(toLoadModelArr);
   };
 
   groupLoad = async (modelArr) => {
@@ -70,27 +91,15 @@ class CustomLayer {
     const perGroup = 300;
     const groupArr = [];
     let groupChild = [];
+    // 分批
     for (let i = 0; i < modelArr.length; i++) {
       const item = modelArr[i];
-      const { lng, lat, altitude = 0, name } = item;
-      const gltfScene = this.scene.getObjectByName(name);
-      if (gltfScene) {
-        const { x, y, z } = mapboxgl.MercatorCoordinate.fromLngLat(
-          [lng, lat],
-          altitude
-        );
-        gltfScene.position.set(
-          x - this.modelTransform.x,
-          y - this.modelTransform.y,
-          z
-        );
-      } else {
-        groupChild.push(item);
-        if (groupChild.length < perGroup && i < modelArr.length - 1) continue;
-        groupArr.push(groupChild);
-        groupChild = [];
-      }
+      groupChild.push(item);
+      if (groupChild.length < perGroup && i < modelArr.length - 1) continue;
+      groupArr.push(groupChild);
+      groupChild = [];
     }
+    console.log('groupArr', groupArr);
     // 批量获取 gltf
     for (let group of groupArr) {
       const promiseArr = [];
@@ -100,7 +109,6 @@ class CustomLayer {
       }
       if (this.uuid !== uuid) return;
       await Promise.all(promiseArr);
-      // for(let scene of sceneArr) {}
     }
     console.log('加载完毕', (new Date().getTime() - start) / 1000);
   };
@@ -119,6 +127,7 @@ class CustomLayer {
           gltf.scene.lng = lng;
           gltf.scene.lat = lat;
           gltf.scene.name = name;
+          gltf.scene.isModel = true;
           gltf.scene.scale.setScalar(this.scale); // 3.6e-8
           gltf.scene.position.set(
             x - this.modelTransform.x,
