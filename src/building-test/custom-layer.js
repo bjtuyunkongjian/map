@@ -99,7 +99,6 @@ class CustomLayer {
       groupArr.push(groupChild);
       groupChild = [];
     }
-    console.log('groupArr', groupArr);
     // 批量获取 gltf
     for (let group of groupArr) {
       const promiseArr = [];
