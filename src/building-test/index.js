@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-// import { FetchRequest, Add3dLayer } from 'tuyun-utils';
+import { FetchRequest, Add3dLayer } from 'tuyun-utils';
 import {
   point as TurfPoint,
   polygon as TurfPolygon,
   booleanPointInPolygon as PointInPolygon,
+  featureCollection as FeatureCollection,
 } from '@turf/turf';
 import CustomLayer from './custom-layer';
 export default class index extends Component {
@@ -29,6 +30,21 @@ export default class index extends Component {
   };
 
   _loadModels = async () => {
+    // const res1 = await this._getShape('2049033');
+    // const res2 = await this._getShape('2147769');
+    // const res3 = await this._getShape('2147768');
+    // const res4 = await this._getShape('2147767');
+    // const _source = {
+    //   type: 'geojson',
+    //   data: FeatureCollection([
+    //     TurfPolygon(res1.coordinates, { height: 10, color: '#00ff00' }),
+    //     TurfPolygon(res2.coordinates, { height: 10, color: '#00f0f0' }),
+    //     TurfPolygon(res3.coordinates, { height: 10, color: '#ff0f00' }),
+    //     TurfPolygon(res4.coordinates, { height: 10, color: '#0000ff' }),
+    //   ]),
+    // };
+    // console.log('_source', _source);
+    // Add3dLayer(_MAP_, _source, 'afdajsasd', { color: ['get', 'color'] });
     const _zoom = _MAP_.getZoom();
     // 小于 _visibleLv 级，删除对应图层
     if (_zoom < this._visibleLv) {
@@ -55,7 +71,8 @@ export default class index extends Component {
         const _lng = (x + 0.5) * _diffLng - _maxLng; // 中心点经度
         const _lat = (y + 0.5) * _diffLat - _maxLat; // 中心点纬度
         _modelArr.push({
-          url: `http://192.168.251.140:8081/tiles/${_id}.gltf`,
+          url: `http://47.97.230.212:8082/tiles/${_id}.gltf`,
+          // url: `http://192.168.251.140:8081/tiles/${_id}.gltf`,
           lng: _lng,
           lat: _lat,
           altitude: 0,
@@ -129,6 +146,24 @@ export default class index extends Component {
     return {
       viewArea: TurfPolygon([[..._viewArea, _viewArea[0]]]),
       viewCenter: _center,
+    };
+  };
+
+  _getShape = async (buildingId) => {
+    const url = 'mod/getShpList?key=' + buildingId;
+    const { res, err } = await FetchRequest({
+      url,
+      host: `http://47.97.230.212:8889/`,
+    });
+    if (!res || err) return location.reload(); // 刷新页面
+    const { H, geometry, center, id, style } = res;
+    if (!geometry) return null;
+    return {
+      coordinates: geometry.coordinates,
+      floor: H + 1,
+      center,
+      buildingId: id,
+      style,
     };
   };
 
