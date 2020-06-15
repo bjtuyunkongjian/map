@@ -24,7 +24,7 @@ class CustomLayer {
     const ambientLight = new AmbientLight(0xffffff, 1);
     this.scene.add(ambientLight);
 
-    const hemisphereLight = new HemisphereLight(0x0000000, 0xffffff, 1);
+    const hemisphereLight = new HemisphereLight(0x000000, 0xffffff, 1);
     this.scene.add(hemisphereLight);
 
     this.updateModel({ center, modelArr });
