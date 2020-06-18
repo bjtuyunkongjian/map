@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FetchRequest, Add3dLayer } from 'tuyun-utils';
+import { FetchRequest } from 'tuyun-utils';
 import {
   point as TurfPoint,
   polygon as TurfPolygon,
@@ -16,7 +16,7 @@ export default class index extends Component {
   componentDidMount = () => this._init();
 
   render() {
-    return <div></div>;
+    return <div />;
   }
 
   _init = () => {
@@ -71,6 +71,7 @@ export default class index extends Component {
         const _lng = (x + 0.5) * _diffLng - _maxLng; // 中心点经度
         const _lat = (y + 0.5) * _diffLat - _maxLat; // 中心点纬度
         _modelArr.push({
+          // url: `./static/models/yq.gltf`,
           url: `http://47.97.230.212:8082/tiles/${_id}.gltf`,
           // url: `http://192.168.251.140:8081/tiles/${_id}.gltf`,
           lng: _lng,
