@@ -5,6 +5,7 @@ import {
   polygon as TurfPolygon,
   booleanPointInPolygon as PointInPolygon,
   featureCollection as FeatureCollection,
+  area as TurfArea,
 } from '@turf/turf';
 import CustomLayer from './custom-layer';
 export default class index extends Component {
@@ -72,7 +73,7 @@ export default class index extends Component {
         const _lat = (y + 0.5) * _diffLat - _maxLat; // 中心点纬度
         _modelArr.push({
           // url: `./static/models/yq.gltf`,
-          url: `http://47.97.230.212:8082/tiles/${_id}.gltf`,
+          url: `./static/models/11116.gltf`,
           // url: `http://192.168.251.140:8081/tiles/${_id}.gltf`,
           lng: _lng,
           lat: _lat,
@@ -83,6 +84,7 @@ export default class index extends Component {
     }
     // 获取可视区域的范围
     const { viewArea: vArea, viewCenter: vCenter } = this._getViewArea() || {};
+    console.log(TurfArea(vArea) / 1000 ** 2);
     if (!vArea || !vCenter) return;
     const _viewModelArr = [];
     for (const item of _modelArr) {
