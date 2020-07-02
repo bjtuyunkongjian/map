@@ -21,10 +21,10 @@ class CustomLayer {
     this.camera = new Camera();
     this.scene = new Scene();
 
-    const ambientLight = new AmbientLight(0xffffff, 1);
+    const ambientLight = new AmbientLight(0xffffff, 1.2);
     this.scene.add(ambientLight);
 
-    const hemisphereLight = new HemisphereLight(0x000000, 0xffffff, 1);
+    const hemisphereLight = new HemisphereLight(0x000000, 0xffffff, 1.1);
     this.scene.add(hemisphereLight);
 
     this.updateModel({ center, modelArr });

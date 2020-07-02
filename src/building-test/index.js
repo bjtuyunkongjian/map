@@ -73,8 +73,8 @@ export default class index extends Component {
         const _lat = (y + 0.5) * _diffLat - _maxLat; // 中心点纬度
         _modelArr.push({
           // url: `./static/models/yq.gltf`,
-          url: `./static/models/11116.gltf`,
-          // url: `http://192.168.251.140:8081/tiles/${_id}.gltf`,
+          // url: `./static/models/test.gltf`,
+          url: `http://192.168.251.140:8081/tiles/${_id}.gltf`,
           lng: _lng,
           lat: _lat,
           altitude: 0,
