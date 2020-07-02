@@ -62,7 +62,7 @@ export default {
       ],
       minzoom: 16,
     },
-    'poi-8': {
+    'layer-lv8': {
       type: 'vector',
       scheme: 'tms',
       tiles: [

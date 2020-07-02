@@ -2,7 +2,7 @@ const layers = [
   {
     id: 'POI_LEVEL8',
     type: 'symbol',
-    source: 'poi-8',
+    source: 'layer-lv8',
     'source-layer': 'POI_LEVEL_8',
     layout: {
       'text-field': '{NAME}',
