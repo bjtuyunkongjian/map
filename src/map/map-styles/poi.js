@@ -1,6 +1,17 @@
 import { FontColor } from 'tuyun-utils';
 const layers = [
   {
+    id: 'POI_BG',
+    type: 'symbol',
+    source: 'layer-lv8',
+    'source-layer': 'empty',
+    paint: {
+      'text-color': 'rgba(65, 65, 65, 0.9)',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)',
+    },
+  },
+  {
     id: 'POI_LEVEL8',
     type: 'symbol',
     source: 'layer-lv8',
