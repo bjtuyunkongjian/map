@@ -1,62 +1,27 @@
 import React, { Component } from 'react';
+import PoiLayers from '../map/map-styles/poi';
 
 export default class index extends Component {
-  state = { visible: true, rdColor, bgColor };
+  state = { visible: true };
 
   render() {
-    const { rdColor, bgColor } = this.state;
+    const { visible } = this.state;
     return (
-      <div className="show-tms">
-        中线：
-        <input
-          value={rdColor}
-          type="text"
-          maxLength="6"
-          placeholder="六位十六进制 ffffff"
-          onChange={this._changeRdColor}
-        />
-        底色：
-        <input
-          value={bgColor}
-          type="text"
-          placeholder="六位十六进制 ffffff"
-          maxLength="6"
-          onChange={this._changeBgColor}
-        />
+      <div className="show-tms" onClick={this._toggleVisible}>
+        {visible ? '隐藏 poi' : '显示 poi'}
       </div>
     );
   }
 
-  _changeRdColor = (e) => {
-    const color = e.target.value;
-    this.setState({ rdColor: color });
-    if (!reg.test(color)) return;
-    for (let item of roads) {
-      _MAP_.setPaintProperty(`siwei_${item}`, 'line-color', '#' + color);
+  _toggleVisible = () => {
+    const { visible } = this.state;
+    console.log(PoiLayers);
+    const visibility = !visible ? 'visible' : 'none';
+    // _MAP_.setPaintProperty(`siwei_${item}`, 'line-color', '#' + color);
+    for (let i = 1; i < PoiLayers.length; i++) {
+      const { id } = PoiLayers[i];
+      _MAP_.setLayoutProperty(id, 'visibility', visibility);
     }
-  };
-
-  _changeBgColor = (e) => {
-    const color = e.target.value;
-    this.setState({ bgColor: color });
-    if (!reg.test(color)) return;
-    for (let item of roads) {
-      _MAP_.setPaintProperty(`siwei_${item}_bg`, 'line-color', '#' + color);
-    }
+    this.setState({ visible: !visible });
   };
 }
-const reg = /^([a-f]|[A-F]|\d){6}$/;
-
-const rdColor = 'ffffff';
-const bgColor = 'aaaaaa';
-
-const roads = [
-  'dushigaosulu',
-  'gaosugonglu',
-  'guodao',
-  'jiujilu',
-  'qitadaolu',
-  'shengdao',
-  'xiandao',
-  'xiangzhendaolu',
-];
