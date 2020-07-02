@@ -15,7 +15,6 @@ export default class index extends Component {
 
   _toggleVisible = () => {
     const { visible } = this.state;
-    console.log(PoiLayers);
     const visibility = !visible ? 'visible' : 'none';
     // _MAP_.setPaintProperty(`siwei_${item}`, 'line-color', '#' + color);
     for (let i = 1; i < PoiLayers.length; i++) {
