@@ -113,7 +113,7 @@ export default class index extends Component {
         id: this._customLayerId,
         modelArr: _viewModelArr,
       });
-      _MAP_.addLayer(this._customLayer);
+      _MAP_.addLayer(this._customLayer, 'POI_BG');
     } else {
       this._customLayer.updateModel({
         center: [_center.lng, _center.lat],

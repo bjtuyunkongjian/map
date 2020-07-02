@@ -1,14 +1,12 @@
 import { FontColor } from 'tuyun-utils';
 const layers = [
   {
-    id: 'POI_BG',
-    type: 'symbol',
+    id: 'POI_BG', // 做线的基层使用，铁路
+    type: 'fill',
     source: 'layer-lv8',
     'source-layer': 'empty',
     paint: {
-      'text-color': 'rgba(65, 65, 65, 0.9)',
-      'text-halo-width': 2,
-      'text-halo-color': 'rgba(255, 255, 255, 1)',
+      'fill-opacity': 0,
     },
   },
   {
