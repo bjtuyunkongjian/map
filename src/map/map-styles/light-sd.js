@@ -69,7 +69,78 @@ export default {
         `${BaseConfig.geoserverHost}geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_8L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`,
       ],
       minzoom: 8,
-      maxzoom: 10,
+    },
+    'layer-lv9': {
+      type: 'vector',
+      scheme: 'tms',
+      tiles: [
+        `${BaseConfig.geoserverHost}geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_9L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`,
+      ],
+      minzoom: 9,
+    },
+    'layer-lv10': {
+      type: 'vector',
+      scheme: 'tms',
+      tiles: [
+        `${BaseConfig.geoserverHost}geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_10L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`,
+      ],
+      minzoom: 10,
+    },
+    'layer-lv11': {
+      type: 'vector',
+      scheme: 'tms',
+      tiles: [
+        `${BaseConfig.geoserverHost}geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_11L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`,
+      ],
+      minzoom: 11,
+    },
+    'layer-lv12': {
+      type: 'vector',
+      scheme: 'tms',
+      tiles: [
+        `${BaseConfig.geoserverHost}geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_12L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`,
+      ],
+      minzoom: 12,
+    },
+    'layer-lv13': {
+      type: 'vector',
+      scheme: 'tms',
+      tiles: [
+        `${BaseConfig.geoserverHost}geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_13L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`,
+      ],
+      minzoom: 13,
+    },
+    'layer-lv14': {
+      type: 'vector',
+      scheme: 'tms',
+      tiles: [
+        `${BaseConfig.geoserverHost}geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_14L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`,
+      ],
+      minzoom: 14,
+    },
+    'layer-lv15': {
+      type: 'vector',
+      scheme: 'tms',
+      tiles: [
+        `${BaseConfig.geoserverHost}geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_15L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`,
+      ],
+      minzoom: 15,
+    },
+    'layer-lv16': {
+      type: 'vector',
+      scheme: 'tms',
+      tiles: [
+        `${BaseConfig.geoserverHost}geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_16L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`,
+      ],
+      minzoom: 16,
+    },
+    'layer-lv17': {
+      type: 'vector',
+      scheme: 'tms',
+      tiles: [
+        `${BaseConfig.geoserverHost}geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_17L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`,
+      ],
+      minzoom: 17,
     },
   },
   sprite: `${BaseConfig.spriteHost}sprite/sprite`,

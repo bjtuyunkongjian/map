@@ -17,7 +17,7 @@ const layers = [
     },
     paint: {
       'line-width': 1,
-      'line-color': '#ff0000',
+      'line-color': '#930b00',
       // 'line-dasharray': [5, 4]
     },
   },
