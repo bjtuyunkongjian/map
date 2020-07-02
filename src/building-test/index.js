@@ -71,7 +71,8 @@ export default class index extends Component {
         const _lng = (x + 0.5) * _diffLng - _maxLng; // 中心点经度
         const _lat = (y + 0.5) * _diffLat - _maxLat; // 中心点纬度
         _modelArr.push({
-          url: `http://47.97.230.212:8082/tiles/${_id}.gltf`,
+          url: `./static/models/testui4.gltf`,
+          // url: './static/models/wintestui.gltf',
           // url: `http://192.168.251.140:8081/tiles/${_id}.gltf`,
           lng: _lng,
           lat: _lat,

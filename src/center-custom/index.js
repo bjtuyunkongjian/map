@@ -18,19 +18,33 @@ export default class index extends Component {
     //   { model: 'glass3' },
     // ],
     gltfUrl: [
-      // { model: 'test1'  },
+      // { model: 'test1' },
       // { model: 'building1', scale: 3e-3 },
       // { model: 'building2', scale: 5e-3 },
       // { model: 'building3', scale: 3e-3 },
       // { model: 'building4', scale: 4e-3 },
       // { model: 'building5', scale: 4e-3 },
-      // { model: '1', scale: 5e-1 },
-      // { model: '2', scale: 5e-1 },
-      // { model: '3', scale: 2.5e-1 },
-      // { model: '4', scale: 2.5e-1 },
-      // { model: '5', scale: 1 },
-      // { model: '6', scale: 5e-1 },
-      { model: 'a', scale: 1 },
+      { model: '1' }, //居民1
+      { model: '2' }, //居民2
+      { model: '3' }, //居民3 紫色
+      { model: '4' }, //玻璃幕墙
+      { model: '5' }, //玻璃幕墙
+      { model: '6' }, //玻璃幕墙
+
+      // { model: 'testui1' }, //居民楼1  1.1e-1
+      // { model: 'testui2', scale: 10e-2 }, //紫色居民楼分层2
+      // { model: 'testui3', scale: 10e-2 }, //玻璃幕墙1
+      // { model: 'testui4' }, //玻璃幕墙2
+      // { model: 'testui5' }, //横向玻璃幕墙3
+      // { model: 'testui6', scale: 11e-2 }, //居民楼3
+      // { model: 'testui7' }, //玻璃幕墙4
+      // { model: 'testui8' }, //居民楼4
+      // { model: 'testui9' }, //居民楼5
+      // { model: 'testui10', scale: 2e-1 }, //居民楼6
+      // { model: 'testui11' }, //玻璃幕墙6
+      // { model: 'testui12', scale: 2e-1 }, //居民楼7
+      // { model: 'testui13', scale: 2e-1 }, //居民楼8
+      // { model: 'testui15' }, //玻璃大厦5 倒角
     ],
   };
 
@@ -70,8 +84,8 @@ export default class index extends Component {
 
         modelArr.push({
           url: `${_prefix + model}.gltf`,
-          lng: lng + 0.0015 * (i - _halfLn),
-          lat: lat + 0.0015 * (j - _halfLn),
+          lng: lng + 0.001 * (i - _halfLn),
+          lat: lat + 0.001 * (j - _halfLn),
           altitude: 0,
           scale: scale,
           rotate: _rotate,

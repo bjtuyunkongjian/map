@@ -21,7 +21,7 @@ class CustomLayer {
     this.camera = new Camera();
     this.scene = new Scene();
 
-    const ambientLight = new AmbientLight(0xffffff, 1);
+    const ambientLight = new AmbientLight(0xffffff, 1.3);
     this.scene.add(ambientLight);
 
     const hemisphereLight = new HemisphereLight(0x000000, 0xffffff, 1);
