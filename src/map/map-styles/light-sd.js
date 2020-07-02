@@ -3,6 +3,8 @@ import { BaseConfig } from 'tuyun-config';
 // import Guodao from './road-guodao';
 import RoadSiWei from './road-siwei';
 import Water from './water';
+import PoiLayer from './poi';
+import Boundary from './boundary';
 
 const layers = [
   {
@@ -10,9 +12,12 @@ const layers = [
     type: 'raster',
     source: 'raster-tiles',
   },
+
   // ...Guodao,
   ...Water,
+  ...Boundary,
   ...RoadSiWei,
+  ...PoiLayer,
 ];
 
 export default {
@@ -49,7 +54,6 @@ export default {
       ],
       minzoom: 7,
     },
-
     'road-siwei': {
       type: 'vector',
       scheme: 'tms',
@@ -57,6 +61,15 @@ export default {
         `${BaseConfig.geoserverHost}geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ARoad_SiWei@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`,
       ],
       minzoom: 16,
+    },
+    'poi-8': {
+      type: 'vector',
+      scheme: 'tms',
+      tiles: [
+        `${BaseConfig.geoserverHost}geoserver/gwc/service/tms/1.0.0/SDWorkSpace%3ASD_8L@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`,
+      ],
+      minzoom: 8,
+      maxzoom: 10,
     },
   },
   sprite: `${BaseConfig.spriteHost}sprite/sprite`,
