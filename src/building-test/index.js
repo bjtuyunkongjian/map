@@ -4,8 +4,8 @@ import {
   point as TurfPoint,
   polygon as TurfPolygon,
   booleanPointInPolygon as PointInPolygon,
-  featureCollection as FeatureCollection,
-  area as TurfArea,
+  // featureCollection as FeatureCollection,
+  // area as TurfArea,
 } from '@turf/turf';
 import CustomLayer from './custom-layer';
 export default class index extends Component {
@@ -84,7 +84,6 @@ export default class index extends Component {
     }
     // 获取可视区域的范围
     const { viewArea: vArea, viewCenter: vCenter } = this._getViewArea() || {};
-    console.log(TurfArea(vArea) / 1000 ** 2);
     if (!vArea || !vCenter) return;
     const _viewModelArr = [];
     for (const item of _modelArr) {
@@ -113,7 +112,7 @@ export default class index extends Component {
         id: this._customLayerId,
         modelArr: _viewModelArr,
       });
-      _MAP_.addLayer(this._customLayer, 'POI_BG');
+      _MAP_.addLayer(this._customLayer);
     } else {
       this._customLayer.updateModel({
         center: [_center.lng, _center.lat],
