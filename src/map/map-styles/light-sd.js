@@ -5,6 +5,7 @@ import RoadSiWei from './road-siwei';
 import Water from './water';
 import PoiLayer from './poi';
 import Boundary from './boundary';
+// import Buildings from './buildings';
 
 const layers = [
   {
@@ -17,6 +18,7 @@ const layers = [
   ...Water,
   ...Boundary,
   ...RoadSiWei,
+  // ...Buildings,
   ...PoiLayer,
 ];
 
