@@ -4,8 +4,8 @@ import {
   point as TurfPoint,
   polygon as TurfPolygon,
   booleanPointInPolygon as PointInPolygon,
-  featureCollection as FeatureCollection,
-  area as TurfArea,
+  // featureCollection as FeatureCollection,
+  // area as TurfArea,
 } from '@turf/turf';
 import CustomLayer from './custom-layer';
 export default class index extends Component {
@@ -84,7 +84,7 @@ export default class index extends Component {
     }
     // 获取可视区域的范围
     const { viewArea: vArea, viewCenter: vCenter } = this._getViewArea() || {};
-    console.log(TurfArea(vArea) / 1000 ** 2);
+    // console.log(TurfArea(vArea) / 1000 ** 2);
     if (!vArea || !vCenter) return;
     const _viewModelArr = [];
     for (const item of _modelArr) {
@@ -103,6 +103,9 @@ export default class index extends Component {
         }
       }
       PointInPolygon(_pt, vArea) && _viewModelArr.push(item);
+    }
+    if (_viewModelArr.length === 0) {
+      _viewModelArr.push(..._modelArr);
     }
     // 获取中心点坐标
     const _center = _MAP_.getCenter();
