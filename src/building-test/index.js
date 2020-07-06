@@ -74,6 +74,7 @@ export default class index extends Component {
         _modelArr.push({
           // url: `./static/models/yq.gltf`,
           // url: `./static/models/test.gltf`,
+          // url: `http://192.168.251.140:8081/buildings/8px-1m/2059655.gltf`,
           url: `http://192.168.251.140:8081/tiles/8px-1m/${_id}.gltf`,
           lng: _lng,
           lat: _lat,
