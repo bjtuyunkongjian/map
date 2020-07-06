@@ -15,7 +15,7 @@ const roads = [
 
 const layers = [];
 
-for (let item of roads) {
+for (const item of roads) {
   const bgLayer = {
     id: `siwei_${item}_bg`,
     type: 'line',
@@ -64,6 +64,34 @@ for (let item of roads) {
     labelLayerId: lineLabelLayerId,
   };
   layers.push(preLayer);
+}
+
+// 路名添加在道路上面
+for (const item of roads) {
+  const rdName = {
+    id: `siwei_${item}_rd_name`,
+    type: 'symbol',
+    source: 'road-siwei',
+    'source-layer': item,
+    // filter: ['!=', 'CLASID', '430503'],
+    layout: {
+      'text-field': '{PathName}',
+      visibility: 'visible',
+      'symbol-placement': 'line',
+      'text-font': ['黑体'],
+      'text-pitch-alignment': 'viewport',
+      'symbol-spacing': 500,
+      'text-rotation-alignment': 'map',
+      'text-size': 12,
+      'icon-rotation-alignment': 'viewport',
+    },
+    paint: {
+      'text-color': '#747474',
+      'text-halo-width': 2,
+      'text-halo-color': 'rgba(255, 255, 255, 1)',
+    },
+  };
+  layers.push(rdName);
 }
 
 export default layers;
