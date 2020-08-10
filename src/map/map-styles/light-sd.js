@@ -28,7 +28,7 @@ export default {
         // '
         // 'http://192.168.251.67:6080/arcgis/rest/services/test1/sdxy1/MapServer/tile/{z}/{y}/{x}/lvdi.png',
         // 'http://localhost:8083/get-tiles/dev?z={z}&x={x}&y={y}',
-        'http://192.168.251.120:8888/direct?z={z}&x={x}&y={y}',
+        'http://192.168.1.113:8888/direct?z={z}&x={x}&y={y}&type=1',
         // 'http://47.110.135.245:8101/direct?z={z}&x={x}&y={y}',
         // 'http://124.128.48.215/tileservice/spot2006?layer=c&style=c&tilematrixset=c&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image%2Fpng&TileMatrix={z}&TileCol={y}&TileRow={x}',
       ],
