@@ -1,17 +1,17 @@
 .detail-popup {
-  border-radius: @radius-l;
+  border-radius: 6px;
   overflow: hidden;
   width: 180px;
   background-color: white;
   position: absolute;
   left: 101%;
   top: 0;
-  color: @t-base;
+  color: #333;
   padding-bottom: 10px;
-  box-shadow: @box-shadow-mini;
+  box-shadow: 2px 2px 2px #aaa;
   .detail-title {
-    background: @theme-bg-color;
-    color: @t-white;
+    background: #004d93;
+    color: #fff;
     padding: 5px;
     display: flex;
     align-items: center;
@@ -19,7 +19,6 @@
     .close {
       font-weight: 800;
       cursor: pointer;
-      .icon-right;
       &:hover {
         opacity: 0.8;
       }
@@ -30,8 +29,8 @@
     display: flex;
     align-items: center;
     padding: 5px;
-    border-top: 1px solid @border-color-base;
-    border-bottom: 1px solid @border-color-base;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
   }
 
   .detail-box {
@@ -54,13 +53,13 @@
       justify-content: center;
       .button {
         color: #fff;
-        background-color: @theme-bg-color;
-        border-color: @theme-bg-color;
+        background-color: #004d93;
+        border-color: #004d93;
         font-weight: 400;
         height: 32px;
-        border-radius: @radius-m;
-        transition: @transition;
-        border: 1px solid @border-color-darker;
+        border-radius: 4px;
+        transition: all 0.5s cubic-bezier(0.645, 0.045, 0.355, 1);
+        border: 1px solid#ddd;
         display: flex;
         align-items: center;
         justify-content: center;
