@@ -12,10 +12,10 @@ export default class ShowMessage extends Component {
     visible: true,
     boxTop: 50,
     boxLeft: 60,
-    baseInfo: [],
-    defendingPerInfo: [],
-    businessInfo: [],
-    legalRepInfo: [],
+    baseInfo: BaseInfo,
+    defendingPerInfo: DefendingPerInfo,
+    businessInfo: BusinessInfo,
+    legalRepInfo: LegalRepInfo,
   };
 
   render() {
