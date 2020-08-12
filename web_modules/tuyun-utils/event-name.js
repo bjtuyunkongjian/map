@@ -75,5 +75,8 @@ export default {
   closeCamera: 'close:camera',
   //显示警员和警车
   showPoliceForce: 'show:policeForce',
-  closePoliceForce: 'close:policeForce'
+  closePoliceForce: 'close:policeForce',
+
+  //显示怀业信息事件
+  showMessage: 'show:hyMessage',
 };

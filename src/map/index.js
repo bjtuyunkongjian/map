@@ -4,7 +4,7 @@
  */
 
 import mapboxgl from 'mapbox-gl';
-import { AddLevel } from 'tuyun-utils';
+import { AddLevel, GloEventName, GlobalEvent } from 'tuyun-utils';
 import React, { Component } from 'react';
 
 import BaseStyle from './map-styles/light-sd';
@@ -62,5 +62,7 @@ export default class MapBoxDemo extends Component {
     setTimeout(() => {
       this.map.flyTo({ zoom: 17 });
     }, 5000);
+    const { showMessage } = GloEventName;
+    GlobalEvent.emit(showMessage);
   };
 }
