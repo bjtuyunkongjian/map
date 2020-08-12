@@ -7,21 +7,21 @@ export const PopCategory = {
 
 // 人口信息
 export const BaseInfo = [
-  { label: '姓名', value: '', key: 'xm' },
-  { label: '性别', value: '', key: 'xb' },
-  { label: '出生日期', value: '', key: 'csrq' },
-  { label: '身份证', value: '', key: 'sfzhm' },
-  { label: '联系电话', value: '', key: 'lxdh' },
-  { label: '人口类别', value: '', key: 'rklb' },
+  { label: '姓名', value: '张三', key: 'xm' },
+  { label: '性别', value: '男', key: 'xb' },
+  { label: '出生日期', value: '1987-10-10', key: 'csrq' },
+  { label: '身份证', value: '1245677899098766655', key: 'sfzhm' },
+  { label: '联系电话', value: '87972653', key: 'lxdh' },
+  { label: '人口类别', value: '常驻 ', key: 'rklb' },
 ]; // 基本信息
 
 export const HouseholdRegInfo = [
-  { label: '户籍地', value: '', key: 'hjd' },
-  { label: '地址', value: '', key: 'dzmc' },
-  { label: '所属市局', value: '', key: 'sssj' },
-  { label: '所属责任区', value: '', key: 'sszrq' },
+  { label: '户籍地', value: 'xx省xx市', key: 'hjd' },
+  { label: '地址', value: 'xx街道xxx单元xx号', key: 'dzmc' },
+  { label: '所属市局', value: 'xx派出所', key: 'sssj' },
+  { label: '所属责任区', value: 'xx区', key: 'sszrq' },
   { label: '所属分县局', value: '', key: 'ssfxj' },
-  { label: '所属派出所', value: '', key: 'sspcs' },
+  { label: '所属派出所', value: 'xx派出所', key: 'sspcs' },
 ]; // 户籍信息
 
 export const TotalRkNum = {
@@ -39,3 +39,9 @@ export const RoomInfoList = [
 export const SelectedRoom = {
   personInfoList: [{ zdrybz: '常住人口' }, { xm: '张三' }, { syrkgllbdm: 11 }],
 };
+
+export const PersonInfoList = [
+  { zdrybz: '常住人口', value: '', key: 'czrk' },
+  { xm: '张三', key: 'sex' },
+  { syrkgllbdm: 11, key: 'sss' },
+];

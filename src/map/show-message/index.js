@@ -12,12 +12,13 @@ import {
   HouseholdRegInfo,
   TotalRkNum,
   RoomInfoList,
+  PersonInfoList,
 } from './contant';
 export default class ShowMessage extends Component {
   state = {
-    visible: true,
-    boxTop: 50,
-    boxLeft: 60,
+    visible: false,
+    boxTop: 250,
+    boxLeft: 850,
     baseInfo: BaseInfo,
     householdRegInfo: HouseholdRegInfo,
     popCategory: PopCategory,
@@ -27,23 +28,23 @@ export default class ShowMessage extends Component {
     roomInfoList: RoomInfoList,
     selectedPerson: {},
     selectedRoom: {},
+    personInfoList: PersonInfoList,
+  };
+
+  componentDidMount = () => {
+    this._loadLayer();
   };
 
   render() {
     const {
       boxTop,
       boxLeft,
-      baseInfo,
-      ouseholdRegInfo,
-      popCategory,
-      visible,
-      buildinglocation,
-      buildingName,
       totalRkNum,
       roomInfoList,
-      selectedPerson,
       selectedRoom,
+      visible,
     } = this.state;
+    if (!visible) return null;
     return (
       <div
         style={{ top: boxTop + 10, left: boxLeft + 10 }}
@@ -92,7 +93,6 @@ export default class ShowMessage extends Component {
               <li
                 className={`list-item ${_selected ? 'selected-item' : ''}`}
                 key={`house_item_${index}`}
-                onClick={() => this._createFamilyMember()}
               >
                 <div className="room-code">{item.mlph}</div>
                 <div className="type-box">
@@ -104,54 +104,59 @@ export default class ShowMessage extends Component {
             );
           })}
         </ul>
+
+        {this._createFamilyMember()}
       </div>
     );
   }
 
   _createFamilyMember = () => {
-    console.log('bbbbbbbb');
-    const { baseInfo, selectedRoom } = this.state;
-    const { personInfoList = [] } = selectedRoom;
+    const { boxTop, boxLeft } = this.state;
     return (
       <ul className="family-member">
-        {personInfoList.map((item, index) => {
-          const { syrkgllbdm } = item;
-          let _personType;
-          if (syrkgllbdm === '11') {
-            _personType = 'resident'; // 常口
-          }
-          return (
-            <div
-              className="detail-popup"
-              style={{ top: boxTop + 10, left: boxLeft + 10 }}
-            >
-              <div className="detail-title">
-                人员信息
-                <FaTimes className="close" onClick={this._closePopup} />
-              </div>
-              <div className="info-label">基本信息</div>
-              <ul className="detail-box">
-                {baseInfo.map((item, index) => (
-                  <li className="info-detail" key={`detail_${index}`}>
-                    <div className="detail-label">{item.label}：</div>
-                    <div className="detail-value">{item.value}</div>
-                  </li>
-                ))}
-              </ul>
+        <div className="detail-popup" style={{ top: 0, left: 280 }}>
+          <div className="detail-title">
+            人员信息
+            <FaTimes className="close" onClick={this._closePopup} />
+          </div>
+          <div className="info-label">基本信息</div>
+          <ul className="detail-box">
+            <li className="member-iteml">
+              <div className="detail-label">姓名：张三</div>
+              <div className="detail-label">性别：男：</div>
+              <div className="detail-label">出生日期：1987-10-10</div>
+              <div className="detail-label">身份证：245677899098766655</div>
+              <div className="detail-label">人口类别：常住人口</div>
+            </li>
+          </ul>
 
-              <div className="info-label">户籍信息</div>
-              <ul className="detail-box">
-                {householdRegInfo.map((item, index) => (
-                  <li className="info-detail" key={`detail_${index}`}>
-                    <div className="detail-label">{item.label}：</div>
-                    <div className="detail-value">{item.value}</div>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          );
-        })}
+          <div className="info-label">户籍信息</div>
+          <ul className="detail-box">
+            <li className="info-detail">
+              <div className="detail-label">户籍地</div>
+              <div className="detail-value">xx省xx市xx派出所</div>
+            </li>
+          </ul>
+        </div>
       </ul>
     );
+  };
+
+  _loadLayer = () => {
+    _MAP_.on('load', () => {
+      const duration = 2 * 1000;
+      _MAP_.flyTo({
+        zoom: 17,
+        duration: duration,
+        center: [117.084182, 36.682856],
+      });
+      setTimeout(() => {
+        this.setState({ visible: true });
+      }, duration + 500);
+    });
+  };
+
+  _closePopup = () => {
+    this.setState({ visible: false });
   };
 }
