@@ -34,10 +34,9 @@ export default class MapBoxDemo extends Component {
       container: this._mapContainer,
       style: BaseStyle,
       showTileBoundaries: true,
-      center: [117.0856, 36.6754],
-      zoom: 11,
-      // pitch: 60,
-      // bearing: -13.6,
+      center: [117.084182, 36.682856],
+      zoom: 15,
+      pitch: 60,
       minZoom: 7,
       maxZoom: 20,
       localIdeographFontFamily: '黑体',
@@ -50,11 +49,18 @@ export default class MapBoxDemo extends Component {
       .on('zoomend', () => {
         this._addSourceFunc();
       });
+    this._loadLayer();
   };
 
   _addSourceFunc = () => {
     for (let item of AddLevels) {
       AddLevel(this.map, item);
     }
+  };
+
+  _loadLayer = () => {
+    setTimeout(() => {
+      this.map.flyTo({ zoom: 17 });
+    }, 5000);
   };
 }
