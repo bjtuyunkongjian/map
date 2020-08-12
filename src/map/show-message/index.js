@@ -48,9 +48,10 @@ export default class ShowMessage extends Component {
       visible,
     } = this.state;
     if (!visible) return null;
+    const { x, y } = _MAP_.project([117.084498, 36.68505]);
     return (
       <div
-        style={{ top: boxTop + 10, left: boxLeft + 10 }}
+        style={{ top: (y | 0) + 10, left: (x | 0) + 10 }}
         className="podata-popup"
       >
         <div className="popup-title">
@@ -158,6 +159,10 @@ export default class ShowMessage extends Component {
         this._addNameLayer();
       }, duration + 500);
     });
+
+    // _MAP_.on('moveend' , () => {
+    //   const { x, y } = _MAP_.project([117.084498, 36.68505]);
+    // })
   };
 
   _addNameLayer = () => {
