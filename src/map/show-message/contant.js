@@ -34,6 +34,18 @@ export const RoomInfoList = [
   { czrkNum: 1, ldrkNum: 1, zdryNum: 1 },
   { czrkNum: 3, ldrkNum: 2, zdryNum: 2 },
   { czrkNum: 4, ldrkNum: 3, zdryNum: 1 },
+  { czrkNum: 2, ldrkNum: 1, zdryNum: 0 },
+  { czrkNum: 1, ldrkNum: 1, zdryNum: 1 },
+  { czrkNum: 3, ldrkNum: 2, zdryNum: 2 },
+  { czrkNum: 4, ldrkNum: 3, zdryNum: 1 },
+  { czrkNum: 2, ldrkNum: 1, zdryNum: 0 },
+  { czrkNum: 1, ldrkNum: 1, zdryNum: 1 },
+  { czrkNum: 3, ldrkNum: 2, zdryNum: 2 },
+  { czrkNum: 4, ldrkNum: 3, zdryNum: 1 },
+  { czrkNum: 2, ldrkNum: 1, zdryNum: 0 },
+  { czrkNum: 1, ldrkNum: 1, zdryNum: 1 },
+  { czrkNum: 3, ldrkNum: 2, zdryNum: 2 },
+  { czrkNum: 4, ldrkNum: 3, zdryNum: 1 },
 ];
 
 export const SelectedRoom = {

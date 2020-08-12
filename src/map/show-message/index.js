@@ -129,7 +129,7 @@ export default class ShowMessage extends Component {
               <div className="detail-label">姓名：张三</div>
               <div className="detail-label">性别：男：</div>
               <div className="detail-label">出生日期：1987-10-10</div>
-              <div className="detail-label">身份证：245677899098766655</div>
+              <div className="detail-label">身份证：2456778990987</div>
               <div className="detail-label">人口类别：常住人口</div>
             </li>
           </ul>
