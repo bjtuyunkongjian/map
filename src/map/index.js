@@ -35,7 +35,7 @@ export default class MapBoxDemo extends Component {
       style: BaseStyle,
       showTileBoundaries: true,
       center: [117.084182, 36.682856],
-      zoom: 15,
+      zoom: 13,
       pitch: 60,
       minZoom: 7,
       maxZoom: 20,

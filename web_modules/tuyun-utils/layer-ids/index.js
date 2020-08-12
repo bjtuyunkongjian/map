@@ -13,6 +13,7 @@ import PolyAreaReasult from './poly-reasult';
 import CompareBar from './compare-bar';
 import CameraDetail from './camera';
 import Jurisdiction from './jurisdiction';
+import HyNameLayer from './hy';
 export default {
   population: PopulationLayerIds,
   unit: UnitLayerIds,
@@ -28,5 +29,6 @@ export default {
   polyAreaReasult: PolyAreaReasult,
   compareBar: CompareBar,
   cameraDetail: CameraDetail,
-  jurisdiction: Jurisdiction
+  jurisdiction: Jurisdiction,
+  hyNameLayer: HyNameLayer,
 };

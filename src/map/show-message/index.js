@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-
+import {
+  point as TurfPoint,
+  featureCollection as FeatureCollection,
+} from 'turf';
 import { FaPeriscope } from 'react-icons/fa';
 // import { MdLocationCity } from 'react-icons/md';
 import { MdPeopleOutline } from 'react-icons/md';
 import { TiHomeOutline } from 'react-icons/ti';
 import { FaTimes } from 'react-icons/fa';
-import { GlobalEvent, GloEventName } from 'tuyun-utils';
+import { AddNamePlateLayer, LayerIds } from 'tuyun-utils';
 import {
   PopCategory,
   BaseInfo,
@@ -144,7 +147,7 @@ export default class ShowMessage extends Component {
 
   _loadLayer = () => {
     _MAP_.on('load', () => {
-      const duration = 2 * 1000;
+      const duration = 5 * 1000;
       _MAP_.flyTo({
         zoom: 17,
         duration: duration,
@@ -152,8 +155,19 @@ export default class ShowMessage extends Component {
       });
       setTimeout(() => {
         this.setState({ visible: true });
+        this._addNameLayer();
       }, duration + 500);
     });
+  };
+
+  _addNameLayer = () => {
+    const _features = TurfPoint([117.084498, 36.68505], { code: 1 });
+    const _geoJSONData = {
+      type: 'geojson',
+      data: FeatureCollection([_features]),
+    };
+    console.log(_geoJSONData);
+    AddNamePlateLayer(_MAP_, _geoJSONData, LayerIds.hyNameLayer.namePlate); // 添加铭牌
   };
 
   _closePopup = () => {

@@ -5,11 +5,11 @@
 // 用来监听鼠标事件的
 const layerListenerMap = {};
 
-const pointerCursor = mapCanvas => {
+const pointerCursor = (mapCanvas) => {
   mapCanvas.style.cursor = 'pointer';
 };
 
-const defaultCursor = mapCanvas => {
+const defaultCursor = (mapCanvas) => {
   mapCanvas.style.cursor = '';
 };
 
@@ -35,7 +35,7 @@ const AddCircleLayer = (map, source, layerId, option = {}) => {
     strokeWidth,
     strokeColor,
     radius,
-    disablePointer = false
+    disablePointer = false,
   } = option;
   if (!map.getSource(layerId)) {
     map.addLayer(
@@ -47,8 +47,8 @@ const AddCircleLayer = (map, source, layerId, option = {}) => {
           'circle-color': color || '#f00',
           'circle-radius': radius || ['get', 'radius'],
           'circle-stroke-width': strokeWidth || 0,
-          'circle-stroke-color': strokeColor || 'rgba(0,0,0,0)'
-        }
+          'circle-stroke-color': strokeColor || 'rgba(0,0,0,0)',
+        },
       },
       labelLayerId
     );
@@ -78,13 +78,13 @@ const AddTextLayer = (map, source, layerId, option = {}) => {
           'text-rotation-alignment': 'viewport',
           'icon-rotation-alignment': 'viewport',
           'text-anchor': 'center',
-          'text-keep-upright': false
+          'text-keep-upright': false,
         },
         paint: {
           'text-color': textColor || 'rgba(65, 65, 65, 0.9)',
           'text-halo-width': textHaloWith || 2,
-          'text-halo-color': textHaloColor || 'rgba(255, 255, 255, 1)'
-        }
+          'text-halo-color': textHaloColor || 'rgba(255, 255, 255, 1)',
+        },
       },
       labelLayerId
     );
@@ -106,11 +106,11 @@ const AddNamePlateLayer = (map, source, layerId, option = {}) => {
       id: layerId,
       type: 'symbol',
       source: source,
-      minzoom: 16,
+      // minzoom: 16,
       layout: {
         'text-field': '{num}',
         'symbol-placement': 'point',
-        'text-size': 10,
+        'text-size': 20,
         'icon-image': iconImage || 'ic_map_gh.9',
         'icon-text-fit': 'both',
         'icon-text-fit-padding': [1, 2, 1, 2],
@@ -120,11 +120,11 @@ const AddNamePlateLayer = (map, source, layerId, option = {}) => {
         'text-rotation-alignment': 'viewport',
         'icon-rotation-alignment': 'viewport',
         'text-anchor': 'center',
-        'text-keep-upright': false
+        'text-keep-upright': false,
       },
       paint: {
-        'text-color': '#FFFFFF'
-      }
+        'text-color': '#FFFFFF',
+      },
     });
     !disablePointer && addPointerListener(map, layerId); // 添加监听
   } else {
@@ -149,7 +149,7 @@ const AddImageLayer = (map, source, layerId, option = {}) => {
     iconOffset = [0, 0],
     disablePointer,
     pitchAlignment = 'map',
-    rotationAlignment = 'map'
+    rotationAlignment = 'map',
   } = option;
 
   if (!map.getSource(layerId)) {
@@ -166,11 +166,11 @@ const AddImageLayer = (map, source, layerId, option = {}) => {
           'icon-rotation-alignment': rotationAlignment,
           'icon-pitch-alignment': pitchAlignment,
           'icon-rotate': iconRotate,
-          'icon-offset': iconOffset
+          'icon-offset': iconOffset,
         },
         paint: {
-          'icon-opacity': iconOpacity || 1
-        }
+          'icon-opacity': iconOpacity || 1,
+        },
       },
       labelLayerId
     );
@@ -196,7 +196,7 @@ const AddLoadedImageLayer = (map, source, layerId, imgUrl, option = {}) => {
       iconRotate = 0,
       iconOpacity,
       labelLayerId,
-      iconOffset = [0, 0]
+      iconOffset = [0, 0],
     } = option;
     if (!map.getSource(layerId)) {
       map.addLayer(
@@ -211,11 +211,11 @@ const AddLoadedImageLayer = (map, source, layerId, imgUrl, option = {}) => {
             'icon-rotation-alignment': 'map',
             // 'icon-pitch-alignment': 'viewport',
             'icon-rotate': iconRotate,
-            'icon-offset': iconOffset
+            'icon-offset': iconOffset,
           },
           paint: {
-            'icon-opacity': iconOpacity || 1
-          }
+            'icon-opacity': iconOpacity || 1,
+          },
         },
         labelLayerId
       );
@@ -250,13 +250,13 @@ const AddHeatMapLayer = (map, source, layerId) => {
             0.8,
             'yellow',
             1,
-            'red'
+            'red',
           ],
           // Adjust the heatmap radius by zoom level
           'heatmap-radius': 10,
           // Transition from heatmap to circle layer by zoom level
-          'heatmap-opacity': 1
-        }
+          'heatmap-opacity': 1,
+        },
       },
       'line-gd-ref'
     );
@@ -283,8 +283,8 @@ const AddLineLayer = (map, source, layerId, option = {}) => {
         paint: {
           'line-width': width || 1,
           'line-color': color || '#f00',
-          'line-dasharray': dasharray || [1]
-        }
+          'line-dasharray': dasharray || [1],
+        },
       },
       labelLayerId
     );
@@ -308,8 +308,8 @@ const AddPolygonLayer = (map, source, layerId, option = {}) => {
         type: 'fill',
         source: source,
         paint: {
-          'fill-color': color || '#f00'
-        }
+          'fill-color': color || '#f00',
+        },
       },
       labelLayerId
     );
@@ -330,8 +330,8 @@ const Add3dLayer = (map, source, layerId, option = {}) => {
           'fill-extrusion-color': color || '#f00',
           'fill-extrusion-height': ['number', ['get', 'height']],
           'fill-extrusion-base': 0,
-          'fill-extrusion-opacity': opacity || 1
-        }
+          'fill-extrusion-opacity': opacity || 1,
+        },
       },
       labelLayerId
     );
@@ -345,12 +345,12 @@ const updateSource = (map, layerId, source) => {
   if (source.data.type === 'FeatureCollection') {
     map.getSource(layerId).setData({
       type: 'FeatureCollection',
-      features: source.data.features
+      features: source.data.features,
     });
   } else if (source.data.type === 'Feature') {
     map.getSource(layerId).setData({
       type: 'Feature',
-      geometry: source.data.geometry
+      geometry: source.data.geometry,
     });
   }
 };
@@ -374,5 +374,5 @@ export {
   AddPolygonLayer,
   Add3dLayer,
   AddImageLayer,
-  RemoveLayer
+  RemoveLayer,
 };
