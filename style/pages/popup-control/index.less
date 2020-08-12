@@ -1,17 +1,17 @@
 .popup-control {
-  border-radius: @radius-l;
+  border-radius: 6px;
   overflow: hidden;
   width: 350px;
   background-color: white;
   position: absolute;
   left: 101%;
   top: 0;
-  color: @t-base;
+  color: #333;
   padding-bottom: 10px;
-  box-shadow: @box-shadow-mini;
+  box-shadow: 2px 2px 2px #aaa;
   .list-title {
-    background-color: @color-dark-blue;
-    color: @t-white;
+    background-color: #003f6f;
+    color: #fff;
     padding: 5px;
     display: flex;
     align-items: center;
@@ -20,7 +20,6 @@
   .close {
     font-weight: 800;
     cursor: pointer;
-    .icon-right;
     &:hover {
       opacity: 0.8;
     }
@@ -34,7 +33,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background-color: @t-grayer;
+      background-color: #999;
       .header-item {
         flex: 1;
         text-align: center;
@@ -44,10 +43,10 @@
     .table-row {
       display: flex;
       justify-content: space-around;
-      border-bottom: 1px solid @t-base;
-      border-left: 1px solid @t-base;
+      border-bottom: 1px solid #333;
+      border-left: 1px solid #333;
       .row-item {
-        border-right: 1px solid @t-base;
+        border-right: 1px solid #333;
         flex-wrap: wrap;
         text-align: center;
         flex-grow: 1;
@@ -73,19 +72,19 @@
       cursor: pointer;
       .prev-page {
         width: 50px;
-        border: 1px solid @t-base;
-        background-color: @color-dark-blue;
-        color: @t-white;
+        border: 1px solid #333;
+        background-color: #003f6f;
+        color: #fff;
         text-align: center;
-        border-radius: @radius-s;
+        border-radius: 2px;
       }
       .next-page {
         width: 50px;
-        border: 1px solid @t-base;
-        background-color: @color-dark-blue;
-        color: @t-white;
+        border: 1px solid #333;
+        background-color: #003f6f;
+        color: #fff;
         text-align: center;
-        border-radius: @radius-s;
+        border-radius: 2px;
       }
     }
   }
