@@ -10,6 +10,8 @@ import { AddNamePlateLayer, LayerIds, AddPolygonLayer } from 'tuyun-utils';
 export default class ShowMessage extends Component {
   state = {
     visible: false,
+    x: 0,
+    y: 0,
   };
 
   componentDidMount = () => {
@@ -17,12 +19,11 @@ export default class ShowMessage extends Component {
   };
 
   render() {
-    const { visible } = this.state;
+    const { visible, x, y } = this.state;
     if (!visible) return null;
-    const { x, y } = _MAP_.project([116.992489, 36.663999]);
     return (
       <div
-        style={{ top: (y | 0) + 10, left: (x | 0) + 10 }}
+        style={{ top: (y | 0) - 40, left: (x | 0) + 10 }}
         className="podata-popup"
       >
         <div className="popup-title">
@@ -47,23 +48,30 @@ export default class ShowMessage extends Component {
   }
 
   _loadLayer = () => {
+    _MAP_.on('move', () => {
+      const { x, y } = _MAP_.project([116.992489, 36.663999]);
+      this.setState({ x, y });
+    });
     _MAP_.on('load', () => {
-      const duration = 2 * 1000;
-      _MAP_.flyTo({
-        zoom: 17,
-        duration: duration,
-        center: [116.99248913367315, 36.66327902595104],
-      });
+      const duration = 1.5 * 1000;
+      const delay = 0.5 * 1000;
+      setTimeout(() => {
+        _MAP_.flyTo({
+          zoom: 18,
+          // duration: duration,
+          center: [116.9929748, 36.6636223],
+        });
+      }, delay);
       setTimeout(() => {
         this.setState({ visible: true });
-        this._addNameLayer();
+        // this._addNameLayer();
         this._addFloorLayer();
-      }, 4000);
+      }, duration + delay);
     });
   };
 
   _addNameLayer = () => {
-    const _features = TurfPoint([116.992489, 36.664099], {
+    const _features = TurfPoint([116.992489, 36.664299], {
       code: 1,
     });
     const _geoJSONData = {
