@@ -3,12 +3,11 @@ import { IoIosClose } from 'react-icons/io';
 import { GlobalConst, GloEventName, GlobalEvent } from 'tuyun-utils';
 
 import Event, { EventName } from './event';
-import { DropDown } from './constant';
 
 export default class CityList extends Component {
   state = {
-    curDropDown: '',
-    resArr: []
+    show: true,
+    resArr: [{}]
   };
 
   _type = '';
@@ -16,12 +15,10 @@ export default class CityList extends Component {
   componentWillMount = () => this._dealWithEvent();
 
   render() {
-    const { curDropDown, resArr = [] } = this.state;
+    const { show, resArr = [] } = this.state;
     return (
       <div
-        className={`result-list ${
-          curDropDown === DropDown.resultList ? '' : 'hidden'
-        }`}
+        className={`result-list ${show ? '' : 'hidden'}`}
       >
         <div className="list-header">
           <span>搜索结果</span>

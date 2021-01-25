@@ -8,13 +8,8 @@ const DefaultSearch = SearchValue.base;
 
 // 搜索列表
 const SearchArr = [
-  { label: '输入搜索', value: SearchValue.base },
-  { label: '地图搜索', value: SearchValue.polygon }
+  { label: '文字转地址', value: SearchValue.base },
+  { label: '地址转文字', value: SearchValue.polygon }
 ];
 
-const DropDown = {
-  cityList: 'city-list',
-  resultList: 'result-list'
-};
-
-export { DefaultSearch, SearchValue, SearchArr, DropDown };
+export { DefaultSearch, SearchValue, SearchArr };

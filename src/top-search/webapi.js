@@ -4,140 +4,22 @@
 
 import { FetchRequest } from 'tuyun-utils';
 
+// http://47.110.135.245:8888/geocode   post
+// {addrs:["山东省济南市天桥区重汽翡翠郡南区20号楼","北园街道花格小区45号楼","青后小区四区5号楼","山东省济南市平阴县新世纪广场2号楼","山东省济南市天桥区前陈家楼22号","明珠东区二区(石河街西70米)"],"radius": 100}
+
+// http://47.110.135.245:8888/geocode/reverse		post
+// {"geoms":["116.45400392954893,36.27996949812147","116.73941647280677,36.560322185464265","117.05113834386147,36.67904470485607","116.97140108923175,36.64915925901595","117.060584222153,36.67805110800583","116.97695186221038,36.6324651935658"],
+// "radius": 100,
+// "num": 3
+// }
+
 /**
- * 基础搜索：
- * 1.身份证搜索
- * http://56.8.2.164:12808/mapServer/search/people/?idCard=372801197501116229
+ * 文字转地址
+ * http://47.110.135.245:8888/geocode
  */
 export const GetIdSearch = async param => {
   const { res, err } = await FetchRequest({
     url: 'mapServer/search/people/?' + param,
-    method: 'GET'
-  });
-  return { res, err };
-};
-
-/* 2.单位名称搜索
- * http://56.8.2.164:12808/mapServer/search/unit/?unitName=凤凰岭
- */
-export const GetUnitData = async param => {
-  const { res, err } = await FetchRequest({
-    url: 'mapServer/search/unit/?' + param,
-    method: 'GET'
-  });
-  return { res, err };
-};
-
-/* 3.地点名称搜索
- * http://56.8.2.164:12808/mapServer/search/poi/?poiName=百临超市
- */
-export const GetPoiData = async param => {
-  const { res, err } = await FetchRequest({
-    url: 'mapServer/search/poi/?' + param,
-    method: 'GET'
-  });
-  return { res, err };
-};
-
-/* 4.车牌号搜索
- * http://56.8.2.164:12808/mapServer/search/car/?plateName=S035458
- */
-export const GetCarData = async param => {
-  const { res, err } = await FetchRequest({
-    url: 'mapServer/search/car/?' + param,
-    method: 'GET'
-  });
-  return { res, err };
-};
-
-/**
- * 5.案件搜索（案件名称或案件编号）
- * mapServer/search/case/?option=济南大学
- */
-export const GetCaseResult = async param => {
-  const { res, err } = await FetchRequest({
-    url: 'mapServer/search/case/?' + param,
-    method: 'GET'
-  });
-  return { res, err };
-};
-/**
- * 6.警员搜索
- * GPSServer/selPolice?objectId=37140000000004288
- */
-export const GetPoliceResult = async param => {
-  const { res, err } = await FetchRequest({
-    url: 'GPSServer/selPolice?' + param,
-    method: 'GET'
-  });
-  return { res, err };
-};
-/**
- * 7.警车搜索
- * GPSServer/selPoliceCar?objectId=37000000035577
- */
-export const GetPoliceCarResult = async param => {
-  const { res, err } = await FetchRequest({
-    url: 'GPSServer/selPoliceCar?' + param,
-    method: 'GET'
-  });
-  return { res, err };
-};
-/**
- * 多边形搜索 POST请求
- * http://56.8.2.241:12808/mapServer/geoSearch/polygonSearch
- *
- * type表示搜索的类型，值为下列中的一个：
- * importantPerson: 重点人口搜索
- * camera：摄像头搜索
- * specialCompany：特种单位搜索
- * protectCompany：保护单位搜索
- * case：案件搜索
- * policeSituation：警情搜索
- * polygon是下面JSON的字符串格式：
- * {
- * 	type: "Polygon",
- * 	coordinates: [[[x1, y1], [x2, y2], [x3, y3], [x4, y4], . . . , [xn, yn]]]
- * }
- * polygon:geojson格式的面
- *
- */
-export const PostPolygonSearch = async body => {
-  const { res, err } = await FetchRequest({
-    url: 'mapServer/geoSearch/polygonSearch',
-    method: 'POST',
-    body
-  });
-  return { res, err };
-};
-
-/**
- * http://56.8.2.241:12808/mapServer/geoSearch/circleSearch?
- * type= &point=&radius=
- * type 同上
- * point是下面JSON的字符串格式：
- * {
- * 	type: "Point",
- * 	coordinates: [longitude, latitude]
- * }
- * radius: 半径，单位米，double类型
- */
-export const GetCircleSearch = async param => {
-  const { res, err } = await FetchRequest({
-    url: 'mapServer/geoSearch/circleSearch?' + param,
-    method: 'GET'
-  });
-  return { res, err };
-};
-
-/**
- * 获取警员警车的详情
- * http://localhost:8082/GPSServer/policeDetail?
- * objectId=37130000000000004
- */
-export const GetPoliceDetail = async param => {
-  const { res, err } = await FetchRequest({
-    url: 'GPSServer/policeDetail?' + param,
     method: 'GET'
   });
   return { res, err };
