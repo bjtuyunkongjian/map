@@ -9,21 +9,20 @@ export default class SearchInput extends Component {
   state = {
     inputVal: '',
     curNav: {},
-    curType: {}
   };
 
   componentWillMount = () => this._dealWithEvent();
   componentDidMount = () => this._init();
 
   render() {
-    const { inputVal, curType, curNav } = this.state;
+    const { inputVal, curNav } = this.state;
     if(curNav.value !== SearchValue.geocode) return null;
     const _isHidden = inputVal ? '' : 'hidden';
     return (
       <div className="search-input-box">
         <input
           type="text"
-          placeholder={curType.placeholder || '图云搜索'}
+          placeholder="输入地址名称"
           className="search-input"
           value={inputVal}
           onChange={this._onChange}
@@ -45,7 +44,8 @@ export default class SearchInput extends Component {
       this.setState({ curNav: nextNav });
     });
     Event.on(EventName.clickSearchBtn, async () => {
-      const { inputVal } = this.state;
+      const { inputVal, curNav } = this.state;
+      if(curNav.value !== SearchValue.geocode) return;
       const { res, err } = await PostGeocode(inputVal); 
       console.log(res, err);
 

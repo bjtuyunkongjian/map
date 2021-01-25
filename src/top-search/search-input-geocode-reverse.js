@@ -2,28 +2,27 @@ import React, { Component } from 'react';
 import { MdHighlightOff } from 'react-icons/md';
 
 import Event, { EventName } from './event';
-import { PostGeocode } from './webapi';
+import { PostGeocodeReverse } from './webapi';
 import { SearchValue } from './constant';
 
 export default class SearchInput extends Component {
   state = {
     inputVal: '',
     curNav: {},
-    curType: {}
   };
 
   componentWillMount = () => this._dealWithEvent();
   componentDidMount = () => this._init();
 
   render() {
-    const { inputVal, curType, curNav } = this.state;
+    const { inputVal, curNav } = this.state;
     if(curNav.value !== SearchValue.geocodeReverse) return null;
     const _isHidden = inputVal ? '' : 'hidden';
     return (
       <div className="search-input-box">
         <input
           type="text"
-          placeholder={curType.placeholder || '图云搜索'}
+          placeholder="经度,纬度"
           className="search-input"
           value={inputVal}
           onChange={this._onChange}
@@ -45,8 +44,9 @@ export default class SearchInput extends Component {
       this.setState({ curNav: nextNav });
     });
     Event.on(EventName.clickSearchBtn, async () => {
-      const { inputVal } = this.state;
-      const { res, err } = await PostGeocode(inputVal); 
+      const { inputVal, curNav } = this.state;
+      if(curNav.value !== SearchValue.geocodeReverse) return;
+      const { res, err } = await PostGeocodeReverse(inputVal); 
       console.log(res, err);
 
     });

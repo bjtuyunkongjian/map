@@ -8,7 +8,7 @@ import { SearchValue } from './constant';
 export default class CityList extends Component {
   state = {
     show: true,
-    resArr: [{}],
+    resArr: [],
     curNav: {}
   };
 
@@ -18,7 +18,8 @@ export default class CityList extends Component {
 
   render() {
     const { show, resArr = [], curNav = {} } = this.state;
-    if(curNav.value !== SearchValue.geocode) return null;
+    if(curNav.value !== SearchValue.geocodeReverse) return null;
+    if(resArr.length === 0) return null;
     return (
       <div
         className={`result-list ${show ? '' : 'hidden'}`}
@@ -50,11 +51,6 @@ export default class CityList extends Component {
   }
 
   _dealWithEvent = () => {
-    Event.on(EventName.changeDropDown, ({ dropDown, resArr, type } = {}) => {
-      this._type = type;
-      this.setState({ curDropDown: dropDown, resArr: resArr || [] });
-    });
-    
     Event.on(EventName.changeSearchNav, nextNav => {
       const { curNav } = this.state;
       if (nextNav === curNav) return;

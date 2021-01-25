@@ -51,11 +51,6 @@ export default class CityList extends Component {
   }
 
   _dealWithEvent = () => {
-    Event.on(EventName.changeDropDown, ({ dropDown, resArr, type } = {}) => {
-      this._type = type;
-      this.setState({ curDropDown: dropDown, resArr: resArr || [] });
-    });
-    
     Event.on(EventName.changeSearchNav, nextNav => {
       const { curNav } = this.state;
       if (nextNav === curNav) return;
