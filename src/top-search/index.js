@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 
 import SearchNav from './search-nav';
-import SearchInput from './search-input';
+import SearchInputGeocode from './search-input-geocode';
+import SearchInputGeocodeReverse from './search-input-geocode-reverse';
 import SearchBtn from './search-btn';
-import ResultList from './result-list';
+import ResultListGeoCode from './result-list-geocode';
+import ResultListGeoCodeReverse from './result-list-geocode-reverse';
 
 export default class TopSearch extends Component {
 
@@ -12,9 +14,11 @@ export default class TopSearch extends Component {
     return (
       <div className="top-search">
         <SearchNav />
-        <SearchInput />
+        <SearchInputGeocode />
+        <SearchInputGeocodeReverse />
         <SearchBtn />
-        <ResultList />
+        <ResultListGeoCode />
+        <ResultListGeoCodeReverse />
       </div>
     );
   }

@@ -3,6 +3,7 @@ import { MdHighlightOff } from 'react-icons/md';
 
 import Event, { EventName } from './event';
 import { PostGeocode } from './webapi';
+import { SearchValue } from './constant';
 
 export default class SearchInput extends Component {
   state = {
@@ -15,7 +16,8 @@ export default class SearchInput extends Component {
   componentDidMount = () => this._init();
 
   render() {
-    const { inputVal, curType } = this.state;
+    const { inputVal, curType, curNav } = this.state;
+    if(curNav.value !== SearchValue.geocodeReverse) return null;
     const _isHidden = inputVal ? '' : 'hidden';
     return (
       <div className="search-input-box">
@@ -45,7 +47,7 @@ export default class SearchInput extends Component {
     Event.on(EventName.clickSearchBtn, async () => {
       const { inputVal } = this.state;
       const { res, err } = await PostGeocode(inputVal); 
-      console.log(res, err)
+      console.log(res, err);
 
     });
   };
