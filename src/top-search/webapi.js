@@ -17,10 +17,26 @@ import { FetchRequest } from 'tuyun-utils';
  * 文字转地址
  * http://47.110.135.245:8888/geocode
  */
-export const GetIdSearch = async param => {
+export const PostGeocode = async address => {
+  const body = { addrs:[ address],"radius": 100 };
   const { res, err } = await FetchRequest({
-    url: 'mapServer/search/people/?' + param,
-    method: 'GET'
+    url: 'geocode',
+    method: 'POST',
+    body: body
+  });
+  return { res, err };
+};
+
+/**
+ * 文字转地址
+ * http://47.110.135.245:8888/geocode
+ */
+export const PostGeocodeReverse = async address => {
+  const body = { addrs:[address],"radius": 100, num: 5 };
+  const { res, err } = await FetchRequest({
+    url: 'geocode/reverse',
+    method: 'POST',
+    body: body
   });
   return { res, err };
 };

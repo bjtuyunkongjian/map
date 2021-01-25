@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { MdHighlightOff } from 'react-icons/md';
 
 import Event, { EventName } from './event';
-import { SearchValue } from './constant';
+import { PostGeocode } from './webapi';
 
 export default class SearchInput extends Component {
   state = {
@@ -15,9 +15,8 @@ export default class SearchInput extends Component {
   componentDidMount = () => this._init();
 
   render() {
-    const { inputVal, curNav, curType } = this.state;
+    const { inputVal, curType } = this.state;
     const _isHidden = inputVal ? '' : 'hidden';
-    if (curNav.value === SearchValue.polygon) return null;
     return (
       <div className="search-input-box">
         <input
@@ -43,16 +42,18 @@ export default class SearchInput extends Component {
       if (nextNav === curNav) return;
       this.setState({ curNav: nextNav });
     });
-    Event.on(EventName.changeSearchType, nextType => {
-      this.setState({ curType: nextType });
+    Event.on(EventName.clickSearchBtn, async () => {
+      const { inputVal } = this.state;
+      const { res, err } = await PostGeocode(inputVal); 
+      console.log(res, err)
+
     });
   };
 
   _onChange = e => {
-    this.setState({ inputVal: e.target.value });
-    if (!e.target.value) {
-    }
-    Event.emit(EventName.changeInputVal, e.target.value);
+    const { value } = e.target;
+    this.setState({ inputVal: value });
+    Event.emit(EventName.changeInputVal, value);
   };
 
   _clearInput = () => {
