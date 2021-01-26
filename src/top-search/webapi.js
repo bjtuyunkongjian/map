@@ -6,15 +6,13 @@ import { FetchRequest } from 'tuyun-utils';
 
 /**
  * 文字转地址
- * http://47.110.135.245:8888/geocode post
- * {addrs:["山东省济南市天桥区重汽翡翠郡南区20号楼","北园街道花格小区45号楼"],"radius": 100}
+ * 172.19.129.30:8080/trans/get?url=http://47.110.135.245:8888/geocode?addr=山东省济南市天桥区重汽翡翠郡南区20号楼
+ * 47.110.135.245:8888/geocode?addr=山东省济南市天桥区重汽翡翠郡南区20号楼
  */
 export const PostGeocode = async address => {
-  const body = { addrs:[ address] };
   const { res, err } = await FetchRequest({
-    url: 'geocode',
-    method: 'POST',
-    body: body
+    url: 'trans/get?url=http://47.110.135.245:8888/geocode?addr=' + address,
+    method: 'GET',
   });
   return { res, err };
 };

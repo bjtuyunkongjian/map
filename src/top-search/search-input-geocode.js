@@ -55,12 +55,10 @@ export default class SearchInput extends Component {
   _onChange = e => {
     const { value } = e.target;
     this.setState({ inputVal: value });
-    Event.emit(EventName.changeInputVal, value);
   };
 
   _clearInput = () => {
     this.setState({ inputVal: '' });
-    Event.emit(EventName.changeInputVal, '');
   };
 
   _onKeyUp = async e => {
